@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>7h3rAm's Infosec Ramblings</title>
+    <meta charset="utf-8"/>
+    <meta content="7h3rAm" name="author"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+    <script src="/static/js/jquery/jquery-1.10.2.js"></script>
+    <link href="/static/css/bootstrap/bootstrap.3.3.6.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/morrisjs/morris.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/timeline/timeline.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/main.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/codehilite/zenburn.css" rel="stylesheet" type="text/css">
+    <link href="/static/images/favicon.ico" rel="icon" type="image/x-icon"/>
+
+    <!-- Google Analytics -->
+    <script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-50288765-1', '7h3rAm.github.io');
+    ga('send', 'pageview');
+    </script>
+    <script async src='http://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
+
+  </head>
+  <body id="index" class="home">
+    <header class="header">
+      <nav>
+        <ul>
+          <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+          <li><a href="/archive.html"><i class="fa fa-archive"></i> Archive</a></li>
+          <li><a href="/tags.html"><i class="fa fa-tags"></i> Tags</a></li>
+          <li><a href="/dashboard.html"><i class="fa fa-bar-chart"></i> Dashboard</a></li>
+          <li><a href="/research.html"><i class="fa fa-list-alt"></i> Research</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section id="content" class="body">
+      
+  
+  
+  <article class="post">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading post-title">
+          Visualizing (non-POSIX) Regular Expressions
+        </div>
+        <div class="panel-body">
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                
+              
+              
+                
+                
+              
+              
+                <p class="post-date">
+                  <a href="/2013/libnids-python-ids.html"><i class="fa fa-angle-double-left"></i></a> published on November 27, 2013<a href="/2014/buf0-challenge.html"> <i class="fa fa-angle-double-right"></i></a><br/>
+                  readtime: 5 minutes and 24 seconds (view <a href="https://raw.githubusercontent.io/7h3rAm/7h3rAm.github.io/master/_posts/regex-to-dotgraph.md">source</a>)
+                </p>
+              
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+        <div class="post-summary">This post details the steps involved in visualizing a (non-POSIX) regular expression using Finite State Automata.</div>
+        <div class="post-content">
+          <p>I recently came across the
+<a href="http://www.osteele.com/software/python/fsa/">pyFSA</a> project and played
+with it for sometime. It includes a built-in API to render finite state
+machines as <a href="http://www.graphviz.org/doc/info/lang.html">dotsstring</a>.
+Regular expressions can be represented as FSMs and then be rendered to a
+dot-string for visual introspection. I quickly wrote a proof-of-concept
+tool to implement this idea and hence
+<a href="https://github.com/7h3rAm/re2dotgraph">re2dotgraph</a> was born.</p>
+
+<p>First, the pyFSA module has to be installed. Download the package, unzip
+it and follow the standard Python module installation steps:</p>
+
+<div class="codehilite"><pre><code><span class="nv">$ </span>python setup.py build
+running build
+running build_py
+creating build
+creating build/lib.linux-x86_64-2.7
+copying FSA.py -&gt; build/lib.linux-x86_64-2.7
+copying NumFSAUtils.py -&gt; build/lib.linux-x86_64-2.7
+copying FSChartParser.py -&gt; build/lib.linux-x86_64-2.7
+copying reCompiler.py -&gt; build/lib.linux-x86_64-2.7
+<span class="err">$</span>
+<span class="nv">$ </span>sudo python setup.py install
+running install
+running build
+running build_py
+running install_lib
+copying build/lib.linux-x86_64-2.7/FSChartParser.py -&gt; /usr/local/lib/python2.7/dist-packages
+copying build/lib.linux-x86_64-2.7/FSA.py -&gt; /usr/local/lib/python2.7/dist-packages
+copying build/lib.linux-x86_64-2.7/reCompiler.py -&gt; /usr/local/lib/python2.7/dist-packages
+copying build/lib.linux-x86_64-2.7/NumFSAUtils.py -&gt; /usr/local/lib/python2.7/dist-packages
+byte-compiling /usr/local/lib/python2.7/dist-packages/FSChartParser.py to FSChartParser.pyc
+byte-compiling /usr/local/lib/python2.7/dist-packages/FSA.py to FSA.pyc
+byte-compiling /usr/local/lib/python2.7/dist-packages/reCompiler.py to reCompiler.pyc
+byte-compiling /usr/local/lib/python2.7/dist-packages/NumFSAUtils.py to NumFSAUtils.pyc
+running install_data
+warning: install_data: setup script did not provide a directory <span class="k">for</span> <span class="s1">&#39;README.txt&#39;</span> -- installing right in <span class="s1">&#39;/usr/local&#39;</span>
+
+copying README.txt -&gt; /usr/local
+warning: install_data: setup script did not provide a directory <span class="k">for</span> <span class="s1">&#39;LICENSE.txt&#39;</span> -- installing right in <span class="s1">&#39;/usr/local&#39;</span>
+
+error: can<span class="s1">&#39;t copy &#39;</span>LICENSE.txt<span class="s1">&#39;: doesn&#39;</span>t exist or not a regular file
+</code></pre></div>
+
+<p>Ignore the <code>LICENSE.txt</code> copy error. Now you need to install the
+<code>graphviz</code> package which includes the <code>dot</code> tool useful in rendering
+<code>.dot</code> files into images. Once the dependencies are successfully
+installed, you can use <code>re2dotgraph</code> and test it with a sample regex:</p>
+
+<div class="codehilite"><pre><code><span class="nv">$ </span>./re2dotgraph.py <span class="s1">&#39;a*b?c+&#39;</span>
+
+<span class="o">[</span>+<span class="o">]</span> Generating dot string ...
+<span class="o">[</span>+<span class="o">]</span> Label: a*b?c+
+<span class="o">[</span>+<span class="o">]</span> states: <span class="o">[</span>0, 1, 2<span class="o">]</span>
+<span class="o">[</span>+<span class="o">]</span> states count: 3
+<span class="o">[</span>+<span class="o">]</span> initialState: 0
+<span class="o">[</span>+<span class="o">]</span> finalStates: <span class="o">[</span>2<span class="o">]</span>
+<span class="o">[</span>+<span class="o">]</span> alphabet: None
+<span class="o">[</span>+<span class="o">]</span> transitions:
+        <span class="o">(</span>0, 0, &lt;CharacterSet a&gt;<span class="o">)</span>
+        <span class="o">(</span>0, 1, &lt;CharacterSet b&gt;<span class="o">)</span>
+        <span class="o">(</span>0, 2, &lt;CharacterSet c&gt;<span class="o">)</span>
+        <span class="o">(</span>1, 2, &lt;CharacterSet c&gt;<span class="o">)</span>
+        <span class="o">(</span>2, 2, &lt;CharacterSet c&gt;<span class="o">)</span>
+
+<span class="o">[</span>+<span class="o">]</span> Generating dot graph ...
+<span class="o">[</span>+<span class="o">]</span> regex: <span class="s1">&#39;a*b?c+&#39;</span> -&gt; regex.png
+</code></pre></div>
+
+<p>The input regex is represented using a FSM which is then rendered to a
+<code>dot</code> file. This <code>dot</code> file is then rendered to an image name
+<code>regex.png</code> (name can be changed by passing a custom value as the second
+argument) using the installed <code>dot</code> program, called natively from inside
+Python runtime using the <code>os.system</code> method. Here is how the graph looks
+like:</p>
+
+<p><img src="/static/files/regex1.png" alt="image" /></p>
+
+<p>I would like to point out that representing regular expressions as FSMs
+is really tricky. There are certain aspects of a regex that can never be
+represented (like backreferences and lookaheads) due to the fact that
+FSMs don&#8217;t have memory to keep note of what was matched previously. This
+highlights the fact that any regexes, with backreferences or lookaheads
+won&#8217;t be rendered correctly. Also, the pyFSA page mentions that the
+project currently is not fully compliant with POSIX regex guidelines.
+This severely limits the real-world use-cases:</p>
+
+<div class="codehilite"><pre><code><span class="nv">$ </span>./re2dotgraph.py <span class="s1">&#39;a\dc&#39;</span>
+
+<span class="o">[</span>+<span class="o">]</span> Generating dot string ...
+<span class="o">[</span>+<span class="o">]</span> Label: a<span class="se">\d</span>c
+<span class="o">[</span>+<span class="o">]</span> states: <span class="o">[</span>2, 0, 3, 1<span class="o">]</span>
+<span class="o">[</span>+<span class="o">]</span> states count: 4
+<span class="o">[</span>+<span class="o">]</span> initialState: 0
+<span class="o">[</span>+<span class="o">]</span> finalStates: <span class="o">[</span>3<span class="o">]</span>
+<span class="o">[</span>+<span class="o">]</span> alphabet: None
+<span class="o">[</span>+<span class="o">]</span> transitions:
+        <span class="o">(</span>0, 1, &lt;CharacterSet a&gt;<span class="o">)</span>
+        <span class="o">(</span>1, 2, &lt;CharacterSet <span class="se">\d</span>&gt;<span class="o">)</span>
+        <span class="o">(</span>2, 3, &lt;CharacterSet c&gt;<span class="o">)</span>
+
+<span class="o">[</span>+<span class="o">]</span> Generating dot graph ...
+<span class="o">[</span>+<span class="o">]</span> regex: <span class="s1">&#39;a\dc&#39;</span> -&gt; regex.png
+</code></pre></div>
+
+<p>And here&#8217;s the generated image:</p>
+
+<p><img src="/static/files/regex2.png" alt="image" /></p>
+
+<p>As is evident from the above image, the <code>\d</code> escape sequence was not
+identified and the graph as such is incorrect. However, this still is an
+interesting project and a really cheap way of visualizing regular
+expressions. For POSIX compliant solutions, refer these projects: <a href="http://regexvisualizer.apphb.com/">RegExVis</a>, <a href="https://www.debuggex.com/">Debuggex</a> and <a href="http://www.regexper.com/">Regexper</a></p>
+
+<p>You can get the source files thorugh the project repository on <a href="https://github.com/7h3rAm/re2dotgraph">GitHub</a>.</p>
+
+        </div>
+        <div class="post-bottomline">
+          <hr/>
+          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-twitter"></i></a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank"><i class="fa fa-exclamation-circle"></i> issue</a> on blog reporsitory.</p>
+          <hr/>
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                
+              
+              
+                
+                
+              
+              <table>
+                <tr>
+                  <td align="left">(share via <a href="mailto:?subject=Visualizing (non-POSIX) Regular Expressions&body=/2013/regex-to-dotgraph.html" target="_blank" title="Share via Email"><i class="fa fa-inbox"></i></a> <a href="http://twitter.com/intent/tweet?text=Visualizing (non-POSIX) Regular Expressions+/2013/regex-to-dotgraph.html&via=7h3rAm" target="_blank" title="Share on Twitter"><i class="fa fa-twitter"></i></a> <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=/2013/regex-to-dotgraph.html&p[images][0]=&p[title]=Visualizing (non-POSIX) Regular Expressions&p[summary]=This post details the steps involved in visualizing a (non-POSIX) regular expression using Finite State Automata." target="_blank" title="Share on Facebook"><i class="fa fa-facebook"></i></a> <a href="https://plus.google.com/share?url=/2013/regex-to-dotgraph.html" target="_blank" title="Share on Google Plus"><i class="fa fa-google-plus"></i></a>)</td>
+                  <td align="right">(tagged <a href=/tags.html#code>code</a>)</td>
+                </tr>
+                <tr>
+                  
+                    <td align="left"><a href="/2013/libnids-python-ids.html"><i class="fa fa-angle-double-left"></i> Developing a Minimal IPS from Scratch <i class="fa fa-angle-double-left"></i></a></td>
+                    <td align="right"><a href="/2014/buf0-challenge.html"><i class="fa fa-angle-double-right"></i> buf0 - A Buffer Overflow Challenge <i class="fa fa-angle-double-right"></i></a></td>
+                  
+                </tr>
+              </table>
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading post-title">
+          Related Posts
+        </div>
+        <div class="panel-body">
+          
+            1. <a href="/2016/flareon2014-15.html">FireEye FLARE On 2014 Challenges (1-5)</a>
+            <div class="overview-date">February 18, 2016</div>
+            <br/>
+          
+            2. <a href="/2014/pcapedit.html">pcapedit: An Interactive Scapy-based Pcap Editor</a>
+            <div class="overview-date">November 15, 2014</div>
+            <br/>
+          
+            3. <a href="/2015/cigma.html">cigma: A Pure Python Filetype Identification Library</a>
+            <div class="overview-date">November 22, 2015</div>
+            <br/>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </article>
+
+    </section>
+    <footer class="footer">
+      <b><a href="/">Ankur Tyagi</a></b> (<b><a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-at"></i>7h3rAm</a></b>)
+      <br/>
+      Last updated on October 20, 2016 (<b><a href="/rss.xml"><i class="fa fa-rss"></i> rss</a></b> <b><a href="/sitemap.xml"><i class="fa fa-sitemap"></i> sitemap</a></b>)
+      <br/>
+      Published under <b><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">by-nc-sa</a></b> and powered by <b><a alt="Linux" href="https://www.kernel.org/" target="_blank"><i class="fa fa-linux"></i></a></b>, <b><a alt="Kalpi" href="https://github.com/7h3rAm/kalpi/" target="_blank">kalpi</a></b>, <b><a href="http://git-scm.com/" target="_blank"><i class="fa fa-git"></i></a></b> and <b><a href="https://github.com/7h3rAm/7h3ram.github.io" target="_blank"><i class="fa fa-github"></i></a></b>
+    </footer>
+
+    <script src="/static/js/bootstrap/bootstrap.3.3.6.min.js"></script>
+    <script src="/static/js/raphael/raphael-min.js"></script>
+    <script src="/static/js/morrisjs/morris.min.js"></script>
+    <script src="/static/files/chart-data.js"></script>
+    <script src="/static/js/sprintf/sprintf.js"></script>
+    <script src="/static/js/underscore/underscore-min.js"></script>
+
+  </body>
+</html>

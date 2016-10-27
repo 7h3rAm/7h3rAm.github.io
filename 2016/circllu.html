@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>7h3rAm's Infosec Ramblings</title>
+    <meta charset="utf-8"/>
+    <meta content="7h3rAm" name="author"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+    <script src="/static/js/jquery/jquery-1.10.2.js"></script>
+    <link href="/static/css/bootstrap/bootstrap.3.3.6.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/morrisjs/morris.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/timeline/timeline.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/main.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/codehilite/zenburn.css" rel="stylesheet" type="text/css">
+    <link href="/static/images/favicon.ico" rel="icon" type="image/x-icon"/>
+
+    <!-- Google Analytics -->
+    <script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-50288765-1', '7h3rAm.github.io');
+    ga('send', 'pageview');
+    </script>
+    <script async src='http://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
+
+  </head>
+  <body id="index" class="home">
+    <header class="header">
+      <nav>
+        <ul>
+          <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+          <li><a href="/archive.html"><i class="fa fa-archive"></i> Archive</a></li>
+          <li><a href="/tags.html"><i class="fa fa-tags"></i> Tags</a></li>
+          <li><a href="/dashboard.html"><i class="fa fa-bar-chart"></i> Dashboard</a></li>
+          <li><a href="/research.html"><i class="fa fa-list-alt"></i> Research</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section id="content" class="body">
+      
+  
+  
+  <article class="post">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading post-title">
+          circllu.py: Querying circl.lu API for CVE Information
+        </div>
+        <div class="panel-body">
+          
+            
+              
+                
+                
+              
+              
+                
+                
+              
+              
+                <p class="post-date">
+                  <a href="/2016/flareon2014-15.html"><i class="fa fa-angle-double-left"></i></a> published on March 12, 2016<br/>
+                  readtime: 15 minutes and 35 seconds (view <a href="https://raw.githubusercontent.io/7h3rAm/7h3rAm.github.io/master/_posts/circllu.md">source</a>)
+                </p>
+              
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+        <div class="post-summary">This post demos a few nifty API endpoints from circl.lu that provide information on CVE and the vulnerabilities</div>
+        <div class="post-content">
+          <p>The <a href="https://www.circl.lu/services/cve-search/#public-web-api-of-cve-search">circl.lu</a> API is really useful for querying CVE information. I wrote a few methods to query the API and get this information:</p>
+
+<div class="codehilite"><pre><code><span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="k">def</span> <span class="nf">circllu_cveinfo</span><span class="p">(</span><span class="n">cve</span><span class="o">=</span><span class="s">&quot;cve-2015-1234&quot;</span><span class="p">):</span>
+  <span class="n">customheaders</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="s">&quot;Some script trying to be nice :)&quot;</span>
+  <span class="p">}</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;http://cve.circl.lu/api/cve/</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">cve</span><span class="o">.</span><span class="n">upper</span><span class="p">()),</span> <span class="n">headers</span><span class="o">=</span><span class="n">customheaders</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+      <span class="n">reply</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+      <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">reply</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+          <span class="s">&quot;success&quot;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+          <span class="s">&quot;requesturl&quot;</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+          <span class="s">&quot;cve&quot;</span><span class="p">:</span> <span class="n">cve</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span>
+          <span class="s">&quot;summary&quot;</span><span class="p">:</span> <span class="n">reply</span><span class="p">[</span><span class="s">&quot;summary&quot;</span><span class="p">],</span>
+          <span class="s">&quot;references&quot;</span><span class="p">:</span> <span class="n">reply</span><span class="p">[</span><span class="s">&quot;references&quot;</span><span class="p">]</span>
+        <span class="p">}</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="s">&quot;success&quot;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+      <span class="s">&quot;reason&quot;</span><span class="p">:</span> <span class="s">&quot;expected HTTP 200 status code but got </span><span class="si">%d</span><span class="s"> instead for requesturl&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="s">&quot;success&quot;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+      <span class="s">&quot;exception&quot;</span><span class="p">:</span> <span class="n">ex</span><span class="o">.</span><span class="n">message</span>
+    <span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">circllu_cverecent</span><span class="p">(</span><span class="n">maxcves</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+  <span class="n">customheaders</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="s">&quot;Some script trying to be nice :)&quot;</span>
+  <span class="p">}</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;http://cve.circl.lu/api/last&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">customheaders</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+      <span class="n">reply</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+      <span class="n">cves</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+      <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">reply</span><span class="p">[</span><span class="s">&quot;results&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="s">&quot;REJECT&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">node</span><span class="p">[</span><span class="s">&quot;summary&quot;</span><span class="p">]:</span>
+          <span class="n">cves</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="s">&quot;id&quot;</span><span class="p">])</span>
+      <span class="k">return</span> <span class="p">{</span>
+        <span class="s">&quot;success&quot;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+        <span class="s">&quot;requesturl&quot;</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+        <span class="s">&quot;cves&quot;</span><span class="p">:</span> <span class="n">cves</span> <span class="k">if</span> <span class="n">maxcves</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">cves</span><span class="p">[:</span><span class="n">maxcves</span><span class="p">]</span>
+      <span class="p">}</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="s">&quot;success&quot;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+      <span class="s">&quot;reason&quot;</span><span class="p">:</span> <span class="s">&quot;expected HTTP 200 status code but got </span><span class="si">%d</span><span class="s"> instead for requesturl&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="s">&quot;success&quot;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+      <span class="s">&quot;exception&quot;</span><span class="p">:</span> <span class="n">ex</span><span class="o">.</span><span class="n">message</span>
+    <span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">circllu_cvesearch</span><span class="p">(</span><span class="n">vendorproduct</span><span class="o">=</span><span class="s">&quot;Adobe Reader&quot;</span><span class="p">,</span> <span class="n">maxcves</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+  <span class="k">if</span> <span class="ow">not</span> <span class="n">vendorproduct</span> <span class="ow">or</span> <span class="n">vendorproduct</span> <span class="o">==</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="s">&quot;success&quot;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+      <span class="s">&quot;usage&quot;</span><span class="p">:</span> <span class="s">&quot;&lt;vendor&gt; &lt;product&gt;&quot;</span>
+    <span class="p">}</span>
+  <span class="n">customheaders</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="s">&quot;Some script trying to be nice :)&quot;</span>
+  <span class="p">}</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;http://cve.circl.lu/api/search/</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">vendorproduct</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">))),</span> <span class="n">headers</span><span class="o">=</span><span class="n">customheaders</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+      <span class="n">reply</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+      <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">reply</span><span class="p">):</span>
+        <span class="n">cves</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">reply</span><span class="p">:</span>
+          <span class="k">if</span> <span class="s">&quot;REJECT&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">node</span><span class="p">[</span><span class="s">&quot;summary&quot;</span><span class="p">]:</span>
+            <span class="n">cves</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="s">&quot;id&quot;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="p">{</span>
+          <span class="s">&quot;success&quot;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+          <span class="s">&quot;requesturl&quot;</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+          <span class="s">&quot;vendorproduct&quot;</span><span class="p">:</span> <span class="s">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">vendorproduct</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">))</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span>
+          <span class="s">&quot;cves&quot;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">cves</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">maxcves</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">cves</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)[:</span><span class="n">maxcves</span><span class="p">]</span>
+        <span class="p">}</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="s">&quot;success&quot;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+      <span class="s">&quot;reason&quot;</span><span class="p">:</span> <span class="s">&quot;expected HTTP 200 status code but got </span><span class="si">%d</span><span class="s"> instead for requesturl&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="s">&quot;success&quot;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+      <span class="s">&quot;exception&quot;</span><span class="p">:</span> <span class="n">ex</span><span class="o">.</span><span class="n">message</span>
+    <span class="p">}</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+  <span class="n">pprint</span><span class="p">(</span><span class="n">circllu_cveinfo</span><span class="p">())</span>
+  <span class="n">pprint</span><span class="p">(</span><span class="n">circllu_cverecent</span><span class="p">())</span>
+  <span class="n">pprint</span><span class="p">(</span><span class="n">circllu_cvesearch</span><span class="p">())</span>
+</code></pre></div>
+
+<p>Let&#8217;s give this script a test run:</p>
+
+<div class="codehilite"><pre><code><span class="o">{</span>
+ <span class="s1">&#39;cve&#39;</span>: <span class="s1">&#39;CVE-2015-1234&#39;</span>,
+ <span class="s1">&#39;references&#39;</span>: <span class="o">[</span>u<span class="s1">&#39;https://codereview.chromium.org/1016193003&#39;</span>,
+                u<span class="s1">&#39;https://code.google.com/p/chromium/issues/detail?id=468936&#39;</span>,
+                u<span class="s1">&#39;http://www.ubuntu.com/usn/USN-2556-1&#39;</span>,
+                u<span class="s1">&#39;http://www.securitytracker.com/id/1032012&#39;</span>,
+                u<span class="s1">&#39;http://rhn.redhat.com/errata/RHSA-2015-0778.html&#39;</span>,
+                u<span class="s1">&#39;http://lists.opensuse.org/opensuse-security-announce/2015-04/msg00004.html&#39;</span>,
+                u<span class="s1">&#39;http://googlechromereleases.blogspot.com/2015/04/stable-channel-update.html&#39;</span><span class="o">]</span>,
+ <span class="s1">&#39;requesturl&#39;</span>: u<span class="s1">&#39;http://cve.circl.lu/api/cve/CVE-2015-1234&#39;</span>,
+ <span class="s1">&#39;success&#39;</span>: True,
+ <span class="s1">&#39;summary&#39;</span>: u<span class="s1">&#39;Race condition in gpu/command_buffer/service/gles2_cmd_decoder.cc in Google Chrome before 41.0.2272.118 allows remote attackers to cause a denial of service (buffer overflow) or possibly have unspecified other impact by manipulating OpenGL ES commands.&#39;</span>
+<span class="o">}</span>
+
+<span class="o">{</span>
+ <span class="s1">&#39;cves&#39;</span>: <span class="o">[</span>u<span class="s1">&#39;CVE-2016-2427&#39;</span>,
+          u<span class="s1">&#39;CVE-2016-2426&#39;</span>,
+          u<span class="s1">&#39;CVE-2016-2425&#39;</span>,
+          u<span class="s1">&#39;CVE-2016-2424&#39;</span>,
+          u<span class="s1">&#39;CVE-2016-2423&#39;</span>,
+          u<span class="s1">&#39;CVE-2016-2422&#39;</span>,
+          u<span class="s1">&#39;CVE-2016-2421&#39;</span>,
+          u<span class="s1">&#39;CVE-2016-2420&#39;</span>,
+          u<span class="s1">&#39;CVE-2016-2419&#39;</span>,
+          u<span class="s1">&#39;CVE-2016-2418&#39;</span>,
+          u<span class="s1">&#39;CVE-2016-2417&#39;</span>,
+          u<span class="s1">&#39;CVE-2016-2416&#39;</span>,
+          u<span class="s1">&#39;CVE-2016-2415&#39;</span>,
+          u<span class="s1">&#39;CVE-2016-2414&#39;</span>,
+          u<span class="s1">&#39;CVE-2016-2413&#39;</span>,
+          u<span class="s1">&#39;CVE-2016-2412&#39;</span>,
+          u<span class="s1">&#39;CVE-2016-2411&#39;</span>,
+          u<span class="s1">&#39;CVE-2016-2410&#39;</span>,
+          u<span class="s1">&#39;CVE-2016-2409&#39;</span>,
+          u<span class="s1">&#39;CVE-2016-1503&#39;</span>,
+          u<span class="s1">&#39;CVE-2016-0850&#39;</span>,
+          u<span class="s1">&#39;CVE-2016-0849&#39;</span>,
+          u<span class="s1">&#39;CVE-2016-0848&#39;</span>,
+          u<span class="s1">&#39;CVE-2016-0847&#39;</span>,
+          u<span class="s1">&#39;CVE-2016-0846&#39;</span>,
+          u<span class="s1">&#39;CVE-2016-0844&#39;</span>,
+          u<span class="s1">&#39;CVE-2016-0843&#39;</span>,
+          u<span class="s1">&#39;CVE-2016-0842&#39;</span>,
+          u<span class="s1">&#39;CVE-2016-0841&#39;</span>,
+          u<span class="s1">&#39;CVE-2016-0840&#39;</span><span class="o">]</span>,
+ <span class="s1">&#39;requesturl&#39;</span>: u<span class="s1">&#39;http://cve.circl.lu/api/last&#39;</span>,
+ <span class="s1">&#39;success&#39;</span>: True
+<span class="o">}</span>
+
+<span class="o">{</span>
+ <span class="s1">&#39;cves&#39;</span>: <span class="o">[</span>u<span class="s1">&#39;CVE-2011-4373&#39;</span>,
+          u<span class="s1">&#39;CVE-2011-4372&#39;</span>,
+          u<span class="s1">&#39;CVE-2011-4371&#39;</span>,
+          u<span class="s1">&#39;CVE-2011-4370&#39;</span>,
+          u<span class="s1">&#39;CVE-2010-1278&#39;</span>,
+          u<span class="s1">&#39;CVE-2009-3459&#39;</span>,
+          u<span class="s1">&#39;CVE-2009-1600&#39;</span>,
+          u<span class="s1">&#39;CVE-2009-1599&#39;</span>,
+          u<span class="s1">&#39;CVE-2009-1598&#39;</span>,
+          u<span class="s1">&#39;CVE-2009-1597&#39;</span>,
+          u<span class="s1">&#39;CVE-2009-1493&#39;</span>,
+          u<span class="s1">&#39;CVE-2009-1492&#39;</span>,
+          u<span class="s1">&#39;CVE-2009-1062&#39;</span>,
+          u<span class="s1">&#39;CVE-2009-1061&#39;</span>,
+          u<span class="s1">&#39;CVE-2009-0927&#39;</span>,
+          u<span class="s1">&#39;CVE-2009-0658&#39;</span>,
+          u<span class="s1">&#39;CVE-2009-0193&#39;</span>,
+          u<span class="s1">&#39;CVE-2008-4817&#39;</span>,
+          u<span class="s1">&#39;CVE-2008-4816&#39;</span>,
+          u<span class="s1">&#39;CVE-2008-4815&#39;</span>,
+          u<span class="s1">&#39;CVE-2008-4814&#39;</span>,
+          u<span class="s1">&#39;CVE-2008-4813&#39;</span>,
+          u<span class="s1">&#39;CVE-2008-4812&#39;</span><span class="o">]</span>,
+ <span class="s1">&#39;requesturl&#39;</span>: u<span class="s1">&#39;http://cve.circl.lu/api/search/adobe/reader&#39;</span>,
+ <span class="s1">&#39;success&#39;</span>: True,
+ <span class="s1">&#39;vendorproduct&#39;</span>: <span class="s1">&#39;Adobe/Reader&#39;</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<p>The <code>circllu_cveinfo</code> method allows querying the API for a specific CVE while returning a summary and references if the CVE is found in the database. The <code>circllu_cverecent</code> returns a list of recently requested CVEs. And finally, the <code>circllu_cvesearch</code> method allows you to search for a product or vendor and get listing of all reported vulnerabilities for the same. You can get this script <a href="https://gist.github.com/7h3rAm/812eff486865f30c0da5c4a9d41ff73e">here</a>.</p>
+
+        </div>
+        <div class="post-bottomline">
+          <hr/>
+          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-twitter"></i></a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank"><i class="fa fa-exclamation-circle"></i> issue</a> on blog reporsitory.</p>
+          <hr/>
+          
+            
+              
+                
+                
+              
+              
+                
+                
+              
+              <table>
+                <tr>
+                  <td align="left">(share via <a href="mailto:?subject=circllu.py: Querying circl.lu API for CVE Information&body=/2016/circllu.html" target="_blank" title="Share via Email"><i class="fa fa-inbox"></i></a> <a href="http://twitter.com/intent/tweet?text=circllu.py: Querying circl.lu API for CVE Information+/2016/circllu.html&via=7h3rAm" target="_blank" title="Share on Twitter"><i class="fa fa-twitter"></i></a> <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=/2016/circllu.html&p[images][0]=&p[title]=circllu.py: Querying circl.lu API for CVE Information&p[summary]=This post demos a few nifty API endpoints from circl.lu that provide information on CVE and the vulnerabilities" target="_blank" title="Share on Facebook"><i class="fa fa-facebook"></i></a> <a href="https://plus.google.com/share?url=/2016/circllu.html" target="_blank" title="Share on Google Plus"><i class="fa fa-google-plus"></i></a>)</td>
+                  <td align="right">(tagged <a href=/tags.html#code>code</a>)</td>
+                </tr>
+                <tr>
+                  
+                    <td align="left" colspan="2"><a href="/2016/flareon2014-15.html"><i class="fa fa-angle-double-left"></i> FireEye FLARE On 2014 Challenges (1-5) <i class="fa fa-angle-double-left"></i></a></td>
+                  
+                </tr>
+              </table>
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading post-title">
+          Related Posts
+        </div>
+        <div class="panel-body">
+          
+            1. <a href="/2014/flowinspect.html">Flowinspect: A Network Inspection Tool</a>
+            <div class="overview-date">November 27, 2014</div>
+            <br/>
+          
+            2. <a href="/2015/capinfos.html">capinfos.py: Pure Python Pcap Statistics Tool</a>
+            <div class="overview-date">August 2, 2015</div>
+            <br/>
+          
+            3. <a href="/2014/pcapedit.html">pcapedit: An Interactive Scapy-based Pcap Editor</a>
+            <div class="overview-date">November 15, 2014</div>
+            <br/>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </article>
+
+    </section>
+    <footer class="footer">
+      <b><a href="/">Ankur Tyagi</a></b> (<b><a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-at"></i>7h3rAm</a></b>)
+      <br/>
+      Last updated on October 20, 2016 (<b><a href="/rss.xml"><i class="fa fa-rss"></i> rss</a></b> <b><a href="/sitemap.xml"><i class="fa fa-sitemap"></i> sitemap</a></b>)
+      <br/>
+      Published under <b><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">by-nc-sa</a></b> and powered by <b><a alt="Linux" href="https://www.kernel.org/" target="_blank"><i class="fa fa-linux"></i></a></b>, <b><a alt="Kalpi" href="https://github.com/7h3rAm/kalpi/" target="_blank">kalpi</a></b>, <b><a href="http://git-scm.com/" target="_blank"><i class="fa fa-git"></i></a></b> and <b><a href="https://github.com/7h3rAm/7h3ram.github.io" target="_blank"><i class="fa fa-github"></i></a></b>
+    </footer>
+
+    <script src="/static/js/bootstrap/bootstrap.3.3.6.min.js"></script>
+    <script src="/static/js/raphael/raphael-min.js"></script>
+    <script src="/static/js/morrisjs/morris.min.js"></script>
+    <script src="/static/files/chart-data.js"></script>
+    <script src="/static/js/sprintf/sprintf.js"></script>
+    <script src="/static/js/underscore/underscore-min.js"></script>
+
+  </body>
+</html>

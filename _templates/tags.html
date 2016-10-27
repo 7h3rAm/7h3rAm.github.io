@@ -1,0 +1,51 @@
+{%extends "base.html"%}
+{%block main%}
+  <article class="post">
+    <a name="top"></a>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Tag Cloud
+          </div>
+          <div class="panel-body">
+            <br/>
+            <div class="tags">
+              <ul id="cloud">
+                {%for tag, tagvalue in tags.iteritems()%}
+                  <li><a style="{{tagvalue.tagstyle}}" href="/tags.html#{{tag}}" title="{{tag}}: {{tagvalue.count}} entries">{{tag}}</a></li>
+                {%endfor%}
+              </ul>
+            </div>
+            <br/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Tags Listing
+          </div>
+          <div class="panel-body">
+            <div class="overview">
+              {%for tag, tagvalue in tags.iteritems()%}
+                <h3><a name="{{tag}}">{{tag}}</a> <sup>({{tagvalue.count}})</sup></h3>
+                {%for post in tagvalue.files%}
+                  <div class="overview">
+                    {{loop.index}}.
+                    <h1><a href="{{post.url}}">{{post.title}}</a></h1>
+                    <div class="overview-date">{{post.pretty_date}}</div>
+                  </div>
+                {%endfor%}
+                <sup><a href="#top">top <i class="fa fa-arrow-up"></i></a></sup>
+              {%endfor%}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{%endblock%}

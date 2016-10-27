@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>7h3rAm's Infosec Ramblings</title>
+    <meta charset="utf-8"/>
+    <meta content="7h3rAm" name="author"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+    <script src="/static/js/jquery/jquery-1.10.2.js"></script>
+    <link href="/static/css/bootstrap/bootstrap.3.3.6.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/morrisjs/morris.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/timeline/timeline.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/main.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/codehilite/zenburn.css" rel="stylesheet" type="text/css">
+    <link href="/static/images/favicon.ico" rel="icon" type="image/x-icon"/>
+
+    <!-- Google Analytics -->
+    <script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-50288765-1', '7h3rAm.github.io');
+    ga('send', 'pageview');
+    </script>
+    <script async src='http://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
+
+  </head>
+  <body id="index" class="home">
+    <header class="header">
+      <nav>
+        <ul>
+          <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+          <li><a href="/archive.html"><i class="fa fa-archive"></i> Archive</a></li>
+          <li><a href="/tags.html"><i class="fa fa-tags"></i> Tags</a></li>
+          <li><a href="/dashboard.html"><i class="fa fa-bar-chart"></i> Dashboard</a></li>
+          <li><a href="/research.html"><i class="fa fa-list-alt"></i> Research</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section id="content" class="body">
+      
+  
+  
+  <article class="post">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading post-title">
+          Northrop's Online Challenge
+        </div>
+        <div class="panel-body">
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                
+              
+              
+                
+                
+              
+              
+                <p class="post-date">
+                  <a href="/2014/shellcode-pipeline.html"><i class="fa fa-angle-double-left"></i></a> published on March 27, 2014<a href="/2014/confidence-ds-ctf-stego50.html"> <i class="fa fa-angle-double-right"></i></a><br/>
+                  readtime: 4 minutes and 59 seconds (view <a href="https://raw.githubusercontent.io/7h3rAm/7h3rAm.github.io/master/_posts/northrop-challenge.md">source</a>)
+                </p>
+              
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+        <div class="post-summary">I came across an interesting challenge posted by someone from Northrop Grumman Cyber Intelligence Division at /reddit/netsec's Q1 2014 Information Security Hiring Thread. This post documents the steps I took to solve it.</div>
+        <div class="post-content">
+          <p>A while back I was checking out the <a href="http://www.reddit.com/r/netsec/comments/1ubzv9/rnetsecs_q1_2014_information_security_hiring/">/r/netsec&#8217;s Q1 2014 Information Security Hiring Thread</a> at Reddit and there I found an interesting challenge posted by someone from Northrop Grumman Cyber Intelligence Division. They are looking for people with interesting skills (IDS/IPS, Big Data, web app development, etc.) and mentioned that candidates solving their <a href="https://googledrive.com/host/0B7WgiVv_ihnhX1VRWHVXZmZmMW8/challengeWebpage.html">online
+challenge</a> will be preferred. I find such challenges really interesting and
+immediately got on top of it. A few hours later I solved it and decided to write about the process. This post details steps I took and lessons learned.</p>
+
+<p>The online challenge page looks something like this:</p>
+
+<p><img src="/static/files/onlinechallenge.png" alt="onlinechallenge.png" /></p>
+
+<p>It includes a <code>.png</code> image which, as mentioned, contains a hidden message that has to be found to solve the challenge. Here is the challenge image for your reference:</p>
+
+<p><img src="/static/files/cryptImg.png" alt="cryptImg.png" /></p>
+
+<p>The first thing I did upon opening up this page was looking at its source. In there I found an <code>iframe</code> with a <code>png</code> file embedded in it. The
+<code>iframe</code> had a comment preceding it: <code>A frame for my key</code>. This suggested that the embedded image is a key of some kind that has to be
+used in the challenge. I immediately extracted it and here it is (in actual dimensions: 128x96):</p>
+
+<p><img src="/static/files/key.png" alt="key.png" /></p>
+
+<p>There was also a hint in the page, a link to <a href="http://www.pythonware.com/products/pil/">Python Imaging Library (PIL)</a>, which suggested that some image manipulation would be needed to find the hidden message. Before exploring the python library I thought of spending some time with the challenge image itself, though not exactly sure of what I was looking for. The image seemed to have sections in it, actually a grid like structure, comprising of 5x5 cells (ie. a total of 25 sections). Interestingly, the key image is exactly 1/5th the size of challenge image. I immediately had the idea that the base image might be mutated with key image operating on each of its 25 sections individually. This mutation created a seemingly gibberish image with lots of noise but failed to hide the algorithm&#8217;s cellular structure. The only unknown at this time was the mutation algorithm, which I assumed to be XOR. I immediately crafted a poc to test this hypothesis. It downloads the <code>.html</code> webpage, the <code>.png</code> challenge image, extract <code>.png</code> key file and performs a XOR between the challenge and the key image, on a per cell fashion, rounding up the start of each cell with the start of the key file. Once this operation is completed over all 25 cells, the decoded image will be saved as a <code>.png</code> to disk. Here is a test run:</p>
+
+<div class="codehilite"><pre><code><span class="err">$</span> <span class="o">./</span><span class="n">cry</span><span class="o">.</span><span class="n">py</span>
+
+<span class="p">[</span><span class="o">+</span><span class="p">]</span> <span class="n">Downloading</span> <span class="n">challenge</span> <span class="n">webpage</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">googledrive</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">host</span><span class="o">/</span><span class="mi">0</span><span class="n">B7WgiVv_ihnhX1VRWHVXZmZmMW8challengeWebpage</span><span class="o">.</span><span class="n">html</span> <span class="o">...</span>
+<span class="p">[</span><span class="o">+</span><span class="p">]</span> <span class="n">Downloading</span> <span class="n">basefile</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">googledrive</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">host</span><span class="o">/</span><span class="mi">0</span><span class="n">B7WgiVv_ihnhX1VRWHVXZmZmMW8</span><span class="o">/</span><span class="n">cryptImg</span><span class="o">.</span><span class="n">png</span> <span class="o">...</span>
+<span class="p">[</span><span class="o">+</span><span class="p">]</span> <span class="n">Extracting</span> <span class="n">keyfile</span><span class="p">:</span> <span class="n">key</span><span class="o">.</span><span class="n">png</span> <span class="o">...</span>
+
+<span class="p">[</span><span class="o">+</span><span class="p">]</span> <span class="n">cryptImg</span><span class="o">.</span><span class="n">png</span><span class="p">:</span> <span class="p">(</span><span class="n">RGB</span><span class="p">,</span> <span class="p">(</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">))</span>
+<span class="p">[</span><span class="o">+</span><span class="p">]</span> <span class="n">key</span><span class="o">.</span><span class="n">png</span><span class="p">:</span> <span class="p">(</span><span class="n">RGBA</span><span class="p">,</span> <span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">96</span><span class="p">))</span>
+
+<span class="p">[</span><span class="o">+</span><span class="p">]</span> <span class="n">Decoding</span> <span class="n">basefile</span><span class="p">:</span> <span class="n">cryptImg</span><span class="o">.</span><span class="n">png</span> <span class="n">XOR</span> <span class="n">keyfile</span><span class="p">:</span> <span class="n">key</span><span class="o">.</span><span class="n">png</span> <span class="o">...</span>
+<span class="p">[</span><span class="o">+</span><span class="p">]</span> <span class="n">Decoding</span> <span class="n">complete</span><span class="err">!</span> <span class="n">Saved</span> <span class="n">to</span> <span class="n">decoded</span><span class="o">.</span><span class="n">png</span><span class="p">:</span> <span class="p">(</span><span class="n">RGB</span><span class="p">,</span> <span class="p">(</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">))</span>
+</code></pre></div>
+
+<p>And here is the <code>decoded.png</code> image file:</p>
+
+<p><img src="/static/files/decoded.png" alt="decoded.png" /></p>
+
+<p>This indeed was an interesting challenge and a one that proved to be good source of learning. Stay tuned for more writeups on similar topics.</p>
+
+        </div>
+        <div class="post-bottomline">
+          <hr/>
+          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-twitter"></i></a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank"><i class="fa fa-exclamation-circle"></i> issue</a> on blog reporsitory.</p>
+          <hr/>
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                
+              
+              
+                
+                
+              
+              <table>
+                <tr>
+                  <td align="left">(share via <a href="mailto:?subject=Northrop's Online Challenge&body=/2014/northrop-challenge.html" target="_blank" title="Share via Email"><i class="fa fa-inbox"></i></a> <a href="http://twitter.com/intent/tweet?text=Northrop's Online Challenge+/2014/northrop-challenge.html&via=7h3rAm" target="_blank" title="Share on Twitter"><i class="fa fa-twitter"></i></a> <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=/2014/northrop-challenge.html&p[images][0]=&p[title]=Northrop's Online Challenge&p[summary]=I came across an interesting challenge posted by someone from Northrop Grumman Cyber Intelligence Division at /reddit/netsec's Q1 2014 Information Security Hiring Thread. This post documents the steps I took to solve it." target="_blank" title="Share on Facebook"><i class="fa fa-facebook"></i></a> <a href="https://plus.google.com/share?url=/2014/northrop-challenge.html" target="_blank" title="Share on Google Plus"><i class="fa fa-google-plus"></i></a>)</td>
+                  <td align="right">(tagged <a href=/tags.html#code>code</a> and <a href=/tags.html#writeups>writeups</a>)</td>
+                </tr>
+                <tr>
+                  
+                    <td align="left"><a href="/2014/shellcode-pipeline.html"><i class="fa fa-angle-double-left"></i> Shellcode Analysis Pipleine <i class="fa fa-angle-double-left"></i></a></td>
+                    <td align="right"><a href="/2014/confidence-ds-ctf-stego50.html"><i class="fa fa-angle-double-right"></i> CONFidence DS CTF Teaser: Stegano50 <i class="fa fa-angle-double-right"></i></a></td>
+                  
+                </tr>
+              </table>
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading post-title">
+          Related Posts
+        </div>
+        <div class="panel-body">
+          
+            1. <a href="/2014/buf0-challenge.html">buf0 - A Buffer Overflow Challenge</a>
+            <div class="overview-date">January 6, 2014</div>
+            <br/>
+          
+            2. <a href="/2014/buf1-challenge.html">buf1 - Another Buffer Overflow Challenge</a>
+            <div class="overview-date">February 24, 2014</div>
+            <br/>
+          
+            3. <a href="/2013/libnids-pynids.html">Network Stream Reassembly and Defragmentation</a>
+            <div class="overview-date">June 18, 2013</div>
+            <br/>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </article>
+
+    </section>
+    <footer class="footer">
+      <b><a href="/">Ankur Tyagi</a></b> (<b><a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-at"></i>7h3rAm</a></b>)
+      <br/>
+      Last updated on October 20, 2016 (<b><a href="/rss.xml"><i class="fa fa-rss"></i> rss</a></b> <b><a href="/sitemap.xml"><i class="fa fa-sitemap"></i> sitemap</a></b>)
+      <br/>
+      Published under <b><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">by-nc-sa</a></b> and powered by <b><a alt="Linux" href="https://www.kernel.org/" target="_blank"><i class="fa fa-linux"></i></a></b>, <b><a alt="Kalpi" href="https://github.com/7h3rAm/kalpi/" target="_blank">kalpi</a></b>, <b><a href="http://git-scm.com/" target="_blank"><i class="fa fa-git"></i></a></b> and <b><a href="https://github.com/7h3rAm/7h3ram.github.io" target="_blank"><i class="fa fa-github"></i></a></b>
+    </footer>
+
+    <script src="/static/js/bootstrap/bootstrap.3.3.6.min.js"></script>
+    <script src="/static/js/raphael/raphael-min.js"></script>
+    <script src="/static/js/morrisjs/morris.min.js"></script>
+    <script src="/static/files/chart-data.js"></script>
+    <script src="/static/js/sprintf/sprintf.js"></script>
+    <script src="/static/js/underscore/underscore-min.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>7h3rAm's Infosec Ramblings</title>
+    <meta charset="utf-8"/>
+    <meta content="7h3rAm" name="author"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+    <script src="/static/js/jquery/jquery-1.10.2.js"></script>
+    <link href="/static/css/bootstrap/bootstrap.3.3.6.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/morrisjs/morris.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/timeline/timeline.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/main.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/codehilite/zenburn.css" rel="stylesheet" type="text/css">
+    <link href="/static/images/favicon.ico" rel="icon" type="image/x-icon"/>
+
+    <!-- Google Analytics -->
+    <script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-50288765-1', '7h3rAm.github.io');
+    ga('send', 'pageview');
+    </script>
+    <script async src='http://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
+
+  </head>
+  <body id="index" class="home">
+    <header class="header">
+      <nav>
+        <ul>
+          <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+          <li><a href="/archive.html"><i class="fa fa-archive"></i> Archive</a></li>
+          <li><a href="/tags.html"><i class="fa fa-tags"></i> Tags</a></li>
+          <li><a href="/dashboard.html"><i class="fa fa-bar-chart"></i> Dashboard</a></li>
+          <li><a href="/research.html"><i class="fa fa-list-alt"></i> Research</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section id="content" class="body">
+      
+  
+  
+  <article class="post">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading post-title">
+          Developing a Minimal IPS from Scratch
+        </div>
+        <div class="panel-body">
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                
+              
+              
+                
+                
+              
+              
+                <p class="post-date">
+                  <a href="/2013/malsoftware-reverse-challenge.html"><i class="fa fa-angle-double-left"></i></a> published on September 15, 2013<a href="/2013/regex-to-dotgraph.html"> <i class="fa fa-angle-double-right"></i></a><br/>
+                  readtime: 8 minutes and 24 seconds (view <a href="https://raw.githubusercontent.io/7h3rAm/7h3rAm.github.io/master/_posts/libnids-python-ids.md">source</a>)
+                </p>
+              
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+        <div class="post-summary">What do you get when you combine a TCP/IP reassembly/defragmentation library with Python's re module? Read on to know more.</div>
+        <div class="post-content">
+          <p>In this post I&#8217;ll try to explain how
+<a href="https://jon.oberheide.org/pynids/">pynids</a> can be combined with
+Python&#8217;s <code>re</code> module to develop a minimal IPS-like tool. In an earlier
+post, <a href="/2013/libnids-pynids.html">Network Stream Reassembly and
+Defragmentation</a>, I talked about how to
+leverage pynids API to create a TCP reassembly module. I would suggest
+you read that post before continuing further since I&#8217;ll be skipping over
+reassembly basics. First let&#8217;s understand the architecture of a very
+basic IPS:</p>
+
+<p><img src="/static/files/minips-arch.png" alt="image" /></p>
+
+<p>Since it is a prevention system, an IPS has to be placed inline between
+the firewall at the perimeter edge the default gateway of your network.
+For any sessions that match inspection rules, they will be either
+dropped or logged or both if required. This action is basically per
+session/match configurable and can be changed through system&#8217;s policy
+files. An inspection system needs network traffic as input and this
+input can come from different sources but for the sake of simplicity,
+we&#8217;ll only be focusing on packet capture files and direct network device
+access as sources of input. Once the input is available in the form of
+raw packets, the system will need to reassemble them and extract layer
+payload which an inspection engine can consume.</p>
+
+<p>Rule/Signature based inspection engines use custom variants of the PCRE
+engine specifically optimized for performance and throughput. These
+engines use different techniques for performing string matches, either
+using native implementations of proven algorithms like <a href="http://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_string_matching_algorithm">Aho
+Corasick</a>,
+<a href="http://en.wikipedia.org/wiki/Boyer%E2%80%93Moore_string_search_algorithm">Boyer
+Moore</a>,
+<a href="http://en.wikipedia.org/wiki/Rabin%E2%80%93Karp_string_search_algorithm">Rabin
+Karp</a>,
+etc. <a href="http://en.wikipedia.org/wiki/Finite-state_machine">Finite State
+Automaton</a> is also
+used in some implementations. In this post, we&#8217;ll be using Libnids to
+extract TCP streams/UDP packets and match user-supplied regular
+expressions over this data. If a match is found, we&#8217;ll log details and
+optionally drop the connection.</p>
+
+<p>Before we begin with development, let&#8217;s design the pseudocode for our
+IPS:</p>
+
+<div class="codehilite"><pre><code>1. initialize nids
+2. register udp callback
+3. register tcp callback
+4. invoke nids session
+5. <span class="k">for</span> udp packet:
+  5.1. extract <span class="nb">source</span>/destination and identify flow details
+  5.2. extract payload and pass on to inspection engine
+  5.3. <span class="k">if</span> match found:
+    5.3.1 dump <span class="nb">source</span>/destination details to output device/file
+    5.3.2 dump match statistics to output device/file
+6. <span class="k">for</span> tcp packet:
+  6.1 identify current tcp state
+  6.2 <span class="k">if</span> new connection:
+    6.2.1 add <span class="nb">source</span>/destination to session table
+    6.2.2 request cts/stc data collection from libnids
+  6.3 <span class="k">elif</span> existing connection with data:
+    6.3.1 identify direction
+    6.3.2 extract payload and pass on to inspection engine
+    6.3.3 <span class="k">if</span> match found:
+      6.3.3.1 dump <span class="nb">source</span>/destination details to output device/file
+      6.3.3.2 dump match statistics to output device/file
+      6.3.3.3 stop cts/stc data collection
+  6.4 <span class="k">elif</span> existing connection with closing tcp sequence:
+    6.4.1 stop cts/stc data collection
+7. <span class="k">for</span> each inspection request:
+  7.1 match user-supplied regex over input data
+  7.2 <span class="k">if</span> match found:
+    7.2.1 <span class="k">return</span> match statistics
+</code></pre></div>
+
+<p>Please have a look at the <a href="https://gist.github.com/7h3rAm/10974463">minips.py</a> program which implements the above pseudo code.</p>
+
+<p>It will inspect each TCP and UDP packet and for matching TCP streams,
+stop tracking it any further. This is a performance optimization feature
+with an understanding that if a stream matches certain regex, it is the
+one the user intended to find. There is no need to inspect additional
+data in the stream since it already has what the user intended to find.
+This is only true for TCP streams as for UDP there is no stream/flow and
+as such inspection always happens on a per-packet basis.</p>
+
+<p>For streams/packets that match input expression, match direction (only
+for TCP matches), start/end of match inside input buffer, match size etc
+are dumped along with a hexdump of the matching content. To limit the
+size of the hexdump output, a cli option is added. Regular expression
+engine&#8217;s match behavior can be tweaked to enable case insensitive and
+multiline matches using cli options.</p>
+
+<p>Here is a test run of this program on a pcap that contains HTTP session
+and UDP packets:</p>
+
+<div class="codehilite"><pre><code><span class="nv">$ </span>python minips.py -p ~/toolbox/testfiles/pcaps/http.cap -r <span class="s1">&#39;.*com&#39;</span>
+<span class="o">[</span>15-Sep-2013 15:03:02.341813 IST<span class="o">]</span> TCP 145.254.160.237:3372 - 65.208.228.223:80 <span class="o">(</span>NEW<span class="o">)</span>
+<span class="o">[</span>15-Sep-2013 15:03:02.341903 IST<span class="o">]</span> TCP 145.254.160.237:3372 - 65.208.228.223:80 <span class="o">(</span>CTS: 479B <span class="p">|</span> STC: 0B<span class="o">)</span>
+<span class="o">[</span>15-Sep-2013 15:03:02.341946 IST<span class="o">]</span> TCP 145.254.160.237:3372 - 65.208.228.223:80 matches regex <span class="s1">&#39;.*com&#39;</span> @ CTS<span class="o">[</span>29:51<span class="o">]</span> 22B
+00000000: <span class="m">48</span> 6f <span class="m">73</span> <span class="m">74</span> 3a <span class="m">20</span> <span class="m">77</span> <span class="m">77</span> <span class="m">77</span> 2e <span class="m">65</span> <span class="m">74</span> <span class="m">68</span> <span class="m">65</span> <span class="m">72</span> <span class="m">65</span>  <span class="p">|</span>Host: www.ethere<span class="p">|</span>
+00000010: <span class="m">61</span> 6c 2e <span class="m">63</span> 6f 6d                                <span class="p">|</span>al.com<span class="p">|</span>
+
+<span class="o">[</span>15-Sep-2013 15:03:02.342179 IST<span class="o">]</span> UDP 145.254.160.237:3009 - 145.253.2.203:53 <span class="o">(</span>47B<span class="o">)</span>
+<span class="o">[</span>15-Sep-2013 15:03:02.342210 IST<span class="o">]</span> UDP 145.254.160.237:3009 - 145.253.2.203:53 matches regex <span class="s1">&#39;.*com&#39;</span> @ <span class="o">[</span>0:42<span class="o">]</span> 42B
+00000000: <span class="m">00</span> <span class="m">23</span> <span class="m">01</span> <span class="m">00</span> <span class="m">00</span> <span class="m">01</span> <span class="m">00</span> <span class="m">00</span> <span class="m">00</span> <span class="m">00</span> <span class="m">00</span> <span class="m">00</span> <span class="m">07</span> <span class="m">70</span> <span class="m">61</span> <span class="m">67</span>  <span class="p">|</span>.#...........pag<span class="p">|</span>
+00000010: <span class="m">65</span> <span class="m">61</span> <span class="m">64</span> <span class="m">32</span> <span class="m">11</span> <span class="m">67</span> 6f 6f <span class="m">67</span> 6c <span class="m">65</span> <span class="m">73</span> <span class="m">79</span> 6e <span class="m">64</span> <span class="m">69</span>  <span class="p">|</span>ead2.googlesyndi<span class="p">|</span>
+00000020: <span class="m">63</span> <span class="m">61</span> <span class="m">74</span> <span class="m">69</span> 6f 6e <span class="m">03</span> <span class="m">63</span> 6f 6d                    <span class="p">|</span>cation.com<span class="p">|</span>
+
+<span class="o">[</span>15-Sep-2013 15:03:02.342439 IST<span class="o">]</span> UDP 145.253.2.203:53 - 145.254.160.237:3009 <span class="o">(</span>146B<span class="o">)</span>
+<span class="o">[</span>15-Sep-2013 15:03:02.342479 IST<span class="o">]</span> UDP 145.253.2.203:53 - 145.254.160.237:3009 matches regex <span class="s1">&#39;.*com&#39;</span> @ <span class="o">[</span>0:42<span class="o">]</span> 42B
+00000000: <span class="m">00</span> <span class="m">23</span> <span class="m">81</span> <span class="m">80</span> <span class="m">00</span> <span class="m">01</span> <span class="m">00</span> <span class="m">04</span> <span class="m">00</span> <span class="m">00</span> <span class="m">00</span> <span class="m">00</span> <span class="m">07</span> <span class="m">70</span> <span class="m">61</span> <span class="m">67</span>  <span class="p">|</span>.#...........pag<span class="p">|</span>
+00000010: <span class="m">65</span> <span class="m">61</span> <span class="m">64</span> <span class="m">32</span> <span class="m">11</span> <span class="m">67</span> 6f 6f <span class="m">67</span> 6c <span class="m">65</span> <span class="m">73</span> <span class="m">79</span> 6e <span class="m">64</span> <span class="m">69</span>  <span class="p">|</span>ead2.googlesyndi<span class="p">|</span>
+00000020: <span class="m">63</span> <span class="m">61</span> <span class="m">74</span> <span class="m">69</span> 6f 6e <span class="m">03</span> <span class="m">63</span> 6f 6d                    <span class="p">|</span>cation.com<span class="p">|</span>
+</code></pre></div>
+
+<p>The program correctly identified regex match over the TCP stream in the
+CTS (client-to-server) direction and dumped match statistics along with
+matching content. The regex might have matched on the STC payload as
+well but when the first match on this stream was found, the program
+stopped tracking it any further and since that match was on CTS
+direction, any payload following it was never seen. For UDP matches,
+note that for the same flow, there are two matches: one while the data
+is being sent from a client at UDP/3009 to server at UDP/53 and again
+when the server replied to the client. Since, there are no flow details
+for a UDP session, any such program won&#8217;t have an implicit knowledge of
+the direction towards which payload is forwarded. However, it is not
+trivial to implement such functionality in the UDP callback enabling it
+to identify the client and server sides of the connection and then
+taking appropriate action.</p>
+
+<p>The <code>inspect</code> function currently only includes regex matches as the only
+source of inspection over TCP/UDP payload but this can be extended to
+add really interesting capabilities like <a href="/2013/libemu-shellcode-detection.html">shellcode
+detection</a>,
+<a href="http://code.google.com/p/yara-project/">Yara</a> rule matching, <a href="https://github.com/seatgeek/fuzzywuzzy">Fuzzy
+String</a> matching, file
+identification, file type based inspection, hash matching, javascript
+extraction, deobfuscation, emulation and analysis, etc. I&#8217;ve been
+working on a project which implements a few of these capabilities in
+addition to various other nifty features desirable from such inspection
+tools. Check it out @
+<a href="https://github.com/7h3rAm/flowinspect">flowinspect</a>. The <code>minips.py</code>
+program can also be extended to read input regex from a flat file and
+match them in sequence over input packets. This will allow the user to
+inspect network flows using multiple regexes, enabling true IPS-like
+matching functionality.</p>
+
+        </div>
+        <div class="post-bottomline">
+          <hr/>
+          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-twitter"></i></a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank"><i class="fa fa-exclamation-circle"></i> issue</a> on blog reporsitory.</p>
+          <hr/>
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                
+              
+              
+                
+                
+              
+              <table>
+                <tr>
+                  <td align="left">(share via <a href="mailto:?subject=Developing a Minimal IPS from Scratch&body=/2013/libnids-python-ids.html" target="_blank" title="Share via Email"><i class="fa fa-inbox"></i></a> <a href="http://twitter.com/intent/tweet?text=Developing a Minimal IPS from Scratch+/2013/libnids-python-ids.html&via=7h3rAm" target="_blank" title="Share on Twitter"><i class="fa fa-twitter"></i></a> <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=/2013/libnids-python-ids.html&p[images][0]=&p[title]=Developing a Minimal IPS from Scratch&p[summary]=What do you get when you combine a TCP/IP reassembly/defragmentation library with Python's re module? Read on to know more." target="_blank" title="Share on Facebook"><i class="fa fa-facebook"></i></a> <a href="https://plus.google.com/share?url=/2013/libnids-python-ids.html" target="_blank" title="Share on Google Plus"><i class="fa fa-google-plus"></i></a>)</td>
+                  <td align="right">(tagged <a href=/tags.html#code>code</a>)</td>
+                </tr>
+                <tr>
+                  
+                    <td align="left"><a href="/2013/malsoftware-reverse-challenge.html"><i class="fa fa-angle-double-left"></i> reverse Challenge from Coursera's Malicious Software Course <i class="fa fa-angle-double-left"></i></a></td>
+                    <td align="right"><a href="/2013/regex-to-dotgraph.html"><i class="fa fa-angle-double-right"></i> Visualizing (non-POSIX) Regular Expressions <i class="fa fa-angle-double-right"></i></a></td>
+                  
+                </tr>
+              </table>
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading post-title">
+          Related Posts
+        </div>
+        <div class="panel-body">
+          
+            1. <a href="/2016/circllu.html">circllu.py: Querying circl.lu API for CVE Information</a>
+            <div class="overview-date">March 12, 2016</div>
+            <br/>
+          
+            2. <a href="/2015/capinfos.html">capinfos.py: Pure Python Pcap Statistics Tool</a>
+            <div class="overview-date">August 2, 2015</div>
+            <br/>
+          
+            3. <a href="/2014/shellcode-pipeline.html">Shellcode Analysis Pipleine</a>
+            <div class="overview-date">March 18, 2014</div>
+            <br/>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </article>
+
+    </section>
+    <footer class="footer">
+      <b><a href="/">Ankur Tyagi</a></b> (<b><a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-at"></i>7h3rAm</a></b>)
+      <br/>
+      Last updated on October 20, 2016 (<b><a href="/rss.xml"><i class="fa fa-rss"></i> rss</a></b> <b><a href="/sitemap.xml"><i class="fa fa-sitemap"></i> sitemap</a></b>)
+      <br/>
+      Published under <b><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">by-nc-sa</a></b> and powered by <b><a alt="Linux" href="https://www.kernel.org/" target="_blank"><i class="fa fa-linux"></i></a></b>, <b><a alt="Kalpi" href="https://github.com/7h3rAm/kalpi/" target="_blank">kalpi</a></b>, <b><a href="http://git-scm.com/" target="_blank"><i class="fa fa-git"></i></a></b> and <b><a href="https://github.com/7h3rAm/7h3ram.github.io" target="_blank"><i class="fa fa-github"></i></a></b>
+    </footer>
+
+    <script src="/static/js/bootstrap/bootstrap.3.3.6.min.js"></script>
+    <script src="/static/js/raphael/raphael-min.js"></script>
+    <script src="/static/js/morrisjs/morris.min.js"></script>
+    <script src="/static/files/chart-data.js"></script>
+    <script src="/static/js/sprintf/sprintf.js"></script>
+    <script src="/static/js/underscore/underscore-min.js"></script>
+
+  </body>
+</html>

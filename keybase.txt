@@ -1,0 +1,68 @@
+://keybase.io/7h3ram
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://7h3ram.github.io
+  * I am 7h3ram (https://keybase.io/7h3ram) on keybase.
+  * I have a public key with fingerprint 761C A4F7 42BD 3DBA AC8B  5793 3DC1 CDFD C1B6 C8B2
+
+To do so, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "eldest_kid": "0101ec6eb2bffb60513067fb2613722bd3cb56bad0339ae1b9440409546bd8c113c30a",
+            "fingerprint": "761ca4f742bd3dbaac8b57933dc1cdfdc1b6c8b2",
+            "host": "keybase.io",
+            "key_id": "3dc1cdfdc1b6c8b2",
+            "kid": "0101ec6eb2bffb60513067fb2613722bd3cb56bad0339ae1b9440409546bd8c113c30a",
+            "uid": "d6ca8f20a8c37f38cb15a18517da6419",
+            "username": "7h3ram"
+        },
+        "service": {
+            "hostname": "7h3ram.github.io",
+            "protocol": "https:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1476937534,
+    "expire_in": 157680000,
+    "prev": "78c625ead629f1a146de13109c74cedf6faec288b30e4508c1cc45dc66bad3f6",
+    "seqno": 6,
+    "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v2.0.58
+Comment: https://keybase.io/crypto
+
+yMIiAnicrVJdSBRRGF3/qhWNohQjspgCs0Tmzp25M7MPZhJYgQVi0YOye/9md1J3
+1t3RMrMfjXqokOohBbMeDMHAwH7ACNKyCCIKLS1S0qJEKAozoUJsxuoh6LH7cC/3
++84593yH25+a4EmOa5qdpnvb14txj/paqj17FhXm1QnEYrWCr04o5/MHr2A8ZvvL
+TSb4BBGIgFPEiUQMgyBRAVBEqkEkBKAqSYRBShREMBMh1DEHRJdlURZ1RUaEaRQA
+SKGIhRzBMMNBHo1EzbDtyKoIUCwbquwqMIIx1Yii6hAyCigznJ0gpyQ5xJAVcxmO
+OYJjPNe0nJpz8c/b+wf+P/uunpdjiGLNkESsUagaUKMEKBhoClAZRjLQXWCMR8O4
+krvThWAUVwr1OYJTqzEpd2N15/irnxs07VA1+TVRJGrZFrUqnG7ItiMxn8u2ayMu
+fB8n/t9CfmKGmZOkw6jh0ZhphQUfcJDUNl1lIKtIh6oC5RyB74+YUe43XYSiIk10
+lvsOr3EdaBRJCscMSboBMJAR4wACUaeqTDkzkIE5lTSNQJHLiugEQqmsMIrcyKCB
+BHe0qrAl+JBjEwcdyZgZDGO7OsqF+ru9pYmeuGTPgqR494d5kr1L/vw7WV34Pf5I
+R0cBDA3cG16YNte+6krm+U+ndz45pwZ29NKyLWd+1Cy3p0Bd09aB55P9F795Uw9d
+WvElkjl5NO/k+Ic28DZh4vXD78OhA/lZc823xgPeBxWnjnf2zYyJMKWINZx/MX32
+Zu3oyLEm/fCux9kkPdDIe2aGGkOzl7c3f8541/zyTXBHWveG21Z+aUv72n5gHClf
+lZc6mhTJOAG9WfktXc/Kqq7lTD0WDo4s65tYPD7U9vVg22xxUevKV1/qhR+rd+PN
+YymtW4MFIz2BxhudQ6zoQkl3UutgcWHj1b6zH1vWDaYvnQHbBsLeOxunp0rHu9ak
+XMcNY+9LErOfbrrvjUsN/AQsHkW7
+=V7CY
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/7h3ram
+
+==================================================================
+

@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>7h3rAm's Infosec Ramblings</title>
+    <meta charset="utf-8"/>
+    <meta content="7h3rAm" name="author"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+    <script src="/static/js/jquery/jquery-1.10.2.js"></script>
+    <link href="/static/css/bootstrap/bootstrap.3.3.6.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/morrisjs/morris.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/timeline/timeline.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/main.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/codehilite/zenburn.css" rel="stylesheet" type="text/css">
+    <link href="/static/images/favicon.ico" rel="icon" type="image/x-icon"/>
+
+    <!-- Google Analytics -->
+    <script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-50288765-1', '7h3rAm.github.io');
+    ga('send', 'pageview');
+    </script>
+    <script async src='http://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
+
+  </head>
+  <body id="index" class="home">
+    <header class="header">
+      <nav>
+        <ul>
+          <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+          <li><a href="/archive.html"><i class="fa fa-archive"></i> Archive</a></li>
+          <li><a href="/tags.html"><i class="fa fa-tags"></i> Tags</a></li>
+          <li><a href="/dashboard.html"><i class="fa fa-bar-chart"></i> Dashboard</a></li>
+          <li><a href="/research.html"><i class="fa fa-list-alt"></i> Research</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section id="content" class="body">
+      
+  
+  
+  <article class="post">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading post-title">
+          Eindbazen CTF Challenge: bin100
+        </div>
+        <div class="panel-body">
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                
+              
+              
+                
+                
+              
+              
+                <p class="post-date">
+                  <a href="/2015/chopshop-shellcode.html"><i class="fa fa-angle-double-left"></i></a> published on May 27, 2015<a href="/2015/capinfos.html"> <i class="fa fa-angle-double-right"></i></a><br/>
+                  readtime: 1 hour and 41 minutes and 37 seconds (view <a href="https://raw.githubusercontent.io/7h3rAm/7h3rAm.github.io/master/_posts/ebctf-bin100.md">source</a>)
+                </p>
+              
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+        <div class="post-summary">This post is a writeup for the bin100 challenge (Dice Revenge) from Eindbazen CTF 2013.</div>
+        <div class="post-content">
+          <p>From the <a href="http://ebctf.nl/challenges/">challenges page</a>, download the <a href="/static/files/bin100">bin100</a> binary and start following along. The challenge title is &#8220;Dice Revenge&#8221; and the description talks about Linux debugging skills. Let&#8217;s see what <code>file</code> commands tells us about this file:</p>
+
+<div class="codehilite"><pre><code><span class="nv">$ </span>file bin100
+bin100: ELF 32-bit LSB  executable, Intel 80386, version <span class="m">1</span> <span class="o">(</span>SYSV<span class="o">)</span>, dynamically linked <span class="o">(</span>uses shared libs<span class="o">)</span>, <span class="k">for</span> GNU/Linux 2.6.26, BuildID<span class="o">[</span>sha1<span class="o">]=</span>b07165d860e4c153770483d43e42a54f92f5ac93, not stripped
+</code></pre></div>
+
+<p>Alright, an ELF file. Let&#8217;s issue a customary <code>strings</code> command on the challenge file:</p>
+
+<div class="codehilite"><pre><code><span class="nv">$ </span>strings bin100
+/lib/ld-linux.so.2
+CyIk
+libstdc++.so.6
+_ITM_deregisterTMCloneTable
+__gmon_start__
+_Jv_RegisterClasses
+_ITM_registerTMCloneTable
+pthread_cancel
+_ZNKSs4sizeEv
+_ZNKSs4findEPKcj
+_ZNSsixEj
+_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_
+_ZSt4cout
+_ZNSaIcED1Ev
+_ZNSsC1Ev
+_ZNSolsEi
+_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc
+_ZNSsC1EPKcRKSaIcE
+_ZNSt8ios_base4InitC1Ev
+_ZSt3cin
+_ZNSsD1Ev
+_ZStlsIcSt11char_traitsIcESaIcEERSt13basic_ostreamIT_T0_ES7_RKSbIS4_S5_T1_E
+_ZNKSs6lengthEv
+_ZNSt8ios_base4InitD1Ev
+_ZNSsaSEPKc
+_ZNSolsEPFRSoS_E
+__gxx_personality_v0
+_ZNSaIcEC1Ev
+_ZSt7getlineIcSt11char_traitsIcESaIcEERSt13basic_istreamIT_T0_ES7_RSbIS4_S5_T1_E
+libm.so.6
+libgcc_s.so.1
+_Unwind_Resume
+libc.so.6
+_IO_stdin_used
+srand
+<span class="nb">time</span>
+__cxa_atexit
+__libc_start_main
+GCC_3.0
+GLIBC_2.1.3
+GLIBC_2.0
+CXXABI_1.3
+GLIBCXX_3.4
+PTRh
+QVhL
+D<span class="nv">$Xf</span>
+T<span class="nv">$X1</span>
+D<span class="nv">$lk</span>
+D<span class="nv">$lA</span>
+l<span class="nv">$lA</span>
+D<span class="nv">$lk</span>
+T<span class="nv">$l1</span>
+<span class="o">[</span>^_<span class="o">]</span>
+ -------
+<span class="p">|</span>       <span class="p">|</span>
+<span class="p">|</span>   O   <span class="p">|</span>
+<span class="p">|</span>       <span class="p">|</span>
+ -------
+ -------
+<span class="p">|</span>     O <span class="p">|</span>
+<span class="p">|</span>       <span class="p">|</span>
+<span class="p">|</span> O     <span class="p">|</span>
+ -------
+ -------
+<span class="p">|</span>     O <span class="p">|</span>
+<span class="p">|</span>   O   <span class="p">|</span>
+<span class="p">|</span> O     <span class="p">|</span>
+ -------
+ -------
+<span class="p">|</span> O   O <span class="p">|</span>
+<span class="p">|</span>       <span class="p">|</span>
+<span class="p">|</span> O   O <span class="p">|</span>
+ -------
+ -------
+<span class="p">|</span> O   O <span class="p">|</span>
+<span class="p">|</span>   O   <span class="p">|</span>
+<span class="p">|</span> O   O <span class="p">|</span>
+ -------
+ -------
+<span class="p">|</span> O   O <span class="p">|</span>
+<span class="p">|</span> O   O <span class="p">|</span>
+<span class="p">|</span> O   O <span class="p">|</span>
+ -------
+ -------
+<span class="p">|</span> O   O <span class="p">|</span>
+<span class="p">|</span> O O O <span class="p">|</span>
+<span class="p">|</span> O   O <span class="p">|</span>
+ -------
+<span class="o">[</span>*<span class="o">]</span> ebCTF <span class="m">2013</span> - BIN100 - Dice Game
+    To get the flag you will need to throw the correct numbers.
+<span class="o">[</span>*<span class="o">]</span> You will first need to throw a three, press enter to throw a dice!
+<span class="o">[</span>*<span class="o">]</span> You rolled a three! Good!
+hZCnFH#i
+<span class="se">\.</span><span class="p">&amp;</span><span class="o">[</span>?8i
+fY0Q<span class="p">|</span>9
+?y^/%
+<span class="o">[</span>*<span class="o">]</span> You rolled a
+ That is not a three :/
+<span class="o">[</span>*<span class="o">]</span> Game over!
+<span class="o">[</span>*<span class="o">]</span> Next you will need to throw a one, press enter to throw a dice!
+<span class="o">[</span>*<span class="o">]</span> You rolled a one! Very nice!
+ That is not a one :/
+<span class="o">[</span>*<span class="o">]</span> Next you will need to throw another three, press enter to throw a dice!
+<span class="o">[</span>*<span class="o">]</span> You rolled a three! Awesome!
+<span class="o">[</span>*<span class="o">]</span> Throw another three <span class="k">for</span> me now, press enter to throw a dice!
+<span class="o">[</span>*<span class="o">]</span> You rolled another three! Almost there now!
+<span class="o">[</span>*<span class="o">]</span> The last character you need to roll is a seven....  <span class="o">(</span>o_O<span class="o">)</span>  Press enter to throw a dice!
+<span class="o">[</span>*<span class="o">]</span> You rolled a seven, with a six sided dice! How awesome are you?!
+ That is not a seven :/
+ebCTF
+<span class="o">[</span>*<span class="o">]</span> You rolled 3-1-3-3-7, what does that make you? ELEET! <span class="se">\o</span>/
+<span class="o">[</span>*<span class="o">]</span> Nice job, here is the flag:
+<span class="o">[</span>!<span class="o">]</span> It seems you did something wrong :<span class="o">(</span> No flag <span class="k">for</span> you.
+<span class="p">;</span>*2<span class="nv">$&quot;</span>
+zPLR
+GCC: <span class="o">(</span>Debian 4.7.2-5<span class="o">)</span> 4.7.2
+GCC: <span class="o">(</span>Debian 4.4.7-3<span class="o">)</span> 4.4.7
+.symtab
+.strtab
+.shstrtab
+.interp
+.note.ABI-tag
+.note.gnu.build-id
+.gnu.hash
+.dynsym
+.dynstr
+.gnu.version
+.gnu.version_r
+.rel.dyn
+.rel.plt
+.init
+.text
+.fini
+.rodata
+.eh_frame_hdr
+.eh_frame
+.gcc_except_table
+.init_array
+.fini_array
+.jcr
+.dynamic
+.got
+.got.plt
+.data
+.bss
+.comment
+crtstuff.c
+__JCR_LIST__
+deregister_tm_clones
+register_tm_clones
+__do_global_dtors_aux
+completed.5730
+__do_global_dtors_aux_fini_array_entry
+frame_dummy
+__frame_dummy_init_array_entry
+bin100.c
+_ZStL8__ioinit
+_Z41__static_initialization_and_destruction_0ii
+_GLOBAL__sub_I_main
+_ZZL18__gthread_active_pvE20__gthread_active_ptr
+__FRAME_END__
+__JCR_END__
+_GLOBAL_OFFSET_TABLE_
+__init_array_end
+__init_array_start
+_DYNAMIC
+data_start
+_ZSt3cin@@GLIBCXX_3.4
+_ZNSsaSEPKc@@GLIBCXX_3.4
+_ZNSsC1Ev@@GLIBCXX_3.4
+srand@@GLIBC_2.0
+_ZNSolsEi@@GLIBCXX_3.4
+__cxa_atexit@@GLIBC_2.1.3
+__libc_csu_fini
+_start
+_ZSt7getlineIcSt11char_traitsIcESaIcEERSt13basic_istreamIT_T0_ES7_RSbIS4_S5_T1_E@@GLIBCXX_3.4
+__gmon_start__
+_Jv_RegisterClasses
+_fp_hw
+_ZNSsixEj@@GLIBCXX_3.4
+_fini
+_ZNKSs4sizeEv@@GLIBCXX_3.4
+_ZNSt8ios_base4InitC1Ev@@GLIBCXX_3.4
+__libc_start_main@@GLIBC_2.0
+_ZNKSs6lengthEv@@GLIBCXX_3.4
+_ZNSt8ios_base4InitD1Ev@@GLIBCXX_3.4
+_ZNKSs4findEPKcj@@GLIBCXX_3.4
+_ITM_deregisterTMCloneTable
+_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@@GLIBCXX_3.4
+_IO_stdin_used
+_ZNSsD1Ev@@GLIBCXX_3.4
+_ITM_registerTMCloneTable
+__data_start
+__TMC_END__
+_ZNSsC1EPKcRKSaIcE@@GLIBCXX_3.4
+_ZSt4cout@@GLIBCXX_3.4
+__dso_handle
+__libc_csu_init
+<span class="nb">time</span>@@GLIBC_2.0
+__bss_start
+_ZStlsIcSt11char_traitsIcESaIcEERSt13basic_ostreamIT_T0_ES7_RKSbIS4_S5_T1_E@@GLIBCXX_3.4
+_ZNSaIcED1Ev@@GLIBCXX_3.4
+pthread_cancel
+_end
+_ZNSolsEPFRSoS_E@@GLIBCXX_3.4
+rand@@GLIBC_2.0
+_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_@@GLIBCXX_3.4
+_edata
+_ZNSaIcEC1Ev@@GLIBCXX_3.4
+__gxx_personality_v0@@CXXABI_1.3
+_Unwind_Resume@@GCC_3.0
+__i686.get_pc_thunk.bx
+main
+_init
+</code></pre></div>
+
+<p>Quite a few interesting strings here. The title makes sense now. This looks like a dice game that requires us to throw certain number sequences to win. Let&#8217;s give it a test run:</p>
+
+<div class="codehilite"><pre><code><span class="nv">$ </span>./bin100
+
+<span class="o">[</span>*<span class="o">]</span> ebCTF <span class="m">2013</span> - BIN100 - Dice Game
+    To get the flag you will need to throw the correct numbers.
+
+<span class="o">[</span>*<span class="o">]</span> You will first need to throw a three, press enter to throw a dice!
+
+ -------
+<span class="p">|</span>       <span class="p">|</span>
+<span class="p">|</span>   O   <span class="p">|</span>
+<span class="p">|</span>       <span class="p">|</span>
+ -------
+
+<span class="o">[</span>*<span class="o">]</span> You rolled a <span class="m">1</span> That is not a three :/
+<span class="o">[</span>*<span class="o">]</span> Game over!
+<span class="err">$</span>
+<span class="nv">$ </span>./bin100
+
+<span class="o">[</span>*<span class="o">]</span> ebCTF <span class="m">2013</span> - BIN100 - Dice Game
+    To get the flag you will need to throw the correct numbers.
+
+<span class="o">[</span>*<span class="o">]</span> You will first need to throw a three, press enter to throw a dice!
+
+ -------
+<span class="p">|</span>     O <span class="p">|</span>
+<span class="p">|</span>   O   <span class="p">|</span>
+<span class="p">|</span> O     <span class="p">|</span>
+ -------
+
+<span class="o">[</span>*<span class="o">]</span> You rolled a three! Good!
+
+<span class="o">[</span>*<span class="o">]</span> Next you will need to throw a one, press enter to throw a dice!
+
+ -------
+<span class="p">|</span>     O <span class="p">|</span>
+<span class="p">|</span>       <span class="p">|</span>
+<span class="p">|</span> O     <span class="p">|</span>
+ -------
+
+<span class="o">[</span>*<span class="o">]</span> You rolled a <span class="m">2</span> That is not a one :/
+<span class="o">[</span>*<span class="o">]</span> Game over!
+<span class="err">$</span>
+<span class="nv">$ </span>./bin100
+
+<span class="o">[</span>*<span class="o">]</span> ebCTF <span class="m">2013</span> - BIN100 - Dice Game
+    To get the flag you will need to throw the correct numbers.
+
+<span class="o">[</span>*<span class="o">]</span> You will first need to throw a three, press enter to throw a dice!
+
+ -------
+<span class="p">|</span> O   O <span class="p">|</span>
+<span class="p">|</span>   O   <span class="p">|</span>
+<span class="p">|</span> O   O <span class="p">|</span>
+ -------
+
+<span class="o">[</span>*<span class="o">]</span> You rolled a <span class="m">5</span> That is not a three :/
+<span class="o">[</span>*<span class="o">]</span> Game over!
+</code></pre></div>
+
+<p>Alright, looks like the first two numbers are <code>3</code> and <code>1</code> respectively. We might need multiple invocations to know further numbers in the expected sequence. Let&#8217;s debug the file using GDB:</p>
+
+<div class="codehilite"><pre><code><span class="nv">$ </span>gdb -q ./bin100
+Reading symbols from ./bin100...<span class="o">(</span>no debugging symbols found<span class="o">)</span>...done.
+gdb-peda<span class="nv">$ </span><span class="nb">break</span> *main
+Breakpoint <span class="m">1</span> at 0x8048c4c
+gdb-peda<span class="err">$</span>
+</code></pre></div>
+
+<p>Alright, now let&#8217;s run the binary and when the breakpoint is hit, we can disassemble the <code>main</code> function:</p>
+
+<div class="codehilite"><pre><code><span class="nf">gdb-peda$</span> <span class="no">r</span>
+<span class="nf">Starting</span> <span class="no">program</span><span class="p">:</span> <span class="err">/</span><span class="no">media</span><span class="err">/</span><span class="no">shiv</span><span class="err">/</span><span class="no">red_third</span><span class="err">/</span><span class="no">stoolbox</span><span class="err">/</span><span class="no">challenges</span><span class="err">/</span><span class="no">ebctf</span><span class="err">/</span><span class="no">bin100</span><span class="err">/</span><span class="no">bin100</span>
+<span class="err">[----------------------------------</span><span class="nf">registers-----------------------------------</span><span class="err">]</span>
+<span class="nl">EAX:</span> <span class="err">0</span><span class="nf">x1</span>
+<span class="nl">EBX:</span> <span class="err">0</span><span class="nf">xf7e5a000</span> <span class="p">--</span><span class="err">&gt;</span> <span class="mi">0x1a9da8</span>
+<span class="nl">ECX:</span> <span class="err">0</span><span class="nf">xa8769374</span>
+<span class="nl">EDX:</span> <span class="err">0</span><span class="nf">xffffb5b4</span> <span class="p">--</span><span class="err">&gt;</span> <span class="mi">0xf7e5a000</span> <span class="p">--</span><span class="err">&gt;</span> <span class="mi">0x1a9da8</span>
+<span class="nl">ESI:</span> <span class="err">0</span><span class="nf">x0</span>
+<span class="nl">EDI:</span> <span class="err">0</span><span class="nf">x0</span>
+<span class="nl">EBP:</span> <span class="err">0</span><span class="nf">x0</span>
+<span class="nl">ESP:</span> <span class="err">0</span><span class="nf">xffffb58c</span> <span class="p">--</span><span class="err">&gt;</span> <span class="mi">0xf7cc9a83</span> <span class="p">(</span><span class="err">&lt;</span><span class="no">__libc_start_main</span><span class="err">+</span><span class="mi">243</span><span class="err">&gt;</span><span class="p">:</span>    <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span><span class="p">)</span>
+<span class="nl">EIP:</span> <span class="err">0</span><span class="nf">x8048c4c</span> <span class="p">(</span><span class="err">&lt;</span><span class="no">main</span><span class="err">&gt;</span><span class="p">:</span> <span class="no">push</span>   <span class="no">ebp</span><span class="p">)</span>
+<span class="nl">EFLAGS:</span> <span class="err">0</span><span class="nf">x246</span> <span class="p">(</span><span class="no">carry</span> <span class="no">PARITY</span> <span class="no">adjust</span> <span class="no">ZERO</span> <span class="no">sign</span> <span class="no">trap</span> <span class="no">INTERRUPT</span> <span class="no">direction</span> <span class="no">overflow</span><span class="p">)</span>
+<span class="err">[-------------------------------------</span><span class="nf">code-------------------------------------</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x8048c41</span> <span class="err">&lt;</span><span class="no">frame_dummy</span><span class="err">+</span><span class="mi">33</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">leave</span>
+   <span class="err">0</span><span class="nf">x8048c42</span> <span class="err">&lt;</span><span class="no">frame_dummy</span><span class="err">+</span><span class="mi">34</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">jmp</span>    <span class="mh">0x8048bc0</span> <span class="p">&lt;</span><span class="no">register_tm_clones</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x8048c47</span> <span class="err">&lt;</span><span class="no">frame_dummy</span><span class="err">+</span><span class="mi">39</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">jmp</span>    <span class="mh">0x8048bc0</span> <span class="p">&lt;</span><span class="no">register_tm_clones</span><span class="p">&gt;</span>
+<span class="err">=&gt;</span> <span class="err">0</span><span class="nf">x8048c4c</span> <span class="err">&lt;</span><span class="no">main</span><span class="err">&gt;</span><span class="p">:</span>    <span class="no">push</span>   <span class="no">ebp</span>
+   <span class="err">0</span><span class="nf">x8048c4d</span> <span class="err">&lt;</span><span class="no">main</span><span class="err">+</span><span class="mi">1</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">mov</span>    <span class="no">ebp</span><span class="p">,</span><span class="no">esp</span>
+   <span class="err">0</span><span class="nf">x8048c4f</span> <span class="err">&lt;</span><span class="no">main</span><span class="err">+</span><span class="mi">3</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">push</span>   <span class="no">esi</span>
+   <span class="err">0</span><span class="nf">x8048c50</span> <span class="err">&lt;</span><span class="no">main</span><span class="err">+</span><span class="mi">4</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">push</span>   <span class="no">ebx</span>
+   <span class="err">0</span><span class="nf">x8048c51</span> <span class="err">&lt;</span><span class="no">main</span><span class="err">+</span><span class="mi">5</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">and</span>    <span class="no">esp</span><span class="p">,</span><span class="mi">0xfffffff0</span>
+<span class="err">[------------------------------------</span><span class="nf">stack-------------------------------------</span><span class="err">]</span>
+<span class="err">0000|</span> <span class="err">0</span><span class="nf">xffffb58c</span> <span class="p">--</span><span class="err">&gt;</span> <span class="mi">0xf7cc9a83</span> <span class="p">(</span><span class="err">&lt;</span><span class="no">__libc_start_main</span><span class="err">+</span><span class="mi">243</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span><span class="p">)</span>
+<span class="err">0004|</span> <span class="err">0</span><span class="nf">xffffb590</span> <span class="p">--</span><span class="err">&gt;</span> <span class="mi">0x1</span>
+<span class="err">0008|</span> <span class="err">0</span><span class="nf">xffffb594</span> <span class="p">--</span><span class="err">&gt;</span> <span class="mi">0xffffb624</span> <span class="p">--</span><span class="err">&gt;</span> <span class="mi">0xffffb82e</span> <span class="p">(</span><span class="err">&quot;/</span><span class="no">media</span><span class="err">/</span><span class="no">shiv</span><span class="err">/</span><span class="no">red_third</span><span class="err">/</span><span class="no">stoolbox</span><span class="err">/</span><span class="no">challenges</span><span class="err">/</span><span class="no">ebctf</span><span class="err">/</span><span class="no">bin100</span><span class="err">/</span><span class="no">bin100</span><span class="err">&quot;</span><span class="p">)</span>
+<span class="err">0012|</span> <span class="err">0</span><span class="nf">xffffb598</span> <span class="p">--</span><span class="err">&gt;</span> <span class="mi">0xffffb62c</span> <span class="p">--</span><span class="err">&gt;</span> <span class="mi">0xffffb86c</span> <span class="p">(</span><span class="err">&quot;</span><span class="no">GREP_COLOR</span><span class="err">=</span><span class="mi">1</span><span class="err">;</span><span class="mi">33</span><span class="err">&quot;</span><span class="p">)</span>
+<span class="err">0016|</span> <span class="err">0</span><span class="nf">xffffb59c</span> <span class="p">--</span><span class="err">&gt;</span> <span class="mi">0xf7feacea</span> <span class="p">(</span><span class="no">add</span>    <span class="no">ebx</span><span class="p">,</span><span class="mi">0x12316</span><span class="p">)</span>
+<span class="err">0020|</span> <span class="err">0</span><span class="nf">xffffb5a0</span> <span class="p">--</span><span class="err">&gt;</span> <span class="mi">0x1</span>
+<span class="err">0024|</span> <span class="err">0</span><span class="nf">xffffb5a4</span> <span class="p">--</span><span class="err">&gt;</span> <span class="mi">0xffffb624</span> <span class="p">--</span><span class="err">&gt;</span> <span class="mi">0xffffb82e</span> <span class="p">(</span><span class="err">&quot;/</span><span class="no">media</span><span class="err">/</span><span class="no">shiv</span><span class="err">/</span><span class="no">red_third</span><span class="err">/</span><span class="no">stoolbox</span><span class="err">/</span><span class="no">challenges</span><span class="err">/</span><span class="no">ebctf</span><span class="err">/</span><span class="no">bin100</span><span class="err">/</span><span class="no">bin100</span><span class="err">&quot;</span><span class="p">)</span>
+<span class="err">0028|</span> <span class="err">0</span><span class="nf">xffffb5a8</span> <span class="p">--</span><span class="err">&gt;</span> <span class="mi">0xffffb5c4</span> <span class="p">--</span><span class="err">&gt;</span> <span class="mi">0xce293764</span>
+<span class="err">[------------------------------------------------------------------------------]</span>
+<span class="nl">Legend:</span> <span class="nf">code</span><span class="p">,</span> <span class="no">data</span><span class="p">,</span> <span class="no">rodata</span><span class="p">,</span> <span class="no">value</span>
+
+<span class="nf">Breakpoint</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0x08048c4c</span> <span class="no">in</span> <span class="no">main</span> <span class="p">()</span>
+<span class="nf">gdb-peda$</span>  <span class="no">pdisas</span> <span class="no">main</span>
+<span class="nf">Dump</span> <span class="no">of</span> <span class="no">assembler</span> <span class="no">code</span> <span class="no">for</span> <span class="no">function</span> <span class="no">main</span><span class="p">:</span>
+<span class="err">=&gt;</span> <span class="err">0</span><span class="nf">x08048c4c</span> <span class="err">&lt;+</span><span class="mi">0</span><span class="err">&gt;</span><span class="p">:</span> <span class="no">push</span>   <span class="no">ebp</span>
+   <span class="err">0</span><span class="nf">x08048c4d</span> <span class="err">&lt;+</span><span class="mi">1</span><span class="err">&gt;</span><span class="p">:</span> <span class="no">mov</span>    <span class="no">ebp</span><span class="p">,</span><span class="no">esp</span>
+   <span class="err">0</span><span class="nf">x08048c4f</span> <span class="err">&lt;+</span><span class="mi">3</span><span class="err">&gt;</span><span class="p">:</span> <span class="no">push</span>   <span class="no">esi</span>
+   <span class="err">0</span><span class="nf">x08048c50</span> <span class="err">&lt;+</span><span class="mi">4</span><span class="err">&gt;</span><span class="p">:</span> <span class="no">push</span>   <span class="no">ebx</span>
+   <span class="err">0</span><span class="nf">x08048c51</span> <span class="err">&lt;+</span><span class="mi">5</span><span class="err">&gt;</span><span class="p">:</span> <span class="no">and</span>    <span class="no">esp</span><span class="p">,</span><span class="mi">0xfffffff0</span>
+   <span class="err">0</span><span class="nf">x08048c54</span> <span class="err">&lt;+</span><span class="mi">8</span><span class="err">&gt;</span><span class="p">:</span> <span class="no">sub</span>    <span class="no">esp</span><span class="p">,</span><span class="mi">0x70</span>
+   <span class="err">0</span><span class="nf">x08048c57</span> <span class="err">&lt;+</span><span class="mi">11</span><span class="err">&gt;</span><span class="p">:</span>    <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x3c</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048c5b</span> <span class="err">&lt;+</span><span class="mi">15</span><span class="err">&gt;</span><span class="p">:</span>    <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048c5e</span> <span class="err">&lt;+</span><span class="mi">18</span><span class="err">&gt;</span><span class="p">:</span>    <span class="no">call</span>   <span class="mh">0x80489d0</span> <span class="p">&lt;</span><span class="no">_ZNSsC1Ev@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048c63</span> <span class="err">&lt;+</span><span class="mi">23</span><span class="err">&gt;</span><span class="p">:</span>    <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x6c</span><span class="err">]</span><span class="p">,</span><span class="mi">0x5</span>
+   <span class="err">0</span><span class="nf">x08048c6b</span> <span class="err">&lt;+</span><span class="mi">31</span><span class="err">&gt;</span><span class="p">:</span>    <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x38</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048c6f</span> <span class="err">&lt;+</span><span class="mi">35</span><span class="err">&gt;</span><span class="p">:</span>    <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048c72</span> <span class="err">&lt;+</span><span class="mi">38</span><span class="err">&gt;</span><span class="p">:</span>    <span class="no">call</span>   <span class="mh">0x80489d0</span> <span class="p">&lt;</span><span class="no">_ZNSsC1Ev@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048c77</span> <span class="err">&lt;+</span><span class="mi">43</span><span class="err">&gt;</span><span class="p">:</span>    <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x34</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048c7b</span> <span class="err">&lt;+</span><span class="mi">47</span><span class="err">&gt;</span><span class="p">:</span>    <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048c7e</span> <span class="err">&lt;+</span><span class="mi">50</span><span class="err">&gt;</span><span class="p">:</span>    <span class="no">call</span>   <span class="mh">0x80489d0</span> <span class="p">&lt;</span><span class="no">_ZNSsC1Ev@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048c83</span> <span class="err">&lt;+</span><span class="mi">55</span><span class="err">&gt;</span><span class="p">:</span>    <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="mi">0x0</span>
+   <span class="err">0</span><span class="nf">x08048c8a</span> <span class="err">&lt;+</span><span class="mi">62</span><span class="err">&gt;</span><span class="p">:</span>    <span class="no">call</span>   <span class="mh">0x8048ad0</span> <span class="p">&lt;</span><span class="no">time@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048c8f</span> <span class="err">&lt;+</span><span class="mi">67</span><span class="err">&gt;</span><span class="p">:</span>    <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048c92</span> <span class="err">&lt;+</span><span class="mi">70</span><span class="err">&gt;</span><span class="p">:</span>    <span class="no">call</span>   <span class="mh">0x80489e0</span> <span class="p">&lt;</span><span class="no">srand@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048c97</span> <span class="err">&lt;+</span><span class="mi">75</span><span class="err">&gt;</span><span class="p">:</span>    <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x41</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048c9b</span> <span class="err">&lt;+</span><span class="mi">79</span><span class="err">&gt;</span><span class="p">:</span>    <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048c9e</span> <span class="err">&lt;+</span><span class="mi">82</span><span class="err">&gt;</span><span class="p">:</span>    <span class="no">call</span>   <span class="mh">0x8048b30</span> <span class="p">&lt;</span><span class="no">_ZNSaIcEC1Ev@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048ca3</span> <span class="err">&lt;+</span><span class="mi">87</span><span class="err">&gt;</span><span class="p">:</span>    <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x41</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048ca7</span> <span class="err">&lt;+</span><span class="mi">91</span><span class="err">&gt;</span><span class="p">:</span>    <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x8</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048cab</span> <span class="err">&lt;+</span><span class="mi">95</span><span class="err">&gt;</span><span class="p">:</span>    <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="mi">0x8049e40</span>
+   <span class="err">0</span><span class="nf">x08048cb3</span> <span class="err">&lt;+</span><span class="mi">103</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x30</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048cb7</span> <span class="err">&lt;+</span><span class="mi">107</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048cba</span> <span class="err">&lt;+</span><span class="mi">110</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048ac0</span> <span class="p">&lt;</span><span class="no">_ZNSsC1EPKcRKSaIcE@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048cbf</span> <span class="err">&lt;+</span><span class="mi">115</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x41</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048cc3</span> <span class="err">&lt;+</span><span class="mi">119</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048cc6</span> <span class="err">&lt;+</span><span class="mi">122</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048af0</span> <span class="p">&lt;</span><span class="no">_ZNSaIcED1Ev@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048ccb</span> <span class="err">&lt;+</span><span class="mi">127</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x42</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048ccf</span> <span class="err">&lt;+</span><span class="mi">131</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048cd2</span> <span class="err">&lt;+</span><span class="mi">134</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048b30</span> <span class="p">&lt;</span><span class="no">_ZNSaIcEC1Ev@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048cd7</span> <span class="err">&lt;+</span><span class="mi">139</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x42</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048cdb</span> <span class="err">&lt;+</span><span class="mi">143</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x8</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048cdf</span> <span class="err">&lt;+</span><span class="mi">147</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="mi">0x8049e74</span>
+   <span class="err">0</span><span class="nf">x08048ce7</span> <span class="err">&lt;+</span><span class="mi">155</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x2c</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048ceb</span> <span class="err">&lt;+</span><span class="mi">159</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048cee</span> <span class="err">&lt;+</span><span class="mi">162</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048ac0</span> <span class="p">&lt;</span><span class="no">_ZNSsC1EPKcRKSaIcE@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048cf3</span> <span class="err">&lt;+</span><span class="mi">167</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x42</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048cf7</span> <span class="err">&lt;+</span><span class="mi">171</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048cfa</span> <span class="err">&lt;+</span><span class="mi">174</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048af0</span> <span class="p">&lt;</span><span class="no">_ZNSaIcED1Ev@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048cff</span> <span class="err">&lt;+</span><span class="mi">179</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x43</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048d03</span> <span class="err">&lt;+</span><span class="mi">183</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048d06</span> <span class="err">&lt;+</span><span class="mi">186</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048b30</span> <span class="p">&lt;</span><span class="no">_ZNSaIcEC1Ev@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048d0b</span> <span class="err">&lt;+</span><span class="mi">191</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x43</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048d0f</span> <span class="err">&lt;+</span><span class="mi">195</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x8</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048d13</span> <span class="err">&lt;+</span><span class="mi">199</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="mi">0x8049ea8</span>
+   <span class="err">0</span><span class="nf">x08048d1b</span> <span class="err">&lt;+</span><span class="mi">207</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x28</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048d1f</span> <span class="err">&lt;+</span><span class="mi">211</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048d22</span> <span class="err">&lt;+</span><span class="mi">214</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048ac0</span> <span class="p">&lt;</span><span class="no">_ZNSsC1EPKcRKSaIcE@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048d27</span> <span class="err">&lt;+</span><span class="mi">219</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x43</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048d2b</span> <span class="err">&lt;+</span><span class="mi">223</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048d2e</span> <span class="err">&lt;+</span><span class="mi">226</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048af0</span> <span class="p">&lt;</span><span class="no">_ZNSaIcED1Ev@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048d33</span> <span class="err">&lt;+</span><span class="mi">231</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x44</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048d37</span> <span class="err">&lt;+</span><span class="mi">235</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048d3a</span> <span class="err">&lt;+</span><span class="mi">238</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048b30</span> <span class="p">&lt;</span><span class="no">_ZNSaIcEC1Ev@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048d3f</span> <span class="err">&lt;+</span><span class="mi">243</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x44</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048d43</span> <span class="err">&lt;+</span><span class="mi">247</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x8</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048d47</span> <span class="err">&lt;+</span><span class="mi">251</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="mi">0x8049edc</span>
+   <span class="err">0</span><span class="nf">x08048d4f</span> <span class="err">&lt;+</span><span class="mi">259</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x24</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048d53</span> <span class="err">&lt;+</span><span class="mi">263</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048d56</span> <span class="err">&lt;+</span><span class="mi">266</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048ac0</span> <span class="p">&lt;</span><span class="no">_ZNSsC1EPKcRKSaIcE@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048d5b</span> <span class="err">&lt;+</span><span class="mi">271</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x44</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048d5f</span> <span class="err">&lt;+</span><span class="mi">275</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048d62</span> <span class="err">&lt;+</span><span class="mi">278</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048af0</span> <span class="p">&lt;</span><span class="no">_ZNSaIcED1Ev@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048d67</span> <span class="err">&lt;+</span><span class="mi">283</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x45</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048d6b</span> <span class="err">&lt;+</span><span class="mi">287</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048d6e</span> <span class="err">&lt;+</span><span class="mi">290</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048b30</span> <span class="p">&lt;</span><span class="no">_ZNSaIcEC1Ev@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048d73</span> <span class="err">&lt;+</span><span class="mi">295</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x45</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048d77</span> <span class="err">&lt;+</span><span class="mi">299</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x8</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048d7b</span> <span class="err">&lt;+</span><span class="mi">303</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="mi">0x8049f10</span>
+   <span class="err">0</span><span class="nf">x08048d83</span> <span class="err">&lt;+</span><span class="mi">311</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x20</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048d87</span> <span class="err">&lt;+</span><span class="mi">315</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048d8a</span> <span class="err">&lt;+</span><span class="mi">318</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048ac0</span> <span class="p">&lt;</span><span class="no">_ZNSsC1EPKcRKSaIcE@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048d8f</span> <span class="err">&lt;+</span><span class="mi">323</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x45</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048d93</span> <span class="err">&lt;+</span><span class="mi">327</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048d96</span> <span class="err">&lt;+</span><span class="mi">330</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048af0</span> <span class="p">&lt;</span><span class="no">_ZNSaIcED1Ev@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048d9b</span> <span class="err">&lt;+</span><span class="mi">335</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x46</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048d9f</span> <span class="err">&lt;+</span><span class="mi">339</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048da2</span> <span class="err">&lt;+</span><span class="mi">342</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048b30</span> <span class="p">&lt;</span><span class="no">_ZNSaIcEC1Ev@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048da7</span> <span class="err">&lt;+</span><span class="mi">347</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x46</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048dab</span> <span class="err">&lt;+</span><span class="mi">351</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x8</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048daf</span> <span class="err">&lt;+</span><span class="mi">355</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="mi">0x8049f44</span>
+   <span class="err">0</span><span class="nf">x08048db7</span> <span class="err">&lt;+</span><span class="mi">363</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x1c</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048dbb</span> <span class="err">&lt;+</span><span class="mi">367</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048dbe</span> <span class="err">&lt;+</span><span class="mi">370</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048ac0</span> <span class="p">&lt;</span><span class="no">_ZNSsC1EPKcRKSaIcE@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048dc3</span> <span class="err">&lt;+</span><span class="mi">375</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x46</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048dc7</span> <span class="err">&lt;+</span><span class="mi">379</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048dca</span> <span class="err">&lt;+</span><span class="mi">382</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048af0</span> <span class="p">&lt;</span><span class="no">_ZNSaIcED1Ev@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048dcf</span> <span class="err">&lt;+</span><span class="mi">387</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x47</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048dd3</span> <span class="err">&lt;+</span><span class="mi">391</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048dd6</span> <span class="err">&lt;+</span><span class="mi">394</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048b30</span> <span class="p">&lt;</span><span class="no">_ZNSaIcEC1Ev@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048ddb</span> <span class="err">&lt;+</span><span class="mi">399</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x47</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048ddf</span> <span class="err">&lt;+</span><span class="mi">403</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x8</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048de3</span> <span class="err">&lt;+</span><span class="mi">407</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="mi">0x8049f78</span>
+   <span class="err">0</span><span class="nf">x08048deb</span> <span class="err">&lt;+</span><span class="mi">415</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x18</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048def</span> <span class="err">&lt;+</span><span class="mi">419</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048df2</span> <span class="err">&lt;+</span><span class="mi">422</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048ac0</span> <span class="p">&lt;</span><span class="no">_ZNSsC1EPKcRKSaIcE@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048df7</span> <span class="err">&lt;+</span><span class="mi">427</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x47</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048dfb</span> <span class="err">&lt;+</span><span class="mi">431</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048dfe</span> <span class="err">&lt;+</span><span class="mi">434</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048af0</span> <span class="p">&lt;</span><span class="no">_ZNSaIcED1Ev@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048e03</span> <span class="err">&lt;+</span><span class="mi">439</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x58</span><span class="err">]</span><span class="p">,</span><span class="mi">0x66</span>
+   <span class="err">0</span><span class="nf">x08048e0b</span> <span class="err">&lt;+</span><span class="mi">447</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="mi">0x8048b20</span>
+   <span class="err">0</span><span class="nf">x08048e13</span> <span class="err">&lt;+</span><span class="mi">455</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="mi">0x804b780</span>
+   <span class="err">0</span><span class="nf">x08048e1a</span> <span class="err">&lt;+</span><span class="mi">462</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048b00</span> <span class="p">&lt;</span><span class="no">_ZNSolsEPFRSoS_E@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048e1f</span> <span class="err">&lt;+</span><span class="mi">467</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="mi">0x8049fac</span>
+   <span class="err">0</span><span class="nf">x08048e27</span> <span class="err">&lt;+</span><span class="mi">475</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048e2a</span> <span class="err">&lt;+</span><span class="mi">478</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048aa0</span> <span class="p">&lt;</span><span class="no">_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048e2f</span> <span class="err">&lt;+</span><span class="mi">483</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="mi">0x8048b20</span>
+   <span class="err">0</span><span class="nf">x08048e37</span> <span class="err">&lt;+</span><span class="mi">491</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="mi">0x804b780</span>
+   <span class="err">0</span><span class="nf">x08048e3e</span> <span class="err">&lt;+</span><span class="mi">498</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048b00</span> <span class="p">&lt;</span><span class="no">_ZNSolsEPFRSoS_E@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048e43</span> <span class="err">&lt;+</span><span class="mi">503</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="mi">0x8049fd0</span>
+   <span class="err">0</span><span class="nf">x08048e4b</span> <span class="err">&lt;+</span><span class="mi">511</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048e4e</span> <span class="err">&lt;+</span><span class="mi">514</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048aa0</span> <span class="p">&lt;</span><span class="no">_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048e53</span> <span class="err">&lt;+</span><span class="mi">519</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="mi">0x8048b20</span>
+   <span class="err">0</span><span class="nf">x08048e5b</span> <span class="err">&lt;+</span><span class="mi">527</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048e5e</span> <span class="err">&lt;+</span><span class="mi">530</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048b00</span> <span class="p">&lt;</span><span class="no">_ZNSolsEPFRSoS_E@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048e63</span> <span class="err">&lt;+</span><span class="mi">535</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="mi">0x8048b20</span>
+   <span class="err">0</span><span class="nf">x08048e6b</span> <span class="err">&lt;+</span><span class="mi">543</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048e6e</span> <span class="err">&lt;+</span><span class="mi">546</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048b00</span> <span class="p">&lt;</span><span class="no">_ZNSolsEPFRSoS_E@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048e73</span> <span class="err">&lt;+</span><span class="mi">551</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="mi">0x804a010</span>
+   <span class="err">0</span><span class="nf">x08048e7b</span> <span class="err">&lt;+</span><span class="mi">559</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="mi">0x804b780</span>
+   <span class="err">0</span><span class="nf">x08048e82</span> <span class="err">&lt;+</span><span class="mi">566</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048aa0</span> <span class="p">&lt;</span><span class="no">_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048e87</span> <span class="err">&lt;+</span><span class="mi">571</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="mi">0x8048b20</span>
+   <span class="err">0</span><span class="nf">x08048e8f</span> <span class="err">&lt;+</span><span class="mi">579</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048e92</span> <span class="err">&lt;+</span><span class="mi">582</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048b00</span> <span class="p">&lt;</span><span class="no">_ZNSolsEPFRSoS_E@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048e97</span> <span class="err">&lt;+</span><span class="mi">587</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x34</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048e9b</span> <span class="err">&lt;+</span><span class="mi">591</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048e9f</span> <span class="err">&lt;+</span><span class="mi">595</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="mi">0x804b6e0</span>
+   <span class="err">0</span><span class="nf">x08048ea6</span> <span class="err">&lt;+</span><span class="mi">602</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048a10</span> <span class="p">&lt;</span><span class="no">_ZSt7getlineIcSt11char_traitsIcESaIcEERSt13basic_istreamIT_T0_ES7_RSbIS4_S5_T1_E@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048eab</span> <span class="err">&lt;+</span><span class="mi">607</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="mi">0x0</span>
+   <span class="err">0</span><span class="nf">x08048eb2</span> <span class="err">&lt;+</span><span class="mi">614</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048ad0</span> <span class="p">&lt;</span><span class="no">time@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048eb7</span> <span class="err">&lt;+</span><span class="mi">619</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x54</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048ebb</span> <span class="err">&lt;+</span><span class="mi">623</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048b10</span> <span class="p">&lt;</span><span class="no">rand@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048ec0</span> <span class="err">&lt;+</span><span class="mi">628</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">ecx</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048ec2</span> <span class="err">&lt;+</span><span class="mi">630</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">edx</span><span class="p">,</span><span class="mi">0x2aaaaaab</span>
+   <span class="err">0</span><span class="nf">x08048ec7</span> <span class="err">&lt;+</span><span class="mi">635</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">eax</span><span class="p">,</span><span class="no">ecx</span>
+   <span class="err">0</span><span class="nf">x08048ec9</span> <span class="err">&lt;+</span><span class="mi">637</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">imul</span>   <span class="no">edx</span>
+   <span class="err">0</span><span class="nf">x08048ecb</span> <span class="err">&lt;+</span><span class="mi">639</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">eax</span><span class="p">,</span><span class="no">ecx</span>
+   <span class="err">0</span><span class="nf">x08048ecd</span> <span class="err">&lt;+</span><span class="mi">641</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">sar</span>    <span class="no">eax</span><span class="p">,</span><span class="mi">0x1f</span>
+   <span class="err">0</span><span class="nf">x08048ed0</span> <span class="err">&lt;+</span><span class="mi">644</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">sub</span>    <span class="no">edx</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048ed2</span> <span class="err">&lt;+</span><span class="mi">646</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">eax</span><span class="p">,</span><span class="no">edx</span>
+   <span class="err">0</span><span class="nf">x08048ed4</span> <span class="err">&lt;+</span><span class="mi">648</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">add</span>    <span class="no">eax</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048ed6</span> <span class="err">&lt;+</span><span class="mi">650</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">add</span>    <span class="no">eax</span><span class="p">,</span><span class="no">edx</span>
+   <span class="err">0</span><span class="nf">x08048ed8</span> <span class="err">&lt;+</span><span class="mi">652</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">add</span>    <span class="no">eax</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048eda</span> <span class="err">&lt;+</span><span class="mi">654</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">edx</span><span class="p">,</span><span class="no">ecx</span>
+   <span class="err">0</span><span class="nf">x08048edc</span> <span class="err">&lt;+</span><span class="mi">656</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">sub</span>    <span class="no">edx</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048ede</span> <span class="err">&lt;+</span><span class="mi">658</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">edx</span><span class="err">+</span><span class="mi">0x1</span><span class="err">]</span>
+<span class="err">&lt;</span><span class="nf">snip</span><span class="err">&gt;</span>
+   <span class="err">0</span><span class="nf">x08049d39</span> <span class="err">&lt;+</span><span class="mi">4333</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">mov</span>    <span class="no">eax</span><span class="p">,</span><span class="no">ebx</span>
+   <span class="err">0</span><span class="nf">x08049d3b</span> <span class="err">&lt;+</span><span class="mi">4335</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">jmp</span>    <span class="mh">0x8049d3d</span> <span class="p">&lt;</span><span class="no">main</span><span class="p">+</span><span class="mi">4337</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08049d3d</span> <span class="err">&lt;+</span><span class="mi">4337</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08049d40</span> <span class="err">&lt;+</span><span class="mi">4340</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">call</span>   <span class="mh">0x8048b50</span> <span class="p">&lt;</span><span class="no">_Unwind_Resume@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08049d45</span> <span class="err">&lt;+</span><span class="mi">4345</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">lea</span>    <span class="no">esp</span><span class="p">,</span><span class="err">[</span><span class="no">ebp-0x8</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08049d48</span> <span class="err">&lt;+</span><span class="mi">4348</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">pop</span>    <span class="no">ebx</span>
+   <span class="err">0</span><span class="nf">x08049d49</span> <span class="err">&lt;+</span><span class="mi">4349</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">pop</span>    <span class="no">esi</span>
+   <span class="err">0</span><span class="nf">x08049d4a</span> <span class="err">&lt;+</span><span class="mi">4350</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">pop</span>    <span class="no">ebp</span>
+   <span class="err">0</span><span class="nf">x08049d4b</span> <span class="err">&lt;+</span><span class="mi">4351</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">ret</span>
+<span class="nf">End</span> <span class="no">of</span> <span class="no">assembler</span> <span class="no">dump.</span>
+</code></pre></div>
+
+<p>Analyzing this function is quite easy if you note the following block being repeated five times:</p>
+
+<div class="codehilite"><pre><code>   <span class="err">0</span><span class="nf">x08048ee1</span> <span class="err">&lt;+</span><span class="mi">661</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x50</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048ee5</span> <span class="err">&lt;+</span><span class="mi">665</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">cmp</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x50</span><span class="err">]</span><span class="p">,</span><span class="mi">0x1</span>
+   <span class="err">0</span><span class="nf">x08048eea</span> <span class="err">&lt;+</span><span class="mi">670</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">jne</span>    <span class="mh">0x8048f00</span> <span class="p">&lt;</span><span class="no">main</span><span class="p">+</span><span class="mi">692</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048eec</span> <span class="err">&lt;+</span><span class="mi">672</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x30</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048ef0</span> <span class="err">&lt;+</span><span class="mi">676</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048ef4</span> <span class="err">&lt;+</span><span class="mi">680</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="mi">0x804b780</span>
+   <span class="err">0</span><span class="nf">x08048efb</span> <span class="err">&lt;+</span><span class="mi">687</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048ae0</span> <span class="p">&lt;</span><span class="no">_ZStlsIcSt11char_traitsIcESaIcEERSt13basic_ostreamIT_T0_ES7_RKSbIS4_S5_T1_E@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048f00</span> <span class="err">&lt;+</span><span class="mi">692</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">cmp</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x50</span><span class="err">]</span><span class="p">,</span><span class="mi">0x2</span>
+   <span class="err">0</span><span class="nf">x08048f05</span> <span class="err">&lt;+</span><span class="mi">697</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">jne</span>    <span class="mh">0x8048f1b</span> <span class="p">&lt;</span><span class="no">main</span><span class="p">+</span><span class="mi">719</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048f07</span> <span class="err">&lt;+</span><span class="mi">699</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x2c</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048f0b</span> <span class="err">&lt;+</span><span class="mi">703</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048f0f</span> <span class="err">&lt;+</span><span class="mi">707</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="mi">0x804b780</span>
+   <span class="err">0</span><span class="nf">x08048f16</span> <span class="err">&lt;+</span><span class="mi">714</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048ae0</span> <span class="p">&lt;</span><span class="no">_ZStlsIcSt11char_traitsIcESaIcEERSt13basic_ostreamIT_T0_ES7_RKSbIS4_S5_T1_E@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048f1b</span> <span class="err">&lt;+</span><span class="mi">719</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">cmp</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x50</span><span class="err">]</span><span class="p">,</span><span class="mi">0x3</span>
+   <span class="err">0</span><span class="nf">x08048f20</span> <span class="err">&lt;+</span><span class="mi">724</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">jne</span>    <span class="mh">0x8048f36</span> <span class="p">&lt;</span><span class="no">main</span><span class="p">+</span><span class="mi">746</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048f22</span> <span class="err">&lt;+</span><span class="mi">726</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x28</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048f26</span> <span class="err">&lt;+</span><span class="mi">730</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048f2a</span> <span class="err">&lt;+</span><span class="mi">734</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="mi">0x804b780</span>
+   <span class="err">0</span><span class="nf">x08048f31</span> <span class="err">&lt;+</span><span class="mi">741</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048ae0</span> <span class="p">&lt;</span><span class="no">_ZStlsIcSt11char_traitsIcESaIcEERSt13basic_ostreamIT_T0_ES7_RKSbIS4_S5_T1_E@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048f36</span> <span class="err">&lt;+</span><span class="mi">746</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">cmp</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x50</span><span class="err">]</span><span class="p">,</span><span class="mi">0x4</span>
+   <span class="err">0</span><span class="nf">x08048f3b</span> <span class="err">&lt;+</span><span class="mi">751</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">jne</span>    <span class="mh">0x8048f51</span> <span class="p">&lt;</span><span class="no">main</span><span class="p">+</span><span class="mi">773</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048f3d</span> <span class="err">&lt;+</span><span class="mi">753</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x24</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048f41</span> <span class="err">&lt;+</span><span class="mi">757</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048f45</span> <span class="err">&lt;+</span><span class="mi">761</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="mi">0x804b780</span>
+   <span class="err">0</span><span class="nf">x08048f4c</span> <span class="err">&lt;+</span><span class="mi">768</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048ae0</span> <span class="p">&lt;</span><span class="no">_ZStlsIcSt11char_traitsIcESaIcEERSt13basic_ostreamIT_T0_ES7_RKSbIS4_S5_T1_E@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048f51</span> <span class="err">&lt;+</span><span class="mi">773</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">cmp</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x50</span><span class="err">]</span><span class="p">,</span><span class="mi">0x5</span>
+   <span class="err">0</span><span class="nf">x08048f56</span> <span class="err">&lt;+</span><span class="mi">778</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">jne</span>    <span class="mh">0x8048f6c</span> <span class="p">&lt;</span><span class="no">main</span><span class="p">+</span><span class="mi">800</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048f58</span> <span class="err">&lt;+</span><span class="mi">780</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x20</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048f5c</span> <span class="err">&lt;+</span><span class="mi">784</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048f60</span> <span class="err">&lt;+</span><span class="mi">788</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="mi">0x804b780</span>
+   <span class="err">0</span><span class="nf">x08048f67</span> <span class="err">&lt;+</span><span class="mi">795</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048ae0</span> <span class="p">&lt;</span><span class="no">_ZStlsIcSt11char_traitsIcESaIcEERSt13basic_ostreamIT_T0_ES7_RKSbIS4_S5_T1_E@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048f6c</span> <span class="err">&lt;+</span><span class="mi">800</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">cmp</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x50</span><span class="err">]</span><span class="p">,</span><span class="mi">0x6</span>
+   <span class="err">0</span><span class="nf">x08048f71</span> <span class="err">&lt;+</span><span class="mi">805</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">jne</span>    <span class="mh">0x8048f87</span> <span class="p">&lt;</span><span class="no">main</span><span class="p">+</span><span class="mi">827</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048f73</span> <span class="err">&lt;+</span><span class="mi">807</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x1c</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048f77</span> <span class="err">&lt;+</span><span class="mi">811</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048f7b</span> <span class="err">&lt;+</span><span class="mi">815</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="mi">0x804b780</span>
+   <span class="err">0</span><span class="nf">x08048f82</span> <span class="err">&lt;+</span><span class="mi">822</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048ae0</span> <span class="p">&lt;</span><span class="no">_ZStlsIcSt11char_traitsIcESaIcEERSt13basic_ostreamIT_T0_ES7_RKSbIS4_S5_T1_E@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048f87</span> <span class="err">&lt;+</span><span class="mi">827</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">cmp</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x50</span><span class="err">]</span><span class="p">,</span><span class="mi">0x3</span>
+   <span class="err">0</span><span class="nf">x08048f8c</span> <span class="err">&lt;+</span><span class="mi">832</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">jne</span>    <span class="mh">0x8048fdc</span> <span class="p">&lt;</span><span class="no">main</span><span class="p">+</span><span class="mi">912</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048f8e</span> <span class="err">&lt;+</span><span class="mi">834</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="mi">0x804a057</span>
+   <span class="err">0</span><span class="nf">x08048f96</span> <span class="err">&lt;+</span><span class="mi">842</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="mi">0x804b780</span>
+   <span class="err">0</span><span class="nf">x08048f9d</span> <span class="err">&lt;+</span><span class="mi">849</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048aa0</span> <span class="p">&lt;</span><span class="no">_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048fa2</span> <span class="err">&lt;+</span><span class="mi">854</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="mi">0x8048b20</span>
+   <span class="err">0</span><span class="nf">x08048faa</span> <span class="err">&lt;+</span><span class="mi">862</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048fad</span> <span class="err">&lt;+</span><span class="mi">865</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048b00</span> <span class="p">&lt;</span><span class="no">_ZNSolsEPFRSoS_E@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048fb2</span> <span class="err">&lt;+</span><span class="mi">870</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="mi">0x8048b20</span>
+   <span class="err">0</span><span class="nf">x08048fba</span> <span class="err">&lt;+</span><span class="mi">878</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048fbd</span> <span class="err">&lt;+</span><span class="mi">881</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048b00</span> <span class="p">&lt;</span><span class="no">_ZNSolsEPFRSoS_E@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048fc2</span> <span class="err">&lt;+</span><span class="mi">886</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">shl</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x6c</span><span class="err">]</span><span class="p">,</span><span class="mi">1</span>
+   <span class="err">0</span><span class="nf">x08048fc6</span> <span class="err">&lt;+</span><span class="mi">890</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="mi">0x804a078</span>
+   <span class="err">0</span><span class="nf">x08048fce</span> <span class="err">&lt;+</span><span class="mi">898</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x38</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048fd2</span> <span class="err">&lt;+</span><span class="mi">902</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048fd5</span> <span class="err">&lt;+</span><span class="mi">905</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x80489c0</span> <span class="p">&lt;</span><span class="no">_ZNSsaSEPKc@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048fda</span> <span class="err">&lt;+</span><span class="mi">910</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">jmp</span>    <span class="mh">0x8049053</span> <span class="p">&lt;</span><span class="no">main</span><span class="p">+</span><span class="mi">1031</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048fdc</span> <span class="err">&lt;+</span><span class="mi">912</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="mi">0x804a0a0</span>
+   <span class="err">0</span><span class="nf">x08048fe4</span> <span class="err">&lt;+</span><span class="mi">920</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="mi">0x804b780</span>
+   <span class="err">0</span><span class="nf">x08048feb</span> <span class="err">&lt;+</span><span class="mi">927</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048aa0</span> <span class="p">&lt;</span><span class="no">_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08048ff0</span> <span class="err">&lt;+</span><span class="mi">932</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">edx</span><span class="p">,</span><span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x50</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08048ff4</span> <span class="err">&lt;+</span><span class="mi">936</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="no">edx</span>
+   <span class="err">0</span><span class="nf">x08048ff8</span> <span class="err">&lt;+</span><span class="mi">940</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08048ffb</span> <span class="err">&lt;+</span><span class="mi">943</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x80489f0</span> <span class="p">&lt;</span><span class="no">_ZNSolsEi@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08049000</span> <span class="err">&lt;+</span><span class="mi">948</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="mi">0x804a0b2</span>
+   <span class="err">0</span><span class="nf">x08049008</span> <span class="err">&lt;+</span><span class="mi">956</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x0804900b</span> <span class="err">&lt;+</span><span class="mi">959</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048aa0</span> <span class="p">&lt;</span><span class="no">_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08049010</span> <span class="err">&lt;+</span><span class="mi">964</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="mi">0x8048b20</span>
+   <span class="err">0</span><span class="nf">x08049018</span> <span class="err">&lt;+</span><span class="mi">972</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x0804901b</span> <span class="err">&lt;+</span><span class="mi">975</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048b00</span> <span class="p">&lt;</span><span class="no">_ZNSolsEPFRSoS_E@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08049020</span> <span class="err">&lt;+</span><span class="mi">980</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="mi">0x804a0ca</span>
+   <span class="err">0</span><span class="nf">x08049028</span> <span class="err">&lt;+</span><span class="mi">988</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="mi">0x804b780</span>
+   <span class="err">0</span><span class="nf">x0804902f</span> <span class="err">&lt;+</span><span class="mi">995</span><span class="err">&gt;</span><span class="p">:</span>   <span class="no">call</span>   <span class="mh">0x8048aa0</span> <span class="p">&lt;</span><span class="no">_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08049034</span> <span class="err">&lt;+</span><span class="mi">1000</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="mi">0x8048b20</span>
+   <span class="err">0</span><span class="nf">x0804903c</span> <span class="err">&lt;+</span><span class="mi">1008</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x0804903f</span> <span class="err">&lt;+</span><span class="mi">1011</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">call</span>   <span class="mh">0x8048b00</span> <span class="p">&lt;</span><span class="no">_ZNSolsEPFRSoS_E@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08049044</span> <span class="err">&lt;+</span><span class="mi">1016</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">mov</span>    <span class="no">ebx</span><span class="p">,</span><span class="mi">0x0</span>
+   <span class="err">0</span><span class="nf">x08049049</span> <span class="err">&lt;+</span><span class="mi">1021</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">mov</span>    <span class="no">esi</span><span class="p">,</span><span class="mi">0x0</span>
+   <span class="err">0</span><span class="nf">x0804904e</span> <span class="err">&lt;+</span><span class="mi">1026</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">jmp</span>    <span class="mh">0x8049b00</span> <span class="p">&lt;</span><span class="no">main</span><span class="p">+</span><span class="mi">3764</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08049053</span> <span class="err">&lt;+</span><span class="mi">1031</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="mi">0x0</span>
+   <span class="err">0</span><span class="nf">x0804905a</span> <span class="err">&lt;+</span><span class="mi">1038</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">call</span>   <span class="mh">0x8048ad0</span> <span class="p">&lt;</span><span class="no">time@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x0804905f</span> <span class="err">&lt;+</span><span class="mi">1043</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4c</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08049063</span> <span class="err">&lt;+</span><span class="mi">1047</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">mov</span>    <span class="no">eax</span><span class="p">,</span><span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x54</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x08049067</span> <span class="err">&lt;+</span><span class="mi">1051</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">mov</span>    <span class="no">edx</span><span class="p">,</span><span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4c</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x0804906b</span> <span class="err">&lt;+</span><span class="mi">1055</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">mov</span>    <span class="no">ecx</span><span class="p">,</span><span class="no">edx</span>
+   <span class="err">0</span><span class="nf">x0804906d</span> <span class="err">&lt;+</span><span class="mi">1057</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">sub</span>    <span class="no">ecx</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x0804906f</span> <span class="err">&lt;+</span><span class="mi">1059</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">mov</span>    <span class="no">eax</span><span class="p">,</span><span class="no">ecx</span>
+   <span class="err">0</span><span class="nf">x08049071</span> <span class="err">&lt;+</span><span class="mi">1061</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x48</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x08049075</span> <span class="err">&lt;+</span><span class="mi">1065</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">cmp</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x48</span><span class="err">]</span><span class="p">,</span><span class="mi">0x2</span>
+   <span class="err">0</span><span class="nf">x0804907a</span> <span class="err">&lt;+</span><span class="mi">1070</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">jle</span>    <span class="mh">0x8049080</span> <span class="p">&lt;</span><span class="no">main</span><span class="p">+</span><span class="mi">1076</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x0804907c</span> <span class="err">&lt;+</span><span class="mi">1072</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">shl</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x6c</span><span class="err">]</span><span class="p">,</span><span class="mi">1</span>
+   <span class="err">0</span><span class="nf">x08049080</span> <span class="err">&lt;+</span><span class="mi">1076</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="mi">0x804a0dc</span>
+   <span class="err">0</span><span class="nf">x08049088</span> <span class="err">&lt;+</span><span class="mi">1084</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="mi">0x804b780</span>
+   <span class="err">0</span><span class="nf">x0804908f</span> <span class="err">&lt;+</span><span class="mi">1091</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">call</span>   <span class="mh">0x8048aa0</span> <span class="p">&lt;</span><span class="no">_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x08049094</span> <span class="err">&lt;+</span><span class="mi">1096</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="mi">0x8048b20</span>
+   <span class="err">0</span><span class="nf">x0804909c</span> <span class="err">&lt;+</span><span class="mi">1104</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x0804909f</span> <span class="err">&lt;+</span><span class="mi">1107</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">call</span>   <span class="mh">0x8048b00</span> <span class="p">&lt;</span><span class="no">_ZNSolsEPFRSoS_E@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x080490a4</span> <span class="err">&lt;+</span><span class="mi">1112</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x34</span><span class="err">]</span>
+   <span class="err">0</span><span class="nf">x080490a8</span> <span class="err">&lt;+</span><span class="mi">1116</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x4</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x080490ac</span> <span class="err">&lt;+</span><span class="mi">1120</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="mi">0x804b6e0</span>
+   <span class="err">0</span><span class="nf">x080490b3</span> <span class="err">&lt;+</span><span class="mi">1127</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">call</span>   <span class="mh">0x8048a10</span> <span class="p">&lt;</span><span class="no">_ZSt7getlineIcSt11char_traitsIcESaIcEERSt13basic_istreamIT_T0_ES7_RSbIS4_S5_T1_E@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x080490b8</span> <span class="err">&lt;+</span><span class="mi">1132</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">]</span><span class="p">,</span><span class="mi">0x0</span>
+   <span class="err">0</span><span class="nf">x080490bf</span> <span class="err">&lt;+</span><span class="mi">1139</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">call</span>   <span class="mh">0x8048ad0</span> <span class="p">&lt;</span><span class="no">time@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x080490c4</span> <span class="err">&lt;+</span><span class="mi">1144</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">mov</span>    <span class="no">DWORD</span> <span class="no">PTR</span> <span class="err">[</span><span class="no">esp</span><span class="err">+</span><span class="mi">0x54</span><span class="err">]</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x080490c8</span> <span class="err">&lt;+</span><span class="mi">1148</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">call</span>   <span class="mh">0x8048b10</span> <span class="p">&lt;</span><span class="no">rand@plt</span><span class="p">&gt;</span>
+   <span class="err">0</span><span class="nf">x080490cd</span> <span class="err">&lt;+</span><span class="mi">1153</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">mov</span>    <span class="no">ecx</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x080490cf</span> <span class="err">&lt;+</span><span class="mi">1155</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">mov</span>    <span class="no">edx</span><span class="p">,</span><span class="mi">0x2aaaaaab</span>
+   <span class="err">0</span><span class="nf">x080490d4</span> <span class="err">&lt;+</span><span class="mi">1160</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">mov</span>    <span class="no">eax</span><span class="p">,</span><span class="no">ecx</span>
+   <span class="err">0</span><span class="nf">x080490d6</span> <span class="err">&lt;+</span><span class="mi">1162</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">imul</span>   <span class="no">edx</span>
+   <span class="err">0</span><span class="nf">x080490d8</span> <span class="err">&lt;+</span><span class="mi">1164</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">mov</span>    <span class="no">eax</span><span class="p">,</span><span class="no">ecx</span>
+   <span class="err">0</span><span class="nf">x080490da</span> <span class="err">&lt;+</span><span class="mi">1166</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">sar</span>    <span class="no">eax</span><span class="p">,</span><span class="mi">0x1f</span>
+   <span class="err">0</span><span class="nf">x080490dd</span> <span class="err">&lt;+</span><span class="mi">1169</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">sub</span>    <span class="no">edx</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x080490df</span> <span class="err">&lt;+</span><span class="mi">1171</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">mov</span>    <span class="no">eax</span><span class="p">,</span><span class="no">edx</span>
+   <span class="err">0</span><span class="nf">x080490e1</span> <span class="err">&lt;+</span><span class="mi">1173</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">add</span>    <span class="no">eax</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x080490e3</span> <span class="err">&lt;+</span><span class="mi">1175</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">add</span>    <span class="no">eax</span><span class="p">,</span><span class="no">edx</span>
+   <span class="err">0</span><span class="nf">x080490e5</span> <span class="err">&lt;+</span><span class="mi">1177</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">add</span>    <span class="no">eax</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x080490e7</span> <span class="err">&lt;+</span><span class="mi">1179</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">mov</span>    <span class="no">edx</span><span class="p">,</span><span class="no">ecx</span>
+   <span class="err">0</span><span class="nf">x080490e9</span> <span class="err">&lt;+</span><span class="mi">1181</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">sub</span>    <span class="no">edx</span><span class="p">,</span><span class="no">eax</span>
+   <span class="err">0</span><span class="nf">x080490eb</span> <span class="err">&lt;+</span><span class="mi">1183</span><span class="err">&gt;</span><span class="p">:</span>  <span class="no">lea</span>    <span class="no">eax</span><span class="p">,</span><span class="err">[</span><span class="no">edx</span><span class="err">+</span><span class="mi">0x1</span><span class="err">]</span>
+</code></pre></div>
+
+<p>Interestingly, these five blocks compare <code>EAX</code> (contains random value for the dice face) with expected value at each instance. If the dice (or the random number generator) has <code>3-1-3-3-7</code> values in sequence, we will get the flag.</p>
+
+<p>We can solve this by patching the first instruction of each block (<code>0x08048ee1</code> in the above block) to load expected values into <code>EAX</code> rather than random values. This can be done in Python using the awesome <a href="https://github.com/Gallopsled/pwntools">pwntools</a> library as follows:</p>
+
+<div class="codehilite"><pre><code><span class="c">#!/usr/bin/env python2</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">pwn</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">e</span> <span class="o">=</span> <span class="n">ELF</span><span class="p">(</span><span class="s">&#39;bin100&#39;</span><span class="p">)</span>
+
+<span class="n">addrvals</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="mh">0x08048ee1</span><span class="p">:</span> <span class="mh">0x03</span><span class="p">,</span>
+  <span class="mh">0x080490ee</span><span class="p">:</span> <span class="mh">0x01</span><span class="p">,</span>
+  <span class="mh">0x080492fc</span><span class="p">:</span> <span class="mh">0x03</span><span class="p">,</span>
+  <span class="mh">0x080494ff</span><span class="p">:</span> <span class="mh">0x03</span><span class="p">,</span>
+  <span class="mh">0x08049744</span><span class="p">:</span> <span class="mh">0x07</span>
+<span class="p">}</span>
+<span class="k">for</span> <span class="n">addr</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">addrvals</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+  <span class="k">print</span> <span class="s">&quot;0x</span><span class="si">%08x</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">addr</span><span class="p">)</span>
+  <span class="n">e</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">addr</span><span class="p">,</span> <span class="n">asm</span><span class="p">(</span><span class="s">&quot;mov DWORD PTR [esp+0x50], </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">arch</span><span class="o">=</span><span class="s">&quot;i386&quot;</span><span class="p">))</span>
+  <span class="k">print</span> <span class="n">disasm</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">addr</span><span class="o">-</span><span class="mh">0xf</span><span class="p">,</span> <span class="mi">32</span><span class="p">))</span>
+  <span class="k">print</span>
+
+<span class="n">e</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s">&#39;bin100.patched&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>We create a mapping of expected values and addresses where these need to be written. Executing this script will create a new patched file that should then give us the flag:</p>
+
+<div class="codehilite"><pre><code><span class="nv">$ </span>./bin100.patched
+
+<span class="o">[</span>*<span class="o">]</span> ebCTF <span class="m">2013</span> - BIN100 - Dice Game
+    To get the flag you will need to throw the correct numbers.
+
+<span class="o">[</span>*<span class="o">]</span> You will first need to throw a three, press enter to throw a dice!
+
+ -------
+<span class="p">|</span>       <span class="p">|</span>
+<span class="p">|</span>   O   <span class="p">|</span>
+<span class="p">|</span>       <span class="p">|</span>
+ -------
+
+ -------
+<span class="p">|</span>     O <span class="p">|</span>
+<span class="p">|</span>   O   <span class="p">|</span>
+<span class="p">|</span> O     <span class="p">|</span>
+ -------
+
+<span class="o">[</span>*<span class="o">]</span> You rolled a three! Good!
+
+<span class="o">[</span>*<span class="o">]</span> Next you will need to throw a one, press enter to throw a dice!
+
+ -------
+<span class="p">|</span>       <span class="p">|</span>
+<span class="p">|</span>   O   <span class="p">|</span>
+<span class="p">|</span>       <span class="p">|</span>
+ -------
+
+<span class="o">[</span>*<span class="o">]</span> You rolled a one! Very nice!
+
+<span class="o">[</span>*<span class="o">]</span> Next you will need to throw another three, press enter to throw a dice!
+
+ -------
+<span class="p">|</span>       <span class="p">|</span>
+<span class="p">|</span>   O   <span class="p">|</span>
+<span class="p">|</span>       <span class="p">|</span>
+ -------
+
+ -------
+<span class="p">|</span>     O <span class="p">|</span>
+<span class="p">|</span>   O   <span class="p">|</span>
+<span class="p">|</span> O     <span class="p">|</span>
+ -------
+
+<span class="o">[</span>*<span class="o">]</span> You rolled a three! Awesome!
+
+<span class="o">[</span>*<span class="o">]</span> Throw another three <span class="k">for</span> me now, press enter to throw a dice!
+
+ -------
+<span class="p">|</span>       <span class="p">|</span>
+<span class="p">|</span>   O   <span class="p">|</span>
+<span class="p">|</span>       <span class="p">|</span>
+ -------
+
+ -------
+<span class="p">|</span>     O <span class="p">|</span>
+<span class="p">|</span>   O   <span class="p">|</span>
+<span class="p">|</span> O     <span class="p">|</span>
+ -------
+
+<span class="o">[</span>*<span class="o">]</span> You rolled another three! Almost there now!
+
+<span class="o">[</span>*<span class="o">]</span> The last character you need to roll is a seven....  <span class="o">(</span>o_O<span class="o">)</span>  Press enter to throw a dice!
+
+ -------
+<span class="p">|</span>       <span class="p">|</span>
+<span class="p">|</span>   O   <span class="p">|</span>
+<span class="p">|</span>       <span class="p">|</span>
+ -------
+
+ -------
+<span class="p">|</span> O   O <span class="p">|</span>
+<span class="p">|</span> O O O <span class="p">|</span>
+<span class="p">|</span> O   O <span class="p">|</span>
+ -------
+
+<span class="o">[</span>*<span class="o">]</span> You rolled a seven, with a six sided dice! How awesome are you?!
+
+<span class="o">[</span>*<span class="o">]</span> You rolled 3-1-3-3-7, what does that make you? ELEET! <span class="se">\o</span>/
+<span class="o">[</span>*<span class="o">]</span> Nice job, here is the flag: ebCTF<span class="o">{</span>9a9689dbd47a1fd3fc0bf17d60edf545<span class="o">}</span>
+</code></pre></div>
+
+<p>Awesome! The flag for this challenge is <strong>ebCTF{9a9689dbd47a1fd3fc0bf17d60edf545}</strong>. You can download the patched file <a href="/static/files/bin100.patched">here</a>.</p>
+
+        </div>
+        <div class="post-bottomline">
+          <hr/>
+          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-twitter"></i></a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank"><i class="fa fa-exclamation-circle"></i> issue</a> on blog reporsitory.</p>
+          <hr/>
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                
+              
+              
+                
+                
+              
+              <table>
+                <tr>
+                  <td align="left">(share via <a href="mailto:?subject=Eindbazen CTF Challenge: bin100&body=/2015/ebctf-bin100.html" target="_blank" title="Share via Email"><i class="fa fa-inbox"></i></a> <a href="http://twitter.com/intent/tweet?text=Eindbazen CTF Challenge: bin100+/2015/ebctf-bin100.html&via=7h3rAm" target="_blank" title="Share on Twitter"><i class="fa fa-twitter"></i></a> <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=/2015/ebctf-bin100.html&p[images][0]=&p[title]=Eindbazen CTF Challenge: bin100&p[summary]=This post is a writeup for the bin100 challenge (Dice Revenge) from Eindbazen CTF 2013." target="_blank" title="Share on Facebook"><i class="fa fa-facebook"></i></a> <a href="https://plus.google.com/share?url=/2015/ebctf-bin100.html" target="_blank" title="Share on Google Plus"><i class="fa fa-google-plus"></i></a>)</td>
+                  <td align="right">(tagged <a href=/tags.html#code>code</a>, <a href=/tags.html#ctf>ctf</a> and <a href=/tags.html#reversing>reversing</a>)</td>
+                </tr>
+                <tr>
+                  
+                    <td align="left"><a href="/2015/chopshop-shellcode.html"><i class="fa fa-angle-double-left"></i> Shellcode Detection Module in ChopShop <i class="fa fa-angle-double-left"></i></a></td>
+                    <td align="right"><a href="/2015/capinfos.html"><i class="fa fa-angle-double-right"></i> capinfos.py: Pure Python Pcap Statistics Tool <i class="fa fa-angle-double-right"></i></a></td>
+                  
+                </tr>
+              </table>
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading post-title">
+          Related Posts
+        </div>
+        <div class="panel-body">
+          
+            1. <a href="/2014/flowinspect.html">Flowinspect: A Network Inspection Tool</a>
+            <div class="overview-date">November 27, 2014</div>
+            <br/>
+          
+            2. <a href="/2013/malsoftware-reverse-challenge.html">reverse Challenge from Coursera's Malicious Software Course</a>
+            <div class="overview-date">August 29, 2013</div>
+            <br/>
+          
+            3. <a href="/2015/chopshop-shellcode.html">Shellcode Detection Module in ChopShop</a>
+            <div class="overview-date">March 12, 2015</div>
+            <br/>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </article>
+
+    </section>
+    <footer class="footer">
+      <b><a href="/">Ankur Tyagi</a></b> (<b><a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-at"></i>7h3rAm</a></b>)
+      <br/>
+      Last updated on October 20, 2016 (<b><a href="/rss.xml"><i class="fa fa-rss"></i> rss</a></b> <b><a href="/sitemap.xml"><i class="fa fa-sitemap"></i> sitemap</a></b>)
+      <br/>
+      Published under <b><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">by-nc-sa</a></b> and powered by <b><a alt="Linux" href="https://www.kernel.org/" target="_blank"><i class="fa fa-linux"></i></a></b>, <b><a alt="Kalpi" href="https://github.com/7h3rAm/kalpi/" target="_blank">kalpi</a></b>, <b><a href="http://git-scm.com/" target="_blank"><i class="fa fa-git"></i></a></b> and <b><a href="https://github.com/7h3rAm/7h3ram.github.io" target="_blank"><i class="fa fa-github"></i></a></b>
+    </footer>
+
+    <script src="/static/js/bootstrap/bootstrap.3.3.6.min.js"></script>
+    <script src="/static/js/raphael/raphael-min.js"></script>
+    <script src="/static/js/morrisjs/morris.min.js"></script>
+    <script src="/static/files/chart-data.js"></script>
+    <script src="/static/js/sprintf/sprintf.js"></script>
+    <script src="/static/js/underscore/underscore-min.js"></script>
+
+  </body>
+</html>

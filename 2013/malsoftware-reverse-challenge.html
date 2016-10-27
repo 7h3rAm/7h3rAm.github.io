@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>7h3rAm's Infosec Ramblings</title>
+    <meta charset="utf-8"/>
+    <meta content="7h3rAm" name="author"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+    <script src="/static/js/jquery/jquery-1.10.2.js"></script>
+    <link href="/static/css/bootstrap/bootstrap.3.3.6.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/morrisjs/morris.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/timeline/timeline.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/main.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/codehilite/zenburn.css" rel="stylesheet" type="text/css">
+    <link href="/static/images/favicon.ico" rel="icon" type="image/x-icon"/>
+
+    <!-- Google Analytics -->
+    <script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-50288765-1', '7h3rAm.github.io');
+    ga('send', 'pageview');
+    </script>
+    <script async src='http://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
+
+  </head>
+  <body id="index" class="home">
+    <header class="header">
+      <nav>
+        <ul>
+          <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+          <li><a href="/archive.html"><i class="fa fa-archive"></i> Archive</a></li>
+          <li><a href="/tags.html"><i class="fa fa-tags"></i> Tags</a></li>
+          <li><a href="/dashboard.html"><i class="fa fa-bar-chart"></i> Dashboard</a></li>
+          <li><a href="/research.html"><i class="fa fa-list-alt"></i> Research</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section id="content" class="body">
+      
+  
+  
+  <article class="post">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading post-title">
+          reverse Challenge from Coursera's Malicious Software Course
+        </div>
+        <div class="panel-body">
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                
+              
+              
+                
+                
+              
+              
+                <p class="post-date">
+                  <a href="/2013/malsoftware-reverse-ex.html"><i class="fa fa-angle-double-left"></i></a> published on August 29, 2013<a href="/2013/libnids-python-ids.html"> <i class="fa fa-angle-double-right"></i></a><br/>
+                  readtime: 13 minutes and 5 seconds (view <a href="https://raw.githubusercontent.io/7h3rAm/7h3rAm.github.io/master/_posts/malsoftware-reverse-challenge.md">source</a>)
+                </p>
+              
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+        <div class="post-summary">This post is a writeup on the reverse-challenge from recently concluded Malicious Software course on Coursera.</div>
+        <div class="post-content">
+          <p>This post follows an earlier one: <a href="/2013/malsoftware-reverse-ex.html">reverse-ex Challenge from Coursera&#8217;s
+Malicious Software Course</a>. If
+you&#8217;ve not already read it, I would suggest you do so since both these
+challenges share a few common concepts and I&#8217;ll be skipping detail if it
+has been mentioned before.</p>
+
+<p>The challenge file is hosted here:
+<a href="/static/files/reverse-challenge">reverse-challenge</a>. The first thing to do is
+to test it with <code>file</code> command:</p>
+
+<div class="codehilite"><pre><code><span class="nv">$ </span>file reverse-challenge
+reverse-challenge: ELF 32-bit LSB executable, Intel 80386, version <span class="m">1</span> <span class="o">(</span>SYSV<span class="o">)</span>, dynamically linked <span class="o">(</span>uses shared libs<span class="o">)</span>, <span class="k">for</span> GNU/Linux 2.6.24, BuildID<span class="o">[</span>  sha1<span class="o">]=</span>0x2fe5f1647532449ffeef36a7fa31ae8319c8818d, stripped
+<span class="err">$</span>
+<span class="nv">$ </span>file -i reverse-challenge
+reverse-challenge: application/x-executable<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>binary
+</code></pre></div>
+
+<p>Like the previous challenge this is also a 32bit
+<a href="http://en.wikipedia.org/wiki/Executable_and_Linkable_Format">ELF</a>
+binary, <a href="http://stackoverflow.com/questions/1993390/static-linking-vs-dynamic-linking">dynamically
+linked</a>,
+but a significant difference is that it has <a href="http://unix.stackexchange.com/questions/2969/what-are-stripped-and-not-stripped-executables-in-unix">symbols
+stripped</a>.
+This means that debugging and symbol resolution information has <em>NOT</em>
+been preserved within the binary. This loss of debugging information
+would be evident when we move on to static analysis part later but first
+let&#8217;s see what <code>strings</code> has to tell us about this file:</p>
+
+<p>If you&#8217;ve read the previous post this output would certainly delight you
+due to the discernible similarity between the two challenge files.
+Similar looking status strings and a static flag indicate that this
+program, like its predecessor, also uses some mutation mechanism (mostly
+XOR, but we will validate it soon) and a static key which we can use to
+reverse the algorithm. This time, let&#8217;s use IDA to disassemble and
+analyze this program:</p>
+
+<p><img src="/static/files/ida-start.png" alt="image" /></p>
+
+<p>Since the program includes anti-reversing techniques, I tried to avoid
+traversing the code manually and quickly searched for the section
+referencing the flag we found in <code>strings</code> output: <code>xKZl_^_XCY^CIE</code>. It
+was found that this flag was being referenced at location 0x08048694.
+Before that, there was the code responsible for performing the mutation,
+which in this case was also XOR. However, instead of using a static
+value as a key, it was being computed at runtime. The
+<code>mov dword ptr [ebp-10h], 0FAh</code> and <code>and edx, 2Bh</code> instructions at
+locations 0x08048664 and 0x08048677 respectively initialized <code>edx</code> with
+a value of 0x2a which is then used in a XOR operation at location
+0x0804867A.</p>
+
+<p><img src="/static/files/ida-checkkey.png" alt="image" /></p>
+
+<p>Thus the per-byte XOR key for this program turns out to be 0x2a. Let&#8217;s
+invoke the python script we used in previous post with <code>xKZl_^_XCY^CIE</code>
+as the flag and 0x2a as the key and reverse the simple XOR mutation
+logic:</p>
+
+<div class="codehilite"><pre><code><span class="nv">$ </span>./xor.py xKZl_^_XCY^CIE 0x2a
+xKZl_^_XCY^CIE ^ <span class="nv">0x2a</span> <span class="o">=</span>&gt; RapFuturistico
+<span class="err">$</span>
+<span class="nv">$ </span>./reverse-challenge
+Are you feeling lucky today? BRapFuturistico
+<span class="o">[</span>+<span class="o">]</span> WooT!: xKZl_^_XCY^CIE
+</code></pre></div>
+
+<p>As expected, <code>RapFuturistico</code> indeed is the right input string derived
+from reversing the XOR-based mutation logic used in the program. Like
+earlier, we could have also tried debugging this program but the
+<code>Dude, no debugging ;-)</code> string from the <code>strings</code> output indicates
+presence of anti-debugging measures and I refrained using it in this
+challenge. It can be confirmed with a simple <code>strace</code> of the program:</p>
+
+<div class="codehilite"><pre><code><span class="err">$</span> <span class="n">strace</span> <span class="p">.</span><span class="o">/</span><span class="n">reverse</span><span class="o">-</span><span class="n">challenge</span>
+<span class="n">execve</span><span class="p">(</span><span class="s">&quot;./reverse-challenge&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;./reverse-challenge&quot;</span><span class="p">],</span> <span class="p">[</span><span class="cm">/* 63 vars */</span><span class="p">])</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="p">[</span> <span class="n">Process</span> <span class="n">PID</span><span class="o">=</span><span class="mi">22998</span> <span class="n">runs</span> <span class="n">in</span> <span class="mi">32</span> <span class="n">bit</span> <span class="n">mode</span><span class="p">.</span> <span class="p">]</span>
+<span class="n">brk</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>                                  <span class="o">=</span> <span class="mh">0x9882000</span>
+<span class="n">access</span><span class="p">(</span><span class="s">&quot;/etc/ld.so.nohwcap&quot;</span><span class="p">,</span> <span class="n">F_OK</span><span class="p">)</span>      <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="n">ENOENT</span> <span class="p">(</span><span class="n">No</span> <span class="n">such</span> <span class="n">file</span> <span class="n">or</span> <span class="n">directory</span><span class="p">)</span>
+<span class="n">mmap2</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="mi">8192</span><span class="p">,</span> <span class="n">PROT_READ</span><span class="o">|</span><span class="n">PROT_WRITE</span><span class="p">,</span> <span class="n">MAP_PRIVATE</span><span class="o">|</span><span class="n">MAP_ANONYMOUS</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mh">0xfffffffff76f5000</span>
+<span class="n">access</span><span class="p">(</span><span class="s">&quot;/etc/ld.so.preload&quot;</span><span class="p">,</span> <span class="n">R_OK</span><span class="p">)</span>      <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="n">ENOENT</span> <span class="p">(</span><span class="n">No</span> <span class="n">such</span> <span class="n">file</span> <span class="n">or</span> <span class="n">directory</span><span class="p">)</span>
+<span class="n">open</span><span class="p">(</span><span class="s">&quot;/etc/ld.so.cache&quot;</span><span class="p">,</span> <span class="n">O_RDONLY</span><span class="o">|</span><span class="n">O_CLOEXEC</span><span class="p">)</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">fstat64</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="p">{</span><span class="n">st_mode</span><span class="o">=</span><span class="n">S_IFREG</span><span class="o">|</span><span class="mo">0644</span><span class="p">,</span> <span class="n">st_size</span><span class="o">=</span><span class="mi">156058</span><span class="p">,</span> <span class="p">...})</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">mmap2</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="mi">156058</span><span class="p">,</span> <span class="n">PROT_READ</span><span class="p">,</span> <span class="n">MAP_PRIVATE</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mh">0xfffffffff76ce000</span>
+<span class="n">close</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>                                <span class="o">=</span> <span class="mi">0</span>
+<span class="n">access</span><span class="p">(</span><span class="s">&quot;/etc/ld.so.nohwcap&quot;</span><span class="p">,</span> <span class="n">F_OK</span><span class="p">)</span>      <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="n">ENOENT</span> <span class="p">(</span><span class="n">No</span> <span class="n">such</span> <span class="n">file</span> <span class="n">or</span> <span class="n">directory</span><span class="p">)</span>
+<span class="n">open</span><span class="p">(</span><span class="s">&quot;/lib/i386-linux-gnu/libc.so.6&quot;</span><span class="p">,</span> <span class="n">O_RDONLY</span><span class="o">|</span><span class="n">O_CLOEXEC</span><span class="p">)</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">read</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s">&quot;</span><span class="se">\177</span><span class="s">ELF</span><span class="se">\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\000</span><span class="s">0</span><span class="se">\226\1\000</span><span class="s">4</span><span class="se">\0\0\0</span><span class="s">&quot;</span><span class="p">...,</span> <span class="mi">512</span><span class="p">)</span> <span class="o">=</span> <span class="mi">512</span>
+<span class="n">fstat64</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="p">{</span><span class="n">st_mode</span><span class="o">=</span><span class="n">S_IFREG</span><span class="o">|</span><span class="mo">0755</span><span class="p">,</span> <span class="n">st_size</span><span class="o">=</span><span class="mi">1734120</span><span class="p">,</span> <span class="p">...})</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">mmap2</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="mi">1743580</span><span class="p">,</span> <span class="n">PROT_READ</span><span class="o">|</span><span class="n">PROT_EXEC</span><span class="p">,</span> <span class="n">MAP_PRIVATE</span><span class="o">|</span><span class="n">MAP_DENYWRITE</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mh">0xfffffffff7524000</span>
+<span class="n">mmap2</span><span class="p">(</span><span class="mh">0xf76c8000</span><span class="p">,</span> <span class="mi">12288</span><span class="p">,</span> <span class="n">PROT_READ</span><span class="o">|</span><span class="n">PROT_WRITE</span><span class="p">,</span> <span class="n">MAP_PRIVATE</span><span class="o">|</span><span class="n">MAP_FIXED</span><span class="o">|</span><span class="n">MAP_DENYWRITE</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mh">0x1a4</span><span class="p">)</span> <span class="o">=</span> <span class="mh">0xfffffffff76c8000</span>
+<span class="n">mmap2</span><span class="p">(</span><span class="mh">0xf76cb000</span><span class="p">,</span> <span class="mi">10972</span><span class="p">,</span> <span class="n">PROT_READ</span><span class="o">|</span><span class="n">PROT_WRITE</span><span class="p">,</span> <span class="n">MAP_PRIVATE</span><span class="o">|</span><span class="n">MAP_FIXED</span><span class="o">|</span><span class="n">MAP_ANONYMOUS</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mh">0xfffffffff76cb000</span>
+<span class="n">close</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>                                <span class="o">=</span> <span class="mi">0</span>
+<span class="n">mmap2</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="mi">4096</span><span class="p">,</span> <span class="n">PROT_READ</span><span class="o">|</span><span class="n">PROT_WRITE</span><span class="p">,</span> <span class="n">MAP_PRIVATE</span><span class="o">|</span><span class="n">MAP_ANONYMOUS</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mh">0xfffffffff7523000</span>
+<span class="n">set_thread_area</span><span class="p">(</span><span class="mh">0xffbd0af0</span><span class="p">)</span>             <span class="o">=</span> <span class="mi">0</span>
+<span class="n">mprotect</span><span class="p">(</span><span class="mh">0xf76c8000</span><span class="p">,</span> <span class="mi">8192</span><span class="p">,</span> <span class="n">PROT_READ</span><span class="p">)</span>   <span class="o">=</span> <span class="mi">0</span>
+<span class="n">mprotect</span><span class="p">(</span><span class="mh">0x8049000</span><span class="p">,</span> <span class="mi">4096</span><span class="p">,</span> <span class="n">PROT_READ</span><span class="p">)</span>    <span class="o">=</span> <span class="mi">0</span>
+<span class="n">mprotect</span><span class="p">(</span><span class="mh">0xf7718000</span><span class="p">,</span> <span class="mi">4096</span><span class="p">,</span> <span class="n">PROT_READ</span><span class="p">)</span>   <span class="o">=</span> <span class="mi">0</span>
+<span class="n">munmap</span><span class="p">(</span><span class="mh">0xf76ce000</span><span class="p">,</span> <span class="mi">156058</span><span class="p">)</span>              <span class="o">=</span> <span class="mi">0</span>
+<span class="n">ptrace</span><span class="p">(</span><span class="n">PTRACE_TRACEME</span><span class="p">,</span> <span class="mi">4290579748</span><span class="p">,</span> <span class="mh">0xffbd0cb4</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="n">EPERM</span> <span class="p">(</span><span class="n">Operation</span> <span class="n">not</span> <span class="n">permitted</span><span class="p">)</span>
+<span class="n">fstat64</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">{</span><span class="n">st_mode</span><span class="o">=</span><span class="n">S_IFCHR</span><span class="o">|</span><span class="mo">0620</span><span class="p">,</span> <span class="n">st_rdev</span><span class="o">=</span><span class="n">makedev</span><span class="p">(</span><span class="mi">136</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">...})</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">mmap2</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="mi">4096</span><span class="p">,</span> <span class="n">PROT_READ</span><span class="o">|</span><span class="n">PROT_WRITE</span><span class="p">,</span> <span class="n">MAP_PRIVATE</span><span class="o">|</span><span class="n">MAP_ANONYMOUS</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mh">0xfffffffff76f4000</span>
+<span class="n">write</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s">&quot;Dude, no debugging ;-)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="mi">23</span><span class="n">Dude</span><span class="p">,</span> <span class="n">no</span> <span class="n">debugging</span> <span class="p">;</span><span class="o">-</span><span class="p">)</span>
+<span class="p">)</span> <span class="o">=</span> <span class="mi">23</span>
+<span class="n">exit_group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>                           <span class="o">=</span> <span class="o">?</span>
+</code></pre></div>
+
+<p>The program stopped since the <code>ptrace</code> system call returned <code>EPERM</code>
+error code which indicates that the <code>PTRACE_TRACEME</code> operation is not
+permitted. This is a very commonly used anti-debugging method and it
+works since such program already invoke <code>ptrace</code> over them before
+executing any other functions and as such when a user manually tries to
+debug it (via <code>ptrace</code> calls), it fails since a trace session is already
+active on the program and another cannot be initialized.</p>
+
+<p>Anyways, like the previous challenge, this was also completed without
+actually debugging the program. However, there are still ways in which
+we can bypass the anti-debugging mechanisms and analyze the program via
+dynamic analysis only. Rest on this in a future post. Stay tuned.</p>
+
+        </div>
+        <div class="post-bottomline">
+          <hr/>
+          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-twitter"></i></a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank"><i class="fa fa-exclamation-circle"></i> issue</a> on blog reporsitory.</p>
+          <hr/>
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                
+              
+              
+                
+                
+              
+              <table>
+                <tr>
+                  <td align="left">(share via <a href="mailto:?subject=reverse Challenge from Coursera's Malicious Software Course&body=/2013/malsoftware-reverse-challenge.html" target="_blank" title="Share via Email"><i class="fa fa-inbox"></i></a> <a href="http://twitter.com/intent/tweet?text=reverse Challenge from Coursera's Malicious Software Course+/2013/malsoftware-reverse-challenge.html&via=7h3rAm" target="_blank" title="Share on Twitter"><i class="fa fa-twitter"></i></a> <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=/2013/malsoftware-reverse-challenge.html&p[images][0]=&p[title]=reverse Challenge from Coursera's Malicious Software Course&p[summary]=This post is a writeup on the reverse-challenge from recently concluded Malicious Software course on Coursera." target="_blank" title="Share on Facebook"><i class="fa fa-facebook"></i></a> <a href="https://plus.google.com/share?url=/2013/malsoftware-reverse-challenge.html" target="_blank" title="Share on Google Plus"><i class="fa fa-google-plus"></i></a>)</td>
+                  <td align="right">(tagged <a href=/tags.html#writeups>writeups</a> and <a href=/tags.html#reversing>reversing</a>)</td>
+                </tr>
+                <tr>
+                  
+                    <td align="left"><a href="/2013/malsoftware-reverse-ex.html"><i class="fa fa-angle-double-left"></i> reverse-ex Challenge from Coursera's Malicious Software Course <i class="fa fa-angle-double-left"></i></a></td>
+                    <td align="right"><a href="/2013/libnids-python-ids.html"><i class="fa fa-angle-double-right"></i> Developing a Minimal IPS from Scratch <i class="fa fa-angle-double-right"></i></a></td>
+                  
+                </tr>
+              </table>
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading post-title">
+          Related Posts
+        </div>
+        <div class="panel-body">
+          
+            1. <a href="/2016/flareon2014-15.html">FireEye FLARE On 2014 Challenges (1-5)</a>
+            <div class="overview-date">February 18, 2016</div>
+            <br/>
+          
+            2. <a href="/2014/little-pdf.html">Little PDF Puzzle from Didier Stevens</a>
+            <div class="overview-date">September 18, 2014</div>
+            <br/>
+          
+            3. <a href="/2014/confidence-ds-ctf-stego50.html">CONFidence DS CTF Teaser: Stegano50</a>
+            <div class="overview-date">May 6, 2014</div>
+            <br/>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </article>
+
+    </section>
+    <footer class="footer">
+      <b><a href="/">Ankur Tyagi</a></b> (<b><a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-at"></i>7h3rAm</a></b>)
+      <br/>
+      Last updated on October 20, 2016 (<b><a href="/rss.xml"><i class="fa fa-rss"></i> rss</a></b> <b><a href="/sitemap.xml"><i class="fa fa-sitemap"></i> sitemap</a></b>)
+      <br/>
+      Published under <b><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">by-nc-sa</a></b> and powered by <b><a alt="Linux" href="https://www.kernel.org/" target="_blank"><i class="fa fa-linux"></i></a></b>, <b><a alt="Kalpi" href="https://github.com/7h3rAm/kalpi/" target="_blank">kalpi</a></b>, <b><a href="http://git-scm.com/" target="_blank"><i class="fa fa-git"></i></a></b> and <b><a href="https://github.com/7h3rAm/7h3ram.github.io" target="_blank"><i class="fa fa-github"></i></a></b>
+    </footer>
+
+    <script src="/static/js/bootstrap/bootstrap.3.3.6.min.js"></script>
+    <script src="/static/js/raphael/raphael-min.js"></script>
+    <script src="/static/js/morrisjs/morris.min.js"></script>
+    <script src="/static/files/chart-data.js"></script>
+    <script src="/static/js/sprintf/sprintf.js"></script>
+    <script src="/static/js/underscore/underscore-min.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,113 @@
+{%extends "base.html"%}
+{%block main%}
+  {%set curr = post.title%}
+  {%set total = posts|count%}
+  <article class="post">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading post-title">
+          {{post.title}}
+        </div>
+        <div class="panel-body">
+          {%for post in posts%}
+            {%if post.title == curr%}
+              {%if loop.index0 > 0%}
+                {%set next = posts[loop.index0-1].url%}
+                {%set nexttitle = posts[loop.index0-1].title%}
+              {%else%}
+                {%set next = None%}
+                {%set nexttitle = None%}
+              {%endif%}
+              {%if loop.index0+1 < total%}
+                {%set prev = posts[loop.index0+1].url%}
+                {%set prevtitle = posts[loop.index0+1].title%}
+              {%else%}
+                {%set prev = None%}
+                {%set prevtitle = None%}
+              {%endif%}
+              {%if prev and next%}
+                <p class="post-date">
+                  <a href="{{baseurl}}{{prev}}"><i class="fa fa-angle-double-left"></i></a> published on {{post.pretty_date}}<a href="{{baseurl}}{{next}}"> <i class="fa fa-angle-double-right"></i></a><br/>
+                  readtime: {{post.readtimestr}} (view <a href="{{mdbaseurl}}{{post.filename}}">source</a>)
+                </p>
+              {%elif not prev%}
+                <p class="post-date">
+                  published on {{post.pretty_date}}<a href="{{baseurl}}{{next}}"> <i class="fa fa-angle-double-right"></i></a><br/>
+                  readtime: {{post.readtimestr}} (view <a href="{{mdbaseurl}}{{post.filename}}">source</a>)
+                </p>
+              {%elif not next%}
+                <p class="post-date">
+                  <a href="{{baseurl}}{{prev}}"><i class="fa fa-angle-double-left"></i></a> published on {{post.pretty_date}}<br/>
+                  readtime: {{post.readtimestr}} (view <a href="{{mdbaseurl}}{{post.filename}}">source</a>)
+                </p>
+              {%endif%}
+            {%endif%}
+          {%endfor%}
+        <div class="post-summary">{{post.summary}}</div>
+        <div class="post-content">
+          {{post.content}}
+        </div>
+        <div class="post-bottomline">
+          <hr/>
+          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-twitter"></i></a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank"><i class="fa fa-exclamation-circle"></i> issue</a> on blog reporsitory.</p>
+          <hr/>
+          {%for post in posts%}
+            {%if post.title == curr%}
+              {%if loop.index0 > 0%}
+                {%set next = posts[loop.index0-1].url%}
+                {%set nexttitle = posts[loop.index0-1].title%}
+              {%else%}
+                {%set next = None%}
+                {%set nexttitle = None%}
+              {%endif%}
+              {%if loop.index0+1 < total%}
+                {%set prev = posts[loop.index0+1].url%}
+                {%set prevtitle = posts[loop.index0+1].title%}
+              {%else%}
+                {%set prev = None%}
+                {%set prevtitle = None%}
+              {%endif%}
+              <table>
+                <tr>
+                  <td align="left">(share via <a href="mailto:?subject={{post.title}}&body={{baseurl}}{{post.url}}" target="_blank" title="Share via Email"><i class="fa fa-inbox"></i></a> <a href="http://twitter.com/intent/tweet?text={{post.title}}+{{baseurl}}{{post.url}}&via=7h3rAm" target="_blank" title="Share on Twitter"><i class="fa fa-twitter"></i></a> <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={{baseurl}}{{post.url}}&p[images][0]=&p[title]={{post.title}}&p[summary]={{post.summary}}" target="_blank" title="Share on Facebook"><i class="fa fa-facebook"></i></a> <a href="https://plus.google.com/share?url={{baseurl}}{{post.url}}" target="_blank" title="Share on Google Plus"><i class="fa fa-google-plus"></i></a>)</td>
+                  <td align="right">(tagged {{post.tags|joinlistand("/tags.html#")}})</td>
+                </tr>
+                <tr>
+                  {%if prev and next%}
+                    <td align="left"><a href="{{baseurl}}{{prev}}"><i class="fa fa-angle-double-left"></i> {{prevtitle}} <i class="fa fa-angle-double-left"></i></a></td>
+                    <td align="right"><a href="{{baseurl}}{{next}}"><i class="fa fa-angle-double-right"></i> {{nexttitle}} <i class="fa fa-angle-double-right"></i></a></td>
+                  {%elif not next%}
+                    <td align="left" colspan="2"><a href="{{baseurl}}{{prev}}"><i class="fa fa-angle-double-left"></i> {{prevtitle}} <i class="fa fa-angle-double-left"></i></a></td>
+                  {%elif not prev%}
+                    <td align="right" colspan="2"><a href="{{baseurl}}{{next}}"><i class="fa fa-angle-double-right"></i> {{nexttitle}} <i class="fa fa-angle-double-right"></i></a></td>
+                  {%endif%}
+                </tr>
+              </table>
+            {%endif%}
+          {%endfor%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading post-title">
+          Related Posts
+        </div>
+        <div class="panel-body">
+          {%for post in related_posts%}
+            {{loop.index}}. <a href="{{baseurl}}{{post[1]}}">{{post[0]}}</a>
+            <div class="overview-date">{{post[2]}}</div>
+            <br/>
+          {%endfor%}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </article>
+{%endblock%}

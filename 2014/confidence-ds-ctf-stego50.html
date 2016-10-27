@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>7h3rAm's Infosec Ramblings</title>
+    <meta charset="utf-8"/>
+    <meta content="7h3rAm" name="author"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+    <script src="/static/js/jquery/jquery-1.10.2.js"></script>
+    <link href="/static/css/bootstrap/bootstrap.3.3.6.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/morrisjs/morris.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/timeline/timeline.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/main.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/codehilite/zenburn.css" rel="stylesheet" type="text/css">
+    <link href="/static/images/favicon.ico" rel="icon" type="image/x-icon"/>
+
+    <!-- Google Analytics -->
+    <script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-50288765-1', '7h3rAm.github.io');
+    ga('send', 'pageview');
+    </script>
+    <script async src='http://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
+
+  </head>
+  <body id="index" class="home">
+    <header class="header">
+      <nav>
+        <ul>
+          <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+          <li><a href="/archive.html"><i class="fa fa-archive"></i> Archive</a></li>
+          <li><a href="/tags.html"><i class="fa fa-tags"></i> Tags</a></li>
+          <li><a href="/dashboard.html"><i class="fa fa-bar-chart"></i> Dashboard</a></li>
+          <li><a href="/research.html"><i class="fa fa-list-alt"></i> Research</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section id="content" class="body">
+      
+  
+  
+  <article class="post">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading post-title">
+          CONFidence DS CTF Teaser: Stegano50
+        </div>
+        <div class="panel-body">
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                
+              
+              
+                
+                
+              
+              
+                <p class="post-date">
+                  <a href="/2014/northrop-challenge.html"><i class="fa fa-angle-double-left"></i></a> published on May 6, 2014<a href="/2014/pcapgentools-contentype-patch.html"> <i class="fa fa-angle-double-right"></i></a><br/>
+                  readtime: 11 minutes and 39 seconds (view <a href="https://raw.githubusercontent.io/7h3rAm/7h3rAm.github.io/master/_posts/confidence-ds-ctf-stego50.md">source</a>)
+                </p>
+              
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+        <div class="post-summary">This post discusses how I completed the stego50 challenge from Dragon Sector CTF team. It is a simplistic challenge but a good source for learning about PDF internals.</div>
+        <div class="post-content">
+          <p>The challenge consists a <a href="/static/files/stegano50.pdf">pdf</a> file. Let&#8217;s see what <code>exiftool</code> tells us about it:</p>
+
+<div class="codehilite"><pre><code><span class="nv">$ </span>exiftool stegano50.pdf
+ExifTool Version Number         : 9.46
+File Name                       : stegano50.pdf
+Directory                       : .
+File Size                       : <span class="m">38</span> kB
+File Modification Date/Time     : 2014:05:06 22:08:58+05:30
+File Access Date/Time           : 2014:05:06 20:41:54+05:30
+File Inode Change Date/Time     : 2014:05:06 13:05:07+05:30
+File Permissions                : rw-rw-r--
+File Type                       : PDF
+MIME Type                       : application/pdf
+PDF Version                     : 1.5
+Linearized                      : No
+Page Count                      : 1
+Page Mode                       : UseOutlines
+Author                          : KeiDii
+Title                           : polar bear during a snow storm
+Subject                         : &lt;<span class="p">|</span> tr AB .- <span class="p">|</span>&gt;
+Creator                         : LaTeX /o/
+Producer                        : find mr.morse text
+Keywords                        : Could, this, be, the, flag?, :, <span class="nv">Tm9wZSAsIG5vdCBoZXJlIDspCg</span><span class="o">==</span>
+Create Date                     : 2014:03:13 22:33:50+01:00
+Modify Date                     : 2014:03:13 22:33:50+01:00
+Trapped                         : False
+PTEX Fullbanner                 : This is pdfTeX, Version 3.1415926-2.5-1.40.14 <span class="o">(</span>TeX Live 2013/Debian<span class="o">)</span> kpathsea version 6.1.1
+</code></pre></div>
+
+<p>All attributes seem standard except for <code>Subject</code>, <code>Producer</code> and <code>Keywords</code>. Since the <code>Keywords</code> obviously hints at a flag like string which seems to be base64 encoded, the first thing I tried was to decode it:</p>
+
+<div class="codehilite"><pre><code><span class="nv">$ </span><span class="nb">echo</span> -n <span class="s2">&quot;Tm9wZSAsIG5vdCBoZXJlIDspCg==&quot;</span> <span class="p">|</span> base64 -d - 
+Nope , not here <span class="p">;</span><span class="o">)</span>
+</code></pre></div>
+
+<p>Well, that explains. Let&#8217;s focus on <code>Subject</code> and <code>Producer</code> once again. These definitely hint towards a blob of text that might need Morse code decoding. The <code>Subject</code> hints towards translating A and B to dot and dash and it obviously points to the fact that the blob of text has to be all As and Bs. Let&#8217;s view the pdf in Firefox via its <a href="https://mozilla.github.io/pdf.js/">pdf.js</a> renderer:</p>
+
+<p><img src="/static/files/stego50_pdfjs.png" alt="stego50_pdfjs.png" /></p>
+
+<p>There it is! A <code>div</code> element has the text blob we need. Let&#8217;s extract and translate it as per the hint:</p>
+
+<div class="codehilite"><pre><code><span class="nv">$ </span><span class="nb">echo</span> -n <span class="s2">&quot;BABA BBB BA BBA ABA AB B AAB ABAA AB B AA BBB BA AAA BBAABB AABA ABAA AB BBA BBBAAA ABBBB BA AAAB ABBBB AAAAA ABBBB BAAA ABAA AAABB BB AAABB AAAAA AAAAA AAAAB BBA AAABB&quot;</span> <span class="p">|</span> tr AB .-
+-.-. --- -. --. .-. .- - ..- .-.. .- - .. --- -. ... --..-- ..-. .-.. .- --. ---... .---- -. ...- .---- ..... .---- -... .-.. ...-- -- ...-- ..... ..... ....- --. ...--
+</code></pre></div>
+
+<p>Alright, we now have some Morse code that has to be decoded. There are <a href="http://mattfedder.com/cgi-bin/morse.pl">several</a> <a href="http://morsecode.scphillips.com/translator.html">online</a> <a href="http://www.onlineconversion.com/morse_code.htm">decoders</a> <a href="http://www.unit-conversion.info/texttools/morse-code/">available</a>, however, I tend to use Python for such tasks. Here is a snippet of Python code to help us with encode and decode tasks:</p>
+
+<div class="codehilite"><pre><code><span class="c">#!/usr/bin/env python</span>
+
+<span class="k">class</span> <span class="nc">morse</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="c"># https://en.wikipedia.org/wiki/Morse_code</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">tocode</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">({</span>
+      <span class="s">&#39;A&#39;</span><span class="p">:</span> <span class="s">&#39;.-&#39;</span><span class="p">,</span>
+      <span class="s">&#39;B&#39;</span><span class="p">:</span> <span class="s">&#39;-...&#39;</span><span class="p">,</span>
+      <span class="s">&#39;C&#39;</span><span class="p">:</span> <span class="s">&#39;-.-.&#39;</span><span class="p">,</span>
+      <span class="s">&#39;D&#39;</span><span class="p">:</span> <span class="s">&#39;-..&#39;</span><span class="p">,</span>
+      <span class="s">&#39;E&#39;</span><span class="p">:</span> <span class="s">&#39;.&#39;</span><span class="p">,</span>
+      <span class="s">&#39;F&#39;</span><span class="p">:</span> <span class="s">&#39;..-.&#39;</span><span class="p">,</span>
+      <span class="s">&#39;G&#39;</span><span class="p">:</span> <span class="s">&#39;--.&#39;</span><span class="p">,</span>
+      <span class="s">&#39;H&#39;</span><span class="p">:</span> <span class="s">&#39;....&#39;</span><span class="p">,</span>
+      <span class="s">&#39;I&#39;</span><span class="p">:</span> <span class="s">&#39;..&#39;</span><span class="p">,</span>
+      <span class="s">&#39;J&#39;</span><span class="p">:</span> <span class="s">&#39;.---&#39;</span><span class="p">,</span>
+      <span class="s">&#39;K&#39;</span><span class="p">:</span> <span class="s">&#39;-.-&#39;</span><span class="p">,</span>
+      <span class="s">&#39;L&#39;</span><span class="p">:</span> <span class="s">&#39;.-..&#39;</span><span class="p">,</span>
+      <span class="s">&#39;M&#39;</span><span class="p">:</span> <span class="s">&#39;--&#39;</span><span class="p">,</span>
+      <span class="s">&#39;N&#39;</span><span class="p">:</span> <span class="s">&#39;-.&#39;</span><span class="p">,</span>
+      <span class="s">&#39;O&#39;</span><span class="p">:</span> <span class="s">&#39;---&#39;</span><span class="p">,</span>
+      <span class="s">&#39;P&#39;</span><span class="p">:</span> <span class="s">&#39;.--.&#39;</span><span class="p">,</span>
+      <span class="s">&#39;Q&#39;</span><span class="p">:</span> <span class="s">&#39;--.-&#39;</span><span class="p">,</span>
+      <span class="s">&#39;R&#39;</span><span class="p">:</span> <span class="s">&#39;.-.&#39;</span><span class="p">,</span>
+      <span class="s">&#39;S&#39;</span><span class="p">:</span> <span class="s">&#39;...&#39;</span><span class="p">,</span>
+      <span class="s">&#39;T&#39;</span><span class="p">:</span> <span class="s">&#39;-&#39;</span><span class="p">,</span>
+      <span class="s">&#39;U&#39;</span><span class="p">:</span> <span class="s">&#39;..-&#39;</span><span class="p">,</span>
+      <span class="s">&#39;V&#39;</span><span class="p">:</span> <span class="s">&#39;...-&#39;</span><span class="p">,</span>
+      <span class="s">&#39;W&#39;</span><span class="p">:</span> <span class="s">&#39;.--&#39;</span><span class="p">,</span>
+      <span class="s">&#39;X&#39;</span><span class="p">:</span> <span class="s">&#39;-..-&#39;</span><span class="p">,</span>
+      <span class="s">&#39;Y&#39;</span><span class="p">:</span> <span class="s">&#39;-.--&#39;</span><span class="p">,</span>
+      <span class="s">&#39;Z&#39;</span><span class="p">:</span> <span class="s">&#39;--..&#39;</span><span class="p">,</span>
+      <span class="s">&#39;0&#39;</span><span class="p">:</span> <span class="s">&#39;-----&#39;</span><span class="p">,</span>
+      <span class="s">&#39;1&#39;</span><span class="p">:</span> <span class="s">&#39;.----&#39;</span><span class="p">,</span>
+      <span class="s">&#39;2&#39;</span><span class="p">:</span> <span class="s">&#39;..---&#39;</span><span class="p">,</span>
+      <span class="s">&#39;3&#39;</span><span class="p">:</span> <span class="s">&#39;...--&#39;</span><span class="p">,</span>
+      <span class="s">&#39;4&#39;</span><span class="p">:</span> <span class="s">&#39;....-&#39;</span><span class="p">,</span>
+      <span class="s">&#39;5&#39;</span><span class="p">:</span> <span class="s">&#39;.....&#39;</span><span class="p">,</span>
+      <span class="s">&#39;6&#39;</span><span class="p">:</span> <span class="s">&#39;-....&#39;</span><span class="p">,</span>
+      <span class="s">&#39;7&#39;</span><span class="p">:</span> <span class="s">&#39;--...&#39;</span><span class="p">,</span>
+      <span class="s">&#39;8&#39;</span><span class="p">:</span> <span class="s">&#39;---..&#39;</span><span class="p">,</span>
+      <span class="s">&#39;9&#39;</span><span class="p">:</span> <span class="s">&#39;----.&#39;</span><span class="p">,</span>
+      <span class="s">&#39;.&#39;</span><span class="p">:</span> <span class="s">&#39;.-.-.-&#39;</span><span class="p">,</span>
+      <span class="s">&#39;,&#39;</span><span class="p">:</span> <span class="s">&#39;--..--&#39;</span><span class="p">,</span>
+      <span class="s">&#39;?&#39;</span><span class="p">:</span> <span class="s">&#39;..--..&#39;</span><span class="p">,</span>
+      <span class="s">&#39;</span><span class="se">\&#39;</span><span class="s">&#39;</span><span class="p">:</span> <span class="s">&#39;.----.&#39;</span><span class="p">,</span>
+      <span class="s">&#39;!&#39;</span><span class="p">:</span> <span class="s">&#39;-.-.-- &#39;</span><span class="p">,</span>
+      <span class="s">&#39;/&#39;</span><span class="p">:</span> <span class="s">&#39;-..-.&#39;</span><span class="p">,</span>
+      <span class="s">&#39;(&#39;</span><span class="p">:</span> <span class="s">&#39;-.--.&#39;</span><span class="p">,</span>
+      <span class="s">&#39;)&#39;</span><span class="p">:</span> <span class="s">&#39;-.--.-&#39;</span><span class="p">,</span>
+      <span class="s">&#39;&amp;&#39;</span><span class="p">:</span> <span class="s">&#39;.-...&#39;</span><span class="p">,</span>
+      <span class="s">&#39;:&#39;</span><span class="p">:</span> <span class="s">&#39;---...&#39;</span><span class="p">,</span>
+      <span class="s">&#39;;&#39;</span><span class="p">:</span> <span class="s">&#39;-.-.-.&#39;</span><span class="p">,</span>
+      <span class="s">&#39;=&#39;</span><span class="p">:</span> <span class="s">&#39;-...-&#39;</span><span class="p">,</span>
+      <span class="s">&#39;+&#39;</span><span class="p">:</span> <span class="s">&#39;.-.-.&#39;</span><span class="p">,</span>
+      <span class="s">&#39;-&#39;</span><span class="p">:</span> <span class="s">&#39;-....-&#39;</span><span class="p">,</span>
+      <span class="s">&#39;_&#39;</span><span class="p">:</span> <span class="s">&#39;..--.-&#39;</span><span class="p">,</span>
+      <span class="s">&#39;&quot;&#39;</span><span class="p">:</span> <span class="s">&#39;.-..-.&#39;</span><span class="p">,</span>
+      <span class="s">&#39;$&#39;</span><span class="p">:</span> <span class="s">&#39;...-..-&#39;</span><span class="p">,</span>
+      <span class="s">&#39;@&#39;</span><span class="p">:</span> <span class="s">&#39;.--.-.&#39;</span>
+    <span class="p">})</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">fromcode</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">v</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tocode</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+
+  <span class="k">def</span> <span class="nf">to_morse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tocode</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">i</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tocode</span><span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">upper</span><span class="p">()])</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="n">i</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">from_morse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">):</span>
+      <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fromcode</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">i</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fromcode</span><span class="p">[</span><span class="n">c</span><span class="p">])</span>
+    <span class="k">return</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Let&#8217;s quickly use this script from within <code>iPython</code> and decode the Morse encoded message:</p>
+
+<div class="codehilite"><pre><code><span class="err">$</span> <span class="n">ipython</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">banner</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">morse</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">morse</span> <span class="o">=</span> <span class="n">morse</span><span class="o">.</span><span class="n">morse</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">message</span> <span class="o">=</span> <span class="s">&quot;-.-. --- -. --. .-. .- - ..- .-.. .- - .. --- -. ... --..-- ..-. .-.. .- --. ---... .---- -. ...- .---- ..... .---- -... .-.. ...-- -- ...-- ..... ..... ....- --. ...--&quot;</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">morse</span><span class="o">.</span><span class="n">from_morse</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+<span class="s">&#39;CONGRATULATIONS,FLAG:1NV151BL3M3554G3&#39;</span>
+<span class="o">&gt;&gt;&gt;</span>
+</code></pre></div>
+
+<p>There we go!</p>
+
+        </div>
+        <div class="post-bottomline">
+          <hr/>
+          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-twitter"></i></a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank"><i class="fa fa-exclamation-circle"></i> issue</a> on blog reporsitory.</p>
+          <hr/>
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                
+              
+              
+                
+                
+              
+              <table>
+                <tr>
+                  <td align="left">(share via <a href="mailto:?subject=CONFidence DS CTF Teaser: Stegano50&body=/2014/confidence-ds-ctf-stego50.html" target="_blank" title="Share via Email"><i class="fa fa-inbox"></i></a> <a href="http://twitter.com/intent/tweet?text=CONFidence DS CTF Teaser: Stegano50+/2014/confidence-ds-ctf-stego50.html&via=7h3rAm" target="_blank" title="Share on Twitter"><i class="fa fa-twitter"></i></a> <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=/2014/confidence-ds-ctf-stego50.html&p[images][0]=&p[title]=CONFidence DS CTF Teaser: Stegano50&p[summary]=This post discusses how I completed the stego50 challenge from Dragon Sector CTF team. It is a simplistic challenge but a good source for learning about PDF internals." target="_blank" title="Share on Facebook"><i class="fa fa-facebook"></i></a> <a href="https://plus.google.com/share?url=/2014/confidence-ds-ctf-stego50.html" target="_blank" title="Share on Google Plus"><i class="fa fa-google-plus"></i></a>)</td>
+                  <td align="right">(tagged <a href=/tags.html#code>code</a>, <a href=/tags.html#ctf>ctf</a> and <a href=/tags.html#writeups>writeups</a>)</td>
+                </tr>
+                <tr>
+                  
+                    <td align="left"><a href="/2014/northrop-challenge.html"><i class="fa fa-angle-double-left"></i> Northrop's Online Challenge <i class="fa fa-angle-double-left"></i></a></td>
+                    <td align="right"><a href="/2014/pcapgentools-contentype-patch.html"><i class="fa fa-angle-double-right"></i> PCAP-GenerationTools and Content-Type Identification Patch <i class="fa fa-angle-double-right"></i></a></td>
+                  
+                </tr>
+              </table>
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading post-title">
+          Related Posts
+        </div>
+        <div class="panel-body">
+          
+            1. <a href="/2016/flareon2014-15.html">FireEye FLARE On 2014 Challenges (1-5)</a>
+            <div class="overview-date">February 18, 2016</div>
+            <br/>
+          
+            2. <a href="/2015/capinfos.html">capinfos.py: Pure Python Pcap Statistics Tool</a>
+            <div class="overview-date">August 2, 2015</div>
+            <br/>
+          
+            3. <a href="/2012/geras-wuos-stack1-solutions.html">Gera's Warming Up on Stack #1 - Solutions</a>
+            <div class="overview-date">August 27, 2012</div>
+            <br/>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </article>
+
+    </section>
+    <footer class="footer">
+      <b><a href="/">Ankur Tyagi</a></b> (<b><a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-at"></i>7h3rAm</a></b>)
+      <br/>
+      Last updated on October 20, 2016 (<b><a href="/rss.xml"><i class="fa fa-rss"></i> rss</a></b> <b><a href="/sitemap.xml"><i class="fa fa-sitemap"></i> sitemap</a></b>)
+      <br/>
+      Published under <b><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">by-nc-sa</a></b> and powered by <b><a alt="Linux" href="https://www.kernel.org/" target="_blank"><i class="fa fa-linux"></i></a></b>, <b><a alt="Kalpi" href="https://github.com/7h3rAm/kalpi/" target="_blank">kalpi</a></b>, <b><a href="http://git-scm.com/" target="_blank"><i class="fa fa-git"></i></a></b> and <b><a href="https://github.com/7h3rAm/7h3ram.github.io" target="_blank"><i class="fa fa-github"></i></a></b>
+    </footer>
+
+    <script src="/static/js/bootstrap/bootstrap.3.3.6.min.js"></script>
+    <script src="/static/js/raphael/raphael-min.js"></script>
+    <script src="/static/js/morrisjs/morris.min.js"></script>
+    <script src="/static/files/chart-data.js"></script>
+    <script src="/static/js/sprintf/sprintf.js"></script>
+    <script src="/static/js/underscore/underscore-min.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>7h3rAm's Infosec Ramblings</title>
+    <meta charset="utf-8"/>
+    <meta content="7h3rAm" name="author"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+    <script src="/static/js/jquery/jquery-1.10.2.js"></script>
+    <link href="/static/css/bootstrap/bootstrap.3.3.6.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/morrisjs/morris.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/timeline/timeline.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/main.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/codehilite/zenburn.css" rel="stylesheet" type="text/css">
+    <link href="/static/images/favicon.ico" rel="icon" type="image/x-icon"/>
+
+    <!-- Google Analytics -->
+    <script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-50288765-1', '7h3rAm.github.io');
+    ga('send', 'pageview');
+    </script>
+    <script async src='http://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
+
+  </head>
+  <body id="index" class="home">
+    <header class="header">
+      <nav>
+        <ul>
+          <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+          <li><a href="/archive.html"><i class="fa fa-archive"></i> Archive</a></li>
+          <li><a href="/tags.html"><i class="fa fa-tags"></i> Tags</a></li>
+          <li><a href="/dashboard.html"><i class="fa fa-bar-chart"></i> Dashboard</a></li>
+          <li><a href="/research.html"><i class="fa fa-list-alt"></i> Research</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section id="content" class="body">
+      
+  
+  
+  <article class="post">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading post-title">
+          PCAP-GenerationTools and Content-Type Identification Patch
+        </div>
+        <div class="panel-body">
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                
+              
+              
+                
+                
+              
+              
+                <p class="post-date">
+                  <a href="/2014/confidence-ds-ctf-stego50.html"><i class="fa fa-angle-double-left"></i></a> published on June 18, 2014<a href="/2014/little-pdf.html"> <i class="fa fa-angle-double-right"></i></a><br/>
+                  readtime: 5 minutes and 35 seconds (view <a href="https://raw.githubusercontent.io/7h3rAm/7h3rAm.github.io/master/_posts/pcapgentools-contentype-patch.md">source</a>)
+                </p>
+              
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+        <div class="post-summary">This post introduces PCAP-Generation-Tools project which allows one to create pcaps using Python and Scapy without touching the network stack. The post also mentions a filetype identification patch that I submitted and which was merged in the master branch.</div>
+        <div class="post-content">
+          <p>I came across the <a href="https://github.com/andrewg-felinemenace/PCAP-Generation-Tools">PCAPGenerationTools</a> project more than a year ago and immediately got hooked to it. A huge shoutout to its author <a href="https://github.com/andrewg-felinemenace">Andrew Griffiths</a> who did an amazing job creating this tool and made it opensource for the community. It is amongst those tools that I didn&#8217;t create and use on a daily basis.</p>
+
+<p>At its core, <code>PCAPGenerationTools</code> allows you to create pcaps for an input file. That&#8217;s a description in extreme brevity. To make things clear let&#8217;s consider an example where you are working on a scenario in which you need to look at a pcap that captures file download. The file being downloaded could be of any type but for our case let&#8217;s assume it is a PDF file. So, when you host a PDF file on a webserver and request that file from the server, underlying packet exchange is what <code>PCAPGenerationTools</code> will create for you. And it can do this without hosting the file on the server and requesting it while some network sniffer runs in background. Let&#8217;s give the tool a test run to clarify things a bit:</p>
+
+<div class="codehilite"><pre><code><span class="nv">$ </span>./pgt.py hello-world.pdf
+WARNING: No route found <span class="k">for</span> IPv6 destination :: <span class="o">(</span>no default route?<span class="o">)</span>
+<span class="o">[</span>*<span class="o">]</span> Doing FTP
+<span class="o">[</span>*<span class="o">]</span> output/hello-world.pdf/FTP_upload_active.pcap...
+<span class="o">[</span>*<span class="o">]</span> output/hello-world.pdf/FTP_upload_passive.pcap...
+<span class="o">[</span>*<span class="o">]</span> output/hello-world.pdf/FTP_download_active.pcap...
+<span class="o">[</span>*<span class="o">]</span> output/hello-world.pdf/FTP_download_passive.pcap...
+<span class="o">[</span>*<span class="o">]</span> Doing Email
+<span class="o">[</span>*<span class="o">]</span> output/hello-world.pdf/POP3_base64.pcap...
+<span class="o">[</span>*<span class="o">]</span> output/hello-world.pdf/POP3_7or8bit.pcap...
+<span class="o">[</span>*<span class="o">]</span> output/hello-world.pdf/POP3_quopri.pcap...
+<span class="o">[</span>*<span class="o">]</span> output/hello-world.pdf/IMAP_base64.pcap...
+<span class="o">[</span>*<span class="o">]</span> output/hello-world.pdf/IMAP_7or8bit.pcap...
+<span class="o">[</span>*<span class="o">]</span> output/hello-world.pdf/IMAP_quopri.pcap...
+<span class="o">[</span>*<span class="o">]</span> output/hello-world.pdf/SMTP_base64.pcap...
+<span class="o">[</span>*<span class="o">]</span> output/hello-world.pdf/SMTP_7or8bit.pcap...
+<span class="o">[</span>*<span class="o">]</span> output/hello-world.pdf/SMTP_quopri.pcap...
+<span class="o">[</span>*<span class="o">]</span> Doing HTTP
+<span class="o">[</span>*<span class="o">]</span> output/hello-world.pdf/HTTP_GET_raw_raw.pcap ...
+<span class="o">[</span>*<span class="o">]</span> output/hello-world.pdf/HTTP_GET_raw_chunked.pcap ...
+<span class="o">[</span>*<span class="o">]</span> output/hello-world.pdf/HTTP_GET_gzip_raw.pcap ...
+<span class="o">[</span>*<span class="o">]</span> output/hello-world.pdf/HTTP_GET_gzip_chunked.pcap ...
+<span class="o">[</span>*<span class="o">]</span> output/hello-world.pdf/HTTP_GET_deflate_raw.pcap ...
+<span class="o">[</span>*<span class="o">]</span> output/hello-world.pdf/HTTP_GET_deflate_chunked.pcap ...
+<span class="o">[</span>*<span class="o">]</span> output/hello-world.pdf/HTTP_POST_raw_raw.pcap ...
+<span class="o">[</span>*<span class="o">]</span> output/hello-world.pdf/HTTP_POST_raw_chunked.pcap ...
+<span class="o">[</span>*<span class="o">]</span> output/hello-world.pdf/HTTP_POST_gzip_raw.pcap ...
+<span class="o">[</span>*<span class="o">]</span> output/hello-world.pdf/HTTP_POST_gzip_chunked.pcap ...
+<span class="o">[</span>*<span class="o">]</span> output/hello-world.pdf/HTTP_POST_deflate_raw.pcap ...
+<span class="o">[</span>*<span class="o">]</span> output/hello-world.pdf/HTTP_POST_deflate_chunked.pcap ...
+<span class="o">[</span>*<span class="o">]</span> Doing TCP
+<span class="o">[</span>*<span class="o">]</span> output/hello-world.pdf/TCP_CTS_raw.pcap ...
+<span class="o">[</span>*<span class="o">]</span> output/hello-world.pdf/TCP_STC_raw.pcap ...
+<span class="err">$</span>
+<span class="nv">$ </span>ls output/hello-world.pdf/
+FTP_download_active.pcap   HTTP_GET_deflate_chunked.pcap  HTTP_GET_raw_chunked.pcap       HTTP_POST_gzip_chunked.pcap  IMAP_7or8bit.pcap  POP3_base64.pcap   SMTP_quopri.pcap
+FTP_download_passive.pcap  HTTP_GET_deflate_raw.pcap      HTTP_GET_raw_raw.pcap           HTTP_POST_gzip_raw.pcap      IMAP_base64.pcap   POP3_quopri.pcap   TCP_CTS_raw.pcap
+FTP_upload_active.pcap     HTTP_GET_gzip_chunked.pcap     HTTP_POST_deflate_chunked.pcap  HTTP_POST_raw_chunked.pcap   IMAP_quopri.pcap   SMTP_7or8bit.pcap  TCP_STC_raw.pcap
+FTP_upload_passive.pcap    HTTP_GET_gzip_raw.pcap         HTTP_POST_deflate_raw.pcap      HTTP_POST_raw_raw.pcap       POP3_7or8bit.pcap  SMTP_base64.pcap
+</code></pre></div>
+
+<p>I&#8217;m using sample PDF files from Didier Stevens blog post on <a href="http://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/">Physical and Logical Structure of PDF Files</a>. <code>PCAPGenerationTools</code> created pcaps for FTP, POP3, IMAP, SMTP, HTTP and TCP. Let&#8217;s have a look at one of the HTTP pcaps in Wireshark:</p>
+
+<p><img src="/static/files/pcapgentools-1.png" alt="pcapgentools-1.png" /></p>
+
+<p>And here&#8217;s how the reassembled HTTP stream looks like:</p>
+
+<p><img src="/static/files/pcapgentools-2.png" alt="pcapgentools-2.png" /></p>
+
+<p>That&#8217;s pure awesomeness! It created pcaps with different HTTP <code>Content-Type</code> and <code>Transfer-Encoding</code> combinations, active/passive mode in FTP, upload/download over HTTP and FTP and various MIMEtype encodings for POP3/IMAP/SMTP. These pcaps were created without hosting files and using respective clients and without generating any network traffic.</p>
+
+<p>I submitted <a href="https://github.com/andrewg-felinemenace/PCAP-Generation-Tools/pulls?utf8=%E2%9C%93&amp;q=is%3Apr+author%3A7h3rAm+">three patches</a> of which two have been merged in the master branch of the project. The first patch <a href="https://github.com/andrewg-felinemenace/PCAP-Generation-Tools/pull/1">auto content type identification and output directory creation</a> which basically added a MIMEtype identification feature for <code>Content-Type</code> headers in HTTP pcaps. In the screenshot above, you will notice that the server response (in blue) shows <code>Content-Type</code> header with the correct MIMEtype of <code>application/pdf</code>. This feature helps create pcaps that simulate real world scenarios.</p>
+
+<p>Another patch that I submitted and which is yet to be merged, <a href="https://github.com/andrewg-felinemenace/PCAP-Generation-Tools/pull/3">adds raw TCP CTS/STC payload pcap generation feature</a> to <code>PCAPGenerationTools</code>. This patch allows creation of pcaps that capture file transfer over TCP itself and where layer 7 protocols are not involved. An example scenario would be transferring files over a netcat session.</p>
+
+<p><code>PCAPGenerationTools</code> is an amazing project and quite powerful in many ways. Make sure you try and let me know if you share the same excitement as I do about this tool.</p>
+
+        </div>
+        <div class="post-bottomline">
+          <hr/>
+          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-twitter"></i></a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank"><i class="fa fa-exclamation-circle"></i> issue</a> on blog reporsitory.</p>
+          <hr/>
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                
+              
+              
+                
+                
+              
+              <table>
+                <tr>
+                  <td align="left">(share via <a href="mailto:?subject=PCAP-GenerationTools and Content-Type Identification Patch&body=/2014/pcapgentools-contentype-patch.html" target="_blank" title="Share via Email"><i class="fa fa-inbox"></i></a> <a href="http://twitter.com/intent/tweet?text=PCAP-GenerationTools and Content-Type Identification Patch+/2014/pcapgentools-contentype-patch.html&via=7h3rAm" target="_blank" title="Share on Twitter"><i class="fa fa-twitter"></i></a> <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=/2014/pcapgentools-contentype-patch.html&p[images][0]=&p[title]=PCAP-GenerationTools and Content-Type Identification Patch&p[summary]=This post introduces PCAP-Generation-Tools project which allows one to create pcaps using Python and Scapy without touching the network stack. The post also mentions a filetype identification patch that I submitted and which was merged in the master branch." target="_blank" title="Share on Facebook"><i class="fa fa-facebook"></i></a> <a href="https://plus.google.com/share?url=/2014/pcapgentools-contentype-patch.html" target="_blank" title="Share on Google Plus"><i class="fa fa-google-plus"></i></a>)</td>
+                  <td align="right">(tagged <a href=/tags.html#code>code</a>)</td>
+                </tr>
+                <tr>
+                  
+                    <td align="left"><a href="/2014/confidence-ds-ctf-stego50.html"><i class="fa fa-angle-double-left"></i> CONFidence DS CTF Teaser: Stegano50 <i class="fa fa-angle-double-left"></i></a></td>
+                    <td align="right"><a href="/2014/little-pdf.html"><i class="fa fa-angle-double-right"></i> Little PDF Puzzle from Didier Stevens <i class="fa fa-angle-double-right"></i></a></td>
+                  
+                </tr>
+              </table>
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading post-title">
+          Related Posts
+        </div>
+        <div class="panel-body">
+          
+            1. <a href="/2014/confidence-ds-ctf-stego50.html">CONFidence DS CTF Teaser: Stegano50</a>
+            <div class="overview-date">May 6, 2014</div>
+            <br/>
+          
+            2. <a href="/2013/libnids-python-ids.html">Developing a Minimal IPS from Scratch</a>
+            <div class="overview-date">September 15, 2013</div>
+            <br/>
+          
+            3. <a href="/2015/capinfos.html">capinfos.py: Pure Python Pcap Statistics Tool</a>
+            <div class="overview-date">August 2, 2015</div>
+            <br/>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </article>
+
+    </section>
+    <footer class="footer">
+      <b><a href="/">Ankur Tyagi</a></b> (<b><a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-at"></i>7h3rAm</a></b>)
+      <br/>
+      Last updated on October 20, 2016 (<b><a href="/rss.xml"><i class="fa fa-rss"></i> rss</a></b> <b><a href="/sitemap.xml"><i class="fa fa-sitemap"></i> sitemap</a></b>)
+      <br/>
+      Published under <b><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">by-nc-sa</a></b> and powered by <b><a alt="Linux" href="https://www.kernel.org/" target="_blank"><i class="fa fa-linux"></i></a></b>, <b><a alt="Kalpi" href="https://github.com/7h3rAm/kalpi/" target="_blank">kalpi</a></b>, <b><a href="http://git-scm.com/" target="_blank"><i class="fa fa-git"></i></a></b> and <b><a href="https://github.com/7h3rAm/7h3ram.github.io" target="_blank"><i class="fa fa-github"></i></a></b>
+    </footer>
+
+    <script src="/static/js/bootstrap/bootstrap.3.3.6.min.js"></script>
+    <script src="/static/js/raphael/raphael-min.js"></script>
+    <script src="/static/js/morrisjs/morris.min.js"></script>
+    <script src="/static/files/chart-data.js"></script>
+    <script src="/static/js/sprintf/sprintf.js"></script>
+    <script src="/static/js/underscore/underscore-min.js"></script>
+
+  </body>
+</html>

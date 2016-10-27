@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>7h3rAm's Infosec Ramblings</title>
+    <meta charset="utf-8"/>
+    <meta content="7h3rAm" name="author"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+    <script src="/static/js/jquery/jquery-1.10.2.js"></script>
+    <link href="/static/css/bootstrap/bootstrap.3.3.6.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/morrisjs/morris.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/timeline/timeline.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/main.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/codehilite/zenburn.css" rel="stylesheet" type="text/css">
+    <link href="/static/images/favicon.ico" rel="icon" type="image/x-icon"/>
+
+    <!-- Google Analytics -->
+    <script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-50288765-1', '7h3rAm.github.io');
+    ga('send', 'pageview');
+    </script>
+    <script async src='http://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
+
+  </head>
+  <body id="index" class="home">
+    <header class="header">
+      <nav>
+        <ul>
+          <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+          <li><a href="/archive.html"><i class="fa fa-archive"></i> Archive</a></li>
+          <li><a href="/tags.html"><i class="fa fa-tags"></i> Tags</a></li>
+          <li><a href="/dashboard.html"><i class="fa fa-bar-chart"></i> Dashboard</a></li>
+          <li><a href="/research.html"><i class="fa fa-list-alt"></i> Research</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section id="content" class="body">
+      
+  
+  
+  <article class="post">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading post-title">
+          cigma: A Pure Python Filetype Identification Library
+        </div>
+        <div class="panel-body">
+          
+            
+          
+            
+          
+            
+              
+                
+                
+              
+              
+                
+                
+              
+              
+                <p class="post-date">
+                  <a href="/2015/capinfos.html"><i class="fa fa-angle-double-left"></i></a> published on November 22, 2015<a href="/2016/flareon2014-15.html"> <i class="fa fa-angle-double-right"></i></a><br/>
+                  readtime: 11 minutes and 2 seconds (view <a href="https://raw.githubusercontent.io/7h3rAm/7h3rAm.github.io/master/_posts/cigma.md">source</a>)
+                </p>
+              
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+        <div class="post-summary">Cigma is a minimal, pure Python filetype identification library I created as an alternative to various Python ports of libmagic that are floating around.</div>
+        <div class="post-content">
+          <p>Filetype identification is the process of scanning <a href="https://en.wikipedia.org/wiki/Magic_number_%28programming%29">respective</a> <a href="https://en.wikipedia.org/wiki/List_of_file_signatures">magicbytes</a> for each filetype within input streams. The mapping for various filetypes and their magicbytes are stored in different formats which is then queried by the identification library. If a match is found, input stream is classified to be of that type. In case of match collisions, a signature preference logic prioritizes matches. Tools like <a href="http://mark0.net/soft-trid-e.html">TrID</a> and <a href="http://www.forensicswiki.org/wiki/File_Format_Identification">others</a> use similar logic.</p>
+
+<p><a href="https://github.com/7h3rAm/cigma">cigma</a> is a Python library to identify filetypes. It provides <a href="https://github.com/threatstack/libmagic">libmagic</a> like mimetype identification of a file or data buffer. This is similar to what the <code>file</code> command on *nix systems will provide:</p>
+
+<div class="codehilite"><pre><code><span class="nv">$ </span>file cigma.py
+cigma.py: Python script, ASCII text executable
+<span class="err">$</span>
+<span class="nv">$ </span>file readme.md
+readme.md: Python script, ASCII text executable, with very long lines
+<span class="err">$</span>
+<span class="nv">$ </span>file /bin/ls
+/bin/ls: ELF 64-bit LSB  executable, x86-64, version <span class="m">1</span> <span class="o">(</span>SYSV<span class="o">)</span>, dynamically linked <span class="o">(</span>uses shared libs<span class="o">)</span>, <span class="k">for</span> GNU/Linux 2.6.24, BuildID<span class="o">[</span>sha1<span class="o">]=</span>9d2a434c4ff55aad2ddd19348c0ac75971606483, stripped
+<span class="err">$</span>
+<span class="nv">$ </span>file /etc/passwd
+/etc/passwd: ASCII text
+<span class="err">$</span>
+<span class="nv">$ </span>file /dev/sda
+/dev/sda: block special
+</code></pre></div>
+
+<p><code>cigma</code> uses a custom JSON formatted signature file to stores filetype mappings. Let&#8217;s try identifying a few files:</p>
+
+<div class="codehilite"><pre><code><span class="nv">$ </span>python cigma.py /bin/ls
+<span class="o">(</span><span class="s1">&#39;/bin/ls&#39;</span>,
+ <span class="o">{</span><span class="s1">&#39;id&#39;</span>: 29,
+  <span class="s1">&#39;longname&#39;</span>: <span class="s1">&#39;Executable and Linkable Format (ELF)&#39;</span>,
+  <span class="s1">&#39;mimetype&#39;</span>: <span class="s1">&#39;application/x-executable&#39;</span>,
+  <span class="s1">&#39;patterns&#39;</span>: <span class="o">[{</span><span class="s1">&#39;offset&#39;</span>: 0, <span class="s1">&#39;regex&#39;</span>: <span class="s1">&#39;\\x7F\\x45\\x4C\\x46&#39;</span>, <span class="s1">&#39;size&#39;</span>: 4<span class="o">}]</span>,
+  <span class="s1">&#39;shortname&#39;</span>: <span class="s1">&#39;ELF&#39;</span><span class="o">})</span>
+<span class="err">$</span>
+<span class="nv">$ </span>python cigma.py ~/toolbox/testfiles/binary/suspicious/35d249cdd501aeb5a5b39daeb4f275c41c73e91ef299a094d27edbfd0396715d.VXE
+<span class="o">(</span><span class="s1">&#39;/home/shiv/toolbox/testfiles/binary/suspicious/35d249cdd501aeb5a5b39daeb4f275c41c73e91ef299a094d27edbfd0396715d.VXE&#39;</span>,
+ <span class="o">{</span><span class="s1">&#39;id&#39;</span>: 31,
+  <span class="s1">&#39;longname&#39;</span>: <span class="s1">&#39;Windows Executable&#39;</span>,
+  <span class="s1">&#39;mimetype&#39;</span>: <span class="s1">&#39;application/x-dosexec&#39;</span>,
+  <span class="s1">&#39;patterns&#39;</span>: <span class="o">[{</span><span class="s1">&#39;offset&#39;</span>: 0, <span class="s1">&#39;regex&#39;</span>: <span class="s1">&#39;\\x4D\\x5A&#39;</span>, <span class="s1">&#39;size&#39;</span>: 2<span class="o">}]</span>,
+  <span class="s1">&#39;shortname&#39;</span>: <span class="s1">&#39;EXE&#39;</span><span class="o">})</span>
+<span class="err">$</span>
+<span class="nv">$ </span>python cigma.py ~/toolbox/testfiles/pcaps/exploitkits/2015-04-03-Nuclear-EK-traffic.pcap
+<span class="o">(</span><span class="s1">&#39;/home/shiv/toolbox/testfiles/pcaps/exploitkits/2015-04-03-Nuclear-EK-traffic.pcap&#39;</span>,
+ <span class="o">{</span><span class="s1">&#39;id&#39;</span>: 5,
+  <span class="s1">&#39;longname&#39;</span>: <span class="s1">&#39;Packet Capture (winpcap)&#39;</span>,
+  <span class="s1">&#39;mimetype&#39;</span>: <span class="s1">&#39;application/vnd.tcpdump.pcap&#39;</span>,
+  <span class="s1">&#39;patterns&#39;</span>: <span class="o">[{</span><span class="s1">&#39;offset&#39;</span>: 0, <span class="s1">&#39;regex&#39;</span>: <span class="s1">&#39;\\xD4\\xC3\\xB2\\xA1&#39;</span>, <span class="s1">&#39;size&#39;</span>: 4<span class="o">}]</span>,
+  <span class="s1">&#39;shortname&#39;</span>: <span class="s1">&#39;PCAP&#39;</span><span class="o">})</span>
+</code></pre></div>
+
+<p>If a match is found, <code>cigma</code> returns a <code>(source, resultdict)</code> tuple. Here is a snippet of few signatures from the current set:</p>
+
+<div class="codehilite"><pre><code><span class="p">{</span>
+  <span class="nt">&quot;meta&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;rulescount&quot;</span><span class="p">:</span> <span class="mi">72</span><span class="p">,</span>
+    <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="mf">0.1</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;rules&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&quot;longname&quot;</span><span class="p">:</span> <span class="s2">&quot;PKZIP&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;mimetype&quot;</span><span class="p">:</span> <span class="s2">&quot;application/octet-stream&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;patterns&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;offset&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+          <span class="nt">&quot;regex&quot;</span><span class="p">:</span> <span class="s2">&quot;\\x50\\x4B\\x05\\x06&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;size&quot;</span><span class="p">:</span> <span class="mi">4</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;shortname&quot;</span><span class="p">:</span> <span class="s2">&quot;ZIP&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+      <span class="nt">&quot;longname&quot;</span><span class="p">:</span> <span class="s2">&quot;Packet Capture (winpcap)&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;mimetype&quot;</span><span class="p">:</span> <span class="s2">&quot;application/vnd.tcpdump.pcap&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;patterns&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;offset&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+          <span class="nt">&quot;regex&quot;</span><span class="p">:</span> <span class="s2">&quot;\\xD4\\xC3\\xB2\\xA1&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;size&quot;</span><span class="p">:</span> <span class="mi">4</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;shortname&quot;</span><span class="p">:</span> <span class="s2">&quot;PCAP&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">27</span><span class="p">,</span>
+      <span class="nt">&quot;longname&quot;</span><span class="p">:</span> <span class="s2">&quot;Flash Video&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;mimetype&quot;</span><span class="p">:</span> <span class="s2">&quot;video/x-flv&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;patterns&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;offset&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+          <span class="nt">&quot;regex&quot;</span><span class="p">:</span> <span class="s2">&quot;\\x46\\x4C\\x56&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;size&quot;</span><span class="p">:</span> <span class="mi">3</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;shortname&quot;</span><span class="p">:</span> <span class="s2">&quot;FLV&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">29</span><span class="p">,</span>
+      <span class="nt">&quot;longname&quot;</span><span class="p">:</span> <span class="s2">&quot;Executable and Linkable Format (ELF)&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;mimetype&quot;</span><span class="p">:</span> <span class="s2">&quot;application/x-executable&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;patterns&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;offset&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+          <span class="nt">&quot;regex&quot;</span><span class="p">:</span> <span class="s2">&quot;\\x7F\\x45\\x4C\\x46&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;size&quot;</span><span class="p">:</span> <span class="mi">4</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;shortname&quot;</span><span class="p">:</span> <span class="s2">&quot;ELF&quot;</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Adding a new signature is really easy. Just edit the included <code>magicbytes.json</code> file and add a new node with an unique <code>id</code>. Each node should have a <code>patterns</code> list which should contain the <code>offset</code>, <code>regex</code> and <code>size</code> keys with respective values.</p>
+
+<p>Using <code>cigma</code> as a library is really easy:</p>
+
+<div class="codehilite"><pre><code><span class="kn">from</span> <span class="nn">cigma</span> <span class="kn">import</span> <span class="n">Cigma</span>
+</code></pre></div>
+
+<p>One this is done, you can identify a file buffer:</p>
+
+<div class="codehilite"><pre><code><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;/home/shiv/toolbox/testfiles/binary/crafted_corkami/gui.exe&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fo</span><span class="p">:</span>
+  <span class="n">filedata</span> <span class="o">=</span> <span class="n">fo</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="n">Cigma</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">filedata</span><span class="p">)</span><span class="o">.</span><span class="n">cigma</span><span class="p">()</span>
+<span class="p">(</span><span class="s">&#39;databuffer&#39;</span><span class="p">,</span>
+ <span class="p">{</span><span class="s">&#39;longname&#39;</span><span class="p">:</span> <span class="s">&#39;Windows Executable&#39;</span><span class="p">,</span>
+  <span class="s">&#39;mimetype&#39;</span><span class="p">:</span> <span class="s">&#39;application/x-dosexec&#39;</span><span class="p">,</span>
+  <span class="s">&#39;patterns&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s">&#39;offset&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;regex&#39;</span><span class="p">:</span> <span class="s">&#39;</span><span class="se">\\</span><span class="s">x4D</span><span class="se">\\</span><span class="s">x5A&#39;</span><span class="p">,</span> <span class="s">&#39;size&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}],</span>
+  <span class="s">&#39;shortname&#39;</span><span class="p">:</span> <span class="s">&#39;EXE&#39;</span><span class="p">})</span>
+</code></pre></div>
+
+<p>Or else you can also identify a file itself:</p>
+
+<div class="codehilite"><pre><code><span class="n">Cigma</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s">&quot;/home/shiv/toolbox/testfiles/binary/crafted_corkami/gui.exe&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">cigma</span><span class="p">()</span>
+<span class="p">(</span><span class="s">&#39;/home/shiv/toolbox/testfiles/binary/crafted_corkami/gui.exe&#39;</span><span class="p">,</span>
+ <span class="p">{</span><span class="s">&#39;longname&#39;</span><span class="p">:</span> <span class="s">&#39;Windows Executable&#39;</span><span class="p">,</span>
+  <span class="s">&#39;mimetype&#39;</span><span class="p">:</span> <span class="s">&#39;application/x-dosexec&#39;</span><span class="p">,</span>
+  <span class="s">&#39;patterns&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s">&#39;offset&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;regex&#39;</span><span class="p">:</span> <span class="s">&#39;</span><span class="se">\\</span><span class="s">x4D</span><span class="se">\\</span><span class="s">x5A&#39;</span><span class="p">,</span> <span class="s">&#39;size&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}],</span>
+  <span class="s">&#39;shortname&#39;</span><span class="p">:</span> <span class="s">&#39;EXE&#39;</span><span class="p">})</span>
+</code></pre></div>
+
+<p>The primary purpose of <code>cigma</code> is to be able to identify mundane files at lightning speeds. It doesn&#8217;t aim to provide exhaustive insight into each file by parsing and decoding it. Currently, there are 70+ signatures and identification for more filetypes will be available as the project grows.</p>
+
+        </div>
+        <div class="post-bottomline">
+          <hr/>
+          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-twitter"></i></a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank"><i class="fa fa-exclamation-circle"></i> issue</a> on blog reporsitory.</p>
+          <hr/>
+          
+            
+          
+            
+          
+            
+              
+                
+                
+              
+              
+                
+                
+              
+              <table>
+                <tr>
+                  <td align="left">(share via <a href="mailto:?subject=cigma: A Pure Python Filetype Identification Library&body=/2015/cigma.html" target="_blank" title="Share via Email"><i class="fa fa-inbox"></i></a> <a href="http://twitter.com/intent/tweet?text=cigma: A Pure Python Filetype Identification Library+/2015/cigma.html&via=7h3rAm" target="_blank" title="Share on Twitter"><i class="fa fa-twitter"></i></a> <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=/2015/cigma.html&p[images][0]=&p[title]=cigma: A Pure Python Filetype Identification Library&p[summary]=Cigma is a minimal, pure Python filetype identification library I created as an alternative to various Python ports of libmagic that are floating around." target="_blank" title="Share on Facebook"><i class="fa fa-facebook"></i></a> <a href="https://plus.google.com/share?url=/2015/cigma.html" target="_blank" title="Share on Google Plus"><i class="fa fa-google-plus"></i></a>)</td>
+                  <td align="right">(tagged <a href=/tags.html#code>code</a>)</td>
+                </tr>
+                <tr>
+                  
+                    <td align="left"><a href="/2015/capinfos.html"><i class="fa fa-angle-double-left"></i> capinfos.py: Pure Python Pcap Statistics Tool <i class="fa fa-angle-double-left"></i></a></td>
+                    <td align="right"><a href="/2016/flareon2014-15.html"><i class="fa fa-angle-double-right"></i> FireEye FLARE On 2014 Challenges (1-5) <i class="fa fa-angle-double-right"></i></a></td>
+                  
+                </tr>
+              </table>
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading post-title">
+          Related Posts
+        </div>
+        <div class="panel-body">
+          
+            1. <a href="/2014/shellcode-pipeline.html">Shellcode Analysis Pipleine</a>
+            <div class="overview-date">March 18, 2014</div>
+            <br/>
+          
+            2. <a href="/2014/confidence-ds-ctf-stego50.html">CONFidence DS CTF Teaser: Stegano50</a>
+            <div class="overview-date">May 6, 2014</div>
+            <br/>
+          
+            3. <a href="/2014/northrop-challenge.html">Northrop's Online Challenge</a>
+            <div class="overview-date">March 27, 2014</div>
+            <br/>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </article>
+
+    </section>
+    <footer class="footer">
+      <b><a href="/">Ankur Tyagi</a></b> (<b><a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-at"></i>7h3rAm</a></b>)
+      <br/>
+      Last updated on October 20, 2016 (<b><a href="/rss.xml"><i class="fa fa-rss"></i> rss</a></b> <b><a href="/sitemap.xml"><i class="fa fa-sitemap"></i> sitemap</a></b>)
+      <br/>
+      Published under <b><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">by-nc-sa</a></b> and powered by <b><a alt="Linux" href="https://www.kernel.org/" target="_blank"><i class="fa fa-linux"></i></a></b>, <b><a alt="Kalpi" href="https://github.com/7h3rAm/kalpi/" target="_blank">kalpi</a></b>, <b><a href="http://git-scm.com/" target="_blank"><i class="fa fa-git"></i></a></b> and <b><a href="https://github.com/7h3rAm/7h3ram.github.io" target="_blank"><i class="fa fa-github"></i></a></b>
+    </footer>
+
+    <script src="/static/js/bootstrap/bootstrap.3.3.6.min.js"></script>
+    <script src="/static/js/raphael/raphael-min.js"></script>
+    <script src="/static/js/morrisjs/morris.min.js"></script>
+    <script src="/static/files/chart-data.js"></script>
+    <script src="/static/js/sprintf/sprintf.js"></script>
+    <script src="/static/js/underscore/underscore-min.js"></script>
+
+  </body>
+</html>

