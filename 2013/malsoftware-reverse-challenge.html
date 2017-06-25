@@ -1,136 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>7h3rAm's Infosec Ramblings</title>
     <meta charset="utf-8"/>
-    <meta content="7h3rAm" name="author"/>
+    <meta name="author" content="7h3rAm"/>
+    <meta name="description" content="Personal Weblog"/>
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
-
-    <script src="/static/js/jquery/jquery-1.10.2.js"></script>
-    <link href="/static/css/bootstrap/bootstrap.3.3.6.min.css" rel="stylesheet" type="text/css">
-    <link href="/static/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="/static/css/morrisjs/morris.css" rel="stylesheet" type="text/css">
-    <link href="/static/css/timeline/timeline.css" rel="stylesheet" type="text/css">
+    <title>Grey Matter</title>
     <link href="/static/css/main.css" rel="stylesheet" type="text/css">
     <link href="/static/css/codehilite/zenburn.css" rel="stylesheet" type="text/css">
-    <link href="/static/images/favicon.ico" rel="icon" type="image/x-icon"/>
-
-    <!-- Google Analytics -->
-    <script>
-    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-    ga('create', 'UA-50288765-1', '7h3rAm.github.io');
-    ga('send', 'pageview');
-    </script>
-    <script async src='http://www.google-analytics.com/analytics.js'></script>
-    <!-- End Google Analytics -->
-
+    <link href="/static/images/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
   </head>
-  <body id="index" class="home">
-    <header class="header">
-      <nav>
-        <ul>
-          <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-          <li><a href="/archive.html"><i class="fa fa-archive"></i> Archive</a></li>
-          <li><a href="/tags.html"><i class="fa fa-tags"></i> Tags</a></li>
-          <li><a href="/dashboard.html"><i class="fa fa-bar-chart"></i> Dashboard</a></li>
-          <li><a href="/research.html"><i class="fa fa-list-alt"></i> Research</a></li>
-        </ul>
-      </nav>
-    </header>
+  <body>
     <section id="content" class="body">
-      
-  
-  
-  <article class="post">
+              <div class="header">
+          <table>
+            <tr>
+              <td class="blogtitle"><a href="/">Grey Matter</a></td>
+              <td class="blognavbar">
+                <a href="/archive.html">[Archive]</a> <a href="/tags.html">[Tags]</a> <a href="/research.html">[Research]</a></a>
+              </td>
+            </tr>
+          </table>
+        </div>
+                  <article class="post">
   <div class="row">
     <div class="col-lg-12">
-      <div class="panel panel-default">
-        <div class="panel-heading post-title">
-          reverse Challenge from Coursera's Malicious Software Course
-        </div>
-        <div class="panel-body">
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-              
-                
-                
-              
-              
-                
-                
-              
-              
-                <p class="post-date">
-                  <a href="/2013/malsoftware-reverse-ex.html"><i class="fa fa-angle-double-left"></i></a> published on August 29, 2013<a href="/2013/libnids-python-ids.html"> <i class="fa fa-angle-double-right"></i></a><br/>
-                  readtime: 13 minutes and 5 seconds (view <a href="https://raw.githubusercontent.io/7h3rAm/7h3rAm.github.io/master/_posts/malsoftware-reverse-challenge.md">source</a>)
+      <div class="panel panel-default section compact">
+        <div class="body">
+          <p class="heading">reverse Challenge from Coursera's Malicious Software Course</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  <p class="date">
+                  <a href="/2013/malsoftware-reverse-ex.html">&lt&lt;</a> published on 2013 Aug 29<a href="/2013/libnids-python-ids.html"> &gt;&gt;</i></a><br/>
                 </p>
-              
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-        <div class="post-summary">This post is a writeup on the reverse-challenge from recently concluded Malicious Software course on Coursera.</div>
-        <div class="post-content">
+                                                                                                                                                                                                                                                                                                                                                                <div class="post-content">
           <p>This post follows an earlier one: <a href="/2013/malsoftware-reverse-ex.html">reverse-ex Challenge from Coursera&#8217;s
 Malicious Software Course</a>. If
 you&#8217;ve not already read it, I would suggest you do so since both these
@@ -141,10 +42,10 @@ has been mentioned before.</p>
 <a href="/static/files/reverse-challenge">reverse-challenge</a>. The first thing to do is
 to test it with <code>file</code> command:</p>
 
-<div class="codehilite"><pre><code><span class="nv">$ </span>file reverse-challenge
-reverse-challenge: ELF 32-bit LSB executable, Intel 80386, version <span class="m">1</span> <span class="o">(</span>SYSV<span class="o">)</span>, dynamically linked <span class="o">(</span>uses shared libs<span class="o">)</span>, <span class="k">for</span> GNU/Linux 2.6.24, BuildID<span class="o">[</span>  sha1<span class="o">]=</span>0x2fe5f1647532449ffeef36a7fa31ae8319c8818d, stripped
-<span class="err">$</span>
-<span class="nv">$ </span>file -i reverse-challenge
+<div class="codehilite"><pre><span></span><code>$ file reverse-challenge
+reverse-challenge: ELF <span class="m">32</span>-bit LSB executable, Intel <span class="m">80386</span>, version <span class="m">1</span> <span class="o">(</span>SYSV<span class="o">)</span>, dynamically linked <span class="o">(</span>uses shared libs<span class="o">)</span>, <span class="k">for</span> GNU/Linux <span class="m">2</span>.6.24, BuildID<span class="o">[</span>  sha1<span class="o">]=</span>0x2fe5f1647532449ffeef36a7fa31ae8319c8818d, stripped
+$
+$ file -i reverse-challenge
 reverse-challenge: application/x-executable<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>binary
 </code></pre></div>
 
@@ -188,10 +89,10 @@ invoke the python script we used in previous post with <code>xKZl_^_XCY^CIE</cod
 as the flag and 0x2a as the key and reverse the simple XOR mutation
 logic:</p>
 
-<div class="codehilite"><pre><code><span class="nv">$ </span>./xor.py xKZl_^_XCY^CIE 0x2a
+<div class="codehilite"><pre><span></span><code>$ ./xor.py xKZl_^_XCY^CIE 0x2a
 xKZl_^_XCY^CIE ^ <span class="nv">0x2a</span> <span class="o">=</span>&gt; RapFuturistico
-<span class="err">$</span>
-<span class="nv">$ </span>./reverse-challenge
+$
+$ ./reverse-challenge
 Are you feeling lucky today? BRapFuturistico
 <span class="o">[</span>+<span class="o">]</span> WooT!: xKZl_^_XCY^CIE
 </code></pre></div>
@@ -203,7 +104,7 @@ earlier, we could have also tried debugging this program but the
 presence of anti-debugging measures and I refrained using it in this
 challenge. It can be confirmed with a simple <code>strace</code> of the program:</p>
 
-<div class="codehilite"><pre><code><span class="err">$</span> <span class="n">strace</span> <span class="p">.</span><span class="o">/</span><span class="n">reverse</span><span class="o">-</span><span class="n">challenge</span>
+<div class="codehilite"><pre><span></span><code><span class="err">$</span> <span class="n">strace</span> <span class="p">.</span><span class="o">/</span><span class="n">reverse</span><span class="o">-</span><span class="n">challenge</span>
 <span class="n">execve</span><span class="p">(</span><span class="s">&quot;./reverse-challenge&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;./reverse-challenge&quot;</span><span class="p">],</span> <span class="p">[</span><span class="cm">/* 63 vars */</span><span class="p">])</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="p">[</span> <span class="n">Process</span> <span class="n">PID</span><span class="o">=</span><span class="mi">22998</span> <span class="n">runs</span> <span class="n">in</span> <span class="mi">32</span> <span class="n">bit</span> <span class="n">mode</span><span class="p">.</span> <span class="p">]</span>
 <span class="n">brk</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>                                  <span class="o">=</span> <span class="mh">0x9882000</span>
@@ -250,144 +151,31 @@ we can bypass the anti-debugging mechanisms and analyze the program via
 dynamic analysis only. Rest on this in a future post. Stay tuned.</p>
 
         </div>
-        <div class="post-bottomline">
+        <div class="meta">
           <hr/>
-          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-twitter"></i></a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank"><i class="fa fa-exclamation-circle"></i> issue</a> on blog reporsitory.</p>
+          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank">twitter</a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank">issue</a> on blog repository.</p>
           <hr/>
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-              
-                
-                
-              
-              
-                
-                
-              
-              <table>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  <table>
                 <tr>
-                  <td align="left">(share via <a href="mailto:?subject=reverse Challenge from Coursera's Malicious Software Course&body=/2013/malsoftware-reverse-challenge.html" target="_blank" title="Share via Email"><i class="fa fa-inbox"></i></a> <a href="http://twitter.com/intent/tweet?text=reverse Challenge from Coursera's Malicious Software Course+/2013/malsoftware-reverse-challenge.html&via=7h3rAm" target="_blank" title="Share on Twitter"><i class="fa fa-twitter"></i></a> <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=/2013/malsoftware-reverse-challenge.html&p[images][0]=&p[title]=reverse Challenge from Coursera's Malicious Software Course&p[summary]=This post is a writeup on the reverse-challenge from recently concluded Malicious Software course on Coursera." target="_blank" title="Share on Facebook"><i class="fa fa-facebook"></i></a> <a href="https://plus.google.com/share?url=/2013/malsoftware-reverse-challenge.html" target="_blank" title="Share on Google Plus"><i class="fa fa-google-plus"></i></a>)</td>
-                  <td align="right">(tagged <a href=/tags.html#writeups>writeups</a> and <a href=/tags.html#reversing>reversing</a>)</td>
+                  <td align="left">(share via <a href="mailto:?subject=reverse Challenge from Coursera's Malicious Software Course&body=http://7h3ram.github.io//2013/malsoftware-reverse-challenge.html" target="_blank" title="Share via Email">mail</a>, <a href="http://twitter.com/intent/tweet?text=reverse Challenge from Coursera's Malicious Software Course+http://7h3ram.github.io//2013/malsoftware-reverse-challenge.html&via=7h3rAm" target="_blank" title="Share on Twitter">twitter</a>, <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://7h3ram.github.io//2013/malsoftware-reverse-challenge.html&p[images][0]=&p[title]=reverse Challenge from Coursera's Malicious Software Course&p[summary]=This post is a writeup on the reverse-challenge from recently concluded Malicious Software course on Coursera." target="_blank" title="Share on Facebook">facebook</a> or <a href="https://plus.google.com/share?url=http://7h3ram.github.io//2013/malsoftware-reverse-challenge.html" target="_blank" title="Share on Google Plus">google-plus</a>)</td>
+                  <td align="right">(tagged <a href=/tags.html#reversing>reversing</a> and <a href=/tags.html#writeups>writeups</a>)</td>
                 </tr>
                 <tr>
-                  
-                    <td align="left"><a href="/2013/malsoftware-reverse-ex.html"><i class="fa fa-angle-double-left"></i> reverse-ex Challenge from Coursera's Malicious Software Course <i class="fa fa-angle-double-left"></i></a></td>
-                    <td align="right"><a href="/2013/libnids-python-ids.html"><i class="fa fa-angle-double-right"></i> Developing a Minimal IPS from Scratch <i class="fa fa-angle-double-right"></i></a></td>
-                  
-                </tr>
+                                      <td align="left"><a href="/2013/malsoftware-reverse-ex.html">&lt;&lt; reverse-ex Challenge from Coursera's Malicious Software Course &lt;&lt;</a></td>
+                    <td align="right"><a href="/2013/libnids-python-ids.html">&gt;&gt; Developing a Minimal IPS from Scratch &gt;&gt;</a></td>
+                                  </tr>
               </table>
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-          </div>
+                                                                                                                                                                                                                                                                                                                                                    </div>
         </div>
       </div>
     </div>
   </div>
-
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="panel panel-default">
-        <div class="panel-heading post-title">
-          Related Posts
-        </div>
-        <div class="panel-body">
-          
-            1. <a href="/2016/flareon2014-15.html">FireEye FLARE On 2014 Challenges (1-5)</a>
-            <div class="overview-date">February 18, 2016</div>
-            <br/>
-          
-            2. <a href="/2014/little-pdf.html">Little PDF Puzzle from Didier Stevens</a>
-            <div class="overview-date">September 18, 2014</div>
-            <br/>
-          
-            3. <a href="/2014/confidence-ds-ctf-stego50.html">CONFidence DS CTF Teaser: Stegano50</a>
-            <div class="overview-date">May 6, 2014</div>
-            <br/>
-          
-        </div>
-      </div>
-    </div>
-  </div>
-
   </article>
-
-    </section>
-    <footer class="footer">
-      <b><a href="/">Ankur Tyagi</a></b> (<b><a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-at"></i>7h3rAm</a></b>)
-      <br/>
-      Last updated on October 20, 2016 (<b><a href="/rss.xml"><i class="fa fa-rss"></i> rss</a></b> <b><a href="/sitemap.xml"><i class="fa fa-sitemap"></i> sitemap</a></b>)
-      <br/>
-      Published under <b><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">by-nc-sa</a></b> and powered by <b><a alt="Linux" href="https://www.kernel.org/" target="_blank"><i class="fa fa-linux"></i></a></b>, <b><a alt="Kalpi" href="https://github.com/7h3rAm/kalpi/" target="_blank">kalpi</a></b>, <b><a href="http://git-scm.com/" target="_blank"><i class="fa fa-git"></i></a></b> and <b><a href="https://github.com/7h3rAm/7h3ram.github.io" target="_blank"><i class="fa fa-github"></i></a></b>
-    </footer>
-
-    <script src="/static/js/bootstrap/bootstrap.3.3.6.min.js"></script>
-    <script src="/static/js/raphael/raphael-min.js"></script>
-    <script src="/static/js/morrisjs/morris.min.js"></script>
-    <script src="/static/files/chart-data.js"></script>
-    <script src="/static/js/sprintf/sprintf.js"></script>
-    <script src="/static/js/underscore/underscore-min.js"></script>
-
+              <div class="footer">
+          <center>
+            <a href="/rss.xml" target="_blank">rss</a> | <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">license</a>
+          </center>
+        </div>
+          </section>
   </body>
 </html>

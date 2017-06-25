@@ -1,154 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>7h3rAm's Infosec Ramblings</title>
     <meta charset="utf-8"/>
-    <meta content="7h3rAm" name="author"/>
+    <meta name="author" content="7h3rAm"/>
+    <meta name="description" content="Personal Weblog"/>
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
-
-    <script src="/static/js/jquery/jquery-1.10.2.js"></script>
-    <link href="/static/css/bootstrap/bootstrap.3.3.6.min.css" rel="stylesheet" type="text/css">
-    <link href="/static/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="/static/css/morrisjs/morris.css" rel="stylesheet" type="text/css">
-    <link href="/static/css/timeline/timeline.css" rel="stylesheet" type="text/css">
+    <title>Grey Matter</title>
     <link href="/static/css/main.css" rel="stylesheet" type="text/css">
     <link href="/static/css/codehilite/zenburn.css" rel="stylesheet" type="text/css">
-    <link href="/static/images/favicon.ico" rel="icon" type="image/x-icon"/>
-
-    <!-- Google Analytics -->
-    <script>
-    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-    ga('create', 'UA-50288765-1', '7h3rAm.github.io');
-    ga('send', 'pageview');
-    </script>
-    <script async src='http://www.google-analytics.com/analytics.js'></script>
-    <!-- End Google Analytics -->
-
+    <link href="/static/images/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
   </head>
-  <body id="index" class="home">
-    <header class="header">
-      <nav>
-        <ul>
-          <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-          <li><a href="/archive.html"><i class="fa fa-archive"></i> Archive</a></li>
-          <li><a href="/tags.html"><i class="fa fa-tags"></i> Tags</a></li>
-          <li><a href="/dashboard.html"><i class="fa fa-bar-chart"></i> Dashboard</a></li>
-          <li><a href="/research.html"><i class="fa fa-list-alt"></i> Research</a></li>
-        </ul>
-      </nav>
-    </header>
+  <body>
     <section id="content" class="body">
-      
-  
-  
-  <article class="post">
+              <div class="header">
+          <table>
+            <tr>
+              <td class="blogtitle"><a href="/">Grey Matter</a></td>
+              <td class="blognavbar">
+                <a href="/archive.html">[Archive]</a> <a href="/tags.html">[Tags]</a> <a href="/research.html">[Research]</a></a>
+              </td>
+            </tr>
+          </table>
+        </div>
+                  <article class="post">
   <div class="row">
     <div class="col-lg-12">
-      <div class="panel panel-default">
-        <div class="panel-heading post-title">
-          Little PDF Puzzle from Didier Stevens
-        </div>
-        <div class="panel-body">
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-              
-                
-                
-              
-              
-                
-                
-              
-              
-                <p class="post-date">
-                  <a href="/2014/pcapgentools-contentype-patch.html"><i class="fa fa-angle-double-left"></i></a> published on September 18, 2014<a href="/2014/pcapedit.html"> <i class="fa fa-angle-double-right"></i></a><br/>
-                  readtime: 3 minutes and 29 seconds (view <a href="https://raw.githubusercontent.io/7h3rAm/7h3rAm.github.io/master/_posts/little-pdf.md">source</a>)
+      <div class="panel panel-default section compact">
+        <div class="body">
+          <p class="heading">Little PDF Puzzle from Didier Stevens</p>
+                                                                                                                                                                                                                                                                                                                                                            <p class="date">
+                  <a href="/2014/pcapgentools-contentype-patch.html">&lt&lt;</a> published on 2014 Sep 18<a href="/2014/pcapedit.html"> &gt;&gt;</i></a><br/>
                 </p>
-              
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-        <div class="post-summary">This is a post on how to solve the Little PDF puzzle from Didier Stevens.</div>
-        <div class="post-content">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      <div class="post-content">
           <p>While reading an article about <a href="http://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/">Physical and Logical Structure of PDF Files</a> on Didier Stevens&#8217;s blog, I came across an interesting <a href="http://blog.didierstevens.com/2008/05/06/a-little-pdf-puzzle/">puzzle</a>. You can download the <a href="/static/files/pdf-puzzle.pdf">file</a> to follow along or read the <a href="http://blog.didierstevens.com/2008/05/07/solving-a-little-pdf-puzzle/">writeup</a> from the author itself.</p>
 
 <p>Still here, great! Let&#8217;s get started. First thing is to check what <code>exiftool</code> has to tell us about this file:</p>
 
-<div class="codehilite"><pre><code><span class="nv">$ </span>exiftool pdf-puzzle.pdf
-ExifTool Version Number         : 9.46
+<div class="codehilite"><pre><span></span><code>$ exiftool pdf-puzzle.pdf
+ExifTool Version Number         : <span class="m">9</span>.46
 File Name                       : pdf-puzzle.pdf
 Directory                       : .
 File Size                       : <span class="m">1243</span> bytes
-File Modification Date/Time     : 2014:09:18 17:00:16+05:30
-File Access Date/Time           : 2014:09:18 17:00:19+05:30
-File Inode Change Date/Time     : 2014:09:18 17:00:16+05:30
+File Modification Date/Time     : <span class="m">2014</span>:09:18 <span class="m">17</span>:00:16+05:30
+File Access Date/Time           : <span class="m">2014</span>:09:18 <span class="m">17</span>:00:19+05:30
+File Inode Change Date/Time     : <span class="m">2014</span>:09:18 <span class="m">17</span>:00:16+05:30
 File Permissions                : rw-rw-r--
 File Type                       : PDF
 MIME Type                       : application/pdf
-PDF Version                     : 1.1
+PDF Version                     : <span class="m">1</span>.1
 Linearized                      : No
-Page Count                      : 1
+Page Count                      : <span class="m">1</span>
 </code></pre></div>
 
 <p>All these attributes look standard and nothing suspicious pops out in the output. The author, Didier Stevens, hints that it is a simple challenge and can be solved using just Notepad or a standard PDF reader. Let&#8217;s view contents of this file in a text editor:</p>
@@ -161,159 +62,46 @@ Page Count                      : 1
 
 <p>The reader is using updated object and renders its content, thus overriding the older object definition. Since both object definitions contain <code>ASCII85Decode</code> encoded streams, we can manually decode and look at the raw content:</p>
 
-<div class="codehilite"><pre><code><span class="err">$</span> <span class="n">ipython</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">banner</span>
+<div class="codehilite"><pre><span></span><code><span class="err">$</span> <span class="n">ipython</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">banner</span>
 
 <span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">ascii85</span>
 <span class="o">&gt;&gt;&gt;</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">ascii85</span><span class="o">.</span><span class="n">ascii85decode</span><span class="p">(</span><span class="s">&quot;&#39;</span><span class="se">\7</span><span class="s">PQ#@1a#b0+&gt;GQ(+?(u.+B2ko-rakk+E1b1F)Yf5@&lt;6!&amp;BlbD!=BJ[-=BJ[-=BJ[-=BJ[-=BI!p&lt;,*OE;u~&quot;</span><span class="p">)</span>
-<span class="s">&#39;</span><span class="se">\x14</span><span class="s">h</span><span class="se">\xd5</span><span class="s">&quot;4 Tf 100 700 Td (The passphrase is XXXXXXXXXXXXXXXXXXX) Tj ET&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">ascii85</span><span class="o">.</span><span class="n">ascii85decode</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="se">\7</span><span class="s2">PQ#@1a#b0+&gt;GQ(+?(u.+B2ko-rakk+E1b1F)Yf5@&lt;6!&amp;BlbD!=BJ[-=BJ[-=BJ[-=BJ[-=BI!p&lt;,*OE;u~&quot;</span><span class="p">)</span>
+<span class="s1">&#39;</span><span class="se">\x14</span><span class="s1">h</span><span class="se">\xd5</span><span class="s1">&quot;4 Tf 100 700 Td (The passphrase is XXXXXXXXXXXXXXXXXXX) Tj ET&#39;</span>
 <span class="o">&gt;&gt;&gt;</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">ascii85</span><span class="o">.</span><span class="n">ascii85decode</span><span class="p">(</span><span class="s">&quot;&#39;</span><span class="se">\7</span><span class="s">PQ#@1a#b0+&gt;GQ(+?(u.+B2ko-rakk+E1b1F)Yf5@&lt;6!&amp;BlbCgDI[]uD.RU,@;I&amp;dE+EC!ATK:C&lt;,*OE;u~&quot;</span><span class="p">)</span>
-<span class="s">&#39;</span><span class="se">\x14</span><span class="s">h</span><span class="se">\xd5</span><span class="s">&quot;4 Tf 100 700 Td (The passphrase is Incremental Updates) Tj ET&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">ascii85</span><span class="o">.</span><span class="n">ascii85decode</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="se">\7</span><span class="s2">PQ#@1a#b0+&gt;GQ(+?(u.+B2ko-rakk+E1b1F)Yf5@&lt;6!&amp;BlbCgDI[]uD.RU,@;I&amp;dE+EC!ATK:C&lt;,*OE;u~&quot;</span><span class="p">)</span>
+<span class="s1">&#39;</span><span class="se">\x14</span><span class="s1">h</span><span class="se">\xd5</span><span class="s1">&quot;4 Tf 100 700 Td (The passphrase is Incremental Updates) Tj ET&#39;</span>
 <span class="o">&gt;&gt;&gt;</span>
 </code></pre></div>
 
 <p>Awesome! The older object stream, when decoded (I&#8217;m using the ascii85 decoder from <a href="https://github.com/euske/pdfminer/blob/master/pdfminer/ascii85.py">pdfminer</a>), shows the passphrase. As suggested by Didier Stevens in his <a href="http://blog.didierstevens.com/2008/05/07/solving-a-little-pdf-puzzle/">writeup</a>, you could also remove the updated object content and xref table from the file to view the passphrase.</p>
 
         </div>
-        <div class="post-bottomline">
+        <div class="meta">
           <hr/>
-          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-twitter"></i></a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank"><i class="fa fa-exclamation-circle"></i> issue</a> on blog reporsitory.</p>
+          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank">twitter</a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank">issue</a> on blog repository.</p>
           <hr/>
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-              
-                
-                
-              
-              
-                
-                
-              
-              <table>
+                                                                                                                                                                                                                                                                                                                                            <table>
                 <tr>
-                  <td align="left">(share via <a href="mailto:?subject=Little PDF Puzzle from Didier Stevens&body=/2014/little-pdf.html" target="_blank" title="Share via Email"><i class="fa fa-inbox"></i></a> <a href="http://twitter.com/intent/tweet?text=Little PDF Puzzle from Didier Stevens+/2014/little-pdf.html&via=7h3rAm" target="_blank" title="Share on Twitter"><i class="fa fa-twitter"></i></a> <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=/2014/little-pdf.html&p[images][0]=&p[title]=Little PDF Puzzle from Didier Stevens&p[summary]=This is a post on how to solve the Little PDF puzzle from Didier Stevens." target="_blank" title="Share on Facebook"><i class="fa fa-facebook"></i></a> <a href="https://plus.google.com/share?url=/2014/little-pdf.html" target="_blank" title="Share on Google Plus"><i class="fa fa-google-plus"></i></a>)</td>
+                  <td align="left">(share via <a href="mailto:?subject=Little PDF Puzzle from Didier Stevens&body=http://7h3ram.github.io//2014/little-pdf.html" target="_blank" title="Share via Email">mail</a>, <a href="http://twitter.com/intent/tweet?text=Little PDF Puzzle from Didier Stevens+http://7h3ram.github.io//2014/little-pdf.html&via=7h3rAm" target="_blank" title="Share on Twitter">twitter</a>, <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://7h3ram.github.io//2014/little-pdf.html&p[images][0]=&p[title]=Little PDF Puzzle from Didier Stevens&p[summary]=This is a post on how to solve the Little PDF puzzle from Didier Stevens." target="_blank" title="Share on Facebook">facebook</a> or <a href="https://plus.google.com/share?url=http://7h3ram.github.io//2014/little-pdf.html" target="_blank" title="Share on Google Plus">google-plus</a>)</td>
                   <td align="right">(tagged <a href=/tags.html#writeups>writeups</a>)</td>
                 </tr>
                 <tr>
-                  
-                    <td align="left"><a href="/2014/pcapgentools-contentype-patch.html"><i class="fa fa-angle-double-left"></i> PCAP-GenerationTools and Content-Type Identification Patch <i class="fa fa-angle-double-left"></i></a></td>
-                    <td align="right"><a href="/2014/pcapedit.html"><i class="fa fa-angle-double-right"></i> pcapedit: An Interactive Scapy-based Pcap Editor <i class="fa fa-angle-double-right"></i></a></td>
-                  
-                </tr>
+                                      <td align="left"><a href="/2014/pcapgentools-contentype-patch.html">&lt;&lt; PCAP-GenerationTools and Content-Type Identification Patch &lt;&lt;</a></td>
+                    <td align="right"><a href="/2014/pcapedit.html">&gt;&gt; pcapedit: An Interactive Scapy-based Pcap Editor &gt;&gt;</a></td>
+                                  </tr>
               </table>
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-          </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </div>
         </div>
       </div>
     </div>
   </div>
-
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="panel panel-default">
-        <div class="panel-heading post-title">
-          Related Posts
-        </div>
-        <div class="panel-body">
-          
-            1. <a href="/2014/northrop-challenge.html">Northrop's Online Challenge</a>
-            <div class="overview-date">March 27, 2014</div>
-            <br/>
-          
-            2. <a href="/2012/geras-wuos-stack1-solutions.html">Gera's Warming Up on Stack #1 - Solutions</a>
-            <div class="overview-date">August 27, 2012</div>
-            <br/>
-          
-            3. <a href="/2014/buf1-challenge.html">buf1 - Another Buffer Overflow Challenge</a>
-            <div class="overview-date">February 24, 2014</div>
-            <br/>
-          
-        </div>
-      </div>
-    </div>
-  </div>
-
   </article>
-
-    </section>
-    <footer class="footer">
-      <b><a href="/">Ankur Tyagi</a></b> (<b><a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-at"></i>7h3rAm</a></b>)
-      <br/>
-      Last updated on October 20, 2016 (<b><a href="/rss.xml"><i class="fa fa-rss"></i> rss</a></b> <b><a href="/sitemap.xml"><i class="fa fa-sitemap"></i> sitemap</a></b>)
-      <br/>
-      Published under <b><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">by-nc-sa</a></b> and powered by <b><a alt="Linux" href="https://www.kernel.org/" target="_blank"><i class="fa fa-linux"></i></a></b>, <b><a alt="Kalpi" href="https://github.com/7h3rAm/kalpi/" target="_blank">kalpi</a></b>, <b><a href="http://git-scm.com/" target="_blank"><i class="fa fa-git"></i></a></b> and <b><a href="https://github.com/7h3rAm/7h3ram.github.io" target="_blank"><i class="fa fa-github"></i></a></b>
-    </footer>
-
-    <script src="/static/js/bootstrap/bootstrap.3.3.6.min.js"></script>
-    <script src="/static/js/raphael/raphael-min.js"></script>
-    <script src="/static/js/morrisjs/morris.min.js"></script>
-    <script src="/static/files/chart-data.js"></script>
-    <script src="/static/js/sprintf/sprintf.js"></script>
-    <script src="/static/js/underscore/underscore-min.js"></script>
-
+              <div class="footer">
+          <center>
+            <a href="/rss.xml" target="_blank">rss</a> | <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">license</a>
+          </center>
+        </div>
+          </section>
   </body>
 </html>

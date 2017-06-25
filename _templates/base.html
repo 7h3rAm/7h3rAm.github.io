@@ -1,59 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>7h3rAm's Infosec Ramblings</title>
     <meta charset="utf-8"/>
-    <meta content="7h3rAm" name="author"/>
+    <meta name="author" content="7h3rAm"/>
+    <meta name="description" content="Personal Weblog"/>
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
-
-    <script src="/static/js/jquery/jquery-1.10.2.js"></script>
-    <link href="/static/css/bootstrap/bootstrap.3.3.6.min.css" rel="stylesheet" type="text/css">
-    <link href="/static/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="/static/css/morrisjs/morris.css" rel="stylesheet" type="text/css">
-    <link href="/static/css/timeline/timeline.css" rel="stylesheet" type="text/css">
+    <title>Grey Matter</title>
     <link href="/static/css/main.css" rel="stylesheet" type="text/css">
     <link href="/static/css/codehilite/zenburn.css" rel="stylesheet" type="text/css">
-    <link href="/static/images/favicon.ico" rel="icon" type="image/x-icon"/>
-
-    <!-- Google Analytics -->
-    <script>
-    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-    ga('create', 'UA-50288765-1', '7h3rAm.github.io');
-    ga('send', 'pageview');
-    </script>
-    <script async src='http://www.google-analytics.com/analytics.js'></script>
-    <!-- End Google Analytics -->
-
+    <link href="/static/images/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
   </head>
-  <body id="index" class="home">
-    <header class="header">
-      <nav>
-        <ul>
-          <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-          <li><a href="/archive.html"><i class="fa fa-archive"></i> Archive</a></li>
-          <li><a href="/tags.html"><i class="fa fa-tags"></i> Tags</a></li>
-          <li><a href="/dashboard.html"><i class="fa fa-bar-chart"></i> Dashboard</a></li>
-          <li><a href="/research.html"><i class="fa fa-list-alt"></i> Research</a></li>
-        </ul>
-      </nav>
-    </header>
+  <body>
     <section id="content" class="body">
+      {% block header %}
+        <div class="header">
+          <table>
+            <tr>
+              <td class="blogtitle"><a href="/">Grey Matter</a></td>
+              <td class="blognavbar">
+                <a href="/archive.html">[Archive]</a> <a href="/tags.html">[Tags]</a> <a href="/research.html">[Research]</a></a>
+              </td>
+            </tr>
+          </table>
+        </div>
+      {% endblock %}
       {% block main %}{% endblock %}
+      {% block footer %}
+        <div class="footer">
+          <center>
+            <a href="/rss.xml" target="_blank">rss</a> | <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">license</a>
+          </center>
+        </div>
+      {% endblock %}
     </section>
-    <footer class="footer">
-      <b><a href="/">Ankur Tyagi</a></b> (<b><a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-at"></i>7h3rAm</a></b>)
-      <br/>
-      Last updated on {{date}} (<b><a href="/rss.xml"><i class="fa fa-rss"></i> rss</a></b> <b><a href="/sitemap.xml"><i class="fa fa-sitemap"></i> sitemap</a></b>)
-      <br/>
-      Published under <b><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">by-nc-sa</a></b> and powered by <b><a alt="Linux" href="https://www.kernel.org/" target="_blank"><i class="fa fa-linux"></i></a></b>, <b><a alt="Kalpi" href="https://github.com/7h3rAm/kalpi/" target="_blank">kalpi</a></b>, <b><a href="http://git-scm.com/" target="_blank"><i class="fa fa-git"></i></a></b> and <b><a href="https://github.com/7h3rAm/7h3ram.github.io" target="_blank"><i class="fa fa-github"></i></a></b>
-    </footer>
-
-    <script src="/static/js/bootstrap/bootstrap.3.3.6.min.js"></script>
-    <script src="/static/js/raphael/raphael-min.js"></script>
-    <script src="/static/js/morrisjs/morris.min.js"></script>
-    <script src="/static/files/chart-data.js"></script>
-    <script src="/static/js/sprintf/sprintf.js"></script>
-    <script src="/static/js/underscore/underscore-min.js"></script>
-
   </body>
 </html>

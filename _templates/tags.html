@@ -4,10 +4,7 @@
     <a name="top"></a>
     <div class="row">
       <div class="col-lg-12">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            Tag Cloud
-          </div>
+      <div class="panel panel-default section compact">
           <div class="panel-body">
             <br/>
             <div class="tags">
@@ -22,30 +19,24 @@
         </div>
       </div>
     </div>
-
     <div class="row">
       <div class="col-lg-12">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            Tags Listing
-          </div>
+      <div class="panel panel-default section compact">
           <div class="panel-body">
-            <div class="overview">
-              {%for tag, tagvalue in tags.iteritems()%}
-                <h3><a name="{{tag}}">{{tag}}</a> <sup>({{tagvalue.count}})</sup></h3>
-                {%for post in tagvalue.files%}
-                  <div class="overview">
-                    {{loop.index}}.
-                    <h1><a href="{{post.url}}">{{post.title}}</a></h1>
-                    <div class="overview-date">{{post.pretty_date}}</div>
-                  </div>
-                {%endfor%}
-                <sup><a href="#top">top <i class="fa fa-arrow-up"></i></a></sup>
+            {%for tag, tagvalue in tags.iteritems()|sort%}
+              <div class="section">
+              <h2><a name="{{tag}}">{{tag}}</a> <sup>({{tagvalue.count}})</sup></h2>
+              <table>
+              {%for post in tagvalue.files%}
+                <span class="date">{{post.pretty_date}}</span> - <span class="posttitle"><a href="{{post.url}}">{{post.title}}</a></span>
+                <br/>
               {%endfor%}
-            </div>
+              </table>
+              <!--<sup><a href="#top">top</a></sup>-->
+              </div>
+            {%endfor%}
           </div>
         </div>
       </div>
     </div>
-
 {%endblock%}

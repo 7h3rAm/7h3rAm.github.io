@@ -121,4 +121,4 @@ identified and the graph as such is incorrect. However, this still is an
 interesting project and a really cheap way of visualizing regular
 expressions. For POSIX compliant solutions, refer these projects: [RegExVis](http://regexvisualizer.apphb.com/), [Debuggex](https://www.debuggex.com/) and [Regexper](http://www.regexper.com/)
 
-You can get the source files thorugh the project repository on [GitHub](https://github.com/7h3rAm/re2dotgraph).
+You can get the source files through the project repository on [GitHub](https://github.com/7h3rAm/re2dotgraph).

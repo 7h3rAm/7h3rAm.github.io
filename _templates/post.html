@@ -5,11 +5,9 @@
   <article class="post">
   <div class="row">
     <div class="col-lg-12">
-      <div class="panel panel-default">
-        <div class="panel-heading post-title">
-          {{post.title}}
-        </div>
-        <div class="panel-body">
+      <div class="panel panel-default section compact">
+        <div class="body">
+          <p class="heading">{{post.title}}</p>
           {%for post in posts%}
             {%if post.title == curr%}
               {%if loop.index0 > 0%}
@@ -27,30 +25,26 @@
                 {%set prevtitle = None%}
               {%endif%}
               {%if prev and next%}
-                <p class="post-date">
-                  <a href="{{baseurl}}{{prev}}"><i class="fa fa-angle-double-left"></i></a> published on {{post.pretty_date}}<a href="{{baseurl}}{{next}}"> <i class="fa fa-angle-double-right"></i></a><br/>
-                  readtime: {{post.readtimestr}} (view <a href="{{mdbaseurl}}{{post.filename}}">source</a>)
+                <p class="date">
+                  <a href="/{{prev}}">&lt&lt;</a> published on {{post.pretty_date}}<a href="/{{next}}"> &gt;&gt;</i></a><br/>
                 </p>
               {%elif not prev%}
-                <p class="post-date">
-                  published on {{post.pretty_date}}<a href="{{baseurl}}{{next}}"> <i class="fa fa-angle-double-right"></i></a><br/>
-                  readtime: {{post.readtimestr}} (view <a href="{{mdbaseurl}}{{post.filename}}">source</a>)
+                <p class="date">
+                  published on {{post.pretty_date}}<a href="/{{next}}"> &gt;&gt;</a><br/>
                 </p>
               {%elif not next%}
-                <p class="post-date">
-                  <a href="{{baseurl}}{{prev}}"><i class="fa fa-angle-double-left"></i></a> published on {{post.pretty_date}}<br/>
-                  readtime: {{post.readtimestr}} (view <a href="{{mdbaseurl}}{{post.filename}}">source</a>)
+                <p class="date">
+                  <a href="/{{prev}}">&lt;&lt;</a> published on {{post.pretty_date}}<br/>
                 </p>
               {%endif%}
             {%endif%}
           {%endfor%}
-        <div class="post-summary">{{post.summary}}</div>
         <div class="post-content">
           {{post.content}}
         </div>
-        <div class="post-bottomline">
+        <div class="meta">
           <hr/>
-          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-twitter"></i></a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank"><i class="fa fa-exclamation-circle"></i> issue</a> on blog reporsitory.</p>
+          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank">twitter</a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank">issue</a> on blog repository.</p>
           <hr/>
           {%for post in posts%}
             {%if post.title == curr%}
@@ -70,17 +64,17 @@
               {%endif%}
               <table>
                 <tr>
-                  <td align="left">(share via <a href="mailto:?subject={{post.title}}&body={{baseurl}}{{post.url}}" target="_blank" title="Share via Email"><i class="fa fa-inbox"></i></a> <a href="http://twitter.com/intent/tweet?text={{post.title}}+{{baseurl}}{{post.url}}&via=7h3rAm" target="_blank" title="Share on Twitter"><i class="fa fa-twitter"></i></a> <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={{baseurl}}{{post.url}}&p[images][0]=&p[title]={{post.title}}&p[summary]={{post.summary}}" target="_blank" title="Share on Facebook"><i class="fa fa-facebook"></i></a> <a href="https://plus.google.com/share?url={{baseurl}}{{post.url}}" target="_blank" title="Share on Google Plus"><i class="fa fa-google-plus"></i></a>)</td>
+                  <td align="left">(share via <a href="mailto:?subject={{post.title}}&body={{baseurl}}/{{post.url}}" target="_blank" title="Share via Email">mail</a>, <a href="http://twitter.com/intent/tweet?text={{post.title}}+{{baseurl}}/{{post.url}}&via=7h3rAm" target="_blank" title="Share on Twitter">twitter</a>, <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={{baseurl}}/{{post.url}}&p[images][0]=&p[title]={{post.title}}&p[summary]={{post.summary}}" target="_blank" title="Share on Facebook">facebook</a> or <a href="https://plus.google.com/share?url={{baseurl}}/{{post.url}}" target="_blank" title="Share on Google Plus">google-plus</a>)</td>
                   <td align="right">(tagged {{post.tags|joinlistand("/tags.html#")}})</td>
                 </tr>
                 <tr>
                   {%if prev and next%}
-                    <td align="left"><a href="{{baseurl}}{{prev}}"><i class="fa fa-angle-double-left"></i> {{prevtitle}} <i class="fa fa-angle-double-left"></i></a></td>
-                    <td align="right"><a href="{{baseurl}}{{next}}"><i class="fa fa-angle-double-right"></i> {{nexttitle}} <i class="fa fa-angle-double-right"></i></a></td>
+                    <td align="left"><a href="/{{prev}}">&lt;&lt; {{prevtitle}} &lt;&lt;</a></td>
+                    <td align="right"><a href="/{{next}}">&gt;&gt; {{nexttitle}} &gt;&gt;</a></td>
                   {%elif not next%}
-                    <td align="left" colspan="2"><a href="{{baseurl}}{{prev}}"><i class="fa fa-angle-double-left"></i> {{prevtitle}} <i class="fa fa-angle-double-left"></i></a></td>
+                    <td align="left" colspan="2"><a href="/{{prev}}">&lt;&lt; {{prevtitle}} &lt;&lt;</a></td>
                   {%elif not prev%}
-                    <td align="right" colspan="2"><a href="{{baseurl}}{{next}}"><i class="fa fa-angle-double-right"></i> {{nexttitle}} <i class="fa fa-angle-double-right"></i></a></td>
+                    <td align="right" colspan="2"><a href="/{{next}}">&gt;&gt; {{nexttitle}} &gt;&gt;</a></td>
                   {%endif%}
                 </tr>
               </table>
@@ -91,23 +85,5 @@
       </div>
     </div>
   </div>
-
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="panel panel-default">
-        <div class="panel-heading post-title">
-          Related Posts
-        </div>
-        <div class="panel-body">
-          {%for post in related_posts%}
-            {{loop.index}}. <a href="{{baseurl}}{{post[1]}}">{{post[0]}}</a>
-            <div class="overview-date">{{post[2]}}</div>
-            <br/>
-          {%endfor%}
-        </div>
-      </div>
-    </div>
-  </div>
-
   </article>
 {%endblock%}

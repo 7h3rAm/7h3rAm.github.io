@@ -6,11 +6,11 @@ tags: code, writeups, ctf
 
 FireEye has been putting up CTF styled malware and forensics challenges for last two years, named [FLARE On](http://www.flare-on.com/). I recently attempted few of those challenges from the 2014 set and will document steps to complete them.
 
-The challenge files are available under the `PastResults/2014/Downloads` directory on the site or you can get a local copy of all challenges [here](/static/files/flareon2014.zip). If you are into malware analysis and have worked with publicly available samples earlier, you can easily guess the password. If not consider this archive to be a challenge and try breaking the password scheme for it :)
+The challenge files are available under the [PastResults/2014/Downloads](http://www.flare-on.com/PastResults/2014/Downloads) directory on the site or you can get a local copy of all challenges [here](/static/files/flareon2014.zip). If you are into malware analysis and have worked with publicly available samples earlier, you can easily guess the password. If not consider this archive to be a challenge and try breaking the password scheme for it :)
 
 Once you get hold of the challenge files, you will find that there are total seven of them. This writeup documents the steps involved in solving challenges 1-5 and 6-7 have been left out for another post. Let's get started with the writeup now.
 
-## Challenge #1
+### Challenge #1
 The first challenge seems to be a PE file but let's do the initial reconnaissance to gather more details:
 
 ```shell
@@ -97,7 +97,7 @@ I opened this file with [ILSpy](http://ilspy.net/) and found the `Form1` object 
 
 ![image](/static/files/flareon2014-c1-ilspy-btndecode.png)
 
-This method is the callback for the `OnClick` eventhandler of the `DECODE!` button we saw on the UI. Interestingly it has some loops that mangle bits and and update the message with the resulting encoded text. The source message is loaded from a resource object called `dat_secret`. You can save this object as a binary blob to a local file for further analysis:
+This method is the callback for the `OnClick` eventhandler of the `DECODE!` button we saw on the UI. Interestingly it has some loops that mangle bits and update the message with the resulting encoded text. The source message is loaded from a resource object called `dat_secret`. You can save this object as a binary blob to a local file for further analysis:
 
 ![image](/static/files/flareon2014-c1-ilspy-datsecret-save.png)
 
@@ -130,7 +130,7 @@ $ ipython
 
 Alright, so the binary blob is of size 31B and has seemingly uninteresting data. On repeating the bit operations we get an email and this completes the challenge for us.
 
-## Challenge #2
+### Challenge #2
 This challenge has two files: a HTML and PNG respectively. From the very start of this challenge I was keen on analyzing the PNG as somewhere in the back of my mind I had this intuition that it could be a stegano challenge. As such I tried gathering more information about the PNG file:
 
 ```shell
@@ -273,7 +273,7 @@ a11.that.java5crap@flare-on.com
 >>>
 ```
 
-## Challenge #3
+### Challenge #3
 This challenge comprised of a binary file aptly named `such_evil.exe`. Let's do the initial information gathering on this file:
 
 ```shell
@@ -310,7 +310,7 @@ I stepped through the code, carefully avoiding the `msvcrt` code and placing bre
 
 ![image](/static/files/flareon2014-c3-2.png)
 
-I decided to enter this code and restarted the process. Upon entering it I found a lot of code performing stack operations. I skipped through these instructions till the point where a `CALL EAX` instruction was placed immediately after the stack operations. Upon entering this call, I found isntructions that seemed like part of a decoding routine:
+I decided to enter this code and restarted the process. Upon entering it I found a lot of code performing stack operations. I skipped through these instructions till the point where a `CALL EAX` instruction was placed immediately after the stack operations. Upon entering this call, I found instructions that seemed like part of a decoding routine:
 
 ![image](/static/files/flareon2014-c3-3.png)
 
@@ -320,7 +320,7 @@ However, it turned out to be just another excessively long routine doing useless
 
 So the flag for this challenge turned out to be: `such.5h311010101.flare-on.com`
 
-## Challenge #4
+### Challenge #4
 This is a PDF challenge and I started with my usual information gathering steps:
 
 ```shell
@@ -590,7 +590,7 @@ $ cat shellcode.binary | udcli
 $
 ```
 
-This is where the [writeup](http://www.ghettoforensics.com/2014/09/a-walkthrough-for-flare-re-challenges.html) from [@bbaskin](https://twitter.com/bbaskin) proved helped once again! I installed the recommended [shellcode2exe.py](https://github.com/MarioVilas/shellcode_tools/blob/master/shellcode2exe.py) tool and converted the shellcode blob to an EXE file:
+This is where the [writeup](http://www.ghettoforensics.com/2014/09/a-walkthrough-for-flare-re-challenges.html) from [@bbaskin](https://twitter.com/bbaskin) proved useful once again! I installed the recommended [shellcode2exe.py](https://github.com/MarioVilas/shellcode_tools/blob/master/shellcode2exe.py) tool and converted the shellcode blob to an EXE file:
 
 ```shell
 $ shellcode2exe.py shellcode.binary
@@ -615,7 +615,7 @@ While analyzing this file using Ollydbg, the email is decoded and placed right i
 
 So, the flag for this challenge is: `wa1ch.d3m.spl01ts@flare-on.com`
 
-##Challenge #5
+### Challenge #5
 Alright, on to the final challenge for this post. This is a binary file and let's gather some information about it:
 
 ```shell
@@ -663,4 +663,4 @@ This is a DLL that has interesting strings referring some keyboard and registry 
 
 ![image](/static/files/flareon2014-c5-1.png)
 
-As can be seen from the screenshot above, all these variable check if certain keys are pressed in sequence. The keys to be pressed and the oder they have to be pressed is the flag: `l0gging.ur.5tr0ke5@flare-on.com`
+As can be seen from the screenshot above, all these variable check if certain keys are pressed in sequence. The keys to be pressed and the order they have to be pressed is the flag: `l0gging.ur.5tr0ke5@flare-on.com`

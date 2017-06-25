@@ -1,136 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>7h3rAm's Infosec Ramblings</title>
     <meta charset="utf-8"/>
-    <meta content="7h3rAm" name="author"/>
+    <meta name="author" content="7h3rAm"/>
+    <meta name="description" content="Personal Weblog"/>
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
-
-    <script src="/static/js/jquery/jquery-1.10.2.js"></script>
-    <link href="/static/css/bootstrap/bootstrap.3.3.6.min.css" rel="stylesheet" type="text/css">
-    <link href="/static/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="/static/css/morrisjs/morris.css" rel="stylesheet" type="text/css">
-    <link href="/static/css/timeline/timeline.css" rel="stylesheet" type="text/css">
+    <title>Grey Matter</title>
     <link href="/static/css/main.css" rel="stylesheet" type="text/css">
     <link href="/static/css/codehilite/zenburn.css" rel="stylesheet" type="text/css">
-    <link href="/static/images/favicon.ico" rel="icon" type="image/x-icon"/>
-
-    <!-- Google Analytics -->
-    <script>
-    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-    ga('create', 'UA-50288765-1', '7h3rAm.github.io');
-    ga('send', 'pageview');
-    </script>
-    <script async src='http://www.google-analytics.com/analytics.js'></script>
-    <!-- End Google Analytics -->
-
+    <link href="/static/images/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
   </head>
-  <body id="index" class="home">
-    <header class="header">
-      <nav>
-        <ul>
-          <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-          <li><a href="/archive.html"><i class="fa fa-archive"></i> Archive</a></li>
-          <li><a href="/tags.html"><i class="fa fa-tags"></i> Tags</a></li>
-          <li><a href="/dashboard.html"><i class="fa fa-bar-chart"></i> Dashboard</a></li>
-          <li><a href="/research.html"><i class="fa fa-list-alt"></i> Research</a></li>
-        </ul>
-      </nav>
-    </header>
+  <body>
     <section id="content" class="body">
-      
-  
-  
-  <article class="post">
+              <div class="header">
+          <table>
+            <tr>
+              <td class="blogtitle"><a href="/">Grey Matter</a></td>
+              <td class="blognavbar">
+                <a href="/archive.html">[Archive]</a> <a href="/tags.html">[Tags]</a> <a href="/research.html">[Research]</a></a>
+              </td>
+            </tr>
+          </table>
+        </div>
+                  <article class="post">
   <div class="row">
     <div class="col-lg-12">
-      <div class="panel panel-default">
-        <div class="panel-heading post-title">
-          reverse-ex Challenge from Coursera's Malicious Software Course
-        </div>
-        <div class="panel-body">
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-              
-                
-                
-              
-              
-                
-                
-              
-              
-                <p class="post-date">
-                  <a href="/2013/libnids-pynids.html"><i class="fa fa-angle-double-left"></i></a> published on August 24, 2013<a href="/2013/malsoftware-reverse-challenge.html"> <i class="fa fa-angle-double-right"></i></a><br/>
-                  readtime: 1 hour and 4 minutes and 28 seconds (view <a href="https://raw.githubusercontent.io/7h3rAm/7h3rAm.github.io/master/_posts/malsoftware-reverse-ex.md">source</a>)
+      <div class="panel panel-default section compact">
+        <div class="body">
+          <p class="heading">reverse-ex Challenge from Coursera's Malicious Software Course</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <p class="date">
+                  <a href="/2013/libnids-pynids.html">&lt&lt;</a> published on 2013 Aug 24<a href="/2013/malsoftware-reverse-challenge.html"> &gt;&gt;</i></a><br/>
                 </p>
-              
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-        <div class="post-summary">The recently concluded Malicious Software course on Coursera had an interesting reversing challenge reverse-ex. This is a writeup on how to complete it.</div>
-        <div class="post-content">
+                                                                                                                                                                                                                                                                                                                                          <div class="post-content">
           <p>The recently concluded <a href="https://class.coursera.org/malsoftware-001/">Malicious Software and its Undergound
 Economy</a> course on
 <a href="https://www.coursera.org/">Coursera</a> had an interesting reverse
@@ -145,10 +46,10 @@ them with <code>file</code> command. This provides some insight about various fi
 attributes like its type (ELF, PE, etc.), processor architecture
 compatibility, symbol table inclusion, etc:</p>
 
-<div class="codehilite"><pre><code><span class="nv">$ </span>file reverse-ex
-reverse-ex: ELF 32-bit LSB executable, Intel 80386, version <span class="m">1</span> <span class="o">(</span>SYSV<span class="o">)</span>, dynamically linked <span class="o">(</span>uses shared libs<span class="o">)</span>, <span class="k">for</span> GNU/Linux 2.6.24, BuildID<span class="o">[</span> sha1<span class="o">]=</span>0x8dac70a14b40f115fc4a27041a3ae29227a55afb, not stripped
-<span class="err">$</span>
-<span class="nv">$ </span>file -i reverse-ex
+<div class="codehilite"><pre><span></span><code>$ file reverse-ex
+reverse-ex: ELF <span class="m">32</span>-bit LSB executable, Intel <span class="m">80386</span>, version <span class="m">1</span> <span class="o">(</span>SYSV<span class="o">)</span>, dynamically linked <span class="o">(</span>uses shared libs<span class="o">)</span>, <span class="k">for</span> GNU/Linux <span class="m">2</span>.6.24, BuildID<span class="o">[</span> sha1<span class="o">]=</span>0x8dac70a14b40f115fc4a27041a3ae29227a55afb, not stripped
+$
+$ file -i reverse-ex
 reverse-ex: application/x-executable<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>binary
 </code></pre></div>
 
@@ -184,7 +85,7 @@ function and try to reverse it. Let&#8217;s use <code>objdump</code> to disassem
 binary and dump its disassembly in <a href="http://en.wikipedia.org/wiki/X86_assembly_language#Syntax">Intel
 syntax</a>:</p>
 
-<div class="codehilite"><pre><code><span class="err">$</span> <span class="n">objdump</span> <span class="o">-</span><span class="n">d</span> <span class="o">-</span><span class="n">M</span> <span class="n">intel</span> <span class="n">reverse</span><span class="o">-</span><span class="n">ex</span>
+<div class="codehilite"><pre><span></span><code><span class="err">$</span> <span class="n">objdump</span> <span class="o">-</span><span class="n">d</span> <span class="o">-</span><span class="n">M</span> <span class="n">intel</span> <span class="n">reverse</span><span class="o">-</span><span class="n">ex</span>
 
 <span class="nl">reverse-ex</span><span class="p">:</span>     file format <span class="s">elf32-i386</span>
 
@@ -362,7 +263,7 @@ will try to mutate input buffer and compare it against a static key.
 Let&#8217;s conclude this analysis by having a closer look at <code>checkkey</code>&#8217;s
 disassembly:</p>
 
-<div class="codehilite"><pre><code><span class="mh">080484c4</span> <span class="p">&lt;</span><span class="nf">checkkey</span><span class="p">&gt;:</span>
+<div class="codehilite"><pre><span></span><code><span class="mh">080484c4</span> <span class="p">&lt;</span><span class="nf">checkkey</span><span class="p">&gt;:</span>
  <span class="mi">80484</span><span class="nl">c4</span><span class="p">:</span> <span class="mi">55</span>                    <span class="n">push</span>   <span class="n">ebp</span>
  <span class="mi">80484</span><span class="nl">c5</span><span class="p">:</span> <span class="mi">89</span> <span class="n">e5</span>                 <span class="n">mov</span>    <span class="n">ebp</span><span class="p">,</span><span class="n">esp</span>
  <span class="mi">80484</span><span class="nl">c7</span><span class="p">:</span> <span class="mi">57</span>                    <span class="n">push</span>   <span class="n">edi</span>
@@ -426,12 +327,12 @@ static key-like string, <code>KFFSE_XHKYOKXOHOFEDM^E_Y</code>, which looks like 
 very good candidate. Let&#8217;s try to reverse the XOR operation using this
 string as the key and 0x2a as XOR key:</p>
 
-<div class="codehilite"><pre><code><span class="c">#!/usr//bin/env python</span>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/usr//bin/env python</span>
 
 <span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
-    <span class="k">print</span> <span class="s">&quot;USAGE: </span><span class="si">%s</span><span class="s"> &lt;KFFSE_XHKYOKXOHOFEDM^E_Y&gt; &lt;0x2a&gt;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">print</span> <span class="s2">&quot;USAGE: </span><span class="si">%s</span><span class="s2"> &lt;KFFSE_XHKYOKXOHOFEDM^E_Y&gt; &lt;0x2a&gt;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
 <span class="n">flag</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -441,14 +342,14 @@ string as the key and 0x2a as XOR key:</p>
 <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">flag</span><span class="p">:</span>
     <span class="n">decoded</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">chr</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">^</span> <span class="n">key</span><span class="p">))</span>
 
-<span class="n">decoded</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">decoded</span><span class="p">)</span>
-<span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> ^ 0x</span><span class="si">%x</span><span class="s"> =&gt; </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">flag</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">decoded</span><span class="p">)</span>
+<span class="n">decoded</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">decoded</span><span class="p">)</span>
+<span class="k">print</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> ^ 0x</span><span class="si">%x</span><span class="s2"> =&gt; </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">flag</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">decoded</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="codehilite"><pre><code><span class="nv">$ </span>./xor.py KFFSE_XHKYOKXOHOFEDM^E_Y 0x2a
+<div class="codehilite"><pre><span></span><code>$ ./xor.py KFFSE_XHKYOKXOHOFEDM^E_Y 0x2a
 KFFSE_XHKYOKXOHOFEDM^E_Y ^ <span class="nv">0x2a</span> <span class="o">=</span>&gt; allyourbasearebelongtous
-<span class="err">$</span>
-<span class="nv">$ </span>./reverse-ex
+$
+$ ./reverse-ex
 Are you feeling lucky today? Ballyourbasearebelongtous
 <span class="o">[</span>+<span class="o">]</span> WooT!: KFFSE_XHKYOKXOHOFEDM^E_Y
 </code></pre></div>
@@ -470,7 +371,7 @@ rely on the debugging process to provide us the correct result. We&#8217;ll
 debug the program using GDB and check the contents of this address to
 validate our assumption:</p>
 
-<div class="codehilite"><pre><code><span class="err">$</span> <span class="n">gdb</span> <span class="p">.</span><span class="o">/</span><span class="n">reverse</span><span class="o">-</span><span class="n">ex</span> <span class="o">-</span><span class="n">q</span>
+<div class="codehilite"><pre><span></span><code><span class="err">$</span> <span class="n">gdb</span> <span class="p">.</span><span class="o">/</span><span class="n">reverse</span><span class="o">-</span><span class="n">ex</span> <span class="o">-</span><span class="n">q</span>
 <span class="n">Reading</span> <span class="n">symbols</span> <span class="n">from</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">ankur</span><span class="o">/</span><span class="n">toolbox</span><span class="o">/</span><span class="n">challenges</span><span class="o">/</span><span class="n">misc</span><span class="o">/</span><span class="n">reverse</span><span class="o">-</span><span class="n">ex</span><span class="p">...(</span><span class="n">no</span> <span class="n">debugging</span> <span class="n">symbols</span> <span class="n">found</span><span class="p">)...</span><span class="n">done</span><span class="p">.</span>
 <span class="p">(</span><span class="n">gdb</span><span class="p">)</span>
 <span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="k">break</span> <span class="n">checkkey</span>
@@ -544,144 +445,31 @@ writeup and in an <a href="/2013/malsoftware-reverse-challenge.html">upcoming po
 from this course.</p>
 
         </div>
-        <div class="post-bottomline">
+        <div class="meta">
           <hr/>
-          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-twitter"></i></a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank"><i class="fa fa-exclamation-circle"></i> issue</a> on blog reporsitory.</p>
+          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank">twitter</a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank">issue</a> on blog repository.</p>
           <hr/>
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-              
-                
-                
-              
-              
-                
-                
-              
-              <table>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <table>
                 <tr>
-                  <td align="left">(share via <a href="mailto:?subject=reverse-ex Challenge from Coursera's Malicious Software Course&body=/2013/malsoftware-reverse-ex.html" target="_blank" title="Share via Email"><i class="fa fa-inbox"></i></a> <a href="http://twitter.com/intent/tweet?text=reverse-ex Challenge from Coursera's Malicious Software Course+/2013/malsoftware-reverse-ex.html&via=7h3rAm" target="_blank" title="Share on Twitter"><i class="fa fa-twitter"></i></a> <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=/2013/malsoftware-reverse-ex.html&p[images][0]=&p[title]=reverse-ex Challenge from Coursera's Malicious Software Course&p[summary]=The recently concluded Malicious Software course on Coursera had an interesting reversing challenge reverse-ex. This is a writeup on how to complete it." target="_blank" title="Share on Facebook"><i class="fa fa-facebook"></i></a> <a href="https://plus.google.com/share?url=/2013/malsoftware-reverse-ex.html" target="_blank" title="Share on Google Plus"><i class="fa fa-google-plus"></i></a>)</td>
-                  <td align="right">(tagged <a href=/tags.html#writeups>writeups</a> and <a href=/tags.html#reversing>reversing</a>)</td>
+                  <td align="left">(share via <a href="mailto:?subject=reverse-ex Challenge from Coursera's Malicious Software Course&body=http://7h3ram.github.io//2013/malsoftware-reverse-ex.html" target="_blank" title="Share via Email">mail</a>, <a href="http://twitter.com/intent/tweet?text=reverse-ex Challenge from Coursera's Malicious Software Course+http://7h3ram.github.io//2013/malsoftware-reverse-ex.html&via=7h3rAm" target="_blank" title="Share on Twitter">twitter</a>, <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://7h3ram.github.io//2013/malsoftware-reverse-ex.html&p[images][0]=&p[title]=reverse-ex Challenge from Coursera's Malicious Software Course&p[summary]=The recently concluded Malicious Software course on Coursera had an interesting reversing challenge reverse-ex. This is a writeup on how to complete it." target="_blank" title="Share on Facebook">facebook</a> or <a href="https://plus.google.com/share?url=http://7h3ram.github.io//2013/malsoftware-reverse-ex.html" target="_blank" title="Share on Google Plus">google-plus</a>)</td>
+                  <td align="right">(tagged <a href=/tags.html#reversing>reversing</a> and <a href=/tags.html#writeups>writeups</a>)</td>
                 </tr>
                 <tr>
-                  
-                    <td align="left"><a href="/2013/libnids-pynids.html"><i class="fa fa-angle-double-left"></i> Network Stream Reassembly and Defragmentation <i class="fa fa-angle-double-left"></i></a></td>
-                    <td align="right"><a href="/2013/malsoftware-reverse-challenge.html"><i class="fa fa-angle-double-right"></i> reverse Challenge from Coursera's Malicious Software Course <i class="fa fa-angle-double-right"></i></a></td>
-                  
-                </tr>
+                                      <td align="left"><a href="/2013/libnids-pynids.html">&lt;&lt; Network Stream Reassembly and Defragmentation &lt;&lt;</a></td>
+                    <td align="right"><a href="/2013/malsoftware-reverse-challenge.html">&gt;&gt; reverse Challenge from Coursera's Malicious Software Course &gt;&gt;</a></td>
+                                  </tr>
               </table>
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-          </div>
+                                                                                                                                                                                                                                                                                                                              </div>
         </div>
       </div>
     </div>
   </div>
-
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="panel panel-default">
-        <div class="panel-heading post-title">
-          Related Posts
-        </div>
-        <div class="panel-body">
-          
-            1. <a href="/2013/malsoftware-reverse-challenge.html">reverse Challenge from Coursera's Malicious Software Course</a>
-            <div class="overview-date">August 29, 2013</div>
-            <br/>
-          
-            2. <a href="/2015/ebctf-bin100.html">Eindbazen CTF Challenge: bin100</a>
-            <div class="overview-date">May 27, 2015</div>
-            <br/>
-          
-            3. <a href="/2013/geras-wuos-stack2-solutions.html">Gera's Warming Up on Stack #2 - Solutions</a>
-            <div class="overview-date">January 2, 2013</div>
-            <br/>
-          
-        </div>
-      </div>
-    </div>
-  </div>
-
   </article>
-
-    </section>
-    <footer class="footer">
-      <b><a href="/">Ankur Tyagi</a></b> (<b><a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-at"></i>7h3rAm</a></b>)
-      <br/>
-      Last updated on October 20, 2016 (<b><a href="/rss.xml"><i class="fa fa-rss"></i> rss</a></b> <b><a href="/sitemap.xml"><i class="fa fa-sitemap"></i> sitemap</a></b>)
-      <br/>
-      Published under <b><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">by-nc-sa</a></b> and powered by <b><a alt="Linux" href="https://www.kernel.org/" target="_blank"><i class="fa fa-linux"></i></a></b>, <b><a alt="Kalpi" href="https://github.com/7h3rAm/kalpi/" target="_blank">kalpi</a></b>, <b><a href="http://git-scm.com/" target="_blank"><i class="fa fa-git"></i></a></b> and <b><a href="https://github.com/7h3rAm/7h3ram.github.io" target="_blank"><i class="fa fa-github"></i></a></b>
-    </footer>
-
-    <script src="/static/js/bootstrap/bootstrap.3.3.6.min.js"></script>
-    <script src="/static/js/raphael/raphael-min.js"></script>
-    <script src="/static/js/morrisjs/morris.min.js"></script>
-    <script src="/static/files/chart-data.js"></script>
-    <script src="/static/js/sprintf/sprintf.js"></script>
-    <script src="/static/js/underscore/underscore-min.js"></script>
-
+              <div class="footer">
+          <center>
+            <a href="/rss.xml" target="_blank">rss</a> | <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">license</a>
+          </center>
+        </div>
+          </section>
   </body>
 </html>

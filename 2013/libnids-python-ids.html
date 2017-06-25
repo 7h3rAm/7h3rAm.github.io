@@ -1,136 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>7h3rAm's Infosec Ramblings</title>
     <meta charset="utf-8"/>
-    <meta content="7h3rAm" name="author"/>
+    <meta name="author" content="7h3rAm"/>
+    <meta name="description" content="Personal Weblog"/>
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
-
-    <script src="/static/js/jquery/jquery-1.10.2.js"></script>
-    <link href="/static/css/bootstrap/bootstrap.3.3.6.min.css" rel="stylesheet" type="text/css">
-    <link href="/static/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="/static/css/morrisjs/morris.css" rel="stylesheet" type="text/css">
-    <link href="/static/css/timeline/timeline.css" rel="stylesheet" type="text/css">
+    <title>Grey Matter</title>
     <link href="/static/css/main.css" rel="stylesheet" type="text/css">
     <link href="/static/css/codehilite/zenburn.css" rel="stylesheet" type="text/css">
-    <link href="/static/images/favicon.ico" rel="icon" type="image/x-icon"/>
-
-    <!-- Google Analytics -->
-    <script>
-    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-    ga('create', 'UA-50288765-1', '7h3rAm.github.io');
-    ga('send', 'pageview');
-    </script>
-    <script async src='http://www.google-analytics.com/analytics.js'></script>
-    <!-- End Google Analytics -->
-
+    <link href="/static/images/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
   </head>
-  <body id="index" class="home">
-    <header class="header">
-      <nav>
-        <ul>
-          <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-          <li><a href="/archive.html"><i class="fa fa-archive"></i> Archive</a></li>
-          <li><a href="/tags.html"><i class="fa fa-tags"></i> Tags</a></li>
-          <li><a href="/dashboard.html"><i class="fa fa-bar-chart"></i> Dashboard</a></li>
-          <li><a href="/research.html"><i class="fa fa-list-alt"></i> Research</a></li>
-        </ul>
-      </nav>
-    </header>
+  <body>
     <section id="content" class="body">
-      
-  
-  
-  <article class="post">
+              <div class="header">
+          <table>
+            <tr>
+              <td class="blogtitle"><a href="/">Grey Matter</a></td>
+              <td class="blognavbar">
+                <a href="/archive.html">[Archive]</a> <a href="/tags.html">[Tags]</a> <a href="/research.html">[Research]</a></a>
+              </td>
+            </tr>
+          </table>
+        </div>
+                  <article class="post">
   <div class="row">
     <div class="col-lg-12">
-      <div class="panel panel-default">
-        <div class="panel-heading post-title">
-          Developing a Minimal IPS from Scratch
-        </div>
-        <div class="panel-body">
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-              
-                
-                
-              
-              
-                
-                
-              
-              
-                <p class="post-date">
-                  <a href="/2013/malsoftware-reverse-challenge.html"><i class="fa fa-angle-double-left"></i></a> published on September 15, 2013<a href="/2013/regex-to-dotgraph.html"> <i class="fa fa-angle-double-right"></i></a><br/>
-                  readtime: 8 minutes and 24 seconds (view <a href="https://raw.githubusercontent.io/7h3rAm/7h3rAm.github.io/master/_posts/libnids-python-ids.md">source</a>)
+      <div class="panel panel-default section compact">
+        <div class="body">
+          <p class="heading">Developing a Minimal IPS from Scratch</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <p class="date">
+                  <a href="/2013/malsoftware-reverse-challenge.html">&lt&lt;</a> published on 2013 Sep 15<a href="/2013/regex-to-dotgraph.html"> &gt;&gt;</i></a><br/>
                 </p>
-              
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-        <div class="post-summary">What do you get when you combine a TCP/IP reassembly/defragmentation library with Python's re module? Read on to know more.</div>
-        <div class="post-content">
+                                                                                                                                                                                                                                                                                                                                                                                      <div class="post-content">
           <p>In this post I&#8217;ll try to explain how
 <a href="https://jon.oberheide.org/pynids/">pynids</a> can be combined with
 Python&#8217;s <code>re</code> module to develop a minimal IPS-like tool. In an earlier
@@ -174,34 +75,34 @@ optionally drop the connection.</p>
 <p>Before we begin with development, let&#8217;s design the pseudocode for our
 IPS:</p>
 
-<div class="codehilite"><pre><code>1. initialize nids
-2. register udp callback
-3. register tcp callback
-4. invoke nids session
-5. <span class="k">for</span> udp packet:
-  5.1. extract <span class="nb">source</span>/destination and identify flow details
-  5.2. extract payload and pass on to inspection engine
-  5.3. <span class="k">if</span> match found:
-    5.3.1 dump <span class="nb">source</span>/destination details to output device/file
-    5.3.2 dump match statistics to output device/file
-6. <span class="k">for</span> tcp packet:
-  6.1 identify current tcp state
-  6.2 <span class="k">if</span> new connection:
-    6.2.1 add <span class="nb">source</span>/destination to session table
-    6.2.2 request cts/stc data collection from libnids
-  6.3 <span class="k">elif</span> existing connection with data:
-    6.3.1 identify direction
-    6.3.2 extract payload and pass on to inspection engine
-    6.3.3 <span class="k">if</span> match found:
-      6.3.3.1 dump <span class="nb">source</span>/destination details to output device/file
-      6.3.3.2 dump match statistics to output device/file
-      6.3.3.3 stop cts/stc data collection
-  6.4 <span class="k">elif</span> existing connection with closing tcp sequence:
-    6.4.1 stop cts/stc data collection
-7. <span class="k">for</span> each inspection request:
-  7.1 match user-supplied regex over input data
-  7.2 <span class="k">if</span> match found:
-    7.2.1 <span class="k">return</span> match statistics
+<div class="codehilite"><pre><span></span><code><span class="m">1</span>. initialize nids
+<span class="m">2</span>. register udp callback
+<span class="m">3</span>. register tcp callback
+<span class="m">4</span>. invoke nids session
+<span class="m">5</span>. <span class="k">for</span> udp packet:
+  <span class="m">5</span>.1. extract source/destination and identify flow details
+  <span class="m">5</span>.2. extract payload and pass on to inspection engine
+  <span class="m">5</span>.3. <span class="k">if</span> match found:
+    <span class="m">5</span>.3.1 dump source/destination details to output device/file
+    <span class="m">5</span>.3.2 dump match statistics to output device/file
+<span class="m">6</span>. <span class="k">for</span> tcp packet:
+  <span class="m">6</span>.1 identify current tcp state
+  <span class="m">6</span>.2 <span class="k">if</span> new connection:
+    <span class="m">6</span>.2.1 add source/destination to session table
+    <span class="m">6</span>.2.2 request cts/stc data collection from libnids
+  <span class="m">6</span>.3 <span class="k">elif</span> existing connection with data:
+    <span class="m">6</span>.3.1 identify direction
+    <span class="m">6</span>.3.2 extract payload and pass on to inspection engine
+    <span class="m">6</span>.3.3 <span class="k">if</span> match found:
+      <span class="m">6</span>.3.3.1 dump source/destination details to output device/file
+      <span class="m">6</span>.3.3.2 dump match statistics to output device/file
+      <span class="m">6</span>.3.3.3 stop cts/stc data collection
+  <span class="m">6</span>.4 <span class="k">elif</span> existing connection with closing tcp sequence:
+    <span class="m">6</span>.4.1 stop cts/stc data collection
+<span class="m">7</span>. <span class="k">for</span> each inspection request:
+  <span class="m">7</span>.1 match user-supplied regex over input data
+  <span class="m">7</span>.2 <span class="k">if</span> match found:
+    <span class="m">7</span>.2.1 <span class="k">return</span> match statistics
 </code></pre></div>
 
 <p>Please have a look at the <a href="https://gist.github.com/7h3rAm/10974463">minips.py</a> program which implements the above pseudo code.</p>
@@ -224,24 +125,24 @@ multiline matches using cli options.</p>
 <p>Here is a test run of this program on a pcap that contains HTTP session
 and UDP packets:</p>
 
-<div class="codehilite"><pre><code><span class="nv">$ </span>python minips.py -p ~/toolbox/testfiles/pcaps/http.cap -r <span class="s1">&#39;.*com&#39;</span>
-<span class="o">[</span>15-Sep-2013 15:03:02.341813 IST<span class="o">]</span> TCP 145.254.160.237:3372 - 65.208.228.223:80 <span class="o">(</span>NEW<span class="o">)</span>
-<span class="o">[</span>15-Sep-2013 15:03:02.341903 IST<span class="o">]</span> TCP 145.254.160.237:3372 - 65.208.228.223:80 <span class="o">(</span>CTS: 479B <span class="p">|</span> STC: 0B<span class="o">)</span>
-<span class="o">[</span>15-Sep-2013 15:03:02.341946 IST<span class="o">]</span> TCP 145.254.160.237:3372 - 65.208.228.223:80 matches regex <span class="s1">&#39;.*com&#39;</span> @ CTS<span class="o">[</span>29:51<span class="o">]</span> 22B
-00000000: <span class="m">48</span> 6f <span class="m">73</span> <span class="m">74</span> 3a <span class="m">20</span> <span class="m">77</span> <span class="m">77</span> <span class="m">77</span> 2e <span class="m">65</span> <span class="m">74</span> <span class="m">68</span> <span class="m">65</span> <span class="m">72</span> <span class="m">65</span>  <span class="p">|</span>Host: www.ethere<span class="p">|</span>
-00000010: <span class="m">61</span> 6c 2e <span class="m">63</span> 6f 6d                                <span class="p">|</span>al.com<span class="p">|</span>
+<div class="codehilite"><pre><span></span><code>$ python minips.py -p ~/toolbox/testfiles/pcaps/http.cap -r <span class="s1">&#39;.*com&#39;</span>
+<span class="o">[</span><span class="m">15</span>-Sep-2013 <span class="m">15</span>:03:02.341813 IST<span class="o">]</span> TCP <span class="m">145</span>.254.160.237:3372 - <span class="m">65</span>.208.228.223:80 <span class="o">(</span>NEW<span class="o">)</span>
+<span class="o">[</span><span class="m">15</span>-Sep-2013 <span class="m">15</span>:03:02.341903 IST<span class="o">]</span> TCP <span class="m">145</span>.254.160.237:3372 - <span class="m">65</span>.208.228.223:80 <span class="o">(</span>CTS: 479B <span class="p">|</span> STC: 0B<span class="o">)</span>
+<span class="o">[</span><span class="m">15</span>-Sep-2013 <span class="m">15</span>:03:02.341946 IST<span class="o">]</span> TCP <span class="m">145</span>.254.160.237:3372 - <span class="m">65</span>.208.228.223:80 matches regex <span class="s1">&#39;.*com&#39;</span> @ CTS<span class="o">[</span><span class="m">29</span>:51<span class="o">]</span> 22B
+<span class="m">00000000</span>: <span class="m">48</span> 6f <span class="m">73</span> <span class="m">74</span> 3a <span class="m">20</span> <span class="m">77</span> <span class="m">77</span> <span class="m">77</span> 2e <span class="m">65</span> <span class="m">74</span> <span class="m">68</span> <span class="m">65</span> <span class="m">72</span> <span class="m">65</span>  <span class="p">|</span>Host: www.ethere<span class="p">|</span>
+<span class="m">00000010</span>: <span class="m">61</span> 6c 2e <span class="m">63</span> 6f 6d                                <span class="p">|</span>al.com<span class="p">|</span>
 
-<span class="o">[</span>15-Sep-2013 15:03:02.342179 IST<span class="o">]</span> UDP 145.254.160.237:3009 - 145.253.2.203:53 <span class="o">(</span>47B<span class="o">)</span>
-<span class="o">[</span>15-Sep-2013 15:03:02.342210 IST<span class="o">]</span> UDP 145.254.160.237:3009 - 145.253.2.203:53 matches regex <span class="s1">&#39;.*com&#39;</span> @ <span class="o">[</span>0:42<span class="o">]</span> 42B
-00000000: <span class="m">00</span> <span class="m">23</span> <span class="m">01</span> <span class="m">00</span> <span class="m">00</span> <span class="m">01</span> <span class="m">00</span> <span class="m">00</span> <span class="m">00</span> <span class="m">00</span> <span class="m">00</span> <span class="m">00</span> <span class="m">07</span> <span class="m">70</span> <span class="m">61</span> <span class="m">67</span>  <span class="p">|</span>.#...........pag<span class="p">|</span>
-00000010: <span class="m">65</span> <span class="m">61</span> <span class="m">64</span> <span class="m">32</span> <span class="m">11</span> <span class="m">67</span> 6f 6f <span class="m">67</span> 6c <span class="m">65</span> <span class="m">73</span> <span class="m">79</span> 6e <span class="m">64</span> <span class="m">69</span>  <span class="p">|</span>ead2.googlesyndi<span class="p">|</span>
-00000020: <span class="m">63</span> <span class="m">61</span> <span class="m">74</span> <span class="m">69</span> 6f 6e <span class="m">03</span> <span class="m">63</span> 6f 6d                    <span class="p">|</span>cation.com<span class="p">|</span>
+<span class="o">[</span><span class="m">15</span>-Sep-2013 <span class="m">15</span>:03:02.342179 IST<span class="o">]</span> UDP <span class="m">145</span>.254.160.237:3009 - <span class="m">145</span>.253.2.203:53 <span class="o">(</span>47B<span class="o">)</span>
+<span class="o">[</span><span class="m">15</span>-Sep-2013 <span class="m">15</span>:03:02.342210 IST<span class="o">]</span> UDP <span class="m">145</span>.254.160.237:3009 - <span class="m">145</span>.253.2.203:53 matches regex <span class="s1">&#39;.*com&#39;</span> @ <span class="o">[</span><span class="m">0</span>:42<span class="o">]</span> 42B
+<span class="m">00000000</span>: <span class="m">00</span> <span class="m">23</span> <span class="m">01</span> <span class="m">00</span> <span class="m">00</span> <span class="m">01</span> <span class="m">00</span> <span class="m">00</span> <span class="m">00</span> <span class="m">00</span> <span class="m">00</span> <span class="m">00</span> <span class="m">07</span> <span class="m">70</span> <span class="m">61</span> <span class="m">67</span>  <span class="p">|</span>.#...........pag<span class="p">|</span>
+<span class="m">00000010</span>: <span class="m">65</span> <span class="m">61</span> <span class="m">64</span> <span class="m">32</span> <span class="m">11</span> <span class="m">67</span> 6f 6f <span class="m">67</span> 6c <span class="m">65</span> <span class="m">73</span> <span class="m">79</span> 6e <span class="m">64</span> <span class="m">69</span>  <span class="p">|</span>ead2.googlesyndi<span class="p">|</span>
+<span class="m">00000020</span>: <span class="m">63</span> <span class="m">61</span> <span class="m">74</span> <span class="m">69</span> 6f 6e <span class="m">03</span> <span class="m">63</span> 6f 6d                    <span class="p">|</span>cation.com<span class="p">|</span>
 
-<span class="o">[</span>15-Sep-2013 15:03:02.342439 IST<span class="o">]</span> UDP 145.253.2.203:53 - 145.254.160.237:3009 <span class="o">(</span>146B<span class="o">)</span>
-<span class="o">[</span>15-Sep-2013 15:03:02.342479 IST<span class="o">]</span> UDP 145.253.2.203:53 - 145.254.160.237:3009 matches regex <span class="s1">&#39;.*com&#39;</span> @ <span class="o">[</span>0:42<span class="o">]</span> 42B
-00000000: <span class="m">00</span> <span class="m">23</span> <span class="m">81</span> <span class="m">80</span> <span class="m">00</span> <span class="m">01</span> <span class="m">00</span> <span class="m">04</span> <span class="m">00</span> <span class="m">00</span> <span class="m">00</span> <span class="m">00</span> <span class="m">07</span> <span class="m">70</span> <span class="m">61</span> <span class="m">67</span>  <span class="p">|</span>.#...........pag<span class="p">|</span>
-00000010: <span class="m">65</span> <span class="m">61</span> <span class="m">64</span> <span class="m">32</span> <span class="m">11</span> <span class="m">67</span> 6f 6f <span class="m">67</span> 6c <span class="m">65</span> <span class="m">73</span> <span class="m">79</span> 6e <span class="m">64</span> <span class="m">69</span>  <span class="p">|</span>ead2.googlesyndi<span class="p">|</span>
-00000020: <span class="m">63</span> <span class="m">61</span> <span class="m">74</span> <span class="m">69</span> 6f 6e <span class="m">03</span> <span class="m">63</span> 6f 6d                    <span class="p">|</span>cation.com<span class="p">|</span>
+<span class="o">[</span><span class="m">15</span>-Sep-2013 <span class="m">15</span>:03:02.342439 IST<span class="o">]</span> UDP <span class="m">145</span>.253.2.203:53 - <span class="m">145</span>.254.160.237:3009 <span class="o">(</span>146B<span class="o">)</span>
+<span class="o">[</span><span class="m">15</span>-Sep-2013 <span class="m">15</span>:03:02.342479 IST<span class="o">]</span> UDP <span class="m">145</span>.253.2.203:53 - <span class="m">145</span>.254.160.237:3009 matches regex <span class="s1">&#39;.*com&#39;</span> @ <span class="o">[</span><span class="m">0</span>:42<span class="o">]</span> 42B
+<span class="m">00000000</span>: <span class="m">00</span> <span class="m">23</span> <span class="m">81</span> <span class="m">80</span> <span class="m">00</span> <span class="m">01</span> <span class="m">00</span> <span class="m">04</span> <span class="m">00</span> <span class="m">00</span> <span class="m">00</span> <span class="m">00</span> <span class="m">07</span> <span class="m">70</span> <span class="m">61</span> <span class="m">67</span>  <span class="p">|</span>.#...........pag<span class="p">|</span>
+<span class="m">00000010</span>: <span class="m">65</span> <span class="m">61</span> <span class="m">64</span> <span class="m">32</span> <span class="m">11</span> <span class="m">67</span> 6f 6f <span class="m">67</span> 6c <span class="m">65</span> <span class="m">73</span> <span class="m">79</span> 6e <span class="m">64</span> <span class="m">69</span>  <span class="p">|</span>ead2.googlesyndi<span class="p">|</span>
+<span class="m">00000020</span>: <span class="m">63</span> <span class="m">61</span> <span class="m">74</span> <span class="m">69</span> 6f 6e <span class="m">03</span> <span class="m">63</span> 6f 6d                    <span class="p">|</span>cation.com<span class="p">|</span>
 </code></pre></div>
 
 <p>The program correctly identified regex match over the TCP stream in the
@@ -277,144 +178,31 @@ inspect network flows using multiple regexes, enabling true IPS-like
 matching functionality.</p>
 
         </div>
-        <div class="post-bottomline">
+        <div class="meta">
           <hr/>
-          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-twitter"></i></a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank"><i class="fa fa-exclamation-circle"></i> issue</a> on blog reporsitory.</p>
+          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank">twitter</a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank">issue</a> on blog repository.</p>
           <hr/>
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-              
-                
-                
-              
-              
-                
-                
-              
-              <table>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <table>
                 <tr>
-                  <td align="left">(share via <a href="mailto:?subject=Developing a Minimal IPS from Scratch&body=/2013/libnids-python-ids.html" target="_blank" title="Share via Email"><i class="fa fa-inbox"></i></a> <a href="http://twitter.com/intent/tweet?text=Developing a Minimal IPS from Scratch+/2013/libnids-python-ids.html&via=7h3rAm" target="_blank" title="Share on Twitter"><i class="fa fa-twitter"></i></a> <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=/2013/libnids-python-ids.html&p[images][0]=&p[title]=Developing a Minimal IPS from Scratch&p[summary]=What do you get when you combine a TCP/IP reassembly/defragmentation library with Python's re module? Read on to know more." target="_blank" title="Share on Facebook"><i class="fa fa-facebook"></i></a> <a href="https://plus.google.com/share?url=/2013/libnids-python-ids.html" target="_blank" title="Share on Google Plus"><i class="fa fa-google-plus"></i></a>)</td>
+                  <td align="left">(share via <a href="mailto:?subject=Developing a Minimal IPS from Scratch&body=http://7h3ram.github.io//2013/libnids-python-ids.html" target="_blank" title="Share via Email">mail</a>, <a href="http://twitter.com/intent/tweet?text=Developing a Minimal IPS from Scratch+http://7h3ram.github.io//2013/libnids-python-ids.html&via=7h3rAm" target="_blank" title="Share on Twitter">twitter</a>, <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://7h3ram.github.io//2013/libnids-python-ids.html&p[images][0]=&p[title]=Developing a Minimal IPS from Scratch&p[summary]=What do you get when you combine a TCP/IP reassembly/defragmentation library with Python's re module? Read on to know more." target="_blank" title="Share on Facebook">facebook</a> or <a href="https://plus.google.com/share?url=http://7h3ram.github.io//2013/libnids-python-ids.html" target="_blank" title="Share on Google Plus">google-plus</a>)</td>
                   <td align="right">(tagged <a href=/tags.html#code>code</a>)</td>
                 </tr>
                 <tr>
-                  
-                    <td align="left"><a href="/2013/malsoftware-reverse-challenge.html"><i class="fa fa-angle-double-left"></i> reverse Challenge from Coursera's Malicious Software Course <i class="fa fa-angle-double-left"></i></a></td>
-                    <td align="right"><a href="/2013/regex-to-dotgraph.html"><i class="fa fa-angle-double-right"></i> Visualizing (non-POSIX) Regular Expressions <i class="fa fa-angle-double-right"></i></a></td>
-                  
-                </tr>
+                                      <td align="left"><a href="/2013/malsoftware-reverse-challenge.html">&lt;&lt; reverse Challenge from Coursera's Malicious Software Course &lt;&lt;</a></td>
+                    <td align="right"><a href="/2013/regex-to-dotgraph.html">&gt;&gt; Visualizing (non-POSIX) Regular Expressions &gt;&gt;</a></td>
+                                  </tr>
               </table>
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-          </div>
+                                                                                                                                                                                                                                                                                                                                                                          </div>
         </div>
       </div>
     </div>
   </div>
-
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="panel panel-default">
-        <div class="panel-heading post-title">
-          Related Posts
-        </div>
-        <div class="panel-body">
-          
-            1. <a href="/2016/circllu.html">circllu.py: Querying circl.lu API for CVE Information</a>
-            <div class="overview-date">March 12, 2016</div>
-            <br/>
-          
-            2. <a href="/2015/capinfos.html">capinfos.py: Pure Python Pcap Statistics Tool</a>
-            <div class="overview-date">August 2, 2015</div>
-            <br/>
-          
-            3. <a href="/2014/shellcode-pipeline.html">Shellcode Analysis Pipleine</a>
-            <div class="overview-date">March 18, 2014</div>
-            <br/>
-          
-        </div>
-      </div>
-    </div>
-  </div>
-
   </article>
-
-    </section>
-    <footer class="footer">
-      <b><a href="/">Ankur Tyagi</a></b> (<b><a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-at"></i>7h3rAm</a></b>)
-      <br/>
-      Last updated on October 20, 2016 (<b><a href="/rss.xml"><i class="fa fa-rss"></i> rss</a></b> <b><a href="/sitemap.xml"><i class="fa fa-sitemap"></i> sitemap</a></b>)
-      <br/>
-      Published under <b><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">by-nc-sa</a></b> and powered by <b><a alt="Linux" href="https://www.kernel.org/" target="_blank"><i class="fa fa-linux"></i></a></b>, <b><a alt="Kalpi" href="https://github.com/7h3rAm/kalpi/" target="_blank">kalpi</a></b>, <b><a href="http://git-scm.com/" target="_blank"><i class="fa fa-git"></i></a></b> and <b><a href="https://github.com/7h3rAm/7h3ram.github.io" target="_blank"><i class="fa fa-github"></i></a></b>
-    </footer>
-
-    <script src="/static/js/bootstrap/bootstrap.3.3.6.min.js"></script>
-    <script src="/static/js/raphael/raphael-min.js"></script>
-    <script src="/static/js/morrisjs/morris.min.js"></script>
-    <script src="/static/files/chart-data.js"></script>
-    <script src="/static/js/sprintf/sprintf.js"></script>
-    <script src="/static/js/underscore/underscore-min.js"></script>
-
+              <div class="footer">
+          <center>
+            <a href="/rss.xml" target="_blank">rss</a> | <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">license</a>
+          </center>
+        </div>
+          </section>
   </body>
 </html>

@@ -1,541 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>7h3rAm's Infosec Ramblings</title>
     <meta charset="utf-8"/>
-    <meta content="7h3rAm" name="author"/>
+    <meta name="author" content="7h3rAm"/>
+    <meta name="description" content="Personal Weblog"/>
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
-
-    <script src="/static/js/jquery/jquery-1.10.2.js"></script>
-    <link href="/static/css/bootstrap/bootstrap.3.3.6.min.css" rel="stylesheet" type="text/css">
-    <link href="/static/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="/static/css/morrisjs/morris.css" rel="stylesheet" type="text/css">
-    <link href="/static/css/timeline/timeline.css" rel="stylesheet" type="text/css">
+    <title>Grey Matter</title>
     <link href="/static/css/main.css" rel="stylesheet" type="text/css">
     <link href="/static/css/codehilite/zenburn.css" rel="stylesheet" type="text/css">
-    <link href="/static/images/favicon.ico" rel="icon" type="image/x-icon"/>
-
-    <!-- Google Analytics -->
-    <script>
-    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-    ga('create', 'UA-50288765-1', '7h3rAm.github.io');
-    ga('send', 'pageview');
-    </script>
-    <script async src='http://www.google-analytics.com/analytics.js'></script>
-    <!-- End Google Analytics -->
-
+    <link href="/static/images/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
   </head>
-  <body id="index" class="home">
-    <header class="header">
-      <nav>
-        <ul>
-          <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-          <li><a href="/archive.html"><i class="fa fa-archive"></i> Archive</a></li>
-          <li><a href="/tags.html"><i class="fa fa-tags"></i> Tags</a></li>
-          <li><a href="/dashboard.html"><i class="fa fa-bar-chart"></i> Dashboard</a></li>
-          <li><a href="/research.html"><i class="fa fa-list-alt"></i> Research</a></li>
-        </ul>
-      </nav>
-    </header>
+  <body>
     <section id="content" class="body">
-      
-  <article class="post">
+              <div class="header">
+          <table>
+            <tr>
+              <td class="blogtitle"><a href="/">Grey Matter</a></td>
+              <td class="blognavbar">
+                <a href="/archive.html">[Archive]</a> <a href="/tags.html">[Tags]</a> <a href="/research.html">[Research]</a></a>
+              </td>
+            </tr>
+          </table>
+        </div>
+              <article class="post">
     <a name="top"></a>
     <div class="row">
       <div class="col-lg-12">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            Posts Archive
-          </div>
-          <div class="panel-body">
-            
-            
-            
-              
-                <div class="overview">
-                  <h3>March 2016</h3>
-                    
-                      
-                        <div class="overview">
-                          1.
-                          <h1><a href="2016/circllu.html">circllu.py: Querying circl.lu API for CVE Information</a></h1>
-                          <div class="overview-date">March 12, 2016</div>
-                          <div class="overview-description"><p></p>This post demos a few nifty API endpoints from circl.lu that provide information on CVE and the vulnerabilities</div>
-                        </div>
-                      
-                      
-                    
-                  
-                </div>
-              
-                <div class="overview">
-                  <h3>February 2016</h3>
-                    
-                      
-                        <div class="overview">
-                          2.
-                          <h1><a href="2016/flareon2014-15.html">FireEye FLARE On 2014 Challenges (1-5)</a></h1>
-                          <div class="overview-date">February 18, 2016</div>
-                          <div class="overview-description"><p></p>The following post is a writeup for FireEye's FLARE On 2014 challenges that I recently attempted.</div>
-                        </div>
-                      
-                      
-                    
-                  
-                </div>
-              
-            
-              
-                <div class="overview">
-                  <h3>November 2015</h3>
-                    
-                      
-                        <div class="overview">
-                          3.
-                          <h1><a href="2015/cigma.html">cigma: A Pure Python Filetype Identification Library</a></h1>
-                          <div class="overview-date">November 22, 2015</div>
-                          <div class="overview-description"><p></p>Cigma is a minimal, pure Python filetype identification library I created as an alternative to various Python ports of libmagic that are floating around.</div>
-                        </div>
-                      
-                      
-                    
-                  
-                </div>
-              
-                <div class="overview">
-                  <h3>August 2015</h3>
-                    
-                      
-                        <div class="overview">
-                          4.
-                          <h1><a href="2015/capinfos.html">capinfos.py: Pure Python Pcap Statistics Tool</a></h1>
-                          <div class="overview-date">August 2, 2015</div>
-                          <div class="overview-description"><p></p>This post introduces a pure-Python way of parsing a pcap file and generating statistics like capinfos tool from Wireshark.</div>
-                        </div>
-                      
-                      
-                    
-                  
-                </div>
-              
-                <div class="overview">
-                  <h3>May 2015</h3>
-                    
-                      
-                        <div class="overview">
-                          5.
-                          <h1><a href="2015/ebctf-bin100.html">Eindbazen CTF Challenge: bin100</a></h1>
-                          <div class="overview-date">May 27, 2015</div>
-                          <div class="overview-description"><p></p>This post is a writeup for the bin100 challenge (Dice Revenge) from Eindbazen CTF 2013.</div>
-                        </div>
-                      
-                      
-                    
-                  
-                </div>
-              
-                <div class="overview">
-                  <h3>March 2015</h3>
-                    
-                      
-                        <div class="overview">
-                          6.
-                          <h1><a href="2015/chopshop-shellcode.html">Shellcode Detection Module in ChopShop</a></h1>
-                          <div class="overview-date">March 12, 2015</div>
-                          <div class="overview-description"><p></p>This post shows a shellcode detection module that I submitted to MITRECND's ChopShop Protocol Analysis/Decoder Framework.</div>
-                        </div>
-                      
-                      
-                    
-                  
-                </div>
-              
-            
-              
-                <div class="overview">
-                  <h3>November 2014</h3>
-                    
-                      
-                        <div class="overview">
-                          7.
-                          <h1><a href="2014/flowinspect.html">Flowinspect: A Network Inspection Tool</a></h1>
-                          <div class="overview-date">November 27, 2014</div>
-                          <div class="overview-description"><p></p>This post introduces a network inspection tool that I've developed, called Flowinspect. It aims to reassemble network data and scan it via different inspection engines. Results of these scan can be viewed as a HTML report or consumed as a JSON via external applications.</div>
-                        </div>
-                      
-                      
-                    
-                  
-                      
-                        <div class="overview">
-                          8.
-                          <h1><a href="2014/pcapedit.html">pcapedit: An Interactive Scapy-based Pcap Editor</a></h1>
-                          <div class="overview-date">November 15, 2014</div>
-                          <div class="overview-description"><p></p>pcapedit is an interactive pcap editor. It provides quick shorthand over Scapy commands and aims to be useful for mundane pcap editing tasks. The interactive mode allows saving of command history to a script which can then be used to edit multiple files together.</div>
-                        </div>
-                      
-                      
-                    
-                  
-                </div>
-              
-                <div class="overview">
-                  <h3>September 2014</h3>
-                    
-                      
-                        <div class="overview">
-                          9.
-                          <h1><a href="2014/little-pdf.html">Little PDF Puzzle from Didier Stevens</a></h1>
-                          <div class="overview-date">September 18, 2014</div>
-                          <div class="overview-description"><p></p>This is a post on how to solve the Little PDF puzzle from Didier Stevens.</div>
-                        </div>
-                      
-                      
-                    
-                  
-                </div>
-              
-                <div class="overview">
-                  <h3>June 2014</h3>
-                    
-                      
-                        <div class="overview">
-                          10.
-                          <h1><a href="2014/pcapgentools-contentype-patch.html">PCAP-GenerationTools and Content-Type Identification Patch</a></h1>
-                          <div class="overview-date">June 18, 2014</div>
-                          <div class="overview-description"><p></p>This post introduces PCAP-Generation-Tools project which allows one to create pcaps using Python and Scapy without touching the network stack. The post also mentions a filetype identification patch that I submitted and which was merged in the master branch.</div>
-                        </div>
-                      
-                      
-                    
-                  
-                </div>
-              
-                <div class="overview">
-                  <h3>May 2014</h3>
-                    
-                      
-                        <div class="overview">
-                          11.
-                          <h1><a href="2014/confidence-ds-ctf-stego50.html">CONFidence DS CTF Teaser: Stegano50</a></h1>
-                          <div class="overview-date">May 6, 2014</div>
-                          <div class="overview-description"><p></p>This post discusses how I completed the stego50 challenge from Dragon Sector CTF team. It is a simplistic challenge but a good source for learning about PDF internals.</div>
-                        </div>
-                      
-                      
-                    
-                  
-                </div>
-              
-                <div class="overview">
-                  <h3>March 2014</h3>
-                    
-                      
-                        <div class="overview">
-                          12.
-                          <h1><a href="2014/northrop-challenge.html">Northrop's Online Challenge</a></h1>
-                          <div class="overview-date">March 27, 2014</div>
-                          <div class="overview-description"><p></p>I came across an interesting challenge posted by someone from Northrop Grumman Cyber Intelligence Division at /reddit/netsec's Q1 2014 Information Security Hiring Thread. This post documents the steps I took to solve it.</div>
-                        </div>
-                      
-                      
-                    
-                  
-                      
-                        <div class="overview">
-                          13.
-                          <h1><a href="2014/shellcode-pipeline.html">Shellcode Analysis Pipleine</a></h1>
-                          <div class="overview-date">March 18, 2014</div>
-                          <div class="overview-description"><p></p>This post talks about creating an automated shellcode analysis pipeline where in the shellcode is sourced from public portals and tested via multiple analysis engines. It provides an automated way of testing the accuracy of detection engines like Libemu/Snort/Suricata/Bro against publicly available shellcode.</div>
-                        </div>
-                      
-                      
-                    
-                  
-                </div>
-              
-                <div class="overview">
-                  <h3>February 2014</h3>
-                    
-                      
-                        <div class="overview">
-                          14.
-                          <h1><a href="2014/buf1-challenge.html">buf1 - Another Buffer Overflow Challenge</a></h1>
-                          <div class="overview-date">February 24, 2014</div>
-                          <div class="overview-description"><p></p>This is another buffer overflow challenge I found online. I posted a writeup on a similar challenge buf0 earlier and one for this challenge was long due. Finally today I got some time to document the solution.</div>
-                        </div>
-                      
-                      
-                    
-                  
-                </div>
-              
-                <div class="overview">
-                  <h3>January 2014</h3>
-                    
-                      
-                        <div class="overview">
-                          15.
-                          <h1><a href="2014/buf0-challenge.html">buf0 - A Buffer Overflow Challenge</a></h1>
-                          <div class="overview-date">January 6, 2014</div>
-                          <div class="overview-description"><p></p>This is a buffer overflow challenge I found online. Although some people might find this to be a pretty easy exploit target, I thought of posting a writeup since it will still be someone's starting point into the jouney of exploitation.</div>
-                        </div>
-                      
-                      
-                    
-                  
-                </div>
-              
-            
-              
-                <div class="overview">
-                  <h3>November 2013</h3>
-                    
-                      
-                        <div class="overview">
-                          16.
-                          <h1><a href="2013/regex-to-dotgraph.html">Visualizing (non-POSIX) Regular Expressions</a></h1>
-                          <div class="overview-date">November 27, 2013</div>
-                          <div class="overview-description"><p></p>This post details the steps involved in visualizing a (non-POSIX) regular expression using Finite State Automata.</div>
-                        </div>
-                      
-                      
-                    
-                  
-                </div>
-              
-                <div class="overview">
-                  <h3>September 2013</h3>
-                    
-                      
-                        <div class="overview">
-                          17.
-                          <h1><a href="2013/libnids-python-ids.html">Developing a Minimal IPS from Scratch</a></h1>
-                          <div class="overview-date">September 15, 2013</div>
-                          <div class="overview-description"><p></p>What do you get when you combine a TCP/IP reassembly/defragmentation library with Python's re module? Read on to know more.</div>
-                        </div>
-                      
-                      
-                    
-                  
-                </div>
-              
-                <div class="overview">
-                  <h3>August 2013</h3>
-                    
-                      
-                        <div class="overview">
-                          18.
-                          <h1><a href="2013/malsoftware-reverse-challenge.html">reverse Challenge from Coursera's Malicious Software Course</a></h1>
-                          <div class="overview-date">August 29, 2013</div>
-                          <div class="overview-description"><p></p>This post is a writeup on the reverse-challenge from recently concluded Malicious Software course on Coursera.</div>
-                        </div>
-                      
-                      
-                    
-                  
-                      
-                        <div class="overview">
-                          19.
-                          <h1><a href="2013/malsoftware-reverse-ex.html">reverse-ex Challenge from Coursera's Malicious Software Course</a></h1>
-                          <div class="overview-date">August 24, 2013</div>
-                          <div class="overview-description"><p></p>The recently concluded Malicious Software course on Coursera had an interesting reversing challenge reverse-ex. This is a writeup on how to complete it.</div>
-                        </div>
-                      
-                      
-                    
-                  
-                </div>
-              
-                <div class="overview">
-                  <h3>June 2013</h3>
-                    
-                      
-                        <div class="overview">
-                          20.
-                          <h1><a href="2013/libnids-pynids.html">Network Stream Reassembly and Defragmentation</a></h1>
-                          <div class="overview-date">June 18, 2013</div>
-                          <div class="overview-description"><p></p>Libnids is a library that emulates Linux kernel 2.0.x TCP/IP stack to offer IP defragmentation, TCP reassembly and port scan detection features. This post talks about the Python wrapper and how to use it.</div>
-                        </div>
-                      
-                      
-                    
-                  
-                </div>
-              
-                <div class="overview">
-                  <h3>March 2013</h3>
-                    
-                      
-                        <div class="overview">
-                          21.
-                          <h1><a href="2013/libemu-shellcode-detection.html">x86 Emulation and Shellcode Detection</a></h1>
-                          <div class="overview-date">March 6, 2013</div>
-                          <div class="overview-description"><p></p>Libemu is a C library for x86 emulation and shellcode detection. Pylibemu is its Python wrapper that provides an easy-to-use API and has additional features compared to the default bindings.</div>
-                        </div>
-                      
-                      
-                    
-                  
-                </div>
-              
-                <div class="overview">
-                  <h3>January 2013</h3>
-                    
-                      
-                        <div class="overview">
-                          22.
-                          <h1><a href="2013/geras-wuos-stack5-solutions.html">Gera's Warming Up on Stack #5 - Solutions</a></h1>
-                          <div class="overview-date">January 5, 2013</div>
-                          <div class="overview-description"><p></p>Solutions for Gera's Warming up on Stack #5 program.</div>
-                        </div>
-                      
-                      
-                    
-                  
-                      
-                        <div class="overview">
-                          23.
-                          <h1><a href="2013/geras-wuos-stack4-solutions.html">Gera's Warming Up on Stack #4 - Solutions</a></h1>
-                          <div class="overview-date">January 4, 2013</div>
-                          <div class="overview-description"><p></p>Solutions for Gera's Warming up on Stack #4 program.</div>
-                        </div>
-                      
-                      
-                    
-                  
-                      
-                        <div class="overview">
-                          24.
-                          <h1><a href="2013/geras-wuos-stack3-solutions.html">Gera's Warming Up on Stack #3 - Solutions</a></h1>
-                          <div class="overview-date">January 3, 2013</div>
-                          <div class="overview-description"><p></p>Solutions for Gera's Warming up on Stack #3 program.</div>
-                        </div>
-                      
-                      
-                    
-                  
-                      
-                        <div class="overview">
-                          25.
-                          <h1><a href="2013/geras-wuos-stack2-solutions.html">Gera's Warming Up on Stack #2 - Solutions</a></h1>
-                          <div class="overview-date">January 2, 2013</div>
-                          <div class="overview-description"><p></p>Solutions for Gera's Warming up on Stack #2 program.</div>
-                        </div>
-                      
-                      
-                    
-                  
-                </div>
-              
-            
-              
-                <div class="overview">
-                  <h3>September 2012</h3>
-                    
-                      
-                        <div class="overview">
-                          26.
-                          <h1><a href="2012/tfm-mmplayer-ppl-seh.html">TFM MMPlayer .ppl File Parsing SEH Overflow</a></h1>
-                          <div class="overview-date">September 2, 2012</div>
-                          <div class="overview-description"><p></p>TFM MMPlayer SEH overflow via a pop-pop-return overwrite and negative jumps.</div>
-                        </div>
-                      
-                      
-                    
-                        <div class="overview">
-                          27.
-                          <h1><a href="2012/shadow-stream-recorder-asx-jmpesp.html">Shadow Stream Recorder .asx File Parsing Buffer Overflow</a></h1>
-                          <div class="overview-date">September 2, 2012</div>
-                          <div class="overview-description"><p></p>Shadow Stream Recorder EIP overflow via a jmp esp overwrite.</div>
-                        </div>
-                      
-                      
-                    
-                        <div class="overview">
-                          28.
-                          <h1><a href="2012/millenium-mpf-seh.html">Millennium MP3 Studio .mpf File Parsing SEH Overflow</a></h1>
-                          <div class="overview-date">September 2, 2012</div>
-                          <div class="overview-description"><p></p>Millenium MP3 Studio SEH overflow via a pop-pop-return overwrite.</div>
-                        </div>
-                      
-                      
-                    
-                        <div class="overview">
-                          29.
-                          <h1><a href="2012/soritong-m3u-seh-overflow.html">SoriTong MP3 Player .m3u File Parsing SEH Overflow</a></h1>
-                          <div class="overview-date">September 2, 2012</div>
-                          <div class="overview-description"><p></p>SoriTong MP3 Player SEH overflow via a pop-pop-return overwrite.</div>
-                        </div>
-                      
-                      
-                    
-                        <div class="overview">
-                          30.
-                          <h1><a href="2012/word-list-builder-dic-file-parsing-seh.html">Word List Builder .dic File Parsing SEH Overflow</a></h1>
-                          <div class="overview-date">September 2, 2012</div>
-                          <div class="overview-description"><p></p>Word List Builder SEH overflow via a pop-pop-return overwrite and negative jumps.</div>
-                        </div>
-                      
-                      
-                    
-                  
-                </div>
-              
-                <div class="overview">
-                  <h3>August 2012</h3>
-                    
-                      
-                        <div class="overview">
-                          31.
-                          <h1><a href="2012/geras-wuos-stack1-solutions.html">Gera's Warming Up on Stack #1 - Solutions</a></h1>
-                          <div class="overview-date">August 27, 2012</div>
-                          <div class="overview-description"><p></p>Solutions for Gera's Warming up on Stack #1 program.</div>
-                        </div>
-                      
-                      
-                    
-                  
-                </div>
-              
-                <div class="overview">
-                  <h3>July 2012</h3>
-                    
-                      
-                        <div class="overview">
-                          32.
-                          <h1><a href="2012/exploit-mitigation-techniques-on-linux.html">Exploit Mitigation Techniques on Linux Systems</a></h1>
-                          <div class="overview-date">July 10, 2012</div>
-                          <div class="overview-description"><p></p>This post discusses various exploit mitigation techniques like NX, ASLR, PIE and SSP available on modern Linux distributions.</div>
-                        </div>
-                      
-                      
-                    
-                  
-                </div>
-              
-            
+      <div class="panel panel-default section compact">
+          <div class="panel-body compact">
+            <p class="heading">Archive</p>
+                        
+                                                            
+                    <span class="date">2016 Mar 12</span> - <span class="posttitle"><a href="2016/circllu.html">circllu.py: Querying circl.lu API for CVE Information</a></span>
+                    <br/>
+
+                                                                                                                          
+                    <span class="date">2016 Feb 18</span> - <span class="posttitle"><a href="2016/flareon2014-15.html">FireEye FLARE On 2014 Challenges (1-5)</a></span>
+                    <br/>
+
+                                                                                                                                                    
+                    <span class="date">2015 Nov 22</span> - <span class="posttitle"><a href="2015/cigma.html">cigma: A Pure Python Filetype Identification Library</a></span>
+                    <br/>
+
+                                                                                                                          
+                    <span class="date">2015 Aug 02</span> - <span class="posttitle"><a href="2015/capinfos.html">capinfos.py: Pure Python Pcap Statistics Tool</a></span>
+                    <br/>
+
+                                                                                                                          
+                    <span class="date">2015 May 27</span> - <span class="posttitle"><a href="2015/ebctf-bin100.html">Eindbazen CTF Challenge: bin100</a></span>
+                    <br/>
+
+                                                                                                                          
+                    <span class="date">2015 Mar 12</span> - <span class="posttitle"><a href="2015/chopshop-shellcode.html">Shellcode Detection Module in ChopShop</a></span>
+                    <br/>
+
+                                                                                                                                                    
+                    <span class="date">2014 Nov 27</span> - <span class="posttitle"><a href="2014/flowinspect.html">Flowinspect: A Network Inspection Tool</a></span>
+                    <br/>
+
+                                                                                            
+                    <span class="date">2014 Nov 15</span> - <span class="posttitle"><a href="2014/pcapedit.html">pcapedit: An Interactive Scapy-based Pcap Editor</a></span>
+                    <br/>
+
+                                                                                                                          
+                    <span class="date">2014 Sep 18</span> - <span class="posttitle"><a href="2014/little-pdf.html">Little PDF Puzzle from Didier Stevens</a></span>
+                    <br/>
+
+                                                                                                                          
+                    <span class="date">2014 Jun 18</span> - <span class="posttitle"><a href="2014/pcapgentools-contentype-patch.html">PCAP-GenerationTools and Content-Type Identification Patch</a></span>
+                    <br/>
+
+                                                                                                                          
+                    <span class="date">2014 May 06</span> - <span class="posttitle"><a href="2014/confidence-ds-ctf-stego50.html">CONFidence DS CTF Teaser: Stegano50</a></span>
+                    <br/>
+
+                                                                                                                          
+                    <span class="date">2014 Mar 27</span> - <span class="posttitle"><a href="2014/northrop-challenge.html">Northrop's Online Challenge</a></span>
+                    <br/>
+
+                                                                                            
+                    <span class="date">2014 Mar 18</span> - <span class="posttitle"><a href="2014/shellcode-pipeline.html">Shellcode Analysis Pipleine</a></span>
+                    <br/>
+
+                                                                                                                          
+                    <span class="date">2014 Feb 24</span> - <span class="posttitle"><a href="2014/buf1-challenge.html">buf1 - Another Buffer Overflow Challenge</a></span>
+                    <br/>
+
+                                                                                                                          
+                    <span class="date">2014 Jan 06</span> - <span class="posttitle"><a href="2014/buf0-challenge.html">buf0 - A Buffer Overflow Challenge</a></span>
+                    <br/>
+
+                                                                                                                                                    
+                    <span class="date">2013 Nov 27</span> - <span class="posttitle"><a href="2013/regex-to-dotgraph.html">Visualizing (non-POSIX) Regular Expressions</a></span>
+                    <br/>
+
+                                                                                                                          
+                    <span class="date">2013 Sep 15</span> - <span class="posttitle"><a href="2013/libnids-python-ids.html">Developing a Minimal IPS from Scratch</a></span>
+                    <br/>
+
+                                                                                                                          
+                    <span class="date">2013 Aug 29</span> - <span class="posttitle"><a href="2013/malsoftware-reverse-challenge.html">reverse Challenge from Coursera's Malicious Software Course</a></span>
+                    <br/>
+
+                                                                                            
+                    <span class="date">2013 Aug 24</span> - <span class="posttitle"><a href="2013/malsoftware-reverse-ex.html">reverse-ex Challenge from Coursera's Malicious Software Course</a></span>
+                    <br/>
+
+                                                                                                                          
+                    <span class="date">2013 Jun 18</span> - <span class="posttitle"><a href="2013/libnids-pynids.html">Network Stream Reassembly and Defragmentation</a></span>
+                    <br/>
+
+                                                                                                                          
+                    <span class="date">2013 Mar 06</span> - <span class="posttitle"><a href="2013/libemu-shellcode-detection.html">x86 Emulation and Shellcode Detection</a></span>
+                    <br/>
+
+                                                                                                                          
+                    <span class="date">2013 Jan 05</span> - <span class="posttitle"><a href="2013/geras-wuos-stack5-solutions.html">Gera's Warming Up on Stack #5 - Solutions</a></span>
+                    <br/>
+
+                                                                                            
+                    <span class="date">2013 Jan 04</span> - <span class="posttitle"><a href="2013/geras-wuos-stack4-solutions.html">Gera's Warming Up on Stack #4 - Solutions</a></span>
+                    <br/>
+
+                                                                                            
+                    <span class="date">2013 Jan 03</span> - <span class="posttitle"><a href="2013/geras-wuos-stack3-solutions.html">Gera's Warming Up on Stack #3 - Solutions</a></span>
+                    <br/>
+
+                                                                                            
+                    <span class="date">2013 Jan 02</span> - <span class="posttitle"><a href="2013/geras-wuos-stack2-solutions.html">Gera's Warming Up on Stack #2 - Solutions</a></span>
+                    <br/>
+
+                                                                                                                                                    
+                    <span class="date">2012 Sep 02</span> - <span class="posttitle"><a href="2012/tfm-mmplayer-ppl-seh.html">TFM MMPlayer .ppl File Parsing SEH Overflow</a></span>
+                    <br/>
+
+                                                          
+                    <span class="date">2012 Sep 02</span> - <span class="posttitle"><a href="2012/shadow-stream-recorder-asx-jmpesp.html">Shadow Stream Recorder .asx File Parsing Buffer Overflow</a></span>
+                    <br/>
+
+                                                          
+                    <span class="date">2012 Sep 02</span> - <span class="posttitle"><a href="2012/millenium-mpf-seh.html">Millennium MP3 Studio .mpf File Parsing SEH Overflow</a></span>
+                    <br/>
+
+                                                          
+                    <span class="date">2012 Sep 02</span> - <span class="posttitle"><a href="2012/soritong-m3u-seh-overflow.html">SoriTong MP3 Player .m3u File Parsing SEH Overflow</a></span>
+                    <br/>
+
+                                                          
+                    <span class="date">2012 Sep 02</span> - <span class="posttitle"><a href="2012/word-list-builder-dic-file-parsing-seh.html">Word List Builder .dic File Parsing SEH Overflow</a></span>
+                    <br/>
+
+                                                                                                                          
+                    <span class="date">2012 Aug 27</span> - <span class="posttitle"><a href="2012/geras-wuos-stack1-solutions.html">Gera's Warming Up on Stack #1 - Solutions</a></span>
+                    <br/>
+
+                                                                                                                          
+                    <span class="date">2012 Jul 10</span> - <span class="posttitle"><a href="2012/exploit-mitigation-techniques-on-linux.html">Exploit Mitigation Techniques on Linux Systems</a></span>
+                    <br/>
+
+                                                                                                    
           </div>
         </div>
       </div>
     </div>
-
-
-    </section>
-    <footer class="footer">
-      <b><a href="/">Ankur Tyagi</a></b> (<b><a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-at"></i>7h3rAm</a></b>)
-      <br/>
-      Last updated on October 20, 2016 (<b><a href="/rss.xml"><i class="fa fa-rss"></i> rss</a></b> <b><a href="/sitemap.xml"><i class="fa fa-sitemap"></i> sitemap</a></b>)
-      <br/>
-      Published under <b><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">by-nc-sa</a></b> and powered by <b><a alt="Linux" href="https://www.kernel.org/" target="_blank"><i class="fa fa-linux"></i></a></b>, <b><a alt="Kalpi" href="https://github.com/7h3rAm/kalpi/" target="_blank">kalpi</a></b>, <b><a href="http://git-scm.com/" target="_blank"><i class="fa fa-git"></i></a></b> and <b><a href="https://github.com/7h3rAm/7h3ram.github.io" target="_blank"><i class="fa fa-github"></i></a></b>
-    </footer>
-
-    <script src="/static/js/bootstrap/bootstrap.3.3.6.min.js"></script>
-    <script src="/static/js/raphael/raphael-min.js"></script>
-    <script src="/static/js/morrisjs/morris.min.js"></script>
-    <script src="/static/files/chart-data.js"></script>
-    <script src="/static/js/sprintf/sprintf.js"></script>
-    <script src="/static/js/underscore/underscore-min.js"></script>
-
+              <div class="footer">
+          <center>
+            <a href="/rss.xml" target="_blank">rss</a> | <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">license</a>
+          </center>
+        </div>
+          </section>
   </body>
 </html>

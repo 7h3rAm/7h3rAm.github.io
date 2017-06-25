@@ -4,152 +4,38 @@
   <a name="top"></a><a name="patents"></a>
   <div class="row">
     <div class="col-lg-12">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          Patents
-        </div>
+      <div class="panel panel-default section compact">
+        <p class="heading">Patents</p>
         <div class="panel-body">
-          <ol>
-            <div class="overview">
-              <li>
-                <h1>Using A Probability-based Model To Detect Random Content In A Protocol Field Associated With Network Traffic</h1>
-                <div class="overview-date">December 2014</div>
-                <div class="overview-description"><p>A novel idea based upon stochastic processes derived machine learning model to identify and classify random/malicious content in network traffic.</p></div>
-              </li>
-              <li>
-                <h1>Deobfuscating Scripted Language For Network Intrusion Detection Using A Regular Expression Signature</h1>
-                <div class="overview-date">September 2014</div>
-                <div class="overview-description"><p>An attempt towards normalizing web scripts for network security appliances to consume and operate upon.</p></div>
-              </li>
-            </div>
-          </ol>
+          <table>
+            {%for year in data.research.patents|sort(reverse=True)%}
+              {%for month, value in data.research.patents[year].iteritems()|sort(reverse=True)%}
+                <span class="date">{{value.pretty_date}}</span> - <span class="posttitle">{{value.title}}</span>
+                <br/>
+                <span>{{value.description}}</span>
+                <br/>
+                <br/>
+              {%endfor%}
+            {%endfor%}
+          </table>
         </div>
       </div>
     </div>
   </div>
-
   <a name="talks"></a>
   <div class="row">
     <div class="col-lg-12">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          Talks and Demos
-        </div>
+      <div class="panel panel-default section compact">
+      <p class="heading">Talks/Papers/Demos</p>
         <div class="panel-body">
-          <ol>
-            <div class="overview">
-              <li>
-                <h1>Rudra: The Destroyer of Evil</h1>
-                <div class="overview-description"><p>Rudra aims to provide a developer-friendly framework for exhaustive analysis of (PCAP and PE) files. It provides features to scan and generate reports that include file's structural properties, entropy visualization, compression ratio, theoretical minsize, etc. These details, alongwith file-format specific analysis information, help an analyst to understand the type of data embedded in a file and quickly decide if it deserves further investigation. It supports scanning PE files and can perform API scans, anti{debug, vm, sandbox} detection, packer detection, authenticode verification, alongwith Yara, shellcode, and regex detection upon them.</p></div>
-                <h1><a class="reference external" href="http://www.blackhat.com/us-16/arsenal.html#ankur-tyagi" target="_blank">Black Hat USA 2016 Arsenal</a></h1>
-                <div class="overview-date">August 3, 2016</div>
-                <br/>
-                <h1><a class="reference external" href="https://www.blackhat.com/asia-16/arsenal.html#ankur-tyagi" target="_blank">Black Hat Asia 2016 Arsenal</a></h1>
-                <div class="overview-date">March 31, 2016</div>
-                <br/>
-                <h1><a class="reference external" href="https://www.blackhat.com/eu-15/arsenal.html#ankur-tyagi" target="_blank">Black Hat EU 2015 Arsenal</a></h1>
-                <div class="overview-date">November 13, 2015</div>
-                <br/>
-                <h1><a class="reference external" href="https://www.defcon.org/html/defcon-23/dc-23-demo-labs-schedule.html#Tyagi" target="_blank">DEF CON 23 Demo Labs</a></h1>
-                <div class="overview-date">August 8, 2015</div>
-                <br/>
-                <h1><a class="reference external" href="https://www.blackhat.com/us-15/arsenal.html#ankur-tyagi" target="_blank">Black Hat USA 2015 Arsenal</a></h1>
-                <div class="overview-date">August 5, 2015</div>
-              </li>
-              <br/>
-              <li>
-                <h1>Flowinspect: Network Inspection Tool on Steroids</h1>
-                <div class="overview-description"><p>Flowinspect is a tool developed specifically for network monitoring and inspection purposes. It takes network traffic as input and extracts layer 4 flows from it. These flows are then passed through an inspection engine that filters and extracts interesting network sessions. For flows that meet inspection criteria, the output mode dumps match statistics to either stdout or a file or both.</p></div>
-                <h1><a class="reference external" href="https://www.blackhat.com/us-14/arsenal.html#Tyagi" target="_blank">Black Hat USA 2014 Arsenal</a></h1>
-                <div class="overview-date">August 6, 2014</div>
-                <br/>
-                <h1><a class="reference external" href="http://nullcon.net/website/goa-14/speakers/ankur-tyagi.php" target="_blank">Nullcon 2014</a></h1>
-                <div class="overview-date">February 14, 2014</div>
-              </li>
-            </div>
-          </ol>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <a name="projects"></a>
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          Projects
-        </div>
-        <div class="panel-body">
-          <ol>
-            <div class="overview">
-              <li>
-                <h1><a class="reference external" href="https://github.com/7h3rAm/kalpi" target="_blank">Kalpi</a></h1>
-                <div class="overview-date">December 18, 2015</div>
-                <div class="overview-description"><p>A minimal static site generator based on <a href="https://github.com/ckunte" target="_blank">@ckunte</a>'s fork of <a href="https://github.com/ckunte/chisel" target="_blank">Chisel</a>. It includes several new features, including but not limited to, object-oriented code, tag cloud generation, readtime calculation, prev/next post linking, etc. This blog is created using Kalpi and serves an example of its capabilities.</p></div>
-              </li>
-              <br/>
-              <li>
-                <h1><a class="reference external" href="https://github.com/7h3rAm/cigma" target="_blank">Cigma</a></h1>
-                <div class="overview-date">November 18, 2015</div>
-                <div class="overview-description"><p>It is a pure-Python file type identification library. It aims to provide quick and easy type identification without incurring overhead of parsing the file structure to gather additional metadata.</p></div>
-              </li>
-              <br/>
-              <li>
-                <h1><a class="reference external" href="https://github.com/7h3rAm/rudra" target="_blank">Rudra</a></h1>
-                <div class="overview-date">August 10, 2015</div>
-                <div class="overview-description"><p>It aims to provide a developer-friendly framework for exhaustive analysis of test files. Initial releases will primarily focus on building a robust analysis architecture and support for application/*.pcap files. Later versions will add analysis capabilities for application/{octet-stream, pdf, zip,} and possibly other filetypes.</p></div>
-              </li>
-              <br/>
-              <li>
-                <h1><a class="reference external" href="https://github.com/7h3rAm/dotfiles" target="_blank">Dotfiles</a></h1>
-                <div class="overview-date">June 15, 2015</div>
-                <div class="overview-description"><p>This repo contains dotfiles and bootstrap to quickly get started on newish systems.</p></div>
-              </li>
-              <br/>
-              <li>
-                <h1><a class="reference external" href="https://github.com/MITRECND/chopshop" target="_blank">Chopshop</a></h1>
-                <div class="overview-date">February 24, 2014</div>
-                <div class="overview-description"><p>It is a <a class="reference external" href="https://github.com/MITRECND" target="_blank">MITRECND</a> developed framework for protocol analysis and decoding. It provides a nifty wrapper over <a class="reference external" href="https://jon.oberheide.org/pynids/" target="_blank">pynids</a>, and allows one to write modules that can operate over reassembled TCP flows and UDP packets. I've contributed the <a class="reference external" href="https://github.com/MITRECND/chopshop/blob/master/modules/shellcode_detector.py" target="_blank">shellcode_detector</a> module that uses <a class="reference external" href="http://libemu.carnivore.it/" target="_blank">Libemu</a>'s x86 emulation capabilities to identify shellcode inside network flows.</p></div>
-              </li>
-              <br/>
-              <li>
-                <h1><a class="reference external" href="https://github.com/cuckoobox/cuckoo" target="_blank">Cuckoo Sandbox</a></h1>
-                <div class="overview-date">December 25, 2013</div>
-                <div class="overview-description"><p>Cuckoo Sandbox is an automated dynamic malware analysis system. I've recently started working with cuckoo and like others in the community, I find it to be an integral part of my malware analysis process. I've contributed a <a class="reference external" href="https://github.com/cuckoobox/cuckoo/pull/207" target="_blank">minor typo fix</a> in cuckoo's documentation.</p></div>
-              </li>
-              <br/>
-              <li>
-                <h1><a class="reference external" href="https://github.com/andrewg-felinemenace/PCAP-Generation-Tools" target="_blank">Pcap Generation Tool</a></h1>
-                <div class="overview-date">December 9, 2013</div>
-                <div class="overview-description"><p>PCAPGenerationTools allows you to generate pcaps using python without touching the network in any way. It uses Scapy to generate pcaps for simulated file transfers and also applies a bunch of common, protocol-aware encoding upon generated sessions. It can also be used as a library to integrate into your own tools. I've contributed the <a class="reference external" href="https://github.com/andrewg-felinemenace/PCAP-Generation-Tools/pull/1" target="_blank">content-type identification feature</a> and a <a class="reference external" href="https://github.com/andrewg-felinemenace/PCAP-Generation-Tools/pull/2" target="_blank">bugfix</a>.</p></div>
-              </li>
-              <br/>
-              <li>
-                <h1><a class="reference external" href="https://github.com/7h3rAm/re2dotgraph" target="_blank">RE2DotGraph</a></h1>
-                <div class="overview-date">August 29, 2013</div>
-                <div class="overview-description"><p>A handy tool to visualize (non-POSIX) regexes via a dot graph. It uses <a class="reference external" href="https://github.com/osteele/pyfsa" target="_blank">pyFSA</a> project to generate a FSM for inpur expression and then converts it to an equivalent dot file. This file is rendered as a .png image and saved to a file.</p></div>
-              </li>
-              <br/>
-              <li>
-                <h1><a class="reference external" href="https://github.com/7h3rAm/pcapedit" target="_blank">PcapEdit</a></h1>
-                <div class="overview-date">August 16, 2013</div>
-                <div class="overview-description"><p>An intercative, command-line focused pcap editor developed on top of the awesome <a class="reference external" href="http://www.secdev.org/projects/scapy/" target="_blank">Scapy</a> framework. It provides very simple wrappers over scapy's builtin methods, allowing easy and clean modifications of a pcap. It wraps the editing functionality and exposes only the interesting tidbits.</p></div>
-              </li>
-              <br/>
-              <li>
-                <h1><a class="reference external" href="https://github.com/7h3rAm/arp-secur" target="_blank">ARPSecur</a></h1>
-                <div class="overview-date">June 4, 2013</div>
-                <div class="overview-description"><p>A set of two proof-of-concept tools that demonstrate security issues within Address Resolution Protocol (ARP) specification <a class="reference external" href="http://tools.ietf.org/html/rfc826" target="_blank">RFC 826</a>. First tool, <em>arp-posion</em>, demonstrate how to posion ARP cache of system via spoofed replies to unexisting request. Due to the stateless nature of the protocol, such replies are considered valid, and receving systems update their MAC-IP mapping table with spoofed addresses. Second tool, <em>arp-secur</em>, implements ideas proposed in the <a class="reference external" href="http://www.vivekramachandran.com/docs/arp-spoofing.pdf" target="_blank">Detecting ARP Spoofing: An Active Technique</a> paper by Mr. Vivek Ramachandran and Mr. Sukumar Nandi. It uses port scanning, in a very novel way, to identify malicious ARP requests/responses.</p></div>
-              </li>
-              <br/>
-              <li>
-                <h1><a class="reference external" href="https://github.com/7h3rAm/flowinspect" target="_blank">Flowinspect</a></h1>
-                <div class="overview-date">May 19, 2013</div>
-                <div class="overview-description"><p>A network inspection tool that enables regex and fuzzy string matching on arbitrary network flows. It also allows to detect presence of shellcode and Yara rules scanning over flows. If a match is found, the matching flow could be dumped to a pcap file, or the payload could be extracted for lateral analysis.</p></div>
-              </li>
-            </div>
-          </ol>
+          {%for talk in data.research.talks%}
+          <span class="posttitle">{{talk.title}}</span><br/>
+          <span>{{talk.description}}</span><br/>
+            {%for event in talk.events%}
+              <span class="date">{{event.pretty_date}}</span> - <span class="posttitle"><a href="{{event.url}}" target="_blank">{{event.name}}</a></span><br/>
+            {%endfor%}
+            <br/>
+          {%endfor%}
         </div>
       </div>
     </div>

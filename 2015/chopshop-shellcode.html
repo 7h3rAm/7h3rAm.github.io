@@ -1,136 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>7h3rAm's Infosec Ramblings</title>
     <meta charset="utf-8"/>
-    <meta content="7h3rAm" name="author"/>
+    <meta name="author" content="7h3rAm"/>
+    <meta name="description" content="Personal Weblog"/>
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
-
-    <script src="/static/js/jquery/jquery-1.10.2.js"></script>
-    <link href="/static/css/bootstrap/bootstrap.3.3.6.min.css" rel="stylesheet" type="text/css">
-    <link href="/static/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="/static/css/morrisjs/morris.css" rel="stylesheet" type="text/css">
-    <link href="/static/css/timeline/timeline.css" rel="stylesheet" type="text/css">
+    <title>Grey Matter</title>
     <link href="/static/css/main.css" rel="stylesheet" type="text/css">
     <link href="/static/css/codehilite/zenburn.css" rel="stylesheet" type="text/css">
-    <link href="/static/images/favicon.ico" rel="icon" type="image/x-icon"/>
-
-    <!-- Google Analytics -->
-    <script>
-    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-    ga('create', 'UA-50288765-1', '7h3rAm.github.io');
-    ga('send', 'pageview');
-    </script>
-    <script async src='http://www.google-analytics.com/analytics.js'></script>
-    <!-- End Google Analytics -->
-
+    <link href="/static/images/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
   </head>
-  <body id="index" class="home">
-    <header class="header">
-      <nav>
-        <ul>
-          <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-          <li><a href="/archive.html"><i class="fa fa-archive"></i> Archive</a></li>
-          <li><a href="/tags.html"><i class="fa fa-tags"></i> Tags</a></li>
-          <li><a href="/dashboard.html"><i class="fa fa-bar-chart"></i> Dashboard</a></li>
-          <li><a href="/research.html"><i class="fa fa-list-alt"></i> Research</a></li>
-        </ul>
-      </nav>
-    </header>
+  <body>
     <section id="content" class="body">
-      
-  
-  
-  <article class="post">
+              <div class="header">
+          <table>
+            <tr>
+              <td class="blogtitle"><a href="/">Grey Matter</a></td>
+              <td class="blognavbar">
+                <a href="/archive.html">[Archive]</a> <a href="/tags.html">[Tags]</a> <a href="/research.html">[Research]</a></a>
+              </td>
+            </tr>
+          </table>
+        </div>
+                  <article class="post">
   <div class="row">
     <div class="col-lg-12">
-      <div class="panel panel-default">
-        <div class="panel-heading post-title">
-          Shellcode Detection Module in ChopShop
-        </div>
-        <div class="panel-body">
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-              
-                
-                
-              
-              
-                
-                
-              
-              
-                <p class="post-date">
-                  <a href="/2014/flowinspect.html"><i class="fa fa-angle-double-left"></i></a> published on March 12, 2015<a href="/2015/ebctf-bin100.html"> <i class="fa fa-angle-double-right"></i></a><br/>
-                  readtime: 5 minutes and 31 seconds (view <a href="https://raw.githubusercontent.io/7h3rAm/7h3rAm.github.io/master/_posts/chopshop-shellcode.md">source</a>)
+      <div class="panel panel-default section compact">
+        <div class="body">
+          <p class="heading">Shellcode Detection Module in ChopShop</p>
+                                                                                                                                                                                                                                                                                          <p class="date">
+                  <a href="/2014/flowinspect.html">&lt&lt;</a> published on 2015 Mar 12<a href="/2015/ebctf-bin100.html"> &gt;&gt;</i></a><br/>
                 </p>
-              
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-        <div class="post-summary">This post shows a shellcode detection module that I submitted to MITRECND's ChopShop Protocol Analysis/Decoder Framework.</div>
-        <div class="post-content">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <div class="post-content">
           <p>Around an year ago I submitted a pull request to the <a href="https://github.com/MITRECND/chopshop">ChopShop</a> project from <a href="https://github.com/MITRECND">MITRECND</a>. This request included a module that enabled shellcode detection for TCP streams and UDP packets. In this post I&#8217;ll show how to use this module to identify shellcode within network streams. Here&#8217;s the project description:</p>
 
 <blockquote>
@@ -143,30 +44,30 @@
 
 <p>To invoke ChopShop you need to provide a pcapfile as input and then a list of modules to be invoked. Each module can be provided respective arguments as well. Let&#8217;s have a look at the command line invocation and usage of the shellcode module:</p>
 
-<div class="codehilite"><pre><code><span class="nv">$ </span>./chopshop -f ~/toolbox/testfiles/pcaps/shellcode/shellcode-winexec-calc.pcap <span class="s2">&quot;shellcode_detector -xp&quot;</span>
+<div class="codehilite"><pre><span></span><code>$ ./chopshop -f ~/toolbox/testfiles/pcaps/shellcode/shellcode-winexec-calc.pcap <span class="s2">&quot;shellcode_detector -xp&quot;</span>
 Starting ChopShop
 Initializing Modules ...
     Initializing module <span class="s1">&#39;shellcode_detector&#39;</span>
 Running Modules ...
-<span class="o">[</span>2015-03-12 23:31:31 IST<span class="o">]</span>  TCP 56.86.97.100:57416 - 89.86.105.74:80 <span class="o">[</span>NEW<span class="o">]</span>
-<span class="o">[</span>2015-03-12 23:31:31 IST<span class="o">]</span>  TCP 56.86.97.100:57416 -&gt; 89.86.105.74:80 <span class="o">(</span>CTS: 123B<span class="o">)</span>
-<span class="o">[</span>2015-03-12 23:31:31 IST<span class="o">]</span>  TCP 56.86.97.100:57416 &lt;- 89.86.105.74:80 <span class="o">(</span>STC: 227B<span class="o">)</span>
-<span class="o">[</span>2015-03-12 23:31:31 IST<span class="o">]</span>  TCP 56.86.97.100:57416 - 89.86.105.74:80 contains shellcode in STC<span class="o">[</span>0:227<span class="o">]</span> @ offset 107
+<span class="o">[</span><span class="m">2015</span>-03-12 <span class="m">23</span>:31:31 IST<span class="o">]</span>  TCP <span class="m">56</span>.86.97.100:57416 - <span class="m">89</span>.86.105.74:80 <span class="o">[</span>NEW<span class="o">]</span>
+<span class="o">[</span><span class="m">2015</span>-03-12 <span class="m">23</span>:31:31 IST<span class="o">]</span>  TCP <span class="m">56</span>.86.97.100:57416 -&gt; <span class="m">89</span>.86.105.74:80 <span class="o">(</span>CTS: 123B<span class="o">)</span>
+<span class="o">[</span><span class="m">2015</span>-03-12 <span class="m">23</span>:31:31 IST<span class="o">]</span>  TCP <span class="m">56</span>.86.97.100:57416 &lt;- <span class="m">89</span>.86.105.74:80 <span class="o">(</span>STC: 227B<span class="o">)</span>
+<span class="o">[</span><span class="m">2015</span>-03-12 <span class="m">23</span>:31:31 IST<span class="o">]</span>  TCP <span class="m">56</span>.86.97.100:57416 - <span class="m">89</span>.86.105.74:80 contains shellcode in STC<span class="o">[</span><span class="m">0</span>:227<span class="o">]</span> @ offset <span class="m">107</span>
 
-0000000: e8 <span class="m">44</span> <span class="m">00</span> <span class="m">00</span> <span class="m">00</span> 8b <span class="m">45</span> 3c 8b 7c <span class="m">05</span> <span class="m">78</span> <span class="m">01</span> ef 8b 4f  <span class="p">|</span>.D....E&lt;.<span class="p">|</span>.x...O<span class="p">|</span>
-0000010: <span class="m">18</span> 8b 5f <span class="m">20</span> <span class="m">01</span> eb <span class="m">49</span> 8b <span class="m">34</span> 8b <span class="m">01</span> ee <span class="m">31</span> c0 <span class="m">99</span> ac  <span class="p">|</span>.._ ..I.4...1...<span class="p">|</span>
-0000020: <span class="m">84</span> c0 <span class="m">74</span> <span class="m">07</span> c1 ca 0d <span class="m">01</span> c2 eb f4 3b <span class="m">54</span> <span class="m">24</span> <span class="m">04</span> <span class="m">75</span>  <span class="p">|</span>..t........<span class="p">;</span>T<span class="nv">$.</span>u<span class="p">|</span>
-0000030: e5 8b 5f <span class="m">24</span> <span class="m">01</span> eb <span class="m">66</span> 8b 0c 4b 8b 5f 1c <span class="m">01</span> eb 8b  <span class="p">|</span>.._<span class="nv">$.</span>.f..K._....<span class="p">|</span>
-0000040: 1c 8b <span class="m">01</span> eb <span class="m">89</span> 5c <span class="m">24</span> <span class="m">04</span> c3 5f <span class="m">31</span> f6 <span class="m">60</span> <span class="m">56</span> <span class="m">64</span> 8b  <span class="p">|</span>.....<span class="se">\$</span>.._1.<span class="sb">`</span>Vd.<span class="p">|</span>
-0000050: <span class="m">46</span> <span class="m">30</span> 8b <span class="m">40</span> 0c 8b <span class="m">70</span> 1c ad 8b <span class="m">68</span> <span class="m">08</span> <span class="m">89</span> f8 <span class="m">83</span> c0  <span class="p">|</span>F0.@..p...h.....<span class="p">|</span>
-0000060: 6a <span class="m">50</span> <span class="m">68</span> f0 8a <span class="m">04</span> 5f <span class="m">68</span> <span class="m">98</span> fe 8a 0e <span class="m">57</span> ff e7 <span class="m">63</span>  <span class="p">|</span>jPh..._h....W..c<span class="p">|</span>
-0000070: <span class="m">61</span> 6c <span class="m">63</span> 2e <span class="m">65</span> <span class="m">78</span> <span class="m">65</span> <span class="m">00</span>                          <span class="p">|</span>alc.exe.        <span class="p">|</span>
+<span class="m">0000000</span>: e8 <span class="m">44</span> <span class="m">00</span> <span class="m">00</span> <span class="m">00</span> 8b <span class="m">45</span> 3c 8b 7c <span class="m">05</span> <span class="m">78</span> <span class="m">01</span> ef 8b 4f  <span class="p">|</span>.D....E&lt;.<span class="p">|</span>.x...O<span class="p">|</span>
+<span class="m">0000010</span>: <span class="m">18</span> 8b 5f <span class="m">20</span> <span class="m">01</span> eb <span class="m">49</span> 8b <span class="m">34</span> 8b <span class="m">01</span> ee <span class="m">31</span> c0 <span class="m">99</span> ac  <span class="p">|</span>.._ ..I.4...1...<span class="p">|</span>
+<span class="m">0000020</span>: <span class="m">84</span> c0 <span class="m">74</span> <span class="m">07</span> c1 ca 0d <span class="m">01</span> c2 eb f4 3b <span class="m">54</span> <span class="m">24</span> <span class="m">04</span> <span class="m">75</span>  <span class="p">|</span>..t........<span class="p">;</span>T$.u<span class="p">|</span>
+<span class="m">0000030</span>: e5 8b 5f <span class="m">24</span> <span class="m">01</span> eb <span class="m">66</span> 8b 0c 4b 8b 5f 1c <span class="m">01</span> eb 8b  <span class="p">|</span>.._$..f..K._....<span class="p">|</span>
+<span class="m">0000040</span>: 1c 8b <span class="m">01</span> eb <span class="m">89</span> 5c <span class="m">24</span> <span class="m">04</span> c3 5f <span class="m">31</span> f6 <span class="m">60</span> <span class="m">56</span> <span class="m">64</span> 8b  <span class="p">|</span>.....<span class="se">\$</span>.._1.<span class="sb">`</span>Vd.<span class="p">|</span>
+<span class="m">0000050</span>: <span class="m">46</span> <span class="m">30</span> 8b <span class="m">40</span> 0c 8b <span class="m">70</span> 1c ad 8b <span class="m">68</span> <span class="m">08</span> <span class="m">89</span> f8 <span class="m">83</span> c0  <span class="p">|</span>F0.@..p...h.....<span class="p">|</span>
+<span class="m">0000060</span>: 6a <span class="m">50</span> <span class="m">68</span> f0 8a <span class="m">04</span> 5f <span class="m">68</span> <span class="m">98</span> fe 8a 0e <span class="m">57</span> ff e7 <span class="m">63</span>  <span class="p">|</span>jPh..._h....W..c<span class="p">|</span>
+<span class="m">0000070</span>: <span class="m">61</span> 6c <span class="m">63</span> 2e <span class="m">65</span> <span class="m">78</span> <span class="m">65</span> <span class="m">00</span>                          <span class="p">|</span>alc.exe.        <span class="p">|</span>
 
 
 UINT WINAPI WinExec <span class="o">(</span>
      <span class="nv">LPCSTR</span> <span class="o">=</span> <span class="nv">0xc00f6f10</span> <span class="o">=</span>&gt;
            <span class="o">=</span> <span class="s2">&quot;calc.exe&quot;</span><span class="p">;</span>
-     UINT <span class="nv">uCmdShow</span> <span class="o">=</span> 0<span class="p">;</span>
+     UINT <span class="nv">uCmdShow</span> <span class="o">=</span> <span class="m">0</span><span class="p">;</span>
 <span class="o">)</span> <span class="o">=</span>  0x20<span class="p">;</span>
 LPTOP_LEVEL_EXCEPTION_FILTER SetUnhandledExceptionFilter <span class="o">(</span>
      <span class="nv">LPTOP_LEVEL_EXCEPTION_FILTER</span> <span class="o">=</span> <span class="nv">0xc00f7190</span> <span class="o">=</span>&gt;
@@ -184,144 +85,31 @@ ChopShop Complete
 <p>You can also have a look at the module <a href="https://github.com/MITRECND/chopshop/blob/master/modules/shellcode_detector.py">sourcecode</a>. I would strongly recommend reading the <a href="https://github.com/MITRECND/chopshop/tree/master/docs/chopshop_docs">project documentation</a> to familiarize yourself with architecture and terminology. Also checkout the <a href="https://github.com/MITRECND/chopshop/blob/master/docs/chopshop_docs/module_authoring.md">module authoring documentation</a> and <a href="http://www.mitre.org/capabilities/cybersecurity/overview/cybersecurity-blog/how-chopshop-modules-work">this</a> amazing post by <a href="https://github.com/wxsBSD">Wesley Shields</a>, who is one of the project authors, if you wish to write your own modules.</p>
 
         </div>
-        <div class="post-bottomline">
+        <div class="meta">
           <hr/>
-          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-twitter"></i></a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank"><i class="fa fa-exclamation-circle"></i> issue</a> on blog reporsitory.</p>
+          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank">twitter</a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank">issue</a> on blog repository.</p>
           <hr/>
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-              
-                
-                
-              
-              
-                
-                
-              
-              <table>
+                                                                                                                                                                                                                                                                          <table>
                 <tr>
-                  <td align="left">(share via <a href="mailto:?subject=Shellcode Detection Module in ChopShop&body=/2015/chopshop-shellcode.html" target="_blank" title="Share via Email"><i class="fa fa-inbox"></i></a> <a href="http://twitter.com/intent/tweet?text=Shellcode Detection Module in ChopShop+/2015/chopshop-shellcode.html&via=7h3rAm" target="_blank" title="Share on Twitter"><i class="fa fa-twitter"></i></a> <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=/2015/chopshop-shellcode.html&p[images][0]=&p[title]=Shellcode Detection Module in ChopShop&p[summary]=This post shows a shellcode detection module that I submitted to MITRECND's ChopShop Protocol Analysis/Decoder Framework." target="_blank" title="Share on Facebook"><i class="fa fa-facebook"></i></a> <a href="https://plus.google.com/share?url=/2015/chopshop-shellcode.html" target="_blank" title="Share on Google Plus"><i class="fa fa-google-plus"></i></a>)</td>
+                  <td align="left">(share via <a href="mailto:?subject=Shellcode Detection Module in ChopShop&body=http://7h3ram.github.io//2015/chopshop-shellcode.html" target="_blank" title="Share via Email">mail</a>, <a href="http://twitter.com/intent/tweet?text=Shellcode Detection Module in ChopShop+http://7h3ram.github.io//2015/chopshop-shellcode.html&via=7h3rAm" target="_blank" title="Share on Twitter">twitter</a>, <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://7h3ram.github.io//2015/chopshop-shellcode.html&p[images][0]=&p[title]=Shellcode Detection Module in ChopShop&p[summary]=This post shows a shellcode detection module that I submitted to MITRECND's ChopShop Protocol Analysis/Decoder Framework." target="_blank" title="Share on Facebook">facebook</a> or <a href="https://plus.google.com/share?url=http://7h3ram.github.io//2015/chopshop-shellcode.html" target="_blank" title="Share on Google Plus">google-plus</a>)</td>
                   <td align="right">(tagged <a href=/tags.html#code>code</a> and <a href=/tags.html#shellcode>shellcode</a>)</td>
                 </tr>
                 <tr>
-                  
-                    <td align="left"><a href="/2014/flowinspect.html"><i class="fa fa-angle-double-left"></i> Flowinspect: A Network Inspection Tool <i class="fa fa-angle-double-left"></i></a></td>
-                    <td align="right"><a href="/2015/ebctf-bin100.html"><i class="fa fa-angle-double-right"></i> Eindbazen CTF Challenge: bin100 <i class="fa fa-angle-double-right"></i></a></td>
-                  
-                </tr>
+                                      <td align="left"><a href="/2014/flowinspect.html">&lt;&lt; Flowinspect: A Network Inspection Tool &lt;&lt;</a></td>
+                    <td align="right"><a href="/2015/ebctf-bin100.html">&gt;&gt; Eindbazen CTF Challenge: bin100 &gt;&gt;</a></td>
+                                  </tr>
               </table>
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-            
-          
-          </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </div>
         </div>
       </div>
     </div>
   </div>
-
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="panel panel-default">
-        <div class="panel-heading post-title">
-          Related Posts
-        </div>
-        <div class="panel-body">
-          
-            1. <a href="/2016/flareon2014-15.html">FireEye FLARE On 2014 Challenges (1-5)</a>
-            <div class="overview-date">February 18, 2016</div>
-            <br/>
-          
-            2. <a href="/2014/shellcode-pipeline.html">Shellcode Analysis Pipleine</a>
-            <div class="overview-date">March 18, 2014</div>
-            <br/>
-          
-            3. <a href="/2013/libemu-shellcode-detection.html">x86 Emulation and Shellcode Detection</a>
-            <div class="overview-date">March 6, 2013</div>
-            <br/>
-          
-        </div>
-      </div>
-    </div>
-  </div>
-
   </article>
-
-    </section>
-    <footer class="footer">
-      <b><a href="/">Ankur Tyagi</a></b> (<b><a href="https://twitter.com/7h3rAm" target="_blank"><i class="fa fa-at"></i>7h3rAm</a></b>)
-      <br/>
-      Last updated on October 20, 2016 (<b><a href="/rss.xml"><i class="fa fa-rss"></i> rss</a></b> <b><a href="/sitemap.xml"><i class="fa fa-sitemap"></i> sitemap</a></b>)
-      <br/>
-      Published under <b><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">by-nc-sa</a></b> and powered by <b><a alt="Linux" href="https://www.kernel.org/" target="_blank"><i class="fa fa-linux"></i></a></b>, <b><a alt="Kalpi" href="https://github.com/7h3rAm/kalpi/" target="_blank">kalpi</a></b>, <b><a href="http://git-scm.com/" target="_blank"><i class="fa fa-git"></i></a></b> and <b><a href="https://github.com/7h3rAm/7h3ram.github.io" target="_blank"><i class="fa fa-github"></i></a></b>
-    </footer>
-
-    <script src="/static/js/bootstrap/bootstrap.3.3.6.min.js"></script>
-    <script src="/static/js/raphael/raphael-min.js"></script>
-    <script src="/static/js/morrisjs/morris.min.js"></script>
-    <script src="/static/files/chart-data.js"></script>
-    <script src="/static/js/sprintf/sprintf.js"></script>
-    <script src="/static/js/underscore/underscore-min.js"></script>
-
+              <div class="footer">
+          <center>
+            <a href="/rss.xml" target="_blank">rss</a> | <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">license</a>
+          </center>
+        </div>
+          </section>
   </body>
 </html>
