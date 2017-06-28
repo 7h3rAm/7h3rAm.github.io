@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="7h3rAm"/>
+    <meta name="description" content="Personal Weblog"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>Grey Matter</title>
+    <link href="/static/css/main.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/codehilite/zenburn.css" rel="stylesheet" type="text/css">
+    <link href="/static/images/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
+  </head>
+  <body>
+    <section id="content" class="body">
+              <div class="header">
+          <table>
+            <tr>
+              <td class="blogtitle"><a href="/">Grey Matter</a></td>
+              <td class="blognavbar">
+                <a href="/archive.html">[Archive]</a> <a href="/tags.html">[Tags]</a> <a href="/research.html">[Research]</a></a>
+              </td>
+            </tr>
+          </table>
+        </div>
+                  <article class="post">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default section compact">
+        <div class="body">
+          <p class="heading">Vulnerable Weekends #5: MIT Kerberos and VLC TiVo</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              <p class="date">
+                  <a href="/2011/vuln-weekends-4.html">&lt&lt;</a> published on 24/Dec/2011<a href="/2012/vuln-weekends-6.html"> &gt;&gt;</i></a><br/>
+                </p>
+                                                                                                                                                          <div class="post-content">
+          <h3>Introduction</h3>
+
+<p>Report #5A analyzes the MIT Kerberos Telnet remote, privileged code execution vulnerability. This vulnerability has been identified within the MIT Kerberos based Telnet installations that are provided with FreeBSD, GNU inetutils, etc.</p>
+
+<p>Report #5B analyzes the VLC TiVo file parser arbitrary code execution vulnerability.</p>
+
+<h3>Vulnerability Report #5A: MIT krb5-appl Telnet Client and Server encrypt_keyid() Remote Code Execution Vulnerability</h3>
+
+<p><strong>Vulnerable Product</strong>: Installations of MIT krb5-appl derived telnet utilities prior to krb5-1.8</p>
+
+<p><strong>CVE ID</strong>: <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-4862">CVE-2011-4862</a></p>
+
+<p><strong>CVSS v2 Score</strong>:
+<strong>Access Vector</strong>: NETWORK
+<strong>Access Complexity</strong>: LOW
+<strong>Authentication</strong>: NONE</p>
+
+<p><strong>Confidentiality Impact</strong>: COMPLETE
+<strong>Integrity Impact</strong>: COMPLETE
+<strong>Availability Impact</strong>: COMPLETE
+<strong>Base Score</strong>: 10.0</p>
+
+<p><strong>Exploitability</strong>: FUNCTIONAL
+<strong>Remediation Level</strong>: OFFICIAL FIX
+<strong>Report Confidence</strong>: CONFIRMED
+<strong>Temporal Score</strong>: 8.3</p>
+
+<p><strong>Details</strong>:
+MIT <code>krb5-appl</code> has been reported to contain a vulnerability that could be leveraged by a remote attacker to execute arbitrary code on the targeted system. The vulnerability has been reported in the code responsible for handling Kerberos based authentication mechanism.</p>
+
+<p>The vulnerability was introduced when BSD telnet daemon and client utilities included support for cryptographic security via MIT Kerberos based authentication mechanism. This code was further included within FreeBSD and GNU inetutils making these vulnerable as well.</p>
+
+<p>The vulnerability allows a pre-authentication memory corruption error that could be triggered remotely by submitting an arbitrarily long encryption key to the target system. Specifically, the vulnerability exists within the <code>encrypt_keyid()</code> function of the <code>encrypt.c</code> source file of the affected software:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="k">static</span> <span class="kt">void</span>
+<span class="nf">encrypt_keyid</span><span class="p">(</span><span class="k">struct</span> <span class="n">key_info</span> <span class="o">*</span><span class="n">kp</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">keyid</span><span class="p">,</span> <span class="kt">int</span> <span class="n">len</span><span class="p">)</span>
+<span class="p">{</span>
+   <span class="p">...</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">((</span><span class="n">len</span> <span class="o">!=</span> <span class="n">kp</span><span class="o">-&gt;</span><span class="n">keylen</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">memcmp</span><span class="p">(</span><span class="n">keyid</span><span class="p">,</span><span class="n">kp</span><span class="o">-&gt;</span><span class="n">keyid</span><span class="p">,</span><span class="n">len</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
+    <span class="cm">/*</span>
+<span class="cm">     * Length or contents are different</span>
+<span class="cm">     */</span>
+    <span class="n">kp</span><span class="o">-&gt;</span><span class="n">keylen</span> <span class="o">=</span> <span class="n">len</span><span class="p">;</span>
+    <span class="n">memcpy</span><span class="p">(</span><span class="n">kp</span><span class="o">-&gt;</span><span class="n">keyid</span><span class="p">,</span><span class="n">keyid</span><span class="p">,</span> <span class="n">len</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ep</span><span class="o">-&gt;</span><span class="n">keyid</span><span class="p">)</span>
+        <span class="p">(</span><span class="kt">void</span><span class="p">)(</span><span class="o">*</span><span class="n">ep</span><span class="o">-&gt;</span><span class="n">keyid</span><span class="p">)(</span><span class="n">dir</span><span class="p">,</span> <span class="n">kp</span><span class="o">-&gt;</span><span class="n">keyid</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">kp</span><span class="o">-&gt;</span><span class="n">keylen</span><span class="p">);</span>
+    <span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The vulnerable source file defines the following structure to keep record of the encryption state:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="cp">#define   MAXKEYLEN 64</span>
+
+<span class="k">static</span> <span class="k">struct</span> <span class="n">key_info</span> <span class="p">{</span>
+    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">keyid</span><span class="p">[</span><span class="n">MAXKEYLEN</span><span class="p">];</span>
+    <span class="kt">int</span> <span class="n">keylen</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">dir</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="o">*</span><span class="n">modep</span><span class="p">;</span>
+    <span class="n">Encryptions</span> <span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">getcrypt</span><span class="p">)();</span>
+<span class="p">}</span> <span class="n">ki</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">{</span> <span class="p">{</span> <span class="mi">0</span> <span class="p">},</span> <span class="mi">0</span><span class="p">,</span> <span class="n">DIR_ENCRYPT</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">encrypt_mode</span><span class="p">,</span> <span class="n">findencryption</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="p">{</span> <span class="mi">0</span> <span class="p">},</span> <span class="mi">0</span><span class="p">,</span> <span class="n">DIR_DECRYPT</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">decrypt_mode</span><span class="p">,</span> <span class="n">finddecryption</span> <span class="p">},</span>
+<span class="p">};</span>
+</code></pre></div>
+
+<p>However, the vulnerable function fails to impose sufficient boundary restrictions on user-supplied encryption keys and copies those into <code>keyinfo</code> structure without honoring the <code>MAXKEYLEN</code> constant via a <code>memcpy</code> operation. This could cause a heap-based buffer overflow error, leading to the memory corruption error.</p>
+
+<p>Successful exploitation could allow the attacker to leverage the memory corruption error to execute arbitrary code on the targeted system with the privileges of the affected software. Failed exploit attempts could result in a denial of service condition on the targeted system.</p>
+
+<p><strong>Vulnerability Sources</strong>:
+<a href="http://www.securityfocus.com/bid/51182">bid:51182</a>
+<a href="http://web.mit.edu/kerberos/advisories/MITKRB5-SA-2011-008.txt">kerberos:2011-008</a>
+<a href="http://security.freebsd.org/advisories/FreeBSD-SA-11:08.telnetd.asc">freebsd:11-08</a>
+<a href="https://bugzilla.redhat.com/show_bug.cgi?id=770325">redhat:770325</a>
+<a href="http://osvdb.org/78020">osvdb:78020</a></p>
+
+<h3>Vulnerability Report #5B: VLC .TY (TiVo) File Parser Arbitrary Code Execution Vulnerability</h3>
+
+<p><strong>Vulnerable Product</strong>: Installations of VLC Media Player with versions 0.9.0 through 1.1.12</p>
+
+<p><strong>CVE ID</strong>: NA</p>
+
+<p><strong>CVSS v2 Score</strong>:
+<strong>Access Vector</strong>: NETWORK
+<strong>Access Complexity</strong>: MEDIUM
+<strong>Authentication</strong>: NONE</p>
+
+<p><strong>Confidentiality Impact</strong>: COMPLETE
+<strong>Integrity Impact</strong>: COMPLETE
+<strong>Availability Impact</strong>: COMPLETE
+<strong>Base Score</strong>: 9.3</p>
+
+<p><strong>Exploitability</strong>: UNPROVEN
+<strong>Remediation Level</strong>: OFFICIAL FIX
+<strong>Report Confidence</strong>: CONFIRMED
+<strong>Temporal Score</strong>:6.9</p>
+
+<p><strong>Details</strong>:
+VLC Media Player has been reported to contain a vulnerability that could allow a remote attacker to execute arbitrary code on the targeted system. The vulnerability is introduced by the <code>libty_plugin</code> that helps parsing of <code>.ty</code> files.</p>
+
+<div class="codehilite"><pre><span></span><code><span class="k">struct</span> <span class="n">demux_sys_t</span>
+<span class="p">{</span>
+<span class="p">...</span>
+<span class="n">ty_rec_hdr_t</span>    <span class="o">*</span><span class="n">rec_hdrs</span><span class="p">;</span>          <span class="cm">/* record headers array */</span>
+<span class="kt">int</span>             <span class="n">i_cur_rec</span><span class="p">;</span>          <span class="cm">/* current record in this chunk */</span>
+<span class="kt">int</span>             <span class="n">i_num_recs</span><span class="p">;</span>         <span class="cm">/* number of recs in this chunk */</span>
+<span class="p">...</span>
+<span class="p">};</span>
+</code></pre></div>
+
+<p>The vulnerability exists due to an implementation flaw within the <code>get_chunk_header()</code> function of the <code>ty.c</code> source file of the vulnerable plugin. The vulnerable plugin improperly handles the record headers array, <code>rec_hdrs</code>, corrupting heap structures in the memory.</p>
+
+<div class="codehilite"><pre><span></span><code><span class="n">diff</span> <span class="o">--</span><span class="n">git</span> <span class="n">a</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">demux</span><span class="o">/</span><span class="n">ty</span><span class="p">.</span><span class="n">c</span> <span class="n">b</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">demux</span><span class="o">/</span><span class="n">ty</span><span class="p">.</span><span class="n">c</span>
+<span class="n">index</span> <span class="n">e916b41</span><span class="p">..</span><span class="n">b181a6a</span> <span class="mi">100644</span> <span class="p">(</span><span class="n">file</span><span class="p">)</span>
+
+<span class="o">---</span> <span class="n">a</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">demux</span><span class="o">/</span><span class="n">ty</span><span class="p">.</span><span class="n">c</span>
+<span class="o">+++</span> <span class="n">b</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">demux</span><span class="o">/</span><span class="n">ty</span><span class="p">.</span><span class="n">c</span>
+<span class="err">@@</span> <span class="o">-</span><span class="mi">1887</span><span class="p">,</span><span class="mi">6</span> <span class="o">+</span><span class="mi">1887</span><span class="p">,</span><span class="mi">7</span> <span class="err">@@</span> <span class="k">static</span> <span class="kt">int</span> <span class="n">get_chunk_header</span><span class="p">(</span><span class="n">demux_t</span> <span class="o">*</span><span class="n">p_demux</span><span class="p">)</span>
+     <span class="cm">/*msg_Dbg( p_demux, &quot;chunk has %d records&quot;, i_num_recs );*/</span>
+
+     <span class="n">free</span><span class="p">(</span><span class="n">p_sys</span><span class="o">-&gt;</span><span class="n">rec_hdrs</span><span class="p">);</span>
+<span class="o">+</span>    <span class="n">p_sys</span><span class="o">-&gt;</span><span class="n">rec_hdrs</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+     <span class="cm">/* skip past the 4 bytes we &quot;peeked&quot; earlier */</span>
+     <span class="n">stream_Read</span><span class="p">(</span> <span class="n">p_demux</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">4</span> <span class="p">);</span>
+</code></pre></div>
+
+<p>Successful exploitation could allow the attacker to leverage the memory corruption error further and execute arbitrary code on the targeted system within the security context of the affected software.</p>
+
+<p><strong>Vulnerability Sources</strong>:
+<a href="http://www.securityfocus.com/bid/51147">bid:51147</a>
+<a href="http://www.videolan.org/security/sa1108.html">vlc:sa1108</a>
+<a href="http://git.videolan.org/?p=vlc.git;a=blobdiff;f=modules/demux/">git.videolan.org</a></p>
+
+<p><strong>Generic Sources</strong>:
+<a href="http://cve.mitre.org">cve.mitre.org</a>
+<a href="http://www.first.org/cvss/cvss-guide.html">cvss-guide</a>
+<a href="http://nvd.nist.gov/cvss.cfm?calculator&amp;adv&amp;version=2">cvss-calculator</a></p>
+
+        </div>
+        <div class="meta">
+          <hr/>
+          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank">twitter</a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank">issue</a> on blog repository.</p>
+          <hr/>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              <table>
+                <tr>
+                  <td align="left">(share via <a href="mailto:?subject=Vulnerable Weekends #5: MIT Kerberos and VLC TiVo&body=http://7h3ram.github.io//2011/vuln-weekends-5.html" target="_blank" title="Share via Email">mail</a>, <a href="http://twitter.com/intent/tweet?text=Vulnerable Weekends #5: MIT Kerberos and VLC TiVo+http://7h3ram.github.io//2011/vuln-weekends-5.html&via=7h3rAm" target="_blank" title="Share on Twitter">twitter</a>, <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://7h3ram.github.io//2011/vuln-weekends-5.html&p[images][0]=&p[title]=Vulnerable Weekends #5: MIT Kerberos and VLC TiVo&p[summary]=" target="_blank" title="Share on Facebook">facebook</a> or <a href="https://plus.google.com/share?url=http://7h3ram.github.io//2011/vuln-weekends-5.html" target="_blank" title="Share on Google Plus">google-plus</a>)</td>
+                  <td align="right">(tagged <a href=/tags.html#vulnweekends>vulnweekends</a>)</td>
+                </tr>
+                <tr>
+                                      <td align="left"><a href="/2011/vuln-weekends-4.html">&lt;&lt; Vulnerable Weekends #4: Windows True-Type Fonts and Windows DVR-MS &lt;&lt;</a></td>
+                    <td align="right"><a href="/2012/vuln-weekends-6.html">&gt;&gt; Vulnerable Weekends #6: WPS Bruteforce and CoCSoft Stream Down &gt;&gt;</a></td>
+                                  </tr>
+              </table>
+                                                                                                                                              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </article>
+              <div class="footer">
+          <center>
+            <a href="/rss.xml" target="_blank">rss</a> | <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">license</a>
+          </center>
+        </div>
+          </section>
+  </body>
+</html>

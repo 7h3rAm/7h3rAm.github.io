@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="7h3rAm"/>
+    <meta name="description" content="Personal Weblog"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>Grey Matter</title>
+    <link href="/static/css/main.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/codehilite/zenburn.css" rel="stylesheet" type="text/css">
+    <link href="/static/images/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
+  </head>
+  <body>
+    <section id="content" class="body">
+              <div class="header">
+          <table>
+            <tr>
+              <td class="blogtitle"><a href="/">Grey Matter</a></td>
+              <td class="blognavbar">
+                <a href="/archive.html">[Archive]</a> <a href="/tags.html">[Tags]</a> <a href="/research.html">[Research]</a></a>
+              </td>
+            </tr>
+          </table>
+        </div>
+                  <article class="post">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default section compact">
+        <div class="body">
+          <p class="heading">Vulnerable Weekends #4: Windows True-Type Fonts and Windows DVR-MS</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <p class="date">
+                  <a href="/2011/vuln-weekends-3.html">&lt&lt;</a> published on 18/Dec/2011<a href="/2011/vuln-weekends-5.html"> &gt;&gt;</i></a><br/>
+                </p>
+                                                                                                                                    <div class="post-content">
+          <h3>Introduction</h3>
+
+<p>Report #4A analyzes the Microsoft Windows True-Type fonts handling vulnerability that the W32.Duqu malware leverages to install itself on vulnerable systems. Once installed, it could then leverage its elevated privileges to execute arbitrary code.</p>
+
+<p>Report #4B analyzes the Microsoft Windows DVR-MS media files processing vulnerability that could also be leveraged to execute arbitrary code on the targeted system.</p>
+
+<h3>Vulnerability Report #4A: Microsoft Windows Kernel-Mode Drivers True-Type Font Handling Remote Code Execution Vulnerability</h3>
+
+<p><strong>Vulnerable Product</strong>: Installations of Microsoft Windows XP, Server 2003, Vista, Server 2008, and 7</p>
+
+<p><strong>CVE ID</strong>: <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-3402">CVE-2011-3402</a></p>
+
+<p><strong>CVSS v2 Score</strong>:
+<strong>Access Vector</strong>: NETWORK
+<strong>Access Complexity</strong>: MEDIUM
+<strong>Authentication</strong>: NONE</p>
+
+<p><strong>Confidentiality Impact</strong>: COMPLETE
+<strong>Integrity Impact</strong>: COMPLETE
+<strong>Availability Impact</strong>: COMPLETE
+<strong>Base Score</strong>: 9.3</p>
+
+<p><strong>Exploitability</strong>: FUNCTIONAL
+<strong>Remediation Level</strong>: OFFICIAL FIX
+<strong>Report Confidence</strong>: CONFIRMED
+<strong>Temporal Score</strong>: 7.7</p>
+
+<p><strong>Details</strong>:
+Microsoft Windows has been reported to contain a vulnerability that could be leveraged to execute arbitrary code on the targeted system. The vulnerability has been reported within the Kernel-Mode driver, <code>Win32k.sys</code>, that provides rendering support for True-Type fonts.</p>
+
+<p>The vulnerability is due to the fact that the vulnerable font processing engine fails to perform mandatory boundary checks on user-supplied input received via crafted True-Type fonts embedded within a Microsoft Office <code>.doc</code> file. An attacker who could convince a remote user to open a malicious <code>.doc</code> file, containing the specially crafted content, could exploit this vulnerability to cause a memory corruption error within kernel space. Further, the attacker could leverage such memory corruption errors to inject arbitrary shellcode within system memory and execute it with <code>SYSTEM</code> privileges on the targeted system.</p>
+
+<p>Public <a href="http://www.symantec.com/connect/w32-duqu_status-updates_installer-zero-day-exploit">sources</a> confirm that the <a href="http://tools.cisco.com/security/center/viewAlert.x?alertId=24425">W32.Duqu</a> malware, assumed to be a variant of <a href="http://tools.cisco.com/security/center/viewAlert.x?alertId=20915">W32/Stuxnet-B</a>, leverages this vulnerability to infect targeted systems.</p>
+
+<p>The vendor, Microsoft, has released a <a href="http://technet.microsoft.com/en-us/security/bulletin/MS11-087">security bulletin</a> to confirm this vulnerability and provided official patches for its mitigation. Users are requested to keep their systems updated with the latest available patches.</p>
+
+<p><strong>Vulnerability Sources</strong>:
+<a href="http://www.securityfocus.com/bid/50462">bid:50462</a>
+<a href="http://tools.cisco.com/security/center/viewAlert.x?alertId=24500">cisco:24500</a>
+<a href="http://www.symantec.com/security_response/writeup.jsp?docid=2011-101814-1119-99">symc</a></p>
+
+<h3>Vulnerability Report #4B: Microsoft Windows Media Player DVR-MS Files Processing Remote Code Execution Vulnerability</h3>
+
+<p><strong>Vulnerable Product</strong>: Installations of Microsoft Windows XP, Vista, and 7</p>
+
+<p><strong>CVE ID</strong>: <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-3401">CVE-2011-3401</a></p>
+
+<p><strong>CVSS v2 Score</strong>:
+<strong>Access Vector</strong>: NETWORK
+<strong>Access Complexity</strong>: MEDIUM
+<strong>Authentication</strong>: NONE</p>
+
+<p><strong>Confidentiality Impact</strong>: COMPLETE
+<strong>Integrity Impact</strong>: COMPLETE
+<strong>Availability Impact</strong>: COMPLETE
+<strong>Base Score</strong>: 9.3</p>
+
+<p><strong>Exploitability</strong>: UNPROVEN
+<strong>Remediation Level</strong>: OFFICIAL FIX
+<strong>Report Confidence</strong>: CONFIRMED
+<strong>Temporal Score</strong>: 6.9</p>
+
+<p><strong>Details</strong>:
+Microsoft Windows Media Player has been reported to contain a vulnerability that could be leveraged to execute arbitrary code on the targeted system. The vulnerability exists within the <code>encdec.dll</code> library used by the vulnerable platforms.</p>
+
+<p>The vulnerability is introduced while the affected software tries to process Microsoft Digital Video Recording (DVR-MS) media files. The affected software fails to perform sufficient security checks on user-supplied input received via such files, leading to a memory corruption error within kernel space. An attacker who could convince a targeted user to open a malicious <code>.dvr-ms</code> file, could exploit this vulnerability and leverage the memory corruption error to execute arbitrary code with <code>SYSTEM</code> privileges.</p>
+
+<p>The vendor, Microsoft, has released a <a href="http://technet.microsoft.com/en-us/security/bulletin/MS11-092">security bulletin</a> to confirm this vulnerability and provided official patches for its mitigation. Users are requested to keep their systems updated with the latest available patches.</p>
+
+<p><strong>Vulnerability Sources</strong>:
+<a href="http://www.securityfocus.com/bid/50957">bid:50957</a>
+<a href="http://secunia.com/advisories/cve_reference/CVE-2011-3401/">secunia:cve-2011-3401</a></p>
+
+<p><strong>Generic Sources</strong>:
+<a href="http://cve.mitre.org">cve.mitre.org</a>
+<a href="http://www.first.org/cvss/cvss-guide.html">cvss-guide</a>
+<a href="http://nvd.nist.gov/cvss.cfm?calculator&amp;adv&amp;version=2">cvss-calculator</a></p>
+
+        </div>
+        <div class="meta">
+          <hr/>
+          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank">twitter</a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank">issue</a> on blog repository.</p>
+          <hr/>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <table>
+                <tr>
+                  <td align="left">(share via <a href="mailto:?subject=Vulnerable Weekends #4: Windows True-Type Fonts and Windows DVR-MS&body=http://7h3ram.github.io//2011/vuln-weekends-4.html" target="_blank" title="Share via Email">mail</a>, <a href="http://twitter.com/intent/tweet?text=Vulnerable Weekends #4: Windows True-Type Fonts and Windows DVR-MS+http://7h3ram.github.io//2011/vuln-weekends-4.html&via=7h3rAm" target="_blank" title="Share on Twitter">twitter</a>, <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://7h3ram.github.io//2011/vuln-weekends-4.html&p[images][0]=&p[title]=Vulnerable Weekends #4: Windows True-Type Fonts and Windows DVR-MS&p[summary]=" target="_blank" title="Share on Facebook">facebook</a> or <a href="https://plus.google.com/share?url=http://7h3ram.github.io//2011/vuln-weekends-4.html" target="_blank" title="Share on Google Plus">google-plus</a>)</td>
+                  <td align="right">(tagged <a href=/tags.html#vulnweekends>vulnweekends</a>)</td>
+                </tr>
+                <tr>
+                                      <td align="left"><a href="/2011/vuln-weekends-3.html">&lt;&lt; Vulnerable Weekends #3: Cisco WebEx Player and ISC DHCP &lt;&lt;</a></td>
+                    <td align="right"><a href="/2011/vuln-weekends-5.html">&gt;&gt; Vulnerable Weekends #5: MIT Kerberos and VLC TiVo &gt;&gt;</a></td>
+                                  </tr>
+              </table>
+                                                                                                                        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </article>
+              <div class="footer">
+          <center>
+            <a href="/rss.xml" target="_blank">rss</a> | <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">license</a>
+          </center>
+        </div>
+          </section>
+  </body>
+</html>

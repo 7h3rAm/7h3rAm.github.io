@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="7h3rAm"/>
+    <meta name="description" content="Personal Weblog"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>Grey Matter</title>
+    <link href="/static/css/main.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/codehilite/zenburn.css" rel="stylesheet" type="text/css">
+    <link href="/static/images/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
+  </head>
+  <body>
+    <section id="content" class="body">
+              <div class="header">
+          <table>
+            <tr>
+              <td class="blogtitle"><a href="/">Grey Matter</a></td>
+              <td class="blognavbar">
+                <a href="/archive.html">[Archive]</a> <a href="/tags.html">[Tags]</a> <a href="/research.html">[Research]</a></a>
+              </td>
+            </tr>
+          </table>
+        </div>
+                  <article class="post">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default section compact">
+        <div class="body">
+          <p class="heading">Vulnerable Weekends #7: Iptools rcmd DoS</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  <p class="date">
+                  <a href="/2012/vuln-weekends-6.html">&lt&lt;</a> published on 07/Jan/2012<a href="/2012/vuln-weekends-8.html"> &gt;&gt;</i></a><br/>
+                </p>
+                                                                                                                                                                                                      <div class="post-content">
+          <h3>Vulnerability Report #7: Iptools rcmd Denial of Service Vulnerability</h3>
+
+<p><strong>Vulnerable Product</strong>: Installations of Iptools with version 0.1.4</p>
+
+<p><strong>CVE ID</strong>: NA</p>
+
+<p><strong>CVSS v2 Score</strong>:
+<strong>Access Vector</strong>: NETWORK
+<strong>Access Complexity</strong>: LOW
+<strong>Authentication</strong>: NONE</p>
+
+<p><strong>Confidentiality Impact</strong>: NONE
+<strong>Integrity Impact</strong>: NONE
+<strong>Availability Impact</strong>: PARTIAL
+<strong>Base Score</strong>: 5</p>
+
+<p><strong>Exploitability</strong>: PROOF-OF-CONCEPT
+<strong>Remediation Level</strong>: WORKAROUND
+<strong>Report Confidence</strong>: UNCORROBORATED
+<strong>Temporal Score</strong>: 4.1</p>
+
+<p><strong>Details</strong>:
+Iptools is a popular set of tiny TCP/IP utilities implemented as Perl scripts, that include a minimalist webserver, a remote command server on the lines of Telnet, a TFTP server/client, SNMP browser, etc. The toolset has been reported to be vulnerable to a denial of service (DoS) vulnerability, specifically within its remote command server script, <code>rcmd</code>.</p>
+
+<p>The vulnerable utility receives user-supplied input through its listening port, TCP/23, which is then tested against a set of weak sanitization checks. This input is used as a placeholder for the <code>EXPR</code> parameter used by the internal <code>chdir</code> function which parses it as a filename reference. Since this parameter could reference a string of an unbounded length, the directory change operation could generate an untrappable exception. This flaw could make the vulnerable utility unstable, effectively terminating the Perl interpreter abnormally, leading to the DoS condition. The following code snippet depicts where the vulnerability could have been introduced within the <code>rcmd</code> script:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="n">chop</span><span class="p">(</span><span class="err">$</span><span class="n">curdir</span><span class="o">=</span><span class="sb">`cd`</span><span class="p">);</span>
+<span class="k">print</span> <span class="n">NS</span> <span class="s2">&quot;$curdir&gt; &quot;</span><span class="p">;</span>
+<span class="k">while</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">NS</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">print</span> <span class="s2">&quot;Client request : &quot;</span><span class="p">;</span>
+    <span class="k">print</span><span class="p">;</span>
+  <span class="n">CASE</span><span class="p">:</span> <span class="p">{</span>
+      <span class="o">/</span><span class="n">cd</span> <span class="o">/</span> <span class="o">&amp;&amp;</span> <span class="n">do</span> <span class="p">{</span> <span class="err">$</span><span class="nb">dir</span><span class="o">=</span><span class="err">$</span><span class="s1">&#39;; $dir=~s/</span><span class="se">\015\012</span><span class="s1">//; print $dir if $debug;</span>
+                    <span class="n">chdir</span> <span class="s2">&quot;$dir&quot;</span> <span class="o">||</span> <span class="k">print</span> <span class="n">NS</span> <span class="s2">&quot;Invalid directory</span><span class="se">\015\012</span><span class="s2">&quot;</span>  <span class="p">;</span> <span class="n">last</span> <span class="n">CASE</span><span class="p">;</span> <span class="p">};</span>
+      <span class="o">/^</span><span class="p">(</span>\<span class="n">b</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="o">.</span><span class="p">:)</span><span class="o">/</span> <span class="o">&amp;&amp;</span> <span class="n">do</span> <span class="p">{</span> <span class="err">$</span><span class="n">drive</span><span class="o">=</span><span class="err">$</span><span class="mi">2</span><span class="p">;</span> <span class="p">;</span> <span class="k">print</span> <span class="s2">&quot;driver:[$drive]&quot;</span> <span class="k">if</span> <span class="err">$</span><span class="n">debug</span><span class="p">;</span>
+                    <span class="n">chdir</span> <span class="s2">&quot;$drive&quot;</span> <span class="o">||</span> <span class="k">print</span> <span class="n">NS</span> <span class="s2">&quot;Invalid drive</span><span class="se">\015\012</span><span class="s2">&quot;</span>  <span class="p">;</span> <span class="n">last</span> <span class="n">CASE</span><span class="p">;</span> <span class="p">};</span>
+</code></pre></div>
+
+<p>An official confirmation and software updates are currently unavailable. Users are requested to avoid using the vulnerable utility until official fixes are released. For a workaround, users could consider introducing restrictive firewall policies that prohibit unnecessary access to the vulnerable script from an unauthorized source.</p>
+
+<p><strong>Vulnerability Sources</strong>:
+<a href="http://www.securityfocus.com/bid/51312/">bid:51312</a>
+<a href="http://iptools.sourceforge.net/iptools.html">iptools</a></p>
+
+<p><strong>Generic Sources</strong>:
+<a href="http://cve.mitre.org">cve.mitre.org</a>
+<a href="http://www.first.org/cvss/cvss-guide.html">cvss-guide</a>
+<a href="http://nvd.nist.gov/cvss.cfm?calculator&amp;adv&amp;version=2">cvss-calculator</a></p>
+
+        </div>
+        <div class="meta">
+          <hr/>
+          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank">twitter</a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank">issue</a> on blog repository.</p>
+          <hr/>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  <table>
+                <tr>
+                  <td align="left">(share via <a href="mailto:?subject=Vulnerable Weekends #7: Iptools rcmd DoS&body=http://7h3ram.github.io//2012/vuln-weekends-7.html" target="_blank" title="Share via Email">mail</a>, <a href="http://twitter.com/intent/tweet?text=Vulnerable Weekends #7: Iptools rcmd DoS+http://7h3ram.github.io//2012/vuln-weekends-7.html&via=7h3rAm" target="_blank" title="Share on Twitter">twitter</a>, <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://7h3ram.github.io//2012/vuln-weekends-7.html&p[images][0]=&p[title]=Vulnerable Weekends #7: Iptools rcmd DoS&p[summary]=" target="_blank" title="Share on Facebook">facebook</a> or <a href="https://plus.google.com/share?url=http://7h3ram.github.io//2012/vuln-weekends-7.html" target="_blank" title="Share on Google Plus">google-plus</a>)</td>
+                  <td align="right">(tagged <a href=/tags.html#vulnweekends>vulnweekends</a>)</td>
+                </tr>
+                <tr>
+                                      <td align="left"><a href="/2012/vuln-weekends-6.html">&lt;&lt; Vulnerable Weekends #6: WPS Bruteforce and CoCSoft Stream Down &lt;&lt;</a></td>
+                    <td align="right"><a href="/2012/vuln-weekends-8.html">&gt;&gt; Vulnerable Weekends #8: HP LoadRunner RCE &gt;&gt;</a></td>
+                                  </tr>
+              </table>
+                                                                                                                                                                                          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </article>
+              <div class="footer">
+          <center>
+            <a href="/rss.xml" target="_blank">rss</a> | <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">license</a>
+          </center>
+        </div>
+          </section>
+  </body>
+</html>
