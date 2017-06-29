@@ -1,29 +1,3 @@
 {%extends "base.html"%}
 {%block main%}
-  <article class="post">
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="panel panel-default section compact">
-        <div class="panel-body">
-          <div class="overview">
-            {{data.aboutme}}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="panel panel-default section compact">
-        <div class="panel-body">
-          <p class="heading">Recent Posts</p>
-          {%for post in posts%}
-            <span class="date">{{post.pretty_date}}</span> - <span class="posttitle"><a href="{{post.url}}">{{post.title}}</a></span>
-            <br/>
-          {%endfor%}
-        </div>
-      </div>
-    </div>
-  </div>
-  </article>
 {%endblock%}

@@ -16,7 +16,7 @@
         <div class="panel-body">
           <p class="heading">Recent Posts</p>
           {%for post in posts%}
-            <span class="date">{{post.pretty_date}}</span> - <span class="posttitle"><a href="{{post.url}}">{{post.title}}</a></span>
+            <span class="date">{{post.pretty_date}}</span> - <span><a href="{{post.url}}">{{post.title}}</a></span>
             <br/>
           {%endfor%}
         </div>

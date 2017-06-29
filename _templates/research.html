@@ -32,7 +32,7 @@
           <span class="posttitle">{{talk.title}}</span><br/>
           <span>{{talk.description}}</span><br/>
             {%for event in talk.events%}
-              <span class="date">{{event.pretty_date}}</span> - <span class="posttitle"><a href="{{event.url}}" target="_blank">{{event.name}}</a></span><br/>
+              <span class="date">{{event.pretty_date}}</span> - <span><a href="{{event.url}}" target="_blank">{{event.name}}</a></span><br/>
             {%endfor%}
             <br/>
           {%endfor%}
