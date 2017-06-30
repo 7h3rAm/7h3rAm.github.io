@@ -21,7 +21,7 @@
 }
 
 body {
-  background-color: rgb(45, 45, 45);
+  background-color: rgb(102, 102, 102);
   font: 18px/22px "Vollkorn", serif;
   margin: 20px auto 20px auto;
   padding: 0px;
@@ -41,7 +41,7 @@ img {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  max-width: 100%;
+  max-width: 80%;
   border-radius: 2px;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.15);
   -moz-box-sizing: border-box;
@@ -57,8 +57,7 @@ a img {
   text-decoration: none;
 }
 a:link, a:visited {
-  color: rgb(242, 119, 122);
-  color: rgb(238, 110, 115)
+  color: #483D8B;
 }
 a:hover, h1 a:hover {
   text-decoration: none;
@@ -77,18 +76,23 @@ em, i {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: rgb(102, 153, 204);
+  color: rgb(81, 65, 99);
   margin: 6px 0px 6px 0px;
 }
 
-pre, code, tt {
+code, tt {
   font-family: "Inconsolata", "Consolas", "Courier New";
+  font-size: 15px;
   color: #3F3F3F;
   overflow-x: auto;
 }
 pre {
+  font-family: "Inconsolata", "Consolas", "Courier New";
+  color: #3F3F3F;
+  overflow-x: auto;
+  max-width: 100%;
   border: 1px solid #dddddd;
-  font-size: 15px;
+  font-size: 13px;
   padding: 9px;
   margin: 0px 0px 9px 0px;
   background: #fafafa;
@@ -138,7 +142,7 @@ div.tags {
 
 .meta {
   font-family: "Inconsolata", "Consolas", "Courier New";
-  font-size: 18px;
+  font-size: 15px;
   font-weight: bold;
 }
 
@@ -175,12 +179,12 @@ div.tags {
 }
 
 .posttitle {
-  color: rgb(102, 153, 204);
+  color: rgb(81, 65, 99);
+  font-weight: bold;
 }
 
 .blogtitle {
-  color: rgb(81, 65, 99);
-  font-size: 36px;
+  font-size: 42px;
   font-weight: bold;
 }
 
@@ -216,12 +220,16 @@ a.blognavbar:link, a.blognavbar:visited {
   margin: 25px 35px 25px 35px;
   text-align: center;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: bold;
   padding: 0px;
   border-radius: 2px;
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
+}
+
+.pointer {
+  font-size: 12px;
 }
 
 ul.tagcloud {

@@ -5,19 +5,25 @@
         "04": {
           "title": "Method and Apparatus for Intelligent Aggregation of Threat Behavior for the Detection of Malware",
           "description": "An attempt towards automated selection and grouping of aggregated threat behavior indicators depicting dominant malware characteristics.",
-          "pretty_date": "Apr/2017"
+          "pretty_date": "Apr/2017",
+          "patent_id": null,
+          "patent_url": null
         }
       },
       "2014": {
         "12": {
           "title": "Using A Probability-based Model To Detect Random Content In A Protocol Field Associated With Network Traffic",
           "description": "A novel idea based upon stochastic processes derived machine learning model to identify and classify random/malicious content in network traffic.",
-          "pretty_date": "Dec/2014"
+          "pretty_date": "Dec/2014",
+          "patent_id": null,
+          "patent_url": null
         },
         "09": {
           "title": "Deobfuscating Scripted Language For Network Intrusion Detection Using A Regular Expression Signature",
           "description": "An attempt towards normalizing obfuscated web scripts for network security appliances to consume and operate upon.",
-          "pretty_date": "Sep/2014"
+          "pretty_date": "Sep/2014",
+          "patent_id": "US9419991B2",
+          "patent_url": "https://patents.google.com/patent/US9419991B2"
         }
       }
     },

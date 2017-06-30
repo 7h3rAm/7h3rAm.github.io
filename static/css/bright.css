@@ -41,7 +41,7 @@ img {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  max-width: 100%;
+  max-width: 80%;
   border-radius: 2px;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.15);
   -moz-box-sizing: border-box;
@@ -80,14 +80,19 @@ h1, h2, h3, h4, h5, h6 {
   margin: 6px 0px 6px 0px;
 }
 
-pre, code, tt {
+code, tt {
   font-family: "Inconsolata", "Consolas", "Courier New";
+  font-size: 15px;
   color: #3F3F3F;
   overflow-x: auto;
 }
 pre {
+  font-family: "Inconsolata", "Consolas", "Courier New";
+  color: #3F3F3F;
+  overflow-x: auto;
+  max-width: 100%;
   border: 1px solid #dddddd;
-  font-size: 15px;
+  font-size: 13px;
   padding: 9px;
   margin: 0px 0px 9px 0px;
   background: #fafafa;
@@ -137,7 +142,7 @@ div.tags {
 
 .meta {
   font-family: "Inconsolata", "Consolas", "Courier New";
-  font-size: 18px;
+  font-size: 15px;
   font-weight: bold;
 }
 
@@ -179,7 +184,6 @@ div.tags {
 }
 
 .blogtitle {
-  color: rgb(81, 65, 99);
   font-size: 42px;
   font-weight: bold;
 }
@@ -216,12 +220,16 @@ a.blognavbar:link, a.blognavbar:visited {
   margin: 25px 35px 25px 35px;
   text-align: center;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: bold;
   padding: 0px;
   border-radius: 2px;
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
+}
+
+.pointer {
+  font-size: 12px;
 }
 
 ul.tagcloud {

@@ -7,9 +7,9 @@
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <title>Grey Matter</title>
 
-          <link href="/static/css/bright.css" rel="stylesheet" type="text/css">
-    
-    <link href="/static/css/codehilite/zenburn.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/default.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/codehilite/perldoc.css" rel="stylesheet" type="text/css">
+
     <link href="/static/images/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
   </head>
   <body>
@@ -17,7 +17,7 @@
               <div class="header">
           <table>
             <tr>
-              <td class="blogtitle"><a href="/">Grey Matter</a></td>
+              <td class="blogtitle"><a href="/" style="color: rgb(102, 102, 102);">Grey Matter</a></td>
               <td class="blognavbar">
                 <a href="/archive.html">[Archive]</a> <a href="/tags.html">[Tags]</a> <a href="/research.html">[Research]</a></a>
               </td>
@@ -33,15 +33,15 @@
             <br/>
             <div class="tags">
               <ul id="cloud">
-                                  <li><a style="font-size: 4.5em; color:#514163; padding:0px 5px 0px 5px;" href="/tags.html#buffer_overflow" title="buffer_overflow: 12 entries">buffer_overflow</a></li>
-                                  <li><a style="font-size: 4.0em; color:#DC143C; padding:0px 5px 0px 5px;" href="/tags.html#exploit" title="exploit: 11 entries">exploit</a></li>
-                                  <li><a style="font-size: 2.5em; color:#f2777a; padding:20px 5px 20px 5px;" href="/tags.html#mitigations" title="mitigations: 6 entries">mitigations</a></li>
-                                  <li><a style="font-size: 1.5em; color:#66cccc; padding:20px 5px 20px 5px;" href="/tags.html#ctf" title="ctf: 3 entries">ctf</a></li>
-                                  <li><a style="font-size: 3.5em; color:#008080; padding:0px 5px 0px 5px;" href="/tags.html#vulnweekends" title="vulnweekends: 9 entries">vulnweekends</a></li>
-                                  <li><a style="font-size: 2.5em; color:#f2777a; padding:20px 5px 20px 5px;" href="/tags.html#reversing" title="reversing: 5 entries">reversing</a></li>
-                                  <li><a style="font-size: 5.5em; color:#6699cc; padding:0px 5px 0px 5px;" href="/tags.html#code" title="code: 16 entries">code</a></li>
-                                  <li><a style="font-size: 5.0em; color:#483D8B; padding:0px 5px 0px 5px;" href="/tags.html#writeups" title="writeups: 13 entries">writeups</a></li>
-                                  <li><a style="font-size: 2.0em; color:#FFB745; padding:20px 5px 20px 5px;" href="/tags.html#shellcode" title="shellcode: 4 entries">shellcode</a></li>
+                                  <li><a style="font-size: 1.5em; color:#99cc99; padding:20px 5px 20px 5px;" href="/tags.html#ctf" title="ctf: 3 entries">ctf</a></li>
+                                  <li><a style="font-size: 3.5em; color:#FFB745; padding:0px 5px 0px 5px;" href="/tags.html#vulnweekends" title="vulnweekends: 9 entries">vulnweekends</a></li>
+                                  <li><a style="font-size: 2.0em; color:#6699cc; padding:20px 5px 20px 5px;" href="/tags.html#shellcode" title="shellcode: 4 entries">shellcode</a></li>
+                                  <li><a style="font-size: 2.5em; color:#008080; padding:20px 5px 20px 5px;" href="/tags.html#reversing" title="reversing: 5 entries">reversing</a></li>
+                                  <li><a style="font-size: 4.5em; color:#DC143C; padding:0px 5px 0px 5px;" href="/tags.html#buffer_overflow" title="buffer_overflow: 12 entries">buffer_overflow</a></li>
+                                  <li><a style="font-size: 5.0em; color:#66cccc; padding:0px 5px 0px 5px;" href="/tags.html#writeups" title="writeups: 13 entries">writeups</a></li>
+                                  <li><a style="font-size: 4.0em; color:#f2777a; padding:0px 5px 0px 5px;" href="/tags.html#exploit" title="exploit: 11 entries">exploit</a></li>
+                                  <li><a style="font-size: 5.5em; color:#483D8B; padding:0px 5px 0px 5px;" href="/tags.html#code" title="code: 16 entries">code</a></li>
+                                  <li><a style="font-size: 2.5em; color:#008080; padding:20px 5px 20px 5px;" href="/tags.html#mitigations" title="mitigations: 6 entries">mitigations</a></li>
                               </ul>
             </div>
             <br/>
@@ -81,7 +81,7 @@
                               <span class="date">27/Aug/2012</span> - <span><a href="2012/geras-wuos-stack1-solutions.html">Gera's Warming Up on Stack #1 - Solutions</a></span>
                 <br/>
                             </table>
-              <sup><a href="#top">top^</a></sup>
+              <span class="pointer"><sup><a href="#top">top^</a></sup></span>
               </div>
                           <div class="section">
               <h2><a name="code">code</a> <sup>(16)</sup></h2>
@@ -119,7 +119,7 @@
                               <span class="date">06/Mar/2013</span> - <span><a href="2013/libemu-shellcode-detection.html">x86 Emulation and Shellcode Detection</a></span>
                 <br/>
                             </table>
-              <sup><a href="#top">top^</a></sup>
+              <span class="pointer"><sup><a href="#top">top^</a></sup></span>
               </div>
                           <div class="section">
               <h2><a name="ctf">ctf</a> <sup>(3)</sup></h2>
@@ -131,7 +131,7 @@
                               <span class="date">06/May/2014</span> - <span><a href="2014/confidence-ds-ctf-stego50.html">CONFidence DS CTF Teaser: Stegano50</a></span>
                 <br/>
                             </table>
-              <sup><a href="#top">top^</a></sup>
+              <span class="pointer"><sup><a href="#top">top^</a></sup></span>
               </div>
                           <div class="section">
               <h2><a name="exploit">exploit</a> <sup>(11)</sup></h2>
@@ -159,7 +159,7 @@
                               <span class="date">10/Jul/2012</span> - <span><a href="2012/exploit-mitigation-techniques-on-linux.html">Exploit Mitigation Techniques on Linux Systems</a></span>
                 <br/>
                             </table>
-              <sup><a href="#top">top^</a></sup>
+              <span class="pointer"><sup><a href="#top">top^</a></sup></span>
               </div>
                           <div class="section">
               <h2><a name="mitigations">mitigations</a> <sup>(6)</sup></h2>
@@ -177,7 +177,7 @@
                               <span class="date">10/Jul/2012</span> - <span><a href="2012/exploit-mitigation-techniques-on-linux.html">Exploit Mitigation Techniques on Linux Systems</a></span>
                 <br/>
                             </table>
-              <sup><a href="#top">top^</a></sup>
+              <span class="pointer"><sup><a href="#top">top^</a></sup></span>
               </div>
                           <div class="section">
               <h2><a name="reversing">reversing</a> <sup>(5)</sup></h2>
@@ -193,7 +193,7 @@
                               <span class="date">24/Aug/2013</span> - <span><a href="2013/malsoftware-reverse-ex.html">reverse-ex Challenge from Coursera's Malicious Software Course</a></span>
                 <br/>
                             </table>
-              <sup><a href="#top">top^</a></sup>
+              <span class="pointer"><sup><a href="#top">top^</a></sup></span>
               </div>
                           <div class="section">
               <h2><a name="shellcode">shellcode</a> <sup>(4)</sup></h2>
@@ -207,7 +207,7 @@
                               <span class="date">06/Mar/2013</span> - <span><a href="2013/libemu-shellcode-detection.html">x86 Emulation and Shellcode Detection</a></span>
                 <br/>
                             </table>
-              <sup><a href="#top">top^</a></sup>
+              <span class="pointer"><sup><a href="#top">top^</a></sup></span>
               </div>
                           <div class="section">
               <h2><a name="vulnweekends">vulnweekends</a> <sup>(9)</sup></h2>
@@ -231,7 +231,7 @@
                               <span class="date">16/Nov/2011</span> - <span><a href="2011/vuln-weekends-intro.html">Vulnerable Weekends: Introduction</a></span>
                 <br/>
                             </table>
-              <sup><a href="#top">top^</a></sup>
+              <span class="pointer"><sup><a href="#top">top^</a></sup></span>
               </div>
                           <div class="section">
               <h2><a name="writeups">writeups</a> <sup>(13)</sup></h2>
@@ -263,7 +263,7 @@
                               <span class="date">27/Aug/2012</span> - <span><a href="2012/geras-wuos-stack1-solutions.html">Gera's Warming Up on Stack #1 - Solutions</a></span>
                 <br/>
                             </table>
-              <sup><a href="#top">top^</a></sup>
+              <span class="pointer"><sup><a href="#top">top^</a></sup></span>
               </div>
                       </div>
         </div>

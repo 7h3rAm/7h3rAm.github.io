@@ -11,6 +11,11 @@
             {%for year in data.research.patents|sort(reverse=True)%}
               {%for month, value in data.research.patents[year].iteritems()|sort(reverse=True)%}
                 <span class="date">{{value.pretty_date}}</span> - <span class="posttitle">{{value.title}}</span>
+                {%if value.patent_id%}
+                  {%if value.patent_url%}
+                  <span> (<a href="{{value.patent_url}}" target="_blank">{{value.patent_id}}</a>)</span>
+                  {%endif%}
+                {%endif%}
                 <br/>
                 <span>{{value.description}}</span>
                 <br/>
