@@ -1,0 +1,142 @@
+{%extends "base.html"%}
+{%block main%}
+  <article class="post">
+  <div id="wrapper">
+    <div class="row">
+      <div class="col-lg-3 col-md-6">
+        <div class="panel panel-purple">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-3"><i class="fa fa-file-text fa-3x"></i></div>
+              <div class="col-xs-9 text-right huge">{{stats.count_posts}}</div><div class="col-xs-9 text-right">Posts</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="panel panel-green">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-3"><i class="fa fa-tags fa-3x"></i></div>
+              <div class="col-xs-9 text-right huge">{{stats.count_tags}}</div><div class="col-xs-9 text-right">Tags</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="panel panel-blue">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-3"><i class="fa fa-file-text fa-3x"></i></div>
+              <div class="col-xs-9 text-right huge">{{stats.count_words}}</div><div class="col-xs-9 text-right">Words</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="panel panel-yellow">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-3"><i class="fa fa-calendar fa-3x"></i></div>
+              <div class="col-xs-9 text-right huge">{{stats.count_readtime}}m</div><div class="col-xs-9 text-right">Readtime</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-3 col-md-6">
+        <div class="panel panel-cyan">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-3"><i class="fa fa-tags fa-3x"></i></div>
+              <div class="col-xs-9 text-right huge">{{stats.posts_per_tag}}</div><div class="col-xs-9 text-right">Posts/Tag</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="panel panel-yellow">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-3"><i class="fa fa-tags fa-3x"></i></div>
+              <div class="col-xs-9 text-right huge">{{stats.words_per_tag}}</div><div class="col-xs-9 text-right">Words/Tag</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="panel panel-purple">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-3"><i class="fa fa-file-text fa-3x"></i></div>
+              <div class="col-xs-9 text-right huge">{{stats.words_per_post}}</div><div class="col-xs-9 text-right">Words/Post</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="panel panel-pink">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-3"><i class="fa fa-calendar fa-3x"></i></div>
+              <div class="col-xs-9 text-right huge">{{stats.readtime_per_post}}m</div><div class="col-xs-9 text-right">Readtime/Post</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <i class="fa fa-bar-chart fa-fw"></i> Posts and Tags per Year
+          </div>
+          <div class="panel-body">
+            <div id="yearly-summary-posts-tags"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <i class="fa fa-area-chart fa-fw"></i> Words and Readtime per Year
+          </div>
+          <div class="panel-body">
+            <div id="yearly-summary-words-readtime"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <!--
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <i class="fa fa-clock-o fa-fw"></i> Commit Log
+        </div>
+        <div class="panel-body">
+          <ul id="timelinelist" class="timeline">
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+  $.getJSON("https://api.github.com/repos/7h3rAm/7h3rAm.github.io/commits", function foo(json) {
+    commitlen = Object.keys(json).length
+    for (var i=0; i<commitlen; i++) {
+      if (i%2 == 0) { litag = "<li>" } else { litag = "<li class='timeline-inverted'>" }
+      var html = sprintf('%s<div class="timeline-badge %s"><i class="fa fa-%s"></i></div><div class="timeline-panel"><div class="timeline-heading"><h4 class="timeline-title"><a href=%s target="_blank">%s</a></h4><p><small class="text-muted"><i class="fa fa-clock-o"></i>%s by <a href=%s target="_blank">%s</a> </small></p></div><div class="timeline-body"><p>%s</p></div></div></li>', litag, _.sample(["primary", "success", "warning", "danger", "info"]), _.sample(["star", "tag", "tint", "link", "list", "check-square", "dot-circle-o", "plus-square-o", "cog"]), json[i].html_url, json[i].sha, json[i].commit.committer.date, json[i].author.html_url, json[i].commit.committer.name, json[i].commit.message);
+      $("#timelinelist").append(html);
+    }
+  });
+  </script>
+  </div>
+  -->
+
+  </article>
+{%endblock%}
