@@ -19,7 +19,7 @@
             <tr>
               <td class="blogtitle"><a href="/" style="color: rgb(102, 102, 102);">Grey Matter</a></td>
               <td class="blognavbar">
-                <a href="/archive.html">[Archive]</a> <a href="/tags.html">[Tags]</a> <a href="/projects.html">[Projects]</a> <a href="/research.html">[Research]</a>
+                [<a id="archive" href="/archive.html" style="color: rgb(70, 130, 180);">Archive</a>] [<a id="tags" href="/tags.html" style="color: rgb(255, 183, 69);">Tags</a>] [<a id="projects" href="/projects.html" style="color: rgb(0, 128, 128);">Projects</a>] [<a id="research" href="/research.html" style="color: rgb(242, 119, 122);">Research</a>]
               </td>
             </tr>
           </table>
@@ -205,5 +205,13 @@ Nope , not here <span class="p">;</span><span class="o">)</span>
           </center>
         </div>
           </section>
+
+    <script type="text/javascript">
+      document.addEventListener("DOMContentLoaded", function() {
+        var colors = ["#4B0082", "#3CB371", "#2E8B57", "#808000", "#20B2AA", "#008B8B", "#4682B4", "#B0C4DE", "#87CEFA", "#87CEEB", "#1E90FF", "#6495ED", "#000080", "#191970"];
+        document.getElementById("element").style.color = colors[Math.floor(Math.random() * colors.length)];
+      }, false);
+    </script>
+
   </body>
 </html>
