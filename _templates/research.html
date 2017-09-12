@@ -37,7 +37,12 @@
           <span class="posttitle">{{talk.title}}</span><br/>
           <span>{{talk.description}}</span><br/>
             {%for event in talk.events%}
-              <span class="date">{{event.pretty_date}}</span> - <span><a href="{{event.url}}" target="_blank">{{event.name}}</a></span><br/>
+              {%if event.media%}
+                <span class="date">{{event.pretty_date}}</span> - <span><a href="{{event.url}}" target="_blank">{{event.name}}</a></span> ({%for media in event.media%}<span><a href="{{media.url}}" target="_blank">{{media.name}}</a>{%if not loop.last%}, {%endif%}</span>{%endfor%})
+              {%else%}
+                <span class="date">{{event.pretty_date}}</span> - <span><a href="{{event.url}}" target="_blank">{{event.name}}</a></span>
+              {%endif%}
+              <br/>
             {%endfor%}
             <br/>
           {%endfor%}
