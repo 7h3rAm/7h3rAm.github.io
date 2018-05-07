@@ -34,182 +34,180 @@
                   <a href="/2014/little-pdf.html">&lt&lt;</a> published on 15/Nov/2014<a href="/2014/flowinspect.html"> &gt;&gt;</i></a><br/>
                 </p>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   <div class="post-content">
-          <p>While working with pcap files, I occasionally come across situations where I need to edit them for some weird usecases. When in such a situation, I had to write a loop that iterates over packets, check if the current packet needs modification, apply changes if so and save these changes to a new pcap. As I repeated these steps a few times, need for automation became obvious. I sat together with my colleague and good friend <a href="http://x00itachi.blogspot.in/">Natraj</a> and discussed about how we can automate this process so that it helps with our IPS signature development efforts. Eventually, a draft for a interactive tool was formulated and <a href="https://github.com/7h3rAm/pcapedit">pcapedit</a> was born.</p>
+          <p><code>pcapedit</code> is a Python-based tool that allows users to enter commands to edit and save pcaps. It has a hard dependency on <code>Scapy</code> and <code>cmd2</code> modules so make sure these are installed. Here is a snippet from test run:</p>
 
-<p><code>pcapedit</code> is a Python-based tool that allows users to enter commands to edit and save pcaps. It has a hard dependency on <code>Scapy</code> and <code>cmd2</code> modules so make sure these are installed. Here is a snippet from test run:</p>
-
-<div class="codehilite"><pre><span></span><code>$ ./pcapedit.py
+<pre><code>$ ./pcapedit.py
 PcapEdit - An Interactive Pcap Editor
 
 &gt;&gt;&gt;
 &gt;&gt;&gt;
-&gt;&gt;&gt; <span class="nb">help</span>
+&gt;&gt;&gt; help
 
-Documented commands <span class="o">(</span><span class="nb">type</span> <span class="nb">help</span> &lt;topic&gt;<span class="o">)</span>:
-<span class="o">========================================</span>
-_load           commands  <span class="nb">history</span>  ls       r         shell
+Documented commands (type help &lt;topic&gt;):
+========================================
+_load           commands  history  ls       r         shell
 _relative_load  ed        l        outpcap  run       shortcuts
 analyze         edit      li       pause    save      show
 back            hexdump   list     pdfdump  Scapycmd  summary
-cmdenvironment  hi        load     py       <span class="nb">set</span>       wireshark
+cmdenvironment  hi        load     py       set       wireshark
 
 Undocumented commands:
-<span class="o">======================</span>
-EOF  eof  <span class="nb">exit</span>  <span class="nb">help</span>  q  quit
+======================
+EOF  eof  exit  help  q  quit
 
 &gt;&gt;&gt; commands
 
-  <span class="o">[</span><span class="m">01</span><span class="o">]</span> analyze ......... load a pcap <span class="k">for</span> analysis
-  <span class="o">[</span><span class="m">02</span><span class="o">]</span> ls .............. list packet details
-  <span class="o">[</span><span class="m">03</span><span class="o">]</span> summary ......... show summary of a packet
-  <span class="o">[</span><span class="m">04</span><span class="o">]</span> hexdump ......... show hexdump of a packet
-  <span class="o">[</span><span class="m">05</span><span class="o">]</span> pdfdump ......... dump packet to a PDF
-  <span class="o">[</span><span class="m">06</span><span class="o">]</span> Scapycmd ........ show Scapy <span class="nb">command</span> to generate a packet
-  <span class="o">[</span><span class="m">07</span><span class="o">]</span> wireshark ....... show a packet in Wireshark
-  <span class="o">[</span><span class="m">08</span><span class="o">]</span> edit ............ <span class="k">select</span> a packet <span class="k">for</span> <span class="nb">set</span> operations
-  <span class="o">[</span><span class="m">09</span><span class="o">]</span> outpcap ......... <span class="nb">set</span> name <span class="k">for</span> output pcap
-  <span class="o">[</span><span class="m">10</span><span class="o">]</span> <span class="nb">set</span> ............. change value of a protocol field
-  <span class="o">[</span><span class="m">11</span><span class="o">]</span> save ............ save packets to a pcap
+  [01] analyze ......... load a pcap for analysis
+  [02] ls .............. list packet details
+  [03] summary ......... show summary of a packet
+  [04] hexdump ......... show hexdump of a packet
+  [05] pdfdump ......... dump packet to a PDF
+  [06] Scapycmd ........ show Scapy command to generate a packet
+  [07] wireshark ....... show a packet in Wireshark
+  [08] edit ............ select a packet for set operations
+  [09] outpcap ......... set name for output pcap
+  [10] set ............. change value of a protocol field
+  [11] save ............ save packets to a pcap
 
 &gt;&gt;&gt; q
-</code></pre></div>
+</code></pre>
 
 <p>So we have a few commands to try out. Let&#8217;s assume that you have a <code>http.pcap</code> file that needs editing. Let&#8217;s see how pcapedit can be useful in this case:</p>
 
-<div class="codehilite"><pre><span></span><code>$ ./pcapedit.py
+<pre><code>$ ./pcapedit.py
 PcapEdit - An Interactive Pcap Editor
 
 &gt;&gt;&gt; analyze http.cap
-Read <span class="m">43</span> packets from http.cap
-<span class="o">(</span>http.cap<span class="o">)</span> &gt;&gt;&gt; summary
-     <span class="m">0</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:07    <span class="m">145</span>.254.160.237:3372 -&gt; <span class="m">65</span>.208.228.223:80       TCP S
-     <span class="m">1</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:08       <span class="m">65</span>.208.228.223:80 -&gt; <span class="m">145</span>.254.160.237:3372    TCP SA
-     <span class="m">2</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:08    <span class="m">145</span>.254.160.237:3372 -&gt; <span class="m">65</span>.208.228.223:80       TCP A
-     <span class="m">3</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:08    <span class="m">145</span>.254.160.237:3372 -&gt; <span class="m">65</span>.208.228.223:80       TCP PA <span class="o">(</span><span class="m">479</span> bytes<span class="o">)</span>
-     <span class="m">4</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:08       <span class="m">65</span>.208.228.223:80 -&gt; <span class="m">145</span>.254.160.237:3372    TCP A
-     <span class="m">5</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:08       <span class="m">65</span>.208.228.223:80 -&gt; <span class="m">145</span>.254.160.237:3372    TCP A <span class="o">(</span><span class="m">1380</span> bytes<span class="o">)</span>
-     <span class="m">6</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:09    <span class="m">145</span>.254.160.237:3372 -&gt; <span class="m">65</span>.208.228.223:80       TCP A
-     <span class="m">7</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:09       <span class="m">65</span>.208.228.223:80 -&gt; <span class="m">145</span>.254.160.237:3372    TCP A <span class="o">(</span><span class="m">1380</span> bytes<span class="o">)</span>
-     <span class="m">8</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:09    <span class="m">145</span>.254.160.237:3372 -&gt; <span class="m">65</span>.208.228.223:80       TCP A
-     <span class="m">9</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:09       <span class="m">65</span>.208.228.223:80 -&gt; <span class="m">145</span>.254.160.237:3372    TCP A <span class="o">(</span><span class="m">1380</span> bytes<span class="o">)</span>
-    <span class="m">10</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:09       <span class="m">65</span>.208.228.223:80 -&gt; <span class="m">145</span>.254.160.237:3372    TCP PA <span class="o">(</span><span class="m">1380</span> bytes<span class="o">)</span>
-    <span class="m">11</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:09    <span class="m">145</span>.254.160.237:3372 -&gt; <span class="m">65</span>.208.228.223:80       TCP A
-    <span class="m">12</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:09    <span class="m">145</span>.254.160.237:3009 -&gt; <span class="m">145</span>.253.2.203:53        UDP <span class="o">(</span><span class="m">47</span> bytes<span class="o">)</span>
-    <span class="m">13</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:09       <span class="m">65</span>.208.228.223:80 -&gt; <span class="m">145</span>.254.160.237:3372    TCP A <span class="o">(</span><span class="m">1380</span> bytes<span class="o">)</span>
-    <span class="m">14</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:10    <span class="m">145</span>.254.160.237:3372 -&gt; <span class="m">65</span>.208.228.223:80       TCP A
-    <span class="m">15</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:10       <span class="m">65</span>.208.228.223:80 -&gt; <span class="m">145</span>.254.160.237:3372    TCP A <span class="o">(</span><span class="m">1380</span> bytes<span class="o">)</span>
-    <span class="m">16</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:10        <span class="m">145</span>.253.2.203:53 -&gt; <span class="m">145</span>.254.160.237:3009    UDP <span class="o">(</span><span class="m">244</span> bytes<span class="o">)</span>
-    <span class="m">17</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:10    <span class="m">145</span>.254.160.237:3371 -&gt; <span class="m">216</span>.239.59.99:80        TCP PA <span class="o">(</span><span class="m">721</span> bytes<span class="o">)</span>
-    <span class="m">18</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:10    <span class="m">145</span>.254.160.237:3372 -&gt; <span class="m">65</span>.208.228.223:80       TCP A
-    <span class="m">19</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:10       <span class="m">65</span>.208.228.223:80 -&gt; <span class="m">145</span>.254.160.237:3372    TCP A <span class="o">(</span><span class="m">1380</span> bytes<span class="o">)</span>
-    <span class="m">20</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:10       <span class="m">65</span>.208.228.223:80 -&gt; <span class="m">145</span>.254.160.237:3372    TCP PA <span class="o">(</span><span class="m">1380</span> bytes<span class="o">)</span>
-    <span class="m">21</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:10    <span class="m">145</span>.254.160.237:3372 -&gt; <span class="m">65</span>.208.228.223:80       TCP A
-    <span class="m">22</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:10       <span class="m">65</span>.208.228.223:80 -&gt; <span class="m">145</span>.254.160.237:3372    TCP A <span class="o">(</span><span class="m">1380</span> bytes<span class="o">)</span>
-    <span class="m">23</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:10        <span class="m">216</span>.239.59.99:80 -&gt; <span class="m">145</span>.254.160.237:3371    TCP A
-    <span class="m">24</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:11    <span class="m">145</span>.254.160.237:3372 -&gt; <span class="m">65</span>.208.228.223:80       TCP A
-    <span class="m">25</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:11        <span class="m">216</span>.239.59.99:80 -&gt; <span class="m">145</span>.254.160.237:3371    TCP PA <span class="o">(</span><span class="m">1430</span> bytes<span class="o">)</span>
-    <span class="m">26</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:11        <span class="m">216</span>.239.59.99:80 -&gt; <span class="m">145</span>.254.160.237:3371    TCP PA <span class="o">(</span><span class="m">160</span> bytes<span class="o">)</span>
-    <span class="m">27</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:11    <span class="m">145</span>.254.160.237:3371 -&gt; <span class="m">216</span>.239.59.99:80        TCP A
-    <span class="m">28</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:11       <span class="m">65</span>.208.228.223:80 -&gt; <span class="m">145</span>.254.160.237:3372    TCP PA <span class="o">(</span><span class="m">1380</span> bytes<span class="o">)</span>
-    <span class="m">29</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:11    <span class="m">145</span>.254.160.237:3372 -&gt; <span class="m">65</span>.208.228.223:80       TCP A
-    <span class="m">30</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:11       <span class="m">65</span>.208.228.223:80 -&gt; <span class="m">145</span>.254.160.237:3372    TCP A <span class="o">(</span><span class="m">1380</span> bytes<span class="o">)</span>
-    <span class="m">31</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:11       <span class="m">65</span>.208.228.223:80 -&gt; <span class="m">145</span>.254.160.237:3372    TCP A <span class="o">(</span><span class="m">1380</span> bytes<span class="o">)</span>
-    <span class="m">32</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:11    <span class="m">145</span>.254.160.237:3372 -&gt; <span class="m">65</span>.208.228.223:80       TCP A
-    <span class="m">33</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:11       <span class="m">65</span>.208.228.223:80 -&gt; <span class="m">145</span>.254.160.237:3372    TCP A <span class="o">(</span><span class="m">1380</span> bytes<span class="o">)</span>
-    <span class="m">34</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:11    <span class="m">145</span>.254.160.237:3372 -&gt; <span class="m">65</span>.208.228.223:80       TCP A
-    <span class="m">35</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:12        <span class="m">216</span>.239.59.99:80 -&gt; <span class="m">145</span>.254.160.237:3371    TCP PA <span class="o">(</span><span class="m">1430</span> bytes<span class="o">)</span>
-    <span class="m">36</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:12    <span class="m">145</span>.254.160.237:3371 -&gt; <span class="m">216</span>.239.59.99:80        TCP A
-    <span class="m">37</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:12       <span class="m">65</span>.208.228.223:80 -&gt; <span class="m">145</span>.254.160.237:3372    TCP PA <span class="o">(</span><span class="m">424</span> bytes<span class="o">)</span>
-    <span class="m">38</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:12    <span class="m">145</span>.254.160.237:3372 -&gt; <span class="m">65</span>.208.228.223:80       TCP A
-    <span class="m">39</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:25       <span class="m">65</span>.208.228.223:80 -&gt; <span class="m">145</span>.254.160.237:3372    TCP FA
-    <span class="m">40</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:25    <span class="m">145</span>.254.160.237:3372 -&gt; <span class="m">65</span>.208.228.223:80       TCP A
-    <span class="m">41</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:37    <span class="m">145</span>.254.160.237:3372 -&gt; <span class="m">65</span>.208.228.223:80       TCP FA
-    <span class="m">42</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:37       <span class="m">65</span>.208.228.223:80 -&gt; <span class="m">145</span>.254.160.237:3372    TCP A
-<span class="o">(</span>http.cap<span class="o">)</span> &gt;&gt;&gt;
-<span class="o">(</span>http.cap<span class="o">)</span> &gt;&gt;&gt; summary <span class="m">6</span>
-     <span class="m">6</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:09    <span class="m">145</span>.254.160.237:3372 -&gt; <span class="m">65</span>.208.228.223:80       TCP A
-<span class="o">(</span>http.cap<span class="o">)</span> &gt;&gt;&gt;
-</code></pre></div>
+Read 43 packets from http.cap
+(http.cap) &gt;&gt;&gt; summary
+     0: 2004/05/13 15:47:07    145.254.160.237:3372 -&gt; 65.208.228.223:80       TCP S
+     1: 2004/05/13 15:47:08       65.208.228.223:80 -&gt; 145.254.160.237:3372    TCP SA
+     2: 2004/05/13 15:47:08    145.254.160.237:3372 -&gt; 65.208.228.223:80       TCP A
+     3: 2004/05/13 15:47:08    145.254.160.237:3372 -&gt; 65.208.228.223:80       TCP PA (479 bytes)
+     4: 2004/05/13 15:47:08       65.208.228.223:80 -&gt; 145.254.160.237:3372    TCP A
+     5: 2004/05/13 15:47:08       65.208.228.223:80 -&gt; 145.254.160.237:3372    TCP A (1380 bytes)
+     6: 2004/05/13 15:47:09    145.254.160.237:3372 -&gt; 65.208.228.223:80       TCP A
+     7: 2004/05/13 15:47:09       65.208.228.223:80 -&gt; 145.254.160.237:3372    TCP A (1380 bytes)
+     8: 2004/05/13 15:47:09    145.254.160.237:3372 -&gt; 65.208.228.223:80       TCP A
+     9: 2004/05/13 15:47:09       65.208.228.223:80 -&gt; 145.254.160.237:3372    TCP A (1380 bytes)
+    10: 2004/05/13 15:47:09       65.208.228.223:80 -&gt; 145.254.160.237:3372    TCP PA (1380 bytes)
+    11: 2004/05/13 15:47:09    145.254.160.237:3372 -&gt; 65.208.228.223:80       TCP A
+    12: 2004/05/13 15:47:09    145.254.160.237:3009 -&gt; 145.253.2.203:53        UDP (47 bytes)
+    13: 2004/05/13 15:47:09       65.208.228.223:80 -&gt; 145.254.160.237:3372    TCP A (1380 bytes)
+    14: 2004/05/13 15:47:10    145.254.160.237:3372 -&gt; 65.208.228.223:80       TCP A
+    15: 2004/05/13 15:47:10       65.208.228.223:80 -&gt; 145.254.160.237:3372    TCP A (1380 bytes)
+    16: 2004/05/13 15:47:10        145.253.2.203:53 -&gt; 145.254.160.237:3009    UDP (244 bytes)
+    17: 2004/05/13 15:47:10    145.254.160.237:3371 -&gt; 216.239.59.99:80        TCP PA (721 bytes)
+    18: 2004/05/13 15:47:10    145.254.160.237:3372 -&gt; 65.208.228.223:80       TCP A
+    19: 2004/05/13 15:47:10       65.208.228.223:80 -&gt; 145.254.160.237:3372    TCP A (1380 bytes)
+    20: 2004/05/13 15:47:10       65.208.228.223:80 -&gt; 145.254.160.237:3372    TCP PA (1380 bytes)
+    21: 2004/05/13 15:47:10    145.254.160.237:3372 -&gt; 65.208.228.223:80       TCP A
+    22: 2004/05/13 15:47:10       65.208.228.223:80 -&gt; 145.254.160.237:3372    TCP A (1380 bytes)
+    23: 2004/05/13 15:47:10        216.239.59.99:80 -&gt; 145.254.160.237:3371    TCP A
+    24: 2004/05/13 15:47:11    145.254.160.237:3372 -&gt; 65.208.228.223:80       TCP A
+    25: 2004/05/13 15:47:11        216.239.59.99:80 -&gt; 145.254.160.237:3371    TCP PA (1430 bytes)
+    26: 2004/05/13 15:47:11        216.239.59.99:80 -&gt; 145.254.160.237:3371    TCP PA (160 bytes)
+    27: 2004/05/13 15:47:11    145.254.160.237:3371 -&gt; 216.239.59.99:80        TCP A
+    28: 2004/05/13 15:47:11       65.208.228.223:80 -&gt; 145.254.160.237:3372    TCP PA (1380 bytes)
+    29: 2004/05/13 15:47:11    145.254.160.237:3372 -&gt; 65.208.228.223:80       TCP A
+    30: 2004/05/13 15:47:11       65.208.228.223:80 -&gt; 145.254.160.237:3372    TCP A (1380 bytes)
+    31: 2004/05/13 15:47:11       65.208.228.223:80 -&gt; 145.254.160.237:3372    TCP A (1380 bytes)
+    32: 2004/05/13 15:47:11    145.254.160.237:3372 -&gt; 65.208.228.223:80       TCP A
+    33: 2004/05/13 15:47:11       65.208.228.223:80 -&gt; 145.254.160.237:3372    TCP A (1380 bytes)
+    34: 2004/05/13 15:47:11    145.254.160.237:3372 -&gt; 65.208.228.223:80       TCP A
+    35: 2004/05/13 15:47:12        216.239.59.99:80 -&gt; 145.254.160.237:3371    TCP PA (1430 bytes)
+    36: 2004/05/13 15:47:12    145.254.160.237:3371 -&gt; 216.239.59.99:80        TCP A
+    37: 2004/05/13 15:47:12       65.208.228.223:80 -&gt; 145.254.160.237:3372    TCP PA (424 bytes)
+    38: 2004/05/13 15:47:12    145.254.160.237:3372 -&gt; 65.208.228.223:80       TCP A
+    39: 2004/05/13 15:47:25       65.208.228.223:80 -&gt; 145.254.160.237:3372    TCP FA
+    40: 2004/05/13 15:47:25    145.254.160.237:3372 -&gt; 65.208.228.223:80       TCP A
+    41: 2004/05/13 15:47:37    145.254.160.237:3372 -&gt; 65.208.228.223:80       TCP FA
+    42: 2004/05/13 15:47:37       65.208.228.223:80 -&gt; 145.254.160.237:3372    TCP A
+(http.cap) &gt;&gt;&gt;
+(http.cap) &gt;&gt;&gt; summary 6
+     6: 2004/05/13 15:47:09    145.254.160.237:3372 -&gt; 65.208.228.223:80       TCP A
+(http.cap) &gt;&gt;&gt;
+</code></pre>
 
 <p>The <code>summary</code> command displays a listing of all packets and their most common attributes. When provided an integer argument, it considers that to be the packet index and shows a one-line description for the packet itself. Let&#8217;s now assume you need to edit packet #6:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="o">(</span>http.cap<span class="o">)</span> &gt;&gt;&gt; edit <span class="m">6</span>
-Editing packet id: <span class="m">6</span>
-     <span class="m">6</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:09    <span class="m">145</span>.254.160.237:3372 -&gt; <span class="m">65</span>.208.228.223:80       TCP A
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt; set ether.src 11:22:33:44:55</span>
-     <span class="m">6</span>: Ether.src: <span class="m">00</span>:00:01:00:00:00 -&gt; <span class="m">11</span>:22:33:44:55
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt; set ether.dst 55:44:33:22:11</span>
-     <span class="m">6</span>: Ether.dst: fe:ff:20:00:01:00 -&gt; <span class="m">55</span>:44:33:22:11
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt; set ether.type 2048</span>
-     <span class="m">6</span>: Ether.type: <span class="m">2048</span> -&gt; <span class="m">2048</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt; set tcp.sport 1234</span>
-     <span class="m">6</span>: TCP.sport: <span class="m">3372</span> -&gt; <span class="m">1234</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt; set tcp.dport 4321</span>
-     <span class="m">6</span>: TCP.dport: <span class="m">80</span> -&gt; <span class="m">4321</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt; ls</span>
-dst        : <span class="nv">DestMACField</span>         <span class="o">=</span> <span class="s1">&#39;55:44:33:22:11&#39;</span> <span class="o">(</span>None<span class="o">)</span>
-src        : <span class="nv">SourceMACField</span>       <span class="o">=</span> <span class="s1">&#39;11:22:33:44:55&#39;</span> <span class="o">(</span>None<span class="o">)</span>
-<span class="nb">type</span>       : <span class="nv">XShortEnumField</span>      <span class="o">=</span> <span class="m">2048</span>            <span class="o">(</span><span class="m">0</span><span class="o">)</span>
+<pre><code>(http.cap) &gt;&gt;&gt; edit 6
+Editing packet id: 6
+     6: 2004/05/13 15:47:09    145.254.160.237:3372 -&gt; 65.208.228.223:80       TCP A
+(http.cap|#6) &gt;&gt;&gt;
+(http.cap|#6) &gt;&gt;&gt; set ether.src 11:22:33:44:55
+     6: Ether.src: 00:00:01:00:00:00 -&gt; 11:22:33:44:55
+(http.cap|#6) &gt;&gt;&gt;
+(http.cap|#6) &gt;&gt;&gt; set ether.dst 55:44:33:22:11
+     6: Ether.dst: fe:ff:20:00:01:00 -&gt; 55:44:33:22:11
+(http.cap|#6) &gt;&gt;&gt;
+(http.cap|#6) &gt;&gt;&gt; set ether.type 2048
+     6: Ether.type: 2048 -&gt; 2048
+(http.cap|#6) &gt;&gt;&gt;
+(http.cap|#6) &gt;&gt;&gt; set tcp.sport 1234
+     6: TCP.sport: 3372 -&gt; 1234
+(http.cap|#6) &gt;&gt;&gt;
+(http.cap|#6) &gt;&gt;&gt; set tcp.dport 4321
+     6: TCP.dport: 80 -&gt; 4321
+(http.cap|#6) &gt;&gt;&gt;
+(http.cap|#6) &gt;&gt;&gt; ls
+dst        : DestMACField         = '55:44:33:22:11' (None)
+src        : SourceMACField       = '11:22:33:44:55' (None)
+type       : XShortEnumField      = 2048            (0)
 --
-version    : <span class="nv">BitField</span>             <span class="o">=</span> 4L              <span class="o">(</span><span class="m">4</span><span class="o">)</span>
-ihl        : <span class="nv">BitField</span>             <span class="o">=</span> 5L              <span class="o">(</span>None<span class="o">)</span>
-tos        : <span class="nv">XByteField</span>           <span class="o">=</span> <span class="m">0</span>               <span class="o">(</span><span class="m">0</span><span class="o">)</span>
-len        : <span class="nv">ShortField</span>           <span class="o">=</span> <span class="m">40</span>              <span class="o">(</span>None<span class="o">)</span>
-id         : <span class="nv">ShortField</span>           <span class="o">=</span> <span class="m">3910</span>            <span class="o">(</span><span class="m">1</span><span class="o">)</span>
-flags      : <span class="nv">FlagsField</span>           <span class="o">=</span> 2L              <span class="o">(</span><span class="m">0</span><span class="o">)</span>
-frag       : <span class="nv">BitField</span>             <span class="o">=</span> 0L              <span class="o">(</span><span class="m">0</span><span class="o">)</span>
-ttl        : <span class="nv">ByteField</span>            <span class="o">=</span> <span class="m">128</span>             <span class="o">(</span><span class="m">64</span><span class="o">)</span>
-proto      : <span class="nv">ByteEnumField</span>        <span class="o">=</span> <span class="m">6</span>               <span class="o">(</span><span class="m">0</span><span class="o">)</span>
-chksum     : <span class="nv">XShortField</span>          <span class="o">=</span> None            <span class="o">(</span>None<span class="o">)</span>
-src        : <span class="nv">Emph</span>                 <span class="o">=</span> <span class="s1">&#39;145.254.160.237&#39;</span> <span class="o">(</span>None<span class="o">)</span>
-dst        : <span class="nv">Emph</span>                 <span class="o">=</span> <span class="s1">&#39;65.208.228.223&#39;</span> <span class="o">(</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="o">)</span>
-options    : <span class="nv">PacketListField</span>      <span class="o">=</span> <span class="o">[]</span>              <span class="o">([])</span>
+version    : BitField             = 4L              (4)
+ihl        : BitField             = 5L              (None)
+tos        : XByteField           = 0               (0)
+len        : ShortField           = 40              (None)
+id         : ShortField           = 3910            (1)
+flags      : FlagsField           = 2L              (0)
+frag       : BitField             = 0L              (0)
+ttl        : ByteField            = 128             (64)
+proto      : ByteEnumField        = 6               (0)
+chksum     : XShortField          = None            (None)
+src        : Emph                 = '145.254.160.237' (None)
+dst        : Emph                 = '65.208.228.223' ('127.0.0.1')
+options    : PacketListField      = []              ([])
 --
-sport      : <span class="nv">ShortEnumField</span>       <span class="o">=</span> <span class="m">3372</span>            <span class="o">(</span><span class="m">20</span><span class="o">)</span>
-dport      : <span class="nv">ShortEnumField</span>       <span class="o">=</span> <span class="m">4321</span>            <span class="o">(</span><span class="m">80</span><span class="o">)</span>
-seq        : <span class="nv">IntField</span>             <span class="o">=</span> <span class="m">951058419</span>       <span class="o">(</span><span class="m">0</span><span class="o">)</span>
-ack        : <span class="nv">IntField</span>             <span class="o">=</span> <span class="m">290219760</span>       <span class="o">(</span><span class="m">0</span><span class="o">)</span>
-dataofs    : <span class="nv">BitField</span>             <span class="o">=</span> 5L              <span class="o">(</span>None<span class="o">)</span>
-reserved   : <span class="nv">BitField</span>             <span class="o">=</span> 0L              <span class="o">(</span><span class="m">0</span><span class="o">)</span>
-flags      : <span class="nv">FlagsField</span>           <span class="o">=</span> 16L             <span class="o">(</span><span class="m">2</span><span class="o">)</span>
-window     : <span class="nv">ShortField</span>           <span class="o">=</span> <span class="m">9660</span>            <span class="o">(</span><span class="m">8192</span><span class="o">)</span>
-chksum     : <span class="nv">XShortField</span>          <span class="o">=</span> None            <span class="o">(</span>None<span class="o">)</span>
-urgptr     : <span class="nv">ShortField</span>           <span class="o">=</span> <span class="m">0</span>               <span class="o">(</span><span class="m">0</span><span class="o">)</span>
-options    : <span class="nv">TCPOptionsField</span>      <span class="o">=</span> <span class="o">{}</span>              <span class="o">({})</span>
+sport      : ShortEnumField       = 3372            (20)
+dport      : ShortEnumField       = 4321            (80)
+seq        : IntField             = 951058419       (0)
+ack        : IntField             = 290219760       (0)
+dataofs    : BitField             = 5L              (None)
+reserved   : BitField             = 0L              (0)
+flags      : FlagsField           = 16L             (2)
+window     : ShortField           = 9660            (8192)
+chksum     : XShortField          = None            (None)
+urgptr     : ShortField           = 0               (0)
+options    : TCPOptionsField      = {}              ({})
 None
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;</span>
-</code></pre></div>
+(http.cap|#6) &gt;&gt;&gt;
+</code></pre>
 
 <p>So we selected the packet id, provided the respective protocol field names, new values and used the <code>ls</code> command to glance over changes. Since all looks good, we can now request <code>pcapedit</code> to save these changes, which it will then write to a <code>filename.mod.pcap</code> named file (you can override the default name and provide new name via the <code>outpcap</code> command):</p>
 
-<div class="codehilite"><pre><span></span><code><span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt; save</span>
-Wrote <span class="m">1</span> packet<span class="o">(</span>s<span class="o">)</span> to http.mod.cap
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt; q</span>
+<pre><code>(http.cap|#6) &gt;&gt;&gt; save
+Wrote 1 packet(s) to http.mod.cap
+(http.cap|#6) &gt;&gt;&gt;
+(http.cap|#6) &gt;&gt;&gt; q
 $
 $ ls -l *.cap
--rwxrwxr-x <span class="m">1</span> shiv shiv <span class="m">25803</span> Nov <span class="m">15</span> <span class="m">12</span>:22 http.cap
--rw-rw-r-- <span class="m">1</span> shiv shiv    <span class="m">94</span> Nov <span class="m">15</span> <span class="m">14</span>:31 http.mod.cap
-</code></pre></div>
+-rwxrwxr-x 1 shiv shiv 25803 Nov 15 12:22 http.cap
+-rw-rw-r-- 1 shiv shiv    94 Nov 15 14:31 http.mod.cap
+</code></pre>
 
 <p>One thing to note here is that the <code>save</code> command only write one packet (#6) to the file and skip the rest. This is because <code>pcapedit</code> is a context-sensitive tool, ie. <strong>it takes current context into consideration while executing commands</strong>. Since at the time of issuing <code>save</code> command, the user was in per-packet editing mode (for packet #6), it intentionally skipped other packets. This is an immensely powerful feature as packets can now be edited individually and extracted from source pcap file to a new pcap file. However, if one wishes to save all packets, all they have to do is issue the <code>back</code> command to exit per-packet editing mode and then issue <code>save</code> command which will now honor the context and work as expected:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt; back</span>
-<span class="o">(</span>http.cap<span class="o">)</span> &gt;&gt;&gt;
-<span class="o">(</span>http.cap<span class="o">)</span> &gt;&gt;&gt; save
-Wrote <span class="m">43</span> packet<span class="o">(</span>s<span class="o">)</span> to http.mod.cap
-<span class="o">(</span>http.cap<span class="o">)</span> &gt;&gt;&gt; q
+<pre><code>(http.cap|#6) &gt;&gt;&gt; back
+(http.cap) &gt;&gt;&gt;
+(http.cap) &gt;&gt;&gt; save
+Wrote 43 packet(s) to http.mod.cap
+(http.cap) &gt;&gt;&gt; q
 $
 $ ls -l *.cap
--rw-rw-r-- <span class="m">1</span> shiv shiv <span class="m">25803</span> Nov <span class="m">15</span> <span class="m">12</span>:22 http.cap
--rw-rw-r-- <span class="m">1</span> shiv shiv <span class="m">25901</span> Nov <span class="m">15</span> <span class="m">14</span>:09 http.mod.cap
-</code></pre></div>
+-rw-rw-r-- 1 shiv shiv 25803 Nov 15 12:22 http.cap
+-rw-rw-r-- 1 shiv shiv 25901 Nov 15 14:09 http.mod.cap
+</code></pre>
 
 <p>Here&#8217;s a screenshot of Wireshark parsing and decoding the edited packet:</p>
 
@@ -217,55 +215,55 @@ $ ls -l *.cap
 
 <p>So at this point we know how to edit individual packets and save them to a new file, but doing this for hundreds or thousands of packets would still remain a daunting task and something that needs automation. That&#8217;s where the <em>scriptfile</em> feature comes handy. You can save commands to a file and pass them as input to <code>pcapedit</code> and it will happily do as instructed:</p>
 
-<div class="codehilite"><pre><span></span><code>$ ./pcapedit.py &lt;tcpcmdstest.txt
+<pre><code>$ ./pcapedit.py &lt;tcpcmdstest.txt
 PcapEdit - An Interactive Pcap Editor
 
-&gt;&gt;&gt; Read <span class="m">43</span> packets from http.cap
-<span class="o">(</span>http.cap<span class="o">)</span> &gt;&gt;&gt;
-<span class="o">(</span>http.cap<span class="o">)</span> &gt;&gt;&gt; Editing packet id: <span class="m">6</span>
-     <span class="m">6</span>: <span class="m">2004</span>/05/13 <span class="m">15</span>:47:09    <span class="m">145</span>.254.160.237:3372 -&gt; <span class="m">65</span>.208.228.223:80       TCP A
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;      6: Ether.src: 00:00:01:00:00:00 -&gt; 11:22:33:44:55</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;      6: Ether.dst: fe:ff:20:00:01:00 -&gt; 55:44:33:22:11</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;      6: Ether.type: 2048 -&gt; 2048</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;      6: IP.version: 4 -&gt; 88</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;      6: IP.ihl: 5 -&gt; 56</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;      6: IP.tos: 0 -&gt; 33</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;      6: IP.len: 40 -&gt; 36</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;      6: IP.id: 3910 -&gt; 12</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;      6: IP.flags: 2 -&gt; 81</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;      6: IP.frag: 0 -&gt; 22</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;      6: IP.ttl: 128 -&gt; 27</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;      6: IP.proto: 6 -&gt; 15</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;      6: IP.chksum: None -&gt; 78</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;      6: IP.src: 145.254.160.237 -&gt; 12</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;      6: IP.dst: 65.208.228.223 -&gt; 21</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;      6: IP.options: [] -&gt; [&#39;99&#39;]</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;      6: TCP.sport: 3372 -&gt; 1234</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;      6: TCP.dport: 80 -&gt; 4321</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;      6: TCP.seq: 951058419 -&gt; 11</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;      6: TCP.ack: 290219760 -&gt; 12</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;      6: TCP.dataofs: 5 -&gt; 1</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;      6: TCP.reserved: 0 -&gt; 9</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;      6: TCP.flags: 16 -&gt; 90</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;      6: TCP.window: 9660 -&gt; 36</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;      6: TCP.chksum: None -&gt; 88</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;      6: TCP.urgptr: 0 -&gt; 67</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;      6: TCP.options: {} -&gt; {}</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;      6: 2004/05/13 15:47:09                 12:1234 -&gt; 21:4321                 TCP SPAE</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt; Wrote 11 packet(s) to http.mod.cap</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt;</span>
-<span class="o">(</span>http.cap<span class="p">|</span><span class="c1">#6) &gt;&gt;&gt; q</span>
+&gt;&gt;&gt; Read 43 packets from http.cap
+(http.cap) &gt;&gt;&gt;
+(http.cap) &gt;&gt;&gt; Editing packet id: 6
+     6: 2004/05/13 15:47:09    145.254.160.237:3372 -&gt; 65.208.228.223:80       TCP A
+(http.cap|#6) &gt;&gt;&gt;
+(http.cap|#6) &gt;&gt;&gt;      6: Ether.src: 00:00:01:00:00:00 -&gt; 11:22:33:44:55
+(http.cap|#6) &gt;&gt;&gt;      6: Ether.dst: fe:ff:20:00:01:00 -&gt; 55:44:33:22:11
+(http.cap|#6) &gt;&gt;&gt;      6: Ether.type: 2048 -&gt; 2048
+(http.cap|#6) &gt;&gt;&gt;
+(http.cap|#6) &gt;&gt;&gt;      6: IP.version: 4 -&gt; 88
+(http.cap|#6) &gt;&gt;&gt;      6: IP.ihl: 5 -&gt; 56
+(http.cap|#6) &gt;&gt;&gt;      6: IP.tos: 0 -&gt; 33
+(http.cap|#6) &gt;&gt;&gt;      6: IP.len: 40 -&gt; 36
+(http.cap|#6) &gt;&gt;&gt;      6: IP.id: 3910 -&gt; 12
+(http.cap|#6) &gt;&gt;&gt;      6: IP.flags: 2 -&gt; 81
+(http.cap|#6) &gt;&gt;&gt;      6: IP.frag: 0 -&gt; 22
+(http.cap|#6) &gt;&gt;&gt;      6: IP.ttl: 128 -&gt; 27
+(http.cap|#6) &gt;&gt;&gt;      6: IP.proto: 6 -&gt; 15
+(http.cap|#6) &gt;&gt;&gt;      6: IP.chksum: None -&gt; 78
+(http.cap|#6) &gt;&gt;&gt;      6: IP.src: 145.254.160.237 -&gt; 12
+(http.cap|#6) &gt;&gt;&gt;      6: IP.dst: 65.208.228.223 -&gt; 21
+(http.cap|#6) &gt;&gt;&gt;      6: IP.options: [] -&gt; ['99']
+(http.cap|#6) &gt;&gt;&gt;
+(http.cap|#6) &gt;&gt;&gt;      6: TCP.sport: 3372 -&gt; 1234
+(http.cap|#6) &gt;&gt;&gt;      6: TCP.dport: 80 -&gt; 4321
+(http.cap|#6) &gt;&gt;&gt;      6: TCP.seq: 951058419 -&gt; 11
+(http.cap|#6) &gt;&gt;&gt;      6: TCP.ack: 290219760 -&gt; 12
+(http.cap|#6) &gt;&gt;&gt;      6: TCP.dataofs: 5 -&gt; 1
+(http.cap|#6) &gt;&gt;&gt;      6: TCP.reserved: 0 -&gt; 9
+(http.cap|#6) &gt;&gt;&gt;      6: TCP.flags: 16 -&gt; 90
+(http.cap|#6) &gt;&gt;&gt;      6: TCP.window: 9660 -&gt; 36
+(http.cap|#6) &gt;&gt;&gt;      6: TCP.chksum: None -&gt; 88
+(http.cap|#6) &gt;&gt;&gt;      6: TCP.urgptr: 0 -&gt; 67
+(http.cap|#6) &gt;&gt;&gt;      6: TCP.options: {} -&gt; {}
+(http.cap|#6) &gt;&gt;&gt;
+(http.cap|#6) &gt;&gt;&gt;      6: 2004/05/13 15:47:09                 12:1234 -&gt; 21:4321                 TCP SPAE
+(http.cap|#6) &gt;&gt;&gt;
+(http.cap|#6) &gt;&gt;&gt; Wrote 11 packet(s) to http.mod.cap
+(http.cap|#6) &gt;&gt;&gt;
+(http.cap|#6) &gt;&gt;&gt; q
 $
 $ ls -l *.cap
--rwxrwxr-x <span class="m">1</span> shiv shiv <span class="m">25803</span> Nov <span class="m">15</span> <span class="m">12</span>:22 http.cap
--rw-rw-r-- <span class="m">1</span> shiv shiv  <span class="m">6805</span> Nov <span class="m">15</span> <span class="m">14</span>:44 http.mod.cap
+-rwxrwxr-x 1 shiv shiv 25803 Nov 15 12:22 http.cap
+-rw-rw-r-- 1 shiv shiv  6805 Nov 15 14:44 http.mod.cap
 $
-</code></pre></div>
+</code></pre>
 
 <p>There are a few other nifty commands that will be useful and I strongly recommend you to give <code>pcapedit</code> a try.</p>
 

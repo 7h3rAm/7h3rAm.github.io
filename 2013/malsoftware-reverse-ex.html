@@ -34,26 +34,17 @@
                   <a href="/2013/libnids-pynids.html">&lt&lt;</a> published on 24/Aug/2013<a href="/2013/malsoftware-reverse-challenge.html"> &gt;&gt;</i></a><br/>
                 </p>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <div class="post-content">
-          <p>The recently concluded <a href="https://class.coursera.org/malsoftware-001/">Malicious Software and its Undergound
-Economy</a> course on
-<a href="https://www.coursera.org/">Coursera</a> had an interesting reverse
-engineering challenge as part of its coursework:
-<a href="/static/files/reverse-ex">reverse-ex</a>. I found it interesting since it will be
-equally entertaining for someone who has never tried such challenges or
-one who has mastered many of them. This post details the steps I took to
-complete this challenge.</p>
-
-<p>The first thing I normally do after obtaining such challenges is to test
+          <p>The first thing I normally do after obtaining such challenges is to test
 them with <code>file</code> command. This provides some insight about various file
 attributes like its type (ELF, PE, etc.), processor architecture
 compatibility, symbol table inclusion, etc:</p>
 
-<div class="codehilite"><pre><span></span><code>$ file reverse-ex
-reverse-ex: ELF <span class="m">32</span>-bit LSB executable, Intel <span class="m">80386</span>, version <span class="m">1</span> <span class="o">(</span>SYSV<span class="o">)</span>, dynamically linked <span class="o">(</span>uses shared libs<span class="o">)</span>, <span class="k">for</span> GNU/Linux <span class="m">2</span>.6.24, BuildID<span class="o">[</span> sha1<span class="o">]=</span>0x8dac70a14b40f115fc4a27041a3ae29227a55afb, not stripped
+<pre><code>$ file reverse-ex
+reverse-ex: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[ sha1]=0x8dac70a14b40f115fc4a27041a3ae29227a55afb, not stripped
 $
 $ file -i reverse-ex
-reverse-ex: application/x-executable<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>binary
-</code></pre></div>
+reverse-ex: application/x-executable; charset=binary
+</code></pre>
 
 <p>The above output tells us that this is a 32bit
 <a href="http://en.wikipedia.org/wiki/Executable_and_Linkable_Format">ELF</a>
@@ -87,167 +78,167 @@ function and try to reverse it. Let&#8217;s use <code>objdump</code> to disassem
 binary and dump its disassembly in <a href="http://en.wikipedia.org/wiki/X86_assembly_language#Syntax">Intel
 syntax</a>:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="err">$</span> <span class="n">objdump</span> <span class="o">-</span><span class="n">d</span> <span class="o">-</span><span class="n">M</span> <span class="n">intel</span> <span class="n">reverse</span><span class="o">-</span><span class="n">ex</span>
+<pre><code>$ objdump -d -M intel reverse-ex
 
-<span class="nl">reverse-ex</span><span class="p">:</span>     file format <span class="s">elf32-i386</span>
+reverse-ex:     file format elf32-i386
 
-Disassembly of section <span class="nl">.text</span><span class="p">:</span>
+Disassembly of section .text:
 
-<span class="mh">080484c4</span> <span class="p">&lt;</span><span class="nf">checkkey</span><span class="p">&gt;:</span>
- <span class="mi">80484</span><span class="nl">c4</span><span class="p">:</span> <span class="mi">55</span>                    <span class="n">push</span>   <span class="n">ebp</span>
- <span class="mi">80484</span><span class="nl">c5</span><span class="p">:</span> <span class="mi">89</span> <span class="n">e5</span>                 <span class="n">mov</span>    <span class="n">ebp</span><span class="p">,</span><span class="n">esp</span>
- <span class="mi">80484</span><span class="nl">c7</span><span class="p">:</span> <span class="mi">57</span>                    <span class="n">push</span>   <span class="n">edi</span>
- <span class="mi">80484</span><span class="nl">c8</span><span class="p">:</span> <span class="mi">56</span>                    <span class="n">push</span>   <span class="n">esi</span>
- <span class="mi">80484</span><span class="nl">c9</span><span class="p">:</span> <span class="mi">83</span> <span class="n">ec</span> <span class="mi">10</span>              <span class="n">sub</span>    <span class="n">esp</span><span class="p">,</span><span class="mh">0x10</span>
- <span class="mi">80484</span><span class="nl">cc</span><span class="p">:</span> <span class="mi">8</span><span class="n">b</span> <span class="mi">45</span> <span class="mi">08</span>              <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">ebp</span><span class="o">+</span><span class="mh">0x8</span><span class="p">]</span>
- <span class="mi">80484</span><span class="nl">cf</span><span class="p">:</span> <span class="mi">89</span> <span class="mi">45</span> <span class="n">f4</span>              <span class="n">mov</span>    <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">ebp</span><span class="o">-</span><span class="mh">0xc</span><span class="p">],</span><span class="n">eax</span>
- <span class="mi">80484</span><span class="nl">d2</span><span class="p">:</span> <span class="n">eb</span> <span class="mi">14</span>                 <span class="n">jmp</span>    <span class="mf">80484e8</span> <span class="o">&lt;</span><span class="n">checkkey</span><span class="o">+</span><span class="mh">0x24</span><span class="o">&gt;</span>
- <span class="mi">80484</span><span class="nl">d4</span><span class="p">:</span> <span class="mi">8</span><span class="n">b</span> <span class="mi">45</span> <span class="n">f4</span>              <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">ebp</span><span class="o">-</span><span class="mh">0xc</span><span class="p">]</span>
- <span class="mi">80484</span><span class="nl">d7</span><span class="p">:</span> <span class="mf">0f</span> <span class="n">b6</span> <span class="mo">00</span>              <span class="n">movzx</span>  <span class="n">eax</span><span class="p">,</span><span class="n">BYTE</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">eax</span><span class="p">]</span>
- <span class="mi">80484</span><span class="nl">da</span><span class="p">:</span> <span class="mi">89</span> <span class="n">c2</span>                 <span class="n">mov</span>    <span class="n">edx</span><span class="p">,</span><span class="n">eax</span>
- <span class="mi">80484</span><span class="nl">dc</span><span class="p">:</span> <span class="mi">83</span> <span class="n">f2</span> <span class="mi">2</span><span class="n">a</span>              <span class="n">xor</span>    <span class="n">edx</span><span class="p">,</span><span class="mh">0x2a</span>
- <span class="mi">80484</span><span class="nl">df</span><span class="p">:</span> <span class="mi">8</span><span class="n">b</span> <span class="mi">45</span> <span class="n">f4</span>              <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">ebp</span><span class="o">-</span><span class="mh">0xc</span><span class="p">]</span>
- <span class="mf">80484e2</span><span class="o">:</span> <span class="mi">88</span> <span class="mi">10</span>                 <span class="n">mov</span>    <span class="n">BYTE</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">eax</span><span class="p">],</span><span class="n">dl</span>
- <span class="mf">80484e4</span><span class="o">:</span> <span class="mi">83</span> <span class="mi">45</span> <span class="n">f4</span> <span class="mo">01</span>           <span class="n">add</span>    <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">ebp</span><span class="o">-</span><span class="mh">0xc</span><span class="p">],</span><span class="mh">0x1</span>
- <span class="mf">80484e8</span><span class="o">:</span> <span class="mi">8</span><span class="n">b</span> <span class="mi">45</span> <span class="n">f4</span>              <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">ebp</span><span class="o">-</span><span class="mh">0xc</span><span class="p">]</span>
- <span class="mi">80484</span><span class="nl">eb</span><span class="p">:</span> <span class="mf">0f</span> <span class="n">b6</span> <span class="mo">00</span>              <span class="n">movzx</span>  <span class="n">eax</span><span class="p">,</span><span class="n">BYTE</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">eax</span><span class="p">]</span>
- <span class="mi">80484</span><span class="nl">ee</span><span class="p">:</span> <span class="mi">84</span> <span class="n">c0</span>                 <span class="n">test</span>   <span class="n">al</span><span class="p">,</span><span class="n">al</span>
- <span class="mf">80484f</span><span class="mi">0</span><span class="o">:</span> <span class="mi">75</span> <span class="n">e2</span>                 <span class="n">jne</span>    <span class="mi">80484</span><span class="n">d4</span> <span class="o">&lt;</span><span class="n">checkkey</span><span class="o">+</span><span class="mh">0x10</span><span class="o">&gt;</span>
- <span class="mf">80484f</span><span class="mi">2</span><span class="o">:</span> <span class="mi">8</span><span class="n">b</span> <span class="mi">45</span> <span class="mi">08</span>              <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">ebp</span><span class="o">+</span><span class="mh">0x8</span><span class="p">]</span>
- <span class="mf">80484f</span><span class="mi">5</span><span class="o">:</span> <span class="mi">89</span> <span class="n">c2</span>                 <span class="n">mov</span>    <span class="n">edx</span><span class="p">,</span><span class="n">eax</span>
- <span class="mf">80484f</span><span class="mi">7</span><span class="o">:</span> <span class="n">b8</span> <span class="mi">70</span> <span class="mi">87</span> <span class="mo">04</span> <span class="mi">08</span>        <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="mh">0x8048770</span>
- <span class="mf">80484f</span><span class="nl">c</span><span class="p">:</span> <span class="n">b9</span> <span class="mi">19</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span>        <span class="n">mov</span>    <span class="n">ecx</span><span class="p">,</span><span class="mh">0x19</span>
- <span class="mi">8048501</span><span class="o">:</span> <span class="mi">89</span> <span class="n">d6</span>                 <span class="n">mov</span>    <span class="n">esi</span><span class="p">,</span><span class="n">edx</span>
- <span class="mi">8048503</span><span class="o">:</span> <span class="mi">89</span> <span class="n">c7</span>                 <span class="n">mov</span>    <span class="n">edi</span><span class="p">,</span><span class="n">eax</span>
- <span class="mi">8048505</span><span class="o">:</span> <span class="n">f3</span> <span class="n">a6</span>                 <span class="n">repz</span> <span class="n">cmps</span> <span class="n">BYTE</span> <span class="n">PTR</span> <span class="nl">ds</span><span class="p">:[</span><span class="n">esi</span><span class="p">],</span><span class="n">BYTE</span> <span class="n">PTR</span> <span class="nl">es</span><span class="p">:[</span><span class="n">edi</span><span class="p">]</span>
- <span class="mi">8048507</span><span class="o">:</span> <span class="mf">0f</span> <span class="mi">97</span> <span class="n">c2</span>              <span class="n">seta</span>   <span class="n">dl</span>
- <span class="mi">804850</span><span class="nl">a</span><span class="p">:</span> <span class="mf">0f</span> <span class="mi">92</span> <span class="n">c0</span>              <span class="n">setb</span>   <span class="n">al</span>
- <span class="mi">804850</span><span class="nl">d</span><span class="p">:</span> <span class="mi">89</span> <span class="n">d1</span>                 <span class="n">mov</span>    <span class="n">ecx</span><span class="p">,</span><span class="n">edx</span>
- <span class="mf">804850f</span><span class="o">:</span> <span class="mi">28</span> <span class="n">c1</span>                 <span class="n">sub</span>    <span class="n">cl</span><span class="p">,</span><span class="n">al</span>
- <span class="mi">8048511</span><span class="o">:</span> <span class="mi">89</span> <span class="n">c8</span>                 <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="n">ecx</span>
- <span class="mi">8048513</span><span class="o">:</span> <span class="mf">0f</span> <span class="n">be</span> <span class="n">c0</span>              <span class="n">movsx</span>  <span class="n">eax</span><span class="p">,</span><span class="n">al</span>
- <span class="mi">8048516</span><span class="o">:</span> <span class="mi">85</span> <span class="n">c0</span>                 <span class="n">test</span>   <span class="n">eax</span><span class="p">,</span><span class="n">eax</span>
- <span class="mi">8048518</span><span class="o">:</span> <span class="mi">75</span> <span class="mo">07</span>                 <span class="n">jne</span>    <span class="mi">8048521</span> <span class="o">&lt;</span><span class="n">checkkey</span><span class="o">+</span><span class="mh">0x5d</span><span class="o">&gt;</span>
- <span class="mi">804851</span><span class="nl">a</span><span class="p">:</span> <span class="n">b8</span> <span class="mo">01</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span>        <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="mh">0x1</span>
- <span class="mf">804851f</span><span class="o">:</span> <span class="n">eb</span> <span class="mo">05</span>                 <span class="n">jmp</span>    <span class="mi">8048526</span> <span class="o">&lt;</span><span class="n">checkkey</span><span class="o">+</span><span class="mh">0x62</span><span class="o">&gt;</span>
- <span class="mi">8048521</span><span class="o">:</span> <span class="n">b8</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span>        <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="mh">0x0</span>
- <span class="mi">8048526</span><span class="o">:</span> <span class="mi">83</span> <span class="n">c4</span> <span class="mi">10</span>              <span class="n">add</span>    <span class="n">esp</span><span class="p">,</span><span class="mh">0x10</span>
- <span class="mi">8048529</span><span class="o">:</span> <span class="mi">5</span><span class="n">e</span>                    <span class="n">pop</span>    <span class="n">esi</span>
- <span class="mi">804852</span><span class="nl">a</span><span class="p">:</span> <span class="mf">5f</span>                    <span class="n">pop</span>    <span class="n">edi</span>
- <span class="mi">804852</span><span class="nl">b</span><span class="p">:</span> <span class="mi">5</span><span class="n">d</span>                    <span class="n">pop</span>    <span class="n">ebp</span>
- <span class="mi">804852</span><span class="nl">c</span><span class="p">:</span> <span class="n">c3</span>                    <span class="n">ret</span>
+080484c4 &lt;checkkey&gt;:
+ 80484c4: 55                    push   ebp
+ 80484c5: 89 e5                 mov    ebp,esp
+ 80484c7: 57                    push   edi
+ 80484c8: 56                    push   esi
+ 80484c9: 83 ec 10              sub    esp,0x10
+ 80484cc: 8b 45 08              mov    eax,DWORD PTR [ebp+0x8]
+ 80484cf: 89 45 f4              mov    DWORD PTR [ebp-0xc],eax
+ 80484d2: eb 14                 jmp    80484e8 &lt;checkkey+0x24&gt;
+ 80484d4: 8b 45 f4              mov    eax,DWORD PTR [ebp-0xc]
+ 80484d7: 0f b6 00              movzx  eax,BYTE PTR [eax]
+ 80484da: 89 c2                 mov    edx,eax
+ 80484dc: 83 f2 2a              xor    edx,0x2a
+ 80484df: 8b 45 f4              mov    eax,DWORD PTR [ebp-0xc]
+ 80484e2: 88 10                 mov    BYTE PTR [eax],dl
+ 80484e4: 83 45 f4 01           add    DWORD PTR [ebp-0xc],0x1
+ 80484e8: 8b 45 f4              mov    eax,DWORD PTR [ebp-0xc]
+ 80484eb: 0f b6 00              movzx  eax,BYTE PTR [eax]
+ 80484ee: 84 c0                 test   al,al
+ 80484f0: 75 e2                 jne    80484d4 &lt;checkkey+0x10&gt;
+ 80484f2: 8b 45 08              mov    eax,DWORD PTR [ebp+0x8]
+ 80484f5: 89 c2                 mov    edx,eax
+ 80484f7: b8 70 87 04 08        mov    eax,0x8048770
+ 80484fc: b9 19 00 00 00        mov    ecx,0x19
+ 8048501: 89 d6                 mov    esi,edx
+ 8048503: 89 c7                 mov    edi,eax
+ 8048505: f3 a6                 repz cmps BYTE PTR ds:[esi],BYTE PTR es:[edi]
+ 8048507: 0f 97 c2              seta   dl
+ 804850a: 0f 92 c0              setb   al
+ 804850d: 89 d1                 mov    ecx,edx
+ 804850f: 28 c1                 sub    cl,al
+ 8048511: 89 c8                 mov    eax,ecx
+ 8048513: 0f be c0              movsx  eax,al
+ 8048516: 85 c0                 test   eax,eax
+ 8048518: 75 07                 jne    8048521 &lt;checkkey+0x5d&gt;
+ 804851a: b8 01 00 00 00        mov    eax,0x1
+ 804851f: eb 05                 jmp    8048526 &lt;checkkey+0x62&gt;
+ 8048521: b8 00 00 00 00        mov    eax,0x0
+ 8048526: 83 c4 10              add    esp,0x10
+ 8048529: 5e                    pop    esi
+ 804852a: 5f                    pop    edi
+ 804852b: 5d                    pop    ebp
+ 804852c: c3                    ret
 
-<span class="mh">0804852d</span> <span class="p">&lt;</span><span class="nf">foo</span><span class="p">&gt;:</span>
- <span class="mi">804852</span><span class="nl">d</span><span class="p">:</span> <span class="mi">55</span>                    <span class="n">push</span>   <span class="n">ebp</span>
- <span class="mi">804852</span><span class="nl">e</span><span class="p">:</span> <span class="mi">89</span> <span class="n">e5</span>                 <span class="n">mov</span>    <span class="n">ebp</span><span class="p">,</span><span class="n">esp</span>
- <span class="mi">8048530</span><span class="o">:</span> <span class="mi">83</span> <span class="n">ec</span> <span class="mi">18</span>              <span class="n">sub</span>    <span class="n">esp</span><span class="p">,</span><span class="mh">0x18</span>
- <span class="mi">8048533</span><span class="o">:</span> <span class="n">c7</span> <span class="mo">04</span> <span class="mi">24</span> <span class="mi">89</span> <span class="mi">87</span> <span class="mo">04</span> <span class="mi">08</span>  <span class="n">mov</span>    <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">esp</span><span class="p">],</span><span class="mh">0x8048789</span>
- <span class="mi">804853</span><span class="nl">a</span><span class="p">:</span> <span class="n">e8</span> <span class="mi">91</span> <span class="n">fe</span> <span class="n">ff</span> <span class="n">ff</span>        <span class="n">call</span>   <span class="mi">80483</span><span class="n">d0</span> <span class="o">&lt;</span><span class="n">puts</span><span class="err">@</span><span class="n">plt</span><span class="o">&gt;</span>
- <span class="mf">804853f</span><span class="o">:</span> <span class="n">b8</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span>        <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="mh">0x0</span>
- <span class="mi">8048544</span><span class="o">:</span> <span class="n">c9</span>                    <span class="n">leave</span>
- <span class="mi">8048545</span><span class="o">:</span> <span class="n">c3</span>                    <span class="n">ret</span>
+0804852d &lt;foo&gt;:
+ 804852d: 55                    push   ebp
+ 804852e: 89 e5                 mov    ebp,esp
+ 8048530: 83 ec 18              sub    esp,0x18
+ 8048533: c7 04 24 89 87 04 08  mov    DWORD PTR [esp],0x8048789
+ 804853a: e8 91 fe ff ff        call   80483d0 &lt;puts@plt&gt;
+ 804853f: b8 00 00 00 00        mov    eax,0x0
+ 8048544: c9                    leave
+ 8048545: c3                    ret
 
-<span class="mh">08048546</span> <span class="p">&lt;</span><span class="nf">bar</span><span class="p">&gt;:</span>
- <span class="mi">8048546</span><span class="o">:</span> <span class="mi">55</span>                    <span class="n">push</span>   <span class="n">ebp</span>
- <span class="mi">8048547</span><span class="o">:</span> <span class="mi">89</span> <span class="n">e5</span>                 <span class="n">mov</span>    <span class="n">ebp</span><span class="p">,</span><span class="n">esp</span>
- <span class="mi">8048549</span><span class="o">:</span> <span class="mi">83</span> <span class="n">ec</span> <span class="mi">18</span>              <span class="n">sub</span>    <span class="n">esp</span><span class="p">,</span><span class="mh">0x18</span>
- <span class="mi">804854</span><span class="nl">c</span><span class="p">:</span> <span class="n">c7</span> <span class="mo">04</span> <span class="mi">24</span> <span class="mi">8</span><span class="n">d</span> <span class="mi">87</span> <span class="mo">04</span> <span class="mi">08</span>  <span class="n">mov</span>    <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">esp</span><span class="p">],</span><span class="mh">0x804878d</span>
- <span class="mi">8048553</span><span class="o">:</span> <span class="n">e8</span> <span class="mi">78</span> <span class="n">fe</span> <span class="n">ff</span> <span class="n">ff</span>        <span class="n">call</span>   <span class="mi">80483</span><span class="n">d0</span> <span class="o">&lt;</span><span class="n">puts</span><span class="err">@</span><span class="n">plt</span><span class="o">&gt;</span>
- <span class="mi">8048558</span><span class="o">:</span> <span class="n">b8</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span>        <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="mh">0x0</span>
- <span class="mi">804855</span><span class="nl">d</span><span class="p">:</span> <span class="n">c9</span>                    <span class="n">leave</span>
- <span class="mi">804855</span><span class="nl">e</span><span class="p">:</span> <span class="n">c3</span>                    <span class="n">ret</span>
+08048546 &lt;bar&gt;:
+ 8048546: 55                    push   ebp
+ 8048547: 89 e5                 mov    ebp,esp
+ 8048549: 83 ec 18              sub    esp,0x18
+ 804854c: c7 04 24 8d 87 04 08  mov    DWORD PTR [esp],0x804878d
+ 8048553: e8 78 fe ff ff        call   80483d0 &lt;puts@plt&gt;
+ 8048558: b8 00 00 00 00        mov    eax,0x0
+ 804855d: c9                    leave
+ 804855e: c3                    ret
 
-<span class="mh">0804855f</span> <span class="p">&lt;</span><span class="nf">foobar</span><span class="p">&gt;:</span>
- <span class="mf">804855f</span><span class="o">:</span> <span class="mi">55</span>                    <span class="n">push</span>   <span class="n">ebp</span>
- <span class="mi">8048560</span><span class="o">:</span> <span class="mi">89</span> <span class="n">e5</span>                 <span class="n">mov</span>    <span class="n">ebp</span><span class="p">,</span><span class="n">esp</span>
- <span class="mi">8048562</span><span class="o">:</span> <span class="mi">83</span> <span class="n">ec</span> <span class="mi">18</span>              <span class="n">sub</span>    <span class="n">esp</span><span class="p">,</span><span class="mh">0x18</span>
- <span class="mi">8048565</span><span class="o">:</span> <span class="mi">8</span><span class="n">b</span> <span class="mi">45</span> <span class="mi">08</span>              <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">ebp</span><span class="o">+</span><span class="mh">0x8</span><span class="p">]</span>
- <span class="mi">8048568</span><span class="o">:</span> <span class="mi">89</span> <span class="mo">04</span> <span class="mi">24</span>              <span class="n">mov</span>    <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">esp</span><span class="p">],</span><span class="n">eax</span>
- <span class="mi">804856</span><span class="nl">b</span><span class="p">:</span> <span class="n">e8</span> <span class="n">bd</span> <span class="n">ff</span> <span class="n">ff</span> <span class="n">ff</span>        <span class="n">call</span>   <span class="mi">804852</span><span class="n">d</span> <span class="o">&lt;</span><span class="n">foo</span><span class="o">&gt;</span>
- <span class="mi">8048570</span><span class="o">:</span> <span class="n">b8</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span>        <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="mh">0x0</span>
- <span class="mi">8048575</span><span class="o">:</span> <span class="n">c9</span>                    <span class="n">leave</span>
- <span class="mi">8048576</span><span class="o">:</span> <span class="n">c3</span>                    <span class="n">ret</span>
+0804855f &lt;foobar&gt;:
+ 804855f: 55                    push   ebp
+ 8048560: 89 e5                 mov    ebp,esp
+ 8048562: 83 ec 18              sub    esp,0x18
+ 8048565: 8b 45 08              mov    eax,DWORD PTR [ebp+0x8]
+ 8048568: 89 04 24              mov    DWORD PTR [esp],eax
+ 804856b: e8 bd ff ff ff        call   804852d &lt;foo&gt;
+ 8048570: b8 00 00 00 00        mov    eax,0x0
+ 8048575: c9                    leave
+ 8048576: c3                    ret
 
-<span class="mh">08048577</span> <span class="p">&lt;</span><span class="nf">main</span><span class="p">&gt;:</span>
- <span class="mi">8048577</span><span class="o">:</span> <span class="mi">55</span>                    <span class="n">push</span>   <span class="n">ebp</span>
- <span class="mi">8048578</span><span class="o">:</span> <span class="mi">89</span> <span class="n">e5</span>                 <span class="n">mov</span>    <span class="n">ebp</span><span class="p">,</span><span class="n">esp</span>
- <span class="mi">804857</span><span class="nl">a</span><span class="p">:</span> <span class="mi">57</span>                    <span class="n">push</span>   <span class="n">edi</span>
- <span class="mi">804857</span><span class="nl">b</span><span class="p">:</span> <span class="mi">83</span> <span class="n">e4</span> <span class="n">f0</span>              <span class="n">and</span>    <span class="n">esp</span><span class="p">,</span><span class="mh">0xfffffff0</span>
- <span class="mi">804857</span><span class="nl">e</span><span class="p">:</span> <span class="mi">81</span> <span class="n">ec</span> <span class="mi">30</span> <span class="mo">02</span> <span class="mo">00</span> <span class="mo">00</span>     <span class="n">sub</span>    <span class="n">esp</span><span class="p">,</span><span class="mh">0x230</span>
- <span class="mi">8048584</span><span class="o">:</span> <span class="n">b8</span> <span class="mi">91</span> <span class="mi">87</span> <span class="mo">04</span> <span class="mi">08</span>        <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="mh">0x8048791</span>
- <span class="mi">8048589</span><span class="o">:</span> <span class="mi">89</span> <span class="mo">04</span> <span class="mi">24</span>              <span class="n">mov</span>    <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">esp</span><span class="p">],</span><span class="n">eax</span>
- <span class="mi">804858</span><span class="nl">c</span><span class="p">:</span> <span class="n">e8</span> <span class="mf">1f</span> <span class="n">fe</span> <span class="n">ff</span> <span class="n">ff</span>        <span class="n">call</span>   <span class="mi">80483</span><span class="n">b0</span> <span class="o">&lt;</span><span class="n">printf</span><span class="err">@</span><span class="n">plt</span><span class="o">&gt;</span>
- <span class="mi">8048591</span><span class="o">:</span> <span class="n">a1</span> <span class="mi">40</span> <span class="n">a0</span> <span class="mo">04</span> <span class="mi">08</span>        <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="nl">ds</span><span class="p">:</span><span class="mh">0x804a040</span>
- <span class="mi">8048596</span><span class="o">:</span> <span class="mi">89</span> <span class="mo">04</span> <span class="mi">24</span>              <span class="n">mov</span>    <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">esp</span><span class="p">],</span><span class="n">eax</span>
- <span class="mi">8048599</span><span class="o">:</span> <span class="n">e8</span> <span class="mi">22</span> <span class="n">fe</span> <span class="n">ff</span> <span class="n">ff</span>        <span class="n">call</span>   <span class="mi">80483</span><span class="n">c0</span> <span class="o">&lt;</span><span class="n">fflush</span><span class="err">@</span><span class="n">plt</span><span class="o">&gt;</span>
- <span class="mi">804859</span><span class="nl">e</span><span class="p">:</span> <span class="n">c7</span> <span class="mi">44</span> <span class="mi">24</span> <span class="mi">08</span> <span class="n">ff</span> <span class="mo">01</span> <span class="mo">00</span>  <span class="n">mov</span>    <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">esp</span><span class="o">+</span><span class="mh">0x8</span><span class="p">],</span><span class="mh">0x1ff</span>
- <span class="mi">80485</span><span class="nl">a5</span><span class="p">:</span> <span class="mo">00</span>
- <span class="mi">80485</span><span class="nl">a6</span><span class="p">:</span> <span class="mi">8</span><span class="n">d</span> <span class="mi">44</span> <span class="mi">24</span> <span class="mi">24</span>           <span class="n">lea</span>    <span class="n">eax</span><span class="p">,[</span><span class="n">esp</span><span class="o">+</span><span class="mh">0x24</span><span class="p">]</span>
- <span class="mi">80485</span><span class="nl">aa</span><span class="p">:</span> <span class="mi">89</span> <span class="mi">44</span> <span class="mi">24</span> <span class="mo">04</span>           <span class="n">mov</span>    <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">esp</span><span class="o">+</span><span class="mh">0x4</span><span class="p">],</span><span class="n">eax</span>
- <span class="mi">80485</span><span class="nl">ae</span><span class="p">:</span> <span class="n">c7</span> <span class="mo">04</span> <span class="mi">24</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span>  <span class="n">mov</span>    <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">esp</span><span class="p">],</span><span class="mh">0x0</span>
- <span class="mi">80485</span><span class="nl">b5</span><span class="p">:</span> <span class="n">e8</span> <span class="n">e6</span> <span class="n">fd</span> <span class="n">ff</span> <span class="n">ff</span>        <span class="n">call</span>   <span class="mi">80483</span><span class="n">a0</span> <span class="o">&lt;</span><span class="n">read</span><span class="err">@</span><span class="n">plt</span><span class="o">&gt;</span>
- <span class="mi">80485</span><span class="nl">ba</span><span class="p">:</span> <span class="mi">8</span><span class="n">d</span> <span class="mi">44</span> <span class="mi">24</span> <span class="mi">24</span>           <span class="n">lea</span>    <span class="n">eax</span><span class="p">,[</span><span class="n">esp</span><span class="o">+</span><span class="mh">0x24</span><span class="p">]</span>
- <span class="mi">80485</span><span class="nl">be</span><span class="p">:</span> <span class="n">c7</span> <span class="mi">44</span> <span class="mi">24</span> <span class="mi">1</span><span class="n">c</span> <span class="n">ff</span> <span class="n">ff</span> <span class="n">ff</span>  <span class="n">mov</span>    <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">esp</span><span class="o">+</span><span class="mh">0x1c</span><span class="p">],</span><span class="mh">0xffffffff</span>
- <span class="mi">80485</span><span class="nl">c5</span><span class="p">:</span> <span class="n">ff</span>
- <span class="mi">80485</span><span class="nl">c6</span><span class="p">:</span> <span class="mi">89</span> <span class="n">c2</span>                 <span class="n">mov</span>    <span class="n">edx</span><span class="p">,</span><span class="n">eax</span>
- <span class="mi">80485</span><span class="nl">c8</span><span class="p">:</span> <span class="n">b8</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span>        <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="mh">0x0</span>
- <span class="mi">80485</span><span class="nl">cd</span><span class="p">:</span> <span class="mi">8</span><span class="n">b</span> <span class="mi">4</span><span class="n">c</span> <span class="mi">24</span> <span class="mi">1</span><span class="n">c</span>           <span class="n">mov</span>    <span class="n">ecx</span><span class="p">,</span><span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">esp</span><span class="o">+</span><span class="mh">0x1c</span><span class="p">]</span>
- <span class="mi">80485</span><span class="nl">d1</span><span class="p">:</span> <span class="mi">89</span> <span class="n">d7</span>                 <span class="n">mov</span>    <span class="n">edi</span><span class="p">,</span><span class="n">edx</span>
- <span class="mi">80485</span><span class="nl">d3</span><span class="p">:</span> <span class="n">f2</span> <span class="n">ae</span>                 <span class="n">repnz</span> <span class="n">scas</span> <span class="n">al</span><span class="p">,</span><span class="n">BYTE</span> <span class="n">PTR</span> <span class="nl">es</span><span class="p">:[</span><span class="n">edi</span><span class="p">]</span>
- <span class="mi">80485</span><span class="nl">d5</span><span class="p">:</span> <span class="mi">89</span> <span class="n">c8</span>                 <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="n">ecx</span>
- <span class="mi">80485</span><span class="nl">d7</span><span class="p">:</span> <span class="n">f7</span> <span class="n">d0</span>                 <span class="n">not</span>    <span class="n">eax</span>
- <span class="mi">80485</span><span class="nl">d9</span><span class="p">:</span> <span class="mi">83</span> <span class="n">e8</span> <span class="mo">01</span>              <span class="n">sub</span>    <span class="n">eax</span><span class="p">,</span><span class="mh">0x1</span>
- <span class="mi">80485</span><span class="nl">dc</span><span class="p">:</span> <span class="mi">89</span> <span class="mi">84</span> <span class="mi">24</span> <span class="mi">28</span> <span class="mo">02</span> <span class="mo">00</span> <span class="mo">00</span>  <span class="n">mov</span>    <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">esp</span><span class="o">+</span><span class="mh">0x228</span><span class="p">],</span><span class="n">eax</span>
- <span class="mf">80485e3</span><span class="o">:</span> <span class="mi">8</span><span class="n">b</span> <span class="mi">84</span> <span class="mi">24</span> <span class="mi">28</span> <span class="mo">02</span> <span class="mo">00</span> <span class="mo">00</span>  <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">esp</span><span class="o">+</span><span class="mh">0x228</span><span class="p">]</span>
- <span class="mi">80485</span><span class="nl">ea</span><span class="p">:</span> <span class="mi">83</span> <span class="n">e8</span> <span class="mo">01</span>              <span class="n">sub</span>    <span class="n">eax</span><span class="p">,</span><span class="mh">0x1</span>
- <span class="mi">80485</span><span class="nl">ed</span><span class="p">:</span> <span class="mf">0f</span> <span class="n">b6</span> <span class="mi">44</span> <span class="mo">04</span> <span class="mi">24</span>        <span class="n">movzx</span>  <span class="n">eax</span><span class="p">,</span><span class="n">BYTE</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">esp</span><span class="o">+</span><span class="n">eax</span><span class="o">*</span><span class="mi">1</span><span class="o">+</span><span class="mh">0x24</span><span class="p">]</span>
- <span class="mf">80485f</span><span class="mi">2</span><span class="o">:</span> <span class="mi">3</span><span class="n">c</span> <span class="mi">0</span><span class="n">a</span>                 <span class="n">cmp</span>    <span class="n">al</span><span class="p">,</span><span class="mh">0xa</span>
- <span class="mf">80485f</span><span class="mi">4</span><span class="o">:</span> <span class="mi">75</span> <span class="mf">0f</span>                 <span class="n">jne</span>    <span class="mi">8048605</span> <span class="o">&lt;</span><span class="n">main</span><span class="o">+</span><span class="mh">0x8e</span><span class="o">&gt;</span>
- <span class="mf">80485f</span><span class="mi">6</span><span class="o">:</span> <span class="mi">8</span><span class="n">b</span> <span class="mi">84</span> <span class="mi">24</span> <span class="mi">28</span> <span class="mo">02</span> <span class="mo">00</span> <span class="mo">00</span>  <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">esp</span><span class="o">+</span><span class="mh">0x228</span><span class="p">]</span>
- <span class="mf">80485f</span><span class="nl">d</span><span class="p">:</span> <span class="mi">83</span> <span class="n">e8</span> <span class="mo">01</span>              <span class="n">sub</span>    <span class="n">eax</span><span class="p">,</span><span class="mh">0x1</span>
- <span class="mi">8048600</span><span class="o">:</span> <span class="n">c6</span> <span class="mi">44</span> <span class="mo">04</span> <span class="mi">24</span> <span class="mo">00</span>        <span class="n">mov</span>    <span class="n">BYTE</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">esp</span><span class="o">+</span><span class="n">eax</span><span class="o">*</span><span class="mi">1</span><span class="o">+</span><span class="mh">0x24</span><span class="p">],</span><span class="mh">0x0</span>
- <span class="mi">8048605</span><span class="o">:</span> <span class="mf">0f</span> <span class="n">b6</span> <span class="mi">44</span> <span class="mi">24</span> <span class="mi">24</span>        <span class="n">movzx</span>  <span class="n">eax</span><span class="p">,</span><span class="n">BYTE</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">esp</span><span class="o">+</span><span class="mh">0x24</span><span class="p">]</span>
- <span class="mi">804860</span><span class="nl">a</span><span class="p">:</span> <span class="mf">0f</span> <span class="n">be</span> <span class="n">c0</span>              <span class="n">movsx</span>  <span class="n">eax</span><span class="p">,</span><span class="n">al</span>
- <span class="mi">804860</span><span class="nl">d</span><span class="p">:</span> <span class="mi">83</span> <span class="n">f8</span> <span class="mi">42</span>              <span class="n">cmp</span>    <span class="n">eax</span><span class="p">,</span><span class="mh">0x42</span>
- <span class="mi">8048610</span><span class="o">:</span> <span class="mi">74</span> <span class="mi">17</span>                 <span class="n">je</span>     <span class="mi">8048629</span> <span class="o">&lt;</span><span class="n">main</span><span class="o">+</span><span class="mh">0xb2</span><span class="o">&gt;</span>
- <span class="mi">8048612</span><span class="o">:</span> <span class="mi">83</span> <span class="n">f8</span> <span class="mi">43</span>              <span class="n">cmp</span>    <span class="n">eax</span><span class="p">,</span><span class="mh">0x43</span>
- <span class="mi">8048615</span><span class="o">:</span> <span class="mi">74</span> <span class="mf">1f</span>                 <span class="n">je</span>     <span class="mi">8048636</span> <span class="o">&lt;</span><span class="n">main</span><span class="o">+</span><span class="mh">0xbf</span><span class="o">&gt;</span>
- <span class="mi">8048617</span><span class="o">:</span> <span class="mi">83</span> <span class="n">f8</span> <span class="mi">41</span>              <span class="n">cmp</span>    <span class="n">eax</span><span class="p">,</span><span class="mh">0x41</span>
- <span class="mi">804861</span><span class="nl">a</span><span class="p">:</span> <span class="mi">75</span> <span class="mi">27</span>                 <span class="n">jne</span>    <span class="mi">8048643</span> <span class="o">&lt;</span><span class="n">main</span><span class="o">+</span><span class="mh">0xcc</span><span class="o">&gt;</span>
- <span class="mi">804861</span><span class="nl">c</span><span class="p">:</span> <span class="n">c7</span> <span class="mi">84</span> <span class="mi">24</span> <span class="mi">2</span><span class="n">c</span> <span class="mo">02</span> <span class="mo">00</span> <span class="mo">00</span>  <span class="n">mov</span>    <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">esp</span><span class="o">+</span><span class="mh">0x22c</span><span class="p">],</span><span class="mh">0x804852d</span>
- <span class="mi">8048623</span><span class="o">:</span> <span class="mi">2</span><span class="n">d</span> <span class="mi">85</span> <span class="mo">04</span> <span class="mi">08</span>
- <span class="mi">8048627</span><span class="o">:</span> <span class="n">eb</span> <span class="mi">1</span><span class="n">c</span>                 <span class="n">jmp</span>    <span class="mi">8048645</span> <span class="o">&lt;</span><span class="n">main</span><span class="o">+</span><span class="mh">0xce</span><span class="o">&gt;</span>
- <span class="mi">8048629</span><span class="o">:</span> <span class="n">c7</span> <span class="mi">84</span> <span class="mi">24</span> <span class="mi">2</span><span class="n">c</span> <span class="mo">02</span> <span class="mo">00</span> <span class="mo">00</span>  <span class="n">mov</span>    <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">esp</span><span class="o">+</span><span class="mh">0x22c</span><span class="p">],</span><span class="mh">0x80484c4</span>
- <span class="mi">8048630</span><span class="o">:</span> <span class="n">c4</span> <span class="mi">84</span> <span class="mo">04</span> <span class="mi">08</span>
- <span class="mi">8048634</span><span class="o">:</span> <span class="n">eb</span> <span class="mf">0f</span>                 <span class="n">jmp</span>    <span class="mi">8048645</span> <span class="o">&lt;</span><span class="n">main</span><span class="o">+</span><span class="mh">0xce</span><span class="o">&gt;</span>
- <span class="mi">8048636</span><span class="o">:</span> <span class="n">c7</span> <span class="mi">84</span> <span class="mi">24</span> <span class="mi">2</span><span class="n">c</span> <span class="mo">02</span> <span class="mo">00</span> <span class="mo">00</span>  <span class="n">mov</span>    <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">esp</span><span class="o">+</span><span class="mh">0x22c</span><span class="p">],</span><span class="mh">0x804855f</span>
- <span class="mi">804863</span><span class="nl">d</span><span class="p">:</span> <span class="mf">5f</span> <span class="mi">85</span> <span class="mo">04</span> <span class="mi">08</span>
- <span class="mi">8048641</span><span class="o">:</span> <span class="n">eb</span> <span class="mo">02</span>                 <span class="n">jmp</span>    <span class="mi">8048645</span> <span class="o">&lt;</span><span class="n">main</span><span class="o">+</span><span class="mh">0xce</span><span class="o">&gt;</span>
- <span class="mi">8048643</span><span class="o">:</span> <span class="n">eb</span> <span class="n">fe</span>                 <span class="n">jmp</span>    <span class="mi">8048643</span> <span class="o">&lt;</span><span class="n">main</span><span class="o">+</span><span class="mh">0xcc</span><span class="o">&gt;</span>
- <span class="mi">8048645</span><span class="o">:</span> <span class="mi">8</span><span class="n">d</span> <span class="mi">44</span> <span class="mi">24</span> <span class="mi">24</span>           <span class="n">lea</span>    <span class="n">eax</span><span class="p">,[</span><span class="n">esp</span><span class="o">+</span><span class="mh">0x24</span><span class="p">]</span>
- <span class="mi">8048649</span><span class="o">:</span> <span class="mi">83</span> <span class="n">c0</span> <span class="mo">01</span>              <span class="n">add</span>    <span class="n">eax</span><span class="p">,</span><span class="mh">0x1</span>
- <span class="mi">804864</span><span class="nl">c</span><span class="p">:</span> <span class="mi">89</span> <span class="mo">04</span> <span class="mi">24</span>              <span class="n">mov</span>    <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">esp</span><span class="p">],</span><span class="n">eax</span>
- <span class="mf">804864f</span><span class="o">:</span> <span class="mi">8</span><span class="n">b</span> <span class="mi">84</span> <span class="mi">24</span> <span class="mi">2</span><span class="n">c</span> <span class="mo">02</span> <span class="mo">00</span> <span class="mo">00</span>  <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">esp</span><span class="o">+</span><span class="mh">0x22c</span><span class="p">]</span>
- <span class="mi">8048656</span><span class="o">:</span> <span class="n">ff</span> <span class="n">d0</span>                 <span class="n">call</span>   <span class="n">eax</span>
- <span class="mi">8048658</span><span class="o">:</span> <span class="mi">89</span> <span class="mi">84</span> <span class="mi">24</span> <span class="mi">24</span> <span class="mo">02</span> <span class="mo">00</span> <span class="mo">00</span>  <span class="n">mov</span>    <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">esp</span><span class="o">+</span><span class="mh">0x224</span><span class="p">],</span><span class="n">eax</span>
- <span class="mf">804865f</span><span class="o">:</span> <span class="mi">83</span> <span class="n">bc</span> <span class="mi">24</span> <span class="mi">24</span> <span class="mo">02</span> <span class="mo">00</span> <span class="mo">00</span>  <span class="n">cmp</span>    <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">esp</span><span class="o">+</span><span class="mh">0x224</span><span class="p">],</span><span class="mh">0x0</span>
- <span class="mi">8048666</span><span class="o">:</span> <span class="mo">00</span>
- <span class="mi">8048667</span><span class="o">:</span> <span class="mi">74</span> <span class="mi">1</span><span class="n">a</span>                 <span class="n">je</span>     <span class="mi">8048683</span> <span class="o">&lt;</span><span class="n">main</span><span class="o">+</span><span class="mh">0x10c</span><span class="o">&gt;</span>
- <span class="mi">8048669</span><span class="o">:</span> <span class="n">b8</span> <span class="n">af</span> <span class="mi">87</span> <span class="mo">04</span> <span class="mi">08</span>        <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="mh">0x80487af</span>
- <span class="mi">804866</span><span class="nl">e</span><span class="p">:</span> <span class="mi">8</span><span class="n">d</span> <span class="mi">54</span> <span class="mi">24</span> <span class="mi">24</span>           <span class="n">lea</span>    <span class="n">edx</span><span class="p">,[</span><span class="n">esp</span><span class="o">+</span><span class="mh">0x24</span><span class="p">]</span>
- <span class="mi">8048672</span><span class="o">:</span> <span class="mi">83</span> <span class="n">c2</span> <span class="mo">01</span>              <span class="n">add</span>    <span class="n">edx</span><span class="p">,</span><span class="mh">0x1</span>
- <span class="mi">8048675</span><span class="o">:</span> <span class="mi">89</span> <span class="mi">54</span> <span class="mi">24</span> <span class="mo">04</span>           <span class="n">mov</span>    <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">esp</span><span class="o">+</span><span class="mh">0x4</span><span class="p">],</span><span class="n">edx</span>
- <span class="mi">8048679</span><span class="o">:</span> <span class="mi">89</span> <span class="mo">04</span> <span class="mi">24</span>              <span class="n">mov</span>    <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">esp</span><span class="p">],</span><span class="n">eax</span>
- <span class="mi">804867</span><span class="nl">c</span><span class="p">:</span> <span class="n">e8</span> <span class="mf">2f</span> <span class="n">fd</span> <span class="n">ff</span> <span class="n">ff</span>        <span class="n">call</span>   <span class="mi">80483</span><span class="n">b0</span> <span class="o">&lt;</span><span class="n">printf</span><span class="err">@</span><span class="n">plt</span><span class="o">&gt;</span>
- <span class="mi">8048681</span><span class="o">:</span> <span class="n">eb</span> <span class="mi">0</span><span class="n">c</span>                 <span class="n">jmp</span>    <span class="mf">804868f</span> <span class="o">&lt;</span><span class="n">main</span><span class="o">+</span><span class="mh">0x118</span><span class="o">&gt;</span>
- <span class="mi">8048683</span><span class="o">:</span> <span class="n">c7</span> <span class="mo">04</span> <span class="mi">24</span> <span class="n">be</span> <span class="mi">87</span> <span class="mo">04</span> <span class="mi">08</span>  <span class="n">mov</span>    <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">esp</span><span class="p">],</span><span class="mh">0x80487be</span>
- <span class="mi">804868</span><span class="nl">a</span><span class="p">:</span> <span class="n">e8</span> <span class="mi">41</span> <span class="n">fd</span> <span class="n">ff</span> <span class="n">ff</span>        <span class="n">call</span>   <span class="mi">80483</span><span class="n">d0</span> <span class="o">&lt;</span><span class="n">puts</span><span class="err">@</span><span class="n">plt</span><span class="o">&gt;</span>
- <span class="mf">804868f</span><span class="o">:</span> <span class="mi">8</span><span class="n">b</span> <span class="mi">84</span> <span class="mi">24</span> <span class="mi">24</span> <span class="mo">02</span> <span class="mo">00</span> <span class="mo">00</span>  <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">esp</span><span class="o">+</span><span class="mh">0x224</span><span class="p">]</span>
- <span class="mi">8048696</span><span class="o">:</span> <span class="mi">89</span> <span class="mo">04</span> <span class="mi">24</span>              <span class="n">mov</span>    <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">esp</span><span class="p">],</span><span class="n">eax</span>
- <span class="mi">8048699</span><span class="o">:</span> <span class="n">e8</span> <span class="mi">52</span> <span class="n">fd</span> <span class="n">ff</span> <span class="n">ff</span>        <span class="n">call</span>   <span class="mf">80483f</span><span class="mi">0</span> <span class="o">&lt;</span><span class="n">exit</span><span class="err">@</span><span class="n">plt</span><span class="o">&gt;</span>
- <span class="mi">804869</span><span class="nl">e</span><span class="p">:</span> <span class="mi">90</span>                    <span class="n">nop</span>
- <span class="mf">804869f</span><span class="o">:</span> <span class="mi">90</span>                    <span class="n">nop</span>
-</code></pre></div>
+08048577 &lt;main&gt;:
+ 8048577: 55                    push   ebp
+ 8048578: 89 e5                 mov    ebp,esp
+ 804857a: 57                    push   edi
+ 804857b: 83 e4 f0              and    esp,0xfffffff0
+ 804857e: 81 ec 30 02 00 00     sub    esp,0x230
+ 8048584: b8 91 87 04 08        mov    eax,0x8048791
+ 8048589: 89 04 24              mov    DWORD PTR [esp],eax
+ 804858c: e8 1f fe ff ff        call   80483b0 &lt;printf@plt&gt;
+ 8048591: a1 40 a0 04 08        mov    eax,ds:0x804a040
+ 8048596: 89 04 24              mov    DWORD PTR [esp],eax
+ 8048599: e8 22 fe ff ff        call   80483c0 &lt;fflush@plt&gt;
+ 804859e: c7 44 24 08 ff 01 00  mov    DWORD PTR [esp+0x8],0x1ff
+ 80485a5: 00
+ 80485a6: 8d 44 24 24           lea    eax,[esp+0x24]
+ 80485aa: 89 44 24 04           mov    DWORD PTR [esp+0x4],eax
+ 80485ae: c7 04 24 00 00 00 00  mov    DWORD PTR [esp],0x0
+ 80485b5: e8 e6 fd ff ff        call   80483a0 &lt;read@plt&gt;
+ 80485ba: 8d 44 24 24           lea    eax,[esp+0x24]
+ 80485be: c7 44 24 1c ff ff ff  mov    DWORD PTR [esp+0x1c],0xffffffff
+ 80485c5: ff
+ 80485c6: 89 c2                 mov    edx,eax
+ 80485c8: b8 00 00 00 00        mov    eax,0x0
+ 80485cd: 8b 4c 24 1c           mov    ecx,DWORD PTR [esp+0x1c]
+ 80485d1: 89 d7                 mov    edi,edx
+ 80485d3: f2 ae                 repnz scas al,BYTE PTR es:[edi]
+ 80485d5: 89 c8                 mov    eax,ecx
+ 80485d7: f7 d0                 not    eax
+ 80485d9: 83 e8 01              sub    eax,0x1
+ 80485dc: 89 84 24 28 02 00 00  mov    DWORD PTR [esp+0x228],eax
+ 80485e3: 8b 84 24 28 02 00 00  mov    eax,DWORD PTR [esp+0x228]
+ 80485ea: 83 e8 01              sub    eax,0x1
+ 80485ed: 0f b6 44 04 24        movzx  eax,BYTE PTR [esp+eax*1+0x24]
+ 80485f2: 3c 0a                 cmp    al,0xa
+ 80485f4: 75 0f                 jne    8048605 &lt;main+0x8e&gt;
+ 80485f6: 8b 84 24 28 02 00 00  mov    eax,DWORD PTR [esp+0x228]
+ 80485fd: 83 e8 01              sub    eax,0x1
+ 8048600: c6 44 04 24 00        mov    BYTE PTR [esp+eax*1+0x24],0x0
+ 8048605: 0f b6 44 24 24        movzx  eax,BYTE PTR [esp+0x24]
+ 804860a: 0f be c0              movsx  eax,al
+ 804860d: 83 f8 42              cmp    eax,0x42
+ 8048610: 74 17                 je     8048629 &lt;main+0xb2&gt;
+ 8048612: 83 f8 43              cmp    eax,0x43
+ 8048615: 74 1f                 je     8048636 &lt;main+0xbf&gt;
+ 8048617: 83 f8 41              cmp    eax,0x41
+ 804861a: 75 27                 jne    8048643 &lt;main+0xcc&gt;
+ 804861c: c7 84 24 2c 02 00 00  mov    DWORD PTR [esp+0x22c],0x804852d
+ 8048623: 2d 85 04 08
+ 8048627: eb 1c                 jmp    8048645 &lt;main+0xce&gt;
+ 8048629: c7 84 24 2c 02 00 00  mov    DWORD PTR [esp+0x22c],0x80484c4
+ 8048630: c4 84 04 08
+ 8048634: eb 0f                 jmp    8048645 &lt;main+0xce&gt;
+ 8048636: c7 84 24 2c 02 00 00  mov    DWORD PTR [esp+0x22c],0x804855f
+ 804863d: 5f 85 04 08
+ 8048641: eb 02                 jmp    8048645 &lt;main+0xce&gt;
+ 8048643: eb fe                 jmp    8048643 &lt;main+0xcc&gt;
+ 8048645: 8d 44 24 24           lea    eax,[esp+0x24]
+ 8048649: 83 c0 01              add    eax,0x1
+ 804864c: 89 04 24              mov    DWORD PTR [esp],eax
+ 804864f: 8b 84 24 2c 02 00 00  mov    eax,DWORD PTR [esp+0x22c]
+ 8048656: ff d0                 call   eax
+ 8048658: 89 84 24 24 02 00 00  mov    DWORD PTR [esp+0x224],eax
+ 804865f: 83 bc 24 24 02 00 00  cmp    DWORD PTR [esp+0x224],0x0
+ 8048666: 00
+ 8048667: 74 1a                 je     8048683 &lt;main+0x10c&gt;
+ 8048669: b8 af 87 04 08        mov    eax,0x80487af
+ 804866e: 8d 54 24 24           lea    edx,[esp+0x24]
+ 8048672: 83 c2 01              add    edx,0x1
+ 8048675: 89 54 24 04           mov    DWORD PTR [esp+0x4],edx
+ 8048679: 89 04 24              mov    DWORD PTR [esp],eax
+ 804867c: e8 2f fd ff ff        call   80483b0 &lt;printf@plt&gt;
+ 8048681: eb 0c                 jmp    804868f &lt;main+0x118&gt;
+ 8048683: c7 04 24 be 87 04 08  mov    DWORD PTR [esp],0x80487be
+ 804868a: e8 41 fd ff ff        call   80483d0 &lt;puts@plt&gt;
+ 804868f: 8b 84 24 24 02 00 00  mov    eax,DWORD PTR [esp+0x224]
+ 8048696: 89 04 24              mov    DWORD PTR [esp],eax
+ 8048699: e8 52 fd ff ff        call   80483f0 &lt;exit@plt&gt;
+ 804869e: 90                    nop
+ 804869f: 90                    nop
+</code></pre>
 
 <p>I&#8217;ve removed certain non-important sections from the above output. Apart
 from <code>main</code>, there are 4 functions, namely <code>checkkey</code>, <code>foo</code>, <code>bar</code>,
@@ -265,50 +256,50 @@ will try to mutate input buffer and compare it against a static key.
 Let&#8217;s conclude this analysis by having a closer look at <code>checkkey</code>&#8217;s
 disassembly:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="mh">080484c4</span> <span class="p">&lt;</span><span class="nf">checkkey</span><span class="p">&gt;:</span>
- <span class="mi">80484</span><span class="nl">c4</span><span class="p">:</span> <span class="mi">55</span>                    <span class="n">push</span>   <span class="n">ebp</span>
- <span class="mi">80484</span><span class="nl">c5</span><span class="p">:</span> <span class="mi">89</span> <span class="n">e5</span>                 <span class="n">mov</span>    <span class="n">ebp</span><span class="p">,</span><span class="n">esp</span>
- <span class="mi">80484</span><span class="nl">c7</span><span class="p">:</span> <span class="mi">57</span>                    <span class="n">push</span>   <span class="n">edi</span>
- <span class="mi">80484</span><span class="nl">c8</span><span class="p">:</span> <span class="mi">56</span>                    <span class="n">push</span>   <span class="n">esi</span>
- <span class="mi">80484</span><span class="nl">c9</span><span class="p">:</span> <span class="mi">83</span> <span class="n">ec</span> <span class="mi">10</span>              <span class="n">sub</span>    <span class="n">esp</span><span class="p">,</span><span class="mh">0x10</span>
- <span class="mi">80484</span><span class="nl">cc</span><span class="p">:</span> <span class="mi">8</span><span class="n">b</span> <span class="mi">45</span> <span class="mi">08</span>              <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">ebp</span><span class="o">+</span><span class="mh">0x8</span><span class="p">]</span>
- <span class="mi">80484</span><span class="nl">cf</span><span class="p">:</span> <span class="mi">89</span> <span class="mi">45</span> <span class="n">f4</span>              <span class="n">mov</span>    <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">ebp</span><span class="o">-</span><span class="mh">0xc</span><span class="p">],</span><span class="n">eax</span>
- <span class="mi">80484</span><span class="nl">d2</span><span class="p">:</span> <span class="n">eb</span> <span class="mi">14</span>                 <span class="n">jmp</span>    <span class="mf">80484e8</span> <span class="o">&lt;</span><span class="n">checkkey</span><span class="o">+</span><span class="mh">0x24</span><span class="o">&gt;</span>
- <span class="mi">80484</span><span class="nl">d4</span><span class="p">:</span> <span class="mi">8</span><span class="n">b</span> <span class="mi">45</span> <span class="n">f4</span>              <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">ebp</span><span class="o">-</span><span class="mh">0xc</span><span class="p">]</span>
- <span class="mi">80484</span><span class="nl">d7</span><span class="p">:</span> <span class="mf">0f</span> <span class="n">b6</span> <span class="mo">00</span>              <span class="n">movzx</span>  <span class="n">eax</span><span class="p">,</span><span class="n">BYTE</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">eax</span><span class="p">]</span>
- <span class="mi">80484</span><span class="nl">da</span><span class="p">:</span> <span class="mi">89</span> <span class="n">c2</span>                 <span class="n">mov</span>    <span class="n">edx</span><span class="p">,</span><span class="n">eax</span>
- <span class="mi">80484</span><span class="nl">dc</span><span class="p">:</span> <span class="mi">83</span> <span class="n">f2</span> <span class="mi">2</span><span class="n">a</span>              <span class="n">xor</span>    <span class="n">edx</span><span class="p">,</span><span class="mh">0x2a</span>
- <span class="mi">80484</span><span class="nl">df</span><span class="p">:</span> <span class="mi">8</span><span class="n">b</span> <span class="mi">45</span> <span class="n">f4</span>              <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">ebp</span><span class="o">-</span><span class="mh">0xc</span><span class="p">]</span>
- <span class="mf">80484e2</span><span class="o">:</span> <span class="mi">88</span> <span class="mi">10</span>                 <span class="n">mov</span>    <span class="n">BYTE</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">eax</span><span class="p">],</span><span class="n">dl</span>
- <span class="mf">80484e4</span><span class="o">:</span> <span class="mi">83</span> <span class="mi">45</span> <span class="n">f4</span> <span class="mo">01</span>           <span class="n">add</span>    <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">ebp</span><span class="o">-</span><span class="mh">0xc</span><span class="p">],</span><span class="mh">0x1</span>
- <span class="mf">80484e8</span><span class="o">:</span> <span class="mi">8</span><span class="n">b</span> <span class="mi">45</span> <span class="n">f4</span>              <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">ebp</span><span class="o">-</span><span class="mh">0xc</span><span class="p">]</span>
- <span class="mi">80484</span><span class="nl">eb</span><span class="p">:</span> <span class="mf">0f</span> <span class="n">b6</span> <span class="mo">00</span>              <span class="n">movzx</span>  <span class="n">eax</span><span class="p">,</span><span class="n">BYTE</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">eax</span><span class="p">]</span>
- <span class="mi">80484</span><span class="nl">ee</span><span class="p">:</span> <span class="mi">84</span> <span class="n">c0</span>                 <span class="n">test</span>   <span class="n">al</span><span class="p">,</span><span class="n">al</span>
- <span class="mf">80484f</span><span class="mi">0</span><span class="o">:</span> <span class="mi">75</span> <span class="n">e2</span>                 <span class="n">jne</span>    <span class="mi">80484</span><span class="n">d4</span> <span class="o">&lt;</span><span class="n">checkkey</span><span class="o">+</span><span class="mh">0x10</span><span class="o">&gt;</span>
- <span class="mf">80484f</span><span class="mi">2</span><span class="o">:</span> <span class="mi">8</span><span class="n">b</span> <span class="mi">45</span> <span class="mi">08</span>              <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">ebp</span><span class="o">+</span><span class="mh">0x8</span><span class="p">]</span>
- <span class="mf">80484f</span><span class="mi">5</span><span class="o">:</span> <span class="mi">89</span> <span class="n">c2</span>                 <span class="n">mov</span>    <span class="n">edx</span><span class="p">,</span><span class="n">eax</span>
- <span class="mf">80484f</span><span class="mi">7</span><span class="o">:</span> <span class="n">b8</span> <span class="mi">70</span> <span class="mi">87</span> <span class="mo">04</span> <span class="mi">08</span>        <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="mh">0x8048770</span>
- <span class="mf">80484f</span><span class="nl">c</span><span class="p">:</span> <span class="n">b9</span> <span class="mi">19</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span>        <span class="n">mov</span>    <span class="n">ecx</span><span class="p">,</span><span class="mh">0x19</span>
- <span class="mi">8048501</span><span class="o">:</span> <span class="mi">89</span> <span class="n">d6</span>                 <span class="n">mov</span>    <span class="n">esi</span><span class="p">,</span><span class="n">edx</span>
- <span class="mi">8048503</span><span class="o">:</span> <span class="mi">89</span> <span class="n">c7</span>                 <span class="n">mov</span>    <span class="n">edi</span><span class="p">,</span><span class="n">eax</span>
- <span class="mi">8048505</span><span class="o">:</span> <span class="n">f3</span> <span class="n">a6</span>                 <span class="n">repz</span> <span class="n">cmps</span> <span class="n">BYTE</span> <span class="n">PTR</span> <span class="nl">ds</span><span class="p">:[</span><span class="n">esi</span><span class="p">],</span><span class="n">BYTE</span> <span class="n">PTR</span> <span class="nl">es</span><span class="p">:[</span><span class="n">edi</span><span class="p">]</span>
- <span class="mi">8048507</span><span class="o">:</span> <span class="mf">0f</span> <span class="mi">97</span> <span class="n">c2</span>              <span class="n">seta</span>   <span class="n">dl</span>
- <span class="mi">804850</span><span class="nl">a</span><span class="p">:</span> <span class="mf">0f</span> <span class="mi">92</span> <span class="n">c0</span>              <span class="n">setb</span>   <span class="n">al</span>
- <span class="mi">804850</span><span class="nl">d</span><span class="p">:</span> <span class="mi">89</span> <span class="n">d1</span>                 <span class="n">mov</span>    <span class="n">ecx</span><span class="p">,</span><span class="n">edx</span>
- <span class="mf">804850f</span><span class="o">:</span> <span class="mi">28</span> <span class="n">c1</span>                 <span class="n">sub</span>    <span class="n">cl</span><span class="p">,</span><span class="n">al</span>
- <span class="mi">8048511</span><span class="o">:</span> <span class="mi">89</span> <span class="n">c8</span>                 <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="n">ecx</span>
- <span class="mi">8048513</span><span class="o">:</span> <span class="mf">0f</span> <span class="n">be</span> <span class="n">c0</span>              <span class="n">movsx</span>  <span class="n">eax</span><span class="p">,</span><span class="n">al</span>
- <span class="mi">8048516</span><span class="o">:</span> <span class="mi">85</span> <span class="n">c0</span>                 <span class="n">test</span>   <span class="n">eax</span><span class="p">,</span><span class="n">eax</span>
- <span class="mi">8048518</span><span class="o">:</span> <span class="mi">75</span> <span class="mo">07</span>                 <span class="n">jne</span>    <span class="mi">8048521</span> <span class="o">&lt;</span><span class="n">checkkey</span><span class="o">+</span><span class="mh">0x5d</span><span class="o">&gt;</span>
- <span class="mi">804851</span><span class="nl">a</span><span class="p">:</span> <span class="n">b8</span> <span class="mo">01</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span>        <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="mh">0x1</span>
- <span class="mf">804851f</span><span class="o">:</span> <span class="n">eb</span> <span class="mo">05</span>                 <span class="n">jmp</span>    <span class="mi">8048526</span> <span class="o">&lt;</span><span class="n">checkkey</span><span class="o">+</span><span class="mh">0x62</span><span class="o">&gt;</span>
- <span class="mi">8048521</span><span class="o">:</span> <span class="n">b8</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span>        <span class="n">mov</span>    <span class="n">eax</span><span class="p">,</span><span class="mh">0x0</span>
- <span class="mi">8048526</span><span class="o">:</span> <span class="mi">83</span> <span class="n">c4</span> <span class="mi">10</span>              <span class="n">add</span>    <span class="n">esp</span><span class="p">,</span><span class="mh">0x10</span>
- <span class="mi">8048529</span><span class="o">:</span> <span class="mi">5</span><span class="n">e</span>                    <span class="n">pop</span>    <span class="n">esi</span>
- <span class="mi">804852</span><span class="nl">a</span><span class="p">:</span> <span class="mf">5f</span>                    <span class="n">pop</span>    <span class="n">edi</span>
- <span class="mi">804852</span><span class="nl">b</span><span class="p">:</span> <span class="mi">5</span><span class="n">d</span>                    <span class="n">pop</span>    <span class="n">ebp</span>
- <span class="mi">804852</span><span class="nl">c</span><span class="p">:</span> <span class="n">c3</span>                    <span class="n">ret</span>
-</code></pre></div>
+<pre><code>080484c4 &lt;checkkey&gt;:
+ 80484c4: 55                    push   ebp
+ 80484c5: 89 e5                 mov    ebp,esp
+ 80484c7: 57                    push   edi
+ 80484c8: 56                    push   esi
+ 80484c9: 83 ec 10              sub    esp,0x10
+ 80484cc: 8b 45 08              mov    eax,DWORD PTR [ebp+0x8]
+ 80484cf: 89 45 f4              mov    DWORD PTR [ebp-0xc],eax
+ 80484d2: eb 14                 jmp    80484e8 &lt;checkkey+0x24&gt;
+ 80484d4: 8b 45 f4              mov    eax,DWORD PTR [ebp-0xc]
+ 80484d7: 0f b6 00              movzx  eax,BYTE PTR [eax]
+ 80484da: 89 c2                 mov    edx,eax
+ 80484dc: 83 f2 2a              xor    edx,0x2a
+ 80484df: 8b 45 f4              mov    eax,DWORD PTR [ebp-0xc]
+ 80484e2: 88 10                 mov    BYTE PTR [eax],dl
+ 80484e4: 83 45 f4 01           add    DWORD PTR [ebp-0xc],0x1
+ 80484e8: 8b 45 f4              mov    eax,DWORD PTR [ebp-0xc]
+ 80484eb: 0f b6 00              movzx  eax,BYTE PTR [eax]
+ 80484ee: 84 c0                 test   al,al
+ 80484f0: 75 e2                 jne    80484d4 &lt;checkkey+0x10&gt;
+ 80484f2: 8b 45 08              mov    eax,DWORD PTR [ebp+0x8]
+ 80484f5: 89 c2                 mov    edx,eax
+ 80484f7: b8 70 87 04 08        mov    eax,0x8048770
+ 80484fc: b9 19 00 00 00        mov    ecx,0x19
+ 8048501: 89 d6                 mov    esi,edx
+ 8048503: 89 c7                 mov    edi,eax
+ 8048505: f3 a6                 repz cmps BYTE PTR ds:[esi],BYTE PTR es:[edi]
+ 8048507: 0f 97 c2              seta   dl
+ 804850a: 0f 92 c0              setb   al
+ 804850d: 89 d1                 mov    ecx,edx
+ 804850f: 28 c1                 sub    cl,al
+ 8048511: 89 c8                 mov    eax,ecx
+ 8048513: 0f be c0              movsx  eax,al
+ 8048516: 85 c0                 test   eax,eax
+ 8048518: 75 07                 jne    8048521 &lt;checkkey+0x5d&gt;
+ 804851a: b8 01 00 00 00        mov    eax,0x1
+ 804851f: eb 05                 jmp    8048526 &lt;checkkey+0x62&gt;
+ 8048521: b8 00 00 00 00        mov    eax,0x0
+ 8048526: 83 c4 10              add    esp,0x10
+ 8048529: 5e                    pop    esi
+ 804852a: 5f                    pop    edi
+ 804852b: 5d                    pop    ebp
+ 804852c: c3                    ret
+</code></pre>
 
 <p>After the <a href="http://en.wikipedia.org/wiki/Function_prologue">function
 prologue</a>, the
@@ -329,32 +320,32 @@ static key-like string, <code>KFFSE_XHKYOKXOHOFEDM^E_Y</code>, which looks like 
 very good candidate. Let&#8217;s try to reverse the XOR operation using this
 string as the key and 0x2a as XOR key:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="ch">#!/usr//bin/env python</span>
+<pre><code>#!/usr//bin/env python
 
-<span class="kn">import</span> <span class="nn">sys</span>
+import sys
 
-<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
-    <span class="k">print</span> <span class="s2">&quot;USAGE: </span><span class="si">%s</span><span class="s2"> &lt;KFFSE_XHKYOKXOHOFEDM^E_Y&gt; &lt;0x2a&gt;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+if len(sys.argv) != 3:
+    print "USAGE: %s &lt;KFFSE_XHKYOKXOHOFEDM^E_Y&gt; &lt;0x2a&gt;" % (sys.argv[0])
+    sys.exit(1)
 
-<span class="n">flag</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">key</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="mi">16</span><span class="p">)</span>
-<span class="n">decoded</span> <span class="o">=</span> <span class="p">[]</span>
+flag = sys.argv[1]
+key = int(sys.argv[2], 16)
+decoded = []
 
-<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">flag</span><span class="p">:</span>
-    <span class="n">decoded</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">chr</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">^</span> <span class="n">key</span><span class="p">))</span>
+for c in flag:
+    decoded.append(chr(ord(c) ^ key))
 
-<span class="n">decoded</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">decoded</span><span class="p">)</span>
-<span class="k">print</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> ^ 0x</span><span class="si">%x</span><span class="s2"> =&gt; </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">flag</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">decoded</span><span class="p">)</span>
-</code></pre></div>
+decoded = "".join(decoded)
+print "%s ^ 0x%x =&gt; %s" % (flag, key, decoded)
+</code></pre>
 
-<div class="codehilite"><pre><span></span><code>$ ./xor.py KFFSE_XHKYOKXOHOFEDM^E_Y 0x2a
-KFFSE_XHKYOKXOHOFEDM^E_Y ^ <span class="nv">0x2a</span> <span class="o">=</span>&gt; allyourbasearebelongtous
+<pre><code>$ ./xor.py KFFSE_XHKYOKXOHOFEDM^E_Y 0x2a
+KFFSE_XHKYOKXOHOFEDM^E_Y ^ 0x2a =&gt; allyourbasearebelongtous
 $
 $ ./reverse-ex
 Are you feeling lucky today? Ballyourbasearebelongtous
-<span class="o">[</span>+<span class="o">]</span> WooT!: KFFSE_XHKYOKXOHOFEDM^E_Y
-</code></pre></div>
+[+] WooT!: KFFSE_XHKYOKXOHOFEDM^E_Y
+</code></pre>
 
 <p>Awesome! First run of the program and we get a <em>WooT!</em> message
 confirming successful completion of this challenge. It can&#8217;t get better
@@ -373,72 +364,72 @@ rely on the debugging process to provide us the correct result. We&#8217;ll
 debug the program using GDB and check the contents of this address to
 validate our assumption:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="err">$</span> <span class="n">gdb</span> <span class="p">.</span><span class="o">/</span><span class="n">reverse</span><span class="o">-</span><span class="n">ex</span> <span class="o">-</span><span class="n">q</span>
-<span class="n">Reading</span> <span class="n">symbols</span> <span class="n">from</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">ankur</span><span class="o">/</span><span class="n">toolbox</span><span class="o">/</span><span class="n">challenges</span><span class="o">/</span><span class="n">misc</span><span class="o">/</span><span class="n">reverse</span><span class="o">-</span><span class="n">ex</span><span class="p">...(</span><span class="n">no</span> <span class="n">debugging</span> <span class="n">symbols</span> <span class="n">found</span><span class="p">)...</span><span class="n">done</span><span class="p">.</span>
-<span class="p">(</span><span class="n">gdb</span><span class="p">)</span>
-<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="k">break</span> <span class="n">checkkey</span>
-<span class="n">Breakpoint</span> <span class="mi">1</span> <span class="n">at</span> <span class="mh">0x80484c9</span>
-<span class="p">(</span><span class="n">gdb</span><span class="p">)</span>
-<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">r</span>
-<span class="n">Starting</span> <span class="nl">program</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">ankur</span><span class="o">/</span><span class="n">toolbox</span><span class="o">/</span><span class="n">challenges</span><span class="o">/</span><span class="n">misc</span><span class="o">/</span><span class="n">reverse</span><span class="o">-</span><span class="n">ex</span>
-<span class="n">Are</span> <span class="n">you</span> <span class="n">feeling</span> <span class="n">lucky</span> <span class="n">today</span><span class="o">?</span> <span class="n">BABCD</span>
+<pre><code>$ gdb ./reverse-ex -q
+Reading symbols from /home/ankur/toolbox/challenges/misc/reverse-ex...(no debugging symbols found)...done.
+(gdb)
+(gdb) break checkkey
+Breakpoint 1 at 0x80484c9
+(gdb)
+(gdb) r
+Starting program: /home/ankur/toolbox/challenges/misc/reverse-ex
+Are you feeling lucky today? BABCD
 
-<span class="n">Breakpoint</span> <span class="mi">1</span><span class="p">,</span> <span class="mh">0x080484c9</span> <span class="n">in</span> <span class="n">checkkey</span> <span class="p">()</span>
-<span class="p">(</span><span class="n">gdb</span><span class="p">)</span>
-<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">disas</span> <span class="n">checkkey</span>
-<span class="n">Dump</span> <span class="n">of</span> <span class="n">assembler</span> <span class="n">code</span> <span class="k">for</span> <span class="n">function</span> <span class="nl">checkkey</span><span class="p">:</span>
-   <span class="mh">0x080484c4</span> <span class="o">&lt;+</span><span class="mi">0</span><span class="o">&gt;:</span> <span class="n">push</span>   <span class="o">%</span><span class="n">ebp</span>
-   <span class="mh">0x080484c5</span> <span class="o">&lt;+</span><span class="mi">1</span><span class="o">&gt;:</span> <span class="n">mov</span>    <span class="o">%</span><span class="n">esp</span><span class="p">,</span><span class="o">%</span><span class="n">ebp</span>
-   <span class="mh">0x080484c7</span> <span class="o">&lt;+</span><span class="mi">3</span><span class="o">&gt;:</span> <span class="n">push</span>   <span class="o">%</span><span class="n">edi</span>
-   <span class="mh">0x080484c8</span> <span class="o">&lt;+</span><span class="mi">4</span><span class="o">&gt;:</span> <span class="n">push</span>   <span class="o">%</span><span class="n">esi</span>
-<span class="o">=&gt;</span> <span class="mh">0x080484c9</span> <span class="o">&lt;+</span><span class="mi">5</span><span class="o">&gt;:</span> <span class="n">sub</span>    <span class="err">$</span><span class="mh">0x10</span><span class="p">,</span><span class="o">%</span><span class="n">esp</span>
-   <span class="mh">0x080484cc</span> <span class="o">&lt;+</span><span class="mi">8</span><span class="o">&gt;:</span> <span class="n">mov</span>    <span class="mh">0x8</span><span class="p">(</span><span class="o">%</span><span class="n">ebp</span><span class="p">),</span><span class="o">%</span><span class="n">eax</span>
-   <span class="mh">0x080484cf</span> <span class="o">&lt;+</span><span class="mi">11</span><span class="o">&gt;:</span>  <span class="n">mov</span>    <span class="o">%</span><span class="n">eax</span><span class="p">,</span><span class="o">-</span><span class="mh">0xc</span><span class="p">(</span><span class="o">%</span><span class="n">ebp</span><span class="p">)</span>
-   <span class="mh">0x080484d2</span> <span class="o">&lt;+</span><span class="mi">14</span><span class="o">&gt;:</span>  <span class="n">jmp</span>    <span class="mh">0x80484e8</span> <span class="o">&lt;</span><span class="n">checkkey</span><span class="o">+</span><span class="mi">36</span><span class="o">&gt;</span>
-   <span class="mh">0x080484d4</span> <span class="o">&lt;+</span><span class="mi">16</span><span class="o">&gt;:</span>  <span class="n">mov</span>    <span class="o">-</span><span class="mh">0xc</span><span class="p">(</span><span class="o">%</span><span class="n">ebp</span><span class="p">),</span><span class="o">%</span><span class="n">eax</span>
-   <span class="mh">0x080484d7</span> <span class="o">&lt;+</span><span class="mi">19</span><span class="o">&gt;:</span>  <span class="n">movzbl</span> <span class="p">(</span><span class="o">%</span><span class="n">eax</span><span class="p">),</span><span class="o">%</span><span class="n">eax</span>
-   <span class="mh">0x080484da</span> <span class="o">&lt;+</span><span class="mi">22</span><span class="o">&gt;:</span>  <span class="n">mov</span>    <span class="o">%</span><span class="n">eax</span><span class="p">,</span><span class="o">%</span><span class="n">edx</span>
-   <span class="mh">0x080484dc</span> <span class="o">&lt;+</span><span class="mi">24</span><span class="o">&gt;:</span>  <span class="n">xor</span>    <span class="err">$</span><span class="mh">0x2a</span><span class="p">,</span><span class="o">%</span><span class="n">edx</span>
-   <span class="mh">0x080484df</span> <span class="o">&lt;+</span><span class="mi">27</span><span class="o">&gt;:</span>  <span class="n">mov</span>    <span class="o">-</span><span class="mh">0xc</span><span class="p">(</span><span class="o">%</span><span class="n">ebp</span><span class="p">),</span><span class="o">%</span><span class="n">eax</span>
-   <span class="mh">0x080484e2</span> <span class="o">&lt;+</span><span class="mi">30</span><span class="o">&gt;:</span>  <span class="n">mov</span>    <span class="o">%</span><span class="n">dl</span><span class="p">,(</span><span class="o">%</span><span class="n">eax</span><span class="p">)</span>
-   <span class="mh">0x080484e4</span> <span class="o">&lt;+</span><span class="mi">32</span><span class="o">&gt;:</span>  <span class="n">addl</span>   <span class="err">$</span><span class="mh">0x1</span><span class="p">,</span><span class="o">-</span><span class="mh">0xc</span><span class="p">(</span><span class="o">%</span><span class="n">ebp</span><span class="p">)</span>
-   <span class="mh">0x080484e8</span> <span class="o">&lt;+</span><span class="mi">36</span><span class="o">&gt;:</span>  <span class="n">mov</span>    <span class="o">-</span><span class="mh">0xc</span><span class="p">(</span><span class="o">%</span><span class="n">ebp</span><span class="p">),</span><span class="o">%</span><span class="n">eax</span>
-   <span class="mh">0x080484eb</span> <span class="o">&lt;+</span><span class="mi">39</span><span class="o">&gt;:</span>  <span class="n">movzbl</span> <span class="p">(</span><span class="o">%</span><span class="n">eax</span><span class="p">),</span><span class="o">%</span><span class="n">eax</span>
-   <span class="mh">0x080484ee</span> <span class="o">&lt;+</span><span class="mi">42</span><span class="o">&gt;:</span>  <span class="n">test</span>   <span class="o">%</span><span class="n">al</span><span class="p">,</span><span class="o">%</span><span class="n">al</span>
-   <span class="mh">0x080484f0</span> <span class="o">&lt;+</span><span class="mi">44</span><span class="o">&gt;:</span>  <span class="n">jne</span>    <span class="mh">0x80484d4</span> <span class="o">&lt;</span><span class="n">checkkey</span><span class="o">+</span><span class="mi">16</span><span class="o">&gt;</span>
-   <span class="mh">0x080484f2</span> <span class="o">&lt;+</span><span class="mi">46</span><span class="o">&gt;:</span>  <span class="n">mov</span>    <span class="mh">0x8</span><span class="p">(</span><span class="o">%</span><span class="n">ebp</span><span class="p">),</span><span class="o">%</span><span class="n">eax</span>
-   <span class="mh">0x080484f5</span> <span class="o">&lt;+</span><span class="mi">49</span><span class="o">&gt;:</span>  <span class="n">mov</span>    <span class="o">%</span><span class="n">eax</span><span class="p">,</span><span class="o">%</span><span class="n">edx</span>
-   <span class="mh">0x080484f7</span> <span class="o">&lt;+</span><span class="mi">51</span><span class="o">&gt;:</span>  <span class="n">mov</span>    <span class="err">$</span><span class="mh">0x8048770</span><span class="p">,</span><span class="o">%</span><span class="n">eax</span>
-   <span class="mh">0x080484fc</span> <span class="o">&lt;+</span><span class="mi">56</span><span class="o">&gt;:</span>  <span class="n">mov</span>    <span class="err">$</span><span class="mh">0x19</span><span class="p">,</span><span class="o">%</span><span class="n">ecx</span>
-   <span class="mh">0x08048501</span> <span class="o">&lt;+</span><span class="mi">61</span><span class="o">&gt;:</span>  <span class="n">mov</span>    <span class="o">%</span><span class="n">edx</span><span class="p">,</span><span class="o">%</span><span class="n">esi</span>
-   <span class="mh">0x08048503</span> <span class="o">&lt;+</span><span class="mi">63</span><span class="o">&gt;:</span>  <span class="n">mov</span>    <span class="o">%</span><span class="n">eax</span><span class="p">,</span><span class="o">%</span><span class="n">edi</span>
-   <span class="mh">0x08048505</span> <span class="o">&lt;+</span><span class="mi">65</span><span class="o">&gt;:</span>  <span class="n">repz</span> <span class="n">cmpsb</span> <span class="o">%</span><span class="nl">es</span><span class="p">:(</span><span class="o">%</span><span class="n">edi</span><span class="p">),</span><span class="o">%</span><span class="nl">ds</span><span class="p">:(</span><span class="o">%</span><span class="n">esi</span><span class="p">)</span>
-   <span class="mh">0x08048507</span> <span class="o">&lt;+</span><span class="mi">67</span><span class="o">&gt;:</span>  <span class="n">seta</span>   <span class="o">%</span><span class="n">dl</span>
-   <span class="mh">0x0804850a</span> <span class="o">&lt;+</span><span class="mi">70</span><span class="o">&gt;:</span>  <span class="n">setb</span>   <span class="o">%</span><span class="n">al</span>
-   <span class="mh">0x0804850d</span> <span class="o">&lt;+</span><span class="mi">73</span><span class="o">&gt;:</span>  <span class="n">mov</span>    <span class="o">%</span><span class="n">edx</span><span class="p">,</span><span class="o">%</span><span class="n">ecx</span>
-   <span class="mh">0x0804850f</span> <span class="o">&lt;+</span><span class="mi">75</span><span class="o">&gt;:</span>  <span class="n">sub</span>    <span class="o">%</span><span class="n">al</span><span class="p">,</span><span class="o">%</span><span class="n">cl</span>
-   <span class="mh">0x08048511</span> <span class="o">&lt;+</span><span class="mi">77</span><span class="o">&gt;:</span>  <span class="n">mov</span>    <span class="o">%</span><span class="n">ecx</span><span class="p">,</span><span class="o">%</span><span class="n">eax</span>
-   <span class="mh">0x08048513</span> <span class="o">&lt;+</span><span class="mi">79</span><span class="o">&gt;:</span>  <span class="n">movsbl</span> <span class="o">%</span><span class="n">al</span><span class="p">,</span><span class="o">%</span><span class="n">eax</span>
-   <span class="mh">0x08048516</span> <span class="o">&lt;+</span><span class="mi">82</span><span class="o">&gt;:</span>  <span class="n">test</span>   <span class="o">%</span><span class="n">eax</span><span class="p">,</span><span class="o">%</span><span class="n">eax</span>
-   <span class="mh">0x08048518</span> <span class="o">&lt;+</span><span class="mi">84</span><span class="o">&gt;:</span>  <span class="n">jne</span>    <span class="mh">0x8048521</span> <span class="o">&lt;</span><span class="n">checkkey</span><span class="o">+</span><span class="mi">93</span><span class="o">&gt;</span>
-   <span class="mh">0x0804851a</span> <span class="o">&lt;+</span><span class="mi">86</span><span class="o">&gt;:</span>  <span class="n">mov</span>    <span class="err">$</span><span class="mh">0x1</span><span class="p">,</span><span class="o">%</span><span class="n">eax</span>
-   <span class="mh">0x0804851f</span> <span class="o">&lt;+</span><span class="mi">91</span><span class="o">&gt;:</span>  <span class="n">jmp</span>    <span class="mh">0x8048526</span> <span class="o">&lt;</span><span class="n">checkkey</span><span class="o">+</span><span class="mi">98</span><span class="o">&gt;</span>
-   <span class="mh">0x08048521</span> <span class="o">&lt;+</span><span class="mi">93</span><span class="o">&gt;:</span>  <span class="n">mov</span>    <span class="err">$</span><span class="mh">0x0</span><span class="p">,</span><span class="o">%</span><span class="n">eax</span>
-   <span class="mh">0x08048526</span> <span class="o">&lt;+</span><span class="mi">98</span><span class="o">&gt;:</span>  <span class="n">add</span>    <span class="err">$</span><span class="mh">0x10</span><span class="p">,</span><span class="o">%</span><span class="n">esp</span>
-   <span class="mh">0x08048529</span> <span class="o">&lt;+</span><span class="mi">101</span><span class="o">&gt;:</span> <span class="n">pop</span>    <span class="o">%</span><span class="n">esi</span>
-   <span class="mh">0x0804852a</span> <span class="o">&lt;+</span><span class="mi">102</span><span class="o">&gt;:</span> <span class="n">pop</span>    <span class="o">%</span><span class="n">edi</span>
-   <span class="mh">0x0804852b</span> <span class="o">&lt;+</span><span class="mi">103</span><span class="o">&gt;:</span> <span class="n">pop</span>    <span class="o">%</span><span class="n">ebp</span>
-   <span class="mh">0x0804852c</span> <span class="o">&lt;+</span><span class="mi">104</span><span class="o">&gt;:</span> <span class="n">ret</span>
-<span class="n">End</span> <span class="n">of</span> <span class="n">assembler</span> <span class="n">dump</span><span class="p">.</span>
-<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">x</span> <span class="o">/</span><span class="n">s</span> <span class="mh">0x8048770</span>
-<span class="mh">0x8048770</span><span class="o">:</span>   <span class="s">&quot;KFFSE_XHKYOKXOHOFEDM^E_Y&quot;</span>
-<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">q</span>
-<span class="n">A</span> <span class="n">debugging</span> <span class="n">session</span> <span class="n">is</span> <span class="n">active</span><span class="p">.</span>
+Breakpoint 1, 0x080484c9 in checkkey ()
+(gdb)
+(gdb) disas checkkey
+Dump of assembler code for function checkkey:
+   0x080484c4 &lt;+0&gt;: push   %ebp
+   0x080484c5 &lt;+1&gt;: mov    %esp,%ebp
+   0x080484c7 &lt;+3&gt;: push   %edi
+   0x080484c8 &lt;+4&gt;: push   %esi
+=&gt; 0x080484c9 &lt;+5&gt;: sub    $0x10,%esp
+   0x080484cc &lt;+8&gt;: mov    0x8(%ebp),%eax
+   0x080484cf &lt;+11&gt;:  mov    %eax,-0xc(%ebp)
+   0x080484d2 &lt;+14&gt;:  jmp    0x80484e8 &lt;checkkey+36&gt;
+   0x080484d4 &lt;+16&gt;:  mov    -0xc(%ebp),%eax
+   0x080484d7 &lt;+19&gt;:  movzbl (%eax),%eax
+   0x080484da &lt;+22&gt;:  mov    %eax,%edx
+   0x080484dc &lt;+24&gt;:  xor    $0x2a,%edx
+   0x080484df &lt;+27&gt;:  mov    -0xc(%ebp),%eax
+   0x080484e2 &lt;+30&gt;:  mov    %dl,(%eax)
+   0x080484e4 &lt;+32&gt;:  addl   $0x1,-0xc(%ebp)
+   0x080484e8 &lt;+36&gt;:  mov    -0xc(%ebp),%eax
+   0x080484eb &lt;+39&gt;:  movzbl (%eax),%eax
+   0x080484ee &lt;+42&gt;:  test   %al,%al
+   0x080484f0 &lt;+44&gt;:  jne    0x80484d4 &lt;checkkey+16&gt;
+   0x080484f2 &lt;+46&gt;:  mov    0x8(%ebp),%eax
+   0x080484f5 &lt;+49&gt;:  mov    %eax,%edx
+   0x080484f7 &lt;+51&gt;:  mov    $0x8048770,%eax
+   0x080484fc &lt;+56&gt;:  mov    $0x19,%ecx
+   0x08048501 &lt;+61&gt;:  mov    %edx,%esi
+   0x08048503 &lt;+63&gt;:  mov    %eax,%edi
+   0x08048505 &lt;+65&gt;:  repz cmpsb %es:(%edi),%ds:(%esi)
+   0x08048507 &lt;+67&gt;:  seta   %dl
+   0x0804850a &lt;+70&gt;:  setb   %al
+   0x0804850d &lt;+73&gt;:  mov    %edx,%ecx
+   0x0804850f &lt;+75&gt;:  sub    %al,%cl
+   0x08048511 &lt;+77&gt;:  mov    %ecx,%eax
+   0x08048513 &lt;+79&gt;:  movsbl %al,%eax
+   0x08048516 &lt;+82&gt;:  test   %eax,%eax
+   0x08048518 &lt;+84&gt;:  jne    0x8048521 &lt;checkkey+93&gt;
+   0x0804851a &lt;+86&gt;:  mov    $0x1,%eax
+   0x0804851f &lt;+91&gt;:  jmp    0x8048526 &lt;checkkey+98&gt;
+   0x08048521 &lt;+93&gt;:  mov    $0x0,%eax
+   0x08048526 &lt;+98&gt;:  add    $0x10,%esp
+   0x08048529 &lt;+101&gt;: pop    %esi
+   0x0804852a &lt;+102&gt;: pop    %edi
+   0x0804852b &lt;+103&gt;: pop    %ebp
+   0x0804852c &lt;+104&gt;: ret
+End of assembler dump.
+(gdb) x /s 0x8048770
+0x8048770:   "KFFSE_XHKYOKXOHOFEDM^E_Y"
+(gdb) q
+A debugging session is active.
 
-  <span class="n">Inferior</span> <span class="mi">1</span> <span class="p">[</span><span class="n">process</span> <span class="mi">13283</span><span class="p">]</span> <span class="n">will</span> <span class="n">be</span> <span class="n">killed</span><span class="p">.</span>
+  Inferior 1 [process 13283] will be killed.
 
-<span class="n">Quit</span> <span class="n">anyway</span><span class="o">?</span> <span class="p">(</span><span class="n">y</span> <span class="n">or</span> <span class="n">n</span><span class="p">)</span> <span class="n">y</span>
-</code></pre></div>
+Quit anyway? (y or n) y
+</code></pre>
 
 <p>We add a breakpoint at <code>checkkey</code> function and manually inspect the
 content of the 0x8048770 address (it might change on our system) and it

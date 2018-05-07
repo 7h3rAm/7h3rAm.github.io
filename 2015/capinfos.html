@@ -34,127 +34,125 @@
                   <a href="/2015/ebctf-bin100.html">&lt&lt;</a> published on 02/Aug/2015<a href="/2015/cigma.html"> &gt;&gt;</i></a><br/>
                 </p>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           <div class="post-content">
-          <p>The <a href="https://www.wireshark.org/docs/man-pages/capinfos.html">capinfos</a> tool from Wireshark parses a pcap file and displays useful statistics like packet count, bitrate, byterate, capture duration, etc. I needed a pure-Python parser to obtain these details and ended up with the following code:</p>
+          <pre><code>from pprint import pprint
+import datetime
+import struct
+import sys
 
-<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
-<span class="kn">import</span> <span class="nn">datetime</span>
-<span class="kn">import</span> <span class="nn">struct</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="k">def</span> <span class="nf">capinfos</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-  <span class="c1"># generates wireshark&#39;s capinfos like stats</span>
-  <span class="c1"># limited features</span>
-  <span class="c1"># needs additional testing</span>
-  <span class="n">file_handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span>
-  <span class="n">data</span> <span class="o">=</span> <span class="n">file_handle</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-  <span class="n">pcapstats</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-  <span class="n">endianness</span> <span class="o">=</span> <span class="bp">None</span>
-  <span class="n">datalink_types</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;DLT_NULL&#39;</span><span class="p">,</span>
-    <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;DLT_EN10MB&#39;</span><span class="p">,</span>
-    <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;DLT_EN3MB&#39;</span><span class="p">,</span>
-    <span class="mi">3</span><span class="p">:</span> <span class="s1">&#39;DLT_AX25&#39;</span><span class="p">,</span>
-    <span class="mi">4</span><span class="p">:</span> <span class="s1">&#39;DLT_PRONET&#39;</span><span class="p">,</span>
-    <span class="mi">5</span><span class="p">:</span> <span class="s1">&#39;DLT_CHAOS&#39;</span><span class="p">,</span>
-    <span class="mi">6</span><span class="p">:</span> <span class="s1">&#39;DLT_IEEE802&#39;</span><span class="p">,</span>
-    <span class="mi">7</span><span class="p">:</span> <span class="s1">&#39;DLT_ARCNET&#39;</span><span class="p">,</span>
-    <span class="mi">8</span><span class="p">:</span> <span class="s1">&#39;DLT_SLIP&#39;</span><span class="p">,</span>
-    <span class="mi">9</span><span class="p">:</span> <span class="s1">&#39;DLT_PPP&#39;</span><span class="p">,</span>
-    <span class="mi">10</span><span class="p">:</span> <span class="s1">&#39;DLT_FDDI&#39;</span><span class="p">,</span>
-    <span class="mi">18</span><span class="p">:</span> <span class="s1">&#39;DLT_PFSYNC&#39;</span><span class="p">,</span>
-    <span class="mi">105</span><span class="p">:</span> <span class="s1">&#39;DLT_IEEE802_11&#39;</span><span class="p">,</span>
-    <span class="mi">113</span><span class="p">:</span> <span class="s1">&#39;DLT_LINUX_SLL&#39;</span><span class="p">,</span>
-    <span class="mi">117</span><span class="p">:</span> <span class="s1">&#39;DLT_PFLOG&#39;</span><span class="p">,</span>
-    <span class="mi">127</span><span class="p">:</span> <span class="s1">&#39;DLT_IEEE802_11_RADIO&#39;</span>
-  <span class="p">}</span>
-  <span class="c1"># extract pcap magic using host&#39;s native endianess</span>
-  <span class="p">(</span><span class="n">pcap_magic</span><span class="p">,</span> <span class="p">)</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;=I&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[:</span><span class="mi">4</span><span class="p">])</span>
-  <span class="c1"># if the pcap is LE</span>
-  <span class="k">if</span> <span class="n">pcap_magic</span> <span class="o">==</span> <span class="mh">0xa1b2c3d4</span><span class="p">:</span>
-    <span class="p">(</span><span class="n">pcap_magic</span><span class="p">,</span> <span class="n">pcap_version_major</span><span class="p">,</span> <span class="n">pcap_version_minor</span><span class="p">,</span> <span class="n">pcap_thiszone</span><span class="p">,</span> <span class="n">pcap_sigfigs</span><span class="p">,</span> <span class="n">pcap_snaplen</span><span class="p">,</span> <span class="n">pcap_network</span><span class="p">)</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;IHHIIII&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[:</span><span class="mi">24</span><span class="p">])</span>
-    <span class="n">endianness</span> <span class="o">=</span> <span class="s1">&#39;LITTLE&#39;</span>
-  <span class="c1"># if the pcap is BE</span>
-  <span class="k">elif</span> <span class="n">pcap_magic</span> <span class="o">==</span> <span class="mh">0xd4c3b2a1</span><span class="p">:</span>
-    <span class="p">(</span><span class="n">pcap_magic</span><span class="p">,</span> <span class="n">pcap_version_major</span><span class="p">,</span> <span class="n">pcap_version_minor</span><span class="p">,</span> <span class="n">pcap_thiszone</span><span class="p">,</span> <span class="n">pcap_sigfigs</span><span class="p">,</span> <span class="n">pcap_snaplen</span><span class="p">,</span> <span class="n">pcap_network</span><span class="p">)</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&gt;IHHIIII&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[:</span><span class="mi">24</span><span class="p">])</span>
-    <span class="n">endianness</span> <span class="o">=</span> <span class="s1">&#39;BIG&#39;</span>
-  <span class="c1"># for pcaps which are something else (0x4d3c2b1a)?</span>
-  <span class="k">else</span><span class="p">:</span>
-    <span class="k">return</span> <span class="n">pcapstats</span>
-  <span class="n">starttime</span> <span class="o">=</span> <span class="bp">None</span>
-  <span class="n">endtime</span> <span class="o">=</span> <span class="bp">None</span>
-  <span class="n">s</span> <span class="o">=</span> <span class="mi">24</span>
-  <span class="n">e</span> <span class="o">=</span> <span class="n">s</span> <span class="o">+</span> <span class="mi">16</span>
-  <span class="n">packetscount</span> <span class="o">=</span> <span class="mi">0</span>
-  <span class="n">bytescount</span> <span class="o">=</span> <span class="mi">0</span>
-  <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
-    <span class="k">if</span> <span class="n">endianness</span> <span class="ow">is</span> <span class="s1">&#39;LITTLE&#39;</span><span class="p">:</span>
-      <span class="p">(</span><span class="n">ts_sec</span><span class="p">,</span> <span class="n">ts_usec</span><span class="p">,</span> <span class="n">incl_len</span><span class="p">,</span> <span class="n">orig_len</span><span class="p">)</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;IIII&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">s</span><span class="p">:</span><span class="n">e</span><span class="p">])</span>
-    <span class="k">elif</span> <span class="n">endianness</span> <span class="ow">is</span> <span class="s1">&#39;BIG&#39;</span><span class="p">:</span>
-      <span class="p">(</span><span class="n">ts_sec</span><span class="p">,</span> <span class="n">ts_usec</span><span class="p">,</span> <span class="n">incl_len</span><span class="p">,</span> <span class="n">orig_len</span><span class="p">)</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&gt;IIII&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">s</span><span class="p">:</span><span class="n">e</span><span class="p">])</span>
-    <span class="n">packetscount</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="n">bytescount</span> <span class="o">+=</span> <span class="n">incl_len</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">starttime</span><span class="p">:</span>
-      <span class="n">starttime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">ts_sec</span><span class="p">)</span>
-      <span class="n">bytescount</span> <span class="o">+=</span> <span class="n">incl_len</span>
-    <span class="n">endtime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">ts_sec</span><span class="p">)</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="n">e</span> <span class="o">+</span> <span class="n">incl_len</span>
-    <span class="n">e</span> <span class="o">=</span> <span class="n">s</span> <span class="o">+</span> <span class="mi">16</span>
-    <span class="k">if</span> <span class="n">e</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-      <span class="k">break</span>
-  <span class="n">totsecs</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">endtime</span> <span class="o">-</span> <span class="n">starttime</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">())</span>
-  <span class="k">if</span> <span class="n">totsecs</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-    <span class="n">totsecs</span> <span class="o">=</span> <span class="mi">1</span>
-  <span class="n">pcapstats</span><span class="p">[</span><span class="s1">&#39;totsecs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">totsecs</span>
-  <span class="n">pcapstats</span><span class="p">[</span><span class="s1">&#39;pcapmagic&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;0x</span><span class="si">%08X</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">pcap_magic</span>
-  <span class="n">pcapstats</span><span class="p">[</span><span class="s1">&#39;version_major&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pcap_version_major</span>
-  <span class="n">pcapstats</span><span class="p">[</span><span class="s1">&#39;version_minor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pcap_version_minor</span>
-  <span class="n">pcapstats</span><span class="p">[</span><span class="s1">&#39;snaplen&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pcap_snaplen</span>
-  <span class="n">pcapstats</span><span class="p">[</span><span class="s1">&#39;pcapencapsulation&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datalink_types</span><span class="p">[</span><span class="n">pcap_network</span><span class="p">]</span>
-  <span class="n">pcapstats</span><span class="p">[</span><span class="s1">&#39;packetscount&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">packetscount</span>
-  <span class="n">pcapstats</span><span class="p">[</span><span class="s1">&#39;bytescount&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bytescount</span>
-  <span class="n">pcapstats</span><span class="p">[</span><span class="s1">&#39;capturestarttime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">starttime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%c</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-  <span class="n">pcapstats</span><span class="p">[</span><span class="s1">&#39;captureendtime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">endtime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%c</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-  <span class="n">pcapstats</span><span class="p">[</span><span class="s1">&#39;captureduration&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">endtime</span> <span class="o">-</span> <span class="n">starttime</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span>
-  <span class="n">byterate</span> <span class="o">=</span> <span class="p">(</span><span class="n">bytescount</span> <span class="o">/</span> <span class="n">totsecs</span><span class="p">)</span> <span class="k">if</span> <span class="n">totsecs</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">bytescount</span>
-  <span class="n">bitrate</span> <span class="o">=</span> <span class="p">((</span><span class="n">bytescount</span> <span class="o">*</span> <span class="mi">8</span><span class="p">)</span> <span class="o">/</span> <span class="n">totsecs</span><span class="p">)</span> <span class="k">if</span> <span class="n">totsecs</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">(</span><span class="n">bytescount</span> <span class="o">*</span> <span class="mi">8</span><span class="p">)</span>
-  <span class="n">pcapstats</span><span class="p">[</span><span class="s1">&#39;byterate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">byterate</span>
-  <span class="n">pcapstats</span><span class="p">[</span><span class="s1">&#39;bitrate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bitrate</span>
-  <span class="n">avgpacketsize</span> <span class="o">=</span> <span class="p">(</span><span class="n">bytescount</span> <span class="o">/</span> <span class="n">packetscount</span><span class="p">)</span> <span class="k">if</span> <span class="n">packetscount</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">bytescount</span>
-  <span class="n">avgpacketrate</span> <span class="o">=</span> <span class="p">(</span><span class="n">packetscount</span> <span class="o">/</span> <span class="n">totsecs</span><span class="p">)</span> <span class="k">if</span> <span class="n">totsecs</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">packetscount</span>
-  <span class="n">pcapstats</span><span class="p">[</span><span class="s1">&#39;avgpacketsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">avgpacketsize</span>
-  <span class="n">pcapstats</span><span class="p">[</span><span class="s1">&#39;avgpacketrate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">avgpacketrate</span>
-  <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">pcapstats</span><span class="p">)</span>
+def capinfos(filename):
+  # generates wireshark's capinfos like stats
+  # limited features
+  # needs additional testing
+  file_handle = open(filename, 'rb')
+  data = file_handle.read()
+  pcapstats = dict()
+  endianness = None
+  datalink_types = {
+    0: 'DLT_NULL',
+    1: 'DLT_EN10MB',
+    2: 'DLT_EN3MB',
+    3: 'DLT_AX25',
+    4: 'DLT_PRONET',
+    5: 'DLT_CHAOS',
+    6: 'DLT_IEEE802',
+    7: 'DLT_ARCNET',
+    8: 'DLT_SLIP',
+    9: 'DLT_PPP',
+    10: 'DLT_FDDI',
+    18: 'DLT_PFSYNC',
+    105: 'DLT_IEEE802_11',
+    113: 'DLT_LINUX_SLL',
+    117: 'DLT_PFLOG',
+    127: 'DLT_IEEE802_11_RADIO'
+  }
+  # extract pcap magic using host's native endianess
+  (pcap_magic, ) = struct.unpack('=I', data[:4])
+  # if the pcap is LE
+  if pcap_magic == 0xa1b2c3d4:
+    (pcap_magic, pcap_version_major, pcap_version_minor, pcap_thiszone, pcap_sigfigs, pcap_snaplen, pcap_network) = struct.unpack('&lt;IHHIIII', data[:24])
+    endianness = 'LITTLE'
+  # if the pcap is BE
+  elif pcap_magic == 0xd4c3b2a1:
+    (pcap_magic, pcap_version_major, pcap_version_minor, pcap_thiszone, pcap_sigfigs, pcap_snaplen, pcap_network) = struct.unpack('&gt;IHHIIII', data[:24])
+    endianness = 'BIG'
+  # for pcaps which are something else (0x4d3c2b1a)?
+  else:
+    return pcapstats
+  starttime = None
+  endtime = None
+  s = 24
+  e = s + 16
+  packetscount = 0
+  bytescount = 0
+  while True:
+    if endianness is 'LITTLE':
+      (ts_sec, ts_usec, incl_len, orig_len) = struct.unpack('&lt;IIII', data[s:e])
+    elif endianness is 'BIG':
+      (ts_sec, ts_usec, incl_len, orig_len) = struct.unpack('&gt;IIII', data[s:e])
+    packetscount += 1
+    bytescount += incl_len
+    if not starttime:
+      starttime = datetime.datetime.fromtimestamp(ts_sec)
+      bytescount += incl_len
+    endtime = datetime.datetime.fromtimestamp(ts_sec)
+    s = e + incl_len
+    e = s + 16
+    if e &gt; len(data):
+      break
+  totsecs = int((endtime - starttime).total_seconds())
+  if totsecs &lt; 1:
+    totsecs = 1
+  pcapstats['totsecs'] = totsecs
+  pcapstats['pcapmagic'] = '0x%08X' % pcap_magic
+  pcapstats['version_major'] = pcap_version_major
+  pcapstats['version_minor'] = pcap_version_minor
+  pcapstats['snaplen'] = pcap_snaplen
+  pcapstats['pcapencapsulation'] = datalink_types[pcap_network]
+  pcapstats['packetscount'] = packetscount
+  pcapstats['bytescount'] = bytescount
+  pcapstats['capturestarttime'] = starttime.strftime('%c').strip()
+  pcapstats['captureendtime'] = endtime.strftime('%c').strip()
+  pcapstats['captureduration'] = (endtime - starttime).total_seconds()
+  byterate = (bytescount / totsecs) if totsecs &gt; 0 else bytescount
+  bitrate = ((bytescount * 8) / totsecs) if totsecs &gt; 0 else (bytescount * 8)
+  pcapstats['byterate'] = byterate
+  pcapstats['bitrate'] = bitrate
+  avgpacketsize = (bytescount / packetscount) if packetscount &gt; 0 else bytescount
+  avgpacketrate = (packetscount / totsecs) if totsecs &gt; 0 else packetscount
+  pcapstats['avgpacketsize'] = avgpacketsize
+  pcapstats['avgpacketrate'] = avgpacketrate
+  return dict(pcapstats)
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-  <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
-    <span class="k">print</span> <span class="s2">&quot;USAGE: </span><span class="si">%s</span><span class="s2"> &lt;filename&gt;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+if __name__ == "__main__":
+  if len(sys.argv) != 2:
+    print "USAGE: %s &lt;filename&gt;" % (sys.argv[0])
+    sys.exit(1)
 
-  <span class="n">pprint</span><span class="p">(</span><span class="n">capinfos</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
-</code></pre></div>
+  pprint(capinfos(sys.argv[1]))
+</code></pre>
 
 <p>Let&#8217;s try this script on a HTTP pcap:</p>
 
-<div class="codehilite"><pre><span></span><code>$ python capinfos.py /media/shiv/red_third/stoolbox/testfiles/pcaps/layer7/http_espn.pcap
-<span class="o">{</span>
- <span class="s1">&#39;avgpacketrate&#39;</span>: <span class="m">478</span>,
- <span class="s1">&#39;avgpacketsize&#39;</span>: <span class="m">682</span>,
- <span class="s1">&#39;bitrate&#39;</span>: <span class="m">2609012</span>,
- <span class="s1">&#39;byterate&#39;</span>: <span class="m">326126</span>,
- <span class="s1">&#39;bytescount&#39;</span>: <span class="m">652253</span>,
- <span class="s1">&#39;captureduration&#39;</span>: <span class="m">2</span>.0,
- <span class="s1">&#39;captureendtime&#39;</span>: <span class="s1">&#39;Wed Apr  7 22:59:31 2010&#39;</span>,
- <span class="s1">&#39;capturestarttime&#39;</span>: <span class="s1">&#39;Wed Apr  7 22:59:29 2010&#39;</span>,
- <span class="s1">&#39;packetscount&#39;</span>: <span class="m">956</span>,
- <span class="s1">&#39;pcapencapsulation&#39;</span>: <span class="s1">&#39;DLT_EN10MB&#39;</span>,
- <span class="s1">&#39;pcapmagic&#39;</span>: <span class="s1">&#39;0xA1B2C3D4&#39;</span>,
- <span class="s1">&#39;snaplen&#39;</span>: <span class="m">65535</span>,
- <span class="s1">&#39;totsecs&#39;</span>: <span class="m">2</span>,
- <span class="s1">&#39;version_major&#39;</span>: <span class="m">2</span>,
- <span class="s1">&#39;version_minor&#39;</span>: <span class="m">4</span>
-<span class="o">}</span>
-</code></pre></div>
+<pre><code>$ python capinfos.py /media/shiv/red_third/stoolbox/testfiles/pcaps/layer7/http_espn.pcap
+{
+ 'avgpacketrate': 478,
+ 'avgpacketsize': 682,
+ 'bitrate': 2609012,
+ 'byterate': 326126,
+ 'bytescount': 652253,
+ 'captureduration': 2.0,
+ 'captureendtime': 'Wed Apr  7 22:59:31 2010',
+ 'capturestarttime': 'Wed Apr  7 22:59:29 2010',
+ 'packetscount': 956,
+ 'pcapencapsulation': 'DLT_EN10MB',
+ 'pcapmagic': '0xA1B2C3D4',
+ 'snaplen': 65535,
+ 'totsecs': 2,
+ 'version_major': 2,
+ 'version_minor': 4
+}
+</code></pre>
 
 <p>The script accepts a pcap file as input and natively parse its structure to calculate required values. As can be seen in the output file, it shows a quick summary of statistics which could be quite useful for scripting and automation or to have a quick overview of input file. You can get this script <a href="https://gist.github.com/7h3rAm/225e36ad59729000e00e7814e9644622">here</a>.</p>
 

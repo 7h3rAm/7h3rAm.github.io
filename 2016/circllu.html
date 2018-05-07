@@ -34,188 +34,186 @@
                   <a href="/2016/flareon2014-15.html">&lt;&lt;</a> published on 12/Mar/2016<br/>
                 </p>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             <div class="post-content">
-          <p>The <a href="https://www.circl.lu/services/cve-search/#public-web-api-of-cve-search">circl.lu</a> API is really useful for querying CVE information. I wrote a few methods to query the API and get this information:</p>
+          <pre><code>from pprint import pprint
+import requests
+import json
 
-<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
-<span class="kn">import</span> <span class="nn">requests</span>
-<span class="kn">import</span> <span class="nn">json</span>
-
-<span class="k">def</span> <span class="nf">circllu_cveinfo</span><span class="p">(</span><span class="n">cve</span><span class="o">=</span><span class="s2">&quot;cve-2015-1234&quot;</span><span class="p">):</span>
-  <span class="n">customheaders</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="s2">&quot;Some script trying to be nice :)&quot;</span>
-  <span class="p">}</span>
-  <span class="k">try</span><span class="p">:</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://cve.circl.lu/api/cve/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">cve</span><span class="o">.</span><span class="n">upper</span><span class="p">()),</span> <span class="n">headers</span><span class="o">=</span><span class="n">customheaders</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
-      <span class="n">reply</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-      <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">reply</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">{</span>
-          <span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
-          <span class="s2">&quot;requesturl&quot;</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
-          <span class="s2">&quot;cve&quot;</span><span class="p">:</span> <span class="n">cve</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span>
-          <span class="s2">&quot;summary&quot;</span><span class="p">:</span> <span class="n">reply</span><span class="p">[</span><span class="s2">&quot;summary&quot;</span><span class="p">],</span>
-          <span class="s2">&quot;references&quot;</span><span class="p">:</span> <span class="n">reply</span><span class="p">[</span><span class="s2">&quot;references&quot;</span><span class="p">]</span>
-        <span class="p">}</span>
-    <span class="k">return</span> <span class="p">{</span>
-      <span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
-      <span class="s2">&quot;reason&quot;</span><span class="p">:</span> <span class="s2">&quot;expected HTTP 200 status code but got </span><span class="si">%d</span><span class="s2"> instead for requesturl&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span>
-    <span class="p">}</span>
-  <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-    <span class="k">return</span> <span class="p">{</span>
-      <span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
-      <span class="s2">&quot;exception&quot;</span><span class="p">:</span> <span class="n">ex</span><span class="o">.</span><span class="n">message</span>
-    <span class="p">}</span>
+def circllu_cveinfo(cve="cve-2015-1234"):
+  customheaders = {
+    "User-Agent": "Some script trying to be nice :)"
+  }
+  try:
+    res = requests.get("http://cve.circl.lu/api/cve/%s" % (cve.upper()), headers=customheaders, verify=False)
+    if res.status_code == 200:
+      reply = res.json()
+      if len(reply):
+        return {
+          "success": True,
+          "requesturl": res.url,
+          "cve": cve.upper(),
+          "summary": reply["summary"],
+          "references": reply["references"]
+        }
+    return {
+      "success": False,
+      "reason": "expected HTTP 200 status code but got %d instead for requesturl" % (res.status_code)
+    }
+  except Exception as ex:
+    return {
+      "success": False,
+      "exception": ex.message
+    }
 
 
-<span class="k">def</span> <span class="nf">circllu_cverecent</span><span class="p">(</span><span class="n">maxcves</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-  <span class="n">customheaders</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="s2">&quot;Some script trying to be nice :)&quot;</span>
-  <span class="p">}</span>
-  <span class="k">try</span><span class="p">:</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://cve.circl.lu/api/last&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">customheaders</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
-      <span class="n">reply</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
-      <span class="n">cves</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-      <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">reply</span><span class="p">[</span><span class="s2">&quot;results&quot;</span><span class="p">]:</span>
-        <span class="k">if</span> <span class="s2">&quot;REJECT&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">node</span><span class="p">[</span><span class="s2">&quot;summary&quot;</span><span class="p">]:</span>
-          <span class="n">cves</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
-      <span class="k">return</span> <span class="p">{</span>
-        <span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
-        <span class="s2">&quot;requesturl&quot;</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
-        <span class="s2">&quot;cves&quot;</span><span class="p">:</span> <span class="n">cves</span> <span class="k">if</span> <span class="n">maxcves</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">cves</span><span class="p">[:</span><span class="n">maxcves</span><span class="p">]</span>
-      <span class="p">}</span>
-    <span class="k">return</span> <span class="p">{</span>
-      <span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
-      <span class="s2">&quot;reason&quot;</span><span class="p">:</span> <span class="s2">&quot;expected HTTP 200 status code but got </span><span class="si">%d</span><span class="s2"> instead for requesturl&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span>
-    <span class="p">}</span>
-  <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-    <span class="k">return</span> <span class="p">{</span>
-      <span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
-      <span class="s2">&quot;exception&quot;</span><span class="p">:</span> <span class="n">ex</span><span class="o">.</span><span class="n">message</span>
-    <span class="p">}</span>
+def circllu_cverecent(maxcves=0):
+  customheaders = {
+    "User-Agent": "Some script trying to be nice :)"
+  }
+  try:
+    res = requests.get("http://cve.circl.lu/api/last", headers=customheaders, verify=False)
+    if res.status_code == 200:
+      reply = json.loads(res.content)
+      cves = list()
+      for node in reply["results"]:
+        if "REJECT" not in node["summary"]:
+          cves.append(node["id"])
+      return {
+        "success": True,
+        "requesturl": res.url,
+        "cves": cves if maxcves == 0 else cves[:maxcves]
+      }
+    return {
+      "success": False,
+      "reason": "expected HTTP 200 status code but got %d instead for requesturl" % (res.status_code)
+    }
+  except Exception as ex:
+    return {
+      "success": False,
+      "exception": ex.message
+    }
 
 
-<span class="k">def</span> <span class="nf">circllu_cvesearch</span><span class="p">(</span><span class="n">vendorproduct</span><span class="o">=</span><span class="s2">&quot;Adobe Reader&quot;</span><span class="p">,</span> <span class="n">maxcves</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-  <span class="k">if</span> <span class="ow">not</span> <span class="n">vendorproduct</span> <span class="ow">or</span> <span class="n">vendorproduct</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-    <span class="k">return</span> <span class="p">{</span>
-      <span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
-      <span class="s2">&quot;usage&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;vendor&gt; &lt;product&gt;&quot;</span>
-    <span class="p">}</span>
-  <span class="n">customheaders</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="s2">&quot;Some script trying to be nice :)&quot;</span>
-  <span class="p">}</span>
-  <span class="k">try</span><span class="p">:</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://cve.circl.lu/api/search/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">vendorproduct</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">))),</span> <span class="n">headers</span><span class="o">=</span><span class="n">customheaders</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
-      <span class="n">reply</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
-      <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">reply</span><span class="p">):</span>
-        <span class="n">cves</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">reply</span><span class="p">:</span>
-          <span class="k">if</span> <span class="s2">&quot;REJECT&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">node</span><span class="p">[</span><span class="s2">&quot;summary&quot;</span><span class="p">]:</span>
-            <span class="n">cves</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
-        <span class="k">return</span> <span class="p">{</span>
-          <span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
-          <span class="s2">&quot;requesturl&quot;</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
-          <span class="s2">&quot;vendorproduct&quot;</span><span class="p">:</span> <span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">vendorproduct</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">))</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span>
-          <span class="s2">&quot;cves&quot;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">cves</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">maxcves</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">cves</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)[:</span><span class="n">maxcves</span><span class="p">]</span>
-        <span class="p">}</span>
-    <span class="k">return</span> <span class="p">{</span>
-      <span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
-      <span class="s2">&quot;reason&quot;</span><span class="p">:</span> <span class="s2">&quot;expected HTTP 200 status code but got </span><span class="si">%d</span><span class="s2"> instead for requesturl&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span>
-    <span class="p">}</span>
-  <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-    <span class="k">return</span> <span class="p">{</span>
-      <span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
-      <span class="s2">&quot;exception&quot;</span><span class="p">:</span> <span class="n">ex</span><span class="o">.</span><span class="n">message</span>
-    <span class="p">}</span>
+def circllu_cvesearch(vendorproduct="Adobe Reader", maxcves=0):
+  if not vendorproduct or vendorproduct == "":
+    return {
+      "success": False,
+      "usage": "&lt;vendor&gt; &lt;product&gt;"
+    }
+  customheaders = {
+    "User-Agent": "Some script trying to be nice :)"
+  }
+  try:
+    res = requests.get("http://cve.circl.lu/api/search/%s" % ("/".join(vendorproduct.lower().split(" "))), headers=customheaders, verify=False)
+    if res.status_code == 200:
+      reply = json.loads(res.content)
+      if len(reply):
+        cves = list()
+        for node in reply:
+          if "REJECT" not in node["summary"]:
+            cves.append(node["id"])
+        return {
+          "success": True,
+          "requesturl": res.url,
+          "vendorproduct": "/".join(vendorproduct.lower().split(" ")).title(),
+          "cves": sorted(cves, reverse=True) if maxcves == 0 else sorted(cves, reverse=True)[:maxcves]
+        }
+    return {
+      "success": False,
+      "reason": "expected HTTP 200 status code but got %d instead for requesturl" % (res.status_code)
+    }
+  except Exception as ex:
+    return {
+      "success": False,
+      "exception": ex.message
+    }
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-  <span class="n">pprint</span><span class="p">(</span><span class="n">circllu_cveinfo</span><span class="p">())</span>
-  <span class="n">pprint</span><span class="p">(</span><span class="n">circllu_cverecent</span><span class="p">())</span>
-  <span class="n">pprint</span><span class="p">(</span><span class="n">circllu_cvesearch</span><span class="p">())</span>
-</code></pre></div>
+if __name__ == "__main__":
+  pprint(circllu_cveinfo())
+  pprint(circllu_cverecent())
+  pprint(circllu_cvesearch())
+</code></pre>
 
 <p>Let&#8217;s give this script a test run:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="o">{</span>
- <span class="s1">&#39;cve&#39;</span>: <span class="s1">&#39;CVE-2015-1234&#39;</span>,
- <span class="s1">&#39;references&#39;</span>: <span class="o">[</span>u<span class="s1">&#39;https://codereview.chromium.org/1016193003&#39;</span>,
-                u<span class="s1">&#39;https://code.google.com/p/chromium/issues/detail?id=468936&#39;</span>,
-                u<span class="s1">&#39;http://www.ubuntu.com/usn/USN-2556-1&#39;</span>,
-                u<span class="s1">&#39;http://www.securitytracker.com/id/1032012&#39;</span>,
-                u<span class="s1">&#39;http://rhn.redhat.com/errata/RHSA-2015-0778.html&#39;</span>,
-                u<span class="s1">&#39;http://lists.opensuse.org/opensuse-security-announce/2015-04/msg00004.html&#39;</span>,
-                u<span class="s1">&#39;http://googlechromereleases.blogspot.com/2015/04/stable-channel-update.html&#39;</span><span class="o">]</span>,
- <span class="s1">&#39;requesturl&#39;</span>: u<span class="s1">&#39;http://cve.circl.lu/api/cve/CVE-2015-1234&#39;</span>,
- <span class="s1">&#39;success&#39;</span>: True,
- <span class="s1">&#39;summary&#39;</span>: u<span class="s1">&#39;Race condition in gpu/command_buffer/service/gles2_cmd_decoder.cc in Google Chrome before 41.0.2272.118 allows remote attackers to cause a denial of service (buffer overflow) or possibly have unspecified other impact by manipulating OpenGL ES commands.&#39;</span>
-<span class="o">}</span>
+<pre><code>{
+ 'cve': 'CVE-2015-1234',
+ 'references': [u'https://codereview.chromium.org/1016193003',
+                u'https://code.google.com/p/chromium/issues/detail?id=468936',
+                u'http://www.ubuntu.com/usn/USN-2556-1',
+                u'http://www.securitytracker.com/id/1032012',
+                u'http://rhn.redhat.com/errata/RHSA-2015-0778.html',
+                u'http://lists.opensuse.org/opensuse-security-announce/2015-04/msg00004.html',
+                u'http://googlechromereleases.blogspot.com/2015/04/stable-channel-update.html'],
+ 'requesturl': u'http://cve.circl.lu/api/cve/CVE-2015-1234',
+ 'success': True,
+ 'summary': u'Race condition in gpu/command_buffer/service/gles2_cmd_decoder.cc in Google Chrome before 41.0.2272.118 allows remote attackers to cause a denial of service (buffer overflow) or possibly have unspecified other impact by manipulating OpenGL ES commands.'
+}
 
-<span class="o">{</span>
- <span class="s1">&#39;cves&#39;</span>: <span class="o">[</span>u<span class="s1">&#39;CVE-2016-2427&#39;</span>,
-          u<span class="s1">&#39;CVE-2016-2426&#39;</span>,
-          u<span class="s1">&#39;CVE-2016-2425&#39;</span>,
-          u<span class="s1">&#39;CVE-2016-2424&#39;</span>,
-          u<span class="s1">&#39;CVE-2016-2423&#39;</span>,
-          u<span class="s1">&#39;CVE-2016-2422&#39;</span>,
-          u<span class="s1">&#39;CVE-2016-2421&#39;</span>,
-          u<span class="s1">&#39;CVE-2016-2420&#39;</span>,
-          u<span class="s1">&#39;CVE-2016-2419&#39;</span>,
-          u<span class="s1">&#39;CVE-2016-2418&#39;</span>,
-          u<span class="s1">&#39;CVE-2016-2417&#39;</span>,
-          u<span class="s1">&#39;CVE-2016-2416&#39;</span>,
-          u<span class="s1">&#39;CVE-2016-2415&#39;</span>,
-          u<span class="s1">&#39;CVE-2016-2414&#39;</span>,
-          u<span class="s1">&#39;CVE-2016-2413&#39;</span>,
-          u<span class="s1">&#39;CVE-2016-2412&#39;</span>,
-          u<span class="s1">&#39;CVE-2016-2411&#39;</span>,
-          u<span class="s1">&#39;CVE-2016-2410&#39;</span>,
-          u<span class="s1">&#39;CVE-2016-2409&#39;</span>,
-          u<span class="s1">&#39;CVE-2016-1503&#39;</span>,
-          u<span class="s1">&#39;CVE-2016-0850&#39;</span>,
-          u<span class="s1">&#39;CVE-2016-0849&#39;</span>,
-          u<span class="s1">&#39;CVE-2016-0848&#39;</span>,
-          u<span class="s1">&#39;CVE-2016-0847&#39;</span>,
-          u<span class="s1">&#39;CVE-2016-0846&#39;</span>,
-          u<span class="s1">&#39;CVE-2016-0844&#39;</span>,
-          u<span class="s1">&#39;CVE-2016-0843&#39;</span>,
-          u<span class="s1">&#39;CVE-2016-0842&#39;</span>,
-          u<span class="s1">&#39;CVE-2016-0841&#39;</span>,
-          u<span class="s1">&#39;CVE-2016-0840&#39;</span><span class="o">]</span>,
- <span class="s1">&#39;requesturl&#39;</span>: u<span class="s1">&#39;http://cve.circl.lu/api/last&#39;</span>,
- <span class="s1">&#39;success&#39;</span>: True
-<span class="o">}</span>
+{
+ 'cves': [u'CVE-2016-2427',
+          u'CVE-2016-2426',
+          u'CVE-2016-2425',
+          u'CVE-2016-2424',
+          u'CVE-2016-2423',
+          u'CVE-2016-2422',
+          u'CVE-2016-2421',
+          u'CVE-2016-2420',
+          u'CVE-2016-2419',
+          u'CVE-2016-2418',
+          u'CVE-2016-2417',
+          u'CVE-2016-2416',
+          u'CVE-2016-2415',
+          u'CVE-2016-2414',
+          u'CVE-2016-2413',
+          u'CVE-2016-2412',
+          u'CVE-2016-2411',
+          u'CVE-2016-2410',
+          u'CVE-2016-2409',
+          u'CVE-2016-1503',
+          u'CVE-2016-0850',
+          u'CVE-2016-0849',
+          u'CVE-2016-0848',
+          u'CVE-2016-0847',
+          u'CVE-2016-0846',
+          u'CVE-2016-0844',
+          u'CVE-2016-0843',
+          u'CVE-2016-0842',
+          u'CVE-2016-0841',
+          u'CVE-2016-0840'],
+ 'requesturl': u'http://cve.circl.lu/api/last',
+ 'success': True
+}
 
-<span class="o">{</span>
- <span class="s1">&#39;cves&#39;</span>: <span class="o">[</span>u<span class="s1">&#39;CVE-2011-4373&#39;</span>,
-          u<span class="s1">&#39;CVE-2011-4372&#39;</span>,
-          u<span class="s1">&#39;CVE-2011-4371&#39;</span>,
-          u<span class="s1">&#39;CVE-2011-4370&#39;</span>,
-          u<span class="s1">&#39;CVE-2010-1278&#39;</span>,
-          u<span class="s1">&#39;CVE-2009-3459&#39;</span>,
-          u<span class="s1">&#39;CVE-2009-1600&#39;</span>,
-          u<span class="s1">&#39;CVE-2009-1599&#39;</span>,
-          u<span class="s1">&#39;CVE-2009-1598&#39;</span>,
-          u<span class="s1">&#39;CVE-2009-1597&#39;</span>,
-          u<span class="s1">&#39;CVE-2009-1493&#39;</span>,
-          u<span class="s1">&#39;CVE-2009-1492&#39;</span>,
-          u<span class="s1">&#39;CVE-2009-1062&#39;</span>,
-          u<span class="s1">&#39;CVE-2009-1061&#39;</span>,
-          u<span class="s1">&#39;CVE-2009-0927&#39;</span>,
-          u<span class="s1">&#39;CVE-2009-0658&#39;</span>,
-          u<span class="s1">&#39;CVE-2009-0193&#39;</span>,
-          u<span class="s1">&#39;CVE-2008-4817&#39;</span>,
-          u<span class="s1">&#39;CVE-2008-4816&#39;</span>,
-          u<span class="s1">&#39;CVE-2008-4815&#39;</span>,
-          u<span class="s1">&#39;CVE-2008-4814&#39;</span>,
-          u<span class="s1">&#39;CVE-2008-4813&#39;</span>,
-          u<span class="s1">&#39;CVE-2008-4812&#39;</span><span class="o">]</span>,
- <span class="s1">&#39;requesturl&#39;</span>: u<span class="s1">&#39;http://cve.circl.lu/api/search/adobe/reader&#39;</span>,
- <span class="s1">&#39;success&#39;</span>: True,
- <span class="s1">&#39;vendorproduct&#39;</span>: <span class="s1">&#39;Adobe/Reader&#39;</span>
-<span class="o">}</span>
-</code></pre></div>
+{
+ 'cves': [u'CVE-2011-4373',
+          u'CVE-2011-4372',
+          u'CVE-2011-4371',
+          u'CVE-2011-4370',
+          u'CVE-2010-1278',
+          u'CVE-2009-3459',
+          u'CVE-2009-1600',
+          u'CVE-2009-1599',
+          u'CVE-2009-1598',
+          u'CVE-2009-1597',
+          u'CVE-2009-1493',
+          u'CVE-2009-1492',
+          u'CVE-2009-1062',
+          u'CVE-2009-1061',
+          u'CVE-2009-0927',
+          u'CVE-2009-0658',
+          u'CVE-2009-0193',
+          u'CVE-2008-4817',
+          u'CVE-2008-4816',
+          u'CVE-2008-4815',
+          u'CVE-2008-4814',
+          u'CVE-2008-4813',
+          u'CVE-2008-4812'],
+ 'requesturl': u'http://cve.circl.lu/api/search/adobe/reader',
+ 'success': True,
+ 'vendorproduct': 'Adobe/Reader'
+}
+</code></pre>
 
 <p>The <code>circllu_cveinfo</code> method allows querying the API for a specific CVE while returning a summary and references if the CVE is found in the database. The <code>circllu_cverecent</code> returns a list of recently requested CVEs. And finally, the <code>circllu_cvesearch</code> method allows you to search for a product or vendor and get listing of all reported vulnerabilities for the same. You can get this script <a href="https://gist.github.com/7h3rAm/812eff486865f30c0da5c4a9d41ff73e">here</a>.</p>
 

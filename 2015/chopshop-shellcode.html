@@ -34,9 +34,7 @@
                   <a href="/2014/flowinspect.html">&lt&lt;</a> published on 12/Mar/2015<a href="/2015/ebctf-bin100.html"> &gt;&gt;</i></a><br/>
                 </p>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               <div class="post-content">
-          <p>Around an year ago I submitted a pull request to the <a href="https://github.com/MITRECND/chopshop">ChopShop</a> project from <a href="https://github.com/MITRECND">MITRECND</a>. This request included a module that enabled shellcode detection for TCP streams and UDP packets. In this post I&#8217;ll show how to use this module to identify shellcode within network streams. Here&#8217;s the project description:</p>
-
-<blockquote>
+          <blockquote>
   <p>ChopShop is a MITRE developed framework to aid analysts in the creation and execution of pynids based decoders and detectors of APT tradecraft.</p>
 </blockquote>
 
@@ -46,41 +44,41 @@
 
 <p>To invoke ChopShop you need to provide a pcapfile as input and then a list of modules to be invoked. Each module can be provided respective arguments as well. Let&#8217;s have a look at the command line invocation and usage of the shellcode module:</p>
 
-<div class="codehilite"><pre><span></span><code>$ ./chopshop -f ~/toolbox/testfiles/pcaps/shellcode/shellcode-winexec-calc.pcap <span class="s2">&quot;shellcode_detector -xp&quot;</span>
+<pre><code>$ ./chopshop -f ~/toolbox/testfiles/pcaps/shellcode/shellcode-winexec-calc.pcap "shellcode_detector -xp"
 Starting ChopShop
 Initializing Modules ...
-    Initializing module <span class="s1">&#39;shellcode_detector&#39;</span>
+    Initializing module 'shellcode_detector'
 Running Modules ...
-<span class="o">[</span><span class="m">2015</span>-03-12 <span class="m">23</span>:31:31 IST<span class="o">]</span>  TCP <span class="m">56</span>.86.97.100:57416 - <span class="m">89</span>.86.105.74:80 <span class="o">[</span>NEW<span class="o">]</span>
-<span class="o">[</span><span class="m">2015</span>-03-12 <span class="m">23</span>:31:31 IST<span class="o">]</span>  TCP <span class="m">56</span>.86.97.100:57416 -&gt; <span class="m">89</span>.86.105.74:80 <span class="o">(</span>CTS: 123B<span class="o">)</span>
-<span class="o">[</span><span class="m">2015</span>-03-12 <span class="m">23</span>:31:31 IST<span class="o">]</span>  TCP <span class="m">56</span>.86.97.100:57416 &lt;- <span class="m">89</span>.86.105.74:80 <span class="o">(</span>STC: 227B<span class="o">)</span>
-<span class="o">[</span><span class="m">2015</span>-03-12 <span class="m">23</span>:31:31 IST<span class="o">]</span>  TCP <span class="m">56</span>.86.97.100:57416 - <span class="m">89</span>.86.105.74:80 contains shellcode in STC<span class="o">[</span><span class="m">0</span>:227<span class="o">]</span> @ offset <span class="m">107</span>
+[2015-03-12 23:31:31 IST]  TCP 56.86.97.100:57416 - 89.86.105.74:80 [NEW]
+[2015-03-12 23:31:31 IST]  TCP 56.86.97.100:57416 -&gt; 89.86.105.74:80 (CTS: 123B)
+[2015-03-12 23:31:31 IST]  TCP 56.86.97.100:57416 &lt;- 89.86.105.74:80 (STC: 227B)
+[2015-03-12 23:31:31 IST]  TCP 56.86.97.100:57416 - 89.86.105.74:80 contains shellcode in STC[0:227] @ offset 107
 
-<span class="m">0000000</span>: e8 <span class="m">44</span> <span class="m">00</span> <span class="m">00</span> <span class="m">00</span> 8b <span class="m">45</span> 3c 8b 7c <span class="m">05</span> <span class="m">78</span> <span class="m">01</span> ef 8b 4f  <span class="p">|</span>.D....E&lt;.<span class="p">|</span>.x...O<span class="p">|</span>
-<span class="m">0000010</span>: <span class="m">18</span> 8b 5f <span class="m">20</span> <span class="m">01</span> eb <span class="m">49</span> 8b <span class="m">34</span> 8b <span class="m">01</span> ee <span class="m">31</span> c0 <span class="m">99</span> ac  <span class="p">|</span>.._ ..I.4...1...<span class="p">|</span>
-<span class="m">0000020</span>: <span class="m">84</span> c0 <span class="m">74</span> <span class="m">07</span> c1 ca 0d <span class="m">01</span> c2 eb f4 3b <span class="m">54</span> <span class="m">24</span> <span class="m">04</span> <span class="m">75</span>  <span class="p">|</span>..t........<span class="p">;</span>T$.u<span class="p">|</span>
-<span class="m">0000030</span>: e5 8b 5f <span class="m">24</span> <span class="m">01</span> eb <span class="m">66</span> 8b 0c 4b 8b 5f 1c <span class="m">01</span> eb 8b  <span class="p">|</span>.._$..f..K._....<span class="p">|</span>
-<span class="m">0000040</span>: 1c 8b <span class="m">01</span> eb <span class="m">89</span> 5c <span class="m">24</span> <span class="m">04</span> c3 5f <span class="m">31</span> f6 <span class="m">60</span> <span class="m">56</span> <span class="m">64</span> 8b  <span class="p">|</span>.....<span class="se">\$</span>.._1.<span class="sb">`</span>Vd.<span class="p">|</span>
-<span class="m">0000050</span>: <span class="m">46</span> <span class="m">30</span> 8b <span class="m">40</span> 0c 8b <span class="m">70</span> 1c ad 8b <span class="m">68</span> <span class="m">08</span> <span class="m">89</span> f8 <span class="m">83</span> c0  <span class="p">|</span>F0.@..p...h.....<span class="p">|</span>
-<span class="m">0000060</span>: 6a <span class="m">50</span> <span class="m">68</span> f0 8a <span class="m">04</span> 5f <span class="m">68</span> <span class="m">98</span> fe 8a 0e <span class="m">57</span> ff e7 <span class="m">63</span>  <span class="p">|</span>jPh..._h....W..c<span class="p">|</span>
-<span class="m">0000070</span>: <span class="m">61</span> 6c <span class="m">63</span> 2e <span class="m">65</span> <span class="m">78</span> <span class="m">65</span> <span class="m">00</span>                          <span class="p">|</span>alc.exe.        <span class="p">|</span>
+0000000: e8 44 00 00 00 8b 45 3c 8b 7c 05 78 01 ef 8b 4f  |.D....E&lt;.|.x...O|
+0000010: 18 8b 5f 20 01 eb 49 8b 34 8b 01 ee 31 c0 99 ac  |.._ ..I.4...1...|
+0000020: 84 c0 74 07 c1 ca 0d 01 c2 eb f4 3b 54 24 04 75  |..t........;T$.u|
+0000030: e5 8b 5f 24 01 eb 66 8b 0c 4b 8b 5f 1c 01 eb 8b  |.._$..f..K._....|
+0000040: 1c 8b 01 eb 89 5c 24 04 c3 5f 31 f6 60 56 64 8b  |.....\$.._1.`Vd.|
+0000050: 46 30 8b 40 0c 8b 70 1c ad 8b 68 08 89 f8 83 c0  |F0.@..p...h.....|
+0000060: 6a 50 68 f0 8a 04 5f 68 98 fe 8a 0e 57 ff e7 63  |jPh..._h....W..c|
+0000070: 61 6c 63 2e 65 78 65 00                          |alc.exe.        |
 
 
-UINT WINAPI WinExec <span class="o">(</span>
-     <span class="nv">LPCSTR</span> <span class="o">=</span> <span class="nv">0xc00f6f10</span> <span class="o">=</span>&gt;
-           <span class="o">=</span> <span class="s2">&quot;calc.exe&quot;</span><span class="p">;</span>
-     UINT <span class="nv">uCmdShow</span> <span class="o">=</span> <span class="m">0</span><span class="p">;</span>
-<span class="o">)</span> <span class="o">=</span>  0x20<span class="p">;</span>
-LPTOP_LEVEL_EXCEPTION_FILTER SetUnhandledExceptionFilter <span class="o">(</span>
-     <span class="nv">LPTOP_LEVEL_EXCEPTION_FILTER</span> <span class="o">=</span> <span class="nv">0xc00f7190</span> <span class="o">=</span>&gt;
-         none<span class="p">;</span>
-<span class="o">)</span> <span class="o">=</span>  0x7c81cdda<span class="p">;</span>
+UINT WINAPI WinExec (
+     LPCSTR = 0xc00f6f10 =&gt;
+           = "calc.exe";
+     UINT uCmdShow = 0;
+) =  0x20;
+LPTOP_LEVEL_EXCEPTION_FILTER SetUnhandledExceptionFilter (
+     LPTOP_LEVEL_EXCEPTION_FILTER = 0xc00f7190 =&gt;
+         none;
+) =  0x7c81cdda;
 
 Shutting Down Modules ...
     Shutting Down shellcode_detector
 Module Shutdown Complete ...
 ChopShop Complete
-</code></pre></div>
+</code></pre>
 
 <p>In the above example, ChopShop was invoked to execute the <code>shellcode_detector</code> module with its <code>-p</code> and <code>-x</code> arguments. The output confirms that shellcode was found in the STC stream of input pcap at offset 107. The module then display a hexdump of shellcode bytes as well as a profiled output highlighting the Windows API calls, arguments and their return types. This output is extremely useful as it tells that the shellcode will spawn a <code>calc.exe</code> process if it is successfully deployed on the victim system.</p>
 

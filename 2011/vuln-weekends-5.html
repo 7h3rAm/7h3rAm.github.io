@@ -68,37 +68,37 @@ MIT <code>krb5-appl</code> has been reported to contain a vulnerability that cou
 
 <p>The vulnerability allows a pre-authentication memory corruption error that could be triggered remotely by submitting an arbitrarily long encryption key to the target system. Specifically, the vulnerability exists within the <code>encrypt_keyid()</code> function of the <code>encrypt.c</code> source file of the affected software:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="k">static</span> <span class="kt">void</span>
-<span class="nf">encrypt_keyid</span><span class="p">(</span><span class="k">struct</span> <span class="n">key_info</span> <span class="o">*</span><span class="n">kp</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">keyid</span><span class="p">,</span> <span class="kt">int</span> <span class="n">len</span><span class="p">)</span>
-<span class="p">{</span>
-   <span class="p">...</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">((</span><span class="n">len</span> <span class="o">!=</span> <span class="n">kp</span><span class="o">-&gt;</span><span class="n">keylen</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">memcmp</span><span class="p">(</span><span class="n">keyid</span><span class="p">,</span><span class="n">kp</span><span class="o">-&gt;</span><span class="n">keyid</span><span class="p">,</span><span class="n">len</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
-    <span class="cm">/*</span>
-<span class="cm">     * Length or contents are different</span>
-<span class="cm">     */</span>
-    <span class="n">kp</span><span class="o">-&gt;</span><span class="n">keylen</span> <span class="o">=</span> <span class="n">len</span><span class="p">;</span>
-    <span class="n">memcpy</span><span class="p">(</span><span class="n">kp</span><span class="o">-&gt;</span><span class="n">keyid</span><span class="p">,</span><span class="n">keyid</span><span class="p">,</span> <span class="n">len</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">ep</span><span class="o">-&gt;</span><span class="n">keyid</span><span class="p">)</span>
-        <span class="p">(</span><span class="kt">void</span><span class="p">)(</span><span class="o">*</span><span class="n">ep</span><span class="o">-&gt;</span><span class="n">keyid</span><span class="p">)(</span><span class="n">dir</span><span class="p">,</span> <span class="n">kp</span><span class="o">-&gt;</span><span class="n">keyid</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">kp</span><span class="o">-&gt;</span><span class="n">keylen</span><span class="p">);</span>
-    <span class="p">...</span>
-<span class="p">}</span>
-</code></pre></div>
+<pre><code>static void
+encrypt_keyid(struct key_info *kp, unsigned char *keyid, int len)
+{
+   ...
+    } else if ((len != kp-&gt;keylen) || (memcmp(keyid,kp-&gt;keyid,len) != 0)) {
+    /*
+     * Length or contents are different
+     */
+    kp-&gt;keylen = len;
+    memcpy(kp-&gt;keyid,keyid, len);
+    if (ep-&gt;keyid)
+        (void)(*ep-&gt;keyid)(dir, kp-&gt;keyid, &amp;kp-&gt;keylen);
+    ...
+}
+</code></pre>
 
 <p>The vulnerable source file defines the following structure to keep record of the encryption state:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="cp">#define   MAXKEYLEN 64</span>
+<pre><code>#define   MAXKEYLEN 64
 
-<span class="k">static</span> <span class="k">struct</span> <span class="n">key_info</span> <span class="p">{</span>
-    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">keyid</span><span class="p">[</span><span class="n">MAXKEYLEN</span><span class="p">];</span>
-    <span class="kt">int</span> <span class="n">keylen</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">dir</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="o">*</span><span class="n">modep</span><span class="p">;</span>
-    <span class="n">Encryptions</span> <span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">getcrypt</span><span class="p">)();</span>
-<span class="p">}</span> <span class="n">ki</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="p">{</span> <span class="p">{</span> <span class="mi">0</span> <span class="p">},</span> <span class="mi">0</span><span class="p">,</span> <span class="n">DIR_ENCRYPT</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">encrypt_mode</span><span class="p">,</span> <span class="n">findencryption</span> <span class="p">},</span>
-    <span class="p">{</span> <span class="p">{</span> <span class="mi">0</span> <span class="p">},</span> <span class="mi">0</span><span class="p">,</span> <span class="n">DIR_DECRYPT</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">decrypt_mode</span><span class="p">,</span> <span class="n">finddecryption</span> <span class="p">},</span>
-<span class="p">};</span>
-</code></pre></div>
+static struct key_info {
+    unsigned char keyid[MAXKEYLEN];
+    int keylen;
+    int dir;
+    int *modep;
+    Encryptions *(*getcrypt)();
+} ki[2] = {
+    { { 0 }, 0, DIR_ENCRYPT, &amp;encrypt_mode, findencryption },
+    { { 0 }, 0, DIR_DECRYPT, &amp;decrypt_mode, finddecryption },
+};
+</code></pre>
 
 <p>However, the vulnerable function fails to impose sufficient boundary restrictions on user-supplied encryption keys and copies those into <code>keyinfo</code> structure without honoring the <code>MAXKEYLEN</code> constant via a <code>memcpy</code> operation. This could cause a heap-based buffer overflow error, leading to the memory corruption error.</p>
 
@@ -135,31 +135,31 @@ MIT <code>krb5-appl</code> has been reported to contain a vulnerability that cou
 <p><strong>Details</strong>:
 VLC Media Player has been reported to contain a vulnerability that could allow a remote attacker to execute arbitrary code on the targeted system. The vulnerability is introduced by the <code>libty_plugin</code> that helps parsing of <code>.ty</code> files.</p>
 
-<div class="codehilite"><pre><span></span><code><span class="k">struct</span> <span class="n">demux_sys_t</span>
-<span class="p">{</span>
-<span class="p">...</span>
-<span class="n">ty_rec_hdr_t</span>    <span class="o">*</span><span class="n">rec_hdrs</span><span class="p">;</span>          <span class="cm">/* record headers array */</span>
-<span class="kt">int</span>             <span class="n">i_cur_rec</span><span class="p">;</span>          <span class="cm">/* current record in this chunk */</span>
-<span class="kt">int</span>             <span class="n">i_num_recs</span><span class="p">;</span>         <span class="cm">/* number of recs in this chunk */</span>
-<span class="p">...</span>
-<span class="p">};</span>
-</code></pre></div>
+<pre><code>struct demux_sys_t
+{
+...
+ty_rec_hdr_t    *rec_hdrs;          /* record headers array */
+int             i_cur_rec;          /* current record in this chunk */
+int             i_num_recs;         /* number of recs in this chunk */
+...
+};
+</code></pre>
 
 <p>The vulnerability exists due to an implementation flaw within the <code>get_chunk_header()</code> function of the <code>ty.c</code> source file of the vulnerable plugin. The vulnerable plugin improperly handles the record headers array, <code>rec_hdrs</code>, corrupting heap structures in the memory.</p>
 
-<div class="codehilite"><pre><span></span><code><span class="n">diff</span> <span class="o">--</span><span class="n">git</span> <span class="n">a</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">demux</span><span class="o">/</span><span class="n">ty</span><span class="p">.</span><span class="n">c</span> <span class="n">b</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">demux</span><span class="o">/</span><span class="n">ty</span><span class="p">.</span><span class="n">c</span>
-<span class="n">index</span> <span class="n">e916b41</span><span class="p">..</span><span class="n">b181a6a</span> <span class="mi">100644</span> <span class="p">(</span><span class="n">file</span><span class="p">)</span>
+<pre><code>diff --git a/modules/demux/ty.c b/modules/demux/ty.c
+index e916b41..b181a6a 100644 (file)
 
-<span class="o">---</span> <span class="n">a</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">demux</span><span class="o">/</span><span class="n">ty</span><span class="p">.</span><span class="n">c</span>
-<span class="o">+++</span> <span class="n">b</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">demux</span><span class="o">/</span><span class="n">ty</span><span class="p">.</span><span class="n">c</span>
-<span class="err">@@</span> <span class="o">-</span><span class="mi">1887</span><span class="p">,</span><span class="mi">6</span> <span class="o">+</span><span class="mi">1887</span><span class="p">,</span><span class="mi">7</span> <span class="err">@@</span> <span class="k">static</span> <span class="kt">int</span> <span class="n">get_chunk_header</span><span class="p">(</span><span class="n">demux_t</span> <span class="o">*</span><span class="n">p_demux</span><span class="p">)</span>
-     <span class="cm">/*msg_Dbg( p_demux, &quot;chunk has %d records&quot;, i_num_recs );*/</span>
+--- a/modules/demux/ty.c
++++ b/modules/demux/ty.c
+@@ -1887,6 +1887,7 @@ static int get_chunk_header(demux_t *p_demux)
+     /*msg_Dbg( p_demux, "chunk has %d records", i_num_recs );*/
 
-     <span class="n">free</span><span class="p">(</span><span class="n">p_sys</span><span class="o">-&gt;</span><span class="n">rec_hdrs</span><span class="p">);</span>
-<span class="o">+</span>    <span class="n">p_sys</span><span class="o">-&gt;</span><span class="n">rec_hdrs</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-     <span class="cm">/* skip past the 4 bytes we &quot;peeked&quot; earlier */</span>
-     <span class="n">stream_Read</span><span class="p">(</span> <span class="n">p_demux</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">4</span> <span class="p">);</span>
-</code></pre></div>
+     free(p_sys-&gt;rec_hdrs);
++    p_sys-&gt;rec_hdrs = NULL;
+     /* skip past the 4 bytes we "peeked" earlier */
+     stream_Read( p_demux-&gt;s, NULL, 4 );
+</code></pre>
 
 <p>Successful exploitation could allow the attacker to leverage the memory corruption error further and execute arbitrary code on the targeted system within the security context of the affected software.</p>
 

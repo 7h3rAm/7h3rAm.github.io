@@ -34,17 +34,7 @@
                   <a href="/2013/malsoftware-reverse-challenge.html">&lt&lt;</a> published on 15/Sep/2013<a href="/2013/regex-to-dotgraph.html"> &gt;&gt;</i></a><br/>
                 </p>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             <div class="post-content">
-          <p>In this post I&#8217;ll try to explain how
-<a href="https://jon.oberheide.org/pynids/">pynids</a> can be combined with
-Python&#8217;s <code>re</code> module to develop a minimal IPS-like tool. In an earlier
-post, <a href="/2013/libnids-pynids.html">Network Stream Reassembly and
-Defragmentation</a>, I talked about how to
-leverage pynids API to create a TCP reassembly module. I would suggest
-you read that post before continuing further since I&#8217;ll be skipping over
-reassembly basics. First let&#8217;s understand the architecture of a very
-basic IPS:</p>
-
-<p><img src="/static/files/minips-arch.png" alt="image" /></p>
+          <p><img src="/static/files/minips-arch.png" alt="image" /></p>
 
 <p>Since it is a prevention system, an IPS has to be placed inline between
 the firewall at the perimeter edge the default gateway of your network.
@@ -77,35 +67,35 @@ optionally drop the connection.</p>
 <p>Before we begin with development, let&#8217;s design the pseudocode for our
 IPS:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="m">1</span>. initialize nids
-<span class="m">2</span>. register udp callback
-<span class="m">3</span>. register tcp callback
-<span class="m">4</span>. invoke nids session
-<span class="m">5</span>. <span class="k">for</span> udp packet:
-  <span class="m">5</span>.1. extract source/destination and identify flow details
-  <span class="m">5</span>.2. extract payload and pass on to inspection engine
-  <span class="m">5</span>.3. <span class="k">if</span> match found:
-    <span class="m">5</span>.3.1 dump source/destination details to output device/file
-    <span class="m">5</span>.3.2 dump match statistics to output device/file
-<span class="m">6</span>. <span class="k">for</span> tcp packet:
-  <span class="m">6</span>.1 identify current tcp state
-  <span class="m">6</span>.2 <span class="k">if</span> new connection:
-    <span class="m">6</span>.2.1 add source/destination to session table
-    <span class="m">6</span>.2.2 request cts/stc data collection from libnids
-  <span class="m">6</span>.3 <span class="k">elif</span> existing connection with data:
-    <span class="m">6</span>.3.1 identify direction
-    <span class="m">6</span>.3.2 extract payload and pass on to inspection engine
-    <span class="m">6</span>.3.3 <span class="k">if</span> match found:
-      <span class="m">6</span>.3.3.1 dump source/destination details to output device/file
-      <span class="m">6</span>.3.3.2 dump match statistics to output device/file
-      <span class="m">6</span>.3.3.3 stop cts/stc data collection
-  <span class="m">6</span>.4 <span class="k">elif</span> existing connection with closing tcp sequence:
-    <span class="m">6</span>.4.1 stop cts/stc data collection
-<span class="m">7</span>. <span class="k">for</span> each inspection request:
-  <span class="m">7</span>.1 match user-supplied regex over input data
-  <span class="m">7</span>.2 <span class="k">if</span> match found:
-    <span class="m">7</span>.2.1 <span class="k">return</span> match statistics
-</code></pre></div>
+<pre><code>1. initialize nids
+2. register udp callback
+3. register tcp callback
+4. invoke nids session
+5. for udp packet:
+  5.1. extract source/destination and identify flow details
+  5.2. extract payload and pass on to inspection engine
+  5.3. if match found:
+    5.3.1 dump source/destination details to output device/file
+    5.3.2 dump match statistics to output device/file
+6. for tcp packet:
+  6.1 identify current tcp state
+  6.2 if new connection:
+    6.2.1 add source/destination to session table
+    6.2.2 request cts/stc data collection from libnids
+  6.3 elif existing connection with data:
+    6.3.1 identify direction
+    6.3.2 extract payload and pass on to inspection engine
+    6.3.3 if match found:
+      6.3.3.1 dump source/destination details to output device/file
+      6.3.3.2 dump match statistics to output device/file
+      6.3.3.3 stop cts/stc data collection
+  6.4 elif existing connection with closing tcp sequence:
+    6.4.1 stop cts/stc data collection
+7. for each inspection request:
+  7.1 match user-supplied regex over input data
+  7.2 if match found:
+    7.2.1 return match statistics
+</code></pre>
 
 <p>Please have a look at the <a href="https://gist.github.com/7h3rAm/10974463">minips.py</a> program which implements the above pseudo code.</p>
 
@@ -127,25 +117,25 @@ multiline matches using cli options.</p>
 <p>Here is a test run of this program on a pcap that contains HTTP session
 and UDP packets:</p>
 
-<div class="codehilite"><pre><span></span><code>$ python minips.py -p ~/toolbox/testfiles/pcaps/http.cap -r <span class="s1">&#39;.*com&#39;</span>
-<span class="o">[</span><span class="m">15</span>-Sep-2013 <span class="m">15</span>:03:02.341813 IST<span class="o">]</span> TCP <span class="m">145</span>.254.160.237:3372 - <span class="m">65</span>.208.228.223:80 <span class="o">(</span>NEW<span class="o">)</span>
-<span class="o">[</span><span class="m">15</span>-Sep-2013 <span class="m">15</span>:03:02.341903 IST<span class="o">]</span> TCP <span class="m">145</span>.254.160.237:3372 - <span class="m">65</span>.208.228.223:80 <span class="o">(</span>CTS: 479B <span class="p">|</span> STC: 0B<span class="o">)</span>
-<span class="o">[</span><span class="m">15</span>-Sep-2013 <span class="m">15</span>:03:02.341946 IST<span class="o">]</span> TCP <span class="m">145</span>.254.160.237:3372 - <span class="m">65</span>.208.228.223:80 matches regex <span class="s1">&#39;.*com&#39;</span> @ CTS<span class="o">[</span><span class="m">29</span>:51<span class="o">]</span> 22B
-<span class="m">00000000</span>: <span class="m">48</span> 6f <span class="m">73</span> <span class="m">74</span> 3a <span class="m">20</span> <span class="m">77</span> <span class="m">77</span> <span class="m">77</span> 2e <span class="m">65</span> <span class="m">74</span> <span class="m">68</span> <span class="m">65</span> <span class="m">72</span> <span class="m">65</span>  <span class="p">|</span>Host: www.ethere<span class="p">|</span>
-<span class="m">00000010</span>: <span class="m">61</span> 6c 2e <span class="m">63</span> 6f 6d                                <span class="p">|</span>al.com<span class="p">|</span>
+<pre><code>$ python minips.py -p ~/toolbox/testfiles/pcaps/http.cap -r '.*com'
+[15-Sep-2013 15:03:02.341813 IST] TCP 145.254.160.237:3372 - 65.208.228.223:80 (NEW)
+[15-Sep-2013 15:03:02.341903 IST] TCP 145.254.160.237:3372 - 65.208.228.223:80 (CTS: 479B | STC: 0B)
+[15-Sep-2013 15:03:02.341946 IST] TCP 145.254.160.237:3372 - 65.208.228.223:80 matches regex '.*com' @ CTS[29:51] 22B
+00000000: 48 6f 73 74 3a 20 77 77 77 2e 65 74 68 65 72 65  |Host: www.ethere|
+00000010: 61 6c 2e 63 6f 6d                                |al.com|
 
-<span class="o">[</span><span class="m">15</span>-Sep-2013 <span class="m">15</span>:03:02.342179 IST<span class="o">]</span> UDP <span class="m">145</span>.254.160.237:3009 - <span class="m">145</span>.253.2.203:53 <span class="o">(</span>47B<span class="o">)</span>
-<span class="o">[</span><span class="m">15</span>-Sep-2013 <span class="m">15</span>:03:02.342210 IST<span class="o">]</span> UDP <span class="m">145</span>.254.160.237:3009 - <span class="m">145</span>.253.2.203:53 matches regex <span class="s1">&#39;.*com&#39;</span> @ <span class="o">[</span><span class="m">0</span>:42<span class="o">]</span> 42B
-<span class="m">00000000</span>: <span class="m">00</span> <span class="m">23</span> <span class="m">01</span> <span class="m">00</span> <span class="m">00</span> <span class="m">01</span> <span class="m">00</span> <span class="m">00</span> <span class="m">00</span> <span class="m">00</span> <span class="m">00</span> <span class="m">00</span> <span class="m">07</span> <span class="m">70</span> <span class="m">61</span> <span class="m">67</span>  <span class="p">|</span>.#...........pag<span class="p">|</span>
-<span class="m">00000010</span>: <span class="m">65</span> <span class="m">61</span> <span class="m">64</span> <span class="m">32</span> <span class="m">11</span> <span class="m">67</span> 6f 6f <span class="m">67</span> 6c <span class="m">65</span> <span class="m">73</span> <span class="m">79</span> 6e <span class="m">64</span> <span class="m">69</span>  <span class="p">|</span>ead2.googlesyndi<span class="p">|</span>
-<span class="m">00000020</span>: <span class="m">63</span> <span class="m">61</span> <span class="m">74</span> <span class="m">69</span> 6f 6e <span class="m">03</span> <span class="m">63</span> 6f 6d                    <span class="p">|</span>cation.com<span class="p">|</span>
+[15-Sep-2013 15:03:02.342179 IST] UDP 145.254.160.237:3009 - 145.253.2.203:53 (47B)
+[15-Sep-2013 15:03:02.342210 IST] UDP 145.254.160.237:3009 - 145.253.2.203:53 matches regex '.*com' @ [0:42] 42B
+00000000: 00 23 01 00 00 01 00 00 00 00 00 00 07 70 61 67  |.#...........pag|
+00000010: 65 61 64 32 11 67 6f 6f 67 6c 65 73 79 6e 64 69  |ead2.googlesyndi|
+00000020: 63 61 74 69 6f 6e 03 63 6f 6d                    |cation.com|
 
-<span class="o">[</span><span class="m">15</span>-Sep-2013 <span class="m">15</span>:03:02.342439 IST<span class="o">]</span> UDP <span class="m">145</span>.253.2.203:53 - <span class="m">145</span>.254.160.237:3009 <span class="o">(</span>146B<span class="o">)</span>
-<span class="o">[</span><span class="m">15</span>-Sep-2013 <span class="m">15</span>:03:02.342479 IST<span class="o">]</span> UDP <span class="m">145</span>.253.2.203:53 - <span class="m">145</span>.254.160.237:3009 matches regex <span class="s1">&#39;.*com&#39;</span> @ <span class="o">[</span><span class="m">0</span>:42<span class="o">]</span> 42B
-<span class="m">00000000</span>: <span class="m">00</span> <span class="m">23</span> <span class="m">81</span> <span class="m">80</span> <span class="m">00</span> <span class="m">01</span> <span class="m">00</span> <span class="m">04</span> <span class="m">00</span> <span class="m">00</span> <span class="m">00</span> <span class="m">00</span> <span class="m">07</span> <span class="m">70</span> <span class="m">61</span> <span class="m">67</span>  <span class="p">|</span>.#...........pag<span class="p">|</span>
-<span class="m">00000010</span>: <span class="m">65</span> <span class="m">61</span> <span class="m">64</span> <span class="m">32</span> <span class="m">11</span> <span class="m">67</span> 6f 6f <span class="m">67</span> 6c <span class="m">65</span> <span class="m">73</span> <span class="m">79</span> 6e <span class="m">64</span> <span class="m">69</span>  <span class="p">|</span>ead2.googlesyndi<span class="p">|</span>
-<span class="m">00000020</span>: <span class="m">63</span> <span class="m">61</span> <span class="m">74</span> <span class="m">69</span> 6f 6e <span class="m">03</span> <span class="m">63</span> 6f 6d                    <span class="p">|</span>cation.com<span class="p">|</span>
-</code></pre></div>
+[15-Sep-2013 15:03:02.342439 IST] UDP 145.253.2.203:53 - 145.254.160.237:3009 (146B)
+[15-Sep-2013 15:03:02.342479 IST] UDP 145.253.2.203:53 - 145.254.160.237:3009 matches regex '.*com' @ [0:42] 42B
+00000000: 00 23 81 80 00 01 00 04 00 00 00 00 07 70 61 67  |.#...........pag|
+00000010: 65 61 64 32 11 67 6f 6f 67 6c 65 73 79 6e 64 69  |ead2.googlesyndi|
+00000020: 63 61 74 69 6f 6e 03 63 6f 6d                    |cation.com|
+</code></pre>
 
 <p>The program correctly identified regex match over the TCP stream in the
 CTS (client-to-server) direction and dumped match statistics along with

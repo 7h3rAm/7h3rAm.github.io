@@ -34,9 +34,7 @@
                   <a href="/2014/buf1-challenge.html">&lt&lt;</a> published on 18/Mar/2014<a href="/2014/northrop-challenge.html"> &gt;&gt;</i></a><br/>
                 </p>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <div class="post-content">
-          <p>I recently required an automated way of analyzing shellcode and verifying if it is detected by <a href="http://libemu.carnivore.it/">Libemu</a>, <a href="http://www.snort.org/">Snort</a>, <a href="http://suricata-ids.org/">Suricata</a>, <a href="https://www.bro.org/">Bro</a>, etc. Shellcode had to come from public sources like <a href="http://repo.shell-storm.org/shellcode/">ShellSStorm</a>, <a href="http://www.exploit-db.com/shellcode/">ExploitDB</a> and <a href="https://github.com/rapid7/metasploit-framework/tree/master/modules/payloads">Metasploit</a>. I needed an automated way of sourcing shellcode from these projects and pass it on to the analysis engines in a pipeline-like mechanism. This posts documents the method I used to complete this task and the overall progress of the project.</p>
-
-<p>I basically divided the project into three independent tasks:</p>
+          <p>I basically divided the project into three independent tasks:</p>
 
 <ol>
 <li>source shellcode from shell-storm, exploit-db and metasploit</li>
@@ -80,30 +78,30 @@ testing.</p>
 
 <p>Let&#8217;s have a look at the help message from the tool:</p>
 
-<div class="codehilite"><pre><span></span><code>$ ./sap.py -h
-sap.py - Shellcode Analysis Pipleline <span class="o">(</span>v0.1<span class="o">)</span>
-Ankur Tyagi <span class="o">(</span>7h3rAm<span class="o">)</span>
+<pre><code>$ ./sap.py -h
+sap.py - Shellcode Analysis Pipleline (v0.1)
+Ankur Tyagi (7h3rAm)
 
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:55:17.441063 IST<span class="o">]</span> <span class="o">[</span>main<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: Session started @ <span class="m">2014</span>-04-19 <span class="m">20</span>:55:17.440964
-usage: sap.py <span class="o">[</span>-h<span class="o">]</span> <span class="o">[</span>-v<span class="o">]</span> <span class="o">[</span>-s SEARCH<span class="o">]</span> <span class="o">[</span>-c CONFIG<span class="o">]</span> <span class="o">[</span>-d<span class="o">]</span> <span class="o">[</span>-S<span class="o">]</span> <span class="o">[</span>-E<span class="o">]</span> <span class="o">[</span>-M<span class="o">]</span> <span class="o">[</span>-p<span class="o">]</span>
+[18-Mar-2014 20:55:17.441063 IST] [main] [NORM]: Session started @ 2014-04-19 20:55:17.440964
+usage: sap.py [-h] [-v] [-s SEARCH] [-c CONFIG] [-d] [-S] [-E] [-M] [-p]
 
 sap.py - Shellcode Analysis Pipleline
 
 optional arguments:
-  -h, --help            show this <span class="nb">help</span> message and <span class="nb">exit</span>
-  -v, --version         show program<span class="err">&#39;</span>s version number and <span class="nb">exit</span>
+  -h, --help            show this help message and exit
+  -v, --version         show program's version number and exit
   -s SEARCH, --search SEARCH
                         shellcode search
   -c CONFIG, --config CONFIG
                         config file - default: sap.cnf
-  -d, --debug           <span class="nb">enable</span> debug output
+  -d, --debug           enable debug output
   -S, --shellstorm      shellstorm lookup
   -E, --exploitdb       exploitdb lookup
   -M, --metasploit      metasploit lookup
   -p, --genpcaps        generate pcaps
 
 EXAMPLE: sap.py -s windows
-</code></pre></div>
+</code></pre>
 
 <p>There are no mandatory options since most of them are read from the
 config file if not available on the command-line. The tool supports
@@ -113,54 +111,54 @@ skipped if no bin files are not created for obtained shellcode. Let&#8217;s
 have a test run of the tool with <code>arm</code> as the search string to test only
 ARM shellcode available at Shell-Storm:</p>
 
-<div class="codehilite"><pre><span></span><code>$ ./sap.py -s arm -d
-sap.py - Shellcode Analysis Pipleline <span class="o">(</span>v0.1<span class="o">)</span>
-Ankur Tyagi <span class="o">(</span>7h3rAm<span class="o">)</span>
+<pre><code>$ ./sap.py -s arm -d
+sap.py - Shellcode Analysis Pipleline (v0.1)
+Ankur Tyagi (7h3rAm)
 
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:22.829518 IST<span class="o">]</span> <span class="o">[</span>main<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: Session started @ <span class="m">2014</span>-04-19 <span class="m">20</span>:54:22.829437
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:22.830968 IST<span class="o">]</span> <span class="o">[</span>main<span class="o">]</span> <span class="o">[</span>DEBUG<span class="o">]</span>: Using ./sap.cnf as configuration file
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:22.831149 IST<span class="o">]</span> <span class="o">[</span>main<span class="o">]</span> <span class="o">[</span>DEBUG<span class="o">]</span>: Using <span class="s1">&#39;arm&#39;</span> as search string
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:22.831204 IST<span class="o">]</span> <span class="o">[</span>main<span class="o">]</span> <span class="o">[</span>DEBUG<span class="o">]</span>: Enabled all shellcode soruces: shellstorm/exploitdb/metasploit
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:23.434474 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: Found <span class="m">26</span> shellcode ids @ shell-storm with search-string: <span class="s1">&#39;arm&#39;</span>
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:23.748633 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">001</span>/026<span class="o">)</span> Wrote 196B from shellcode id#661 into ./661.bin
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:24.066123 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">002</span>/026<span class="o">)</span> Wrote 151B from shellcode id#735 into ./735.bin
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:24.390874 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">003</span>/026<span class="o">)</span> Skipped shellcode id#669 as only 0B found!
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:24.706150 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">004</span>/026<span class="o">)</span> Wrote 72B from shellcode id#670 into ./670.bin
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:25.016058 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">005</span>/026<span class="o">)</span> Skipped shellcode id#754 as only 0B found!
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:25.324224 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">006</span>/026<span class="o">)</span> Wrote 78B from shellcode id#671 into ./671.bin
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:25.637873 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">007</span>/026<span class="o">)</span> Wrote 53B from shellcode id#765 into ./765.bin
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:25.960882 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">008</span>/026<span class="o">)</span> Wrote 40B from shellcode id#659 into ./659.bin
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:26.269648 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">009</span>/026<span class="o">)</span> Wrote 44B from shellcode id#820 into ./820.bin
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:26.584585 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">010</span>/026<span class="o">)</span> Skipped shellcode id#853 as only 0B found!
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:26.888214 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">011</span>/026<span class="o">)</span> Skipped shellcode id#854 as only 0B found!
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:27.214914 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">012</span>/026<span class="o">)</span> Skipped shellcode id#666 as only 0B found!
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:27.528852 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">013</span>/026<span class="o">)</span> Skipped shellcode id#855 as only 0B found!
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:27.852626 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">014</span>/026<span class="o">)</span> Wrote 24B from shellcode id#668 into ./668.bin
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:28.156066 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">015</span>/026<span class="o">)</span> Skipped shellcode id#696 as only 0B found!
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:28.477319 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">016</span>/026<span class="o">)</span> Skipped shellcode id#665 as only 0B found!
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:28.799106 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">017</span>/026<span class="o">)</span> Skipped shellcode id#819 as only 0B found!
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:29.112905 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">018</span>/026<span class="o">)</span> Skipped shellcode id#0 as only 0B found!
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:29.440574 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">019</span>/026<span class="o">)</span> Skipped shellcode id#667 as only 0B found!
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:29.748897 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">020</span>/026<span class="o">)</span> Wrote 27B from shellcode id#698 into ./698.bin
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:30.070085 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">021</span>/026<span class="o">)</span> Skipped shellcode id#821 as only 0B found!
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:30.384414 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">022</span>/026<span class="o">)</span> Wrote 20B from shellcode id#660 into ./660.bin
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:30.701548 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">023</span>/026<span class="o">)</span> Skipped shellcode id#729 as only 0B found!
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:31.006583 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">024</span>/026<span class="o">)</span> Skipped shellcode id#730 as only 0B found!
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:31.313406 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">025</span>/026<span class="o">)</span> Skipped shellcode id#728 as only 0B found!
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:31.709741 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">026</span>/026<span class="o">)</span> Skipped shellcode id#727 as only 0B found!
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:31.710338 IST<span class="o">]</span> <span class="o">[</span>main<span class="o">]</span> <span class="o">[</span>DEBUG<span class="o">]</span>: Initiating Libemu testing <span class="k">for</span> downloaded shellcode
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:31.710862 IST<span class="o">]</span> <span class="o">[</span>emutest<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">001</span>/010<span class="o">)</span> Testing shellcode file: ./661.bin with Libemu: <span class="nv">offset</span> <span class="o">=</span> -1
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:31.711142 IST<span class="o">]</span> <span class="o">[</span>emutest<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">002</span>/010<span class="o">)</span> Testing shellcode file: ./735.bin with Libemu: <span class="nv">offset</span> <span class="o">=</span> -1
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:31.711392 IST<span class="o">]</span> <span class="o">[</span>emutest<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">003</span>/010<span class="o">)</span> Testing shellcode file: ./670.bin with Libemu: <span class="nv">offset</span> <span class="o">=</span> -1
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:31.711687 IST<span class="o">]</span> <span class="o">[</span>emutest<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">004</span>/010<span class="o">)</span> Testing shellcode file: ./671.bin with Libemu: <span class="nv">offset</span> <span class="o">=</span> -1
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:31.711952 IST<span class="o">]</span> <span class="o">[</span>emutest<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">005</span>/010<span class="o">)</span> Testing shellcode file: ./765.bin with Libemu: <span class="nv">offset</span> <span class="o">=</span> -1
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:31.712189 IST<span class="o">]</span> <span class="o">[</span>emutest<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">006</span>/010<span class="o">)</span> Testing shellcode file: ./659.bin with Libemu: <span class="nv">offset</span> <span class="o">=</span> -1
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:31.712427 IST<span class="o">]</span> <span class="o">[</span>emutest<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">007</span>/010<span class="o">)</span> Testing shellcode file: ./820.bin with Libemu: <span class="nv">offset</span> <span class="o">=</span> -1
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:31.712659 IST<span class="o">]</span> <span class="o">[</span>emutest<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">008</span>/010<span class="o">)</span> Testing shellcode file: ./668.bin with Libemu: <span class="nv">offset</span> <span class="o">=</span> -1
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:31.712890 IST<span class="o">]</span> <span class="o">[</span>emutest<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">009</span>/010<span class="o">)</span> Testing shellcode file: ./698.bin with Libemu: <span class="nv">offset</span> <span class="o">=</span> -1
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:31.713120 IST<span class="o">]</span> <span class="o">[</span>emutest<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">010</span>/010<span class="o">)</span> Testing shellcode file: ./660.bin with Libemu: <span class="nv">offset</span> <span class="o">=</span> -1
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">20</span>:54:31.713370 IST<span class="o">]</span> <span class="o">[</span>main<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: Session completed in <span class="m">0</span>:00:08.883860
-</code></pre></div>
+[18-Mar-2014 20:54:22.829518 IST] [main] [NORM]: Session started @ 2014-04-19 20:54:22.829437
+[18-Mar-2014 20:54:22.830968 IST] [main] [DEBUG]: Using ./sap.cnf as configuration file
+[18-Mar-2014 20:54:22.831149 IST] [main] [DEBUG]: Using 'arm' as search string
+[18-Mar-2014 20:54:22.831204 IST] [main] [DEBUG]: Enabled all shellcode soruces: shellstorm/exploitdb/metasploit
+[18-Mar-2014 20:54:23.434474 IST] [doshellstorm] [NORM]: Found 26 shellcode ids @ shell-storm with search-string: 'arm'
+[18-Mar-2014 20:54:23.748633 IST] [doshellstorm] [NORM]: (001/026) Wrote 196B from shellcode id#661 into ./661.bin
+[18-Mar-2014 20:54:24.066123 IST] [doshellstorm] [NORM]: (002/026) Wrote 151B from shellcode id#735 into ./735.bin
+[18-Mar-2014 20:54:24.390874 IST] [doshellstorm] [NORM]: (003/026) Skipped shellcode id#669 as only 0B found!
+[18-Mar-2014 20:54:24.706150 IST] [doshellstorm] [NORM]: (004/026) Wrote 72B from shellcode id#670 into ./670.bin
+[18-Mar-2014 20:54:25.016058 IST] [doshellstorm] [NORM]: (005/026) Skipped shellcode id#754 as only 0B found!
+[18-Mar-2014 20:54:25.324224 IST] [doshellstorm] [NORM]: (006/026) Wrote 78B from shellcode id#671 into ./671.bin
+[18-Mar-2014 20:54:25.637873 IST] [doshellstorm] [NORM]: (007/026) Wrote 53B from shellcode id#765 into ./765.bin
+[18-Mar-2014 20:54:25.960882 IST] [doshellstorm] [NORM]: (008/026) Wrote 40B from shellcode id#659 into ./659.bin
+[18-Mar-2014 20:54:26.269648 IST] [doshellstorm] [NORM]: (009/026) Wrote 44B from shellcode id#820 into ./820.bin
+[18-Mar-2014 20:54:26.584585 IST] [doshellstorm] [NORM]: (010/026) Skipped shellcode id#853 as only 0B found!
+[18-Mar-2014 20:54:26.888214 IST] [doshellstorm] [NORM]: (011/026) Skipped shellcode id#854 as only 0B found!
+[18-Mar-2014 20:54:27.214914 IST] [doshellstorm] [NORM]: (012/026) Skipped shellcode id#666 as only 0B found!
+[18-Mar-2014 20:54:27.528852 IST] [doshellstorm] [NORM]: (013/026) Skipped shellcode id#855 as only 0B found!
+[18-Mar-2014 20:54:27.852626 IST] [doshellstorm] [NORM]: (014/026) Wrote 24B from shellcode id#668 into ./668.bin
+[18-Mar-2014 20:54:28.156066 IST] [doshellstorm] [NORM]: (015/026) Skipped shellcode id#696 as only 0B found!
+[18-Mar-2014 20:54:28.477319 IST] [doshellstorm] [NORM]: (016/026) Skipped shellcode id#665 as only 0B found!
+[18-Mar-2014 20:54:28.799106 IST] [doshellstorm] [NORM]: (017/026) Skipped shellcode id#819 as only 0B found!
+[18-Mar-2014 20:54:29.112905 IST] [doshellstorm] [NORM]: (018/026) Skipped shellcode id#0 as only 0B found!
+[18-Mar-2014 20:54:29.440574 IST] [doshellstorm] [NORM]: (019/026) Skipped shellcode id#667 as only 0B found!
+[18-Mar-2014 20:54:29.748897 IST] [doshellstorm] [NORM]: (020/026) Wrote 27B from shellcode id#698 into ./698.bin
+[18-Mar-2014 20:54:30.070085 IST] [doshellstorm] [NORM]: (021/026) Skipped shellcode id#821 as only 0B found!
+[18-Mar-2014 20:54:30.384414 IST] [doshellstorm] [NORM]: (022/026) Wrote 20B from shellcode id#660 into ./660.bin
+[18-Mar-2014 20:54:30.701548 IST] [doshellstorm] [NORM]: (023/026) Skipped shellcode id#729 as only 0B found!
+[18-Mar-2014 20:54:31.006583 IST] [doshellstorm] [NORM]: (024/026) Skipped shellcode id#730 as only 0B found!
+[18-Mar-2014 20:54:31.313406 IST] [doshellstorm] [NORM]: (025/026) Skipped shellcode id#728 as only 0B found!
+[18-Mar-2014 20:54:31.709741 IST] [doshellstorm] [NORM]: (026/026) Skipped shellcode id#727 as only 0B found!
+[18-Mar-2014 20:54:31.710338 IST] [main] [DEBUG]: Initiating Libemu testing for downloaded shellcode
+[18-Mar-2014 20:54:31.710862 IST] [emutest] [NORM]: (001/010) Testing shellcode file: ./661.bin with Libemu: offset = -1
+[18-Mar-2014 20:54:31.711142 IST] [emutest] [NORM]: (002/010) Testing shellcode file: ./735.bin with Libemu: offset = -1
+[18-Mar-2014 20:54:31.711392 IST] [emutest] [NORM]: (003/010) Testing shellcode file: ./670.bin with Libemu: offset = -1
+[18-Mar-2014 20:54:31.711687 IST] [emutest] [NORM]: (004/010) Testing shellcode file: ./671.bin with Libemu: offset = -1
+[18-Mar-2014 20:54:31.711952 IST] [emutest] [NORM]: (005/010) Testing shellcode file: ./765.bin with Libemu: offset = -1
+[18-Mar-2014 20:54:31.712189 IST] [emutest] [NORM]: (006/010) Testing shellcode file: ./659.bin with Libemu: offset = -1
+[18-Mar-2014 20:54:31.712427 IST] [emutest] [NORM]: (007/010) Testing shellcode file: ./820.bin with Libemu: offset = -1
+[18-Mar-2014 20:54:31.712659 IST] [emutest] [NORM]: (008/010) Testing shellcode file: ./668.bin with Libemu: offset = -1
+[18-Mar-2014 20:54:31.712890 IST] [emutest] [NORM]: (009/010) Testing shellcode file: ./698.bin with Libemu: offset = -1
+[18-Mar-2014 20:54:31.713120 IST] [emutest] [NORM]: (010/010) Testing shellcode file: ./660.bin with Libemu: offset = -1
+[18-Mar-2014 20:54:31.713370 IST] [main] [NORM]: Session completed in 0:00:08.883860
+</code></pre>
 
 <p>I enabled <code>debug</code> output for additional verbosity in the above
 command-line. The tool identified 26 shellcode samples that satisfy
@@ -178,61 +176,61 @@ above test.</p>
 
 <p>Let&#8217;s now try a Windows x86 shellcode with the tool:</p>
 
-<div class="codehilite"><pre><span></span><code>$ ./sap.py -s download
-sap.py - Shellcode Analysis Pipleline <span class="o">(</span>v0.1<span class="o">)</span>
-Ankur Tyagi <span class="o">(</span>7h3rAm<span class="o">)</span>
+<pre><code>$ ./sap.py -s download
+sap.py - Shellcode Analysis Pipleline (v0.1)
+Ankur Tyagi (7h3rAm)
 
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">21</span>:32:39.954426 IST<span class="o">]</span> <span class="o">[</span>main<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: Session started @ <span class="m">2014</span>-04-19 <span class="m">21</span>:32:39.954321
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">21</span>:32:40.501316 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: Found <span class="m">14</span> shellcode ids @ shell-storm with search-string: <span class="s1">&#39;download&#39;</span>
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">21</span>:32:40.821984 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">001</span>/014<span class="o">)</span> Wrote 278B from shellcode id#240 into ./240.bin
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">21</span>:32:41.130703 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">002</span>/014<span class="o">)</span> Wrote 202B from shellcode id#162 into ./162.bin
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">21</span>:32:41.436970 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">003</span>/014<span class="o">)</span> Skipped shellcode id#150 as only 0B found!
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">21</span>:32:41.760507 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">004</span>/014<span class="o">)</span> Skipped shellcode id#700 as only 0B found!
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">21</span>:32:42.089636 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">005</span>/014<span class="o">)</span> Wrote 151B from shellcode id#206 into ./206.bin
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">21</span>:32:42.402426 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">006</span>/014<span class="o">)</span> Skipped shellcode id#392 as only 0B found!
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">21</span>:32:42.712811 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">007</span>/014<span class="o">)</span> Wrote 110B from shellcode id#59 into ./59.bin
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">21</span>:32:43.025814 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">008</span>/014<span class="o">)</span> Wrote 108B from shellcode id#862 into ./862.bin
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">21</span>:32:43.333005 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">009</span>/014<span class="o">)</span> Wrote 79B from shellcode id#616 into ./616.bin
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">21</span>:32:43.649846 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">010</span>/014<span class="o">)</span> Wrote 75B from shellcode id#227 into ./227.bin
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">21</span>:32:43.949659 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">011</span>/014<span class="o">)</span> Wrote 42B from shellcode id#611 into ./611.bin
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">21</span>:32:44.257083 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">012</span>/014<span class="o">)</span> Skipped shellcode id#767 as only 0B found!
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">21</span>:32:44.582001 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">013</span>/014<span class="o">)</span> Skipped shellcode id#146 as only 0B found!
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">21</span>:32:44.885040 IST<span class="o">]</span> <span class="o">[</span>doshellstorm<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">014</span>/014<span class="o">)</span> Skipped shellcode id#159 as only 0B found!
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">21</span>:32:44.885900 IST<span class="o">]</span> <span class="o">[</span>emutest<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">001</span>/008<span class="o">)</span> Testing shellcode file: ./240.bin with Libemu: <span class="nv">offset</span> <span class="o">=</span> -1
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">21</span>:32:44.927295 IST<span class="o">]</span> <span class="o">[</span>emutest<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">002</span>/008<span class="o">)</span> Testing shellcode file: ./162.bin with Libemu: <span class="nv">offset</span> <span class="o">=</span> <span class="m">0</span>
-<span class="o">[</span><span class="m">2014</span>-03-18 <span class="m">21</span>:32:44<span class="o">]</span> Downloading  <span class="o">(</span>C:<span class="se">\U</span>.exe<span class="o">)</span>
-<span class="o">[</span><span class="m">2014</span>-03-18 <span class="m">21</span>:32:44<span class="o">]</span> Error <span class="k">while</span> downloading from
-HMODULE LoadLibraryA <span class="o">(</span>
-     <span class="nv">LPCTSTR</span> <span class="o">=</span> <span class="nv">0x0244d020</span> <span class="o">=</span>&gt;
-           <span class="o">=</span> <span class="s2">&quot;urlmon.dll&quot;</span><span class="p">;</span>
-<span class="o">)</span> <span class="o">=</span>  0x7df20000<span class="p">;</span>
-HRESULT URLDownloadToFile <span class="o">(</span>
-     <span class="nv">LPUNKNOWN</span> <span class="o">=</span> <span class="nv">0x02452f50</span> <span class="o">=</span>&gt;
-         none<span class="p">;</span>
-     <span class="nv">LPCTSTR</span> <span class="o">=</span> <span class="nv">0x0244e8f0</span> <span class="o">=</span>&gt;
-           <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
-     <span class="nv">LPCTSTR</span> <span class="o">=</span> <span class="nv">0x02453fb0</span> <span class="o">=</span>&gt;
-           <span class="o">=</span> <span class="s2">&quot;C:\U.exe&quot;</span><span class="p">;</span>
-     DWORD <span class="nv">dwReserved</span> <span class="o">=</span> <span class="m">0</span><span class="p">;</span>
-     LPBINDSTATUSCALLBACK <span class="nv">lpfnCB</span> <span class="o">=</span> <span class="m">0</span><span class="p">;</span>
-<span class="o">)</span> <span class="o">=</span>  0x800c0008<span class="p">;</span>
-UINT WINAPI WinExec <span class="o">(</span>
-     <span class="nv">LPCSTR</span> <span class="o">=</span> <span class="nv">0x023b4940</span> <span class="o">=</span>&gt;
-           <span class="o">=</span> <span class="s2">&quot;C:\U.exe&quot;</span><span class="p">;</span>
-     UINT <span class="nv">uCmdShow</span> <span class="o">=</span> <span class="m">1972065515</span><span class="p">;</span>
-<span class="o">)</span> <span class="o">=</span>  0x20<span class="p">;</span>
-void ExitProcess <span class="o">(</span>
-     UINT <span class="nv">uExitCode</span> <span class="o">=</span> <span class="m">0</span><span class="p">;</span>
-<span class="o">)</span> <span class="o">=</span>  0x0<span class="p">;</span>
+[18-Mar-2014 21:32:39.954426 IST] [main] [NORM]: Session started @ 2014-04-19 21:32:39.954321
+[18-Mar-2014 21:32:40.501316 IST] [doshellstorm] [NORM]: Found 14 shellcode ids @ shell-storm with search-string: 'download'
+[18-Mar-2014 21:32:40.821984 IST] [doshellstorm] [NORM]: (001/014) Wrote 278B from shellcode id#240 into ./240.bin
+[18-Mar-2014 21:32:41.130703 IST] [doshellstorm] [NORM]: (002/014) Wrote 202B from shellcode id#162 into ./162.bin
+[18-Mar-2014 21:32:41.436970 IST] [doshellstorm] [NORM]: (003/014) Skipped shellcode id#150 as only 0B found!
+[18-Mar-2014 21:32:41.760507 IST] [doshellstorm] [NORM]: (004/014) Skipped shellcode id#700 as only 0B found!
+[18-Mar-2014 21:32:42.089636 IST] [doshellstorm] [NORM]: (005/014) Wrote 151B from shellcode id#206 into ./206.bin
+[18-Mar-2014 21:32:42.402426 IST] [doshellstorm] [NORM]: (006/014) Skipped shellcode id#392 as only 0B found!
+[18-Mar-2014 21:32:42.712811 IST] [doshellstorm] [NORM]: (007/014) Wrote 110B from shellcode id#59 into ./59.bin
+[18-Mar-2014 21:32:43.025814 IST] [doshellstorm] [NORM]: (008/014) Wrote 108B from shellcode id#862 into ./862.bin
+[18-Mar-2014 21:32:43.333005 IST] [doshellstorm] [NORM]: (009/014) Wrote 79B from shellcode id#616 into ./616.bin
+[18-Mar-2014 21:32:43.649846 IST] [doshellstorm] [NORM]: (010/014) Wrote 75B from shellcode id#227 into ./227.bin
+[18-Mar-2014 21:32:43.949659 IST] [doshellstorm] [NORM]: (011/014) Wrote 42B from shellcode id#611 into ./611.bin
+[18-Mar-2014 21:32:44.257083 IST] [doshellstorm] [NORM]: (012/014) Skipped shellcode id#767 as only 0B found!
+[18-Mar-2014 21:32:44.582001 IST] [doshellstorm] [NORM]: (013/014) Skipped shellcode id#146 as only 0B found!
+[18-Mar-2014 21:32:44.885040 IST] [doshellstorm] [NORM]: (014/014) Skipped shellcode id#159 as only 0B found!
+[18-Mar-2014 21:32:44.885900 IST] [emutest] [NORM]: (001/008) Testing shellcode file: ./240.bin with Libemu: offset = -1
+[18-Mar-2014 21:32:44.927295 IST] [emutest] [NORM]: (002/008) Testing shellcode file: ./162.bin with Libemu: offset = 0
+[2014-03-18 21:32:44] Downloading  (C:\U.exe)
+[2014-03-18 21:32:44] Error while downloading from
+HMODULE LoadLibraryA (
+     LPCTSTR = 0x0244d020 =&gt;
+           = "urlmon.dll";
+) =  0x7df20000;
+HRESULT URLDownloadToFile (
+     LPUNKNOWN = 0x02452f50 =&gt;
+         none;
+     LPCTSTR = 0x0244e8f0 =&gt;
+           = "";
+     LPCTSTR = 0x02453fb0 =&gt;
+           = "C:\U.exe";
+     DWORD dwReserved = 0;
+     LPBINDSTATUSCALLBACK lpfnCB = 0;
+) =  0x800c0008;
+UINT WINAPI WinExec (
+     LPCSTR = 0x023b4940 =&gt;
+           = "C:\U.exe";
+     UINT uCmdShow = 1972065515;
+) =  0x20;
+void ExitProcess (
+     UINT uExitCode = 0;
+) =  0x0;
 
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">21</span>:32:44.955295 IST<span class="o">]</span> <span class="o">[</span>emutest<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">003</span>/008<span class="o">)</span> Testing shellcode file: ./206.bin with Libemu: <span class="nv">offset</span> <span class="o">=</span> -1
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">21</span>:32:44.955390 IST<span class="o">]</span> <span class="o">[</span>emutest<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">004</span>/008<span class="o">)</span> Testing shellcode file: ./59.bin with Libemu: <span class="nv">offset</span> <span class="o">=</span> -1
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">21</span>:32:44.955462 IST<span class="o">]</span> <span class="o">[</span>emutest<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">005</span>/008<span class="o">)</span> Testing shellcode file: ./862.bin with Libemu: <span class="nv">offset</span> <span class="o">=</span> -1
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">21</span>:32:44.955535 IST<span class="o">]</span> <span class="o">[</span>emutest<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">006</span>/008<span class="o">)</span> Testing shellcode file: ./616.bin with Libemu: <span class="nv">offset</span> <span class="o">=</span> -1
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">21</span>:32:44.955597 IST<span class="o">]</span> <span class="o">[</span>emutest<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">007</span>/008<span class="o">)</span> Testing shellcode file: ./227.bin with Libemu: <span class="nv">offset</span> <span class="o">=</span> -1
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">21</span>:32:44.955655 IST<span class="o">]</span> <span class="o">[</span>emutest<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: <span class="o">(</span><span class="m">008</span>/008<span class="o">)</span> Testing shellcode file: ./611.bin with Libemu: <span class="nv">offset</span> <span class="o">=</span> -1
-<span class="o">[</span><span class="m">18</span>-Mar-2014 <span class="m">21</span>:32:44.955725 IST<span class="o">]</span> <span class="o">[</span>main<span class="o">]</span> <span class="o">[</span>NORM<span class="o">]</span>: Session completed in <span class="m">0</span>:00:05.001388
-</code></pre></div>
+[18-Mar-2014 21:32:44.955295 IST] [emutest] [NORM]: (003/008) Testing shellcode file: ./206.bin with Libemu: offset = -1
+[18-Mar-2014 21:32:44.955390 IST] [emutest] [NORM]: (004/008) Testing shellcode file: ./59.bin with Libemu: offset = -1
+[18-Mar-2014 21:32:44.955462 IST] [emutest] [NORM]: (005/008) Testing shellcode file: ./862.bin with Libemu: offset = -1
+[18-Mar-2014 21:32:44.955535 IST] [emutest] [NORM]: (006/008) Testing shellcode file: ./616.bin with Libemu: offset = -1
+[18-Mar-2014 21:32:44.955597 IST] [emutest] [NORM]: (007/008) Testing shellcode file: ./227.bin with Libemu: offset = -1
+[18-Mar-2014 21:32:44.955655 IST] [emutest] [NORM]: (008/008) Testing shellcode file: ./611.bin with Libemu: offset = -1
+[18-Mar-2014 21:32:44.955725 IST] [main] [NORM]: Session completed in 0:00:05.001388
+</code></pre>
 
 <p>Id 162 was successfully identified by Libemu as shellcode and it even
 generated the profiling output for it. From the profile output it seems
@@ -240,25 +238,25 @@ like the shellcode, when executed, will trigger the download and
 execution of a malware sample. This is also evident from the shellcode
 description provided by shell-storm for this shellcode id:</p>
 
-<div class="codehilite"><pre><span></span><code>$ shell-storm-api.py -search download
+<pre><code>$ shell-storm-api.py -search download
 Connecting to shell-storm.org...
-Found <span class="m">14</span> shellcodes
+Found 14 shellcodes
 ScId    Size Title
-<span class="o">[</span><span class="m">240</span><span class="o">]</span>   <span class="m">278</span>  Solaris/mips - download and execute - <span class="m">278</span> bytes
-<span class="o">[</span><span class="m">162</span><span class="o">]</span>   <span class="m">226</span>  Windows - download <span class="p">&amp;</span> <span class="nb">exec</span> shellcode - <span class="m">226</span> bytes+ &lt;-- SCID: <span class="m">162</span>
-<span class="o">[</span><span class="m">150</span><span class="o">]</span>   <span class="m">218</span>  Windows-64 - <span class="o">(</span>URLDownloadToFileA<span class="o">)</span> download and execute - <span class="m">218</span>+ bytes
-<span class="o">[</span><span class="m">700</span><span class="o">]</span>   <span class="m">164</span>  Windows - null-free <span class="m">32</span>-bit Windows download and LoadLibrary shellcode - <span class="m">164</span> bytes
-<span class="o">[</span><span class="m">206</span><span class="o">]</span>   <span class="m">149</span>  Linux/x86 - connect back, download a file and execute - <span class="m">149</span> bytes
-<span class="o">[</span><span class="m">392</span><span class="o">]</span>   <span class="m">124</span>  Windows - download and execute - <span class="m">124</span> bytes
-<span class="o">[</span><span class="m">59</span><span class="o">]</span>    <span class="m">111</span>  Linux/x86 - HTTP/1.x GET, Downloads <span class="p">&amp;</span> execve<span class="o">()</span> - <span class="m">111</span> bytes+
-<span class="o">[</span><span class="m">862</span><span class="o">]</span>   <span class="m">108</span>  Linux/x86 - Download + chmod + <span class="nb">exec</span> - <span class="m">108</span> bytes
-<span class="o">[</span><span class="m">616</span><span class="o">]</span>   <span class="m">79</span>   Solaris/x86 - Remote Download file - <span class="m">79</span> bytes
-<span class="o">[</span><span class="m">227</span><span class="o">]</span>   <span class="m">68</span>   Linux/x86 - HTTP/1.x GET, Downloads and JMP - <span class="m">68</span> bytes+
-<span class="o">[</span><span class="m">611</span><span class="o">]</span>   <span class="m">42</span>   Linux/x86 - Remote file Download - <span class="m">42</span> bytes
-<span class="o">[</span><span class="m">767</span><span class="o">]</span>   n/a  Windows - Vista/7/2008 - download and execute file via reverse DNS channel
-<span class="o">[</span><span class="m">146</span><span class="o">]</span>   n/a  Windows - XP download and <span class="nb">exec</span> <span class="nb">source</span>
-<span class="o">[</span><span class="m">159</span><span class="o">]</span>   n/a  Windows - Download and Execute Shellcode Generator
-</code></pre></div>
+[240]   278  Solaris/mips - download and execute - 278 bytes
+[162]   226  Windows - download &amp; exec shellcode - 226 bytes+ &lt;-- SCID: 162
+[150]   218  Windows-64 - (URLDownloadToFileA) download and execute - 218+ bytes
+[700]   164  Windows - null-free 32-bit Windows download and LoadLibrary shellcode - 164 bytes
+[206]   149  Linux/x86 - connect back, download a file and execute - 149 bytes
+[392]   124  Windows - download and execute - 124 bytes
+[59]    111  Linux/x86 - HTTP/1.x GET, Downloads &amp; execve() - 111 bytes+
+[862]   108  Linux/x86 - Download + chmod + exec - 108 bytes
+[616]   79   Solaris/x86 - Remote Download file - 79 bytes
+[227]   68   Linux/x86 - HTTP/1.x GET, Downloads and JMP - 68 bytes+
+[611]   42   Linux/x86 - Remote file Download - 42 bytes
+[767]   n/a  Windows - Vista/7/2008 - download and execute file via reverse DNS channel
+[146]   n/a  Windows - XP download and exec source
+[159]   n/a  Windows - Download and Execute Shellcode Generator
+</code></pre>
 
 <p>Currently Libemu is the only analysis engine but soon I&#8217;ll be adding
 support for additional engines. Sourcing from other projects will also

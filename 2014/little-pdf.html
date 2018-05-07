@@ -34,25 +34,23 @@
                   <a href="/2014/pcapgentools-contentype-patch.html">&lt&lt;</a> published on 18/Sep/2014<a href="/2014/pcapedit.html"> &gt;&gt;</i></a><br/>
                 </p>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             <div class="post-content">
-          <p>While reading an article about <a href="http://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/">Physical and Logical Structure of PDF Files</a> on Didier Stevens&#8217;s blog, I came across an interesting <a href="http://blog.didierstevens.com/2008/05/06/a-little-pdf-puzzle/">puzzle</a>. You can download the <a href="/static/files/pdf-puzzle.pdf">file</a> to follow along or read the <a href="http://blog.didierstevens.com/2008/05/07/solving-a-little-pdf-puzzle/">writeup</a> from the author itself.</p>
+          <p>Still here, great! Let&#8217;s get started. First thing is to check what <code>exiftool</code> has to tell us about this file:</p>
 
-<p>Still here, great! Let&#8217;s get started. First thing is to check what <code>exiftool</code> has to tell us about this file:</p>
-
-<div class="codehilite"><pre><span></span><code>$ exiftool pdf-puzzle.pdf
-ExifTool Version Number         : <span class="m">9</span>.46
+<pre><code>$ exiftool pdf-puzzle.pdf
+ExifTool Version Number         : 9.46
 File Name                       : pdf-puzzle.pdf
 Directory                       : .
-File Size                       : <span class="m">1243</span> bytes
-File Modification Date/Time     : <span class="m">2014</span>:09:18 <span class="m">17</span>:00:16+05:30
-File Access Date/Time           : <span class="m">2014</span>:09:18 <span class="m">17</span>:00:19+05:30
-File Inode Change Date/Time     : <span class="m">2014</span>:09:18 <span class="m">17</span>:00:16+05:30
+File Size                       : 1243 bytes
+File Modification Date/Time     : 2014:09:18 17:00:16+05:30
+File Access Date/Time           : 2014:09:18 17:00:19+05:30
+File Inode Change Date/Time     : 2014:09:18 17:00:16+05:30
 File Permissions                : rw-rw-r--
 File Type                       : PDF
 MIME Type                       : application/pdf
-PDF Version                     : <span class="m">1</span>.1
+PDF Version                     : 1.1
 Linearized                      : No
-Page Count                      : <span class="m">1</span>
-</code></pre></div>
+Page Count                      : 1
+</code></pre>
 
 <p>All these attributes look standard and nothing suspicious pops out in the output. The author, Didier Stevens, hints that it is a simple challenge and can be solved using just Notepad or a standard PDF reader. Let&#8217;s view contents of this file in a text editor:</p>
 
@@ -64,17 +62,17 @@ Page Count                      : <span class="m">1</span>
 
 <p>The reader is using updated object and renders its content, thus overriding the older object definition. Since both object definitions contain <code>ASCII85Decode</code> encoded streams, we can manually decode and look at the raw content:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="err">$</span> <span class="n">ipython</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">banner</span>
+<pre><code>$ ipython --no-banner
 
-<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">ascii85</span>
-<span class="o">&gt;&gt;&gt;</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">ascii85</span><span class="o">.</span><span class="n">ascii85decode</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="se">\7</span><span class="s2">PQ#@1a#b0+&gt;GQ(+?(u.+B2ko-rakk+E1b1F)Yf5@&lt;6!&amp;BlbD!=BJ[-=BJ[-=BJ[-=BJ[-=BI!p&lt;,*OE;u~&quot;</span><span class="p">)</span>
-<span class="s1">&#39;</span><span class="se">\x14</span><span class="s1">h</span><span class="se">\xd5</span><span class="s1">&quot;4 Tf 100 700 Td (The passphrase is XXXXXXXXXXXXXXXXXXX) Tj ET&#39;</span>
-<span class="o">&gt;&gt;&gt;</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">ascii85</span><span class="o">.</span><span class="n">ascii85decode</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="se">\7</span><span class="s2">PQ#@1a#b0+&gt;GQ(+?(u.+B2ko-rakk+E1b1F)Yf5@&lt;6!&amp;BlbCgDI[]uD.RU,@;I&amp;dE+EC!ATK:C&lt;,*OE;u~&quot;</span><span class="p">)</span>
-<span class="s1">&#39;</span><span class="se">\x14</span><span class="s1">h</span><span class="se">\xd5</span><span class="s1">&quot;4 Tf 100 700 Td (The passphrase is Incremental Updates) Tj ET&#39;</span>
-<span class="o">&gt;&gt;&gt;</span>
-</code></pre></div>
+&gt;&gt;&gt; import ascii85
+&gt;&gt;&gt;
+&gt;&gt;&gt; ascii85.ascii85decode("'\7PQ#@1a#b0+&gt;GQ(+?(u.+B2ko-rakk+E1b1F)Yf5@&lt;6!&amp;BlbD!=BJ[-=BJ[-=BJ[-=BJ[-=BI!p&lt;,*OE;u~")
+'\x14h\xd5"4 Tf 100 700 Td (The passphrase is XXXXXXXXXXXXXXXXXXX) Tj ET'
+&gt;&gt;&gt;
+&gt;&gt;&gt; ascii85.ascii85decode("'\7PQ#@1a#b0+&gt;GQ(+?(u.+B2ko-rakk+E1b1F)Yf5@&lt;6!&amp;BlbCgDI[]uD.RU,@;I&amp;dE+EC!ATK:C&lt;,*OE;u~")
+'\x14h\xd5"4 Tf 100 700 Td (The passphrase is Incremental Updates) Tj ET'
+&gt;&gt;&gt;
+</code></pre>
 
 <p>Awesome! The older object stream, when decoded (I&#8217;m using the ascii85 decoder from <a href="https://github.com/euske/pdfminer/blob/master/pdfminer/ascii85.py">pdfminer</a>), shows the passphrase. As suggested by Didier Stevens in his <a href="http://blog.didierstevens.com/2008/05/07/solving-a-little-pdf-puzzle/">writeup</a>, you could also remove the updated object content and xref table from the file to view the passphrase.</p>
 
