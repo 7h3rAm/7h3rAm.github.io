@@ -5,7 +5,11 @@
         <h2>📜 Patents</h2>
           <ul>
           {% for patent in datadict.metadata.research.patents %}
-            <li><code>{{ patent.date }}</code>: {{ patent.name }} (<a href="{{ patent.url }}" target="_blank">{{ patent.id }}</a>)</li>
+            {% if patent.url is not none %}
+              <li><code>{{ patent.date }}</code>: {{ patent.name }} (<a href="{{ patent.url }}" target="_blank">{{ patent.id }}</a>)</li>
+            {% else %}
+              <li><code>{{ patent.date }}</code>: {{ patent.name }} (<code>{{ patent.id }}</code>)</li>
+            {% endif %}
           {% endfor %}
           </ul>
         <br/>
