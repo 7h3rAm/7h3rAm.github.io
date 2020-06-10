@@ -8,7 +8,7 @@ While reading an article about [Physical and Logical Structure of PDF Files](htt
 
 Still here, great! Let's get started. First thing is to check what `exiftool` has to tell us about this file:
 
-```shell
+```bash
 $ exiftool pdf-puzzle.pdf
 ExifTool Version Number         : 9.46
 File Name                       : pdf-puzzle.pdf

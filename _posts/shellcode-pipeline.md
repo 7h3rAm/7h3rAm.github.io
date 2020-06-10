@@ -48,7 +48,7 @@ testing.
 
 Let's have a look at the help message from the tool:
 
-```shell
+```bash
 $ ./sap.py -h
 sap.py - Shellcode Analysis Pipleline (v0.1)
 Ankur Tyagi (7h3rAm)
@@ -82,7 +82,7 @@ skipped if no bin files are not created for obtained shellcode. Let's
 have a test run of the tool with `arm` as the search string to test only
 ARM shellcode available at Shell-Storm:
 
-```shell
+```bash
 $ ./sap.py -s arm -d
 sap.py - Shellcode Analysis Pipleline (v0.1)
 Ankur Tyagi (7h3rAm)
@@ -148,7 +148,7 @@ above test.
 
 Let's now try a Windows x86 shellcode with the tool:
 
-```shell
+```bash
 $ ./sap.py -s download
 sap.py - Shellcode Analysis Pipleline (v0.1)
 Ankur Tyagi (7h3rAm)
@@ -211,7 +211,7 @@ like the shellcode, when executed, will trigger the download and
 execution of a malware sample. This is also evident from the shellcode
 description provided by shell-storm for this shellcode id:
 
-```shell
+```bash
 $ shell-storm-api.py -search download
 Connecting to shell-storm.org...
 Found 14 shellcodes

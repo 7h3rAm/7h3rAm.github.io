@@ -18,7 +18,7 @@ them with `file` command. This provides some insight about various file
 attributes like its type (ELF, PE, etc.), processor architecture
 compatibility, symbol table inclusion, etc:
 
-```shell
+```bash
 $ file reverse-ex
 reverse-ex: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[ sha1]=0x8dac70a14b40f115fc4a27041a3ae29227a55afb, not stripped
 $
@@ -322,7 +322,7 @@ decoded = "".join(decoded)
 print "%s ^ 0x%x => %s" % (flag, key, decoded)
 ```
 
-```shell
+```bash
 $ ./xor.py KFFSE_XHKYOKXOHOFEDM^E_Y 0x2a
 KFFSE_XHKYOKXOHOFEDM^E_Y ^ 0x2a => allyourbasearebelongtous
 $

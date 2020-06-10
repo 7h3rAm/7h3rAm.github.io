@@ -6,7 +6,7 @@ tags: code, ctf, writeups
 
 The challenge consists a [pdf](/static/files/stegano50.pdf) file. Let's see what `exiftool` tells us about it:
 
-```shell
+```bash
 $ exiftool stegano50.pdf
 ExifTool Version Number         : 9.46
 File Name                       : stegano50.pdf
@@ -36,7 +36,7 @@ PTEX Fullbanner                 : This is pdfTeX, Version 3.1415926-2.5-1.40.14 
 
 All attributes seem standard except for `Subject`, `Producer` and `Keywords`. Since the `Keywords` obviously hints at a flag like string which seems to be base64 encoded, the first thing I tried was to decode it:
 
-```shell
+```bash
 $ echo -n "Tm9wZSAsIG5vdCBoZXJlIDspCg==" | base64 -d - 
 Nope , not here ;)
 ```
@@ -47,7 +47,7 @@ Well, that explains. Let's focus on `Subject` and `Producer` once again. These d
 
 There it is! A `div` element has the text blob we need. Let's extract and translate it as per the hint:
 
-```shell
+```bash
 $ echo -n "BABA BBB BA BBA ABA AB B AAB ABAA AB B AA BBB BA AAA BBAABB AABA ABAA AB BBA BBBAAA ABBBB BA AAAB ABBBB AAAAA ABBBB BAAA ABAA AAABB BB AAABB AAAAA AAAAA AAAAB BBA AAABB" | tr AB .-
 -.-. --- -. --. .-. .- - ..- .-.. .- - .. --- -. ... --..-- ..-. .-.. .- --. ---... .---- -. ...- .---- ..... .---- -... .-.. ...-- -- ...-- ..... ..... ....- --. ...--
 ```

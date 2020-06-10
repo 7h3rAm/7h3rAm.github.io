@@ -1,53 +1,31 @@
 {% extends "base.html" %}
-{% block main %}
-  <article class="post">
-  <a name="top"></a><a name="patents"></a>
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="panel panel-default section compact">
-        <p class="heading">Patents</p>
-        <div class="panel-body">
-          <table>
-            {%for year in data.research.patents|sort(reverse=True)%}
-              {%for month, value in data.research.patents[year].iteritems()|sort(reverse=True)%}
-                <span class="date">{{value.pretty_date}}</span> - <span class="posttitle">{{value.title}}</span>
-                {%if value.patent_id%}
-                  {%if value.patent_url%}
-                  <span> (<a href="{{value.patent_url}}" target="_blank">{{value.patent_id}}</a>)</span>
-                  {%endif%}
-                {%endif%}
-                <br/>
-                <span>{{value.description}}</span>
-                <br/>
-                <br/>
-              {%endfor%}
-            {%endfor%}
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-  <a name="talks"></a>
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="panel panel-default section compact">
-      <p class="heading">Talks/Papers/Demos</p>
-        <div class="panel-body">
-          {%for talk in data.research.talks%}
-          <span class="posttitle">{{talk.title}}</span><br/>
-          <span>{{talk.description}}</span><br/>
-            {%for event in talk.events%}
-              {%if event.media%}
-                <span class="date">{{event.pretty_date}}</span> - <span><a href="{{event.url}}" target="_blank">{{event.name}}</a></span> ({%for media in event.media%}<span><a href="{{media.url}}" target="_blank">{{media.name}}</a>{%if not loop.last%}, {%endif%}</span>{%endfor%})
-              {%else%}
-                <span class="date">{{event.pretty_date}}</span> - <span><a href="{{event.url}}" target="_blank">{{event.name}}</a></span>
-              {%endif%}
-              <br/>
-            {%endfor%}
-            <br/>
-          {%endfor%}
-        </div>
-      </div>
-    </div>
-  </div>
+{% block body %}
+      <h1>🔬 Research</h1>
+
+        <h2>📜 Patents</h2>
+          <ul>
+          {% for patent in datadict.metadata.research.patents %}
+            <li><code>{{ patent.date }}</code>: {{ patent.name }} (<a href="{{ patent.url }}" target="_blank">{{ patent.id }}</a>)</li>
+          {% endfor %}
+          </ul>
+        <br/>
+
+        <h2>🎙️ Talks/Papers/Demos</h2>
+          {% for talk in datadict.metadata.research.talks %}
+            <h3>{{ talk.name }}</h3>
+            <p>{{ talk.description }}</p>
+            <ul>
+            {% for conference in talk.conferences %}
+              <li><code>{{ conference.date }}: <a href="{{ conference.url }}" target="_blank">{{ conference.name }}</a></code></li>
+            {% endfor %}
+            </ul>
+          {% endfor %}
+        <br/>
+
+        <h2>📰 Media</h2>
+          <ul>
+          {% for article in datadict.metadata.research.media %}
+            <li><code>{{ article.date }}</code>: {{ article.name }} (<a href="{{ article.url }}" target="_blank">{{ article.publication }}</a>)</li>
+          {% endfor %}
+          </ul>
 {% endblock %}

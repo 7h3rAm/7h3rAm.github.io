@@ -1,85 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Home</title>
-    <link href="favicon.png" rel="shortcut icon" type="image/x-icon" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
-    <link rel="stylesheet" href="https://cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
-    <link rel="stylesheet" href="https://cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
-    <style type="text/css">
-      @media screen and (max-width: 600px) {
-        table thead {
-          border: none;
-          clip: rect(0 0 0 0);
-          height: 1px;
-          margin: -1px;
-          overflow: hidden;
-          padding: 0;
-          position: absolute;
-          width: 1px;
-        }
-        table tr {
-          border-bottom: 3px solid #ddd;
-          display: block;
-        }
-      }
-    </style>
-  </head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
+    <meta name="description" content="Personal Weblog"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>Mannthan</title>
+    <link href="/static/images/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
+    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
+    <link rel="stylesheet" href="/static/css/github-gist.min.css">
+    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
+    <script src="/static/js/highlight.min.js"></script>
+    <script src="/static/js/highlightjs-line-numbers.min.js"></script>
+    <script charset="UTF-8" src="/static/js/languages/go.min.js"></script>
+    <link rel="stylesheet" href="/static/css/style.md.css">
+   </head>
   <body>
-    <div class="container">
-      <div class="row">
-        <div id="clock"></div>
-      </div>
-      <div class="row">
-        <div id="location"></div>
-      </div>
-      <div class="row">
-        <div id="description"></div>
-      </div>
+    <div class="header">
+      <table>
+        <tr>
+          <td>
+            <a href="/index.html" style="color:#08f; font-size:14pt;">[🏡 Home]</a>
+            <a href="/archive.html" style="color:#f90; font-size:14pt;">[💾 Archive]</a>
+            <a href="/tags.html" style="color:#671d9d; font-size:14pt;">[🔖 Tags]</a>
+            <a href="/research.html" style="color:#f50; font-size:14pt;">[🔬 Research]</a>
+          </td>
+        </tr>
+      </table>
     </div>
-    <div class="container">
-      <div class="row">
-        <table>
-          <tbody>
-            <tr>
-              <td><img id="goes17westfd"/><br/>#GOES17 #GOESWest</td>
-              <td><img id="goes16eastfd"/><br/>#GOES16 #GOESEast</td>
-            </tr>
-            <tr>
-              <td><img id="goes17westconusfd"/><br/>#GOES17 #GOESWest CONUS</td>
-              <td><img id="goes16eastconusfd"/><br/>#GOES16 #GOESEast CONUS</td>
-            </tr>
-            <tr>
-              <td><img id="goes16eastpnw"/><br/>#GOES16 #GOESEast PNW (Pacific NorthWest)</td>
-              <td><img id="goes16eastpsw"/><br/>#GOES16 #GOESEast PSW (Pacific SouthWest)</td>
-            </tr>
-            <tr>
-              <td><img id="goes16eastcgl"/><br/>#GOES16 #GOESEast CGL (Great Lakes)</td>
-              <td><img id="goes16eastne"/><br/>#GOES16 #GOESEast NE (North East)</td>
-            </tr>
-            <tr>
-              <td><img id="goes16eastumv"/><br/>#GOES16 #GOESEast UMV (Upper Mississippi valley)</td>
-              <td><img id="goes16eastsmv"/><br/>#GOES16 #GOESEast SMV (Southern Mississippi Valley)</td>
-            </tr>
-            <tr>
-              <td><img id="goes16eastnr"/><br/>#GOES16 #GOESEast NR (Northen Rockies)</td>
-              <td><img id="goes16eastsr"/><br/>#GOES16 #GOESEast SR (Southern Rockies)</td>
-            </tr>
-            <tr>
-              <td><img id="goes16eastsp"/><br/>#GOES16 #GOESEast SP (Southern Plains)</td>
-              <td><img id="goes16eastse"/><br/>#GOES16 #GOESEast SE (South East)</td>
-            </tr>
-            <tr>
-              <td><img id="meteosat0"/><br/>#METEOSAT #METEOSAT0</td>
-              <td><img id="meteosat415"/><br/>#METEOSAT #METEOSAT415</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <div class="body">
+        <h1>🌎 EarthView</h1>
+
+    <center>
+      <div id="clock"></div>
+      <div id="location"></div>
+      <div id="description"></div>
+    </center>
+    <br/>
+
+    <table>
+      <tbody>
+        <tr>
+          <td><center>#GOES17 #GOESWest<br/><img id="goes17westfd"/></center></td>
+          <td><center>#GOES16 #GOESEast<br/><img id="goes16eastfd"/></center></td>
+        </tr>
+        <tr>
+          <td><center>#GOES17 #GOESWest CONUS<br/><img id="goes17westconusfd"/></center></td>
+          <td><center>#GOES16 #GOESEast CONUS<br/><img id="goes16eastconusfd"/></center></td>
+        </tr>
+        <tr>
+          <td><center>#GOES16 #GOESEast PNW (Pacific NorthWest)<br/><img id="goes16eastpnw"/></center></td>
+          <td><center>#GOES16 #GOESEast PSW (Pacific SouthWest)<br/><img id="goes16eastpsw"/></center></td>
+        </tr>
+        <tr>
+          <td><center>#GOES16 #GOESEast CGL (Great Lakes)<br/><img id="goes16eastcgl"/></center></td>
+          <td><center>#GOES16 #GOESEast NE (North East)<br/><img id="goes16eastne"/></center></td>
+        </tr>
+        <tr>
+          <td><center>#GOES16 #GOESEast UMV (Upper Mississippi valley)<br/><img id="goes16eastumv"/></center></td>
+          <td><center>#GOES16 #GOESEast SMV (Southern Mississippi Valley)<br/><img id="goes16eastsmv"/></center></td>
+        </tr>
+        <tr>
+          <td><center>#GOES16 #GOESEast NR (Northen Rockies)<br/><img id="goes16eastnr"/></center></td>
+          <td><center>#GOES16 #GOESEast SR (Southern Rockies)<br/><img id="goes16eastsr"/></center></td>
+        </tr>
+        <tr>
+          <td><center>#GOES16 #GOESEast SP (Southern Plains)<br/><img id="goes16eastsp"/></center></td>
+          <td><center>#GOES16 #GOESEast SE (South East)<br/><img id="goes16eastse"/></center></td>
+        </tr>
+        <tr>
+          <td><center>#METEOSAT #METEOSAT0<br/><img id="meteosat0"/></center></td>
+          <td><center>#METEOSAT #METEOSAT415<br/><img id="meteosat415"/></center></td>
+        </tr>
+      </tbody>
+    </table>
+    <br/>
     <script>
       function getTime() {
         let date = new Date(),
@@ -90,23 +87,6 @@
           sec = date.getSeconds(),
           hour = date.getHours();
         document.getElementById("clock").innerHTML = "" + (year + "/" + (month < 10 ? ("0" + month) : month) + "/" + (day < 10 ? ("0" + day) : day)) + " " + (hour < 10 ? ("0" + hour) : hour) + ":" + (min < 10 ? ("0" + min) : min) + ":" + (sec < 10 ? ("0" + sec) : sec);
-      }
-      function getWeather(response) {
-        console.log(new Date() + ": getWeather");
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', 'https://api.openweathermap.org/data/2.5/weather?id=5350159&units=metric&appid=e5b292ae2f9dae5f29e11499c2d82ece');
-        xhr.onload = () => {
-          if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-              let json = JSON.parse(xhr.responseText);
-              document.getElementById("location").innerHTML = "Location: " + json.name + ", " + json.sys.country;
-              document.getElementById("description").innerHTML = "Weather: " + json.main.temp.toFixed(0) + "°C" + " (" + json.weather[0].description + ")";
-            } else {
-              console.log('error msg: ' + xhr.status);
-            }
-          }
-        }
-        xhr.send();
       }
       function getImages() {
         console.log(new Date() + ": getImages");
@@ -129,12 +109,16 @@
       }
       window.onload = () => {
         getTime();
-        getWeather();
         getImages();
         setInterval(() => {getTime();},500); // every 0.5s
-        setInterval(() => {getWeather();},1000*60*1); // every 1m
         setInterval(() => {getImages();},1000*60*10); // every 10m
       }
     </script>
+    </div>
+    <div class="footer">
+      <p style="text-align:center;">[<a href="https://creativecommons.org/licenses/by/4.0/" rel="license" target="_blank">📝 CC BY 4.0</a>]</p>
+    </div>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>hljs.initLineNumbersOnLoad();</script>
   </body>
 </html>

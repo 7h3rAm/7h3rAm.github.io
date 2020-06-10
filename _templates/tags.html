@@ -1,42 +1,19 @@
-{%extends "base.html"%}
-{%block main%}
-  <article class="post">
-    <a name="top"></a>
-    <div class="row">
-      <div class="col-lg-12">
-      <div class="panel panel-default section compact">
-          <div class="panel-body">
-            <br/>
-            <div class="tags">
-              <ul id="cloud">
-                {%for tag, tagvalue in tags.iteritems()%}
-                  <li><a style="{{tagvalue.tagstyle}}" href="/tags.html#{{tag}}" title="{{tag}}: {{tagvalue.count}} entries">{{tag}}</a></li>
-                {%endfor%}
-              </ul>
-            </div>
-            <br/>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-12">
-      <div class="panel panel-default section compact">
-          <div class="panel-body">
-            {%for tag, tagvalue in tags.iteritems()|sort%}
-              <div class="section">
-              <h2><a name="{{tag}}">{{tag}}</a> <sup>({{tagvalue.count}})</sup></h2>
-              <table>
-              {%for post in tagvalue.files%}
-                <span class="date">{{post.pretty_date}}</span> - <span><a href="{{post.url}}">{{post.title}}</a></span>
-                <br/>
-              {%endfor%}
-              </table>
-              <span class="pointer"><sup><a href="#top">top^</a></sup></span>
-              </div>
-            {%endfor%}
-          </div>
-        </div>
-      </div>
-    </div>
-{%endblock%}
+{% extends "base.html" %}
+{% block body %}
+      <h1>🔖 Tags <a name="top"></a></h1>
+        <ul id="cloud">
+          {% for tag in datadict.tagcloud %}
+            <li><a style="{{ datadict.tagcloud[tag] }}" href="/tags.html#{{tag}}">{{ tag }}</a></li>
+          {% endfor %}
+        </ul>
+        {% for tag in datadict.tags|sort %}
+          <a name="{{ tag }}"></a>
+          <h2>{{ tag }} <a href="#top"> ↟ </a></h2>
+          <ol>
+            {% for post in datadict.tags[tag] %}
+              <li><code>{{ post.pretty_date }}</code>: <a href="{{ post.url }}">{{ post.title }}</a></li>
+            {% endfor %}
+          </ol>
+        {%endfor%}
+      <br/>
+{% endblock %}

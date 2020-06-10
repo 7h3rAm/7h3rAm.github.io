@@ -109,7 +109,7 @@ if __name__ == "__main__":
 
 Let's give this script a test run:
 
-```shell
+```bash
 {
  'cve': 'CVE-2015-1234',
  'references': [u'https://codereview.chromium.org/1016193003',

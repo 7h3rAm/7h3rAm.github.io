@@ -2,61 +2,53 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <meta name="author" content="7h3rAm"/>
+    <meta name="author" content="{{ blogdict.metadata.name }} ({{ blogdict.metadata.handle }})"/>
     <meta name="description" content="Personal Weblog"/>
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    <title>Grey Matter</title>
-
-    <link href="/static/css/default.css" rel="stylesheet" type="text/css">
-    <link href="/static/css/codehilite/perldoc.css" rel="stylesheet" type="text/css">
-
-    <link href="/static/images/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
-  </head>
+    <title>Mannthan</title>
+    <link href="./static/images/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
+    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github-gist.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
+    <link rel="stylesheet" href="/static/css/github-gist.min.css">
+    <script src="/static/js/highlight.min.js"></script>
+    <script charset="UTF-8" src="/static/js/languages/go.min.js"></script>
+    <link rel="stylesheet" href="/static/css/style.md.css">
+   </head>
   <body>
-    <section id="content" class="body">
-              <div class="header">
-          <table>
-            <tr>
-              <td class="blogtitle"><a href="/" style="color: rgb(102, 102, 102);">Grey Matter</a></td>
-              <td class="blognavbar">
-                [<a id="archive" href="/archive.html" style="color: rgb(70, 130, 180);">Archive</a>] [<a id="tags" href="/tags.html" style="color: rgb(255, 183, 69);">Tags</a>] [<a id="projects" href="/projects.html" style="color: rgb(0, 128, 128);">Projects</a>] [<a id="research" href="/research.html" style="color: rgb(242, 119, 122);">Research</a>]
-              </td>
-            </tr>
-          </table>
-        </div>
-              <article class="post">
-  <a name="top"></a>
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="panel panel-default section compact">
-      <p class="heading">Projects</p>
-        <div class="panel-body">
-                      <span class="date">1</span>. <span class="posttitle">Rudra</span> - <span>A developer-friendly framework for exhaustive analysis of (PCAP and PE) files.</span> (<a href="https://github.com/7h3rAm/rudra" target="_blank">src</a>)<br/>
-                      <span class="date">2</span>. <span class="posttitle">Aayudh</span> - <span>The weaponary you need in your fight against evil.</span> (<a href="https://github.com/7h3rAm/aayudh" target="_blank">src</a>)<br/>
-                      <span class="date">3</span>. <span class="posttitle">Flowinspect</span> - <span>A Network Inspection Tool.</span> (<a href="https://github.com/7h3rAm/flowinspect" target="_blank">src</a>)<br/>
-                      <span class="date">4</span>. <span class="posttitle">Cryptopaymon</span> - <span>A bot to monitor crypto payments (donations and ransom).</span> (<a href="https://github.com/7h3rAm/cryptopaymon" target="_blank">src</a>)<br/>
-                      <span class="date">5</span>. <span class="posttitle">Kalpi</span> - <span>A static site generator in Python.</span> (<a href="https://github.com/7h3rAm/kalpi" target="_blank">src</a>)<br/>
-                      <span class="date">6</span>. <span class="posttitle">Cigma</span> - <span>A pure-Python file type identification library.</span> (<a href="https://github.com/7h3rAm/cigma" target="_blank">src</a>)<br/>
-                      <span class="date">7</span>. <span class="posttitle">PcapEdit</span> - <span>An Interactive Pcap Editor (based on Scapy).</span> (<a href="https://github.com/7h3rAm/pcapedit" target="_blank">src</a>)<br/>
-                      <span class="date">8</span>. <span class="posttitle">RE2DotGraph</span> - <span>Visualize a (non-POSIX) regular expression (uses pyFSA and dot).</span> (<a href="https://github.com/7h3rAm/re2dotgraph" target="_blank">src</a>)<br/>
-                      <span class="date">9</span>. <span class="posttitle">ARP-Secur</span> - <span>A proof-of-concept tool to safegaurd against ARP cache poisoning attacks.</span> (<a href="https://github.com/7h3rAm/arp-secur" target="_blank">src</a>)<br/>
-                  </div>
-      </div>
+    <div class="header">
+      <table>
+        <tr>
+          <td>
+            <a href="./index.html" style="color:#900">[Home]</a>
+            <a href="./archive.html" style="color:#09a">[Archive]</a>
+            <a href="./tags.html" style="color:#fb0">[Tags]</a>
+            <a href="./projects.html" style="color:#671d9d">[Projects]</a>
+            <a href="./research.html" style="color:#fa8072">[Research]</a>
+          </td>
+        </tr>
+      </table>
     </div>
-  </div>
-              <div class="footer">
-          <center>
-            <a href="/rss.xml" target="_blank">rss</a> | <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" target="_blank">license</a>
-          </center>
-        </div>
-          </section>
 
-    <script type="text/javascript">
-      document.addEventListener("DOMContentLoaded", function() {
-        var colors = ["#4B0082", "#3CB371", "#2E8B57", "#808000", "#20B2AA", "#008B8B", "#4682B4", "#B0C4DE", "#87CEFA", "#87CEEB", "#1E90FF", "#6495ED", "#000080", "#191970"];
-        document.getElementById("element").style.color = colors[Math.floor(Math.random() * colors.length)];
-      }, false);
-    </script>
+    <div>
+      <h1>Projects</h1>
+      <ol>
+        <li><a href="https://github.com/7h3rAm/rudra" target="_blank">Rudra</a>: A developer-friendly framework for exhaustive analysis of (PCAP and PE) files</li>
+        <li><a href="https://github.com/7h3rAm/aayudh" target="_blank">Aayudh</a>: The weaponary you need in your fight against evil</li>
+        <li><a href="https://github.com/7h3rAm/flowinspect" target="_blank">Flowinspect</a>: A Network Inspection Tool</li>
+        <li><a href="https://github.com/7h3rAm/cryptopaymon" target="_blank">Cryptopaymon</a>: A bot to monitor crypto payments (donations and ransom)</li>
+        <li><a href="https://github.com/7h3rAm/kalpi" target="_blank">Kalpi</a>: A static site generator in Python</li>
+        <li><a href="https://github.com/7h3rAm/cigma" target="_blank">Cigma</a>: A pure-Python file type identification library</li>
+        <li><a href="https://github.com/7h3rAm/pcapedit" target="_blank">PcapEdit</a>: An Interactive Pcap Editor (based on Scapy)</li>
+        <li><a href="https://github.com/7h3rAm/re2dotgraph" target="_blank">RE2DotGraph</a>: Visualize a (non-POSIX) regular expression (uses pyFSA and dot)</li>
+        <li><a href="https://github.com/7h3rAm/arp-secur" target="_blank">ARP-Secur</a>: A proof-of-concept tool to safegaurd against ARP cache poisoning attacks.</li>
+      </ol>
+    </div>
 
+    <div class="footer"><center>All content on this blog is licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license" target="_blank">CC BY 4.0</a></center></div>
   </body>
-</html>
+</doctype>

@@ -1,28 +1,17 @@
-{%extends "base.html"%}
-{%block main%}
-  <article class="post">
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="panel panel-default section compact">
-        <div class="panel-body">
-          {{data.aboutme}}
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="panel panel-default section compact">
-        <div class="panel-body">
-          <p class="heading">Recent Posts</p>
-          {%for post in posts%}
-            <span class="date">{{post.pretty_date}}</span> - <span><a href="{{post.url}}">{{post.title}}</a></span>
-            <br/>
-          {%endfor%}
-          <span class="pointer"><a href="/archive.html">more...</a></span>
-        </div>
-      </div>
-    </div>
-  </div>
-  </article>
-{%endblock%}
+{% extends "base.html" %}
+{% block body %}
+      <h1>{{ datadict.metadata.name }} ({{ datadict.metadata.handle }})</h1>
+        {{ datadict.metadata.blog.intro }}
+        <ul>
+        {% for connect in datadict.metadata.blog.connect %}
+          <li><a href="{{ connect.url }}" target="_blank">{{ connect.name }}</a></li>
+        {% endfor %}
+        </ul>
+        <h2>⏱️ Recent Posts</h2>
+        <ul>
+        {% for post in datadict.posts[:10] %}
+          <li><code>{{ post.pretty_date }}</code>: <a href="{{ post.url }}">{{ post.title }}</a></li>
+        {% endfor %}
+          <li><a href="/archive.html">more...</a></li>
+        </ul>
+{% endblock %}

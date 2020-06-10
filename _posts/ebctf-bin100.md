@@ -6,14 +6,14 @@ tags: code, ctf, reversing
 
 From the [challenges page](http://ebctf.nl/challenges/), download the [bin100](/static/files/bin100) binary and start following along. The challenge title is "Dice Revenge" and the description talks about Linux debugging skills. Let's see what `file` commands tells us about this file:
 
-```shell
+```bash
 $ file bin100
 bin100: ELF 32-bit LSB  executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.26, BuildID[sha1]=b07165d860e4c153770483d43e42a54f92f5ac93, not stripped
 ```
 
 Alright, an ELF file. Let's issue a customary `strings` command on the challenge file:
 
-```shell
+```bash
 $ strings bin100
 /lib/ld-linux.so.2
 CyIk
@@ -233,7 +233,7 @@ _init
 
 Quite a few interesting strings here. The title makes sense now. This looks like a dice game that requires us to throw certain number sequences to win. Let's give it a test run:
 
-```shell
+```bash
 $ ./bin100
 
 [*] ebCTF 2013 - BIN100 - Dice Game
@@ -295,7 +295,7 @@ $ ./bin100
 
 Alright, looks like the first two numbers are `3` and `1` respectively. We might need multiple invocations to know further numbers in the expected sequence. Let's debug the file using GDB:
 
-```shell
+```bash
 $ gdb -q ./bin100
 Reading symbols from ./bin100...(no debugging symbols found)...done.
 gdb-peda$ break *main
@@ -658,7 +658,7 @@ e.save('bin100.patched')
 
 We create a mapping of expected values and addresses where these need to be written. Executing this script will create a new patched file that should then give us the flag:
 
-```shell
+```bash
 $ ./bin100.patched
 
 [*] ebCTF 2013 - BIN100 - Dice Game
@@ -742,4 +742,4 @@ $ ./bin100.patched
 [*] Nice job, here is the flag: ebCTF{9a9689dbd47a1fd3fc0bf17d60edf545}
 ```
 
-Awesome! The flag for this challenge is **ebCTF{9a9689dbd47a1fd3fc0bf17d60edf545}**. You can download the patched file [here](/static/files/bin100.patched).
+Awesome! We sucessfully solve this challenge and are presented with the flag. You can download the patched file [here](/static/files/bin100.patched).

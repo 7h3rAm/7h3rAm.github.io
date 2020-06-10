@@ -1,89 +1,22 @@
-{%extends "base.html"%}
-{%block main%}
-  {%set curr = post.title%}
-  {%set total = posts|count%}
-  <article class="post">
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="panel panel-default section compact">
-        <div class="body">
-          <p class="heading">{{post.title}}</p>
-          {%for post in posts%}
-            {%if post.title == curr%}
-              {%if loop.index0 > 0%}
-                {%set next = posts[loop.index0-1].url%}
-                {%set nexttitle = posts[loop.index0-1].title%}
-              {%else%}
-                {%set next = None%}
-                {%set nexttitle = None%}
-              {%endif%}
-              {%if loop.index0+1 < total%}
-                {%set prev = posts[loop.index0+1].url%}
-                {%set prevtitle = posts[loop.index0+1].title%}
-              {%else%}
-                {%set prev = None%}
-                {%set prevtitle = None%}
-              {%endif%}
-              {%if prev and next%}
-                <p class="date">
-                  <a href="/{{prev}}">&lt&lt;</a> published on {{post.pretty_date}}<a href="/{{next}}"> &gt;&gt;</i></a><br/>
-                </p>
-              {%elif not prev%}
-                <p class="date">
-                  published on {{post.pretty_date}}<a href="/{{next}}"> &gt;&gt;</a><br/>
-                </p>
-              {%elif not next%}
-                <p class="date">
-                  <a href="/{{prev}}">&lt;&lt;</a> published on {{post.pretty_date}}<br/>
-                </p>
-              {%endif%}
-            {%endif%}
-          {%endfor%}
-        <div class="post-content">
-          {{post.content}}
-        </div>
-        <div class="meta">
-          <hr/>
-          <p>For comments, questions and suggestions use <a href="https://twitter.com/7h3rAm" target="_blank">twitter</a> or create an <a href="https://github.com/7h3rAm/7h3rAm.github.io/issues/new" target="_blank">issue</a> on blog repository.</p>
-          <hr/>
-          {%for post in posts%}
-            {%if post.title == curr%}
-              {%if loop.index0 > 0%}
-                {%set next = posts[loop.index0-1].url%}
-                {%set nexttitle = posts[loop.index0-1].title%}
-              {%else%}
-                {%set next = None%}
-                {%set nexttitle = None%}
-              {%endif%}
-              {%if loop.index0+1 < total%}
-                {%set prev = posts[loop.index0+1].url%}
-                {%set prevtitle = posts[loop.index0+1].title%}
-              {%else%}
-                {%set prev = None%}
-                {%set prevtitle = None%}
-              {%endif%}
-              <table>
-                <tr>
-                  <td align="left">(share via <a href="mailto:?subject={{post.title}}&body={{baseurl}}/{{post.url}}" target="_blank" title="Share via Email">mail</a>, <a href="http://twitter.com/intent/tweet?text={{post.title}}+{{baseurl}}/{{post.url}}&via=7h3rAm" target="_blank" title="Share on Twitter">twitter</a>, <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={{baseurl}}/{{post.url}}&p[images][0]=&p[title]={{post.title}}&p[summary]={{post.summary}}" target="_blank" title="Share on Facebook">facebook</a> or <a href="https://plus.google.com/share?url={{baseurl}}/{{post.url}}" target="_blank" title="Share on Google Plus">google-plus</a>)</td>
-                  <td align="right">(tagged {{post.tags|joinlistand("/tags.html#")}})</td>
-                </tr>
-                <tr>
-                  {%if prev and next%}
-                    <td align="left"><a href="/{{prev}}">&lt;&lt; {{prevtitle}} &lt;&lt;</a></td>
-                    <td align="right"><a href="/{{next}}">&gt;&gt; {{nexttitle}} &gt;&gt;</a></td>
-                  {%elif not next%}
-                    <td align="left" colspan="2"><a href="/{{prev}}">&lt;&lt; {{prevtitle}} &lt;&lt;</a></td>
-                  {%elif not prev%}
-                    <td align="right" colspan="2"><a href="/{{next}}">&gt;&gt; {{nexttitle}} &gt;&gt;</a></td>
-                  {%endif%}
-                </tr>
-              </table>
-            {%endif%}
-          {%endfor%}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  </article>
-{%endblock%}
+{% extends "base.html" %}
+{% block body %}
+      <h1>{{ datadict.post.title }}</h1>
+        {% if datadict.post.previous and datadict.post.next %}
+          <p><a href="{{ datadict.post.previous.url }}"> « </a>📅 published on <code>{{ datadict.post.pretty_date }}</code><a href="{{ datadict.post.next.url }}"> » </a></p>
+        {% elif datadict.post.previous %}
+          <p><a href="{{ datadict.post.previous.url }}"> « </a>📅 published on <code>{{ datadict.post.pretty_date }}</code></p>
+        {% elif datadict.post.next %}
+          <p>📅 published on <code>{{ datadict.post.pretty_date }}</code><a href="{{ datadict.post.next.url }}"> » </a></p>
+        {% endif %}
+        {{ datadict.post.content }}
+        <hr/>
+        <p style="text-align:center;">(🔖 tagged {{ datadict.post.tags|joinlistand("/tags.html#") }})</p>
+        {% if datadict.post.previous and datadict.post.next %}
+          <p style="text-align:center;">« <a href="{{ datadict.post.previous.url }}">{{ datadict.post.previous.title|trimlength }}</a> « | » <a href="{{ datadict.post.next.url }}">{{ datadict.post.next.title|trimlength }}</a> »</p>
+        {% elif datadict.post.previous %}
+          <p style="text-align:center;">« <a href="{{ datadict.post.previous.url }}">{{ datadict.post.previous.title }}</a> «</p>
+        {% elif datadict.post.next %}
+          <p style="text-align:center;">» <a href="{{ datadict.post.next.url }}">{{ datadict.post.next.title }}</a> »</p>
+        {% endif %}
+        <hr/>
+{% endblock %}

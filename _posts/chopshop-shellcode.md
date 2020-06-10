@@ -14,7 +14,7 @@ Last year I submitted a [shellcode detection module](https://github.com/MITRECND
 
 To invoke ChopShop you need to provide a pcapfile as input and then a list of modules to be invoked. Each module can be provided respective arguments as well. Let's have a look at the command line invocation and usage of the shellcode module:
 
-```shell
+```bash
 $ ./chopshop -f ~/toolbox/testfiles/pcaps/shellcode/shellcode-winexec-calc.pcap "shellcode_detector -xp"
 Starting ChopShop
 Initializing Modules ...

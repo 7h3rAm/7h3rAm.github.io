@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
+    <meta name="description" content="Personal Weblog"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>Mannthan</title>
+    <link href="/static/images/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
+    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
+    <link rel="stylesheet" href="/static/css/github-gist.min.css">
+    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
+    <script src="/static/js/highlight.min.js"></script>
+    <script src="/static/js/highlightjs-line-numbers.min.js"></script>
+    <script charset="UTF-8" src="/static/js/languages/go.min.js"></script>
+    <link rel="stylesheet" href="/static/css/style.md.css">
+   </head>
+  <body>
+    <div class="header">
+      <table>
+        <tr>
+          <td>
+            <a href="/index.html" style="color:#08f; font-size:14pt;">[🏡 Home]</a>
+            <a href="/archive.html" style="color:#f90; font-size:14pt;">[💾 Archive]</a>
+            <a href="/tags.html" style="color:#671d9d; font-size:14pt;">[🔖 Tags]</a>
+            <a href="/research.html" style="color:#f50; font-size:14pt;">[🔬 Research]</a>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="body">
+          <h1>cigma: A Pure Python Filetype Identification Library</h1>
+                  <p><a href="/posts/20150802_capinfos.html"> « </a>📅 published on <code>22/Nov/2015</code><a href="/posts/20160218_flareon2014-15.html"> » </a></p>
+                <p>Filetype identification is the process of scanning <a href="https://en.wikipedia.org/wiki/Magic_number_%28programming%29">respective</a> <a href="https://en.wikipedia.org/wiki/List_of_file_signatures">magicbytes</a> for each filetype within input streams. The mapping for various filetypes and their magicbytes are stored in different formats which is then queried by the identification library. If a match is found, input stream is classified to be of that type. In case of match collisions, a signature preference logic prioritizes matches. Tools like <a href="http://mark0.net/soft-trid-e.html">TrID</a> and <a href="http://www.forensicswiki.org/wiki/File_Format_Identification">others</a> use similar logic.</p>
+<p><a href="https://github.com/7h3rAm/cigma">cigma</a> is a Python library to identify filetypes. It provides <a href="https://github.com/threatstack/libmagic">libmagic</a> like mimetype identification of a file or data buffer. This is similar to what the <code>file</code> command on *nix systems will provide:</p>
+<pre><code class="bash">$ file cigma.py
+cigma.py: Python script, ASCII text executable
+$
+$ file readme.md
+readme.md: Python script, ASCII text executable, with very long lines
+$
+$ file /bin/ls
+/bin/ls: ELF 64-bit LSB  executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[sha1]=9d2a434c4ff55aad2ddd19348c0ac75971606483, stripped
+$
+$ file /etc/passwd
+/etc/passwd: ASCII text
+$
+$ file /dev/sda
+/dev/sda: block special
+</code></pre>
+
+<p><code>cigma</code> uses a custom JSON formatted signature file to stores filetype mappings. Let's try identifying a few files:</p>
+<pre><code class="bash">$ python cigma.py /bin/ls
+('/bin/ls',
+ {'id': 29,
+  'longname': 'Executable and Linkable Format (ELF)',
+  'mimetype': 'application/x-executable',
+  'patterns': [{'offset': 0, 'regex': '\\x7F\\x45\\x4C\\x46', 'size': 4}],
+  'shortname': 'ELF'})
+$
+$ python cigma.py ~/toolbox/testfiles/binary/suspicious/35d249cdd501aeb5a5b39daeb4f275c41c73e91ef299a094d27edbfd0396715d.VXE
+('/home/shiv/toolbox/testfiles/binary/suspicious/35d249cdd501aeb5a5b39daeb4f275c41c73e91ef299a094d27edbfd0396715d.VXE',
+ {'id': 31,
+  'longname': 'Windows Executable',
+  'mimetype': 'application/x-dosexec',
+  'patterns': [{'offset': 0, 'regex': '\\x4D\\x5A', 'size': 2}],
+  'shortname': 'EXE'})
+$
+$ python cigma.py ~/toolbox/testfiles/pcaps/exploitkits/2015-04-03-Nuclear-EK-traffic.pcap
+('/home/shiv/toolbox/testfiles/pcaps/exploitkits/2015-04-03-Nuclear-EK-traffic.pcap',
+ {'id': 5,
+  'longname': 'Packet Capture (winpcap)',
+  'mimetype': 'application/vnd.tcpdump.pcap',
+  'patterns': [{'offset': 0, 'regex': '\\xD4\\xC3\\xB2\\xA1', 'size': 4}],
+  'shortname': 'PCAP'})
+</code></pre>
+
+<p>If a match is found, <code>cigma</code> returns a <code>(source, resultdict)</code> tuple. Here is a snippet of few signatures from the current set:</p>
+<pre><code class="bash">{
+  &quot;meta&quot;: {
+    &quot;rulescount&quot;: 72,
+    &quot;version&quot;: 0.1
+  },
+  &quot;rules&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;longname&quot;: &quot;PKZIP&quot;,
+      &quot;mimetype&quot;: &quot;application/octet-stream&quot;,
+      &quot;patterns&quot;: [
+        {
+          &quot;offset&quot;: 0,
+          &quot;regex&quot;: &quot;\\x50\\x4B\\x05\\x06&quot;,
+          &quot;size&quot;: 4
+        }
+      ],
+      &quot;shortname&quot;: &quot;ZIP&quot;
+    },
+    {
+      &quot;id&quot;: 5,
+      &quot;longname&quot;: &quot;Packet Capture (winpcap)&quot;,
+      &quot;mimetype&quot;: &quot;application/vnd.tcpdump.pcap&quot;,
+      &quot;patterns&quot;: [
+        {
+          &quot;offset&quot;: 0,
+          &quot;regex&quot;: &quot;\\xD4\\xC3\\xB2\\xA1&quot;,
+          &quot;size&quot;: 4
+        }
+      ],
+      &quot;shortname&quot;: &quot;PCAP&quot;
+    },
+    {
+      &quot;id&quot;: 27,
+      &quot;longname&quot;: &quot;Flash Video&quot;,
+      &quot;mimetype&quot;: &quot;video/x-flv&quot;,
+      &quot;patterns&quot;: [
+        {
+          &quot;offset&quot;: 0,
+          &quot;regex&quot;: &quot;\\x46\\x4C\\x56&quot;,
+          &quot;size&quot;: 3
+        }
+      ],
+      &quot;shortname&quot;: &quot;FLV&quot;
+    },
+    {
+      &quot;id&quot;: 29,
+      &quot;longname&quot;: &quot;Executable and Linkable Format (ELF)&quot;,
+      &quot;mimetype&quot;: &quot;application/x-executable&quot;,
+      &quot;patterns&quot;: [
+        {
+          &quot;offset&quot;: 0,
+          &quot;regex&quot;: &quot;\\x7F\\x45\\x4C\\x46&quot;,
+          &quot;size&quot;: 4
+        }
+      ],
+      &quot;shortname&quot;: &quot;ELF&quot;
+    }
+  ]
+}
+</code></pre>
+
+<p>Adding a new signature is really easy. Just edit the included <code>magicbytes.json</code> file and add a new node with an unique <code>id</code>. Each node should have a <code>patterns</code> list which should contain the <code>offset</code>, <code>regex</code> and <code>size</code> keys with respective values.</p>
+<p>Using <code>cigma</code> as a library is really easy:</p>
+<pre><code class="python">from cigma import Cigma
+</code></pre>
+
+<p>One this is done, you can identify a file buffer:</p>
+<pre><code class="python">with open(&quot;/home/shiv/toolbox/testfiles/binary/crafted_corkami/gui.exe&quot;) as fo:
+  filedata = fo.read()
+
+Cigma(data=filedata).cigma()
+('databuffer',
+ {'longname': 'Windows Executable',
+  'mimetype': 'application/x-dosexec',
+  'patterns': [{'offset': 0, 'regex': '\\x4D\\x5A', 'size': 2}],
+  'shortname': 'EXE'})
+</code></pre>
+
+<p>Or else you can also identify a file itself:</p>
+<pre><code class="python">Cigma(filename=&quot;/home/shiv/toolbox/testfiles/binary/crafted_corkami/gui.exe&quot;).cigma()
+('/home/shiv/toolbox/testfiles/binary/crafted_corkami/gui.exe',
+ {'longname': 'Windows Executable',
+  'mimetype': 'application/x-dosexec',
+  'patterns': [{'offset': 0, 'regex': '\\x4D\\x5A', 'size': 2}],
+  'shortname': 'EXE'})
+</code></pre>
+
+<p>The primary purpose of <code>cigma</code> is to be able to identify mundane files at lightning speeds. It doesn't aim to provide exhaustive insight into each file by parsing and decoding it. Currently, there are 70+ signatures and identification for more filetypes will be available as the project grows.</p>
+        <hr/>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20150802_capinfos.html">capinfos.py: Pure Python Pcap ...</a> « | » <a href="/posts/20160218_flareon2014-15.html">FireEye FLARE On 2014 Challeng...</a> »</p>
+                <hr/>
+    </div>
+    <div class="footer">
+      <p style="text-align:center;">[<a href="https://creativecommons.org/licenses/by/4.0/" rel="license" target="_blank">📝 CC BY 4.0</a>]</p>
+    </div>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>hljs.initLineNumbersOnLoad();</script>
+  </body>
+</html>

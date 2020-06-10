@@ -1,0 +1,65 @@
+/*
+https://github.com/isaacs/back-to-markdown.css
+CSS code released under the following license:
+
+The ISC License
+
+Copyright (c) Isaac Z. Schlueter
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
+IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+*/
+
+@font-face { font-family:"Fira Code Retina"; src:url(/static/fonts/firacode/FiraCode-Retina.ttf); }
+* { font-family:"Fira Code Retina", "Inconsolata", monospace; font-size:1em; font-size:14pt; border:0; margin:auto; max-width:90ch; padding:.3ch; list-style:none; font-weight:normal; }
+h1, h2, h3, h4, h5, h6, ul, ol, p, pre { margin-bottom:1em; }
+strong, b { font-weight:bold; }
+em, i { font-style:italic; }
+pre, code { color:#671d9d; }
+pre::before, pre::after { display:block; }
+code::before, code::after { background:#fff; }
+ol li { margin-left:4ex; }
+ul li { margin-left:3ex; }
+ol li { list-style:decimal outside; }
+h1, h2, h3, h4, h5, h6 { color:#900; }
+h1 code, h2 code, h3 code, h4 code, h5 code, h6 code { background:#fff; }
+h1::before { content:"# "; color:#09a; }
+h2::before { content:"## "; color:#09a; }
+h3::before { content:"### "; color:#09a; }
+h4::before { content:"#### "; color:#09a; }
+h5::before { content:"##### "; color:#09a; }
+h6::before { content:"###### "; color:#09a; }
+ul li::before { content:"* "; display:block; margin-left:-3ex; color: #f90; float:left; }
+a { color:#08f; text-decoration:none; }
+a:hover { color:#900 }
+@media print { a { color:#00f!important; } body { width:auto; font-size:14pt; } }
+
+h1 { font-size:16pt; }
+h2 { font-size:15pt; }
+h3 { font-size:14pt; }
+h4 { font-size:11pt; }
+h5 { font-size:11pt; }
+h6 { font-size:11pt; }
+p { text-align:justify; text-justify:inter-word; }
+img { display:block; margin:0 auto; border:1px solid #909090; vertical-align:middle; -webkit-border-radius:3px; max-width:99% !important; width:auto; height:auto; }
+pre > code > table { margin-left:0px; }
+pre > code { font-family:"Fira Code Retina", "Consolas", "Sans Mono", "Courier", monospace; font-size:12pt; }
+.hljs-ln-numbers { color:#909090; text-align:right; vertical-align:middle; border-right:0px solid #909090; }
+.hljs { display:inline-block; }
+
+#cloud { margin:0px; padding:2px; line-height:2em; text-align:center; }
+#cloud li { display: inline-block; }
+#cloud li::before { content:""; }
+#cloud a { padding:0px; text-decoration:none; }
+
+.collapsible { background-color: #eee; color: #08f; cursor: pointer; padding: 5px; width: 100%; border: none; text-align: center; outline: dotted; -webkit-border-radius:3px; }
+.collapsible:hover { color: #900; }

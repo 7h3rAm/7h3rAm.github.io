@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
+    <meta name="description" content="Personal Weblog"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>Mannthan</title>
+    <link href="/static/images/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
+    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
+    <link rel="stylesheet" href="/static/css/github-gist.min.css">
+    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
+    <script src="/static/js/highlight.min.js"></script>
+    <script src="/static/js/highlightjs-line-numbers.min.js"></script>
+    <script charset="UTF-8" src="/static/js/languages/go.min.js"></script>
+    <link rel="stylesheet" href="/static/css/style.md.css">
+   </head>
+  <body>
+    <div class="header">
+      <table>
+        <tr>
+          <td>
+            <a href="/index.html" style="color:#08f; font-size:14pt;">[🏡 Home]</a>
+            <a href="/archive.html" style="color:#f90; font-size:14pt;">[💾 Archive]</a>
+            <a href="/tags.html" style="color:#671d9d; font-size:14pt;">[🔖 Tags]</a>
+            <a href="/research.html" style="color:#f50; font-size:14pt;">[🔬 Research]</a>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="body">
+          <h1>Shellcode Detection Module in ChopShop</h1>
+                  <p><a href="/posts/20141127_flowinspect.html"> « </a>📅 published on <code>12/Mar/2015</code><a href="/posts/20150527_ebctf-bin100.html"> » </a></p>
+                <p>Around an year ago I submitted a pull request to the <a href="https://github.com/MITRECND/chopshop">ChopShop</a> project from <a href="https://github.com/MITRECND">MITRECND</a>. This request included a module that enabled shellcode detection for TCP streams and UDP packets. In this post I'll show how to use this module to identify shellcode within network streams. Here's the project description:</p>
+<blockquote>
+<p>ChopShop is a MITRE developed framework to aid analysts in the creation and execution of pynids based decoders and detectors of APT tradecraft.</p>
+</blockquote>
+<p>It provides reliable network stream reassembly via libnids and provides an API to write plugins/modules that can operate upon the reassembled network data. The project is in active development since September 2012 and numerous interesting modules have been added to it recently.</p>
+<p>Last year I submitted a <a href="https://github.com/MITRECND/chopshop/pull/29">shellcode detection module</a> that was merged in the project with few changes. This module leverages ChopShop APIs to obtain network data and inspects it using <a href="http://7h3ram.github.io/2013/libemu-shellcode-detection.html">Libemu to check if it contains shellcode</a>. I got this idea while working on one of my projects, <a href="http://7h3ram.github.io/2014/flowinspect.html">Flowinspect</a>, which includes shellcode detection and other interesting ways of identifying suspicious network traffic.</p>
+<p>To invoke ChopShop you need to provide a pcapfile as input and then a list of modules to be invoked. Each module can be provided respective arguments as well. Let's have a look at the command line invocation and usage of the shellcode module:</p>
+<pre><code class="bash">$ ./chopshop -f ~/toolbox/testfiles/pcaps/shellcode/shellcode-winexec-calc.pcap &quot;shellcode_detector -xp&quot;
+Starting ChopShop
+Initializing Modules ...
+    Initializing module 'shellcode_detector'
+Running Modules ...
+[2015-03-12 23:31:31 IST]  TCP 56.86.97.100:57416 - 89.86.105.74:80 [NEW]
+[2015-03-12 23:31:31 IST]  TCP 56.86.97.100:57416 -&gt; 89.86.105.74:80 (CTS: 123B)
+[2015-03-12 23:31:31 IST]  TCP 56.86.97.100:57416 &lt;- 89.86.105.74:80 (STC: 227B)
+[2015-03-12 23:31:31 IST]  TCP 56.86.97.100:57416 - 89.86.105.74:80 contains shellcode in STC[0:227] @ offset 107
+
+0000000: e8 44 00 00 00 8b 45 3c 8b 7c 05 78 01 ef 8b 4f  |.D....E&lt;.|.x...O|
+0000010: 18 8b 5f 20 01 eb 49 8b 34 8b 01 ee 31 c0 99 ac  |.._ ..I.4...1...|
+0000020: 84 c0 74 07 c1 ca 0d 01 c2 eb f4 3b 54 24 04 75  |..t........;T$.u|
+0000030: e5 8b 5f 24 01 eb 66 8b 0c 4b 8b 5f 1c 01 eb 8b  |.._$..f..K._....|
+0000040: 1c 8b 01 eb 89 5c 24 04 c3 5f 31 f6 60 56 64 8b  |.....\$.._1.`Vd.|
+0000050: 46 30 8b 40 0c 8b 70 1c ad 8b 68 08 89 f8 83 c0  |F0.@..p...h.....|
+0000060: 6a 50 68 f0 8a 04 5f 68 98 fe 8a 0e 57 ff e7 63  |jPh..._h....W..c|
+0000070: 61 6c 63 2e 65 78 65 00                          |alc.exe.        |
+
+
+UINT WINAPI WinExec (
+     LPCSTR = 0xc00f6f10 =&gt;
+           = &quot;calc.exe&quot;;
+     UINT uCmdShow = 0;
+) =  0x20;
+LPTOP_LEVEL_EXCEPTION_FILTER SetUnhandledExceptionFilter (
+     LPTOP_LEVEL_EXCEPTION_FILTER = 0xc00f7190 =&gt;
+         none;
+) =  0x7c81cdda;
+
+Shutting Down Modules ...
+    Shutting Down shellcode_detector
+Module Shutdown Complete ...
+ChopShop Complete
+</code></pre>
+
+<p>In the above example, ChopShop was invoked to execute the <code>shellcode_detector</code> module with its <code>-p</code> and <code>-x</code> arguments. The output confirms that shellcode was found in the STC stream of input pcap at offset 107. The module then display a hexdump of shellcode bytes as well as a profiled output highlighting the Windows API calls, arguments and their return types. This output is extremely useful as it tells that the shellcode will spawn a <code>calc.exe</code> process if it is successfully deployed on the victim system.</p>
+<p>You can also have a look at the module <a href="https://github.com/MITRECND/chopshop/blob/master/modules/shellcode_detector.py">sourcecode</a>. I would strongly recommend reading the <a href="https://github.com/MITRECND/chopshop/tree/master/docs/chopshop_docs">project documentation</a> to familiarize yourself with architecture and terminology. Also checkout the <a href="https://github.com/MITRECND/chopshop/blob/master/docs/chopshop_docs/module_authoring.md">module authoring documentation</a> and <a href="http://www.mitre.org/capabilities/cybersecurity/overview/cybersecurity-blog/how-chopshop-modules-work">this</a> amazing post by <a href="https://github.com/wxsBSD">Wesley Shields</a>, who is one of the project authors, if you wish to write your own modules.</p>
+        <hr/>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a> and <a href=/tags.html#shellcode>shellcode</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20141127_flowinspect.html">Flowinspect: A Network Inspect...</a> « | » <a href="/posts/20150527_ebctf-bin100.html">Eindbazen CTF Challenge: bin10...</a> »</p>
+                <hr/>
+    </div>
+    <div class="footer">
+      <p style="text-align:center;">[<a href="https://creativecommons.org/licenses/by/4.0/" rel="license" target="_blank">📝 CC BY 4.0</a>]</p>
+    </div>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>hljs.initLineNumbersOnLoad();</script>
+  </body>
+</html>

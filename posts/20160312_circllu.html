@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
+    <meta name="description" content="Personal Weblog"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>Mannthan</title>
+    <link href="/static/images/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
+    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
+    <link rel="stylesheet" href="/static/css/github-gist.min.css">
+    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
+    <script src="/static/js/highlight.min.js"></script>
+    <script src="/static/js/highlightjs-line-numbers.min.js"></script>
+    <script charset="UTF-8" src="/static/js/languages/go.min.js"></script>
+    <link rel="stylesheet" href="/static/css/style.md.css">
+   </head>
+  <body>
+    <div class="header">
+      <table>
+        <tr>
+          <td>
+            <a href="/index.html" style="color:#08f; font-size:14pt;">[🏡 Home]</a>
+            <a href="/archive.html" style="color:#f90; font-size:14pt;">[💾 Archive]</a>
+            <a href="/tags.html" style="color:#671d9d; font-size:14pt;">[🔖 Tags]</a>
+            <a href="/research.html" style="color:#f50; font-size:14pt;">[🔬 Research]</a>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="body">
+          <h1>circllu.py: Querying circl.lu API for CVE Information</h1>
+                  <p><a href="/posts/20160218_flareon2014-15.html"> « </a>📅 published on <code>12/Mar/2016</code></p>
+                <p>The <a href="https://www.circl.lu/services/cve-search/#public-web-api-of-cve-search">circl.lu</a> API is really useful for querying CVE information. I wrote a few methods to query the API and get this information:</p>
+<pre><code class="python">from pprint import pprint
+import requests
+import json
+
+def circllu_cveinfo(cve=&quot;cve-2015-1234&quot;):
+  customheaders = {
+    &quot;User-Agent&quot;: &quot;Some script trying to be nice :)&quot;
+  }
+  try:
+    res = requests.get(&quot;http://cve.circl.lu/api/cve/%s&quot; % (cve.upper()), headers=customheaders, verify=False)
+    if res.status_code == 200:
+      reply = res.json()
+      if len(reply):
+        return {
+          &quot;success&quot;: True,
+          &quot;requesturl&quot;: res.url,
+          &quot;cve&quot;: cve.upper(),
+          &quot;summary&quot;: reply[&quot;summary&quot;],
+          &quot;references&quot;: reply[&quot;references&quot;]
+        }
+    return {
+      &quot;success&quot;: False,
+      &quot;reason&quot;: &quot;expected HTTP 200 status code but got %d instead for requesturl&quot; % (res.status_code)
+    }
+  except Exception as ex:
+    return {
+      &quot;success&quot;: False,
+      &quot;exception&quot;: ex.message
+    }
+
+
+def circllu_cverecent(maxcves=0):
+  customheaders = {
+    &quot;User-Agent&quot;: &quot;Some script trying to be nice :)&quot;
+  }
+  try:
+    res = requests.get(&quot;http://cve.circl.lu/api/last&quot;, headers=customheaders, verify=False)
+    if res.status_code == 200:
+      reply = json.loads(res.content)
+      cves = list()
+      for node in reply[&quot;results&quot;]:
+        if &quot;REJECT&quot; not in node[&quot;summary&quot;]:
+          cves.append(node[&quot;id&quot;])
+      return {
+        &quot;success&quot;: True,
+        &quot;requesturl&quot;: res.url,
+        &quot;cves&quot;: cves if maxcves == 0 else cves[:maxcves]
+      }
+    return {
+      &quot;success&quot;: False,
+      &quot;reason&quot;: &quot;expected HTTP 200 status code but got %d instead for requesturl&quot; % (res.status_code)
+    }
+  except Exception as ex:
+    return {
+      &quot;success&quot;: False,
+      &quot;exception&quot;: ex.message
+    }
+
+
+def circllu_cvesearch(vendorproduct=&quot;Adobe Reader&quot;, maxcves=0):
+  if not vendorproduct or vendorproduct == &quot;&quot;:
+    return {
+      &quot;success&quot;: False,
+      &quot;usage&quot;: &quot;&lt;vendor&gt; &lt;product&gt;&quot;
+    }
+  customheaders = {
+    &quot;User-Agent&quot;: &quot;Some script trying to be nice :)&quot;
+  }
+  try:
+    res = requests.get(&quot;http://cve.circl.lu/api/search/%s&quot; % (&quot;/&quot;.join(vendorproduct.lower().split(&quot; &quot;))), headers=customheaders, verify=False)
+    if res.status_code == 200:
+      reply = json.loads(res.content)
+      if len(reply):
+        cves = list()
+        for node in reply:
+          if &quot;REJECT&quot; not in node[&quot;summary&quot;]:
+            cves.append(node[&quot;id&quot;])
+        return {
+          &quot;success&quot;: True,
+          &quot;requesturl&quot;: res.url,
+          &quot;vendorproduct&quot;: &quot;/&quot;.join(vendorproduct.lower().split(&quot; &quot;)).title(),
+          &quot;cves&quot;: sorted(cves, reverse=True) if maxcves == 0 else sorted(cves, reverse=True)[:maxcves]
+        }
+    return {
+      &quot;success&quot;: False,
+      &quot;reason&quot;: &quot;expected HTTP 200 status code but got %d instead for requesturl&quot; % (res.status_code)
+    }
+  except Exception as ex:
+    return {
+      &quot;success&quot;: False,
+      &quot;exception&quot;: ex.message
+    }
+
+
+if __name__ == &quot;__main__&quot;:
+  pprint(circllu_cveinfo())
+  pprint(circllu_cverecent())
+  pprint(circllu_cvesearch())
+</code></pre>
+
+<p>Let's give this script a test run:</p>
+<pre><code class="bash">{
+ 'cve': 'CVE-2015-1234',
+ 'references': [u'https://codereview.chromium.org/1016193003',
+                u'https://code.google.com/p/chromium/issues/detail?id=468936',
+                u'http://www.ubuntu.com/usn/USN-2556-1',
+                u'http://www.securitytracker.com/id/1032012',
+                u'http://rhn.redhat.com/errata/RHSA-2015-0778.html',
+                u'http://lists.opensuse.org/opensuse-security-announce/2015-04/msg00004.html',
+                u'http://googlechromereleases.blogspot.com/2015/04/stable-channel-update.html'],
+ 'requesturl': u'http://cve.circl.lu/api/cve/CVE-2015-1234',
+ 'success': True,
+ 'summary': u'Race condition in gpu/command_buffer/service/gles2_cmd_decoder.cc in Google Chrome before 41.0.2272.118 allows remote attackers to cause a denial of service (buffer overflow) or possibly have unspecified other impact by manipulating OpenGL ES commands.'
+}
+
+{
+ 'cves': [u'CVE-2016-2427',
+          u'CVE-2016-2426',
+          u'CVE-2016-2425',
+          u'CVE-2016-2424',
+          u'CVE-2016-2423',
+          u'CVE-2016-2422',
+          u'CVE-2016-2421',
+          u'CVE-2016-2420',
+          u'CVE-2016-2419',
+          u'CVE-2016-2418',
+          u'CVE-2016-2417',
+          u'CVE-2016-2416',
+          u'CVE-2016-2415',
+          u'CVE-2016-2414',
+          u'CVE-2016-2413',
+          u'CVE-2016-2412',
+          u'CVE-2016-2411',
+          u'CVE-2016-2410',
+          u'CVE-2016-2409',
+          u'CVE-2016-1503',
+          u'CVE-2016-0850',
+          u'CVE-2016-0849',
+          u'CVE-2016-0848',
+          u'CVE-2016-0847',
+          u'CVE-2016-0846',
+          u'CVE-2016-0844',
+          u'CVE-2016-0843',
+          u'CVE-2016-0842',
+          u'CVE-2016-0841',
+          u'CVE-2016-0840'],
+ 'requesturl': u'http://cve.circl.lu/api/last',
+ 'success': True
+}
+
+{
+ 'cves': [u'CVE-2011-4373',
+          u'CVE-2011-4372',
+          u'CVE-2011-4371',
+          u'CVE-2011-4370',
+          u'CVE-2010-1278',
+          u'CVE-2009-3459',
+          u'CVE-2009-1600',
+          u'CVE-2009-1599',
+          u'CVE-2009-1598',
+          u'CVE-2009-1597',
+          u'CVE-2009-1493',
+          u'CVE-2009-1492',
+          u'CVE-2009-1062',
+          u'CVE-2009-1061',
+          u'CVE-2009-0927',
+          u'CVE-2009-0658',
+          u'CVE-2009-0193',
+          u'CVE-2008-4817',
+          u'CVE-2008-4816',
+          u'CVE-2008-4815',
+          u'CVE-2008-4814',
+          u'CVE-2008-4813',
+          u'CVE-2008-4812'],
+ 'requesturl': u'http://cve.circl.lu/api/search/adobe/reader',
+ 'success': True,
+ 'vendorproduct': 'Adobe/Reader'
+}
+</code></pre>
+
+<p>The <code>circllu_cveinfo</code> method allows querying the API for a specific CVE while returning a summary and references if the CVE is found in the database. The <code>circllu_cverecent</code> returns a list of recently requested CVEs. And finally, the <code>circllu_cvesearch</code> method allows you to search for a product or vendor and get listing of all reported vulnerabilities for the same. You can get this script <a href="https://gist.github.com/7h3rAm/812eff486865f30c0da5c4a9d41ff73e">here</a>.</p>
+        <hr/>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20160218_flareon2014-15.html">FireEye FLARE On 2014 Challenges (1-5)</a> «</p>
+                <hr/>
+    </div>
+    <div class="footer">
+      <p style="text-align:center;">[<a href="https://creativecommons.org/licenses/by/4.0/" rel="license" target="_blank">📝 CC BY 4.0</a>]</p>
+    </div>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>hljs.initLineNumbersOnLoad();</script>
+  </body>
+</html>

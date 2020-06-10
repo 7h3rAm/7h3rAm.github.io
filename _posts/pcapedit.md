@@ -4,11 +4,11 @@ date: 15/Nov/2014
 summary: pcapedit is an interactive pcap editor. It provides quick shorthand over Scapy commands and aims to be useful for mundane pcap editing tasks. The interactive mode allows saving of command history to a script which can then be used to edit multiple files together.
 tags: code
 
-While working with pcap files, I occasionally come across situations where I need to edit them for some weird usecases. When in such a situation, I had to write a loop that iterates over packets, check if the current packet needs modification, apply changes if so and save these changes to a new pcap. As I repeated these steps a few times, need for automation became obvious. I sat together with my colleague and good friend [Natraj](http://x00itachi.blogspot.in/) and discussed about how we can automate this process so that it helps with our IPS signature development efforts. Eventually, a draft for a interactive tool was formulated and [pcapedit](https://github.com/7h3rAm/pcapedit) was born.
+While working with pcap files, I occasionally come across situations where I need to edit them for some weird usecases. When in such a situation, I had to write a loop that iterates over packets, check if the current packet needs modification, apply changes if so and save these changes to a new pcap. As I repeated these steps a few times, need for automation became obvious. I sat together with my colleague and good friend [Natraj](http://x00itachi.blogspot.in/) and discussed about how we can automate this process so that it helps with our IPS signature development efforts. Eventually, a draft for an interactive tool was formulated and [pcapedit](https://github.com/7h3rAm/pcapedit) was born.
 
 `pcapedit` is a Python-based tool that allows users to enter commands to edit and save pcaps. It has a hard dependency on `Scapy` and `cmd2` modules so make sure these are installed. Here is a snippet from test run:
 
-```shell
+```bash
 $ ./pcapedit.py
 PcapEdit - An Interactive Pcap Editor
 
@@ -47,7 +47,7 @@ EOF  eof  exit  help  q  quit
 
 So we have a few commands to try out. Let's assume that you have a `http.pcap` file that needs editing. Let's see how pcapedit can be useful in this case:
 
-```shell
+```bash
 $ ./pcapedit.py
 PcapEdit - An Interactive Pcap Editor
 
@@ -105,7 +105,7 @@ Read 43 packets from http.cap
 
 The `summary` command displays a listing of all packets and their most common attributes. When provided an integer argument, it considers that to be the packet index and shows a one-line description for the packet itself. Let's now assume you need to edit packet #6:
 
-```shell
+```bash
 (http.cap) >>> edit 6
 Editing packet id: 6
      6: 2004/05/13 15:47:09    145.254.160.237:3372 -> 65.208.228.223:80       TCP A
@@ -161,7 +161,7 @@ None
 
 So we selected the packet id, provided the respective protocol field names, new values and used the `ls` command to glance over changes. Since all looks good, we can now request `pcapedit` to save these changes, which it will then write to a `filename.mod.pcap` named file (you can override the default name and provide new name via the `outpcap` command):
 
-```shell
+```bash
 (http.cap|#6) >>> save
 Wrote 1 packet(s) to http.mod.cap
 (http.cap|#6) >>>
@@ -174,7 +174,7 @@ $ ls -l *.cap
 
 One thing to note here is that the `save` command only write one packet (#6) to the file and skip the rest. This is because `pcapedit` is a context-sensitive tool, ie. **it takes current context into consideration while executing commands**. Since at the time of issuing `save` command, the user was in per-packet editing mode (for packet #6), it intentionally skipped other packets. This is an immensely powerful feature as packets can now be edited individually and extracted from source pcap file to a new pcap file. However, if one wishes to save all packets, all they have to do is issue the `back` command to exit per-packet editing mode and then issue `save` command which will now honor the context and work as expected:
 
-```shell
+```bash
 (http.cap|#6) >>> back
 (http.cap) >>>
 (http.cap) >>> save
@@ -192,7 +192,7 @@ Here's a screenshot of Wireshark parsing and decoding the edited packet:
 
 So at this point we know how to edit individual packets and save them to a new file, but doing this for hundreds or thousands of packets would still remain a daunting task and something that needs automation. That's where the *scriptfile* feature comes handy. You can save commands to a file and pass them as input to `pcapedit` and it will happily do as instructed:
 
-```shell
+```bash
 $ ./pcapedit.py <tcpcmdstest.txt
 PcapEdit - An Interactive Pcap Editor
 

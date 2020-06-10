@@ -47,7 +47,7 @@ optionally drop the connection.
 Before we begin with development, let's design the pseudocode for our
 IPS:
 
-```shell
+```bash
 1. initialize nids
 2. register udp callback
 3. register tcp callback
@@ -98,7 +98,7 @@ multiline matches using cli options.
 Here is a test run of this program on a pcap that contains HTTP session
 and UDP packets:
 
-```shell
+```bash
 $ python minips.py -p ~/toolbox/testfiles/pcaps/http.cap -r '.*com'
 [15-Sep-2013 15:03:02.341813 IST] TCP 145.254.160.237:3372 - 65.208.228.223:80 (NEW)
 [15-Sep-2013 15:03:02.341903 IST] TCP 145.254.160.237:3372 - 65.208.228.223:80 (CTS: 479B | STC: 0B)

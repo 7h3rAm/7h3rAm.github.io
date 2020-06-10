@@ -8,7 +8,7 @@ Filetype identification is the process of scanning [respective](https://en.wikip
 
 [cigma](https://github.com/7h3rAm/cigma) is a Python library to identify filetypes. It provides [libmagic](https://github.com/threatstack/libmagic) like mimetype identification of a file or data buffer. This is similar to what the `file` command on *nix systems will provide:
 
-```shell
+```bash
 $ file cigma.py
 cigma.py: Python script, ASCII text executable
 $
@@ -27,7 +27,7 @@ $ file /dev/sda
 
 `cigma` uses a custom JSON formatted signature file to stores filetype mappings. Let's try identifying a few files:
 
-```shell
+```bash
 $ python cigma.py /bin/ls
 ('/bin/ls',
  {'id': 29,
@@ -55,7 +55,7 @@ $ python cigma.py ~/toolbox/testfiles/pcaps/exploitkits/2015-04-03-Nuclear-EK-tr
 
 If a match is found, `cigma` returns a `(source, resultdict)` tuple. Here is a snippet of few signatures from the current set:
 
-```json
+```bash
 {
   "meta": {
     "rulescount": 72,

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
+    <meta name="description" content="Personal Weblog"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>Mannthan</title>
+    <link href="/static/images/favicon-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
+    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
+    <link rel="stylesheet" href="/static/css/github-gist.min.css">
+    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
+    <script src="/static/js/highlight.min.js"></script>
+    <script src="/static/js/highlightjs-line-numbers.min.js"></script>
+    <script charset="UTF-8" src="/static/js/languages/go.min.js"></script>
+    <link rel="stylesheet" href="/static/css/style.md.css">
+   </head>
+  <body>
+    <div class="header">
+      <table>
+        <tr>
+          <td>
+            <a href="/index.html" style="color:#08f; font-size:14pt;">[🏡 Home]</a>
+            <a href="/archive.html" style="color:#f90; font-size:14pt;">[💾 Archive]</a>
+            <a href="/tags.html" style="color:#671d9d; font-size:14pt;">[🔖 Tags]</a>
+            <a href="/research.html" style="color:#f50; font-size:14pt;">[🔬 Research]</a>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="body">
+          <h1>reverse-ex Challenge from Coursera's Malicious Software Course</h1>
+                  <p><a href="/posts/20130618_libnids-pynids.html"> « </a>📅 published on <code>24/Aug/2013</code><a href="/posts/20130829_malsoftware-reverse-challenge.html"> » </a></p>
+                <p>The recently concluded <a href="https://class.coursera.org/malsoftware-001/">Malicious Software and its Undergound
+Economy</a> course on
+<a href="https://www.coursera.org/">Coursera</a> had an interesting reverse
+engineering challenge as part of its coursework:
+<a href="/static/files/reverse-ex">reverse-ex</a>. I found it interesting since it will be
+equally entertaining for someone who has never tried such challenges or
+one who has mastered many of them. This post details the steps I took to
+complete this challenge.</p>
+<p>The first thing I normally do after obtaining such challenges is to test
+them with <code>file</code> command. This provides some insight about various file
+attributes like its type (ELF, PE, etc.), processor architecture
+compatibility, symbol table inclusion, etc:</p>
+<pre><code class="bash">$ file reverse-ex
+reverse-ex: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[ sha1]=0x8dac70a14b40f115fc4a27041a3ae29227a55afb, not stripped
+$
+$ file -i reverse-ex
+reverse-ex: application/x-executable; charset=binary
+</code></pre>
+
+<p>The above output tells us that this is a 32bit
+<a href="http://en.wikipedia.org/wiki/Executable_and_Linkable_Format">ELF</a>
+binary, <a href="http://stackoverflow.com/questions/1993390/static-linking-vs-dynamic-linking">dynamically
+linked</a>,
+and has <a href="http://unix.stackexchange.com/questions/2969/what-are-stripped-and-not-stripped-executables-in-unix">symbols
+included</a>.
+This means that debugging and symbol resolution information has been
+preserved and packed inside the binary itself. This is a very important
+piece of information as it tells us that a successful disassembly of
+this binary will expose functions/variable that were used in its source,
+providing some pointers on how to solve this challenge. Before we move
+towards disassembly, let's run <code>strings</code> over this file as well:</p>
+<p>Now this output is even more interesting since it exposes quite
+significant details about the challenge. First, it didn't show any
+commonly used buffer overflow prone libc functions like <code>gets</code> or
+<code>strcpy</code>, but just <code>puts</code>, <code>printf</code>, <code>read</code>, etc. There could be a
+<a href="http://en.wikipedia.org/wiki/Uncontrolled_format_string">format-string</a>
+issue in the program (<code>printf</code>-family functions are likely
+<a href="https://security.web.cern.ch/security/recommendations/en/codetools/c.shtml">vulnerable</a>
+if incorrectly used) but that can only be confirmed during static
+analysis of program disassembly or via dynamic analysis with multiple
+format-string prone inputs. But there's a bigger hint here: strings at
+the bottom following function names look interesting. Especially the
+<code>KFFSE_XHKYOKXOHOFEDM^E_Y</code> string since it looks like some kind of a
+key. May be the program mutates user-supplied input and performs a
+comparison with static flags like this string. If it does, we need to
+look at its disassembly and figure out the logic behind the mutation
+function and try to reverse it. Let's use <code>objdump</code> to disassemble this
+binary and dump its disassembly in <a href="http://en.wikipedia.org/wiki/X86_assembly_language#Syntax">Intel
+syntax</a>:</p>
+<pre><code class="c-objdump">$ objdump -d -M intel reverse-ex
+
+reverse-ex:     file format elf32-i386
+
+Disassembly of section .text:
+
+080484c4 &lt;checkkey&gt;:
+ 80484c4: 55                    push   ebp
+ 80484c5: 89 e5                 mov    ebp,esp
+ 80484c7: 57                    push   edi
+ 80484c8: 56                    push   esi
+ 80484c9: 83 ec 10              sub    esp,0x10
+ 80484cc: 8b 45 08              mov    eax,DWORD PTR [ebp+0x8]
+ 80484cf: 89 45 f4              mov    DWORD PTR [ebp-0xc],eax
+ 80484d2: eb 14                 jmp    80484e8 &lt;checkkey+0x24&gt;
+ 80484d4: 8b 45 f4              mov    eax,DWORD PTR [ebp-0xc]
+ 80484d7: 0f b6 00              movzx  eax,BYTE PTR [eax]
+ 80484da: 89 c2                 mov    edx,eax
+ 80484dc: 83 f2 2a              xor    edx,0x2a
+ 80484df: 8b 45 f4              mov    eax,DWORD PTR [ebp-0xc]
+ 80484e2: 88 10                 mov    BYTE PTR [eax],dl
+ 80484e4: 83 45 f4 01           add    DWORD PTR [ebp-0xc],0x1
+ 80484e8: 8b 45 f4              mov    eax,DWORD PTR [ebp-0xc]
+ 80484eb: 0f b6 00              movzx  eax,BYTE PTR [eax]
+ 80484ee: 84 c0                 test   al,al
+ 80484f0: 75 e2                 jne    80484d4 &lt;checkkey+0x10&gt;
+ 80484f2: 8b 45 08              mov    eax,DWORD PTR [ebp+0x8]
+ 80484f5: 89 c2                 mov    edx,eax
+ 80484f7: b8 70 87 04 08        mov    eax,0x8048770
+ 80484fc: b9 19 00 00 00        mov    ecx,0x19
+ 8048501: 89 d6                 mov    esi,edx
+ 8048503: 89 c7                 mov    edi,eax
+ 8048505: f3 a6                 repz cmps BYTE PTR ds:[esi],BYTE PTR es:[edi]
+ 8048507: 0f 97 c2              seta   dl
+ 804850a: 0f 92 c0              setb   al
+ 804850d: 89 d1                 mov    ecx,edx
+ 804850f: 28 c1                 sub    cl,al
+ 8048511: 89 c8                 mov    eax,ecx
+ 8048513: 0f be c0              movsx  eax,al
+ 8048516: 85 c0                 test   eax,eax
+ 8048518: 75 07                 jne    8048521 &lt;checkkey+0x5d&gt;
+ 804851a: b8 01 00 00 00        mov    eax,0x1
+ 804851f: eb 05                 jmp    8048526 &lt;checkkey+0x62&gt;
+ 8048521: b8 00 00 00 00        mov    eax,0x0
+ 8048526: 83 c4 10              add    esp,0x10
+ 8048529: 5e                    pop    esi
+ 804852a: 5f                    pop    edi
+ 804852b: 5d                    pop    ebp
+ 804852c: c3                    ret
+
+0804852d &lt;foo&gt;:
+ 804852d: 55                    push   ebp
+ 804852e: 89 e5                 mov    ebp,esp
+ 8048530: 83 ec 18              sub    esp,0x18
+ 8048533: c7 04 24 89 87 04 08  mov    DWORD PTR [esp],0x8048789
+ 804853a: e8 91 fe ff ff        call   80483d0 &lt;puts@plt&gt;
+ 804853f: b8 00 00 00 00        mov    eax,0x0
+ 8048544: c9                    leave
+ 8048545: c3                    ret
+
+08048546 &lt;bar&gt;:
+ 8048546: 55                    push   ebp
+ 8048547: 89 e5                 mov    ebp,esp
+ 8048549: 83 ec 18              sub    esp,0x18
+ 804854c: c7 04 24 8d 87 04 08  mov    DWORD PTR [esp],0x804878d
+ 8048553: e8 78 fe ff ff        call   80483d0 &lt;puts@plt&gt;
+ 8048558: b8 00 00 00 00        mov    eax,0x0
+ 804855d: c9                    leave
+ 804855e: c3                    ret
+
+0804855f &lt;foobar&gt;:
+ 804855f: 55                    push   ebp
+ 8048560: 89 e5                 mov    ebp,esp
+ 8048562: 83 ec 18              sub    esp,0x18
+ 8048565: 8b 45 08              mov    eax,DWORD PTR [ebp+0x8]
+ 8048568: 89 04 24              mov    DWORD PTR [esp],eax
+ 804856b: e8 bd ff ff ff        call   804852d &lt;foo&gt;
+ 8048570: b8 00 00 00 00        mov    eax,0x0
+ 8048575: c9                    leave
+ 8048576: c3                    ret
+
+08048577 &lt;main&gt;:
+ 8048577: 55                    push   ebp
+ 8048578: 89 e5                 mov    ebp,esp
+ 804857a: 57                    push   edi
+ 804857b: 83 e4 f0              and    esp,0xfffffff0
+ 804857e: 81 ec 30 02 00 00     sub    esp,0x230
+ 8048584: b8 91 87 04 08        mov    eax,0x8048791
+ 8048589: 89 04 24              mov    DWORD PTR [esp],eax
+ 804858c: e8 1f fe ff ff        call   80483b0 &lt;printf@plt&gt;
+ 8048591: a1 40 a0 04 08        mov    eax,ds:0x804a040
+ 8048596: 89 04 24              mov    DWORD PTR [esp],eax
+ 8048599: e8 22 fe ff ff        call   80483c0 &lt;fflush@plt&gt;
+ 804859e: c7 44 24 08 ff 01 00  mov    DWORD PTR [esp+0x8],0x1ff
+ 80485a5: 00
+ 80485a6: 8d 44 24 24           lea    eax,[esp+0x24]
+ 80485aa: 89 44 24 04           mov    DWORD PTR [esp+0x4],eax
+ 80485ae: c7 04 24 00 00 00 00  mov    DWORD PTR [esp],0x0
+ 80485b5: e8 e6 fd ff ff        call   80483a0 &lt;read@plt&gt;
+ 80485ba: 8d 44 24 24           lea    eax,[esp+0x24]
+ 80485be: c7 44 24 1c ff ff ff  mov    DWORD PTR [esp+0x1c],0xffffffff
+ 80485c5: ff
+ 80485c6: 89 c2                 mov    edx,eax
+ 80485c8: b8 00 00 00 00        mov    eax,0x0
+ 80485cd: 8b 4c 24 1c           mov    ecx,DWORD PTR [esp+0x1c]
+ 80485d1: 89 d7                 mov    edi,edx
+ 80485d3: f2 ae                 repnz scas al,BYTE PTR es:[edi]
+ 80485d5: 89 c8                 mov    eax,ecx
+ 80485d7: f7 d0                 not    eax
+ 80485d9: 83 e8 01              sub    eax,0x1
+ 80485dc: 89 84 24 28 02 00 00  mov    DWORD PTR [esp+0x228],eax
+ 80485e3: 8b 84 24 28 02 00 00  mov    eax,DWORD PTR [esp+0x228]
+ 80485ea: 83 e8 01              sub    eax,0x1
+ 80485ed: 0f b6 44 04 24        movzx  eax,BYTE PTR [esp+eax*1+0x24]
+ 80485f2: 3c 0a                 cmp    al,0xa
+ 80485f4: 75 0f                 jne    8048605 &lt;main+0x8e&gt;
+ 80485f6: 8b 84 24 28 02 00 00  mov    eax,DWORD PTR [esp+0x228]
+ 80485fd: 83 e8 01              sub    eax,0x1
+ 8048600: c6 44 04 24 00        mov    BYTE PTR [esp+eax*1+0x24],0x0
+ 8048605: 0f b6 44 24 24        movzx  eax,BYTE PTR [esp+0x24]
+ 804860a: 0f be c0              movsx  eax,al
+ 804860d: 83 f8 42              cmp    eax,0x42
+ 8048610: 74 17                 je     8048629 &lt;main+0xb2&gt;
+ 8048612: 83 f8 43              cmp    eax,0x43
+ 8048615: 74 1f                 je     8048636 &lt;main+0xbf&gt;
+ 8048617: 83 f8 41              cmp    eax,0x41
+ 804861a: 75 27                 jne    8048643 &lt;main+0xcc&gt;
+ 804861c: c7 84 24 2c 02 00 00  mov    DWORD PTR [esp+0x22c],0x804852d
+ 8048623: 2d 85 04 08
+ 8048627: eb 1c                 jmp    8048645 &lt;main+0xce&gt;
+ 8048629: c7 84 24 2c 02 00 00  mov    DWORD PTR [esp+0x22c],0x80484c4
+ 8048630: c4 84 04 08
+ 8048634: eb 0f                 jmp    8048645 &lt;main+0xce&gt;
+ 8048636: c7 84 24 2c 02 00 00  mov    DWORD PTR [esp+0x22c],0x804855f
+ 804863d: 5f 85 04 08
+ 8048641: eb 02                 jmp    8048645 &lt;main+0xce&gt;
+ 8048643: eb fe                 jmp    8048643 &lt;main+0xcc&gt;
+ 8048645: 8d 44 24 24           lea    eax,[esp+0x24]
+ 8048649: 83 c0 01              add    eax,0x1
+ 804864c: 89 04 24              mov    DWORD PTR [esp],eax
+ 804864f: 8b 84 24 2c 02 00 00  mov    eax,DWORD PTR [esp+0x22c]
+ 8048656: ff d0                 call   eax
+ 8048658: 89 84 24 24 02 00 00  mov    DWORD PTR [esp+0x224],eax
+ 804865f: 83 bc 24 24 02 00 00  cmp    DWORD PTR [esp+0x224],0x0
+ 8048666: 00
+ 8048667: 74 1a                 je     8048683 &lt;main+0x10c&gt;
+ 8048669: b8 af 87 04 08        mov    eax,0x80487af
+ 804866e: 8d 54 24 24           lea    edx,[esp+0x24]
+ 8048672: 83 c2 01              add    edx,0x1
+ 8048675: 89 54 24 04           mov    DWORD PTR [esp+0x4],edx
+ 8048679: 89 04 24              mov    DWORD PTR [esp],eax
+ 804867c: e8 2f fd ff ff        call   80483b0 &lt;printf@plt&gt;
+ 8048681: eb 0c                 jmp    804868f &lt;main+0x118&gt;
+ 8048683: c7 04 24 be 87 04 08  mov    DWORD PTR [esp],0x80487be
+ 804868a: e8 41 fd ff ff        call   80483d0 &lt;puts@plt&gt;
+ 804868f: 8b 84 24 24 02 00 00  mov    eax,DWORD PTR [esp+0x224]
+ 8048696: 89 04 24              mov    DWORD PTR [esp],eax
+ 8048699: e8 52 fd ff ff        call   80483f0 &lt;exit@plt&gt;
+ 804869e: 90                    nop
+ 804869f: 90                    nop
+</code></pre>
+
+<p>I've removed certain non-important sections from the above output. Apart
+from <code>main</code>, there are 4 functions, namely <code>checkkey</code>, <code>foo</code>, <code>bar</code>,
+<code>foobar</code>. The <code>main</code> function includes certain anti-disassembly and
+obfuscation code and it's difficult to make proper sense of what's
+happening here. But let's focus on the important instructions. The <code>cmp</code>
+set of instructions starting at 0x804860d are interesting, especially
+the first <code>cmp</code> itself since it will cause a jump to 0x8048629 if the
+input buffer starts with 0x42 (B in ascii) and 0x8048629 is from where
+the <code>checkkey</code> function starts. Of all the available functions,
+<code>checkkey</code> is of obvious interest and this tells us that the program
+will only transfer control to <code>checkkey</code> function if the input starts
+with ascii <code>B</code> and not otherwise. Once the control reaches <code>checkkey</code> it
+will try to mutate input buffer and compare it against a static key.
+Let's conclude this analysis by having a closer look at <code>checkkey</code>'s
+disassembly:</p>
+<pre><code class="c-objdump">080484c4 &lt;checkkey&gt;:
+ 80484c4: 55                    push   ebp
+ 80484c5: 89 e5                 mov    ebp,esp
+ 80484c7: 57                    push   edi
+ 80484c8: 56                    push   esi
+ 80484c9: 83 ec 10              sub    esp,0x10
+ 80484cc: 8b 45 08              mov    eax,DWORD PTR [ebp+0x8]
+ 80484cf: 89 45 f4              mov    DWORD PTR [ebp-0xc],eax
+ 80484d2: eb 14                 jmp    80484e8 &lt;checkkey+0x24&gt;
+ 80484d4: 8b 45 f4              mov    eax,DWORD PTR [ebp-0xc]
+ 80484d7: 0f b6 00              movzx  eax,BYTE PTR [eax]
+ 80484da: 89 c2                 mov    edx,eax
+ 80484dc: 83 f2 2a              xor    edx,0x2a
+ 80484df: 8b 45 f4              mov    eax,DWORD PTR [ebp-0xc]
+ 80484e2: 88 10                 mov    BYTE PTR [eax],dl
+ 80484e4: 83 45 f4 01           add    DWORD PTR [ebp-0xc],0x1
+ 80484e8: 8b 45 f4              mov    eax,DWORD PTR [ebp-0xc]
+ 80484eb: 0f b6 00              movzx  eax,BYTE PTR [eax]
+ 80484ee: 84 c0                 test   al,al
+ 80484f0: 75 e2                 jne    80484d4 &lt;checkkey+0x10&gt;
+ 80484f2: 8b 45 08              mov    eax,DWORD PTR [ebp+0x8]
+ 80484f5: 89 c2                 mov    edx,eax
+ 80484f7: b8 70 87 04 08        mov    eax,0x8048770
+ 80484fc: b9 19 00 00 00        mov    ecx,0x19
+ 8048501: 89 d6                 mov    esi,edx
+ 8048503: 89 c7                 mov    edi,eax
+ 8048505: f3 a6                 repz cmps BYTE PTR ds:[esi],BYTE PTR es:[edi]
+ 8048507: 0f 97 c2              seta   dl
+ 804850a: 0f 92 c0              setb   al
+ 804850d: 89 d1                 mov    ecx,edx
+ 804850f: 28 c1                 sub    cl,al
+ 8048511: 89 c8                 mov    eax,ecx
+ 8048513: 0f be c0              movsx  eax,al
+ 8048516: 85 c0                 test   eax,eax
+ 8048518: 75 07                 jne    8048521 &lt;checkkey+0x5d&gt;
+ 804851a: b8 01 00 00 00        mov    eax,0x1
+ 804851f: eb 05                 jmp    8048526 &lt;checkkey+0x62&gt;
+ 8048521: b8 00 00 00 00        mov    eax,0x0
+ 8048526: 83 c4 10              add    esp,0x10
+ 8048529: 5e                    pop    esi
+ 804852a: 5f                    pop    edi
+ 804852b: 5d                    pop    ebp
+ 804852c: c3                    ret
+</code></pre>
+
+<p>After the <a href="http://en.wikipedia.org/wiki/Function_prologue">function
+prologue</a>, the
+<code>checkkey</code> function is reading the input buffer (starting address at
+<code>DWORD PTR [ebp+0x8]</code>) and performs a per-byte XOR using 0x2a as the
+key. Once the XOR operation completes, it is indeed comparing the
+resultant string with a pre-defined flag of size <code>0x19 - 1</code> bytes stored
+at 0x8048770. The <code>mov</code> instructions starting at address 0x80484f2 and
+the <code>repz cmps</code> instruction at address 0x8048505 confirm this analysis.</p>
+<p>So we now know that the input will be XOR'ed with a static per-byte key
+of 0x2a and the result will be compared with a flag defined at
+0x80484f2. To reverse this mutation logic the only remaining piece of
+information is the flag. If we obtain the flag and reverse the XOR
+operation, we'll have a string that will be accepted by the program for
+the challenge to complete. From the <code>strings</code> output earlier, we found a
+static key-like string, <code>KFFSE_XHKYOKXOHOFEDM^E_Y</code>, which looks like a
+very good candidate. Let's try to reverse the XOR operation using this
+string as the key and 0x2a as XOR key:</p>
+<pre><code class="python">#!/usr//bin/env python
+
+import sys
+
+if len(sys.argv) != 3:
+    print &quot;USAGE: %s &lt;KFFSE_XHKYOKXOHOFEDM^E_Y&gt; &lt;0x2a&gt;&quot; % (sys.argv[0])
+    sys.exit(1)
+
+flag = sys.argv[1]
+key = int(sys.argv[2], 16)
+decoded = []
+
+for c in flag:
+    decoded.append(chr(ord(c) ^ key))
+
+decoded = &quot;&quot;.join(decoded)
+print &quot;%s ^ 0x%x =&gt; %s&quot; % (flag, key, decoded)
+</code></pre>
+
+<pre><code class="bash">$ ./xor.py KFFSE_XHKYOKXOHOFEDM^E_Y 0x2a
+KFFSE_XHKYOKXOHOFEDM^E_Y ^ 0x2a =&gt; allyourbasearebelongtous
+$
+$ ./reverse-ex
+Are you feeling lucky today? Ballyourbasearebelongtous
+[+] WooT!: KFFSE_XHKYOKXOHOFEDM^E_Y
+</code></pre>
+
+<p>Awesome! First run of the program and we get a <em>WooT!</em> message
+confirming successful completion of this challenge. It can't get better
+than this.</p>
+<p>Every assumption we made (<code>B</code> at the start of input, mutation logic
+based on a static key 0x2a, etc.) about the program was validated via
+static analysis except for the flag string used above. We assumed it to
+be the XOR result comparison flag stored at address 0x8048505 but didn't
+validate it in anyway except for trying it out with the binary itself.
+Authors of such challenges often add such strings to confuse the analyst
+and delay the process. However, validating this assumption is fairly
+trivial and let's see how to do it. Since, the value stored at this
+address could be static or dynamically-computed at runtime, let's use
+rely on the debugging process to provide us the correct result. We'll
+debug the program using GDB and check the contents of this address to
+validate our assumption:</p>
+<pre><code class="c-objdump">$ gdb ./reverse-ex -q
+Reading symbols from /home/ankur/toolbox/challenges/misc/reverse-ex...(no debugging symbols found)...done.
+(gdb)
+(gdb) break checkkey
+Breakpoint 1 at 0x80484c9
+(gdb)
+(gdb) r
+Starting program: /home/ankur/toolbox/challenges/misc/reverse-ex
+Are you feeling lucky today? BABCD
+
+Breakpoint 1, 0x080484c9 in checkkey ()
+(gdb)
+(gdb) disas checkkey
+Dump of assembler code for function checkkey:
+   0x080484c4 &lt;+0&gt;: push   %ebp
+   0x080484c5 &lt;+1&gt;: mov    %esp,%ebp
+   0x080484c7 &lt;+3&gt;: push   %edi
+   0x080484c8 &lt;+4&gt;: push   %esi
+=&gt; 0x080484c9 &lt;+5&gt;: sub    $0x10,%esp
+   0x080484cc &lt;+8&gt;: mov    0x8(%ebp),%eax
+   0x080484cf &lt;+11&gt;:  mov    %eax,-0xc(%ebp)
+   0x080484d2 &lt;+14&gt;:  jmp    0x80484e8 &lt;checkkey+36&gt;
+   0x080484d4 &lt;+16&gt;:  mov    -0xc(%ebp),%eax
+   0x080484d7 &lt;+19&gt;:  movzbl (%eax),%eax
+   0x080484da &lt;+22&gt;:  mov    %eax,%edx
+   0x080484dc &lt;+24&gt;:  xor    $0x2a,%edx
+   0x080484df &lt;+27&gt;:  mov    -0xc(%ebp),%eax
+   0x080484e2 &lt;+30&gt;:  mov    %dl,(%eax)
+   0x080484e4 &lt;+32&gt;:  addl   $0x1,-0xc(%ebp)
+   0x080484e8 &lt;+36&gt;:  mov    -0xc(%ebp),%eax
+   0x080484eb &lt;+39&gt;:  movzbl (%eax),%eax
+   0x080484ee &lt;+42&gt;:  test   %al,%al
+   0x080484f0 &lt;+44&gt;:  jne    0x80484d4 &lt;checkkey+16&gt;
+   0x080484f2 &lt;+46&gt;:  mov    0x8(%ebp),%eax
+   0x080484f5 &lt;+49&gt;:  mov    %eax,%edx
+   0x080484f7 &lt;+51&gt;:  mov    $0x8048770,%eax
+   0x080484fc &lt;+56&gt;:  mov    $0x19,%ecx
+   0x08048501 &lt;+61&gt;:  mov    %edx,%esi
+   0x08048503 &lt;+63&gt;:  mov    %eax,%edi
+   0x08048505 &lt;+65&gt;:  repz cmpsb %es:(%edi),%ds:(%esi)
+   0x08048507 &lt;+67&gt;:  seta   %dl
+   0x0804850a &lt;+70&gt;:  setb   %al
+   0x0804850d &lt;+73&gt;:  mov    %edx,%ecx
+   0x0804850f &lt;+75&gt;:  sub    %al,%cl
+   0x08048511 &lt;+77&gt;:  mov    %ecx,%eax
+   0x08048513 &lt;+79&gt;:  movsbl %al,%eax
+   0x08048516 &lt;+82&gt;:  test   %eax,%eax
+   0x08048518 &lt;+84&gt;:  jne    0x8048521 &lt;checkkey+93&gt;
+   0x0804851a &lt;+86&gt;:  mov    $0x1,%eax
+   0x0804851f &lt;+91&gt;:  jmp    0x8048526 &lt;checkkey+98&gt;
+   0x08048521 &lt;+93&gt;:  mov    $0x0,%eax
+   0x08048526 &lt;+98&gt;:  add    $0x10,%esp
+   0x08048529 &lt;+101&gt;: pop    %esi
+   0x0804852a &lt;+102&gt;: pop    %edi
+   0x0804852b &lt;+103&gt;: pop    %ebp
+   0x0804852c &lt;+104&gt;: ret
+End of assembler dump.
+(gdb) x /s 0x8048770
+0x8048770:   &quot;KFFSE_XHKYOKXOHOFEDM^E_Y&quot;
+(gdb) q
+A debugging session is active.
+
+  Inferior 1 [process 13283] will be killed.
+
+Quit anyway? (y or n) y
+</code></pre>
+
+<p>We add a breakpoint at <code>checkkey</code> function and manually inspect the
+content of the 0x8048770 address (it might change on our system) and it
+indeed turns out to be <code>KFFSE_XHKYOKXOHOFEDM^E_Y</code>. This concludes this
+writeup and in an <a href="/2013/malsoftware-reverse-challenge.html">upcoming post</a> I'll write about the second challenge
+from this course.</p>
+        <hr/>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#reversing>reversing</a> and <a href=/tags.html#writeups>writeups</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20130618_libnids-pynids.html">Network Stream Reassembly and ...</a> « | » <a href="/posts/20130829_malsoftware-reverse-challenge.html">reverse Challenge from Courser...</a> »</p>
+                <hr/>
+    </div>
+    <div class="footer">
+      <p style="text-align:center;">[<a href="https://creativecommons.org/licenses/by/4.0/" rel="license" target="_blank">📝 CC BY 4.0</a>]</p>
+    </div>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>hljs.initLineNumbersOnLoad();</script>
+  </body>
+</html>
