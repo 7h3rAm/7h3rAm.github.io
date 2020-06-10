@@ -20,7 +20,7 @@ IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 
 @font-face { font-family:"Fira Code Retina"; src:url(/static/fonts/firacode/FiraCode-Retina.ttf); }
-* { font-family:"Fira Code Retina", "Inconsolata", monospace; font-size:1em; font-size:14pt; border:0; margin:auto; max-width:90ch; padding:.3ch; list-style:none; font-weight:normal; }
+* { font-family:"Fira Code Retina", "Inconsolata", monospace; font-size:12pt; border:0; margin:auto; max-width:90ch; padding:.3ch; list-style:none; font-weight:normal; }
 h1, h2, h3, h4, h5, h6, ul, ol, p, pre { margin-bottom:1em; }
 strong, b { font-weight:bold; }
 em, i { font-style:italic; }
@@ -41,18 +41,18 @@ h6::before { content:"###### "; color:#09a; }
 ul li::before { content:"* "; display:block; margin-left:-3ex; color: #f90; float:left; }
 a { color:#08f; text-decoration:none; }
 a:hover { color:#900 }
-@media print { a { color:#00f!important; } body { width:auto; font-size:14pt; } }
+@media print { a { color:#00f!important; } body { width:auto; font-size:12pt; } }
 
 h1 { font-size:16pt; }
 h2 { font-size:15pt; }
 h3 { font-size:14pt; }
-h4 { font-size:11pt; }
+h4 { font-size:12pt; }
 h5 { font-size:11pt; }
-h6 { font-size:11pt; }
+h6 { font-size:10pt; }
 p { text-align:justify; text-justify:inter-word; }
 img { display:block; margin:0 auto; border:1px solid #909090; vertical-align:middle; -webkit-border-radius:3px; max-width:99% !important; width:auto; height:auto; }
 pre > code > table { margin-left:0px; }
-pre > code { font-family:"Fira Code Retina", "Consolas", "Sans Mono", "Courier", monospace; font-size:12pt; }
+pre > code { font-family:"Fira Code Retina", "Consolas", "Sans Mono", "Courier", monospace; font-size:11pt; }
 .hljs-ln-numbers { color:#909090; text-align:right; vertical-align:middle; border-right:0px solid #909090; }
 .hljs { display:inline-block; }
 
