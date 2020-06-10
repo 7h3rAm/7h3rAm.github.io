@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 {% block body %}
-      <h1>🔬 Research</h1>
-
-        <h2>📜 Patents</h2>
+      <h1>🔬 Research <a name="top"></a></h1>
+        <h2>📜 Patents<a href="#top"> ↟ </a></h2>
           <ul>
           {% for patent in datadict.metadata.research.patents %}
             {% if patent.url is not none %}
@@ -12,9 +11,7 @@
             {% endif %}
           {% endfor %}
           </ul>
-        <br/>
-
-        <h2>🎙️ Talks/Papers/Demos</h2>
+        <h2>🎙️ Talks/Papers/Demos<a href="#top"> ↟ </a></h2>
           {% for talk in datadict.metadata.research.talks %}
             <h3>{{ talk.name }}</h3>
             <p>{{ talk.description }}</p>
@@ -24,9 +21,7 @@
             {% endfor %}
             </ul>
           {% endfor %}
-        <br/>
-
-        <h2>📰 Media</h2>
+        <h2>📰 Media<a href="#top"> ↟ </a></h2>
           <ul>
           {% for article in datadict.metadata.research.media %}
             <li><code>{{ article.date }}</code>: {{ article.name }} (<a href="{{ article.url }}" target="_blank">{{ article.publication }}</a>)</li>

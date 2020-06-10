@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block body %}
+      <h1>📊 Stats <a name="top"></a></h1>
+        <h2>📋 Summary <a href="#top"> ↟ </a></h2>
+          <ul>
+          {% for entry in datadict.stats.summary %}
+            <li>{{ entry }}</li>
+          {% endfor %}
+          </ul>
+        <h2>📈 Graphs <a href="#top"> ↟ </a></h2>
+          <h3>Posts per Tag <a href="#top"> ↟ </a></h3>
+            <p><img src="/static/files/posts_per_tag.png"/></p>
+          <h3>Posts per Year <a href="#top"> ↟ </a></h3>
+            <p><img src="/static/files/posts_per_year.png"/></p>
+          <h3>Tags per Year <a href="#top"> ↟ </a></h3>
+            <p><img src="/static/files/tags_per_year.png"/></p>
+{% endblock %}
