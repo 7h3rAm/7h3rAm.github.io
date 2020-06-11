@@ -50,7 +50,7 @@ h4 { font-size:12pt; }
 h5 { font-size:11pt; }
 h6 { font-size:10pt; }
 p { text-align:justify; text-justify:inter-word; }
-img { display:block; margin:0 auto; border:1px solid #909090; vertical-align:middle; -webkit-border-radius:3px; max-width:99% !important; width:auto; height:auto; }
+img { display:block; margin:0 auto; border:1px solid #909090; vertical-align:middle; -webkit-border-radius:3px; max-width:99% !important; width:auto; height:auto; max-height:400px;}
 pre > code > table { margin-left:0px; }
 pre > code { font-family:"Fira Code Retina", "Consolas", "Sans Mono", "Courier", monospace; font-size:11pt; }
 .hljs-ln-numbers { color:#909090; text-align:right; vertical-align:middle; border-right:0px solid #909090; }
