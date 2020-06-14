@@ -1,86 +1,48 @@
 {% extends "base.html" %}
 {% block body %}
-    <h1>🌎 EarthView</h1>
-
-    <center>
-      <div id="clock"></div>
-      <div id="location"></div>
-      <div id="description"></div>
-    </center>
-    <br/>
-
-    <table>
-      <tbody>
-        <tr>
-          <td><center>#GOES17 #GOESWest<br/><img id="goes17westfd"/></center></td>
-          <td><center>#GOES16 #GOESEast<br/><img id="goes16eastfd"/></center></td>
-        </tr>
-        <tr>
-          <td><center>#GOES17 #GOESWest CONUS<br/><img id="goes17westconusfd"/></center></td>
-          <td><center>#GOES16 #GOESEast CONUS<br/><img id="goes16eastconusfd"/></center></td>
-        </tr>
-        <tr>
-          <td><center>#GOES16 #GOESEast PNW (Pacific NorthWest)<br/><img id="goes16eastpnw"/></center></td>
-          <td><center>#GOES16 #GOESEast PSW (Pacific SouthWest)<br/><img id="goes16eastpsw"/></center></td>
-        </tr>
-        <tr>
-          <td><center>#GOES16 #GOESEast CGL (Great Lakes)<br/><img id="goes16eastcgl"/></center></td>
-          <td><center>#GOES16 #GOESEast NE (North East)<br/><img id="goes16eastne"/></center></td>
-        </tr>
-        <tr>
-          <td><center>#GOES16 #GOESEast UMV (Upper Mississippi valley)<br/><img id="goes16eastumv"/></center></td>
-          <td><center>#GOES16 #GOESEast SMV (Southern Mississippi Valley)<br/><img id="goes16eastsmv"/></center></td>
-        </tr>
-        <tr>
-          <td><center>#GOES16 #GOESEast NR (Northen Rockies)<br/><img id="goes16eastnr"/></center></td>
-          <td><center>#GOES16 #GOESEast SR (Southern Rockies)<br/><img id="goes16eastsr"/></center></td>
-        </tr>
-        <tr>
-          <td><center>#GOES16 #GOESEast SP (Southern Plains)<br/><img id="goes16eastsp"/></center></td>
-          <td><center>#GOES16 #GOESEast SE (South East)<br/><img id="goes16eastse"/></center></td>
-        </tr>
-        <tr>
-          <td><center>#METEOSAT #METEOSAT0<br/><img id="meteosat0"/></center></td>
-          <td><center>#METEOSAT #METEOSAT415<br/><img id="meteosat415"/></center></td>
-        </tr>
-      </tbody>
-    </table>
-    <br/>
+    <h1>🌎 EarthView <a name="top"></a></h1>
+    <h2>🕙 Current Time <a href="#top"> ↟ </a></h2>
+      <p id="currenttime_utc"></p>
+      <p id="currenttime_local"></p>
+    <h2>🛰️ Latest Images <a href="#top"> ↟ </a></h2>
+      <table>
+        <tbody>
+          <tr>
+            <td><center>#METEOSAT #METEOSAT0<br/><img class="satimages" id="meteosat0"/></center></td>
+            <td><center>#METEOSAT #METEOSAT415<br/><img class="satimages" id="meteosat415"/></center></td>
+          </tr>
+          <tr>
+            <td><center>#GOES17 #GOESWest<br/><img class="satimages" id="goes17westfd"/></center></td>
+            <td><center>#GOES16 #GOESEast<br/><img class="satimages" id="goes16eastfd"/></center></td>
+          </tr>
+          <tr>
+            <td><center>#Himawari #Himawari8 (TrueColor)<br/><img class="satimages" id="himawari_truecolorrepo"/></center></td>
+            <td><center>#Himawari #Himawari8 (NaturalColor)<br/><img class="satimages" id="himawari_naturalcolor"/></center></td>
+          </tr>
+        </tbody>
+      </table>
     <script>
       function getTime() {
-        let date = new Date(),
-          year = date.getFullYear(),
-          month = date.getMonth()+1,
-          day = date.getDate();
-          min = date.getMinutes(),
-          sec = date.getSeconds(),
-          hour = date.getHours();
-        document.getElementById("clock").innerHTML = "" + (year + "/" + (month < 10 ? ("0" + month) : month) + "/" + (day < 10 ? ("0" + day) : day)) + " " + (hour < 10 ? ("0" + hour) : hour) + ":" + (min < 10 ? ("0" + min) : min) + ":" + (sec < 10 ? ("0" + sec) : sec);
+        var localdatetime = new Date();
+        document.getElementById("currenttime_utc").innerHTML = "GMT: " + localdatetime.toUTCString();
+        document.getElementById("currenttime_local").innerHTML = "Local: " + localdatetime.toString();
       }
+
       function getImages() {
-        console.log(new Date() + ": getImages");
-        document.getElementById("goes16eastcgl").src = "https://cdn.star.nesdis.noaa.gov/GOES16/ABI/GIFS/GOES16-CGL-GEOCOLOR-600x600.gif"; document.getElementById("goes16eastcgl").width = 420; document.getElementById("goes16eastcgl").height = 420;
-        document.getElementById("goes16eastconusfd").src = "https://cdn.star.nesdis.noaa.gov/GOES16/ABI/GIFS/GOES16-CONUS-GEOCOLOR-625x375.gif"; document.getElementById("goes16eastconusfd").width = 420; document.getElementById("goes16eastconusfd").height = 420;
+        document.getElementById("meteosat0").src = "https://eumetview.eumetsat.int/static-images/latestImages/EUMETSAT_MSG_RGBNatColourEnhncd_LowResolution.jpg"; document.getElementById("meteosat0").width = 420; document.getElementById("meteosat0").height = 420;
+        document.getElementById("meteosat415").src = "https://eumetview.eumetsat.int/static-images/latestImages/EUMETSAT_MSGIODC_RGBNatColourEnhncd_LowResolution.jpg"; document.getElementById("meteosat415").width = 420; document.getElementById("meteosat415").height = 420;
+
         document.getElementById("goes16eastfd").src = "https://cdn.star.nesdis.noaa.gov/GOES16/ABI/FD/GEOCOLOR/thumbnail.jpg"; document.getElementById("goes16eastfd").width = 420; document.getElementById("goes16eastfd").height = 420;
-        document.getElementById("goes16eastne").src = "https://cdn.star.nesdis.noaa.gov/GOES16/ABI/GIFS/GOES16-NE-GEOCOLOR-600x600.gif"; document.getElementById("goes16eastne").width = 420; document.getElementById("goes16eastne").height = 420;
-        document.getElementById("goes16eastnr").src = "https://cdn.star.nesdis.noaa.gov/GOES16/ABI/GIFS/GOES16-NR-GEOCOLOR-600x600.gif"; document.getElementById("goes16eastnr").width = 420; document.getElementById("goes16eastnr").height = 420;
-        document.getElementById("goes16eastpnw").src = "https://cdn.star.nesdis.noaa.gov/GOES16/ABI/GIFS/GOES16-PNW-GEOCOLOR-600x600.gif"; document.getElementById("goes16eastpnw").width = 420; document.getElementById("goes16eastpnw").height = 420;
-        document.getElementById("goes16eastpsw").src = "https://cdn.star.nesdis.noaa.gov/GOES16/ABI/GIFS/GOES16-PSW-GEOCOLOR-600x600.gif"; document.getElementById("goes16eastpsw").width = 420; document.getElementById("goes16eastpsw").height = 420;
-        document.getElementById("goes16eastse").src = "https://cdn.star.nesdis.noaa.gov/GOES16/ABI/GIFS/GOES16-SE-GEOCOLOR-600x600.gif"; document.getElementById("goes16eastse").width = 420; document.getElementById("goes16eastse").height = 420;
-        document.getElementById("goes16eastsmv").src = "https://cdn.star.nesdis.noaa.gov/GOES16/ABI/GIFS/GOES16-SMV-GEOCOLOR-600x600.gif"; document.getElementById("goes16eastsmv").width = 420; document.getElementById("goes16eastsmv").height = 420;
-        document.getElementById("goes16eastsp").src = "https://cdn.star.nesdis.noaa.gov/GOES16/ABI/GIFS/GOES16-SP-GEOCOLOR-600x600.gif"; document.getElementById("goes16eastsp").width = 420; document.getElementById("goes16eastsp").height = 420;
-        document.getElementById("goes16eastsr").src = "https://cdn.star.nesdis.noaa.gov/GOES16/ABI/GIFS/GOES16-SR-GEOCOLOR-600x600.gif"; document.getElementById("goes16eastsr").width = 420; document.getElementById("goes16eastsr").height = 420;
-        document.getElementById("goes16eastumv").src = "https://cdn.star.nesdis.noaa.gov/GOES16/ABI/GIFS/GOES16-UMV-GEOCOLOR-600x600.gif"; document.getElementById("goes16eastumv").width = 420; document.getElementById("goes16eastumv").height = 420;
-        document.getElementById("goes17westconusfd").src = "https://cdn.star.nesdis.noaa.gov/GOES17/ABI/GIFS/GOES17-CONUS-GEOCOLOR-625x375.gif"; document.getElementById("goes17westconusfd").width = 420; document.getElementById("goes17westconusfd").height = 420;
         document.getElementById("goes17westfd").src = "https://cdn.star.nesdis.noaa.gov/GOES17/ABI/FD/GEOCOLOR/thumbnail.jpg"; document.getElementById("goes17westfd").width = 420; document.getElementById("goes17westfd").height = 420;
-        document.getElementById("meteosat0").src = "https://www.goes.noaa.gov/FULLDISK/GMVS.JPG"; document.getElementById("meteosat0").width = 420; document.getElementById("meteosat0").height = 420;
-        document.getElementById("meteosat415").src = "https://www.goes.noaa.gov/FULLDISK/GIVS.JPG"; document.getElementById("meteosat415").width = 420; document.getElementById("meteosat415").height = 420;
+
+        document.getElementById("himawari_truecolorrepo").src = "http://rammb.cira.colostate.edu/ramsdis/online/images/latest/himawari-8/full_disk_ahi_true_color.jpg"; document.getElementById("himawari_truecolorrepo").width = 420; document.getElementById("himawari_truecolorrepo").height = 420;
+        document.getElementById("himawari_naturalcolor").src = "http://rammb.cira.colostate.edu/ramsdis/online/images/latest/himawari-8/full_disk_ahi_natural_color.jpg"; document.getElementById("himawari_naturalcolor").width = 420; document.getElementById("himawari_naturalcolor").height = 420;
       }
+
       window.onload = () => {
         getTime();
         getImages();
-        setInterval(() => {getTime();},500); // every 0.5s
-        setInterval(() => {getImages();},1000*60*10); // every 10m
+        //setInterval(() => {getImages();},1000*60*10); // every 10m
       }
     </script>
 {% endblock %}
