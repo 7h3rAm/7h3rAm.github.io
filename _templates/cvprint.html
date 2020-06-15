@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="{{ datadict.metadata.name }} ({{ datadict.metadata.handle }})"/>
+    <meta name="description" content="Curriculum Vitae"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>Ankur Tyagi</title>
+    <link href="/static/images/mannthan-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
+    <link rel="stylesheet" href="/static/css/style.md.css">
+   </head>
+  <body>
+    <div class="body">
+    {% block body %}
+      <h1>Ankur Tyagi</h1>
+        <pre>{{ datadict.metadata.cv.contact|md2html }}</pre>
+        <p>{{ datadict.metadata.cv.intro }}</p>
+          <ul>
+          {% for domain in datadict.metadata.cv.domains %}
+            <li>{{ domain }}</li>
+          {% endfor %}
+          </ul>
+        <h2>Specialties:</h2>
+          <ul>
+          {% for specialty in datadict.metadata.cv.specialties %}
+            <li>{{ specialty }}</li>
+          {% endfor %}
+          </ul>
+        <h2>Experience</h2>
+          {% for job in datadict.metadata.jobs %}
+            <h3>{{ job.title }} @ {{ job.employer }}</h3>
+            <code>{{ job.years }} ({{ job.duration }})</code><br/>
+            <ul>
+            {% for desc in job.description %}
+              <li>{{ desc }}</li>
+            {% endfor %}
+            </ul>
+          {% endfor %}
+        <h2>Research</h2>
+          <h3>Patents</h3>
+            <ul>
+            {% for patent in datadict.metadata.research.patents %}
+            {% if patent.url is not none %}
+              <li><code>{{ patent.date }}</code>: {{ patent.name }} (<a href="{{ patent.url }}" target="_blank">{{ patent.id }}</a>)</li>
+            {% else %}
+              <li><code>{{ patent.date }}</code>: {{ patent.name }} (<code>{{ patent.id }}</code>)</li>
+            {% endif %}
+            {% endfor %}
+            </ul>
+          <h3>Talks/Papers/Demos</h3>
+            {% for talk in datadict.metadata.research.talks %}
+              <code>{{ loop.index }}</code>. {{ talk.name }}
+              <ul>
+              {% for conference in talk.conferences %}
+                <li><code>{{ conference.date }}</code>: <a href="{{ conference.url }}" target="_blank">{{ conference.name }}</a></li>
+              {% endfor %}
+              </ul>
+            {% endfor %}
+          <h3>Media</h3>
+            <ul>
+            {% for article in datadict.metadata.research.media %}
+              <li><code>{{ article.date }}</code>: {{ article.name }} (<a href="{{ article.url }}" target="_blank">{{ article.publication }}</a>)</li>
+            {% endfor %}
+            </ul>
+        <h2>Academics</h2>
+          <h3>University</h3>
+            <ul>
+            {% for acad in datadict.metadata.academics %}
+              <li><code>{{ acad.date }}</code>: {{ acad.course }} @ {{ acad.institute }}</li>
+            {% endfor %}
+            </ul>
+          <h3>Certifications</h3>
+            <ul>
+            {% for cert in datadict.metadata.certifications %}
+              <li><code>{{ cert.date }}</code>: {{ cert.name }} @ {{ cert.institute }} (<code>ID: {{ cert.id }}</code>)</li>
+            {% endfor %}
+            </ul>
+    {% endblock %}
+  </body>
+</html>
