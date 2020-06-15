@@ -10,7 +10,7 @@
       {% endfor %}
       </ul>
 
-    <h3>Specialties:</h3>
+    <h2>Specialties:</h2>
       <ul>
       {% for specialty in datadict.metadata.cv.specialties %}
         <li>{{ specialty }}</li>
@@ -40,22 +40,22 @@
         {% endfor %}
         </ul>
 
-    <h2>Talks/Papers/Demos</h2>
-      {% for talk in datadict.metadata.research.talks %}
-      <h3>{{ talk.name }}</h3>
+      <h3>Talks/Papers/Demos</h3>
+        {% for talk in datadict.metadata.research.talks %}
+          <code>{{ loop.index }}</code>. {{ talk.name }}
+          <ul>
+          {% for conference in talk.conferences %}
+            <li><code>{{ conference.date }}</code>: <a href="{{ conference.url }}" target="_blank">{{ conference.name }}</a></li>
+          {% endfor %}
+          </ul>
+        {% endfor %}
+
+      <h3>Media</h3>
         <ul>
-        {% for conference in talk.conferences %}
-          <li><code>{{ conference.date }}</code>: <a href="{{ conference.url }}" target="_blank">{{ conference.name }}</a></li>
+        {% for article in datadict.metadata.research.media %}
+          <li><code>{{ article.date }}</code>: {{ article.name }} (<a href="{{ article.url }}" target="_blank">{{ article.publication }}</a>)</li>
         {% endfor %}
         </ul>
-      {% endfor %}
-
-    <h2>Media</h2>
-      <ul>
-      {% for article in datadict.metadata.research.media %}
-        <li><code>{{ article.date }}</code>: {{ article.name }} (<a href="{{ article.url }}" target="_blank">{{ article.publication }}</a>)</li>
-      {% endfor %}
-      </ul>
 
     <h2>Academics</h2>
       <h3>University</h3>
