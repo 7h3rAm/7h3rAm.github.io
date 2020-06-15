@@ -7,7 +7,7 @@ tags: code
 I recently came across the
 [pyFSA](http://www.osteele.com/software/python/fsa/) project and played
 with it for sometime. It includes a built-in API to render finite state
-machines as [dotsstring](http://www.graphviz.org/doc/info/lang.html).
+machines as [dotstring](http://www.graphviz.org/doc/info/lang.html).
 Regular expressions can be represented as FSMs and then be rendered to a
 dot-string for visual introspection. I quickly wrote a proof-of-concept
 tool to implement this idea and hence
@@ -118,7 +118,9 @@ And here's the generated image:
 
 As is evident from the above image, the `\d` escape sequence was not
 identified and the graph as such is incorrect. However, this still is an
-interesting project and a really cheap way of visualizing regular
-expressions. For POSIX compliant solutions, refer these projects: [RegExVis](http://regexvisualizer.apphb.com/), [Debuggex](https://www.debuggex.com/) and [Regexper](http://www.regexper.com/)
+interesting project and a really easy way of visualizing regular
+expressions. For POSIX compliant solutions, refer these projects:
+[RegExVis](http://regexvisualizer.apphb.com/),
+[Debuggex](https://www.debuggex.com/) and [Regexper](http://www.regexper.com/)
 
 You can get the source files through the project repository on [GitHub](https://github.com/7h3rAm/re2dotgraph).
