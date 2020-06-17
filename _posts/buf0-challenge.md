@@ -4,7 +4,7 @@ date: 06/Jan/2014
 summary: This is a buffer overflow challenge I found online. Although some people might find this to be a pretty easy exploit target, I thought of posting a writeup since it will still be someone's starting point into the jouney of exploitation.
 tags: buffer overflow, writeups, reversing
 
-The binary can be obtained from here: [buf0](/files/buf0.bin). Let's see what `file` command has to tell us about this challenge file:
+The binary can be obtained from here: [buf0](/static/files/buf0.bin). Let's see what `file` command has to tell us about this challenge file:
 
 ```bash
 $ file buf0.bin
