@@ -10,7 +10,7 @@ Around an year ago I submitted a pull request to the [ChopShop](https://github.c
 
 It provides reliable network stream reassembly via libnids and provides an API to write plugins/modules that can operate upon the reassembled network data. The project is in active development since September 2012 and numerous interesting modules have been added to it recently.
 
-Last year I submitted a [shellcode detection module](https://github.com/MITRECND/chopshop/pull/29) that was merged in the project with few changes. This module leverages ChopShop APIs to obtain network data and inspects it using [Libemu to check if it contains shellcode](http://7h3ram.github.io/2013/libemu-shellcode-detection.html). I got this idea while working on one of my projects, [Flowinspect](http://7h3ram.github.io/2014/flowinspect.html), which includes shellcode detection and other interesting ways of identifying suspicious network traffic.
+Last year I submitted a [shellcode detection module](https://github.com/MITRECND/chopshop/pull/29) that was merged in the project with few changes. This module leverages ChopShop APIs to obtain network data and inspects it using [Libemu to check if it contains shellcode](http://7h3ram.github.io/posts/20130306_libemu-shellcode-detection.html). I got this idea while working on one of my projects, [Flowinspect](https://7h3ram.github.io/posts/20141127_flowinspect.html), which includes shellcode detection and other interesting ways of identifying suspicious network traffic.
 
 To invoke ChopShop you need to provide a pcapfile as input and then a list of modules to be invoked. Each module can be provided respective arguments as well. Let's have a look at the command line invocation and usage of the shellcode module:
 

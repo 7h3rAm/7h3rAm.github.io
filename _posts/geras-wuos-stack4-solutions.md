@@ -4,23 +4,11 @@ date: 04/Jan/2013
 summary: Solutions for Gera's Warming up on Stack #4 program.
 tags: exploit, mitigations, buffer overflow, writeups
 
-Following is the part 4 in the series of posts I started back in August
-2012 with an aim to provide an analysis and possible solutions for the
-vulnerable programs provided by
-[Gera](http://corelabs.coresecurity.com/index.php?module=Wiki&action=view&type=researcher&name=Gerardo_Richarte)
-at his [Insecure
-Programming](http://community.corest.com/%7Egera/InsecureProgramming/)
-by example page.
+Following is the part 4 in the series of posts I started back in August 2012 with an aim to provide an analysis and possible solutions for the vulnerable programs provided by [Gera](http://corelabs.coresecurity.com/index.php?module=Wiki&action=view&type=researcher&name=Gerardo_Richarte) at his [Insecure Programming](http://community.corest.com/%7Egera/InsecureProgramming/) by example page.
 
-This post follows the [Gera's Warming Up on Stack #3 -
-Solutions](/2013/geras-wuos-stack3-solutions.html) post and if you have
-not read it, I request you to please do so. Most of the concepts are
-very similar and since they have been already talked about, I'll not be
-reiterating them here.
+This post follows the [Gera's Warming Up on Stack #3 - Solutions](https://7h3ram.github.io/posts/20130103_geras-wuos-stack3-solutions.html) post and if you have not read it, I request you to please do so. Most of the concepts are very similar and since they have been already talked about, I'll not be reiterating them here.
 
-Let's get started. Below is the source for the vulnerable
-[stack4.c](http://community.corest.com/%7Egera/InsecureProgramming/stack4.html)
-program:
+Let's get started. Below is the source for the vulnerable [stack4.c](http://community.corest.com/%7Egera/InsecureProgramming/stack4.html) program:
 
 ```c
 /* stack4.c                                     *
@@ -38,20 +26,9 @@ int main() {
 }
 ```
 
-The above program too accepts user-input through the `gets` function and
-then looks for a specific value in a local variable named `cookie`. If
-this value is equal to a certain pre-defined constant, `printf` function
-is used to show a `you win!` message to the user. There is no direct
-means of modifying the content of the `cookie` variable. The `gets`
-function will keep reading from the stdin device until it encounters a
-newline or EoF character. Since this reading loop fails to honor the
-size of the destination buffer, a classic buffer overflow vulnerability
-is introduced in the program. Our aim is to leverage this vulnerability
-and exploit this program so that it print the `you win!` message to
-stdout.
+The above program too accepts user-input through the `gets` function and then looks for a specific value in a local variable named `cookie`. If this value is equal to a certain pre-defined constant, `printf` function is used to show a `you win!` message to the user. There is no direct means of modifying the content of the `cookie` variable. The `gets` function will keep reading from the stdin device until it encounters a newline or EoF character. Since this reading loop fails to honor the size of the destination buffer, a classic buffer overflow vulnerability is introduced in the program. Our aim is to leverage this vulnerability and exploit this program so that it print the `you win!` message to stdout.
 
-Here are a few observations that could be made by looking at the source
-of the program:
+Here are a few observations that could be made by looking at the source of the program:
 
 1.  Since it is defined prior to buf, the `cookie` would be placed at a
     higher memory address on the program stack, just below the saved
@@ -61,15 +38,9 @@ of the program:
 3.  The `gets` call would accept unbounded user-input within `buf` array
     and hence it provides a mechanism to alter the call stack contents
 
-Stack layout for
-[stack4.c](http://community.corest.com/%7Egera/InsecureProgramming/stack4.html)
-is identical to
-[stack1.c](http://community.corest.com/%7Egera/InsecureProgramming/stack1.html)
-as already outlined in the [Gera's Warming Up on Stack #1 -
-Solutions](/2012/8/27/geras-wuos-stack1-solutions/) post.
+Stack layout for [stack4.c](http://community.corest.com/%7Egera/InsecureProgramming/stack4.html) is identical to [stack1.c](http://community.corest.com/%7Egera/InsecureProgramming/stack1.html) as already outlined in the [Gera's Warming Up on Stack #1 - Solutions](https://7h3ram.github.io/posts/20120827_geras-wuos-stack1-solutions.html) post.
 
-Here are solutions I could think of to get the `you win!` message
-printed:
+Here are solutions I could think of to get the `you win!` message printed:
 
 -   Solution #1: Overflow the internal buf array to overwrite EIP with
     the address of `printf(you win!)`
@@ -78,14 +49,7 @@ printed:
 -   Solution #3: Inject a NOP-prefixed `printf(you win!)` shellcode
     through an environment var and overwrite EIP with its address
 
-Unlike earlier programs, where Solution #1 suggested overflowing the
-character array to overwrite `cookie` with desired value,
-[stack4.c](http://community.corest.com/%7Egera/InsecureProgramming/stack4.html)
-coud not be exploited in that manner. This is beacuse the `cookie` has
-been initialized with 0x000a0d00 and if we inject this string, the
-newline character (0x0a) will cause the `gets` internal read to stop
-processing further characters, thereby breaking our exploit. As such we
-won't be using this technqiue but rather use alternate methods.
+Unlike earlier programs, where Solution #1 suggested overflowing the character array to overwrite `cookie` with desired value, [stack4.c](http://community.corest.com/%7Egera/InsecureProgramming/stack4.html) coud not be exploited in that manner. This is beacuse the `cookie` has been initialized with 0x000a0d00 and if we inject this string, the newline character (0x0a) will cause the `gets` internal read to stop processing further characters, thereby breaking our exploit. As such we won't be using this technqiue but rather use alternate methods.
 
 Here's a brief description of the test system:
 
@@ -156,14 +120,10 @@ you win!
 Segmentation fault
 ```
 
-Solution #2: Inject a NOP-prefixed printf(`you win!`) shellcode and overwrite EIP with its address
+Solution #2: Inject a NOP-prefixed `printf(you win!)` shellcode and overwrite EIP with its address
 ---------------------------------------------------------------------------------------------------
 
-Let's first recompile
-[stack4.c](http://community.corest.com/%7Egera/InsecureProgramming/stack4.html)
-and request GCC to mark program stack as executable. Additionally, we
-also need to turn ASLR off so that we can have a static return address
-to overwrite EIP with:
+Let's first recompile [stack4.c](http://community.corest.com/%7Egera/InsecureProgramming/stack4.html) and request GCC to mark program stack as executable. Additionally, we also need to turn ASLR off so that we can have a static return address to overwrite EIP with:
 
 ```bash
 # gcc -mpreferred-stack-boundary=2 -fno-stack-protector -z execstack -o stack4 stack4.c 2>/dev/null ; readelf -l stack4 | grep GNU_STACK
@@ -173,12 +133,7 @@ to overwrite EIP with:
 0
 ```
 
-Let's go ahead with exploitation. The Null-free, NOP-prefixed
-`printf(you win!)` shellcode we used to exploit
-[stack1.c](http://community.corest.com/%7Egera/InsecureProgramming/stack1.html)
-in the [Gera's Warming Up on Stack #1 -
-Solutions](/2012/8/27/geras-wuos-stack1-solutions/) post could be reused
-here:
+Let's go ahead with exploitation. The Null-free, NOP-prefixed `printf(you win!)` shellcode we used to exploit [stack1.c](http://community.corest.com/%7Egera/InsecureProgramming/stack1.html) in the [Gera's Warming Up on Stack #1 - Solutions](https://7h3ram.github.io/posts/20120827_geras-wuos-stack1-solutions.html) post could be reused here:
 
 ```bash
 # ./stack4
@@ -215,16 +170,6 @@ buf: bffff4c4 cookie: bffff514
 you win!
 ```
 
-So, we have now successfully exploited the
-[stack4.c](http://community.corest.com/%7Egera/InsecureProgramming/stack4.html)
-program through three different techniques. Depending on the motive of
-your exploitation attempt, other techniques could be devised and some,
-mentioned here, be rejected.
+So, we have now successfully exploited the [stack4.c](http://community.corest.com/%7Egera/InsecureProgramming/stack4.html) program through three different techniques. Depending on the motive of your exploitation attempt, other techniques could be devised and some, mentioned here, be rejected.
 
-Like I said, earlier, these solutions are not practical anymore. They
-just serve the purpose of understanding how exploits used to work before
-mitigation features were introduced in modern systems. But, as with
-everything else, understanding basics is really important. As mitigation
-features mature, exploitation techniques become increasingly complex.
-And to understand those, we need to build upon the solid foundation of
-basic concepts, like those discussed on this and other blogs.
+Like I said, earlier, these solutions are not practical anymore. They just serve the purpose of understanding how exploits used to work before mitigation features were introduced in modern systems. But, as with everything else, understanding basics is really important. As mitigation features mature, exploitation techniques become increasingly complex. And to understand those, we need to build upon the solid foundation of basic concepts, like those discussed on this and other blogs.
