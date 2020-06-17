@@ -31,20 +31,8 @@
     <div class="body">
           <h1>Network Stream Reassembly and Defragmentation</h1>
                   <p><a href="/posts/20130306_libemu-shellcode-detection.html"> « </a>📅 published on <code>18/Jun/2013</code><a href="/posts/20130824_malsoftware-reverse-ex.html"> » </a></p>
-                <p><a href="http://libnids.sourceforge.net/">Libnids</a> is a library that emulates
-Linux kernel 2.0.x TCP/IP stack to offer IP defragmentation, TCP
-reassembly and port scan detection features. It allows programs to
-accept arbitrary packet data, either from a packet capture file or
-directly from a network interface and extract TCP streams out of it.
-This stream is what layer 7 applications will process and as such it is
-a very good source for inspection tools to look for malicious content in
-it. In this post, we'll be seeing how Libnids and its Python binding can
-be used to create a nifty network inspection utility.</p>
-<p>We'll be using the <a href="https://jon.oberheide.org/pynids/">pynids</a> Python
-binding from <a href="https://jon.oberheide.org/">Jon Oberheide</a>. Installation
-instructions are very well documented within the <code>README</code> file and I
-suggest you read and follow them. Let's have a look at an example
-program to test pynids installation:</p>
+                <p><a href="http://libnids.sourceforge.net/">Libnids</a> is a library that emulates Linux kernel 2.0.x TCP/IP stack to offer IP defragmentation, TCP reassembly and port scan detection features. It allows programs to accept arbitrary packet data, either from a packet capture file or directly from a network interface and extract TCP streams out of it. This stream is what layer 7 applications will process and as such it is a very good source for inspection tools to look for malicious content in it. In this post, we'll be seeing how Libnids and its Python binding can be used to create a nifty network inspection utility.</p>
+<p>We'll be using the <a href="https://jon.oberheide.org/pynids/">pynids</a> Python binding from <a href="https://jon.oberheide.org/">Jon Oberheide</a>. Installation instructions are very well documented within the <code>README</code> file and I suggest you read and follow them. Let's have a look at an example program to test pynids installation:</p>
 <pre><code class="python">#!/usr/bin/env python
 
 import sys
@@ -85,12 +73,7 @@ if __name__ == '__main__':
     main()
 </code></pre>
 
-<p>Above program initializes Libnids and registers a TCP callback that
-would be called for each TCP packet seen by the library. For each new
-connection, the callback function requests Libnids to collect both
-client-to-server (CTS) and server-to-client (STC) flowing traffic. When
-the connection is closed/terminated/timed out, the above program dumps
-total bytes of data seen on both directions for the closed stream:</p>
+<p>Above program initializes Libnids and registers a TCP callback that would be called for each TCP packet seen by the library. For each new connection, the callback function requests Libnids to collect both client-to-server (CTS) and server-to-client (STC) flowing traffic. When the connection is closed/terminated/timed out, the above program dumps total bytes of data seen on both directions for the closed stream:</p>
 <pre><code class="bash">$ python nidstest.py ~/toolbox/testfiles/pcaps/http_witp_jpegs.cap
 [+] 10.1.1.101:3177 - 10.1.1.1:80 (CTS: 476B | STC: 435B)
 [+] 10.1.1.101:3188 - 10.1.1.1:80 (CTS: 574B | STC: 4601B)
@@ -104,8 +87,7 @@ total bytes of data seen on both directions for the closed stream:</p>
 [+] 10.1.1.101:3200 - 10.1.1.1:80 (CTS: 637B | STC: 191777B)
 </code></pre>
 
-<p>Let's have a look at the content of each stream and see what data will
-the TCP layer present as payload to application layer:</p>
+<p>Let's have a look at the content of each stream and see what data will the TCP layer present as payload to application layer:</p>
 <pre><code class="bash">$ python nidsstream.py ~/toolbox/testfiles/pcaps/http.cap
 [+] 145.254.160.237:3372 - 65.208.228.223:80 (CTS: 479B | STC: 18364B)
 
@@ -135,18 +117,8 @@ Content-Type: text/html; charset=ISO-8859-1
 &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 </code></pre>
 
-<p>The test pcap contains an HTTP session and the program dumps CTS and STC
-content (limited to first ~300B) and this is exactly what the
-applications at layer 7 will send/receive while interacting with lower
-layers. Gaining direct access to this data opens up a number of
-possibilities for us to explore. Network inspection tools, primarily
-Intrusion Detection and Prevention Systems, will reassemble TCP packets
-and to create this buffer and then inspect this buffer in various ways
-to identify if it contains malicious content. One of the very common
-practices is to carry out signature based inspection on network streams
-to identify if they contain exploit traffic.</p>
-<p>In an <a href="/2013/libnids-python-ids.html">upcoming post</a>, I'll try to explain how pynids and native Python
-modules can be used to develop a minimal IDS from scratch. Stay tuned.</p>
+<p>The test pcap contains an HTTP session and the program dumps CTS and STC content (limited to first 300B) and this is exactly what the applications at layer 7 will send/receive while interacting with lower layers. Gaining direct access to this data opens up a number of possibilities for us to explore. Network inspection tools, primarily Intrusion Detection and Prevention Systems, will reassemble TCP packets and to create this buffer and then inspect this buffer in various ways to identify if it contains malicious content. One of the very common practices is to carry out signature based inspection on network streams to identify if they contain exploit traffic.</p>
+<p>In an <a href="https://7h3ram.github.io/posts/20130915_libnids-python-ids.html">upcoming post</a>, I'll try to explain how pynids and native Python modules can be used to develop a minimal IDS from scratch. Stay tuned.</p>
         <hr/>
         <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a>)</p>
                   <p style="text-align:center;">« <a href="/posts/20130306_libemu-shellcode-detection.html">x86 Emulation and Shellcode De...</a> « | » <a href="/posts/20130824_malsoftware-reverse-ex.html">reverse-ex Challenge from Cour...</a> »</p>

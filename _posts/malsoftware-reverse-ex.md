@@ -4,19 +4,9 @@ date: 24/Aug/2013
 summary: The recently concluded Malicious Software course on Coursera had an interesting reversing challenge: reverse-ex. This is a writeup on how to complete it.
 tags: writeups, reversing
 
-The recently concluded [Malicious Software and its Undergound
-Economy](https://class.coursera.org/malsoftware-001/) course on
-[Coursera](https://www.coursera.org/) had an interesting reverse
-engineering challenge as part of its coursework:
-[reverse-ex](/static/files/reverse-ex). I found it interesting since it will be
-equally entertaining for someone who has never tried such challenges or
-one who has mastered many of them. This post details the steps I took to
-complete this challenge.
+The recently concluded [Malicious Software and its Undergound Economy](https://class.coursera.org/malsoftware-001/) course on [Coursera](https://www.coursera.org/) had an interesting reverse engineering challenge as part of its coursework: [reverse-ex](/static/files/reverse-ex). I found it interesting since it will be equally entertaining for someone who has never tried such challenges or one who has mastered many of them. This post details the steps I took to complete this challenge.
 
-The first thing I normally do after obtaining such challenges is to test
-them with `file` command. This provides some insight about various file
-attributes like its type (ELF, PE, etc.), processor architecture
-compatibility, symbol table inclusion, etc:
+The first thing I normally do after obtaining such challenges is to test them with `file` command. This provides some insight about various file attributes like its type (ELF, PE, etc.), processor architecture compatibility, symbol table inclusion, etc:
 
 ```bash
 $ file reverse-ex
@@ -26,39 +16,11 @@ $ file -i reverse-ex
 reverse-ex: application/x-executable; charset=binary
 ```
 
-The above output tells us that this is a 32bit
-[ELF](http://en.wikipedia.org/wiki/Executable_and_Linkable_Format)
-binary, [dynamically
-linked](http://stackoverflow.com/questions/1993390/static-linking-vs-dynamic-linking),
-and has [symbols
-included](http://unix.stackexchange.com/questions/2969/what-are-stripped-and-not-stripped-executables-in-unix).
-This means that debugging and symbol resolution information has been
-preserved and packed inside the binary itself. This is a very important
-piece of information as it tells us that a successful disassembly of
-this binary will expose functions/variable that were used in its source,
-providing some pointers on how to solve this challenge. Before we move
-towards disassembly, let's run `strings` over this file as well:
+The above output tells us that this is a 32bit [ELF](http://en.wikipedia.org/wiki/Executable_and_Linkable_Format) binary, [dynamically linked](http://stackoverflow.com/questions/1993390/static-linking-vs-dynamic-linking), and has [symbols included](http://unix.stackexchange.com/questions/2969/what-are-stripped-and-not-stripped-executables-in-unix). This means that debugging and symbol resolution information has been preserved and packed inside the binary itself. This is a very important piece of information as it tells us that a successful disassembly of this binary will expose functions/variable that were used in its source, providing some pointers on how to solve this challenge. Before we move towards disassembly, let's run `strings` over this file as well:
 
-Now this output is even more interesting since it exposes quite
-significant details about the challenge. First, it didn't show any
-commonly used buffer overflow prone libc functions like `gets` or
-`strcpy`, but just `puts`, `printf`, `read`, etc. There could be a
-[format-string](http://en.wikipedia.org/wiki/Uncontrolled_format_string)
-issue in the program (`printf`-family functions are likely
-[vulnerable](https://security.web.cern.ch/security/recommendations/en/codetools/c.shtml)
-if incorrectly used) but that can only be confirmed during static
-analysis of program disassembly or via dynamic analysis with multiple
-format-string prone inputs. But there's a bigger hint here: strings at
-the bottom following function names look interesting. Especially the
-`KFFSE_XHKYOKXOHOFEDM^E_Y` string since it looks like some kind of a
-key. May be the program mutates user-supplied input and performs a
-comparison with static flags like this string. If it does, we need to
-look at its disassembly and figure out the logic behind the mutation
-function and try to reverse it. Let's use `objdump` to disassemble this
-binary and dump its disassembly in [Intel
-syntax](http://en.wikipedia.org/wiki/X86_assembly_language#Syntax):
+Now this output is even more interesting since it exposes quite significant details about the challenge. First, it didn't show any commonly used buffer overflow prone libc functions like `gets` or `strcpy`, but just `puts`, `printf`, `read`, etc. There could be a [format-string](http://en.wikipedia.org/wiki/Uncontrolled_format_string) issue in the program (`printf`-family functions are likely [vulnerable](https://security.web.cern.ch/security/recommendations/en/codetools/c.shtml) if incorrectly used) but that can only be confirmed during static analysis of program disassembly or via dynamic analysis with multiple format-string prone inputs. But there's a bigger hint here: strings at the bottom following function names look interesting. Especially the `KFFSE_XHKYOKXOHOFEDM^E_Y` string since it looks like some kind of a key. May be the program mutates user-supplied input and performs a comparison with static flags like this string. If it does, we need to look at its disassembly and figure out the logic behind the mutation function and try to reverse it. Let's use `objdump` to disassemble this binary and dump its disassembly in [Intel syntax](http://en.wikipedia.org/wiki/X86_assembly_language#Syntax):
 
-```c-objdump
+```c
 $ objdump -d -M intel reverse-ex
 
 reverse-ex:     file format elf32-i386
@@ -221,23 +183,9 @@ Disassembly of section .text:
  804869f: 90                    nop
 ```
 
-I've removed certain non-important sections from the above output. Apart
-from `main`, there are 4 functions, namely `checkkey`, `foo`, `bar`,
-`foobar`. The `main` function includes certain anti-disassembly and
-obfuscation code and it's difficult to make proper sense of what's
-happening here. But let's focus on the important instructions. The `cmp`
-set of instructions starting at 0x804860d are interesting, especially
-the first `cmp` itself since it will cause a jump to 0x8048629 if the
-input buffer starts with 0x42 (B in ascii) and 0x8048629 is from where
-the `checkkey` function starts. Of all the available functions,
-`checkkey` is of obvious interest and this tells us that the program
-will only transfer control to `checkkey` function if the input starts
-with ascii `B` and not otherwise. Once the control reaches `checkkey` it
-will try to mutate input buffer and compare it against a static key.
-Let's conclude this analysis by having a closer look at `checkkey`'s
-disassembly:
+I've removed certain non-important sections from the above output. Apart from `main`, there are 4 functions, namely `checkkey`, `foo`, `bar`, `foobar`. The `main` function includes certain anti-disassembly and obfuscation code and it's difficult to make proper sense of what's happening here. But let's focus on the important instructions. The `cmp` set of instructions starting at 0x804860d are interesting, especially the first `cmp` itself since it will cause a jump to 0x8048629 if the input buffer starts with 0x42 (B in ascii) and 0x8048629 is from where the `checkkey` function starts. Of all the available functions, `checkkey` is of obvious interest and this tells us that the program will only transfer control to `checkkey` function if the input starts with ascii `B` and not otherwise. Once the control reaches `checkkey` it will try to mutate input buffer and compare it against a static key. Let's conclude this analysis by having a closer look at `checkkey`'s disassembly:
 
-```c-objdump
+```c
 080484c4 <checkkey>:
  80484c4: 55                    push   ebp
  80484c5: 89 e5                 mov    ebp,esp
@@ -283,24 +231,9 @@ disassembly:
  804852c: c3                    ret
 ```
 
-After the [function
-prologue](http://en.wikipedia.org/wiki/Function_prologue), the
-`checkkey` function is reading the input buffer (starting address at
-`DWORD PTR [ebp+0x8]`) and performs a per-byte XOR using 0x2a as the
-key. Once the XOR operation completes, it is indeed comparing the
-resultant string with a pre-defined flag of size `0x19 - 1` bytes stored
-at 0x8048770. The `mov` instructions starting at address 0x80484f2 and
-the `repz cmps` instruction at address 0x8048505 confirm this analysis.
+After the [function prologue](http://en.wikipedia.org/wiki/Function_prologue), the `checkkey` function is reading the input buffer (starting address at `DWORD PTR [ebp+0x8]`) and performs a per-byte XOR using 0x2a as the key. Once the XOR operation completes, it is indeed comparing the resultant string with a pre-defined flag of size `0x19 - 1` bytes stored at 0x8048770. The `mov` instructions starting at address 0x80484f2 and the `repz cmps` instruction at address 0x8048505 confirm this analysis.
 
-So we now know that the input will be XOR'ed with a static per-byte key
-of 0x2a and the result will be compared with a flag defined at
-0x80484f2. To reverse this mutation logic the only remaining piece of
-information is the flag. If we obtain the flag and reverse the XOR
-operation, we'll have a string that will be accepted by the program for
-the challenge to complete. From the `strings` output earlier, we found a
-static key-like string, `KFFSE_XHKYOKXOHOFEDM^E_Y`, which looks like a
-very good candidate. Let's try to reverse the XOR operation using this
-string as the key and 0x2a as XOR key:
+So we now know that the input will be XOR'ed with a static per-byte key of 0x2a and the result will be compared with a flag defined at 0x80484f2. To reverse this mutation logic the only remaining piece of information is the flag. If we obtain the flag and reverse the XOR operation, we'll have a string that will be accepted by the program for the challenge to complete. From the `strings` output earlier, we found a static key-like string, `KFFSE_XHKYOKXOHOFEDM^E_Y`, which looks like a very good candidate. Let's try to reverse the XOR operation using this string as the key and 0x2a as XOR key:
 
 ```python
 #!/usr//bin/env python
@@ -331,24 +264,11 @@ Are you feeling lucky today? Ballyourbasearebelongtous
 [+] WooT!: KFFSE_XHKYOKXOHOFEDM^E_Y
 ```
 
-Awesome! First run of the program and we get a *WooT!* message
-confirming successful completion of this challenge. It can't get better
-than this.
+Awesome! First run of the program and we get a *WooT!* message confirming successful completion of this challenge. It can't get better than this.
 
-Every assumption we made (`B` at the start of input, mutation logic
-based on a static key 0x2a, etc.) about the program was validated via
-static analysis except for the flag string used above. We assumed it to
-be the XOR result comparison flag stored at address 0x8048505 but didn't
-validate it in anyway except for trying it out with the binary itself.
-Authors of such challenges often add such strings to confuse the analyst
-and delay the process. However, validating this assumption is fairly
-trivial and let's see how to do it. Since, the value stored at this
-address could be static or dynamically-computed at runtime, let's use
-rely on the debugging process to provide us the correct result. We'll
-debug the program using GDB and check the contents of this address to
-validate our assumption:
+Every assumption we made (`B` at the start of input, mutation logic based on a static key 0x2a, etc.) about the program was validated via static analysis except for the flag string used above. We assumed it to be the XOR result comparison flag stored at address 0x8048505 but didn't validate it in anyway except for trying it out with the binary itself. Authors of such challenges often add such strings to confuse the analyst and delay the process. However, validating this assumption is fairly trivial and let's see how to do it. Since, the value stored at this address could be static or dynamically-computed at runtime, let's use rely on the debugging process to provide us the correct result. We'll debug the program using GDB and check the contents of this address to validate our assumption:
 
-```c-objdump
+```c
 $ gdb ./reverse-ex -q
 Reading symbols from /home/ankur/toolbox/challenges/misc/reverse-ex...(no debugging symbols found)...done.
 (gdb)
@@ -416,8 +336,4 @@ A debugging session is active.
 Quit anyway? (y or n) y
 ```
 
-We add a breakpoint at `checkkey` function and manually inspect the
-content of the 0x8048770 address (it might change on our system) and it
-indeed turns out to be `KFFSE_XHKYOKXOHOFEDM^E_Y`. This concludes this
-writeup and in an [upcoming post](/2013/malsoftware-reverse-challenge.html) I'll write about the second challenge
-from this course.
+We add a breakpoint at `checkkey` function and manually inspect the content of the 0x8048770 address (it might change on our system) and it indeed turns out to be `KFFSE_XHKYOKXOHOFEDM^E_Y`. This concludes this writeup and in an [upcoming post](https://7h3ram.github.io/posts/20130829_malsoftware-reverse-challenge.html) I'll write about the second challenge from this course.

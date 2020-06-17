@@ -6,15 +6,9 @@ tags: writeups, reversing
 language: en
 author: 7h3rAm
 
-This post follows an earlier one: [reverse-ex Challenge from Coursera's
-Malicious Software Course](/2013/malsoftware-reverse-ex.html). If
-you've not already read it, I would suggest you do so since both these
-challenges share a few common concepts and I'll be skipping detail if it
-has been mentioned before.
+This post follows an earlier one: [reverse-ex Challenge from Coursera's Malicious Software Course](https://7h3ram.github.io/posts/20130824_malsoftware-reverse-ex.html). If you've not already read it, I would suggest you do so since both these challenges share a few common concepts and I'll be skipping detail if it has been mentioned before.
 
-The challenge file is hosted here:
-[reverse-challenge](/static/files/reverse-challenge). The first thing to do is
-to test it with `file` command:
+The challenge file is hosted here: [reverse-challenge](/static/files/reverse-challenge). The first thing to do is to test it with `file` command:
 
 ```bash
 $ file reverse-challenge
@@ -24,45 +18,17 @@ $ file -i reverse-challenge
 reverse-challenge: application/x-executable; charset=binary
 ```
 
-Like the previous challenge this is also a 32bit
-[ELF](http://en.wikipedia.org/wiki/Executable_and_Linkable_Format)
-binary, [dynamically
-linked](http://stackoverflow.com/questions/1993390/static-linking-vs-dynamic-linking),
-but a significant difference is that it has [symbols
-stripped](http://unix.stackexchange.com/questions/2969/what-are-stripped-and-not-stripped-executables-in-unix).
-This means that debugging and symbol resolution information has *NOT*
-been preserved within the binary. This loss of debugging information
-would be evident when we move on to static analysis part later but first
-let's see what `strings` has to tell us about this file:
+Like the previous challenge this is also a 32bit [ELF](http://en.wikipedia.org/wiki/Executable_and_Linkable_Format) binary, [dynamically linked](http://stackoverflow.com/questions/1993390/static-linking-vs-dynamic-linking), but a significant difference is that it has [symbols stripped](http://unix.stackexchange.com/questions/2969/what-are-stripped-and-not-stripped-executables-in-unix). This means that debugging and symbol resolution information has *NOT* been preserved within the binary. This loss of debugging information would be evident when we move on to static analysis part later but first let's see what `strings` has to tell us about this file:
 
-If you've read the previous post this output would certainly delight you
-due to the discernible similarity between the two challenge files.
-Similar looking status strings and a static flag indicate that this
-program, like its predecessor, also uses some mutation mechanism (mostly
-XOR, but we will validate it soon) and a static key which we can use to
-reverse the algorithm. This time, let's use IDA to disassemble and
-analyze this program:
+If you've read the previous post this output would certainly delight you due to the discernible similarity between the two challenge files. Similar looking status strings and a static flag indicate that this program, like its predecessor, also uses some mutation mechanism (mostly XOR, but we will validate it soon) and a static key which we can use to reverse the algorithm. This time, let's use IDA to disassemble and analyze this program:
 
 ![image](/static/files/ida-start.png)
 
-Since the program includes anti-reversing techniques, I tried to avoid
-traversing the code manually and quickly searched for the section
-referencing the flag we found in `strings` output: `xKZl_^_XCY^CIE`. It
-was found that this flag was being referenced at location 0x08048694.
-Before that, there was the code responsible for performing the mutation,
-which in this case was also XOR. However, instead of using a static
-value as a key, it was being computed at runtime. The
-`mov dword ptr [ebp-10h], 0FAh` and `and edx, 2Bh` instructions at
-locations 0x08048664 and 0x08048677 respectively initialized `edx` with
-a value of 0x2a which is then used in a XOR operation at location
-0x0804867A.
+Since the program includes anti-reversing techniques, I tried to avoid traversing the code manually and quickly searched for the section referencing the flag we found in `strings` output: `xKZl_^_XCY^CIE`. It was found that this flag was being referenced at location 0x08048694. Before that, there was the code responsible for performing the mutation, which in this case was also XOR. However, instead of using a static value as a key, it was being computed at runtime. The `mov dword ptr [ebp-10h], 0FAh` and `and edx, 2Bh` instructions at locations 0x08048664 and 0x08048677 respectively initialized `edx` with a value of 0x2a which is then used in a XOR operation at location 0x0804867A.
 
 ![image](/static/files/ida-checkkey.png)
 
-Thus the per-byte XOR key for this program turns out to be 0x2a. Let's
-invoke the python script we used in previous post with `xKZl_^_XCY^CIE`
-as the flag and 0x2a as the key and reverse the simple XOR mutation
-logic:
+Thus the per-byte XOR key for this program turns out to be 0x2a. Let's invoke the python script we used in previous post with `xKZl_^_XCY^CIE` as the flag and 0x2a as the key and reverse the simple XOR mutation logic:
 
 ```bash
 $ ./xor.py xKZl_^_XCY^CIE 0x2a
@@ -73,12 +39,7 @@ Are you feeling lucky today? BRapFuturistico
 [+] WooT!: xKZl_^_XCY^CIE
 ```
 
-As expected, `RapFuturistico` indeed is the right input string derived
-from reversing the XOR-based mutation logic used in the program. Like
-earlier, we could have also tried debugging this program but the
-`Dude, no debugging ;-)` string from the `strings` output indicates
-presence of anti-debugging measures and I refrained using it in this
-challenge. It can be confirmed with a simple `strace` of the program:
+As expected, `RapFuturistico` indeed is the right input string derived from reversing the XOR-based mutation logic used in the program. Like earlier, we could have also tried debugging this program but the `Dude, no debugging ;-)` string from the `strings` output indicates presence of anti-debugging measures and I refrained using it in this challenge. It can be confirmed with a simple `strace` of the program:
 
 ```c
 $ strace ./reverse-challenge
@@ -114,15 +75,6 @@ write(1, "Dude, no debugging ;-)\n", 23Dude, no debugging ;-)
 exit_group(1)                           = ?
 ```
 
-The program stopped since the `ptrace` system call returned `EPERM`
-error code which indicates that the `PTRACE_TRACEME` operation is not
-permitted. This is a very commonly used anti-debugging method and it
-works since such program already invoke `ptrace` over them before
-executing any other functions and as such when a user manually tries to
-debug it (via `ptrace` calls), it fails since a trace session is already
-active on the program and another cannot be initialized.
+The program stopped since the `ptrace` system call returned `EPERM` error code which indicates that the `PTRACE_TRACEME` operation is not permitted. This is a very commonly used anti-debugging method and it works since such program already invoke `ptrace` over them before executing any other functions and as such when a user manually tries to debug it (via `ptrace` calls), it fails since a trace session is already active on the program and another cannot be initialized.
 
-Anyways, like the previous challenge, this was also completed without
-actually debugging the program. However, there are still ways in which
-we can bypass the anti-debugging mechanisms and analyze the program via
-dynamic analysis only. Rest on this in a future post. Stay tuned.
+Anyways, like the previous challenge, this was also completed without actually debugging the program. However, there are still ways in which we can bypass the anti-debugging mechanisms and analyze the program via dynamic analysis only. Rest on this in a future post. Stay tuned.

@@ -31,14 +31,8 @@
     <div class="body">
           <h1>reverse Challenge from Coursera's Malicious Software Course</h1>
                   <p><a href="/posts/20130824_malsoftware-reverse-ex.html"> « </a>📅 published on <code>29/Aug/2013</code><a href="/posts/20130915_libnids-python-ids.html"> » </a></p>
-                <p>This post follows an earlier one: <a href="/2013/malsoftware-reverse-ex.html">reverse-ex Challenge from Coursera's
-Malicious Software Course</a>. If
-you've not already read it, I would suggest you do so since both these
-challenges share a few common concepts and I'll be skipping detail if it
-has been mentioned before.</p>
-<p>The challenge file is hosted here:
-<a href="/static/files/reverse-challenge">reverse-challenge</a>. The first thing to do is
-to test it with <code>file</code> command:</p>
+                <p>This post follows an earlier one: <a href="https://7h3ram.github.io/posts/20130824_malsoftware-reverse-ex.html">reverse-ex Challenge from Coursera's Malicious Software Course</a>. If you've not already read it, I would suggest you do so since both these challenges share a few common concepts and I'll be skipping detail if it has been mentioned before.</p>
+<p>The challenge file is hosted here: <a href="/static/files/reverse-challenge">reverse-challenge</a>. The first thing to do is to test it with <code>file</code> command:</p>
 <pre><code class="bash">$ file reverse-challenge
 reverse-challenge: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[  sha1]=0x2fe5f1647532449ffeef36a7fa31ae8319c8818d, stripped
 $
@@ -46,40 +40,12 @@ $ file -i reverse-challenge
 reverse-challenge: application/x-executable; charset=binary
 </code></pre>
 
-<p>Like the previous challenge this is also a 32bit
-<a href="http://en.wikipedia.org/wiki/Executable_and_Linkable_Format">ELF</a>
-binary, <a href="http://stackoverflow.com/questions/1993390/static-linking-vs-dynamic-linking">dynamically
-linked</a>,
-but a significant difference is that it has <a href="http://unix.stackexchange.com/questions/2969/what-are-stripped-and-not-stripped-executables-in-unix">symbols
-stripped</a>.
-This means that debugging and symbol resolution information has <em>NOT</em>
-been preserved within the binary. This loss of debugging information
-would be evident when we move on to static analysis part later but first
-let's see what <code>strings</code> has to tell us about this file:</p>
-<p>If you've read the previous post this output would certainly delight you
-due to the discernible similarity between the two challenge files.
-Similar looking status strings and a static flag indicate that this
-program, like its predecessor, also uses some mutation mechanism (mostly
-XOR, but we will validate it soon) and a static key which we can use to
-reverse the algorithm. This time, let's use IDA to disassemble and
-analyze this program:</p>
+<p>Like the previous challenge this is also a 32bit <a href="http://en.wikipedia.org/wiki/Executable_and_Linkable_Format">ELF</a> binary, <a href="http://stackoverflow.com/questions/1993390/static-linking-vs-dynamic-linking">dynamically linked</a>, but a significant difference is that it has <a href="http://unix.stackexchange.com/questions/2969/what-are-stripped-and-not-stripped-executables-in-unix">symbols stripped</a>. This means that debugging and symbol resolution information has <em>NOT</em> been preserved within the binary. This loss of debugging information would be evident when we move on to static analysis part later but first let's see what <code>strings</code> has to tell us about this file:</p>
+<p>If you've read the previous post this output would certainly delight you due to the discernible similarity between the two challenge files. Similar looking status strings and a static flag indicate that this program, like its predecessor, also uses some mutation mechanism (mostly XOR, but we will validate it soon) and a static key which we can use to reverse the algorithm. This time, let's use IDA to disassemble and analyze this program:</p>
 <p><img alt="image" src="/static/files/ida-start.png" /></p>
-<p>Since the program includes anti-reversing techniques, I tried to avoid
-traversing the code manually and quickly searched for the section
-referencing the flag we found in <code>strings</code> output: <code>xKZl_^_XCY^CIE</code>. It
-was found that this flag was being referenced at location 0x08048694.
-Before that, there was the code responsible for performing the mutation,
-which in this case was also XOR. However, instead of using a static
-value as a key, it was being computed at runtime. The
-<code>mov dword ptr [ebp-10h], 0FAh</code> and <code>and edx, 2Bh</code> instructions at
-locations 0x08048664 and 0x08048677 respectively initialized <code>edx</code> with
-a value of 0x2a which is then used in a XOR operation at location
-0x0804867A.</p>
+<p>Since the program includes anti-reversing techniques, I tried to avoid traversing the code manually and quickly searched for the section referencing the flag we found in <code>strings</code> output: <code>xKZl_^_XCY^CIE</code>. It was found that this flag was being referenced at location 0x08048694. Before that, there was the code responsible for performing the mutation, which in this case was also XOR. However, instead of using a static value as a key, it was being computed at runtime. The <code>mov dword ptr [ebp-10h], 0FAh</code> and <code>and edx, 2Bh</code> instructions at locations 0x08048664 and 0x08048677 respectively initialized <code>edx</code> with a value of 0x2a which is then used in a XOR operation at location 0x0804867A.</p>
 <p><img alt="image" src="/static/files/ida-checkkey.png" /></p>
-<p>Thus the per-byte XOR key for this program turns out to be 0x2a. Let's
-invoke the python script we used in previous post with <code>xKZl_^_XCY^CIE</code>
-as the flag and 0x2a as the key and reverse the simple XOR mutation
-logic:</p>
+<p>Thus the per-byte XOR key for this program turns out to be 0x2a. Let's invoke the python script we used in previous post with <code>xKZl_^_XCY^CIE</code> as the flag and 0x2a as the key and reverse the simple XOR mutation logic:</p>
 <pre><code class="bash">$ ./xor.py xKZl_^_XCY^CIE 0x2a
 xKZl_^_XCY^CIE ^ 0x2a =&gt; RapFuturistico
 $
@@ -88,12 +54,7 @@ Are you feeling lucky today? BRapFuturistico
 [+] WooT!: xKZl_^_XCY^CIE
 </code></pre>
 
-<p>As expected, <code>RapFuturistico</code> indeed is the right input string derived
-from reversing the XOR-based mutation logic used in the program. Like
-earlier, we could have also tried debugging this program but the
-<code>Dude, no debugging ;-)</code> string from the <code>strings</code> output indicates
-presence of anti-debugging measures and I refrained using it in this
-challenge. It can be confirmed with a simple <code>strace</code> of the program:</p>
+<p>As expected, <code>RapFuturistico</code> indeed is the right input string derived from reversing the XOR-based mutation logic used in the program. Like earlier, we could have also tried debugging this program but the <code>Dude, no debugging ;-)</code> string from the <code>strings</code> output indicates presence of anti-debugging measures and I refrained using it in this challenge. It can be confirmed with a simple <code>strace</code> of the program:</p>
 <pre><code class="c">$ strace ./reverse-challenge
 execve(&quot;./reverse-challenge&quot;, [&quot;./reverse-challenge&quot;], [/* 63 vars */]) = 0
 [ Process PID=22998 runs in 32 bit mode. ]
@@ -127,17 +88,8 @@ write(1, &quot;Dude, no debugging ;-)\n&quot;, 23Dude, no debugging ;-)
 exit_group(1)                           = ?
 </code></pre>
 
-<p>The program stopped since the <code>ptrace</code> system call returned <code>EPERM</code>
-error code which indicates that the <code>PTRACE_TRACEME</code> operation is not
-permitted. This is a very commonly used anti-debugging method and it
-works since such program already invoke <code>ptrace</code> over them before
-executing any other functions and as such when a user manually tries to
-debug it (via <code>ptrace</code> calls), it fails since a trace session is already
-active on the program and another cannot be initialized.</p>
-<p>Anyways, like the previous challenge, this was also completed without
-actually debugging the program. However, there are still ways in which
-we can bypass the anti-debugging mechanisms and analyze the program via
-dynamic analysis only. Rest on this in a future post. Stay tuned.</p>
+<p>The program stopped since the <code>ptrace</code> system call returned <code>EPERM</code> error code which indicates that the <code>PTRACE_TRACEME</code> operation is not permitted. This is a very commonly used anti-debugging method and it works since such program already invoke <code>ptrace</code> over them before executing any other functions and as such when a user manually tries to debug it (via <code>ptrace</code> calls), it fails since a trace session is already active on the program and another cannot be initialized.</p>
+<p>Anyways, like the previous challenge, this was also completed without actually debugging the program. However, there are still ways in which we can bypass the anti-debugging mechanisms and analyze the program via dynamic analysis only. Rest on this in a future post. Stay tuned.</p>
         <hr/>
         <p style="text-align:center;">(🔖 tagged <a href=/tags.html#reversing>reversing</a> and <a href=/tags.html#writeups>writeups</a>)</p>
                   <p style="text-align:center;">« <a href="/posts/20130824_malsoftware-reverse-ex.html">reverse-ex Challenge from Cour...</a> « | » <a href="/posts/20130915_libnids-python-ids.html">Developing a Minimal IPS from ...</a> »</p>
