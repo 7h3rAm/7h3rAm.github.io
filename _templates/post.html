@@ -2,11 +2,11 @@
 {% block body %}
       <h1>{{ datadict.post.title }}</h1>
         {% if datadict.post.previous and datadict.post.next %}
-          <p><a href="{{ datadict.post.previous.url }}"> « </a>📅 published on <code>{{ datadict.post.pretty_date }}</code><a href="{{ datadict.post.next.url }}"> » </a></p>
+          <p><a href="{{ datadict.post.previous.url }}"> « </a>📅 last updated on <code>{{ datadict.post.pretty_date }}</code><a href="{{ datadict.post.next.url }}"> » </a></p>
         {% elif datadict.post.previous %}
-          <p><a href="{{ datadict.post.previous.url }}"> « </a>📅 published on <code>{{ datadict.post.pretty_date }}</code></p>
+          <p><a href="{{ datadict.post.previous.url }}"> « </a>📅 last updated on <code>{{ datadict.post.pretty_date }}</code></p>
         {% elif datadict.post.next %}
-          <p>📅 published on <code>{{ datadict.post.pretty_date }}</code><a href="{{ datadict.post.next.url }}"> » </a></p>
+          <p>📅 last updated on <code>{{ datadict.post.pretty_date }}</code><a href="{{ datadict.post.next.url }}"> » </a></p>
         {% endif %}
         {{ datadict.post.content }}
         <hr/>
