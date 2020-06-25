@@ -1,8 +1,8 @@
 # OSCP
 
 ## TL;DR
-- [MUST] Practice with [HackTheBox](https://www.hackthebox.eu/)/[VulnHub](https://www.vulnhub.com/)/[TryHackMe](https://tryhackme.com/) before enrolling for [PWK](https://www.offensive-security.com/pwk-oscp/)
-- [MUST] Develop a documentation strategy, use [CherryTree](https://www.giuspen.com/cherrytree/)/[Notion](https://www.notion.so/)/[OneNote](https://www.onenote.com/)/[yml+md+git](https://github.com/7h3rAm/oscplike/)/...
+- [MUST] Practice with [HackTheBox](https://www.hackthebox.eu/)|[VulnHub](https://www.vulnhub.com/)|[TryHackMe](https://tryhackme.com/) before enrolling for [PWK](https://www.offensive-security.com/pwk-oscp/)
+- [MUST] Develop a documentation strategy, use [CherryTree](https://www.giuspen.com/cherrytree/)|[Notion](https://www.notion.so/)|[OneNote](https://www.onenote.com/)|[yml+md+git](https://github.com/7h3rAm/oscplike/)|...
 - Automate notetaking and report writing, use `Do` listing below
 - Own OSCPlike machines, use `Read/Watch/Follow` and `Do` listings below
 - Enroll for PWK and own the lab
@@ -20,17 +20,17 @@
 
 ## Do
 - Notes/Report:
-    * [GitHub/noraj/OSCP-Exam-Report-Template-Markdown](https://github.com/noraj/OSCP-Exam-Report-Template-Markdown)
-    * [YouTube/John Hammond/OSCP - Taking Notes & Resources](https://www.youtube.com/watch?v=MQGozZzHUwQ)
+    * [[noraj@GitHub] OSCP-Exam-Report-Template-Markdown](https://github.com/noraj/OSCP-Exam-Report-Template-Markdown)
+    * [[John Hammond@YouTube] OSCP - Taking Notes & Resources](https://www.youtube.com/watch?v=MQGozZzHUwQ)
 - PrivEsc:
     * Linux:
-        * [Udemy/Tib3rius/Linux Privilege Escalation for OSCP & Beyond!](https://www.udemy.com/course/linux-privilege-escalation/learn/lecture/16313118#overview)
-        * [TryHackMe/Tib3rius/Linux PrivEsc](https://tryhackme.com/room/linuxprivesc)
+        * [[Tib3rius@Udemy] Linux Privilege Escalation for OSCP & Beyond!](https://www.udemy.com/course/linux-privilege-escalation/learn/lecture/16313118#overview)
+        * [[Tib3rius@TryHackMe] Linux PrivEsc](https://tryhackme.com/room/linuxprivesc)
     * Windows:
-        * [Udemy/Tib3rius/Windows Privilege Escalation for OSCP & Beyond!](https://www.udemy.com/course/windows-privilege-escalation/learn/lecture/18153180#overview)
-        * [TryHackMe/Tib3rius/Windows PrivEsc](https://tryhackme.com/room/windows10privesc)
+        * [[Tib3rius@Udemy] Windows Privilege Escalation for OSCP & Beyond!](https://www.udemy.com/course/windows-privilege-escalation/learn/lecture/18153180#overview)
+        * [[Tib3rius@TryHackMe] Windows PrivEsc](https://tryhackme.com/room/windows10privesc)
 - Machines:
     * OSCPlike:
-        * [GSheet/TJ_Null/NetSecFocus Trophy Room](https://docs.google.com/spreadsheets/u/1/d/1dwSMIAPIam0PuRBkCiDI88pU3yzrqqHkDtBngUHNCw8/htmlview)
+        * [[TJ_Null@GSheet] NetSecFocus Trophy Room](https://docs.google.com/spreadsheets/u/1/d/1dwSMIAPIam0PuRBkCiDI88pU3yzrqqHkDtBngUHNCw8/htmlview)
     * Practice:
-        * [GitHub/ajdumanhug/oscp-practice](https://github.com/ajdumanhug/oscp-practice)
+        * [[ajdumanhug@GitHub] oscp-practice](https://github.com/ajdumanhug/oscp-practice)
