@@ -1,6 +1,6 @@
 # OSCP
 
-## TLDR;
+## TL;DR
 - [MUST] Practice with [HackTheBox](https://www.hackthebox.eu/)/[VulnHub](https://www.vulnhub.com/)/[TryHackMe](https://tryhackme.com/) before enrolling for [PWK](https://www.offensive-security.com/pwk-oscp/)
 - [MUST] Develop a documentation strategy, use [CherryTree](https://www.giuspen.com/cherrytree/)/[Notion](https://www.notion.so/)/[OneNote](https://www.onenote.com/)/[yml+md+git](https://github.com/7h3rAm/oscplike/)/...
 - Automate notetaking and report writing, use `Do` listing below
