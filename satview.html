@@ -60,13 +60,13 @@
         </tbody>
       </table>
     <script>
-      function getTime() {
+      function doTime() {
         var localdatetime = new Date();
         document.getElementById("currenttime_utc").innerHTML = "GMT: " + localdatetime.toUTCString();
         document.getElementById("currenttime_local").innerHTML = "Local: " + localdatetime.toString();
       }
 
-      function getImages() {
+      function doImages() {
         document.getElementById("sdohmid").src = "https://sdo.gsfc.nasa.gov/assets/img/latest/latest_512_HMID.jpg"; document.getElementById("sdohmid").width = 420; document.getElementById("sdohmid").height = 420;
         document.getElementById("sdohmiic").src = "https://sdo.gsfc.nasa.gov/assets/img/latest/latest_512_HMIIC.jpg"; document.getElementById("sdohmiic").width = 420; document.getElementById("sdohmiic").height = 420;
 
@@ -90,9 +90,10 @@
       }
 
       window.onload = () => {
-        getTime();
-        getImages();
-        //setInterval(() => {getImages();},1000*60*10); // every 10m
+        doTime();
+        setInterval(() => {doTime();},1000); // every .5s
+        doImages();
+        //setInterval(() => {doImages();},1000*60*10); // every 10m
       }
     </script>
     </div>
