@@ -30,16 +30,24 @@
       <table>
         <tbody>
           <tr>
-            <td><center>#METEOSAT #METEOSAT0<br/><img class="satimages" id="meteosat0"/></center></td>
-            <td><center>#METEOSAT #METEOSAT415<br/><img class="satimages" id="meteosat415"/></center></td>
+            <td><center><a href="https://twitter.com/search?q=%23INSAT3D">#INSAT3D Asia (Visual)</a><br/><img class="satimages" id="insat3dasiavis"/></center></td>
+            <td><center><a href="https://twitter.com/search?q=%23INSAT3D">#INSAT3D Asia (IR)</a><br/><img class="satimages" id="insat3dasiair1"/></center></td>
           </tr>
           <tr>
-            <td><center>#GOES17 #GOESWest<br/><img class="satimages" id="goes17westfd"/></center></td>
-            <td><center>#GOES16 #GOESEast<br/><img class="satimages" id="goes16eastfd"/></center></td>
+            <td><center><a href="https://twitter.com/search?q=%23INSAT3D">#INSAT3D Global (Visual)</a><br/><img class="satimages" id="insat3dglobalvis"/></center></td>
+            <td><center><a href="https://twitter.com/search?q=%23INSAT3D">#INSAT3D Global (IR)</a><br/><img class="satimages" id="insat3dglobalir1"/></center></td>
           </tr>
           <tr>
-            <td><center>#Himawari #Himawari8 (TrueColor)<br/><img class="satimages" id="himawari_truecolorrepo"/></center></td>
-            <td><center>#Himawari #Himawari8 (NaturalColor)<br/><img class="satimages" id="himawari_naturalcolor"/></center></td>
+            <td><center><a href="https://twitter.com/search?q=%23METEOSAT">#METEOSAT</a> <a href="https://twitter.com/search?q=%23METEOSAT0">#METEOSAT0</a><br/><img class="satimages" id="meteosat0"/></center></td>
+            <td><center><a href="https://twitter.com/search?q=%23METEOSAT">#METEOSAT</a> <a href="https://twitter.com/search?q=%23METEOSAT415">#METEOSAT415</a><br/><img class="satimages" id="meteosat415"/></center></td>
+          </tr>
+          <tr>
+            <td><center><a href="https://twitter.com/search?q=%23GOES17">#GOES17</a> <a href="https://twitter.com/search?q=%23GOESWest">#GOESWest</a><br/><img class="satimages" id="goes17westfd"/></center></td>
+            <td><center><a href="https://twitter.com/search?q=%23GOES16">#GOES16</a> <a href="https://twitter.com/search?q=%23GOESEast">#GOESEast</a><br/><img class="satimages" id="goes16eastfd"/></center></td>
+          </tr>
+          <tr>
+            <td><center><a href="https://twitter.com/search?q=%23Himawari">#Himawari</a> <a href="https://twitter.com/search?q=%23Himawari8">#Himawari8 (TrueColor)</a><br/><img class="satimages" id="himawari_truecolorrepo"/></center></td>
+            <td><center><a href="https://twitter.com/search?q=%23Himawari">#Himawari</a> <a href="https://twitter.com/search?q=%23Himawari8">#Himawari8 (NaturalColor)</a><br/><img class="satimages" id="himawari_naturalcolor"/></center></td>
           </tr>
         </tbody>
       </table>
@@ -51,6 +59,12 @@
       }
 
       function getImages() {
+        document.getElementById("insat3dasiavis").src = "https://mausam.imd.gov.in/Satellite/Converted/VIS.gif"; document.getElementById("insat3dasiavis").width = 420; document.getElementById("insat3dasiavis").height = 420;
+        document.getElementById("insat3dasiair1").src = "https://mausam.imd.gov.in/Satellite/Converted/IR1.gif"; document.getElementById("insat3dasiair1").width = 420; document.getElementById("insat3dasiair1").height = 420;
+
+        document.getElementById("insat3dglobalvis").src = "https://mausam.imd.gov.in/Satellite/3Dglobe_vis.jpg"; document.getElementById("insat3dglobalvis").width = 420; document.getElementById("insat3dglobalvis").height = 420;
+        document.getElementById("insat3dglobalir1").src = "https://mausam.imd.gov.in/Satellite/3Dglobe_ir1.jpg"; document.getElementById("insat3dglobalir1").width = 420; document.getElementById("insat3dglobalir1").height = 420;
+
         document.getElementById("meteosat0").src = "https://eumetview.eumetsat.int/static-images/latestImages/EUMETSAT_MSG_RGBNatColourEnhncd_LowResolution.jpg"; document.getElementById("meteosat0").width = 420; document.getElementById("meteosat0").height = 420;
         document.getElementById("meteosat415").src = "https://eumetview.eumetsat.int/static-images/latestImages/EUMETSAT_MSGIODC_RGBNatColourEnhncd_LowResolution.jpg"; document.getElementById("meteosat415").width = 420; document.getElementById("meteosat415").height = 420;
 

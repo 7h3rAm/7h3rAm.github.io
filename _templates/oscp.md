@@ -2,21 +2,21 @@
 
 ## TL;DR
 - [MUST] Practice with [HackTheBox](https://www.hackthebox.eu/)|[VulnHub](https://www.vulnhub.com/)|[TryHackMe](https://tryhackme.com/) before enrolling for [PWK](https://www.offensive-security.com/pwk-oscp/)
-- [MUST] Develop a documentation strategy, use [CherryTree](https://www.giuspen.com/cherrytree/)|[Notion](https://www.notion.so/)|[OneNote](https://www.onenote.com/)|[yml+md+git](https://github.com/7h3rAm/oscplike/)|...
+- [MUST] Develop a documentation strategy, use [CherryTree](https://www.giuspen.com/cherrytree/)|[Notion](https://www.notion.so/)|[OneNote](https://www.onenote.com/)|...
 - Automate notetaking and report writing, use `Do` listing below
 - Own OSCPlike machines, use `Read/Watch/Follow` and `Do` listings below
 - Enroll for PWK and own the lab
 - Schedule OSCP and own the exam
-- Show gratitude and thank those who brought you this far
+- Show gratitude and thank those who helped you get this far
 
 ## Read/Watch/Follow
 - [@0xdf_](https://twitter.com/0xdf_): [writeups](https://0xdf.gitlab.io/tags.html#oscp-like)
 - [@bond006_5](https://twitter.com/bond006_5): [review](https://medium.com/@bondo.mike/certification-oscp-de41adeb9d7e), [writeups](https://medium.com/@bondo.mike)
 - [@ippsec](https://twitter.com/ippsec): [playlist](https://www.youtube.com/playlist?list=PLidcsTyj9JXK-fnabFLVEVulnHubinQ14Jy5tf), [search](https://ippsec.rocks/)
 - [@rana__khalil](https://twitter.com/rana__khalil): [review](https://medium.com/@ranakhalil101/my-oscp-journey-a-review-fa779b4339d9), [writeups](https://medium.com/@ranakhalil101)
-- [@TJ_Null](https://twitter.com/tj_null): [review](https://www.netsecfocus.com/oscp/review/2019/01/29/An_Adventure_to_Try_Harder_Tjnulls_OSCP_Journey.html), [prepguide](https://www.netsecfocus.com/oscp/2019/03/29/The_Journey_to_Try_Harder-_TJNulls_Preparation_Guide_for_PWK_OSCP.html)
 - [@thecybermentor](https://twitter.com/thecybermentor): [courses](https://www.udemy.com/user/heath-adams-2/), [playlists](https://www.youtube.com/channel/UC0ArlFuFYMpEewyRBzdLHiw/playlists)
 - [@TibSec](https://twitter.com/tibsec): [courses](https://www.udemy.com/user/tib3rius/), [review](https://medium.com/@Tib3rius/59-hosts-to-glory-passing-the-oscp-acf0fd384371)
+- [@TJ_Null](https://twitter.com/tj_null): [review](https://www.netsecfocus.com/oscp/review/2019/01/29/An_Adventure_to_Try_Harder_Tjnulls_OSCP_Journey.html), [prepguide](https://www.netsecfocus.com/oscp/2019/03/29/The_Journey_to_Try_Harder-_TJNulls_Preparation_Guide_for_PWK_OSCP.html)
 
 ## Do
 - Notes/Report:
