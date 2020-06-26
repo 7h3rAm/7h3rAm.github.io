@@ -7,7 +7,7 @@
 - Own OSCPlike machines, use `Read/Watch/Follow` and `Do` listings below
 - Enroll for PWK and own the lab
 - Schedule OSCP and own the exam
-- Show gratitude and thank your mentors
+- Show gratitude and thank those who brought you this far
 
 ## Read/Watch/Follow
 - [@0xdf_](https://twitter.com/0xdf_): [writeups](https://0xdf.gitlab.io/tags.html#oscp-like)
