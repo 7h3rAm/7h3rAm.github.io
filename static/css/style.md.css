@@ -61,4 +61,4 @@ pre > code { font-family:"Fira Code Retina", "Consolas", "Sans Mono", "Courier",
 #cloud li::before { content:""; }
 #cloud a { padding:0px; text-decoration:none; }
 
-.satimages { display:block; margin:0 auto; border:1px solid #909090; vertical-align:middle; -webkit-border-radius:3px; max-width:99% !important; width:840px; height:840px; max-width:840px; max-height:840px; }
+.satimages { display:block; margin:0 auto; border:1px solid #909090; vertical-align:middle; -webkit-border-radius:3px; max-width:99% !important; width:630px; height:630px; max-width:630px; max-height:630px; }
