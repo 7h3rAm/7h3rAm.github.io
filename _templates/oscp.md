@@ -35,4 +35,4 @@
 ## 🎯 Resources
 - [machinescli](): This is a commandline interface for vulnerable machines
 - [writeups](): These are my writeups for OSCPlike machines
-- [meta.md](): These are notes I prepared and used for OSCP
+- [meta](): These are notes I prepared and used for OSCP
