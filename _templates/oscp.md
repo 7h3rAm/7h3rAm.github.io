@@ -17,7 +17,7 @@
 - [@TibSec](https://twitter.com/tibsec): [courses](https://www.udemy.com/user/tib3rius/), [review](https://medium.com/@Tib3rius/59-hosts-to-glory-passing-the-oscp-acf0fd384371)
 - [@TJ_Null](https://twitter.com/tj_null): [review](https://www.netsecfocus.com/oscp/review/2019/01/29/An_Adventure_to_Try_Harder_Tjnulls_OSCP_Journey.html), [prepguide](https://www.netsecfocus.com/oscp/2019/03/29/The_Journey_to_Try_Harder-_TJNulls_Preparation_Guide_for_PWK_OSCP.html)
 
-## 🏋️ Do
+## 🏋️‍♂️ Do
 - Notes/Report:
     * [[noraj@GitHub] OSCP-Exam-Report-Template-Markdown](https://github.com/noraj/OSCP-Exam-Report-Template-Markdown)
     * [[John Hammond@YouTube] OSCP - Taking Notes & Resources](https://www.youtube.com/watch?v=MQGozZzHUwQ)
