@@ -4,7 +4,7 @@ date: 18/Mar/2014
 summary: This post talks about creating an automated shellcode analysis pipeline where in the shellcode is sourced from public portals and tested via multiple analysis engines. It provides an automated way of testing the accuracy of detection engines like Libemu/Snort/Suricata/Bro against publicly available shellcode.
 tags: code, shellcode
 
-I recently required an automated way of analyzing shellcode and verifying if it is detected by [Libemu](http://libemu.carnivore.it/), [Snort](http://www.snort.org/), [Suricata](http://suricata-ids.org/), [Bro](https://www.bro.org/), etc. Shellcode had to come from public sources like [ShellSStorm](http://repo.shell-storm.org/shellcode/), [ExploitDB](http://www.exploit-db.com/shellcode/) and [Metasploit](https://github.com/rapid7/metasploit-framework/tree/master/modules/payloads). I needed an automated way of sourcing shellcode from these projects and pass it on to the analysis engines in a pipeline-like mechanism. This posts documents the method I used to complete this task and the overall progress of the project.
+I recently required an automated way of analyzing shellcode and verifying if it is detected by [Libemu](http://libemu.carnivore.it/), [Snort](http://www.snort.org/), [Suricata](http://suricata-ids.org/), [Bro](https://www.bro.org/), etc. Shellcode had to come from public sources like [ShellStorm](http://repo.shell-storm.org/shellcode/), [ExploitDB](http://www.exploit-db.com/shellcode/) and [Metasploit](https://github.com/rapid7/metasploit-framework/tree/master/modules/payloads). I needed an automated way of sourcing shellcode from these projects and pass it on to the analysis engines in a pipeline-like mechanism. This posts documents the method I used to complete this task and the overall progress of the project.
 
 I basically divided the project into three independent tasks:
 
@@ -12,39 +12,11 @@ I basically divided the project into three independent tasks:
 2. generate pcaps for obtained shellcode
 3. test shellcode with Libemu and pcaps with Snort/Suricata/Bro
 
-These are independent since any of them can be used individually, as a
-unit, and developed outside of the system. The first task itself was
-divided into smaller sub-tasks and I started with sourcing shellcode
-from shell-storm. The shell-storm shellcode page documents steps needed
-to access shell-storm database and there is an example script that
-provides an easy to use cli to search for and download individual
-shellcode files from shell-storm. I used this script in my project and
-added a wrapper over it to search, download and generate pcaps all with
-just one cli invocation. The script currently is in beta and satisfies
-only a few of the above requirements. Shell-storm sourcing is
-implemented, pcap generation is working and shellcode testing currently
-happens with Libemu only. Additional sources and analysis engines would
-be added shortly.
+These are independent since any of them can be used individually, as a unit, and developed outside of the system. The first task itself was divided into smaller sub-tasks and I started with sourcing shellcode from shell-storm. The shell-storm shellcode page documents steps needed to access shell-storm database and there is an example script that provides an easy to use cli to search for and download individual shellcode files from shell-storm. I used this script in my project and added a wrapper over it to search, download and generate pcaps all with just one cli invocation. The script currently is in beta and satisfies only a few of the above requirements. Shell-storm sourcing is implemented, pcap generation is working and shellcode testing currently happens with Libemu only. Additional sources and analysis engines would be added shortly.
 
-Please visit the following link to get the complete source listing:
-[sap](https://gist.github.com/7h3rAm/11087025)
+Please visit the following link to get the complete source listing: [sap](https://gist.github.com/7h3rAm/11087025)
 
-It will read configuration file to populate internal variables and then
-move on to its core. First, the `doshellstorm()` method is called to
-source shellcode samples from shell-storm. The API example script is
-used to search shellcode that satisfies certain search criteria and then
-matching shell-storm shellcode ids are downloaded, extracted and saved
-to a `<shellcode-id>.bin` named file. For all shellcode ids for which we
-successfully extracted shellcode bytes, they are then passed onto the
-`bin2pcap()` method which uses an updated version of
-[PCAPGGenerationTTools](https://github.com/7h3rAm/PCAP-Generation-Tools)
-and creates pcap files with HTTP GET/POST requests and [TCP
-CTS/STC](https://github.com/7h3rAm/PCAP-Generation-Tools/commit/fc7418eefc9febef936d4646c61bad67e26935b7)
-sessions. These pcaps can then be tested with intrusion detection
-engines in the pipeline. Once the pcap generation module completes, the
-Libemu engine is invoked and run over all `.bin` shellcode files. Later
-versions will add support for Snort/Suricata/Bro based shellcode pcap
-testing.
+It will read configuration file to populate internal variables and then move on to its core. First, the `doshellstorm()` method is called to source shellcode samples from shell-storm. The API example script is used to search shellcode that satisfies certain search criteria and then matching shell-storm shellcode ids are downloaded, extracted and saved to a `<shellcode-id>.bin` named file. For all shellcode ids for which we successfully extracted shellcode bytes, they are then passed onto the `bin2pcap()` method which uses an updated version of [PCAPGGenerationTTools](https://github.com/7h3rAm/PCAP-Generation-Tools) and creates pcap files with HTTP GET/POST requests and [TCP CTS/STC](https://github.com/7h3rAm/PCAP-Generation-Tools/commit/fc7418eefc9febef936d4646c61bad67e26935b7) sessions. These pcaps can then be tested with intrusion detection engines in the pipeline. Once the pcap generation module completes, the Libemu engine is invoked and run over all `.bin` shellcode files. Later versions will add support for Snort/Suricata/Bro based shellcode pcap testing.
 
 Let's have a look at the help message from the tool:
 
@@ -74,13 +46,7 @@ optional arguments:
 EXAMPLE: sap.py -s windows
 ```
 
-There are no mandatory options since most of them are read from the
-config file if not available on the command-line. The tool supports
-explicit lookup for shell-storm, exploitdb or metasploit projects. Pcap
-generation has to be explicitly requested but it will be inherently
-skipped if no bin files are not created for obtained shellcode. Let's
-have a test run of the tool with `arm` as the search string to test only
-ARM shellcode available at Shell-Storm:
+There are no mandatory options since most of them are read from the config file if not available on the command-line. The tool supports explicit lookup for shell-storm, exploitdb or metasploit projects. Pcap generation has to be explicitly requested but it will be inherently skipped if no bin files are not created for obtained shellcode. Let's have a test run of the tool with `arm` as the search string to test only ARM shellcode available at Shell-Storm:
 
 ```bash
 $ ./sap.py -s arm -d
@@ -132,19 +98,7 @@ Ankur Tyagi (7h3rAm)
 [18-Mar-2014 20:54:31.713370 IST] [main] [NORM]: Session completed in 0:00:08.883860
 ```
 
-I enabled `debug` output for additional verbosity in the above
-command-line. The tool identified 26 shellcode samples that satisfy
-search criteria `arm`. From these 26 samples, only 10 could be converted
-to `.bin` equivalents via the regex pattern and these were then passed
-on to the Libemu analysis engine. Those familiar with Libemu will
-immediately notice that all of these 10 tested shellcode samples,
-`offset` was found to be -1 which indicates that Libemu failed in
-identification of these as probable shellcode candidates. The offset
-value returned by the `shellcode_getpc_test()` method should ideally be
-0 or more to indicate the starting offset inside the input buffer from
-where the actual shellcode starts. Since Libemu only supports x86
-architecture, all the 10 ARM shellcode samples were bound to fail in the
-above test.
+I enabled `debug` output for additional verbosity in the above command-line. The tool identified 26 shellcode samples that satisfy search criteria `arm`. From these 26 samples, only 10 could be converted to `.bin` equivalents via the regex pattern and these were then passed on to the Libemu analysis engine. Those familiar with Libemu will immediately notice that all of these 10 tested shellcode samples, `offset` was found to be -1 which indicates that Libemu failed in identification of these as probable shellcode candidates. The offset value returned by the `shellcode_getpc_test()` method should ideally be 0 or more to indicate the starting offset inside the input buffer from where the actual shellcode starts. Since Libemu only supports x86 architecture, all the 10 ARM shellcode samples were bound to fail in the above test.
 
 Let's now try a Windows x86 shellcode with the tool:
 
@@ -205,11 +159,7 @@ void ExitProcess (
 [18-Mar-2014 21:32:44.955725 IST] [main] [NORM]: Session completed in 0:00:05.001388
 ```
 
-Id 162 was successfully identified by Libemu as shellcode and it even
-generated the profiling output for it. From the profile output it seems
-like the shellcode, when executed, will trigger the download and
-execution of a malware sample. This is also evident from the shellcode
-description provided by shell-storm for this shellcode id:
+Id 162 was successfully identified by Libemu as shellcode and it even generated the profiling output for it. From the profile output it seems like the shellcode, when executed, will trigger the download and execution of a malware sample. This is also evident from the shellcode description provided by shell-storm for this shellcode id:
 
 ```bash
 $ shell-storm-api.py -search download
@@ -232,7 +182,4 @@ ScId    Size Title
 [159]   n/a  Windows - Download and Execute Shellcode Generator
 ```
 
-Currently Libemu is the only analysis engine but soon I'll be adding
-support for additional engines. Sourcing from other projects will also
-be added in subsequent versions. Feel free to try it out and let me know
-what you think of it.
+Currently Libemu is the only analysis engine but soon I'll be adding support for additional engines. Sourcing from other projects will also be added in subsequent versions. Feel free to try it out and let me know what you think of it.
