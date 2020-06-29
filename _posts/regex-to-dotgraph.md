@@ -16,7 +16,7 @@ tool to implement this idea and hence
 First, the pyFSA module has to be installed. Download the package, unzip
 it and follow the standard Python module installation steps:
 
-```bash
+```console
 $ python setup.py build
 running build
 running build_py
@@ -54,7 +54,7 @@ Ignore the `LICENSE.txt` copy error. Now you need to install the
 `.dot` files into images. Once the dependencies are successfully
 installed, you can use `re2dotgraph` and test it with a sample regex:
 
-```bash
+```console
 $ ./re2dotgraph.py 'a*b?c+'
 
 [+] Generating dot string ...
@@ -93,7 +93,7 @@ won't be rendered correctly. Also, the pyFSA page mentions that the
 project currently is not fully compliant with POSIX regex guidelines.
 This severely limits the real-world use-cases:
 
-```bash
+```console
 $ ./re2dotgraph.py 'a\dc'
 
 [+] Generating dot string ...

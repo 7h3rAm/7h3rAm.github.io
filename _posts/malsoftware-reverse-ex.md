@@ -8,7 +8,7 @@ The recently concluded [Malicious Software and its Undergound Economy](https://c
 
 The first thing I normally do after obtaining such challenges is to test them with `file` command. This provides some insight about various file attributes like its type (ELF, PE, etc.), processor architecture compatibility, symbol table inclusion, etc:
 
-```bash
+```console
 $ file reverse-ex
 reverse-ex: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[ sha1]=0x8dac70a14b40f115fc4a27041a3ae29227a55afb, not stripped
 $
@@ -255,7 +255,7 @@ decoded = "".join(decoded)
 print "%s ^ 0x%x => %s" % (flag, key, decoded)
 ```
 
-```bash
+```console
 $ ./xor.py KFFSE_XHKYOKXOHOFEDM^E_Y 0x2a
 KFFSE_XHKYOKXOHOFEDM^E_Y ^ 0x2a => allyourbasearebelongtous
 $

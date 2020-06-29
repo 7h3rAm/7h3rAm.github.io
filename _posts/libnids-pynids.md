@@ -51,7 +51,7 @@ if __name__ == '__main__':
 
 Above program initializes Libnids and registers a TCP callback that would be called for each TCP packet seen by the library. For each new connection, the callback function requests Libnids to collect both client-to-server (CTS) and server-to-client (STC) flowing traffic. When the connection is closed/terminated/timed out, the above program dumps total bytes of data seen on both directions for the closed stream:
 
-```bash
+```console
 $ python nidstest.py ~/toolbox/testfiles/pcaps/http_witp_jpegs.cap
 [+] 10.1.1.101:3177 - 10.1.1.1:80 (CTS: 476B | STC: 435B)
 [+] 10.1.1.101:3188 - 10.1.1.1:80 (CTS: 574B | STC: 4601B)
@@ -67,7 +67,7 @@ $ python nidstest.py ~/toolbox/testfiles/pcaps/http_witp_jpegs.cap
 
 Let's have a look at the content of each stream and see what data will the TCP layer present as payload to application layer:
 
-```bash
+```console
 $ python nidsstream.py ~/toolbox/testfiles/pcaps/http.cap
 [+] 145.254.160.237:3372 - 65.208.228.223:80 (CTS: 479B | STC: 18364B)
 

