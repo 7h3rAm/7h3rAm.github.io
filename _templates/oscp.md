@@ -8,7 +8,7 @@
 - Enroll for PWK and own the lab, schedule OSCP and own the exam
 - Show gratitude and thank those who helped you get this far
 
-## 🧘 Read/Watch/Follow
+## 🧘🏽 Read/Watch/Follow
 - [@0xdf_](https://twitter.com/0xdf_): [writeups](https://0xdf.gitlab.io/tags.html#oscp-like)
 - [@bond006_5](https://twitter.com/bond006_5): [review](https://medium.com/@bondo.mike/certification-oscp-de41adeb9d7e), [writeups](https://medium.com/@bondo.mike)
 - [@ippsec](https://twitter.com/ippsec): [playlist](https://www.youtube.com/playlist?list=PLidcsTyj9JXK-fnabFLVEVulnHubinQ14Jy5tf), [search](https://ippsec.rocks/)
