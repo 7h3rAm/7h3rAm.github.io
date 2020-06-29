@@ -20,7 +20,7 @@ It will read configuration file to populate internal variables and then move on 
 
 Let's have a look at the help message from the tool:
 
-```bash
+```console
 $ ./sap.py -h
 sap.py - Shellcode Analysis Pipleline (v0.1)
 Ankur Tyagi (7h3rAm)
@@ -48,7 +48,7 @@ EXAMPLE: sap.py -s windows
 
 There are no mandatory options since most of them are read from the config file if not available on the command-line. The tool supports explicit lookup for shell-storm, exploitdb or metasploit projects. Pcap generation has to be explicitly requested but it will be inherently skipped if no bin files are not created for obtained shellcode. Let's have a test run of the tool with `arm` as the search string to test only ARM shellcode available at Shell-Storm:
 
-```bash
+```console
 $ ./sap.py -s arm -d
 sap.py - Shellcode Analysis Pipleline (v0.1)
 Ankur Tyagi (7h3rAm)
@@ -102,7 +102,7 @@ I enabled `debug` output for additional verbosity in the above command-line. The
 
 Let's now try a Windows x86 shellcode with the tool:
 
-```bash
+```console
 $ ./sap.py -s download
 sap.py - Shellcode Analysis Pipleline (v0.1)
 Ankur Tyagi (7h3rAm)

@@ -40,7 +40,7 @@
 <p>Please visit the following link to get the complete source listing: <a href="https://gist.github.com/7h3rAm/11087025">sap</a></p>
 <p>It will read configuration file to populate internal variables and then move on to its core. First, the <code>doshellstorm()</code> method is called to source shellcode samples from shell-storm. The API example script is used to search shellcode that satisfies certain search criteria and then matching shell-storm shellcode ids are downloaded, extracted and saved to a <code>&lt;shellcode-id&gt;.bin</code> named file. For all shellcode ids for which we successfully extracted shellcode bytes, they are then passed onto the <code>bin2pcap()</code> method which uses an updated version of <a href="https://github.com/7h3rAm/PCAP-Generation-Tools">PCAPGGenerationTTools</a> and creates pcap files with HTTP GET/POST requests and <a href="https://github.com/7h3rAm/PCAP-Generation-Tools/commit/fc7418eefc9febef936d4646c61bad67e26935b7">TCP CTS/STC</a> sessions. These pcaps can then be tested with intrusion detection engines in the pipeline. Once the pcap generation module completes, the Libemu engine is invoked and run over all <code>.bin</code> shellcode files. Later versions will add support for Snort/Suricata/Bro based shellcode pcap testing.</p>
 <p>Let's have a look at the help message from the tool:</p>
-<pre><code class="bash">$ ./sap.py -h
+<pre><code class="console">$ ./sap.py -h
 sap.py - Shellcode Analysis Pipleline (v0.1)
 Ankur Tyagi (7h3rAm)
 
@@ -66,7 +66,7 @@ EXAMPLE: sap.py -s windows
 </code></pre>
 
 <p>There are no mandatory options since most of them are read from the config file if not available on the command-line. The tool supports explicit lookup for shell-storm, exploitdb or metasploit projects. Pcap generation has to be explicitly requested but it will be inherently skipped if no bin files are not created for obtained shellcode. Let's have a test run of the tool with <code>arm</code> as the search string to test only ARM shellcode available at Shell-Storm:</p>
-<pre><code class="bash">$ ./sap.py -s arm -d
+<pre><code class="console">$ ./sap.py -s arm -d
 sap.py - Shellcode Analysis Pipleline (v0.1)
 Ankur Tyagi (7h3rAm)
 
@@ -117,7 +117,7 @@ Ankur Tyagi (7h3rAm)
 
 <p>I enabled <code>debug</code> output for additional verbosity in the above command-line. The tool identified 26 shellcode samples that satisfy search criteria <code>arm</code>. From these 26 samples, only 10 could be converted to <code>.bin</code> equivalents via the regex pattern and these were then passed on to the Libemu analysis engine. Those familiar with Libemu will immediately notice that all of these 10 tested shellcode samples, <code>offset</code> was found to be -1 which indicates that Libemu failed in identification of these as probable shellcode candidates. The offset value returned by the <code>shellcode_getpc_test()</code> method should ideally be 0 or more to indicate the starting offset inside the input buffer from where the actual shellcode starts. Since Libemu only supports x86 architecture, all the 10 ARM shellcode samples were bound to fail in the above test.</p>
 <p>Let's now try a Windows x86 shellcode with the tool:</p>
-<pre><code class="bash">$ ./sap.py -s download
+<pre><code class="console">$ ./sap.py -s download
 sap.py - Shellcode Analysis Pipleline (v0.1)
 Ankur Tyagi (7h3rAm)
 
