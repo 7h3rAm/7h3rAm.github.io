@@ -22,12 +22,10 @@
     * [[noraj@GitHub] OSCP-Exam-Report-Template-Markdown](https://github.com/noraj/OSCP-Exam-Report-Template-Markdown)
     * [[John Hammond@YouTube] OSCP - Taking Notes & Resources](https://www.youtube.com/watch?v=MQGozZzHUwQ)
 - PrivEsc:
-    * Linux:
-        * [[Tib3rius@Udemy] Linux Privilege Escalation for OSCP & Beyond!](https://www.udemy.com/course/linux-privilege-escalation/learn/lecture/16313118#overview)
-        * [[Tib3rius@TryHackMe] Linux PrivEsc](https://tryhackme.com/room/linuxprivesc)
-    * Windows:
-        * [[Tib3rius@Udemy] Windows Privilege Escalation for OSCP & Beyond!](https://www.udemy.com/course/windows-privilege-escalation/learn/lecture/18153180#overview)
-        * [[Tib3rius@TryHackMe] Windows PrivEsc](https://tryhackme.com/room/windows10privesc)
+    * [[Tib3rius@Udemy] Linux Privilege Escalation for OSCP & Beyond!](https://www.udemy.com/course/linux-privilege-escalation/learn/lecture/16313118#overview)
+    * [[Tib3rius@TryHackMe] Linux PrivEsc](https://tryhackme.com/room/linuxprivesc)
+    * [[Tib3rius@Udemy] Windows Privilege Escalation for OSCP & Beyond!](https://www.udemy.com/course/windows-privilege-escalation/learn/lecture/18153180#overview)
+    * [[Tib3rius@TryHackMe] Windows PrivEsc](https://tryhackme.com/room/windows10privesc)
 - Machines:
     * OSCPlike: [[TJ_Null@GSheet] NetSecFocus Trophy Room](https://docs.google.com/spreadsheets/u/1/d/1dwSMIAPIam0PuRBkCiDI88pU3yzrqqHkDtBngUHNCw8/htmlview)
     * Practice: [[ajdumanhug@GitHub] oscp-practice](https://github.com/ajdumanhug/oscp-practice)
