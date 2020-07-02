@@ -13,6 +13,7 @@
 - [@bond006_5](https://twitter.com/bond006_5): [review](https://medium.com/@bondo.mike/certification-oscp-de41adeb9d7e), [writeups](https://medium.com/@bondo.mike)
 - [@ippsec](https://twitter.com/ippsec): [playlist](https://www.youtube.com/playlist?list=PLidcsTyj9JXK-fnabFLVEVulnHubinQ14Jy5tf), [search](https://ippsec.rocks/)
 - [@rana__khalil](https://twitter.com/rana__khalil): [review](https://medium.com/@ranakhalil101/my-oscp-journey-a-review-fa779b4339d9), [writeups](https://medium.com/@ranakhalil101)
+- [@sabebarker](https://twitter.com/sabebarker): [writeups](https://sabebarker.com/writeups/)
 - [@thecybermentor](https://twitter.com/thecybermentor): [courses](https://www.udemy.com/user/heath-adams-2/), [playlists](https://www.youtube.com/channel/UC0ArlFuFYMpEewyRBzdLHiw/playlists)
 - [@TibSec](https://twitter.com/tibsec): [courses](https://www.udemy.com/user/tib3rius/), [review](https://medium.com/@Tib3rius/59-hosts-to-glory-passing-the-oscp-acf0fd384371)
 - [@TJ_Null](https://twitter.com/tj_null): [review](https://www.netsecfocus.com/oscp/review/2019/01/29/An_Adventure_to_Try_Harder_Tjnulls_OSCP_Journey.html), [prepguide](https://www.netsecfocus.com/oscp/2019/03/29/The_Journey_to_Try_Harder-_TJNulls_Preparation_Guide_for_PWK_OSCP.html)

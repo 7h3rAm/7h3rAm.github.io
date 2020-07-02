@@ -24,7 +24,7 @@ IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 h1, h2, h3, h4, h5, h6, ul, ol, p, pre { margin-bottom:1em; }
 strong, b { font-weight:bold; }
 em, i { font-style:italic; }
-pre, code { color:#671d9d; }
+pre, code { color:##e83e8c; }
 pre::before, pre::after { display:block; }
 code::before, code::after { background:#fff; }
 ol li { margin-left:4ex; }
@@ -61,5 +61,3 @@ pre > code { font-family:"Fira Code Retina", "Consolas", "Sans Mono", "Courier",
 #cloud a { padding:0px; text-decoration:none; }
 
 .satimages { display:block; margin:0 auto; border:1px solid #909090; vertical-align:middle; -webkit-border-radius:3px; max-width:99% !important; width:630px; height:630px; max-width:630px; max-height:630px; }
-
-html { visibility:visible; opacity:1; }
