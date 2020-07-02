@@ -10,9 +10,21 @@
           <a name="{{ tag }}"></a>
           <h2>{{ tag }} <a href="#top"> ↟ </a></h2>
           <ol>
-            {% for post in datadict.tags[tag] %}
-              <li><code>{{ post.pretty_date }}</code>: <a href="{{ post.url }}">{{ post.title }}</a></li>
+
+            {% set count=[1] %}
+            {% set revcount=[datadict.tags[tag]|count] %}
+            {% for year,year_list in datadict.tags[tag]|groupby('year')|reverse %}
+              {% for month,month_list in year_list|groupby('month')|reverse %}
+                {% for day,day_list in month_list|groupby('day')|reverse %}
+                  {% for post in day_list %}
+                    <li><code>{{ post.pretty_date }}</code>: <a href="{{ post.url }}">{{ post.title }}</a></li>
+                    {% if count.append(count.pop()+1) %}{% endif %}
+                    {% if revcount.append(revcount.pop()-1) %}{% endif %}
+                  {% endfor %}
+                {% endfor %}
+              {% endfor %}
             {% endfor %}
+
           </ol>
         {%endfor%}
       <br/>
