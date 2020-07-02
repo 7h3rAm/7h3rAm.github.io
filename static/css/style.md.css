@@ -38,7 +38,7 @@ h3::before { content:"### "; color:#09a; }
 h4::before { content:"#### "; color:#09a; }
 h5::before { content:"##### "; color:#09a; }
 h6::before { content:"###### "; color:#09a; }
-ul li::before { content:"* "; display:block; margin-left:-3ex; color: #f90; float:left; }
+ul li::before { content:"* "; display:block; margin-left:-3ex; color:#f90; float:left; }
 a { color:#08f; text-decoration:none; }
 a:hover { color:#900 }
 @media print { a { color:#00f!important; } body { width:auto; font-size:12pt; } }
@@ -49,8 +49,9 @@ h3 { font-size:14pt; }
 h4 { font-size:12pt; }
 h5 { font-size:11pt; }
 h6 { font-size:10pt; }
+
 p { text-align:justify; text-justify:inter-word; }
-p > img { display:block; margin:0 auto; border:1px dashed #f90; vertical-align:middle; -webkit-border-radius:3px; max-width:99% !important; width:auto; height:auto; max-height:400px; }
+img { display:block; margin:0 auto; border:1px dashed #f90; vertical-align:middle; -webkit-border-radius:3px; max-width:99% !important; width:auto; height:auto; max-height:450px; }
 pre > code > table { margin-left:0px; }
 pre > code { font-family:"Fira Code Retina", "Consolas", "Sans Mono", "Courier", monospace; border:1px dashed #f90; }
 .hljs-ln-numbers { color:#909090; text-align:right; vertical-align:middle; border-right:0px solid #909090; }
@@ -59,5 +60,4 @@ pre > code { font-family:"Fira Code Retina", "Consolas", "Sans Mono", "Courier",
 #cloud li { display: inline-block; }
 #cloud li::before { content:""; }
 #cloud a { padding:0px; text-decoration:none; }
-
-.satimages { display:block; margin:0 auto; border:1px solid #909090; vertical-align:middle; -webkit-border-radius:3px; max-width:99% !important; width:630px; height:630px; max-width:630px; max-height:630px; }
+.satimages { width:540px; height:540px; max-width:540px; max-height:540px; }
