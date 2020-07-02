@@ -10,7 +10,6 @@
           <a name="{{ tag }}"></a>
           <h2>{{ tag }} <a href="#top"> ↟ </a></h2>
           <ol>
-
             {% set count=[1] %}
             {% set revcount=[datadict.tags[tag]|count] %}
             {% for year,year_list in datadict.tags[tag]|groupby('year')|reverse %}
@@ -24,7 +23,6 @@
                 {% endfor %}
               {% endfor %}
             {% endfor %}
-
           </ol>
         {%endfor%}
       <br/>
