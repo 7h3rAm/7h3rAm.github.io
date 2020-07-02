@@ -24,7 +24,7 @@ IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 h1, h2, h3, h4, h5, h6, ul, ol, p, pre { margin-bottom:1em; }
 strong, b { font-weight:bold; }
 em, i { font-style:italic; }
-pre, code { color:#e83e8c; }
+pre, code { color:#e83e8c; background-color:#fffff0 }
 pre::before, pre::after { display:block; }
 code::before, code::after { background:#fff; }
 ol li { margin-left:4ex; }
@@ -50,9 +50,9 @@ h4 { font-size:12pt; }
 h5 { font-size:11pt; }
 h6 { font-size:10pt; }
 p { text-align:justify; text-justify:inter-word; }
-p > img { display:block; margin:0 auto; border:1px solid #909090; vertical-align:middle; -webkit-border-radius:3px; max-width:99% !important; width:auto; height:auto; max-height:400px; }
+p > img { display:block; margin:0 auto; border:1px dashed #f90; vertical-align:middle; -webkit-border-radius:3px; max-width:99% !important; width:auto; height:auto; max-height:400px; }
 pre > code > table { margin-left:0px; }
-pre > code { font-family:"Fira Code Retina", "Consolas", "Sans Mono", "Courier", monospace; border:1px dashed #f90 }
+pre > code { font-family:"Fira Code Retina", "Consolas", "Sans Mono", "Courier", monospace; border:1px dashed #f90; }
 .hljs-ln-numbers { color:#909090; text-align:right; vertical-align:middle; border-right:0px solid #909090; }
 
 #cloud { margin:0px; padding:2px; line-height:2em; text-align:center; }

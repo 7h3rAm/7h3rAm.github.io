@@ -17,7 +17,7 @@
             <p>{{ talk.description }}</p>
             <ul>
             {% for conference in talk.conferences %}
-              <li><code>{{ conference.date }}: <a href="{{ conference.url }}" target="_blank">{{ conference.name }}</a></code></li>
+              <li><code>{{ conference.date }}</code>: <a href="{{ conference.url }}" target="_blank">{{ conference.name }}</a></li>
             {% endfor %}
             </ul>
           {% endfor %}
