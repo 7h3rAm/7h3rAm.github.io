@@ -24,7 +24,7 @@ IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 h1, h2, h3, h4, h5, h6, ul, ol, p, pre { margin-bottom:1em; }
 strong, b { font-weight:bold; }
 em, i { font-style:italic; }
-pre, code { color:#671d9d; }
+pre, code { color:#e83e8c; }
 pre::before, pre::after { display:block; }
 code::before, code::after { background:#fff; }
 ol li { margin-left:4ex; }
