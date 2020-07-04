@@ -23,7 +23,9 @@
         <code>{{ job.years }} ({{ job.duration }})</code><br/>
         <ul>
         {% for desc in job.description %}
+          {% if desc and desc != "" %}
           <li>{{ desc }}</li>
+          {% endif %}
         {% endfor %}
         </ul>
       {% endfor %}
