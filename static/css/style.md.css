@@ -43,8 +43,8 @@ a { color:#08f; text-decoration:none; }
 a:hover { color:#900 }
 @media print { a { color:#00f!important; } body { width:auto; font-size:12pt; } }
 
-h1 { font-size:16pt; }
-h2 { font-size:15pt; }
+h1 { font-size:18pt; }
+h2 { font-size:16pt; }
 h3 { font-size:14pt; }
 h4 { font-size:12pt; }
 h5 { font-size:11pt; }
