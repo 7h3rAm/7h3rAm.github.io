@@ -60,4 +60,4 @@ pre > code { font-family:"Fira Code Retina", "Consolas", "Sans Mono", "Courier",
 #cloud li { display: inline-block; }
 #cloud li::before { content:""; }
 #cloud a { padding:0px; text-decoration:none; }
-.satimages { width:540px; height:540px; max-width:540px; max-height:540px; }
+.narrowimages { width:540px; height:540px; max-width:540px; max-height:540px; }
