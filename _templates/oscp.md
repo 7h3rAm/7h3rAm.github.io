@@ -33,21 +33,23 @@
 
 ## 🎯 Resources
 - [machinescli](): This is a commandline interface for vulnerable machines
-<br/><br/>
-<img src="/static/files/pages_oscp/machinescli04.png" />  
-<img src="/static/files/pages_oscp/machinescli05.png" />  
-<img src="/static/files/pages_oscp/machinescli06.png" />  
-<img src="/static/files/pages_oscp/machinescli16.png" />  
+<br/>
+<a href="/static/files/pages_oscp/machinescli04.png" target="_blank"><img src="/static/files/pages_oscp/machinescli04.png" /></a>
+<a href="/static/files/pages_oscp/machinescli05.png" target="_blank"><img src="/static/files/pages_oscp/machinescli05.png" /></a>
+<a href="/static/files/pages_oscp/machinescli06.png" target="_blank"><img src="/static/files/pages_oscp/machinescli06.png" /></a>
+<a href="/static/files/pages_oscp/machinescli16.png" target="_blank"><img src="/static/files/pages_oscp/machinescli16.png" /></a>
 
 - [svachal](): This is my automation framework for machine writeups
-<br/><br/>
-<img src="/static/files/pages_oscp/svachal01.png" />  
-<img src="/static/files/pages_oscp/svachal02.png" />  
+<br/>
+<a href="/static/files/pages_oscp/svachal01.png" target="_blank"><img src="/static/files/pages_oscp/svachal01.png" /></a>
+<a href="/static/files/pages_oscp/svachal02.png" target="_blank"><img src="/static/files/pages_oscp/svachal02.png" /></a>
 
 - [writeups](): These are my writeups for OSCPlike machines
-<br/><br/>
-<img src="/static/files/pages_oscp/writeups.png" />
+<br/>
+<a href="/static/files/pages_oscp/writeups.png" target="_blank"><img src="/static/files/pages_oscp/writeups.png" /></a>
+<a href="/static/files/pages_oscp/writeups_machines.png" target="_blank"><img src="/static/files/pages_oscp/writeups_machines.png" /></a>
 
 - [meta](): These are notes I prepared and used for OSCP
-<br/><br/>
-<img src="/static/files/pages_oscp/meta.png" />
+<br/>
+<a href="/static/files/pages_oscp/meta.png" target="_blank"><img src="/static/files/pages_oscp/meta.png" /></a>
+<a href="/static/files/pages_oscp/meta_expanded.png" target="_blank"><img src="/static/files/pages_oscp/meta_expanded.png" /></a>

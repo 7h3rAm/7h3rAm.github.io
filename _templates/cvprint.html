@@ -49,7 +49,7 @@
             </ul>
           <h3>Talks/Papers/Demos</h3>
             {% for talk in datadict.metadata.research.talks %}
-              <code>{{ loop.index }}</code>. {{ talk.name }}
+              {{ loop.index }}. {{ talk.name }}
               <ul>
               {% for conference in talk.conferences %}
                 <li><code>{{ conference.date }}</code>: <a href="{{ conference.url }}" target="_blank">{{ conference.name }}</a></li>
