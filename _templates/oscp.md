@@ -33,9 +33,21 @@
 
 ## 🎯 Resources
 - [machinescli](): This is a commandline interface for vulnerable machines
+<br/><br/>
+<img src="/static/files/pages_oscp/machinescli04.png" />  
+<img src="/static/files/pages_oscp/machinescli05.png" />  
+<img src="/static/files/pages_oscp/machinescli06.png" />  
+<img src="/static/files/pages_oscp/machinescli16.png" />  
 
 - [svachal](): This is my automation framework for machine writeups
+<br/><br/>
+<img src="/static/files/pages_oscp/svachal01.png" />  
+<img src="/static/files/pages_oscp/svachal02.png" />  
 
 - [writeups](): These are my writeups for OSCPlike machines
+<br/><br/>
+<img src="/static/files/pages_oscp/writeups.png" />
 
 - [meta](): These are notes I prepared and used for OSCP
+<br/><br/>
+<img src="/static/files/pages_oscp/meta.png" />
