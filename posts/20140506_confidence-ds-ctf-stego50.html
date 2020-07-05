@@ -30,7 +30,7 @@
     <div class="body">
           <h1>CONFidence DS CTF Teaser: Stegano50</h1>
                   <p><a href="/posts/20140327_northrop-challenge.html"> « </a>📅 last updated on <code>06/May/2014</code><a href="/posts/20140618_pcapgentools-contentype-patch.html"> » </a></p>
-                <p>The challenge consists a <a href="/static/files/stegano50.pdf">pdf</a> file. Let's see what <code>exiftool</code> tells us about it:</p>
+                <p>The challenge consists a <a href="/static/files/posts_confidence_ds_ctf_stego50/stegano50.pdf">pdf</a> file. Let's see what <code>exiftool</code> tells us about it:</p>
 <pre><code class="console">$ exiftool stegano50.pdf
 ExifTool Version Number         : 9.46
 File Name                       : stegano50.pdf
@@ -64,7 +64,7 @@ Nope , not here ;)
 </code></pre>
 
 <p>Well, that explains. Let's focus on <code>Subject</code> and <code>Producer</code> once again. These definitely hint towards a blob of text that might need Morse code decoding. The <code>Subject</code> hints towards translating A and B to dot and dash and it obviously points to the fact that the blob of text has to be all As and Bs. Let's view the pdf in Firefox via its <a href="https://mozilla.github.io/pdf.js/">pdf.js</a> renderer:</p>
-<p><img alt="stego50_pdfjs.png" src="/static/files/stego50_pdfjs.png" /></p>
+<p><img alt="stego50_pdfjs.png" src="/static/files/posts_confidence_ds_ctf_stego50/stego50_pdfjs.png" /></p>
 <p>There it is! A <code>div</code> element has the text blob we need. Let's extract and translate it as per the hint:</p>
 <pre><code class="console">$ echo -n &quot;BABA BBB BA BBA ABA AB B AAB ABAA AB B AA BBB BA AAA BBAABB AABA ABAA AB BBA BBBAAA ABBBB BA AAAB ABBBB AAAAA ABBBB BAAA ABAA AAABB BB AAABB AAAAA AAAAA AAAAB BBA AAABB&quot; | tr AB .-
 -.-. --- -. --. .-. .- - ..- .-.. .- - .. --- -. ... --..-- ..-. .-.. .- --. ---... .---- -. ...- .---- ..... .---- -... .-.. ...-- -- ...-- ..... ..... ....- --. ...--

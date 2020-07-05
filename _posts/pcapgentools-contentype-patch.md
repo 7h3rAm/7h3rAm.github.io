@@ -52,11 +52,11 @@ FTP_upload_passive.pcap    HTTP_GET_gzip_raw.pcap         HTTP_POST_deflate_raw.
 
 I'm using sample PDF files from Didier Stevens blog post on [Physical and Logical Structure of PDF Files](http://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/). `PCAPGenerationTools` created pcaps for FTP, POP3, IMAP, SMTP, HTTP and TCP. Let's have a look at one of the HTTP pcaps in Wireshark:
 
-![pcapgentools-1.png](/static/files/pcapgentools-1.png)
+![pcapgentools-1.png](/static/files/posts_pcapgentools_contentype_patch/pcapgentools-1.png)
 
 And here's how the reassembled HTTP stream looks like:
 
-![pcapgentools-2.png](/static/files/pcapgentools-2.png)
+![pcapgentools-2.png](/static/files/posts_pcapgentools_contentype_patch/pcapgentools-2.png)
 
 That's pure awesomeness! It created pcaps with different HTTP `Content-Type` and `Transfer-Encoding` combinations, active/passive mode in FTP, upload/download over HTTP and FTP and various MIMEtype encodings for POP3/IMAP/SMTP. These pcaps were created without hosting files and using respective clients and without generating any network traffic.
 

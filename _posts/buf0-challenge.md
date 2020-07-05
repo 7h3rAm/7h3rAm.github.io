@@ -4,7 +4,7 @@ date: 06/Jan/2014
 summary: This is a buffer overflow challenge I found online. Although some people might find this to be a pretty easy exploit target, I thought of posting a writeup since it will still be someone's starting point into the jouney of exploitation.
 tags: buffer overflow, writeups, reversing
 
-The binary can be obtained from here: [buf0](/static/files/buf0.bin). Let's see what `file` command has to tell us about this challenge file:
+The binary can be obtained from here: [buf0](/static/files/posts_buf0_challenge/buf0.bin). Let's see what `file` command has to tell us about this challenge file:
 
 ```console
 $ file buf0.bin
@@ -33,11 +33,11 @@ W00T!
 
 This is interesting. The binary is using `gets` syscall which is commonly exploited against buffer overflow vulnerabilities. There is a `W00T!` string as well which indicates that we need to exploit the binary and get this string printed. Before we execute this file, let's do some static analysis on it using IDA:
 
-![image](/static/files/ida-start.png)
+![image](/static/files/posts_buf0_challenge/ida-start.png)
 
 Apart from the standard libc defintions and `main`, I see an interesting function called `returnToMe` at location 0x08048404. Let's follow this function and see what is it doing:
 
-![image](/static/files/ida-returntome.png)
+![image](/static/files/posts_buf0_challenge/ida-returntome.png)
 
 Like I mentioned earlier, this is where the `W00T!` string is printed and as per the assumption, we need to leverage the overflow in a way that this function is called. Let's now run the binary and see how it behaves:
 

@@ -4,7 +4,7 @@ date: 27/May/2015
 summary: This post is a writeup for the bin100 challenge (Dice Revenge) from Eindbazen CTF 2013.
 tags: code, ctf, reversing
 
-From the [challenges page](http://ebctf.nl/challenges/), download the [bin100](/static/files/bin100) binary and start following along. The challenge title is "Dice Revenge" and the description talks about Linux debugging skills. Let's see what `file` commands tells us about this file:
+From the [challenges page](http://ebctf.nl/challenges/), download the [bin100](/static/files/posts_ebctf_bin100/bin100) binary and start following along. The challenge title is "Dice Revenge" and the description talks about Linux debugging skills. Let's see what `file` commands tells us about this file:
 
 ```console
 $ file bin100
@@ -742,4 +742,4 @@ $ ./bin100.patched
 [*] Nice job, here is the flag: ebCTF{9a9689dbd47a1fd3fc0bf17d60edf545}
 ```
 
-Awesome! We sucessfully solve this challenge and are presented with the flag. You can download the patched file [here](/static/files/bin100.patched).
+Awesome! We sucessfully solve this challenge and are presented with the flag. You can download the patched file [here](/static/files/posts_ebctf_bin100/bin100.patched).

@@ -30,7 +30,7 @@
     <div class="body">
           <h1>Little PDF Puzzle from Didier Stevens</h1>
                   <p><a href="/posts/20140618_pcapgentools-contentype-patch.html"> « </a>📅 last updated on <code>18/Sep/2014</code><a href="/posts/20141115_pcapedit.html"> » </a></p>
-                <p>While reading an article about <a href="http://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/">Physical and Logical Structure of PDF Files</a> on Didier Stevens's blog, I came across an interesting <a href="http://blog.didierstevens.com/2008/05/06/a-little-pdf-puzzle/">puzzle</a>. You can download the <a href="/static/files/pdf-puzzle.pdf">file</a> to follow along or read the <a href="http://blog.didierstevens.com/2008/05/07/solving-a-little-pdf-puzzle/">writeup</a> from the author itself.</p>
+                <p>While reading an article about <a href="http://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/">Physical and Logical Structure of PDF Files</a> on Didier Stevens's blog, I came across an interesting <a href="http://blog.didierstevens.com/2008/05/06/a-little-pdf-puzzle/">puzzle</a>. You can download the <a href="/static/files/posts_little_pdf/pdf-puzzle.pdf">file</a> to follow along or read the <a href="http://blog.didierstevens.com/2008/05/07/solving-a-little-pdf-puzzle/">writeup</a> from the author itself.</p>
 <p>Still here, great! Let's get started. First thing is to check what <code>exiftool</code> has to tell us about this file:</p>
 <pre><code class="console">$ exiftool pdf-puzzle.pdf
 ExifTool Version Number         : 9.46
@@ -49,9 +49,9 @@ Page Count                      : 1
 </code></pre>
 
 <p>All these attributes look standard and nothing suspicious pops out in the output. The author, Didier Stevens, hints that it is a simple challenge and can be solved using just Notepad or a standard PDF reader. Let's view contents of this file in a text editor:</p>
-<p><img alt="littlepdf-texteditor.png" src="/static/files/littlepdf-texteditor.png" /></p>
+<p><img alt="littlepdf-texteditor.png" src="/static/files/posts_little_pdf/littlepdf-texteditor.png" /></p>
 <p>If you have not read Didier Stevens's <a href="http://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/">Physical and Logical Structure of PDF Files</a> post I strongly recommend reading it before reading further. It will help you identify something out of the ordinary in above output. There are two copies of xref table and trailer in this file hinting that it is probably a PDF with <a href="https://en.wikipedia.org/wiki/Portable_Document_Format#File_structure">Incremental Updates</a>. The new content (after the first <code>%%EOF</code>) has redefined object 5 and updated the xref table to help renders know its new offset. If you open this file in a PDF viewer, you will see something like this:</p>
-<p><img alt="littlepdf-pdfjs.png" src="/static/files/littlepdf-pdfjs.png" /></p>
+<p><img alt="littlepdf-pdfjs.png" src="/static/files/posts_little_pdf/littlepdf-pdfjs.png" /></p>
 <p>The reader is using updated object and renders its content, thus overriding the older object definition. Since both object definitions contain <code>ASCII85Decode</code> encoded streams, we can manually decode and look at the raw content:</p>
 <pre><code class="python">$ ipython --no-banner
 

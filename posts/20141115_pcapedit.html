@@ -202,7 +202,7 @@ $ ls -l *.cap
 </code></pre>
 
 <p>Here's a screenshot of Wireshark parsing and decoding the edited packet:</p>
-<p><img alt="pcapedit-wireshark.png" src="/static/files/pcapedit-wireshark.png" /></p>
+<p><img alt="pcapedit-wireshark.png" src="/static/files/posts_pcapedit/pcapedit-wireshark.png" /></p>
 <p>So at this point we know how to edit individual packets and save them to a new file, but doing this for hundreds or thousands of packets would still remain a daunting task and something that needs automation. That's where the <em>scriptfile</em> feature comes handy. You can save commands to a file and pass them as input to <code>pcapedit</code> and it will happily do as instructed:</p>
 <pre><code class="console">$ ./pcapedit.py &lt;tcpcmdstest.txt
 PcapEdit - An Interactive Pcap Editor

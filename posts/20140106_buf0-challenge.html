@@ -30,7 +30,7 @@
     <div class="body">
           <h1>buf0 - A Buffer Overflow Challenge</h1>
                   <p><a href="/posts/20131127_regex-to-dotgraph.html"> « </a>📅 last updated on <code>06/Jan/2014</code><a href="/posts/20140224_buf1-challenge.html"> » </a></p>
-                <p>The binary can be obtained from here: <a href="/static/files/buf0.bin">buf0</a>. Let's see what <code>file</code> command has to tell us about this challenge file:</p>
+                <p>The binary can be obtained from here: <a href="/static/files/posts_buf0_challenge/buf0.bin">buf0</a>. Let's see what <code>file</code> command has to tell us about this challenge file:</p>
 <pre><code class="console">$ file buf0.bin
 buf0.bin: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[sha1]=0x3a0cbf6e6af7d4a5d1294f2ce18e80ad3e778d48, not stripped
 </code></pre>
@@ -54,9 +54,9 @@ W00T!
 </code></pre>
 
 <p>This is interesting. The binary is using <code>gets</code> syscall which is commonly exploited against buffer overflow vulnerabilities. There is a <code>W00T!</code> string as well which indicates that we need to exploit the binary and get this string printed. Before we execute this file, let's do some static analysis on it using IDA:</p>
-<p><img alt="image" src="/static/files/ida-start.png" /></p>
+<p><img alt="image" src="/static/files/posts_buf0_challenge/ida-start.png" /></p>
 <p>Apart from the standard libc defintions and <code>main</code>, I see an interesting function called <code>returnToMe</code> at location 0x08048404. Let's follow this function and see what is it doing:</p>
-<p><img alt="image" src="/static/files/ida-returntome.png" /></p>
+<p><img alt="image" src="/static/files/posts_buf0_challenge/ida-returntome.png" /></p>
 <p>Like I mentioned earlier, this is where the <code>W00T!</code> string is printed and as per the assumption, we need to leverage the overflow in a way that this function is called. Let's now run the binary and see how it behaves:</p>
 <pre><code class="console">$ ./buf0.bin
 AAAAAAAAAAA

@@ -4,7 +4,7 @@ date: 24/Aug/2013
 summary: The recently concluded Malicious Software course on Coursera had an interesting reversing challenge: reverse-ex. This is a writeup on how to complete it.
 tags: writeups, reversing
 
-The recently concluded [Malicious Software and its Undergound Economy](https://class.coursera.org/malsoftware-001/) course on [Coursera](https://www.coursera.org/) had an interesting reverse engineering challenge as part of its coursework: [reverse-ex](/static/files/reverse-ex). I found it interesting since it will be equally entertaining for someone who has never tried such challenges or one who has mastered many of them. This post details the steps I took to complete this challenge.
+The recently concluded [Malicious Software and its Undergound Economy](https://class.coursera.org/malsoftware-001/) course on [Coursera](https://www.coursera.org/) had an interesting reverse engineering challenge as part of its coursework: [reverse-ex](/static/files/posts_malsoftware_reverse_ex/reverse-ex). I found it interesting since it will be equally entertaining for someone who has never tried such challenges or one who has mastered many of them. This post details the steps I took to complete this challenge.
 
 The first thing I normally do after obtaining such challenges is to test them with `file` command. This provides some insight about various file attributes like its type (ELF, PE, etc.), processor architecture compatibility, symbol table inclusion, etc:
 

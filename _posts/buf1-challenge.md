@@ -4,7 +4,7 @@ date: 24/Feb/2014
 summary: This is another buffer overflow challenge I found online. I posted a writeup on a similar challenge buf0 earlier and one for this challenge was long due. Finally today I got some time to document the solution.
 tags: buffer overflow, writeups, reversing
 
-The binary can be obtained from here: [buf1](/static/files/buf1.bin). Let's see what `file` command has to tell us about this challenge file:
+The binary can be obtained from here: [buf1](/static/files/posts_buf1_challenge/buf1.bin). Let's see what `file` command has to tell us about this challenge file:
 
 ```console
 $ file buf1.bin
@@ -33,11 +33,11 @@ W00T!
 
 There's the `gets` syscall and the `W00T!` string which confirm that this indeed is very similar to the previous challenge. Before we execute this file, let's do some static analysis on it using IDA:
 
-![image](/static/files/ida-start.png)
+![image](/static/files/posts_buf1_challenge/ida-start.png)
 
 Apart from the standard libc defintions and `main`, I see an interesting function called `returnToMe` at location 0x08048404. Let's follow this function and see what is it doing:
 
-![image](/static/files/ida-returntome.png)
+![image](/static/files/posts_buf1_challenge/ida-returntome.png)
 
 Let's figure out the size of the buffer to know how many bytes would be needed to reach saved EIP:
 

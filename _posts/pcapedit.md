@@ -188,7 +188,7 @@ $ ls -l *.cap
 
 Here's a screenshot of Wireshark parsing and decoding the edited packet:
 
-![pcapedit-wireshark.png](/static/files/pcapedit-wireshark.png)
+![pcapedit-wireshark.png](/static/files/posts_pcapedit/pcapedit-wireshark.png)
 
 So at this point we know how to edit individual packets and save them to a new file, but doing this for hundreds or thousands of packets would still remain a daunting task and something that needs automation. That's where the *scriptfile* feature comes handy. You can save commands to a file and pass them as input to `pcapedit` and it will happily do as instructed:
 

@@ -30,7 +30,7 @@
     <div class="body">
           <h1>buf1 - Another Buffer Overflow Challenge</h1>
                   <p><a href="/posts/20140106_buf0-challenge.html"> « </a>📅 last updated on <code>24/Feb/2014</code><a href="/posts/20140318_shellcode-pipeline.html"> » </a></p>
-                <p>The binary can be obtained from here: <a href="/static/files/buf1.bin">buf1</a>. Let's see what <code>file</code> command has to tell us about this challenge file:</p>
+                <p>The binary can be obtained from here: <a href="/static/files/posts_buf1_challenge/buf1.bin">buf1</a>. Let's see what <code>file</code> command has to tell us about this challenge file:</p>
 <pre><code class="console">$ file buf1.bin
 buf1.bin: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[sha1]=0x746bc251bceb3d50b635362140ec851bf6f85317, not stripped
 </code></pre>
@@ -54,9 +54,9 @@ W00T!
 </code></pre>
 
 <p>There's the <code>gets</code> syscall and the <code>W00T!</code> string which confirm that this indeed is very similar to the previous challenge. Before we execute this file, let's do some static analysis on it using IDA:</p>
-<p><img alt="image" src="/static/files/ida-start.png" /></p>
+<p><img alt="image" src="/static/files/posts_buf1_challenge/ida-start.png" /></p>
 <p>Apart from the standard libc defintions and <code>main</code>, I see an interesting function called <code>returnToMe</code> at location 0x08048404. Let's follow this function and see what is it doing:</p>
-<p><img alt="image" src="/static/files/ida-returntome.png" /></p>
+<p><img alt="image" src="/static/files/posts_buf1_challenge/ida-returntome.png" /></p>
 <p>Let's figure out the size of the buffer to know how many bytes would be needed to reach saved EIP:</p>
 <pre><code class="console">$ python -c 'print &quot;A&quot;*40' | ./buf1.bin
 $ python -c 'print &quot;A&quot;*50' | ./buf1.bin

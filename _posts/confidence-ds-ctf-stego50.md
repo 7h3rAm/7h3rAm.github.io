@@ -4,7 +4,7 @@ date: 6/May/2014
 summary: This post discusses how I completed the stego50 challenge from Dragon Sector CTF team. It is a simplistic challenge but a good source for learning about PDF internals.
 tags: code, ctf, writeups
 
-The challenge consists a [pdf](/static/files/stegano50.pdf) file. Let's see what `exiftool` tells us about it:
+The challenge consists a [pdf](/static/files/posts_confidence_ds_ctf_stego50/stegano50.pdf) file. Let's see what `exiftool` tells us about it:
 
 ```console
 $ exiftool stegano50.pdf
@@ -43,7 +43,7 @@ Nope , not here ;)
 
 Well, that explains. Let's focus on `Subject` and `Producer` once again. These definitely hint towards a blob of text that might need Morse code decoding. The `Subject` hints towards translating A and B to dot and dash and it obviously points to the fact that the blob of text has to be all As and Bs. Let's view the pdf in Firefox via its [pdf.js](https://mozilla.github.io/pdf.js/) renderer:
 
-![stego50_pdfjs.png](/static/files/stego50_pdfjs.png)
+![stego50_pdfjs.png](/static/files/posts_confidence_ds_ctf_stego50/stego50_pdfjs.png)
 
 There it is! A `div` element has the text blob we need. Let's extract and translate it as per the hint:
 

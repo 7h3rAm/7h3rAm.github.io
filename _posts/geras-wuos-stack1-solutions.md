@@ -42,17 +42,17 @@ Whenever a function is called, based upon the [calling convention](https://en.wi
 
 Refer the below stack layouts for better understanding. The first layout outlines the call stack for the caller's `main` function:
 
-![caller-main.png](/static/files/caller-main.png)
+![caller-main.png](/static/files/posts_geras_wuos_stack1_solutions/caller-main.png)
 
 The second layout outlines the call stack for the callee's `add` function:
 
-![image](/static/files/callee-add.png)
+![image](/static/files/posts_geras_wuos_stack1_solutions/callee-add.png)
 
 While control is in the callee function, the passed arguments are accessed by using EBP as a pointer. According to the calling convention, the first parameter is located at an offset of EBP+8, the second parameter is located at an offset of EBP+12, and so on. Using this formula we can locate function arguments (EBP+8 in the above layout is 32+8 = 40 which stores the first argument 3 and similarly EBP+12 is 32+12 = 44 which stores the second argument 6). Since the above described call stack layout will be used for all programs, we could generalize the above formula and use it to find the offset of EBP itself and then the offset of EIP (EBP+4). The address of EBP is located by summing up the address of the first local variable on the stack with its size. Similarly EIP could be located by adding 4 to the address of the EBP.
 
 Based on these observations, let's try to visualize the call stack layout for the `stack1` program:
 
-![image](/static/files/stack1-callstack-raw.png)
+![image](/static/files/posts_geras_wuos_stack1_solutions/stack1-callstack-raw.png)
 
 NOTE: The stack is assumed to be 4B aligned and we are working on an x86 machine. The addresses in the layouts are for reference only.While thinking about possible solutions for this program, I came up with the below listed ideas:
 
@@ -141,7 +141,7 @@ There are a few very important points to note from the above output:
 
 You must have already guessed that the call stack layout we saw earlier is no longer in sync with the compiled binary. We need to recreate it considering the above discussed modifications:
 
-![stack1-callstack.png](/static/files/stack1-callstack.png)
+![stack1-callstack.png](/static/files/posts_geras_wuos_stack1_solutions/stack1-callstack.png)
 
 The default GCC command-line might have turned on other mitigation features as well. We need to investigate further before proceeding. [Tobias Klein](http://www.trapkit.de/about.html), the author of [A Bug Hunter's Diary](http://www.trapkit.de/books/bhd/en.html), maintains an awesome Bash script called [checksec.sh](http://www.trapkit.de/tools/checksec.html) that provides an overview of the security features implemented within the Linux kernel, ELF binaries and executing processes on a system. Here is a listing of its available options:
 

@@ -6,14 +6,13 @@ tags: code
 
 In this post I'll try to explain how [pynids](https://jon.oberheide.org/pynids/) can be combined with Python's `re` module to develop a minimal IPS-like tool. In an earlier post, [Network Stream Reassembly and Defragmentation](https://7h3ram.github.io/posts/20130618_libnids-pynids.html), I talked about how to leverage pynids API to create a TCP reassembly module. I would suggest you read that post before continuing further since I'll be skipping over reassembly basics. First let's understand the architecture of a very basic IPS:
 
-![image](/static/files/minips-arch.png)
+![image](/static/files/libnids_python_ids/minips-arch.png)
 
 Since it is a prevention system, an IPS has to be placed inline between the firewall at the perimeter edge the default gateway of your network. For any sessions that match inspection rules, they will be either dropped or logged or both if required. This action is basically per session/match configurable and can be changed through system's policy files. An inspection system needs network traffic as input and this input can come from different sources but for the sake of simplicity, we'll only be focusing on packet capture files and direct network device access as sources of input. Once the input is available in the form of raw packets, the system will need to reassemble them and extract layer payload which an inspection engine can consume.
 
 Rule/Signature based inspection engines use custom variants of the PCRE engine specifically optimized for performance and throughput. These engines use different techniques for performing string matches, either using native implementations of proven algorithms like [Aho Corasick](http://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_string_matching_algorithm), [Boyer Moore](http://en.wikipedia.org/wiki/Boyer%E2%80%93Moore_string_search_algorithm), [Rabin Karp](http://en.wikipedia.org/wiki/Rabin%E2%80%93Karp_string_search_algorithm), etc. [Finite State Automaton](http://en.wikipedia.org/wiki/Finite-state_machine) is also used in some implementations. In this post, we'll be using Libnids to extract TCP streams/UDP packets and match user-supplied regular expressions over this data. If a match is found, we'll log details and optionally drop the connection.
 
-Before we begin with development, let's design the pseudocode for our
-IPS:
+Before we begin with development, let's design the pseudocode for our IPS:
 
 ```console
 1. initialize nids
