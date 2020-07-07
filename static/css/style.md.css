@@ -39,7 +39,7 @@ h4::before { content:"#### "; color:#09a; }
 h5::before { content:"##### "; color:#09a; }
 h6::before { content:"###### "; color:#09a; }
 ul li::before { content:"* "; display:block; margin-left:-3ex; color:#f90; float:left; }
-a { color:#08f; text-decoration:none; }
+a { color:#5b92e5; text-decoration:none; }
 a:hover { color:#900 }
 @media print { a { color:#00f!important; } body { width:auto; font-size:12pt; } }
 
