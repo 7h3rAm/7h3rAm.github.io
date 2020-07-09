@@ -1,4 +1,4 @@
-# [VulnHub] Misdirection: 1
+[VulnHub] Misdirection: 1
 ===============
 date: 11/Oct/2019
 summary: This is the summary for an awesome post.
