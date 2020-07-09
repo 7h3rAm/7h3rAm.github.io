@@ -29,7 +29,7 @@
     </div>
     <div class="body">
           <h1>pcapedit: An Interactive Scapy-based Pcap Editor</h1>
-                  <p><a href="/posts/20140918_little-pdf.html"> « </a>📅 last updated on <code>15/Nov/2014</code><a href="/posts/20141127_flowinspect.html"> » </a></p>
+                  <p><a href="/posts/20140918_little-pdf.html"> « </a>📅 published on <code>15/Nov/2014</code><a href="/posts/20141127_flowinspect.html"> » </a></p>
                 <p>While working with pcap files, I occasionally come across situations where I need to edit them for some weird usecases. When in such a situation, I had to write a loop that iterates over packets, check if the current packet needs modification, apply changes if so and save these changes to a new pcap. As I repeated these steps a few times, need for automation became obvious. I sat together with my colleague and good friend <a href="http://x00itachi.blogspot.in/">Natraj</a> and discussed about how we can automate this process so that it helps with our IPS signature development efforts. Eventually, a draft for an interactive tool was formulated and <a href="https://github.com/7h3rAm/pcapedit">pcapedit</a> was born.</p>
 <p><code>pcapedit</code> is a Python-based tool that allows users to enter commands to edit and save pcaps. It has a hard dependency on <code>Scapy</code> and <code>cmd2</code> modules so make sure these are installed. Here is a snippet from test run:</p>
 <pre><code class="console">$ ./pcapedit.py

