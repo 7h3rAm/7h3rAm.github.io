@@ -349,5 +349,5 @@ wordpress: admin/ad...
 ```
 
 ## References
-[+] <https://www.vulnhub.com/entry/hackfest2016-quaoar,180/>  
-[+] <https://www.blackroomsec.com/quaoar-write-up/>  
+* <https://www.vulnhub.com/entry/hackfest2016-quaoar,180/>  
+* <https://www.blackroomsec.com/quaoar-write-up/>  

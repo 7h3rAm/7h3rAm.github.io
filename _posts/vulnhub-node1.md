@@ -210,5 +210,5 @@ root.txt: 1722e99ca5f353b362556a62........
 ```
 
 ## References
-[+] <https://www.vulnhub.com/entry/node-1,252/>  
-[+] <https://hkh4cks.com/blog/2018/06/15/htb-node-walkthrough/>  
+* <https://www.vulnhub.com/entry/node-1,252/>  
+* <https://hkh4cks.com/blog/2018/06/15/htb-node-walkthrough/>  

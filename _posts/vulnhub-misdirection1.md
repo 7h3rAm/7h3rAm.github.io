@@ -157,5 +157,5 @@ brexit:$6$51s7qYVw$XbTfXEV2acHRp9vmA7VTxO35OLK9EGZJzDGF9nYaukD3eppHsn2P1ESMr.9rR
 ```
 
 ## References
-[+] <https://www.vulnhub.com/entry/misdirection-1,371/>  
-[+] <https://download.vulnhub.com/media/misdirection/Misdirection-Walkthrough.pdf>  
+* <https://www.vulnhub.com/entry/misdirection-1,371/>  
+* <https://download.vulnhub.com/media/misdirection/Misdirection-Walkthrough.pdf>  

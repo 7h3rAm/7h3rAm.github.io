@@ -419,5 +419,5 @@ a10828bee17db751de4b93661.......
 ```
 
 ## References
-[+] <https://www.vulnhub.com/entry/hackfest2016-sedna,181/>  
-[+] <https://www.n00py.io/2017/03/vulnhub-walkthrough-hackfest2016-sedna/>  
+* <https://www.vulnhub.com/entry/hackfest2016-sedna,181/>  
+* <https://www.n00py.io/2017/03/vulnhub-walkthrough-hackfest2016-sedna/>  

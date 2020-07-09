@@ -185,5 +185,5 @@ ssh: Ori/span..
 ```
 
 ## References
-[+] <https://www.vulnhub.com/entry/moria-11,187/>  
-[+] <https://phackt.com/moria-vulnhub>  
+* <https://www.vulnhub.com/entry/moria-11,187/>  
+* <https://phackt.com/moria-vulnhub>  

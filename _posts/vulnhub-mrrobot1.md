@@ -218,5 +218,5 @@ http://192.168.92.134/key-1-of-3.txt: 073403c8a58a1f80d9..............
 /root/key-3-of-3.txt: 04787ddef27c3dee1ee16...........
 ```
 ## References
-[+] <https://www.vulnhub.com/entry/mr-robot-1,151/>  
-[+] <http://f4l13n5n0w.github.io/blog/2016/08/10/vulnhub-mr-robot-1/>  
+* <https://www.vulnhub.com/entry/mr-robot-1,151/>  
+* <http://f4l13n5n0w.github.io/blog/2016/08/10/vulnhub-mr-robot-1/>  
