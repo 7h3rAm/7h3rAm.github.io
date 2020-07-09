@@ -31,7 +31,7 @@
           <h1>[VulnHub] Lord Of The Root: 1.0.1</h1>
                   <p><a href="/posts/20190920_vulnhub-vulnix.html"> « </a>📅 published on <code>10/Oct/2019</code><a href="/posts/20191011_vulnhub-misdirection1.html"> » </a></p>
                 <h2>Overview</h2>
-<p>This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/lord-of-the-root-101,129/"><code>Lord Of The Root: 1.0.1</code></a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p>
+<p>This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/lord-of-the-root-101,129/">Lord Of The Root: 1.0.1</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p>
 <p><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_lordoftheroot101/killchain.png" /></p>
 <h2>Phase #1: Enumeration</h2>
 <p>1. Here's the Nmap scan result:  </p>
@@ -119,7 +119,6 @@ webapp: frodo, smeagol, aragorn, legolas, gimli
 <h2>Phase #2: Exploitation</h2>
 <p>1. We run <code>sqlmap</code> against this login form and dump the contents of the backend database. Within this dump we find credentials for five users:  </p>
 <pre><code>sqlmap -u &quot;http://192.168.92.151:1337/978345210/index.php&quot; --batch --forms --dump
-
 </code></pre>
 
 <p><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot07.png" />  </p>

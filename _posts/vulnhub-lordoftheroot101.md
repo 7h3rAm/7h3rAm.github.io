@@ -5,7 +5,7 @@ summary: This is the summary for an awesome post.
 tags: oscp, vulnhub, writeups
 
 ## Overview
-This is a writeup for VulnHub VM [`Lord Of The Root: 1.0.1`](https://www.vulnhub.com/entry/lord-of-the-root-101,129/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
+This is a writeup for VulnHub VM [Lord Of The Root: 1.0.1](https://www.vulnhub.com/entry/lord-of-the-root-101,129/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
 ![writeup.overview.killchain](/static/files/posts_vulnhub_lordoftheroot101/killchain.png)
 
@@ -106,7 +106,6 @@ webapp: frodo, smeagol, aragorn, legolas, gimli
 1\. We run `sqlmap` against this login form and dump the contents of the backend database. Within this dump we find credentials for five users:  
 ```
 sqlmap -u "http://192.168.92.151:1337/978345210/index.php" --batch --forms --dump
-
 ```
 
 ![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_lordoftheroot101/screenshot07.png)  
