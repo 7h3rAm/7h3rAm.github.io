@@ -5,7 +5,7 @@ summary: This is the summary for an awesome post.
 tags: oscp, vulnhub, writeups
 
 ## Overview
-This is a writeup for VulnHub VM [`hackfest2016: Sedna`](https://www.vulnhub.com/entry/hackfest2016-sedna,181/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
+This is a writeup for VulnHub VM [hackfest2016: Sedna](https://www.vulnhub.com/entry/hackfest2016-sedna,181/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
 ![writeup.overview.killchain](/static/files/posts_vulnhub_sedna/killchain.png)
 
