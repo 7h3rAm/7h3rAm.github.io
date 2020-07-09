@@ -3,7 +3,6 @@
 date: 20/Sep/2019
 summary: This is the summary for an awesome post.
 tags: oscp, vulnhub, writeups
-      
 
 ## Overview
 This is a writeup for VulnHub VM [HackLAB: Vulnix](https://www.vulnhub.com/entry/hacklab-vulnix,48/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:  
@@ -444,17 +443,17 @@ cat /root/trophy.txt
 ## Loot
 ### Hashes
 ```
-root:$6$GpmQGQUN$8kLewzMF4ItmxezcryWqSPrXNRTH5TOQFKKkHjK2NSmrTg95xiYi.l8L.RYUL.8pAsj8s4EGvDy4dvENQ************************
-user:$6$gLVDPSY5$CGHDuEBpkC90vX2xFD9NeJC0O9XfhVj9oFVvL8XbTRpBnt/7WJFpADj0zboPTKTqPbOHafZGUd/exj4OZ************************
-vulnix:$6$tMOyhDF2$gExhASDVWJqHYn00.A8XLJb.DvE7bdD6NffAno3iY5zEkJwZ4yDTGMrhdVbkMXV1dlBT00DoGFR7oXbtD************************
+root:$6$GpmQGQUN$8kLewzMF4ItmxezcryWqSPrXNRTH5TOQFKKkHjK2NSmrTg95xiYi.l8L.RYUL.8pAsj8s4EGvDy4dvENQ........................
+user:$6$gLVDPSY5$CGHDuEBpkC90vX2xFD9NeJC0O9XfhVj9oFVvL8XbTRpBnt/7WJFpADj0zboPTKTqPbOHafZGUd/exj4OZ........................
+vulnix:$6$tMOyhDF2$gExhASDVWJqHYn00.A8XLJb.DvE7bdD6NffAno3iY5zEkJwZ4yDTGMrhdVbkMXV1dlBT00DoGFR7oXbtD........................
 ```
 ### Credentials
 ```
-ssh: user/letm***
+ssh: user/letm...
 ```
 ### Flags
 ```
-cc614640424f5bd60ce5d5264*******
+cc614640424f5bd60ce5d5264.......
 ```
 
 ## References
