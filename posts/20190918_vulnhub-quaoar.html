@@ -32,7 +32,7 @@
                   <p><a href="/posts/20160312_circllu.html"> « </a>📅 published on <code>18/Sep/2019</code><a href="/posts/20190919_vulnhub-sedna.html"> » </a></p>
                 <h2>Overview</h2>
 <p>This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/hackfest2016-quaoar,180/">hackfest2016: Quaoar</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p>
-<p><img alt="writeup.overview.killchain" src="/static/files/post_vulnhub_quaoar/killchain.png" /></p>
+<p><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_quaoar/killchain.png" /></p>
 <h2>Phase #1: Enumeration</h2>
 <p>1. Here's the Nmap scan result:  </p>
 <pre><code># Nmap 7.70 scan initiated Wed Sep 18 14:14:44 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.quaoar/results/192.168.92.175/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.quaoar/results/192.168.92.175/scans/xml/_quick_tcp_nmap.xml 192.168.92.175
@@ -258,13 +258,13 @@ Allow: /wordpress/
 #\___,_\ \__,_|\__,_|\___/ \__,_|_|   
 </code></pre>
 
-<p><img alt="writeup.enumeration.steps.2.1" src="/static/files/post_vulnhub_quaoar/screenshot01.png" />  </p>
+<p><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_quaoar/screenshot01.png" />  </p>
 <p>3. We run <code>wpscan</code> to enumerate users and find 2 hits:  </p>
 <pre><code>admin
 wpuser
 </code></pre>
 
-<p><img alt="writeup.enumeration.steps.3.1" src="/static/files/post_vulnhub_quaoar/screenshot02.png" />  </p>
+<p><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_vulnhub_quaoar/screenshot02.png" />  </p>
 <h3>Findings</h3>
 <h4>Open Ports:</h4>
 <pre><code>22/tcp   |  ssh          |  OpenSSH 5.9p1 Debian 5ubuntu1 (Ubuntu Linux; protocol 2.0)
@@ -289,13 +289,13 @@ wpuser
 
 <h2>Phase #2: Exploitation</h2>
 <p>1. We tried the default credentials <code>admin/admin</code> and got administrative access to the Wordpress installation:  </p>
-<p><img alt="writeup.exploitation.steps.1.1" src="/static/files/post_vulnhub_quaoar/screenshot03.png" />  </p>
+<p><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_quaoar/screenshot03.png" />  </p>
 <p>2. We then edit the <code>Hello Dolly</code> plugin file <code>hello.php</code>, add a PHP reverse shell to it and activate the plugin while running a <code>netcat</code> listener to catch incoming shell:  </p>
 <pre><code>nc -nlvp 9999
 </code></pre>
 
-<p><img alt="writeup.exploitation.steps.2.1" src="/static/files/post_vulnhub_quaoar/screenshot05.png" />  </p>
-<p><img alt="writeup.exploitation.steps.2.2" src="/static/files/post_vulnhub_quaoar/screenshot04.png" />  </p>
+<p><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_quaoar/screenshot05.png" />  </p>
+<p><img alt="writeup.exploitation.steps.2.2" src="/static/files/posts_vulnhub_quaoar/screenshot04.png" />  </p>
 <h2>Phase #2.5: Post Exploitation</h2>
 <pre><code>www-data@Quaoar&gt; id
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
@@ -319,22 +319,22 @@ wpadmin
 <pre><code>cat /home/wpadmin/flag.txt
 </code></pre>
 
-<p><img alt="writeup.privesc.steps.1.1" src="/static/files/post_vulnhub_quaoar/screenshot06.png" />  </p>
+<p><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_quaoar/screenshot06.png" />  </p>
 <p>2. While exploring the <code>/var/www/wordpress</code> directory we find <code>wp-config.php</code> file with MySQL credentials in it:  </p>
 <pre><code>cat /var/www/wordpress/wp-config.php → root/rootpassword!
 </code></pre>
 
-<p><img alt="writeup.privesc.steps.2.1" src="/static/files/post_vulnhub_quaoar/screenshot08.png" />  </p>
+<p><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_quaoar/screenshot08.png" />  </p>
 <p>3. We test these credentials to gain <code>root</code> privleges and are successfully given access:  </p>
 <pre><code>su
 </code></pre>
 
-<p><img alt="writeup.privesc.steps.3.1" src="/static/files/post_vulnhub_quaoar/screenshot07.png" />  </p>
+<p><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_quaoar/screenshot07.png" />  </p>
 <p>4. We then read the <code>/root/flag.txt</code> file to complete the challenge:  </p>
 <pre><code>cat /root/flag.txt
 </code></pre>
 
-<p><img alt="writeup.privesc.steps.4.1" src="/static/files/post_vulnhub_quaoar/screenshot10.png" />  </p>
+<p><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_vulnhub_quaoar/screenshot10.png" />  </p>
 <h2>Loot</h2>
 <h3>Hashes</h3>
 <pre><code>root:$6$CM3c1cdI$HbQWZlQdGEWV8yo3j7M84i1/RFK4G7fafTUIUYLWk52zm9O8KRLhqZenF8KbqsUjHlZQk4VmNEeEbBCRj........................
