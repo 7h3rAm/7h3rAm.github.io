@@ -457,8 +457,8 @@ cc614640424f5bd60ce5d5264.......
 ```
 
 ## References
-[+] <https://www.vulnhub.com/entry/hacklab-vulnix,48/>  
-[+] <https://guif.re/linuxeop>  
-[+] <https://blog.christophetd.fr/write-up-vulnix/>  
-[+] <https://rastating.github.io/vulnix-ctf-walkthrough/>  
-[+] <https://www.abatchy.com/2016/10/walkthrough-vulnix-vulnhub-vm>  
+* <https://www.vulnhub.com/entry/hacklab-vulnix,48/>  
+* <https://guif.re/linuxeop>  
+* <https://blog.christophetd.fr/write-up-vulnix/>  
+* <https://rastating.github.io/vulnix-ctf-walkthrough/>  
+* <https://www.abatchy.com/2016/10/walkthrough-vulnix-vulnhub-vm>  
