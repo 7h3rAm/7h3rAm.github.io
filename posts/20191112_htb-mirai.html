@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
+    <meta name="description" content="Personal Weblog"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+    <title>Mannthan</title>
+    <link href="/static/images/mannthan-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
+    <script src="/static/js/highlight.min.js"></script>
+    <script src="/static/js/highlightjs-line-numbers.min.js"></script>
+    <script charset="UTF-8" src="/static/js/go.min.js"></script>
+    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
+    <link rel="stylesheet" href="/static/css/github-gist.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
+
+   </head>
+  <body>
+    <div class="header">
+      <table>
+        <tr>
+          <td><a href="/index.html" style="color:#fe4164; font-size:14pt;">🏡 Home </a></td>
+          <td><a href="/archive.html" style="color:#f90; font-size:14pt;">💾 Archive </a></td>
+          <td><a href="/tags.html" style="color:#69359c; font-size:14pt;">🔖 Tags </a></td>
+          <td><a href="/stats.html" style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td>
+        </tr>
+      </table>
+    </div>
+    <div class="body">
+          <h1>[HackTheBox] Mirai</h1>
+                  <p><a href="/posts/20191104_htb-grandpa.html"> « </a>📅 published on <code>12/Nov/2019</code><a href="/posts/20191113_htb-shocker.html"> » </a></p>
+                <h2>Overview</h2>
+<p><img alt="writeup.metadata.infocard" src="/static/files/posts_htb_mirai/infocard.png" /></p>
+<p>This is a writeup for HTB VM <a href="https://www.hackthebox.eu/home/machines/profile/64">Mirai</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p>
+<p><img alt="writeup.overview.killchain" src="/static/files/posts_htb_mirai/killchain.png" /></p>
+<h2>Phase #1: Enumeration</h2>
+<p>1. Here's the Nmap scan result:  </p>
+<pre><code># Nmap 7.70 scan initiated Tue Nov 12 15:49:18 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.mirai/results/10.10.10.48/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.mirai/results/10.10.10.48/scans/xml/_quick_tcp_nmap.xml 10.10.10.48
+Increasing send delay for 10.10.10.48 from 0 to 5 due to 275 out of 915 dropped probes since last increase.
+Nmap scan report for 10.10.10.48
+Host is up, received user-set (0.060s latency).
+Scanned at 2019-11-12 15:49:19 PST for 27s
+Not shown: 997 closed ports
+Reason: 997 resets
+PORT   STATE SERVICE REASON         VERSION
+22/tcp open  ssh     syn-ack ttl 63 OpenSSH 6.7p1 Debian 5+deb8u3 (protocol 2.0)
+| ssh-hostkey:
+|   1024 aa:ef:5c:e0:8e:86:97:82:47:ff:4a:e5:40:18:90:c5 (DSA)
+| ssh-dss AAAAB3NzaC1kc3MAAACBAJpzaaGcmwdVrkG//X5kr6m9em2hEu3SianCnerFwTGHgUHrRpR6iocVhd8gN21TPNTwFF47q8nUitupMBnvImwAs8NcjLVclPSdFJSWwTxbaBiXOqyjV5BcKty+s2N8I9neI2coRBtZDUwUiF/1gUAZIimeKOj2x39kcBpcpM6ZAAAAFQDwL9La/FPu1rEutE8yfdIgxTDDNQAAAIBJbfYW/IeOFHPiKBzHWiM8JTjhPCcvjIkNjKMMdS6uo00/JQH4VUUTscc/LTvYmQeLAyc7GYQ/AcLgoYFHm8hDgFVN2D4BQ7yGQT9dU4GAOp4/H1wHPKlAiBuDQMsyEk2s2J+60Rt+hUKCZfnxPOoD9l+VEWfZQYCTOBi3gOAotgAAAIBd6OWkakYL2e132lg6Z02202PIq9zvAx3tfViuU9CGStiIW4eH4qrhSMiUKrhbNeCzvdcw6pRWK41+vDiQrhV12/w6JSowf9KHxvoprAGiEg7GjyvidBr9Mzv1WajlU9BQO0Nc7poV2UzyMwLYLqzdjBJT28WUs3qYTxanaUrV9g==
+|   2048 e8:c1:9d:c5:43:ab:fe:61:23:3b:d7:e4:af:9b:74:18 (RSA)
+| ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCpSoRAKB+cPR8bChDdajCIpf4p1zHfZyu2xnIkqRAgm6Dws2zcy+VAZriPDRUrht10GfsBLZtp/1PZpkUd2b1PKvN2YIg4SDtpvTrdwAM2uCgUrZdKRoFa+nd8REgkTg8JRYkSGQ/RxBZzb06JZhRSvLABFve3rEPVdwTf4mzzNuryV4DNctrAojjP4Sq7Msc24poQRG9AkeyS1h4zrZMbB0DQaKoyY3pss5FWJ+qa83XNsqjnKlKhSbjH17pBFhlfo/6bGkIE68vS5CQi9Phygke6/a39EP2pJp6WzT5KI3Yosex3Br85kbh/J8CVf4EDIRs5qismW+AZLeJUJHrj
+|   256 b6:a0:78:38:d0:c8:10:94:8b:44:b2:ea:a0:17:42:2b (ECDSA)
+| ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBCl89gWp+rA+2SLZzt3r7x+9sXFOCy9g3C9Yk1S21hT/VOmlqYys1fbAvqwoVvkpRvHRzbd5CxViOVih0TeW/bM=
+|   256 4d:68:40:f7:20:c4:e5:52:80:7a:44:38:b8:a2:a7:52 (ED25519)
+|_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILvYtCvO/UREAhODuSsm7liSb9SZ8gLoZtn7P46SIDZL
+53/tcp open  domain  syn-ack ttl 63 dnsmasq 2.76
+| dns-nsid:
+|_  bind.version: dnsmasq-2.76
+80/tcp open  http    syn-ack ttl 63 lighttpd 1.4.35
+| http-methods:
+|_  Supported Methods: OPTIONS GET HEAD POST
+|_http-server-header: lighttpd/1.4.35
+|_http-title: Site doesn't have a title (text/html; charset=UTF-8).
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Nov 12 15:49:46 2019 -- 1 IP address (1 host up) scanned in 27.40 seconds
+</code></pre>
+
+<p>2. From the HTTP response headers, we find that the HTTP service is running the <a href="https://pi-hole.net/">PiHole</a> project:  </p>
+<p><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_htb_mirai/screenshot01.png" />  </p>
+<p>3. We also find an <code>admin</code> directory from the <code>gobuster</code> scan:  </p>
+<p><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_htb_mirai/screenshot02.png" />  </p>
+<p>4. Upon visiting the <code>http://10.10.10.48/admin/</code> page, we get the default PiHole dashboard:  </p>
+<p><img alt="writeup.enumeration.steps.4.1" src="/static/files/posts_htb_mirai/screenshot03.png" />  </p>
+<h3>Findings</h3>
+<h4>Open Ports:</h4>
+<pre><code>22/tcp     |  ssh     |  OpenSSH 6.7p1 Debian 5+deb8u3 (protocol 2.0)
+53/tcp     |  domain  |  dnsmasq 2.76
+80/tcp     |  http    |  lighttpd 1.4.35
+123/udp    |  ntp     |  NTP v4 (unsynchronized)
+1323/tcp   |  upnp    |  Platinum UPnP 1.0.5.13 (UPnP/1.0 DLNADOC/1.50)
+32400/tcp  |  http    |  Plex Media Server httpd
+32469/tcp  |  upnp    |  Platinum UPnP 1.0.5.13 (UPnP/1.0 DLNADOC/1.50)
+</code></pre>
+
+<h4>Files</h4>
+<pre><code>http://10.10.10.48/admin/
+</code></pre>
+
+<h4>Users</h4>
+<pre><code>ssh: pi
+</code></pre>
+
+<h2>Phase #2: Exploitation</h2>
+<p>1. We take hint from the name of this VM, Mirai, referring to the <a href="https://en.wikipedia.org/wiki/Mirai_(malware)">botnet</a> that targeted Internet systems configured with default credentials. Since the target system is running PiHole and by default such systems have a user <code>pi</code> with password <code>raspberry</code>, using this combination gives us interactive access:  </p>
+<p><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_htb_mirai/screenshot04.png" />  </p>
+<p>2. We then view contents of the <code>user.txt</code> file:  </p>
+<p><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_htb_mirai/screenshot09.png" />  </p>
+<h2>Phase #2.5: Post Exploitation</h2>
+<pre><code>pi@raspberrypi&gt; id
+uid=1000(pi) gid=1000(pi) groups=1000(pi),4(adm),20(dialout),24(cdrom),27(sudo),29(audio),44(video),46(plugdev),60(games),100(users),101(input),108(netdev),117(i2c),998(gpio),999(spi)
+pi@raspberrypi&gt;  
+pi@raspberrypi&gt; uname
+Linux raspberrypi 3.16.0-4-686-pae #1 SMP Debian 3.16.36-1+deb8u2 (2016-10-19) i686 GNU/Linux
+pi@raspberrypi&gt;  
+pi@raspberrypi&gt; ifconfig
+eth0  Link encap:Ethernet  HWaddr 00:50:56:b9:cc:ee
+      inet addr:10.10.10.48  Bcast:10.10.10.255  Mask:255.255.255.0
+      inet6 addr: fe80::94e9:d9aa:2889:bf0f/64 Scope:Link
+      inet6 addr: dead:beef::e164:151a:f090:2d59/64 Scope:Global
+      inet6 addr: fe80::250:56ff:feb9:ccee/64 Scope:Link
+      UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+      RX packets:170849 errors:0 dropped:0 overruns:0 frame:0
+      TX packets:159384 errors:0 dropped:0 overruns:0 carrier:0
+      collisions:0 txqueuelen:1000
+      RX bytes:17335718 (16.5 MiB)  TX bytes:23597380 (22.5 MiB)
+      Interrupt:19 Base address:0x2000
+pi@raspberrypi&gt;  
+pi@raspberrypi&gt; users
+root
+pi
+</code></pre>
+
+<h2>Phase #3: Privilege Escalation</h2>
+<p>1. From the output of the <code>id</code> command and also confirming via <code>sudo -l</code>, we know that the user <code>pi</code> is a member of the <code>sudo</code> group. This means we can switch to <code>root</code> and gain elevated privileges:  </p>
+<p><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_htb_mirai/screenshot05.png" />  </p>
+<p><img alt="writeup.privesc.steps.1.2" src="/static/files/posts_htb_mirai/screenshot06.png" />  </p>
+<p>2. When trying to vie wthe contents of the <code>root.txt</code> file, we see that the original file has been deleted and a backup exists on the USB drive. We use the <code>df -lh</code> command to find the absolute path for mounted USB drive, find a file in it but it too didn't give us the flag. The original file seems to be deleted from the USB stick which means we need to use some quick forensics to obtain the deleted file:  </p>
+<p><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_htb_mirai/screenshot07.png" />  </p>
+<p>3. We try to extract strings from the mounted device file <code>/dev/sdb</code> and find the contents of the original <code>root.txt</code> file:  </p>
+<p><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_htb_mirai/screenshot08.png" />  </p>
+<h2>Loot</h2>
+<h3>Hashes</h3>
+<pre><code>pi:$6$SQPHFoql$gSE5qWbZRGHDin4LnFY56sMnQsmvH/o2oIlXv.3KcqVsJCYgJ09R9/Pws88e8yjKgJnaxN3zdq8f5ots1b.......................
+</code></pre>
+
+<h3>Credentials</h3>
+<pre><code>ssh: pi/raspbe...
+</code></pre>
+
+<h3>Flags</h3>
+<pre><code>/home/pi/Desktop/user.txt: ff837707441b257a20e3............
+/root/root.txt -&gt; /media/usbstick/root.txt: 3d3e483143ff12ec5...............
+</code></pre>
+
+<h2>References</h2>
+<ul>
+<li><a href="https://www.hackthebox.eu/home/machines/profile/64">https://www.hackthebox.eu/home/machines/profile/64</a>  </li>
+<li><a href="https://www.youtube.com/watch?v=SRmvRGUuuno">https://www.youtube.com/watch?v=SRmvRGUuuno</a>  </li>
+</ul>
+        <hr/>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a>, <a href=/tags.html#oscp>oscp</a> and <a href=/tags.html#writeups>writeups</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20191104_htb-grandpa.html">[HackTheBox] Grandpa...</a> « | » <a href="/posts/20191113_htb-shocker.html">[HackTheBox] Shocker...</a> »</p>
+                <hr/>
+    </div>
+    <div class="footer">
+      <p style="text-align:center;">[<a href="https://creativecommons.org/licenses/by/4.0/" rel="license" target="_blank">📝 CC BY 4.0</a>]</p>
+    </div>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>hljs.initLineNumbersOnLoad();</script>
+  </body>
+</html>

