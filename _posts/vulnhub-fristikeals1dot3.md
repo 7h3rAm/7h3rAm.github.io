@@ -2,7 +2,7 @@
 ===============
 date: 11/Sep/2019
 summary: This is the summary for an awesome post.
-tags: oscp, vulnhub, writeups
+tags: vulnhub, writeups
 
 ## Overview
 This is a writeup for VulnHub VM [FristiLeaks: 1.3](https://www.vulnhub.com/entry/fristileaks-13,133/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:

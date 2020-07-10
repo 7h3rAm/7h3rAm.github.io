@@ -2,7 +2,7 @@
 ===============
 date: 10/Oct/2019
 summary: This is the summary for an awesome post.
-tags: oscp, vulnhub, writeups
+tags: vulnhub, writeups
 
 ## Overview
 This is a writeup for VulnHub VM [Lord Of The Root: 1.0.1](https://www.vulnhub.com/entry/lord-of-the-root-101,129/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:

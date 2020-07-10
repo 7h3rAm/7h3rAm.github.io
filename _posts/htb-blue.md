@@ -2,7 +2,7 @@
 ===============
 date: 01/Nov/2019
 summary: This is the summary for an awesome post.
-tags: oscp, hackthebox, writeups
+tags: hackthebox, writeups
 
 ## Overview
 ![writeup.metadata.infocard](/static/files/posts_htb_blue/infocard.png)

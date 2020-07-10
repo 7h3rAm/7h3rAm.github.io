@@ -2,7 +2,7 @@
 ===============
 date: 21/Oct/2019
 summary: This is the summary for an awesome post.
-tags: oscp, vulnhub, writeups
+tags: vulnhub, writeups
 
 ## Overview
 This is a writeup for VulnHub VM [Mr-Robot: 1](https://www.vulnhub.com/entry/mr-robot-1,151/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
