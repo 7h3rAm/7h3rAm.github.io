@@ -30,8 +30,7 @@
     <div class="body">
           <h1>Gera's Warming Up on Stack #1 - Solutions</h1>
                   <p><a href="/posts/20120710_exploit-mitigation-techniques-on-linux.html"> « </a>📅 published on <code>27/Aug/2012</code><a href="/posts/20120902_soritong-m3u-seh-overflow.html"> » </a></p>
-                <hr/>
-        <p>This is the part 1 in a series of posts that aim to provide an analysis and possible solutions for the vulnerable programs provided by Gera at his Insecure Programming by example page.</p>
+                <p>This is the part 1 in a series of posts that aim to provide an analysis and possible solutions for the vulnerable programs provided by Gera at his Insecure Programming by example page.</p>
 <p>Familiarity with exploit mitigation techniques is expected to gain a proper understanding of the concepts we talk about here. If terms like <code>ASLR</code>, <code>NX</code>, <code>SSP</code>, <code>RELRO</code>, etc. seem unfamiliar, I would suggest reading the <a href="https://7h3ram.github.io/posts/20120710_exploit-mitigation-techniques-on-linux.html">Exploit Mitigation Techniques on Linux Systems</a> post that talks about these.</p>
 <p>We will start with a scenario in which most of the exploit mitigation techniques will be enabled through the default GCC compilation command-line. Since, these techniques prevent successful exploit attempts, we will incrementally turn them off until successful exploitation is achieved. This setup will allow us to witness how these individual techniques succeed in restricting exploit attempts and how their absence affects exploitation reliability.</p>
 <p>Below is the source for the vulnerable <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack1.html">stack1.c</a> program:</p>
@@ -566,11 +565,9 @@ you win!
 
 <p>This time just the <code>0x0a</code> was echoed back and it, as expected, corrects the exploit output. However, I could not understand this strange behavior. If you have any ideas please get back. So, we have now successfully exploited the <code>stack1</code> program through a shellcode injected into an environment variable. Please note that the use of environment variables is only possible for local exploits and as such it is not much used in common exploits that you see in the wild. However, as you have already seen, it is one of the most reliable methods of exploitation.</p>
 <p>All these solutions are however not practical since they require disabling of recent mitigation features. They serve the purpose of understanding how exploits worked before mitigation features were introduced.</p>
-        <hr/>
         <p style="text-align:center;">(🔖 tagged <a href=/tags.html#buffer_overflow>buffer_overflow</a>, <a href=/tags.html#exploit>exploit</a>, <a href=/tags.html#mitigations>mitigations</a> and <a href=/tags.html#writeups>writeups</a>)</p>
                   <p style="text-align:center;">« <a href="/posts/20120710_exploit-mitigation-techniques-on-linux.html">Exploit Mitigation Techniques ...</a> « | » <a href="/posts/20120902_soritong-m3u-seh-overflow.html">SoriTong MP3 Player .m3u File ...</a> »</p>
-                <hr/>
-    </div>
+            </div>
     <div class="footer">
       <p style="text-align:center;">[<a href="https://creativecommons.org/licenses/by/4.0/" rel="license" target="_blank">📝 CC BY 4.0</a>]</p>
     </div>

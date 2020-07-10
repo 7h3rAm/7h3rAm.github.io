@@ -30,8 +30,7 @@
     <div class="body">
           <h1>reverse Challenge from Coursera's Malicious Software Course</h1>
                   <p><a href="/posts/20130824_malsoftware-reverse-ex.html"> « </a>📅 published on <code>29/Aug/2013</code><a href="/posts/20130915_libnids-python-ids.html"> » </a></p>
-                <hr/>
-        <p>This post follows an earlier one: <a href="https://7h3ram.github.io/posts/20130824_malsoftware-reverse-ex.html">reverse-ex Challenge from Coursera's Malicious Software Course</a>. If you've not already read it, I would suggest you do so since both these challenges share a few common concepts and I'll be skipping detail if it has been mentioned before.</p>
+                <p>This post follows an earlier one: <a href="https://7h3ram.github.io/posts/20130824_malsoftware-reverse-ex.html">reverse-ex Challenge from Coursera's Malicious Software Course</a>. If you've not already read it, I would suggest you do so since both these challenges share a few common concepts and I'll be skipping detail if it has been mentioned before.</p>
 <p>The challenge file is hosted here: <a href="/static/files/posts_malsoftware_reverse_challenge/reverse-challenge">reverse-challenge</a>. The first thing to do is to test it with <code>file</code> command:</p>
 <pre><code class="console">$ file reverse-challenge
 reverse-challenge: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[  sha1]=0x2fe5f1647532449ffeef36a7fa31ae8319c8818d, stripped
@@ -90,11 +89,9 @@ exit_group(1)                           = ?
 
 <p>The program stopped since the <code>ptrace</code> system call returned <code>EPERM</code> error code which indicates that the <code>PTRACE_TRACEME</code> operation is not permitted. This is a very commonly used anti-debugging method and it works since such program already invoke <code>ptrace</code> over them before executing any other functions and as such when a user manually tries to debug it (via <code>ptrace</code> calls), it fails since a trace session is already active on the program and another cannot be initialized.</p>
 <p>Anyways, like the previous challenge, this was also completed without actually debugging the program. However, there are still ways in which we can bypass the anti-debugging mechanisms and analyze the program via dynamic analysis only. Rest on this in a future post. Stay tuned.</p>
-        <hr/>
         <p style="text-align:center;">(🔖 tagged <a href=/tags.html#reversing>reversing</a> and <a href=/tags.html#writeups>writeups</a>)</p>
                   <p style="text-align:center;">« <a href="/posts/20130824_malsoftware-reverse-ex.html">reverse-ex Challenge from Cour...</a> « | » <a href="/posts/20130915_libnids-python-ids.html">Developing a Minimal IPS from ...</a> »</p>
-                <hr/>
-    </div>
+            </div>
     <div class="footer">
       <p style="text-align:center;">[<a href="https://creativecommons.org/licenses/by/4.0/" rel="license" target="_blank">📝 CC BY 4.0</a>]</p>
     </div>

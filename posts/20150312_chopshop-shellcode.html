@@ -30,8 +30,7 @@
     <div class="body">
           <h1>Shellcode Detection Module in ChopShop</h1>
                   <p><a href="/posts/20141127_flowinspect.html"> « </a>📅 published on <code>12/Mar/2015</code><a href="/posts/20150527_ebctf-bin100.html"> » </a></p>
-                <hr/>
-        <p>Around an year ago I submitted a pull request to the <a href="https://github.com/MITRECND/chopshop">ChopShop</a> project from <a href="https://github.com/MITRECND">MITRECND</a>. This request included a module that enabled shellcode detection for TCP streams and UDP packets. In this post I'll show how to use this module to identify shellcode within network streams. Here's the project description:</p>
+                <p>Around an year ago I submitted a pull request to the <a href="https://github.com/MITRECND/chopshop">ChopShop</a> project from <a href="https://github.com/MITRECND">MITRECND</a>. This request included a module that enabled shellcode detection for TCP streams and UDP packets. In this post I'll show how to use this module to identify shellcode within network streams. Here's the project description:</p>
 <blockquote>
 <p>ChopShop is a MITRE developed framework to aid analysts in the creation and execution of pynids based decoders and detectors of APT tradecraft.</p>
 </blockquote>
@@ -76,11 +75,9 @@ ChopShop Complete
 
 <p>In the above example, ChopShop was invoked to execute the <code>shellcode_detector</code> module with its <code>-p</code> and <code>-x</code> arguments. The output confirms that shellcode was found in the STC stream of input pcap at offset 107. The module then display a hexdump of shellcode bytes as well as a profiled output highlighting the Windows API calls, arguments and their return types. This output is extremely useful as it tells that the shellcode will spawn a <code>calc.exe</code> process if it is successfully deployed on the victim system.</p>
 <p>You can also have a look at the module <a href="https://github.com/MITRECND/chopshop/blob/master/modules/shellcode_detector.py">sourcecode</a>. I would strongly recommend reading the <a href="https://github.com/MITRECND/chopshop/tree/master/docs/chopshop_docs">project documentation</a> to familiarize yourself with architecture and terminology. Also checkout the <a href="https://github.com/MITRECND/chopshop/blob/master/docs/chopshop_docs/module_authoring.md">module authoring documentation</a> and <a href="http://www.mitre.org/capabilities/cybersecurity/overview/cybersecurity-blog/how-chopshop-modules-work">this</a> amazing post by <a href="https://github.com/wxsBSD">Wesley Shields</a>, who is one of the project authors, if you wish to write your own modules.</p>
-        <hr/>
         <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a> and <a href=/tags.html#shellcode>shellcode</a>)</p>
                   <p style="text-align:center;">« <a href="/posts/20141127_flowinspect.html">Flowinspect: A Network Inspect...</a> « | » <a href="/posts/20150527_ebctf-bin100.html">Eindbazen CTF Challenge: bin10...</a> »</p>
-                <hr/>
-    </div>
+            </div>
     <div class="footer">
       <p style="text-align:center;">[<a href="https://creativecommons.org/licenses/by/4.0/" rel="license" target="_blank">📝 CC BY 4.0</a>]</p>
     </div>

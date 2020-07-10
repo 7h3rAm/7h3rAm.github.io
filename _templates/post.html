@@ -8,9 +8,7 @@
         {% elif datadict.post.next %}
           <p>📅 published on <code>{{ datadict.post.pretty_date }}</code><a href="{{ datadict.post.next.url }}"> » </a></p>
         {% endif %}
-        <hr/>
         {{ datadict.post.content }}
-        <hr/>
         <p style="text-align:center;">(🔖 tagged {{ datadict.post.tags|joinlistand("/tags.html#") }})</p>
         {% if datadict.post.previous and datadict.post.next %}
           <p style="text-align:center;">« <a href="{{ datadict.post.previous.url }}">{{ datadict.post.previous.title|trimlength }}</a> « | » <a href="{{ datadict.post.next.url }}">{{ datadict.post.next.title|trimlength }}</a> »</p>
@@ -19,5 +17,4 @@
         {% elif datadict.post.next %}
           <p style="text-align:center;">» <a href="{{ datadict.post.next.url }}">{{ datadict.post.next.title }}</a> »</p>
         {% endif %}
-        <hr/>
 {% endblock %}
