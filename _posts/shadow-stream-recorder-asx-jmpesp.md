@@ -2,15 +2,9 @@ Shadow Stream Recorder .asx File Parsing Buffer Overflow
 ========================================================
 date: 02/Sep/2012
 summary: Shadow Stream Recorder EIP overflow via a jmp esp overwrite.
-tags: exploit, buffer overflow
+tags: code, exploit
 
-The Shadow Stream Recorder version 3.0.1.7 has a classic stack-based
-buffer overflow vulnerability. Processing specially-crafted Advanced
-Stream Redirector (ASX) media files triggered a memory corruption error.
-This flaw could be exploited to gain arbitrary code execution. The
-exploit for this vulnerability is a vanilla EIP overwrite and has been
-first documented at [EDB:
-11957](http://www.exploit-db.com/exploits/11957/)
+The Shadow Stream Recorder version 3.0.1.7 has a classic stack-based buffer overflow vulnerability. Processing specially-crafted Advanced Stream Redirector (ASX) media files triggered a memory corruption error. This flaw could be exploited to gain arbitrary code execution. The exploit for this vulnerability is a vanilla EIP overwrite and has been first documented at [EDB: 11957](http://www.exploit-db.com/exploits/11957/)
 
 Here is a complete rewrite of this exploit:
 

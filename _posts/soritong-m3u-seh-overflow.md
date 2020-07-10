@@ -2,13 +2,9 @@ SoriTong MP3 Player .m3u File Parsing SEH Overflow
 ==================================================
 date: 02/Sep/2012
 summary: SoriTong MP3 Player SEH overflow via a pop-pop-return overwrite.
-tags: exploit, buffer overflow
+tags: code, exploit
 
-SoriTong MP3 Player version 1.0 is prone to a SEH overflow
-vulnerability. Processing specially-crafted `.m3u` file could trigger a
-SEH overwrite that could be leveraged further to gain arbitrary code
-execution. The exploit for this vulnerability has been documented at
-[EDB: 8624](http://www.exploit-db.com/exploits/8624/)
+SoriTong MP3 Player version 1.0 is prone to a SEH overflow vulnerability. Processing specially-crafted `.m3u` file could trigger a SEH overwrite that could be leveraged further to gain arbitrary code execution. The exploit for this vulnerability has been documented at [EDB: 8624](http://www.exploit-db.com/exploits/8624/)
 
 Here is a complete rewrite of this exploit:
 

@@ -2,7 +2,7 @@
 ===============
 date: 31/Aug/2019
 summary: This is the summary for an awesome post.
-tags: vulnhub, writeups, bufferoverflow
+tags: vulnhub, writeup
 
 ## Overview
 This is a writeup for VulnHub VM [Brainpan: 1](https://www.vulnhub.com/entry/brainpan-1,51/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:

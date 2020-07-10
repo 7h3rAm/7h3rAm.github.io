@@ -2,7 +2,7 @@ Shellcode Detection Module in ChopShop
 ======================================
 date: 12/Mar/2015
 summary: This post shows a shellcode detection module that I submitted to MITRECND's ChopShop Protocol Analysis/Decoder Framework.
-tags: code, shellcode
+tags: code
 
 Around an year ago I submitted a pull request to the [ChopShop](https://github.com/MITRECND/chopshop) project from [MITRECND](https://github.com/MITRECND). This request included a module that enabled shellcode detection for TCP streams and UDP packets. In this post I'll show how to use this module to identify shellcode within network streams. Here's the project description:
 
@@ -14,7 +14,7 @@ Last year I submitted a [shellcode detection module](https://github.com/MITRECND
 
 To invoke ChopShop you need to provide a pcapfile as input and then a list of modules to be invoked. Each module can be provided respective arguments as well. Let's have a look at the command line invocation and usage of the shellcode module:
 
-```console
+```
 $ ./chopshop -f ~/toolbox/testfiles/pcaps/shellcode/shellcode-winexec-calc.pcap "shellcode_detector -xp"
 Starting ChopShop
 Initializing Modules ...

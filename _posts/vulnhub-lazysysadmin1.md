@@ -2,7 +2,7 @@
 ===============
 date: 29/Oct/2019
 summary: This is the summary for an awesome post.
-tags: vulnhub, writeups
+tags: vulnhub, writeup
 
 ## Overview
 This is a writeup for VulnHub VM [LazySysAdmin: 1](https://www.vulnhub.com/entry/lazysysadmin-1,205/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:

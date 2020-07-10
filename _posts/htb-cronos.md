@@ -2,7 +2,7 @@
 ===============
 date: 13/Nov/2019
 summary: This is the summary for an awesome post.
-tags: hackthebox, writeups
+tags: hackthebox, writeup
 
 ## Overview
 ![writeup.metadata.infocard](/static/files/posts_htb_cronos/infocard.png)

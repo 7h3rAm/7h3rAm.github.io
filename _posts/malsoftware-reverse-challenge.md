@@ -2,15 +2,13 @@ reverse Challenge from Coursera's Malicious Software Course
 ===========================================================
 date: 29/Aug/2013
 summary: This post is a writeup on the reverse-challenge from recently concluded Malicious Software course on Coursera.
-tags: writeups, reversing
-language: en
-author: 7h3rAm
+tags: ctf, reversing
 
 This post follows an earlier one: [reverse-ex Challenge from Coursera's Malicious Software Course](https://7h3ram.github.io/posts/20130824_malsoftware-reverse-ex.html). If you've not already read it, I would suggest you do so since both these challenges share a few common concepts and I'll be skipping detail if it has been mentioned before.
 
 The challenge file is hosted here: [reverse-challenge](/static/files/posts_malsoftware_reverse_challenge/reverse-challenge). The first thing to do is to test it with `file` command:
 
-```console
+```
 $ file reverse-challenge
 reverse-challenge: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[  sha1]=0x2fe5f1647532449ffeef36a7fa31ae8319c8818d, stripped
 $
@@ -30,7 +28,7 @@ Since the program includes anti-reversing techniques, I tried to avoid traversin
 
 Thus the per-byte XOR key for this program turns out to be 0x2a. Let's invoke the python script we used in previous post with `xKZl_^_XCY^CIE` as the flag and 0x2a as the key and reverse the simple XOR mutation logic:
 
-```console
+```
 $ ./xor.py xKZl_^_XCY^CIE 0x2a
 xKZl_^_XCY^CIE ^ 0x2a => RapFuturistico
 $

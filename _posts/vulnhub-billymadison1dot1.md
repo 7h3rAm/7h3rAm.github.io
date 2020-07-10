@@ -2,7 +2,7 @@
 ===============
 date: 05/Sep/2019
 summary: This is the summary for an awesome post.
-tags: vulnhub, writeups
+tags: vulnhub, writeup
 
 ## Overview
 This is a writeup for VulnHub VM [Billy Madison: 1.1](https://www.vulnhub.com/entry/billy-madison-11,161). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:

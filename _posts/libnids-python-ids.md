@@ -14,7 +14,7 @@ Rule/Signature based inspection engines use custom variants of the PCRE engine s
 
 Before we begin with development, let's design the pseudocode for our IPS:
 
-```console
+```
 1. initialize nids
 2. register udp callback
 3. register tcp callback
@@ -53,7 +53,7 @@ For streams/packets that match input expression, match direction (only for TCP m
 
 Here is a test run of this program on a pcap that contains HTTP session and UDP packets:
 
-```console
+```
 $ python minips.py -p ~/toolbox/testfiles/pcaps/http.cap -r '.*com'
 [15-Sep-2013 15:03:02.341813 IST] TCP 145.254.160.237:3372 - 65.208.228.223:80 (NEW)
 [15-Sep-2013 15:03:02.341903 IST] TCP 145.254.160.237:3372 - 65.208.228.223:80 (CTS: 479B | STC: 0B)

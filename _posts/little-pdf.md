@@ -2,13 +2,13 @@ Little PDF Puzzle from Didier Stevens
 =====================================
 date: 18/Sep/2014
 summary: This is a post on how to solve the Little PDF puzzle from Didier Stevens.
-tags: writeups
+tags: ctf, reversing
 
 While reading an article about [Physical and Logical Structure of PDF Files](http://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/) on Didier Stevens's blog, I came across an interesting [puzzle](http://blog.didierstevens.com/2008/05/06/a-little-pdf-puzzle/). You can download the [file](/static/files/posts_little_pdf/pdf-puzzle.pdf) to follow along or read the [writeup](http://blog.didierstevens.com/2008/05/07/solving-a-little-pdf-puzzle/) from the author itself.
 
 Still here, great! Let's get started. First thing is to check what `exiftool` has to tell us about this file:
 
-```console
+```
 $ exiftool pdf-puzzle.pdf
 ExifTool Version Number         : 9.46
 File Name                       : pdf-puzzle.pdf

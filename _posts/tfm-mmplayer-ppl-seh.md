@@ -2,13 +2,9 @@ TFM MMPlayer .ppl File Parsing SEH Overflow
 ===========================================
 date: 02/Sep/2012
 summary: TFM MMPlayer SEH overflow via a pop-pop-return overwrite and negative jumps.
-tags: exploit, buffer overflow
+tags: code, exploit
 
-The TFM MMPlayer version 2.0 has a SEH overflow vulnerability.
-Processing specially-crafted `.ppl` file triggers SEH overwrite that
-could be leveraged further to gain arbitrary code execution. The exploit
-for this vulnerability has been documeneted at [EDB:
-19176](http://www.exploit-db.com/exploits/19176/)
+The TFM MMPlayer version 2.0 has a SEH overflow vulnerability. Processing specially-crafted `.ppl` file triggers SEH overwrite that could be leveraged further to gain arbitrary code execution. The exploit for this vulnerability has been documeneted at [EDB: 19176](http://www.exploit-db.com/exploits/19176/)
 
 Here is a complete rewrite of this exploit:
 

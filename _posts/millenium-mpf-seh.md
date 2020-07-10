@@ -2,13 +2,9 @@ Millennium MP3 Studio .mpf File Parsing SEH Overflow
 ====================================================
 date: 02/Sep/2012
 summary: Millenium MP3 Studio SEH overflow via a pop-pop-return overwrite.
-tags: exploit, buffer overflow
+tags: code, exploit
 
-The Millennium MP3 Studio version 1.0 is prone to a SEH overflow
-vulnerability. Processing specially-crafted `.mpf` files could trigger a
-SEH overwrite that could be leveraged further to gain arbitrary code
-execution. The exploit for this vulnerability has been documented at
-[EDB: 9298](http://www.exploit-db.com/exploits/9298/)
+The Millennium MP3 Studio version 1.0 is prone to a SEH overflow vulnerability. Processing specially-crafted `.mpf` files could trigger a SEH overwrite that could be leveraged further to gain arbitrary code execution. The exploit for this vulnerability has been documented at [EDB: 9298](http://www.exploit-db.com/exploits/9298/)
 
 Here is a complete rewrite of this exploit:
 

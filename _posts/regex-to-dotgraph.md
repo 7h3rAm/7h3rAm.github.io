@@ -8,7 +8,7 @@ I recently came across the [pyFSA](http://www.osteele.com/software/python/fsa/) 
 
 First, the pyFSA module has to be installed. Download the package, unzip it and follow the standard Python module installation steps:
 
-```console
+```
 $ python setup.py build
 running build
 running build_py
@@ -43,7 +43,7 @@ error: can't copy 'LICENSE.txt': doesn't exist or not a regular file
 
 Ignore the `LICENSE.txt` copy error. Now you need to install the `graphviz` package which includes the `dot` tool useful in rendering `.dot` files into images. Once the dependencies are successfully installed, you can use `re2dotgraph` and test it with a sample regex:
 
-```console
+```
 $ ./re2dotgraph.py 'a*b?c+'
 
 [+] Generating dot string ...
@@ -70,7 +70,7 @@ The input regex is represented using a FSM which is then rendered to a `dot` fil
 
 I would like to point out that representing regular expressions as FSMs is really tricky. There are certain aspects of a regex that can never be represented (like backreferences and lookaheads) due to the fact that FSMs don't have memory to keep note of what was matched previously. This highlights the fact that any regexes, with backreferences or lookaheads won't be rendered correctly. Also, the pyFSA page mentions that the project currently is not fully compliant with POSIX regex guidelines. This severely limits the real-world use-cases:
 
-```console
+```
 $ ./re2dotgraph.py 'a\dc'
 
 [+] Generating dot string ...

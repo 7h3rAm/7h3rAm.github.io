@@ -35,7 +35,7 @@
 <p>Since it is a prevention system, an IPS has to be placed inline between the firewall at the perimeter edge the default gateway of your network. For any sessions that match inspection rules, they will be either dropped or logged or both if required. This action is basically per session/match configurable and can be changed through system's policy files. An inspection system needs network traffic as input and this input can come from different sources but for the sake of simplicity, we'll only be focusing on packet capture files and direct network device access as sources of input. Once the input is available in the form of raw packets, the system will need to reassemble them and extract layer payload which an inspection engine can consume.</p>
 <p>Rule/Signature based inspection engines use custom variants of the PCRE engine specifically optimized for performance and throughput. These engines use different techniques for performing string matches, either using native implementations of proven algorithms like <a href="http://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_string_matching_algorithm">Aho Corasick</a>, <a href="http://en.wikipedia.org/wiki/Boyer%E2%80%93Moore_string_search_algorithm">Boyer Moore</a>, <a href="http://en.wikipedia.org/wiki/Rabin%E2%80%93Karp_string_search_algorithm">Rabin Karp</a>, etc. <a href="http://en.wikipedia.org/wiki/Finite-state_machine">Finite State Automaton</a> is also used in some implementations. In this post, we'll be using Libnids to extract TCP streams/UDP packets and match user-supplied regular expressions over this data. If a match is found, we'll log details and optionally drop the connection.</p>
 <p>Before we begin with development, let's design the pseudocode for our IPS:</p>
-<pre><code class="console">1. initialize nids
+<pre><code>1. initialize nids
 2. register udp callback
 3. register tcp callback
 4. invoke nids session
@@ -69,7 +69,7 @@
 <p>It will inspect each TCP and UDP packet and for matching TCP streams, stop tracking it any further. This is a performance optimization feature with an understanding that if a stream matches certain regex, it is the one the user intended to find. There is no need to inspect additional data in the stream since it already has what the user intended to find. This is only true for TCP streams as for UDP there is no stream/flow and as such inspection always happens on a per-packet basis.</p>
 <p>For streams/packets that match input expression, match direction (only for TCP matches), start/end of match inside input buffer, match size etc are dumped along with a hexdump of the matching content. To limit the size of the hexdump output, a cli option is added. Regular expression engine's match behavior can be tweaked to enable case insensitive and multiline matches using cli options.</p>
 <p>Here is a test run of this program on a pcap that contains HTTP session and UDP packets:</p>
-<pre><code class="console">$ python minips.py -p ~/toolbox/testfiles/pcaps/http.cap -r '.*com'
+<pre><code>$ python minips.py -p ~/toolbox/testfiles/pcaps/http.cap -r '.*com'
 [15-Sep-2013 15:03:02.341813 IST] TCP 145.254.160.237:3372 - 65.208.228.223:80 (NEW)
 [15-Sep-2013 15:03:02.341903 IST] TCP 145.254.160.237:3372 - 65.208.228.223:80 (CTS: 479B | STC: 0B)
 [15-Sep-2013 15:03:02.341946 IST] TCP 145.254.160.237:3372 - 65.208.228.223:80 matches regex '.*com' @ CTS[29:51] 22B

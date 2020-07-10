@@ -2,7 +2,7 @@ Northrop's Online Challenge
 ===========================
 date: 27/Mar/2014
 summary: I came across an interesting challenge posted by someone from Northrop Grumman Cyber Intelligence Division at /reddit/netsec's Q1 2014 Information Security Hiring Thread. This post documents the steps I took to solve it.
-tags: code, writeups
+tags: code, ctf
 
 A while back I was checking out the [/r/netsec's Q1 2014 Information Security Hiring Thread](http://www.reddit.com/r/netsec/comments/1ubzv9/rnetsecs_q1_2014_information_security_hiring/) at Reddit and there I found an interesting challenge posted by someone from Northrop Grumman Cyber Intelligence Division. They were looking for people with interesting skills (IDS/IPS, Big Data, web app development, etc.) and mentioned that candidates solving their [online challenge](https://googledrive.com/host/0B7WgiVv_ihnhX1VRWHVXZmZmMW8/challengeWebpage.html) will be preferred. I find such challenges really interesting and immediately got on top of it. A few hours later I solved it and decided to write about the process. This post details steps I took and lessons learned.
 

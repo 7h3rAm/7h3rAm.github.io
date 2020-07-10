@@ -2,7 +2,7 @@
 ===============
 date: 09/Sep/2019
 summary: This is the summary for an awesome post.
-tags: vulnhub, writeups
+tags: vulnhub, writeup
 
 ## Overview
 This is a writeup for VulnHub VM [BSides Vancouver: 2018 (Workshop)](https://www.vulnhub.com/entry/bsides-vancouver-2018-workshop,231/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:

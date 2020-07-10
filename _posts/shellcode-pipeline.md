@@ -2,7 +2,7 @@ Shellcode Analysis Pipleine
 ===========================
 date: 18/Mar/2014
 summary: This post talks about creating an automated shellcode analysis pipeline where in the shellcode is sourced from public portals and tested via multiple analysis engines. It provides an automated way of testing the accuracy of detection engines like Libemu/Snort/Suricata/Bro against publicly available shellcode.
-tags: code, shellcode
+tags: code, reversing
 
 I recently required an automated way of analyzing shellcode and verifying if it is detected by [Libemu](http://libemu.carnivore.it/), [Snort](http://www.snort.org/), [Suricata](http://suricata-ids.org/), [Bro](https://www.bro.org/), etc. Shellcode had to come from public sources like [ShellStorm](http://repo.shell-storm.org/shellcode/), [ExploitDB](http://www.exploit-db.com/shellcode/) and [Metasploit](https://github.com/rapid7/metasploit-framework/tree/master/modules/payloads). I needed an automated way of sourcing shellcode from these projects and pass it on to the analysis engines in a pipeline-like mechanism. This posts documents the method I used to complete this task and the overall progress of the project.
 
@@ -20,7 +20,7 @@ It will read configuration file to populate internal variables and then move on 
 
 Let's have a look at the help message from the tool:
 
-```console
+```
 $ ./sap.py -h
 sap.py - Shellcode Analysis Pipleline (v0.1)
 Ankur Tyagi (7h3rAm)
@@ -48,7 +48,7 @@ EXAMPLE: sap.py -s windows
 
 There are no mandatory options since most of them are read from the config file if not available on the command-line. The tool supports explicit lookup for shell-storm, exploitdb or metasploit projects. Pcap generation has to be explicitly requested but it will be inherently skipped if no bin files are not created for obtained shellcode. Let's have a test run of the tool with `arm` as the search string to test only ARM shellcode available at Shell-Storm:
 
-```console
+```
 $ ./sap.py -s arm -d
 sap.py - Shellcode Analysis Pipleline (v0.1)
 Ankur Tyagi (7h3rAm)
@@ -102,7 +102,7 @@ I enabled `debug` output for additional verbosity in the above command-line. The
 
 Let's now try a Windows x86 shellcode with the tool:
 
-```console
+```
 $ ./sap.py -s download
 sap.py - Shellcode Analysis Pipleline (v0.1)
 Ankur Tyagi (7h3rAm)
@@ -161,7 +161,7 @@ void ExitProcess (
 
 Id 162 was successfully identified by Libemu as shellcode and it even generated the profiling output for it. From the profile output it seems like the shellcode, when executed, will trigger the download and execution of a malware sample. This is also evident from the shellcode description provided by shell-storm for this shellcode id:
 
-```console
+```
 $ shell-storm-api.py -search download
 Connecting to shell-storm.org...
 Found 14 shellcodes

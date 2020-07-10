@@ -31,12 +31,12 @@
           <h1>Eindbazen CTF Challenge: bin100</h1>
                   <p><a href="/posts/20150312_chopshop-shellcode.html"> « </a>📅 published on <code>27/May/2015</code><a href="/posts/20150802_capinfos.html"> » </a></p>
                 <p>From the <a href="http://ebctf.nl/challenges/">challenges page</a>, download the <a href="/static/files/posts_ebctf_bin100/bin100">bin100</a> binary and start following along. The challenge title is "Dice Revenge" and the description talks about Linux debugging skills. Let's see what <code>file</code> commands tells us about this file:</p>
-<pre><code class="console">$ file bin100
+<pre><code>$ file bin100
 bin100: ELF 32-bit LSB  executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.26, BuildID[sha1]=b07165d860e4c153770483d43e42a54f92f5ac93, not stripped
 </code></pre>
 
 <p>Alright, an ELF file. Let's issue a customary <code>strings</code> command on the challenge file:</p>
-<pre><code class="console">$ strings bin100
+<pre><code>$ strings bin100
 /lib/ld-linux.so.2
 CyIk
 libstdc++.so.6
@@ -254,7 +254,7 @@ _init
 </code></pre>
 
 <p>Quite a few interesting strings here. The title makes sense now. This looks like a dice game that requires us to throw certain number sequences to win. Let's give it a test run:</p>
-<pre><code class="console">$ ./bin100
+<pre><code>$ ./bin100
 
 [*] ebCTF 2013 - BIN100 - Dice Game
     To get the flag you will need to throw the correct numbers.
@@ -314,7 +314,7 @@ $ ./bin100
 </code></pre>
 
 <p>Alright, looks like the first two numbers are <code>3</code> and <code>1</code> respectively. We might need multiple invocations to know further numbers in the expected sequence. Let's debug the file using GDB:</p>
-<pre><code class="console">$ gdb -q ./bin100
+<pre><code>$ gdb -q ./bin100
 Reading symbols from ./bin100...(no debugging symbols found)...done.
 gdb-peda$ break *main
 Breakpoint 1 at 0x8048c4c
@@ -668,7 +668,7 @@ e.save('bin100.patched')
 </code></pre>
 
 <p>We create a mapping of expected values and addresses where these need to be written. Executing this script will create a new patched file that should then give us the flag:</p>
-<pre><code class="console">$ ./bin100.patched
+<pre><code>$ ./bin100.patched
 
 [*] ebCTF 2013 - BIN100 - Dice Game
     To get the flag you will need to throw the correct numbers.
@@ -752,7 +752,7 @@ e.save('bin100.patched')
 </code></pre>
 
 <p>Awesome! We sucessfully solve this challenge and are presented with the flag. You can download the patched file <a href="/static/files/posts_ebctf_bin100/bin100.patched">here</a>.</p>
-        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a>, <a href=/tags.html#ctf>ctf</a> and <a href=/tags.html#reversing>reversing</a>)</p>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a> and <a href=/tags.html#ctf>ctf</a>)</p>
                   <p style="text-align:center;">« <a href="/posts/20150312_chopshop-shellcode.html">Shellcode Detection Module in ...</a> « | » <a href="/posts/20150802_capinfos.html">capinfos.py: Pure Python Pcap ...</a> »</p>
             </div>
     <div class="footer">

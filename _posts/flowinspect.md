@@ -2,7 +2,7 @@ Flowinspect: A Network Inspection Tool
 ======================================
 date: 27/Nov/2014
 summary: This post introduces a network inspection tool that I've developed, called Flowinspect. It aims to reassemble network data and scan it via different inspection engines. Results of these scan can be viewed as a HTML report or consumed as a JSON via external applications.
-tags: code, shellcode
+tags: code
 
 For last couple of months I've been working on a network inspection tool, Flowinspect. I was honored to be able to present it at [Nullcon 2014](http://nullcon.net/website/goa-14/speakers/ankur-tyagi.php) and [Black Hat USA 2014 Arsenal](https://www.blackhat.com/us-14/arsenal.html#Tyagi). It started as an internal tool that proved useful for me and my colleagues at Juniper Networks for our signature development tasks. However, within just few months of inception, it started taking shape of a generic network inspection utility that allows automation of a number of tasks. It is opensource, released under the [CC BY NC SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) license terms and available on [Github](https://github.com/7h3rAm/flowinspect).
 
@@ -10,7 +10,7 @@ At its core, Flowinspect uses [libnids](http://libnids.sourceforge.net/) and its
 
 Here's a brief summary of available options:
 
-```console
+```
 $ ./flowinspect.py -h
         ______              _                            __
        / __/ /___ _      __(_)___  _________  ___  _____/ /_
@@ -105,7 +105,7 @@ Misc. Options:
 
 There are two modes of input: a pcap file or an interface name for live network traffic inspection. Let's try a pcap file that has HTTP trace for `google.com`:
 
-```console
+```
 $ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap
 [27-Nov-2014 09:35:10.920648 IST] [main] NORM: NIDS initialized, waiting for events...
 
@@ -232,7 +232,7 @@ With the default options, Flowinspect will trace all TCP sessions from the input
 ## Regex Inspection Mode
 Each of the inspection engines are triggered once the `libnids` engine completes reassembly and provides CTS/STC buffers per session. These buffers are then passed on to respective inspection engines. Let's now have a look at each of the inspection mode options, starting with regex mode first. Here's a listing of options available for regex mode inspection:
 
-```console
+```
 RegEx per Direction:
   -c --cregex           regex to match against CTS data
   -s --sregex           regex to match against STC data
@@ -245,7 +245,7 @@ RegEx Options:
 
 The first three options allow users to specify regular expressions that will be matched upon respective TCP stream buffers. So let's assume you wish to find all HTTP requests initiated by `Firefox`. From the [UserAgentStrings.com](http://www.useragentstring.com/pages/Firefox/) listing for Firefox browser, we know that each such request will start with either `Mozilla/5.0` or `Mozilla/6.0` which can be shortened to `Mozilla/[56]\.0` regex:
 
-```console
+```
 $ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -c 'Mozilla/[56]\.0'
 [27-Nov-2014 09:59:08.385845 IST] [main] NORM: NIDS initialized, waiting for events...
 
@@ -265,7 +265,7 @@ If you provide multiple regexes per direction, Flowinspect will match them upon 
 
 Regex mode also provides two options `-i` and `-m` to ignore case and disable multiline matches:
 
-```console
+```
 $ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -c 'mozilla/[56]\.0'
 [27-Nov-2014 11:13:27.451806 IST] [main] NORM: NIDS initialized, waiting for events...
 
@@ -290,7 +290,7 @@ $ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -c 'mozi
 ## Fuzzy String Inspection Mode
 The second inspection mode is Fuzzy string matching that allows inspection via similarity matches rather than exact matches. Fuzzy string matching allows to specify a threshold which can be compared against a match ration between two strings. If the ration satisfies the threshold, the match is considered to be valid else not. Let's assume you wish to find all strings similar to `http`:
 
-```console
+```
 $ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -G 'http' -V
 [27-Nov-2014 11:18:34.928901 IST] [main] NORM: NIDS initialized, waiting for events...
 
@@ -312,7 +312,7 @@ $ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -G 'http
 
 The `-V` option increases verbosity and the output shows that Flowinspect found a match, but since ratio (50%) was below the default threshold (75%), it was ignored. You can try different strings or change the default threshold for testing purposes:
 
-```console
+```
 $ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -G 'hTTp' -V -b32
 [27-Nov-2014 11:22:44.919888 IST] [main] NORM: NIDS initialized, waiting for events...
 
@@ -397,7 +397,7 @@ $ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -G 'HTTp
 ## Yara Inspection Mode
 The third inspection option is Yara rule matching over network streams. Yara is a signature-based malware identification and classification tool. Its yara-python bindings provide an API to use existing/custom signature files on an input buffer which in Flowinspect's usecase is a network stream. Let's have a look at the available options for Yara inspection mode:
 
-```console
+```
 Yara Rules per Direction:
   -P --cyararules       Yara rules to match on CTS data
   -Q --syararules       Yara rules to match on STC data
@@ -406,7 +406,7 @@ Yara Rules per Direction:
 
 This mode expects a rule file from which rules are parsed, compiled and matched upon respective network streams:
 
-```console
+```
 $ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -R ~/toolbox/testfiles/rules/yara/http.yar -V
 [27-Nov-2014 11:55:25.451002 IST] [main] NORM: NIDS initialized, waiting for events...
 
@@ -438,7 +438,7 @@ In the output above, Flowinspect informs that a rule named `http` matched on `17
 ## Shellcode Inspection Mode
 The fourth and the last inspection mode is shellcode matching. There's a library called [libemu](http://libemu.carnivore.it/) that provides x86 emulation as well as shellcode detection via the GetPC heuristics. Most of Metasploit x86 architecture shellcode can be [detected](http://resources.infosecinstitute.com/shellcode-detection-emulation-libemu/) [via](https://bwall.github.io/libemu-scapy-for-shellcode-on-the-network/) [Libemu](http://nuald.blogspot.in/2010/10/shellcode-detection-using-libemu.html). Flowinspect uses its Python bindings, [pylibemu](https://github.com/buffer/pylibemu) to inspect CTS/STC buffers. Let's have a look at the options provided in this mode:
 
-```console
+```
 Shellcode Detection:
   -M                    enable shellcode detection
   -J                    enable shellcode disassembly
@@ -450,7 +450,7 @@ Shellcode Detection:
 
 Unlike the other three inspection modes, shellcode detection work explicitly on both CTS and STC buffers at the same time. This means that when you request inspection and Flowinspect will auto inspect both buffers and reports matches. Let's give this mode a test run:
 
-```console
+```
 $ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/shellcode/shellcode-reverse-tcp-4444.pcap -M
 [27-Nov-2014 12:14:19.750865 IST] [main] NORM: NIDS initialized, waiting for events...
 
@@ -476,7 +476,7 @@ $ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/shellcode/shellcode-reverse-tcp-
 
 So we found a match on the STC buffer of a TCP stream `55.51.105.73:60246 <- 53.70.78.87:80`. The match is of size 172B and spans packet #6. Although, it's great that we can find shellcode in network traffic, we still know nothing about the shellcode itself. It would be awesome if we can also identify the type of shellcode and what damage it can cause when executed on the victim system. This is where Libemu's profiling feature comes in handy. It traces each system call, its arguments and return type which provide significant insight into the shellcode behavior:
 
-```console
+```
 $ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/shellcode/shellcode-reverse-tcp-4444.pcap -My -b32
 [27-Nov-2014 12:38:18.796721 IST] [main] NORM: NIDS initialized, waiting for events...
 
@@ -550,7 +550,7 @@ This behavior is indicative of the fact that it is a [TCP Reverse Shell](http://
 ## Content Modifiers
 Flowinspect supports two Snort like content modifiers, [offset](http://manual.snort.org/node32.html#SECTION00458000000000000000) and [depth](http://manual.snort.org/node32.html#SECTION00457000000000000000), invoked via the `-O` and `-D` options respectively. The `offset` modifier instructs Flowinspect to start inspection after skipping specified number of bytes. Similarly, the `depth` modifier instructs Flowinspect to only inspect specified number of bytes starting from the current value of offset. When used in combination these modifiers can prove to be extremely useful:
 
-```console
+```
 $ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/shellcode/shellcode-reverse-tcp-4444.pcap -b16 -c '.*'
 [27-Nov-2014 13:41:44.463742 IST] [main] NORM: NIDS initialized, waiting for events...
 
@@ -603,7 +603,7 @@ $ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/shellcode/shellcode-reverse-tcp-
 ## Inspection and Display Limits
 Sometimes you might find yourself glancing at thousands of sessions and even with the powerful regex and other inspection mode matches that Flowinspect provides, you might still find it difficult to locate suspicious session. There are cases when you would like to restrict inspection and display to certain number of sessions and that where the following options come in handy:
 
-```console
+```
 Inspection Limits:
   -T --maxinspstreams   max streams to inspect
   -U --maxinsppackets   max packets to inspect
@@ -621,7 +621,7 @@ Flowinspect allows matching packets/streams to be dumped in the raw format to fi
 
 There are certain output dumping modes that later the way matching streams are dumped to `stdout`:
 
-```console
+```
 $ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/shellcode/shellcode-reverse-tcp-4444.pcap -c '.*' -o meta
 [27-Nov-2014 13:58:40.804023 IST] [main] NORM: NIDS initialized, waiting for events...
 
@@ -699,7 +699,7 @@ You are allowed to combine these options together as can be seen in the last inv
 
 Flowinspect also supports [BPF expressions](https://en.wikipedia.org/wiki/Berkeley_Packet_Filter) to filter network traffic. It also allows negation of the match logic, reseting the TCP connection for matching streams and writing post-match packets to a pcap file via the miscellaneous options category:
 
-```console
+```
 Misc. Options:
   -f --bpf              BPF expression
   -v                    invert match

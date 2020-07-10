@@ -32,7 +32,7 @@
                   <p><a href="/posts/20150802_capinfos.html"> « </a>📅 published on <code>22/Nov/2015</code><a href="/posts/20160218_flareon2014-15.html"> » </a></p>
                 <p>Filetype identification is the process of scanning <a href="https://en.wikipedia.org/wiki/Magic_number_%28programming%29">respective</a> <a href="https://en.wikipedia.org/wiki/List_of_file_signatures">magicbytes</a> for each filetype within input streams. The mapping for various filetypes and their magicbytes are stored in different formats which is then queried by the identification library. If a match is found, input stream is classified to be of that type. In case of match collisions, a signature preference logic prioritizes matches. Tools like <a href="http://mark0.net/soft-trid-e.html">TrID</a> and <a href="http://www.forensicswiki.org/wiki/File_Format_Identification">others</a> use similar logic.</p>
 <p><a href="https://github.com/7h3rAm/cigma">cigma</a> is a Python library to identify filetypes. It provides <a href="https://github.com/threatstack/libmagic">libmagic</a> like mimetype identification of a file or data buffer. This is similar to what the <code>file</code> command on *nix systems will provide:</p>
-<pre><code class="console">$ file cigma.py
+<pre><code>$ file cigma.py
 cigma.py: Python script, ASCII text executable
 $
 $ file readme.md
@@ -49,7 +49,7 @@ $ file /dev/sda
 </code></pre>
 
 <p><code>cigma</code> uses a custom JSON formatted signature file to stores filetype mappings. Let's try identifying a few files:</p>
-<pre><code class="console">$ python cigma.py /bin/ls
+<pre><code>$ python cigma.py /bin/ls
 ('/bin/ls',
  {'id': 29,
   'longname': 'Executable and Linkable Format (ELF)',
@@ -75,7 +75,7 @@ $ python cigma.py ~/toolbox/testfiles/pcaps/exploitkits/2015-04-03-Nuclear-EK-tr
 </code></pre>
 
 <p>If a match is found, <code>cigma</code> returns a <code>(source, resultdict)</code> tuple. Here is a snippet of few signatures from the current set:</p>
-<pre><code class="console">{
+<pre><code>{
   &quot;meta&quot;: {
     &quot;rulescount&quot;: 72,
     &quot;version&quot;: 0.1

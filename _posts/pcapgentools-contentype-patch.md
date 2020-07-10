@@ -8,7 +8,7 @@ I came across the [PCAPGenerationTools](https://github.com/andrewg-felinemenace/
 
 At its core, `PCAPGenerationTools` allows you to create pcaps for an input file. That's a description in extreme brevity. To make things clear let's consider an example where you are working on a scenario in which you need to look at a pcap that captures file download. The file being downloaded could be of any type but for our case let's assume it is a PDF file. So, when you host a PDF file on a webserver and request that file from the server, underlying packet exchange is what `PCAPGenerationTools` will create for you. And it can do this without hosting the file on the server and requesting it while some network sniffer runs in background. Let's give the tool a test run to clarify things a bit:
 
-```console
+```
 $ ./pgt.py hello-world.pdf
 WARNING: No route found for IPv6 destination :: (no default route?)
 [*] Doing FTP

@@ -2,7 +2,7 @@
 ===============
 date: 28/Apr/2020
 summary: This is the summary for an awesome post.
-tags: hackthebox, writeups
+tags: hackthebox, writeup
 
 ## Overview
 ![writeup.metadata.infocard](/static/files/posts_htb_archetype/infocard.png)
