@@ -106,7 +106,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 </code></pre>
 
 <h2>Phase #2: Exploitation</h2>
-<p>1. BoF in a vulnerable service running on <code>9999/tcp</code>. File for the vulnerable service is avilable for download via a HTTP server running on <code>10000/tcp</code>. Analyze the service, create exploit and gain remote access to VM.  </p>
+<p>1. There's a buffer overflow vulnerability in the service running on <code>9999/tcp</code>. We have access to the vulnerable service file via a HTTP server running on <code>10000/tcp</code>. Analyze the service, create exploit and gain remote access to VM.  </p>
 <p><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_brainpan/writeup.exploitation.screenshot.png" />  </p>
 <h2>Phase #2.5: Post Exploitation</h2>
 <pre><code>puck@brainpan&gt; id
@@ -147,7 +147,7 @@ puck:$6$A/mZxJX0$Zmgb3T6SAq.FxO1gEmbIcBF9Oi7q2eAi0TMMqOhg0pjdgDjBr0p2NBpIRqs4OIE
 <li><a href="https://isroot.nl/2019/05/12/vulnhub-write-up-brainpan-1/">https://isroot.nl/2019/05/12/vulnhub-write-up-brainpan-1/</a>  </li>
 <li><a href="https://d7x.promiselabs.net/2018/03/04/ctf-brainpan-1-ctf-walkthrough-introduction-to-exploit-development-part-i/">https://d7x.promiselabs.net/2018/03/04/ctf-brainpan-1-ctf-walkthrough-introduction-to-exploit-development-part-i/</a>  </li>
 </ul>
-        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#oscp>oscp</a>, <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeups>writeups</a>)</p>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#bufferoverflow>bufferoverflow</a>, <a href=/tags.html#oscp>oscp</a>, <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeups>writeups</a>)</p>
                   <p style="text-align:center;">« <a href="/posts/20160312_circllu.html">circllu.py: Querying circl.lu ...</a> « | » <a href="/posts/20190905_vulnhub-billymadison1dot1.html">[VulnHub] Billy Madison: 1.1...</a> »</p>
             </div>
     <div class="footer">

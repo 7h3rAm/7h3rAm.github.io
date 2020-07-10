@@ -2,7 +2,7 @@
 ===============
 date: 31/Aug/2019
 summary: This is the summary for an awesome post.
-tags: oscp, vulnhub, writeups
+tags: oscp, vulnhub, writeups, bufferoverflow
 
 ## Overview
 This is a writeup for VulnHub VM [Brainpan: 1](https://www.vulnhub.com/entry/brainpan-1,51/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
@@ -85,7 +85,7 @@ http://192.168.92.141:10000/bin/brainpan.exe
 ```
 
 ## Phase #2: Exploitation
-1\. BoF in a vulnerable service running on `9999/tcp`. File for the vulnerable service is avilable for download via a HTTP server running on `10000/tcp`. Analyze the service, create exploit and gain remote access to VM.  
+1\. There's a buffer overflow vulnerability in the service running on `9999/tcp`. We have access to the vulnerable service file via a HTTP server running on `10000/tcp`. Analyze the service, create exploit and gain remote access to VM.  
 
 ![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_brainpan/writeup.exploitation.screenshot.png)  
 
