@@ -43,7 +43,7 @@
             <ul>
             {% for patent in datadict.metadata.research.patents %}
             {% if patent.url is not none %}
-              <li><code>{{ patent.date }}</code>: {{ patent.name }} (<a href="{{ patent.url }}" target="_blank">{{ patent.id }}</a>)</li>
+              <li><code>{{ patent.date }}</code>: {{ patent.name }} (<a href="{{ patent.url }}">{{ patent.id }}</a>)</li>
             {% else %}
               <li><code>{{ patent.date }}</code>: {{ patent.name }} (<code>{{ patent.id }}</code>)</li>
             {% endif %}
@@ -54,14 +54,14 @@
               {{ loop.index }}. {{ talk.name }}
               <ul>
               {% for conference in talk.conferences %}
-                <li><code>{{ conference.date }}</code>: <a href="{{ conference.url }}" target="_blank">{{ conference.name }}</a></li>
+                <li><code>{{ conference.date }}</code>: <a href="{{ conference.url }}">{{ conference.name }}</a></li>
               {% endfor %}
               </ul>
             {% endfor %}
           <h3>Media</h3>
             <ul>
             {% for article in datadict.metadata.research.media %}
-              <li><code>{{ article.date }}</code>: {{ article.name }} (<a href="{{ article.url }}" target="_blank">{{ article.publication }}</a>)</li>
+              <li><code>{{ article.date }}</code>: {{ article.name }} (<a href="{{ article.url }}">{{ article.publication }}</a>)</li>
             {% endfor %}
             </ul>
         <h2>Academics</h2>
