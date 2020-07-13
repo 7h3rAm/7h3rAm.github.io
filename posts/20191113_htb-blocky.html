@@ -1,42 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
-    <meta name="description" content="Personal Weblog"/>
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
-
-    <title>Mannthan</title>
-    <link href="/static/images/mannthan-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
-    <script src="/static/js/highlight.min.js"></script>
-    <script src="/static/js/highlightjs-line-numbers.min.js"></script>
-    <script charset="UTF-8" src="/static/js/go.min.js"></script>
-    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
-    <link rel="stylesheet" href="/static/css/github-gist.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
-
-   </head>
-  <body>
-    <div class="header">
-      <table>
-        <tr>
-          <td><a href="/index.html" style="color:#fe4164; font-size:14pt;">🏡 Home </a></td>
-          <td><a href="/archive.html" style="color:#f90; font-size:14pt;">💾 Archive </a></td>
-          <td><a href="/tags.html" style="color:#69359c; font-size:14pt;">🔖 Tags </a></td>
-          <td><a href="/stats.html" style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td>
-        </tr>
-      </table>
-    </div>
-    <div class="body">
-          <h1>[HackTheBox] Blocky</h1>
-                  <p><a href="/posts/20191113_htb-shocker.html"> « </a>📅 published on <code>13/Nov/2019</code><a href="/posts/20200428_htb-archetype.html"> » </a></p>
-                <h2>Overview</h2>
-<p><img alt="writeup.metadata.infocard" src="/static/files/posts_htb_blocky/infocard.png" /></p>
-<p>This is a writeup for HTB VM <a href="https://www.hackthebox.eu/home/machines/profile/48">Blocky</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p>
-<p><img alt="writeup.overview.killchain" src="/static/files/posts_htb_blocky/killchain.png" /></p>
-<h2>Phase #1: Enumeration</h2>
-<p>1. Here's the Nmap scan result:  </p>
-<pre><code># Nmap 7.70 scan initiated Wed Nov 13 12:25:27 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.blocky/results/10.10.10.37/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.blocky/results/10.10.10.37/scans/xml/_quick_tcp_nmap.xml 10.10.10.37
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=author content="Ankur Tyagi (@7h3rAm)"><meta name=description content="Personal Weblog"><meta content="width=device-width, initial-scale=1" name=viewport><title>Mannthan</title><link href=/static/images/mannthan-32x32.png sizes=32x32 rel=icon type=image/png><script src=/static/js/highlight.min.js></script><script src=/static/js/highlightjs-line-numbers.min.js></script><script charset=UTF-8 src=/static/js/go.min.js></script><link rel=stylesheet href=/static/css/github-gist.min.css><link rel=stylesheet type=text/css href=/static/css/style.md.css media=screen></head><body><div class=header><table><tr><td><a href=/index.html style="color:#fe4164; font-size:14pt;">🏡 Home </a></td><td><a href=/archive.html style="color:#f90; font-size:14pt;">💾 Archive </a></td><td><a href=/tags.html style="color:#69359c; font-size:14pt;">🔖 Tags </a></td><td><a href=/stats.html style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td></tr></table></div><div class=body><h1>[HackTheBox] Blocky</h1><p><a href=/posts/20191113_htb-shocker.html> « </a>📅 published on <code>13/Nov/2019</code><a href=/posts/20200428_htb-archetype.html> » </a></p><h2>Overview</h2><p><img alt=writeup.metadata.infocard src=/static/files/posts_htb_blocky/infocard.png></p><p>This is a writeup for HTB VM <a href=https://www.hackthebox.eu/home/machines/profile/48>Blocky</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p><p><img alt=writeup.overview.killchain src=/static/files/posts_htb_blocky/killchain.png></p><h2>Phase #1: Enumeration</h2><p>1. Here's the Nmap scan result: </p><pre><code># Nmap 7.70 scan initiated Wed Nov 13 12:25:27 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.blocky/results/10.10.10.37/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.blocky/results/10.10.10.37/scans/xml/_quick_tcp_nmap.xml 10.10.10.37
 Nmap scan report for 10.10.10.37
 Host is up, received user-set (0.073s latency).
 Scanned at 2019-11-13 12:25:28 PST for 18s
@@ -64,37 +26,13 @@ Service Info: OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel
 Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Wed Nov 13 12:25:46 2019 -- 1 IP address (1 host up) scanned in 18.38 seconds
-</code></pre>
-
-<p>2. We find a Wordpress installation and manually find a username <code>notch</code>. Attempts to login via common default credentials failed:  </p>
-<p><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_htb_blocky/screenshot01.png" />  </p>
-<p>3. We find a <code>plugins</code> directory that lists two <code>jar</code> files. We download those and find hardcoded SQL credentials for user <code>root</code> in the <code>BlockyCore.class</code> file:  </p>
-<p><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_htb_blocky/screenshot02.png" />  </p>
-<p><img alt="writeup.enumeration.steps.3.2" src="/static/files/posts_htb_blocky/screenshot03.png" />  </p>
-<h3>Findings</h3>
-<h4>Open Ports:</h4>
-<pre><code>21/tcp     |  ftp        |  ProFTPD 1.3.5a
+</code></pre><p>2. We find a Wordpress installation and manually find a username <code>notch</code>. Attempts to login via common default credentials failed: </p><p><img alt=writeup.enumeration.steps.2.1 src=/static/files/posts_htb_blocky/screenshot01.png> </p><p>3. We find a <code>plugins</code> directory that lists two <code>jar</code> files. We download those and find hardcoded SQL credentials for user <code>root</code> in the <code>BlockyCore.class</code> file: </p><p><img alt=writeup.enumeration.steps.3.1 src=/static/files/posts_htb_blocky/screenshot02.png> </p><p><img alt=writeup.enumeration.steps.3.2 src=/static/files/posts_htb_blocky/screenshot03.png> </p><h3>Findings</h3><h4>Open Ports:</h4><pre><code>21/tcp     |  ftp        |  ProFTPD 1.3.5a
 22/tcp     |  ssh        |  OpenSSH 7.2p2 Ubuntu 4ubuntu2.2 (Ubuntu Linux; protocol 2.0)
 80/tcp     |  http       |  Apache httpd 2.4.18 ((Ubuntu))
 25565/tcp  |  minecraft  |  Minecraft 1.11.2 (Protocol: 127 Message: A Minecraft Server   Users: 0/20)
-</code></pre>
-
-<h4>Files</h4>
-<pre><code>http://10.10.10.37/plugins/
-</code></pre>
-
-<h4>Users</h4>
-<pre><code>wordpress: notch
-</code></pre>
-
-<h2>Phase #2: Exploitation</h2>
-<p>1. We successfully login via FTP as user <code>notch</code> with password found in the <code>BlockCore.class</code> file. We find that the FTP root directory is set to the user <code>notch</code>'s home directory:  </p>
-<p><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_htb_blocky/screenshot04.png" />  </p>
-<p>2. We also successfully gain interactive SSH access using the same credentials as above which gives us access to the first flag file, <code>user.txt</code>:  </p>
-<p><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_htb_blocky/screenshot05.png" />  </p>
-<p><img alt="writeup.exploitation.steps.2.2" src="/static/files/posts_htb_blocky/screenshot06.png" />  </p>
-<h2>Phase #2.5: Post Exploitation</h2>
-<pre><code>notch@Blocky&gt; id
+</code></pre><h4>Files</h4><pre><code>http://10.10.10.37/plugins/
+</code></pre><h4>Users</h4><pre><code>wordpress: notch
+</code></pre><h2>Phase #2: Exploitation</h2><p>1. We successfully login via FTP as user <code>notch</code> with password found in the <code>BlockCore.class</code> file. We find that the FTP root directory is set to the user <code>notch</code>'s home directory: </p><p><img alt=writeup.exploitation.steps.1.1 src=/static/files/posts_htb_blocky/screenshot04.png> </p><p>2. We also successfully gain interactive SSH access using the same credentials as above which gives us access to the first flag file, <code>user.txt</code>: </p><p><img alt=writeup.exploitation.steps.2.1 src=/static/files/posts_htb_blocky/screenshot05.png> </p><p><img alt=writeup.exploitation.steps.2.2 src=/static/files/posts_htb_blocky/screenshot06.png> </p><h2>Phase #2.5: Post Exploitation</h2><pre><code>notch@Blocky&gt; id
 uid=1000(notch) gid=1000(notch) groups=1000(notch),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),110(lxd),115(lpadmin),116(sambashare)
 notch@Blocky&gt;  
 notch@Blocky&gt; uname
@@ -114,41 +52,9 @@ notch@Blocky&gt;
 notch@Blocky&gt; users
 root
 notch
-</code></pre>
-
-<h2>Phase #3: Privilege Escalation</h2>
-<p>1. From the output of the <code>id</code> command and also confirming via <code>sudo -l</code>, we know that the user <code>notch</code> is a member of the <code>sudo</code> group. This means we can switch to <code>root</code> and gain elevated privileges:  </p>
-<p><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_htb_blocky/screenshot07.png" />  </p>
-<p><img alt="writeup.privesc.steps.1.2" src="/static/files/posts_htb_blocky/screenshot08.png" />  </p>
-<p>2. We then read the contents of <code>root.txt</code> file to complete the challenge:  </p>
-<p><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_htb_blocky/screenshot09.png" />  </p>
-<h2>Loot</h2>
-<h3>Hashes</h3>
-<pre><code>notch:$6$RdxVAN/.$DFugS5p/G9hTNY9htDWVGKte9n9r/nYYL.wVdAHfiHpnyN9dNftf5Nt.DkjrUs0PlYNcYZWhh0Vhl/5tl........................
-</code></pre>
-
-<h3>Credentials</h3>
-<pre><code>ftp: notch/8YsqfCTnvxAUeduzj......
+</code></pre><h2>Phase #3: Privilege Escalation</h2><p>1. From the output of the <code>id</code> command and also confirming via <code>sudo -l</code>, we know that the user <code>notch</code> is a member of the <code>sudo</code> group. This means we can switch to <code>root</code> and gain elevated privileges: </p><p><img alt=writeup.privesc.steps.1.1 src=/static/files/posts_htb_blocky/screenshot07.png> </p><p><img alt=writeup.privesc.steps.1.2 src=/static/files/posts_htb_blocky/screenshot08.png> </p><p>2. We then read the contents of <code>root.txt</code> file to complete the challenge: </p><p><img alt=writeup.privesc.steps.2.1 src=/static/files/posts_htb_blocky/screenshot09.png> </p><h2>Loot</h2><h3>Hashes</h3><pre><code>notch:$6$RdxVAN/.$DFugS5p/G9hTNY9htDWVGKte9n9r/nYYL.wVdAHfiHpnyN9dNftf5Nt.DkjrUs0PlYNcYZWhh0Vhl/5tl........................
+</code></pre><h3>Credentials</h3><pre><code>ftp: notch/8YsqfCTnvxAUeduzj......
 ssh: notch/8YsqfCTnvxAUeduzj......
-</code></pre>
-
-<h3>Flags</h3>
-<pre><code>/home/notch/user.txt: 59fee0977fb60b8a0bc6e...........
+</code></pre><h3>Flags</h3><pre><code>/home/notch/user.txt: 59fee0977fb60b8a0bc6e...........
 /root/root.txt: 0a9694a5b4d272c694679f..........
-</code></pre>
-
-<h2>References</h2>
-<ul>
-<li><a href="https://www.hackthebox.eu/home/machines/profile/48">https://www.hackthebox.eu/home/machines/profile/48</a>  </li>
-<li><a href="https://www.youtube.com/watch?v=C2O-rilXA6I">https://www.youtube.com/watch?v=C2O-rilXA6I</a>  </li>
-</ul>
-        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a>)</p>
-                  <p style="text-align:center;">« <a href="/posts/20191113_htb-shocker.html">[HackTheBox] Shocker...</a> « | » <a href="/posts/20200428_htb-archetype.html">[HackTheBox] Archetype...</a> »</p>
-            </div>
-    <div class="footer">
-      <p style="text-align:center;">[<a href="https://creativecommons.org/licenses/by/4.0/" rel="license">📝 CC BY 4.0</a>]</p>
-    </div>
-    <script>hljs.initHighlightingOnLoad();</script>
-    <script>hljs.initLineNumbersOnLoad();</script>
-  </body>
-</html>
+</code></pre><h2>References</h2><ul><li><a href=https://www.hackthebox.eu/home/machines/profile/48>https://www.hackthebox.eu/home/machines/profile/48</a> </li><li><a href="https://www.youtube.com/watch?v=C2O-rilXA6I">https://www.youtube.com/watch?v=C2O-rilXA6I</a> </li></ul><p style=text-align:center;>(🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a>)</p><p style=text-align:center;>« <a href=/posts/20191113_htb-shocker.html>[HackTheBox] Shocker...</a> « | » <a href=/posts/20200428_htb-archetype.html>[HackTheBox] Archetype...</a> »</p></div><div class=footer><p style=text-align:center;>[<a href=https://creativecommons.org/licenses/by/4.0/ rel=license>📝 CC BY 4.0</a>]</p></div><script>hljs.initHighlightingOnLoad();</script><script>hljs.initLineNumbersOnLoad();</script></body></html>
