@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block body %}
+  <h1>💭 Quotes <a name="top"></a></h1>
+    {% for quote in datadict.quotes|sort(attribute="name", reverse=False) %}
+    <h2>{{ quote.name }}</h2>
+      <ul>
+        {% for text in quote.text %}
+        <li>{{ text|e|md2html|removepara }}</li>
+        {% endfor %}
+        {% if quote.references|length > 0 %}
+        <li>
+          <ul>
+          {% for reference in quote.references %}
+            <li>{{ reference|e|md2html|removepara }}</li>
+          {% endfor %}
+          </ul>
+        </li>
+        {% else %}
+          <br/>
+        {% endif %}
+      </ul>
+    {% endfor %}
+{% endblock %}

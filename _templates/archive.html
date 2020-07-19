@@ -1,26 +1,27 @@
 {% extends "base.html" %}
 {% block body %}
-      <h1>💾 Archive <a name="top"></a></h1>
-      <h2>Pages</h2>
-        <ol>
-          <li><a href="/research.html">🔬 Research</a></li>
-          <li><a href="/cv.html">📄 Curriculum Vitae</a></li>
-          <li><a href="/satview.html">🛰️ Satellite Views</a></li>
-        </ol>
-      <h2>Posts</h2>
-        <ol>
-        {% set count=[1] %}
-        {% set revcount=[datadict.posts|count] %}
-        {% for year,year_list in datadict.posts|groupby('year')|reverse %}
-          {% for month,month_list in year_list|groupby('month')|reverse %}
-            {% for day,day_list in month_list|groupby('day')|reverse %}
-              {% for post in day_list %}
-                <li><code>{{ post.pretty_date }}</code>: <a href="{{ post.url }}">{{ post.title }}</a></li>
-                {% if count.append(count.pop()+1) %}{% endif %}
-                {% if revcount.append(revcount.pop()-1) %}{% endif %}
-              {% endfor %}
-            {% endfor %}
+  <h1>💾 Archive <a name="top"></a></h1>
+  <h2>Pages</h2>
+    <ol>
+      <li><a href="/research.html">🔬 Research</a></li>
+      <li><a href="/cv.html">📄 Curriculum Vitae</a></li>
+      <li><a href="/satview.html">🛰️ Satellite Views</a></li>
+      <li><a href="/quotes.html">💭 Quotes</a></li>
+    </ol>
+  <h2>Posts</h2>
+    <ol>
+    {% set count=[1] %}
+    {% set revcount=[datadict.posts|count] %}
+    {% for year,year_list in datadict.posts|groupby('year')|reverse %}
+      {% for month,month_list in year_list|groupby('month')|reverse %}
+        {% for day,day_list in month_list|groupby('day')|reverse %}
+          {% for post in day_list %}
+            <li><code>{{ post.pretty_date }}</code>: <a href="{{ post.url }}">{{ post.title }}</a></li>
+            {% if count.append(count.pop()+1) %}{% endif %}
+            {% if revcount.append(revcount.pop()-1) %}{% endif %}
           {% endfor %}
         {% endfor %}
-        </ol>
+      {% endfor %}
+    {% endfor %}
+    </ol>
 {% endblock %}
