@@ -11,7 +11,7 @@
         <li>
           <ul>
           {% for reference in quote.references %}
-            <li>{{ reference|e|md2html|removepara }}</li>
+            <li><a href="{{ reference|e|md2html|removepara }}">{{ reference|e|md2html|removepara }}</a></li>
           {% endfor %}
           </ul>
         </li>
