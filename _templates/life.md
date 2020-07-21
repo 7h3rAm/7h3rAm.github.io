@@ -1,6 +1,6 @@
 # 🧬 Life
 ## 🥅 Goal
-* Beast 🏋 → Zen 🧘 → Recover 💤
+* Beast 🌄 🏋️ 🧗 🏊 🏃 🚴 ⟶ Zen 🏡 🧘 🔕 🙈 🙊 🙉 ⟶ Recover 🍎 🥦 🥕 🥗
 * Intellectual Athlete
 * Warrior Monk
 * Warrior Philosopher
@@ -8,7 +8,7 @@
 ## 📐 Physics (First Principles | Undeniable Truths)
 * [Elon Musk](https://twitter.com/elonmusk)
 
-## 🍎 Fitness
+## 🧍 Fitness
 ### 🏊 Sprinting/Jumping/Swimming/Climbing
   * [George Hackenschmidt](https://en.wikipedia.org/wiki/George_Hackenschmidt)
   * [Ross Enamait](https://twitter.com/rosstraining)
@@ -17,7 +17,7 @@
   * [Sol Brah](https://twitter.com/solbrah)
   * [Geoffrey Verity Schofield](https://www.youtube.com/channel/UCObA5o3mcc1felIMAv6cukw)
 
-### 🏋 Olympic Lifting
+### 🏋️ Olympic Lifting
   * [Clarence Kennedy](https://www.instagram.com/clarencekennedy_/)
   * [Oleksiy Torokhtiy](https://www.instagram.com/torokhtiy/)
 
