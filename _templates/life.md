@@ -1,6 +1,6 @@
 # ♻️ Life
 ## 🚀 Goal
-* 🌄 🏋️ 🧗 🏊 🏃 🚴 ⟶ 🍎 🥦 🥕 🥗 ⟶ 🏡 🧘 🔕 🙈 🙊 🙉
+* 🌄 🏋️ 🧗 🏊 🏃 🚴 ⟶ 🍎 🥛 🥦 🥕 🥗 ⟶ 🏡 🧘 🔕 🙈 🙊 🙉
 * Intellectual Athlete
 * Warrior Monk
 * Warrior Philosopher
