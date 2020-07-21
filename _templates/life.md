@@ -1,6 +1,6 @@
 # 🧬 Life
 ## 🥅 Goal
-* Beast 🌄 🏋️ 🧗 🏊 🏃 🚴 ⟶ Zen 🏡 🧘 🔕 🙈 🙊 🙉 ⟶ Recover 🍎 🥦 🥕 🥗
+* 🌄 🏋️ 🧗 🏊 🏃 🚴 ⟶ 🍎 🥦 🥕 🥗 ⟶ 🏡 🧘 🔕 🙈 🙊 🙉
 * Intellectual Athlete
 * Warrior Monk
 * Warrior Philosopher
