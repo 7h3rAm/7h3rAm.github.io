@@ -21,7 +21,7 @@
   * [Clarence Kennedy](https://www.instagram.com/clarencekennedy_/)
   * [Oleksiy Torokhtiy](https://www.instagram.com/torokhtiy/)
 
-## 📊 Economics 🧮
+## 🧮 Economics
 * [Nick Szabo](https://twitter.com/NickSzabo4)
 * [Saifedean Ammous](https://twitter.com/saifedean)
 
