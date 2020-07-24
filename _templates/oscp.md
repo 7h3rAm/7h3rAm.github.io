@@ -42,21 +42,21 @@
       * Practice: [oscp-practice (HackTheBox and TryHackMe machines)](https://github.com/ajdumanhug/oscp-practice)
 
 ## 📑 Resources
-  * [OSCPlike Machines](https://docs.google.com/spreadsheets/d/1syxzcX5rJj2qffBfZYjlEGaRuns-Ec_kkLiblsed8Zs/copy): This gsheet lists OSCPlike HackTheBox, TryHackMe and VulnHub machines curated from various sources  
-      ![sheet01](/static/files/pages_oscp/sheet01.png)  
-      ![sheet02](/static/files/pages_oscp/sheet02.png)  
-      ![sheet03](/static/files/pages_oscp/sheet03.png)  
-      ![sheet04](/static/files/pages_oscp/sheet04.png)  
+  * [OSCPlike Machines](https://docs.google.com/spreadsheets/d/1syxzcX5rJj2qffBfZYjlEGaRuns-Ec_kkLiblsed8Zs/copy): This gsheet lists OSCPlike HackTheBox, TryHackMe and VulnHub machines curated from various sources<br/>
+      ![sheet01](/static/files/pages_oscp/sheet01.png)<br/>
+      ![sheet02](/static/files/pages_oscp/sheet02.png)<br/>
+      ![sheet03](/static/files/pages_oscp/sheet03.png)<br/>
+      ![sheet04](/static/files/pages_oscp/sheet04.png)<br/>
 
-  * [machinescli](https://github.com/7h3rAm/machinescli): This tool provides commandline access for HackTheBox and VulnHub machines  
-      ![machinescli16](/static/files/pages_oscp/machinescli16.png)  
-      ![machinescli03a](/static/files/pages_oscp/machinescli03a.png)  
-      ![machinescli06](/static/files/pages_oscp/machinescli06.png)  
-      ![machinescli04](/static/files/pages_oscp/machinescli04.png)  
+  * [machinescli](https://github.com/7h3rAm/machinescli): This tool provides commandline access for HackTheBox and VulnHub machines<br/>
+      ![machinescli16](/static/files/pages_oscp/machinescli16.png)<br/>
+      ![machinescli03a](/static/files/pages_oscp/machinescli03a.png)<br/>
+      ![machinescli06](/static/files/pages_oscp/machinescli06.png)<br/>
+      ![machinescli04](/static/files/pages_oscp/machinescli04.png)<br/>
 
-  * [svachal](https://github.com/7h3rAm/svachal): This is an automation framework for machine writeups  
-      ![svachal01](/static/files/pages_oscp/svachal01.png)  
-      ![svachal02](/static/files/pages_oscp/svachal02.png)  
+  * [svachal](https://github.com/7h3rAm/svachal): This is an automation framework for machine writeups<br/>
+      ![svachal01](/static/files/pages_oscp/svachal01.png)<br/>
+      ![svachal02](/static/files/pages_oscp/svachal02.png)<br/>
 
   * [writeups](https://github.com/7h3rAm/writeups): These are writeups for OSCPlike machines
       * `25/Jun/2020`: [[HackTheBox] Bashed](/posts/20200625_htb-bashed.html)
@@ -95,12 +95,12 @@
       * `05/Sep/2019`: [[VulnHub] Billy Madison: 1.1](/posts/20190905_vulnhub-billymadison1dot1.html)
       * `31/Aug/2019`: [[VulnHub] Brainpan: 1](/posts/20190831_vulnhub-brainpan.html)
 
-  * These are notes, stats, TTPs and trend graphs from completed writeups: [writeups/readme.md](https://github.com/7h3rAm/writeups/blob/master/readme.md)  
-      ![writeups_readme](/static/files/pages_oscp/writeups_readme.png)  
-      ![writeups_machines](/static/files/pages_oscp/writeups_machines.png)  
-      ![top_ports](/static/files/pages_oscp/top_ports.png)  
-      ![top_protocols](/static/files/pages_oscp/top_protocols.png)  
-      ![top_services](/static/files/pages_oscp/top_services.png)  
-      ![top_ttps_enumerate](/static/files/pages_oscp/top_ttps_enumerate.png)  
-      ![top_ttps_exploit](/static/files/pages_oscp/top_ttps_exploit.png)  
-      ![top_ttps_privesc](/static/files/pages_oscp/top_ttps_privesc.png)  
+  * These are notes, stats, TTPs and trend graphs from completed writeups: [writeups/readme.md](https://github.com/7h3rAm/writeups/blob/master/readme.md)<br/>
+      ![writeups_readme](/static/files/pages_oscp/writeups_readme.png)<br/>
+      ![writeups_machines](/static/files/pages_oscp/writeups_machines.png)<br/>
+      ![top_ports](/static/files/pages_oscp/top_ports.png)<br/>
+      ![top_protocols](/static/files/pages_oscp/top_protocols.png)<br/>
+      ![top_services](/static/files/pages_oscp/top_services.png)<br/>
+      ![top_ttps_enumerate](/static/files/pages_oscp/top_ttps_enumerate.png)<br/>
+      ![top_ttps_exploit](/static/files/pages_oscp/top_ttps_exploit.png)<br/>
+      ![top_ttps_privesc](/static/files/pages_oscp/top_ttps_privesc.png)<br/>

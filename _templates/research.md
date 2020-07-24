@@ -15,7 +15,7 @@
 ## 🎙️ Talks/Papers/Demos<a href="#top"> ↟ </a>
 {% for talk in datadict.metadata.research.talks %}
 ### {{ talk.name }}
-{{ talk.description }}  
+{{ talk.description }}<br/>
 {% for conference in talk.conferences %}
 
   * `{{ conference.date }}`: [{{ conference.name }}]({{ conference.url }})
