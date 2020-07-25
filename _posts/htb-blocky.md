@@ -55,7 +55,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 ![writeup.enumeration.steps.3.2](/static/files/posts_htb_blocky/screenshot03.png)  
 
 ### Findings
-#### Open Ports:
+#### Open Ports
 ```
 21/tcp     |  ftp        |  ProFTPD 1.3.5a
 22/tcp     |  ssh        |  OpenSSH 7.2p2 Ubuntu 4ubuntu2.2 (Ubuntu Linux; protocol 2.0)

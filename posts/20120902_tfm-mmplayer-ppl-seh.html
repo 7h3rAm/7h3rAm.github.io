@@ -21,39 +21,6 @@
     <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
    </head>
   <body>
-    <style>
-      .collapsible {
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        cursor: pointer;
-      }
-      .collapsible:after {
-        content: "+";
-        transition: transform .3s ease;
-        display: inline-block;
-        font-weight: bold;
-        float: right;
-      }
-      .expanded::after {
-        content: "-";
-        -ms-transform: rotate(360deg);
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-      }
-      .nested {
-        display: none;
-      }
-      .active {
-        display: block;
-      }
-    </style>
     <div class="header">
       <table>
         <tr>
@@ -66,10 +33,10 @@
     </div>
     <div class="body">
           <h1 class="h1 collapsible" onclick="toggle(this);">TFM MMPlayer .ppl File Parsing SEH Overflow</h1>
-                  <p class="nested"><a href="/posts/20120902_millenium-mpf-seh.html"> « </a>📅 published on <code>02/Sep/2012</code><a href="/posts/20130102_geras-wuos-stack2-solutions.html"> » </a></p>
+                  <p><a href="/posts/20120902_millenium-mpf-seh.html"> « </a>📅 published on <code>02/Sep/2012</code><a href="/posts/20130102_geras-wuos-stack2-solutions.html"> » </a></p>
                 <p class="nested">The TFM MMPlayer version 2.0 has a SEH overflow vulnerability. Processing specially-crafted <code>.ppl</code> file triggers SEH overwrite that could be leveraged further to gain arbitrary code execution. The exploit for this vulnerability has been documeneted at <a href="http://www.exploit-db.com/exploits/19176/">EDB: 19176</a></p>
 <p class="nested">Here is a complete rewrite of this exploit:</p>
-<p class="nested"re><code class="python">from struct import *
+<pre class="nested"><code class="python">from struct import *
 
 file = &quot;edb19176.ppl&quot;
 
@@ -120,19 +87,17 @@ print &quot;[-] exception!&quot;
  Module Name=MMPlayer.exe
 '''
 </code></pre>
-        <p class="nested" style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a> and <a href=/tags.html#exploit>exploit</a>)</p>
-                  <p class="nested" style="text-align:center;">« <a href="/posts/20120902_millenium-mpf-seh.html">Millennium MP3 Studio .mpf Fil...</a> « | » <a href="/posts/20130102_geras-wuos-stack2-solutions.html">Gera's Warming Up on Stack #2 ...</a> »</p>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a> and <a href=/tags.html#exploit>exploit</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20120902_millenium-mpf-seh.html">Millennium MP3 Studio .mpf Fil...</a> « | » <a href="/posts/20130102_geras-wuos-stack2-solutions.html">Gera's Warming Up on Stack #2 ...</a> »</p>
             </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
     <script>
       function toggle(elem) {
         elem.classList.toggle("expanded");
-
-        var ish2 = false; var ish3 = false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }
-        console.log(elem); console.log(ish2); console.log(ish3);
-
+        var ish2=false; var ish3=false; var ish4=false;
+        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
+        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
         var sibling = elem.nextElementSibling;
         while (sibling) {
           if (ish2 && sibling.classList.contains("h2")) {
@@ -140,6 +105,10 @@ print &quot;[-] exception!&quot;
             break;
           }
           if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
             sibling.classList.toggle("active");
             break;
           }

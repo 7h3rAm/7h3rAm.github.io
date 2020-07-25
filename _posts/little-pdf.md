@@ -4,7 +4,11 @@ date: 18/Sep/2014
 summary: This is a post on how to solve the Little PDF puzzle from Didier Stevens.
 tags: ctf, reversing
 
+## Introduction
+
 While reading an article about [Physical and Logical Structure of PDF Files](http://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/) on Didier Stevens's blog, I came across an interesting [puzzle](http://blog.didierstevens.com/2008/05/06/a-little-pdf-puzzle/). You can download the [file](/static/files/posts_little_pdf/pdf-puzzle.pdf) to follow along or read the [writeup](http://blog.didierstevens.com/2008/05/07/solving-a-little-pdf-puzzle/) from the author itself.
+
+## Challenge Analysis and Testing
 
 Still here, great! Let's get started. First thing is to check what `exiftool` has to tell us about this file:
 
@@ -47,5 +51,7 @@ $ ipython --no-banner
 '\x14h\xd5"4 Tf 100 700 Td (The passphrase is Incremental Updates) Tj ET'
 >>>
 ```
+
+## Conclusion
 
 Awesome! The older object stream, when decoded (I'm using the ascii85 decoder from [pdfminer](https://github.com/euske/pdfminer/blob/master/pdfminer/ascii85.py)), shows the passphrase. As suggested by Didier Stevens in his [writeup](http://blog.didierstevens.com/2008/05/07/solving-a-little-pdf-puzzle/), you could also remove the updated object content and xref table from the file to view the passphrase.

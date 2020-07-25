@@ -4,7 +4,11 @@ date: 27/Nov/2013
 summary: This post details the steps involved in visualizing a (non-POSIX) regular expression using Finite State Automata.
 tags: code
 
+## Introduction
+
 I recently came across the [pyFSA](http://www.osteele.com/software/python/fsa/) project and played with it for sometime. It includes a built-in API to render finite state machines as [dotstring](http://www.graphviz.org/doc/info/lang.html). Regular expressions can be represented as FSMs and then be rendered to a dot-string for visual introspection. I quickly wrote a proof-of-concept tool to implement this idea and hence [re2dotgraph](https://github.com/7h3rAm/re2dotgraph) was born.
+
+## Installation and Testing
 
 First, the pyFSA module has to be installed. Download the package, unzip it and follow the standard Python module installation steps:
 
@@ -92,6 +96,8 @@ $ ./re2dotgraph.py 'a\dc'
 And here's the generated image:
 
 ![image](/static/files/posts_regex_to_dotgraph/regex2.png)
+
+## Conclusion
 
 As is evident from the above image, the `\d` escape sequence was not identified and the graph as such is incorrect. However, this still is an interesting project and a really easy way of visualizing regular expressions. For POSIX compliant solutions, refer these projects: [RegExVis](http://regexvisualizer.apphb.com/), [Debuggex](https://www.debuggex.com/) and [Regexper](http://www.regexper.com/)
 

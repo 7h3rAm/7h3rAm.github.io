@@ -60,7 +60,7 @@ nmap -sV -p80 --script http-shellshock --script-args uri=/cgi-bin/user.sh,cmd=ls
 ![writeup.enumeration.steps.3.2](/static/files/posts_htb_shocker/screenshot04.png)  
 
 ### Findings
-#### Open Ports:
+#### Open Ports
 ```
 80/tcp    |  http  |  Apache httpd 2.4.18 ((Ubuntu))
 2222/tcp  |  ssh   |  OpenSSH 7.2p2 Ubuntu 4ubuntu2.2 (Ubuntu Linux; protocol 2.0)

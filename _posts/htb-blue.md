@@ -82,7 +82,7 @@ msfconsole
 ![writeup.enumeration.steps.5.1](/static/files/posts_htb_blue/screenshot03.png)  
 
 ### Findings
-#### Open Ports:
+#### Open Ports
 ```
 135/tcp    |  msrpc         |  Microsoft Windows RPC
 139/tcp    |  netbios-ssn   |  Microsoft Windows netbios-ssn

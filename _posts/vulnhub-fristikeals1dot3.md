@@ -48,7 +48,7 @@ http://192.168.92.133/beer
 ![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot02.png)  
 
 ### Findings
-#### Open Ports:
+#### Open Ports
 ```
 80/tcp  |  http  |  Apache httpd 2.2.15 ((CentOS) DAV/2 PHP/5.3.3)
 ```

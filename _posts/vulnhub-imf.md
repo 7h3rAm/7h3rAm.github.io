@@ -107,7 +107,7 @@ http://192.168.92.178/imfadministrator/images/whiteboard.jpg
 ![writeup.enumeration.steps.7.2](/static/files/posts_vulnhub_imf/screenshot11.png)  
 
 ### Findings
-#### Open Ports:
+#### Open Ports
 ```
 80/tcp  |  http  |  Apache httpd 2.4.18 ((Ubuntu))
 ```

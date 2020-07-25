@@ -42,7 +42,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 ![writeup.enumeration.steps.2.3](/static/files/posts_vulnhub_kioptrix5/screenshot03.png)  
 
 ### Findings
-#### Open Ports:
+#### Open Ports
 ```
 80/tcp    |  http  |  Apache httpd 2.2.21 ((FreeBSD) mod_ssl/2.2.21 OpenSSL/0.9.8q DAV/2 PHP/5.3.8)
 8080/tcp  |  http  |  Apache httpd 2.2.21 ((FreeBSD) mod_ssl/2.2.21 OpenSSL/0.9.8q DAV/2 PHP/5.3.8)

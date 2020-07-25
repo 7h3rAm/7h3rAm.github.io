@@ -21,39 +21,6 @@
     <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
    </head>
   <body>
-    <style>
-      .collapsible {
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        cursor: pointer;
-      }
-      .collapsible:after {
-        content: "+";
-        transition: transform .3s ease;
-        display: inline-block;
-        font-weight: bold;
-        float: right;
-      }
-      .expanded::after {
-        content: "-";
-        -ms-transform: rotate(360deg);
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-      }
-      .nested {
-        display: none;
-      }
-      .active {
-        display: block;
-      }
-    </style>
     <div class="header">
       <table>
         <tr>
@@ -66,13 +33,13 @@
     </div>
     <div class="body">
           <h1 class="h1 collapsible" onclick="toggle(this);">[VulnHub] LazySysAdmin: 1</h1>
-                  <p class="nested"><a href="/posts/20191028_vulnhub-node1.html"> « </a>📅 published on <code>29/Oct/2019</code><a href="/posts/20191101_htb-lame.html"> » </a></p>
+                  <p><a href="/posts/20191028_vulnhub-node1.html"> « </a>📅 published on <code>29/Oct/2019</code><a href="/posts/20191101_htb-lame.html"> » </a></p>
                 <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/lazysysadmin-1,205/">LazySysAdmin: 1</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p>
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_lazysysadmin1/killchain.png" /></p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
-<p class="nested"re><code># Nmap 7.70 scan initiated Tue Oct 29 11:18:00 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.lazysysadmin1/results/192.168.92.191/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.lazysysadmin1/results/192.168.92.191/scans/xml/_quick_tcp_nmap.xml 192.168.92.191
+<pre class="nested"><code># Nmap 7.70 scan initiated Tue Oct 29 11:18:00 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.lazysysadmin1/results/192.168.92.191/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.lazysysadmin1/results/192.168.92.191/scans/xml/_quick_tcp_nmap.xml 192.168.92.191
 Nmap scan report for 192.168.92.191
 Host is up, received arp-response (0.019s latency).
 Scanned at 2019-10-29 11:18:03 PDT for 27s
@@ -164,7 +131,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 <p class="nested"><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_lazysysadmin1/screenshot01.png" />  </p>
 <p class="nested"><img alt="writeup.enumeration.steps.2.2" src="/static/files/posts_vulnhub_lazysysadmin1/screenshot02.png" />  </p>
 <p class="nested">3. We also find a <code>wordpress</code> directory from the <code>gobuster</code> scan report. Initial attempts to login via common default credentials didn't succeed. Since we already have read access to Wordpress installation via the open SMB share, we download the <code>wp-config.php</code> file and obtain the hardcoded MySQL credentials within it:  </p>
-<p class="nested"re><code>gobuster -u http://192.168.92.191:80/ -w /usr/share/seclists/Discovery/Web-Content/common.txt -e -k -l -s &quot;200,204,301,302,307,401,403&quot; -x &quot;txt,html,php,asp,aspx,jsp&quot;
+<pre class="nested"><code>gobuster -u http://192.168.92.191:80/ -w /usr/share/seclists/Discovery/Web-Content/common.txt -e -k -l -s &quot;200,204,301,302,307,401,403&quot; -x &quot;txt,html,php,asp,aspx,jsp&quot;
 smbclient //192.168.92.191/share$
   cd wordpress
   get wp-config.php
@@ -173,7 +140,7 @@ smbclient //192.168.92.191/share$
 <p class="nested"><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_vulnhub_lazysysadmin1/screenshot07.png" />  </p>
 <p class="nested"><img alt="writeup.enumeration.steps.3.2" src="/static/files/posts_vulnhub_lazysysadmin1/screenshot08.png" />  </p>
 <p class="nested">4. We explore the SMB service and find that there is a user named <code>togie</code> on this system. Other than that, there is an open (readonly) SMB share and it is also the web root. We find a lot of interesting files within this directory, particularly the <code>deets.txt</code> file that has a password <code>12345</code>, possibly for user <code>togie</code>:  </p>
-<p class="nested"re><code>enum4linux -a -M -l -d 192.168.92.191
+<pre class="nested"><code>enum4linux -a -M -l -d 192.168.92.191
 smbclient //192.168.92.191/share$
 http://192.168.92.191/deets.txt
 </code></pre>
@@ -182,8 +149,8 @@ http://192.168.92.191/deets.txt
 <p class="nested"><img alt="writeup.enumeration.steps.4.2" src="/static/files/posts_vulnhub_lazysysadmin1/screenshot03a.png" />  </p>
 <p class="nested"><img alt="writeup.enumeration.steps.4.3" src="/static/files/posts_vulnhub_lazysysadmin1/screenshot04.png" />  </p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
-<h4>Open Ports:</h4>
-<p class="nested"re><code>22/tcp    |  ssh          |  OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.8 (Ubuntu Linux; protocol 2.0)
+<h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
+<pre class="nested"><code>22/tcp    |  ssh          |  OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.8 (Ubuntu Linux; protocol 2.0)
 80/tcp    |  http         |  Apache httpd 2.4.7 ((Ubuntu))
 137/udp   |  netbios-ns   |  Samba nmbd netbios-ns (workgroup: WORKGROUP)
 139/tcp   |  netbios-ssn  |  Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
@@ -192,20 +159,20 @@ http://192.168.92.191/deets.txt
 6667/tcp  |  irc          |  InspIRCd
 </code></pre>
 
-<h4>Files</h4>
-<p class="nested"re><code>http://192.168.92.191/robots.txt
+<h4 class="h4 collapsible" onclick="toggle(this);">Files</h4>
+<pre class="nested"><code>http://192.168.92.191/robots.txt
 http://192.168.92.191/deets.txt
 http://192.168.92.191/wordpress
 </code></pre>
 
-<h4>Users</h4>
-<p class="nested"re><code>ssh: togie
+<h4 class="h4 collapsible" onclick="toggle(this);">Users</h4>
+<pre class="nested"><code>ssh: togie
 wordpress: admin, togie
 </code></pre>
 
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. We now ssh as user <code>togie</code> with the password <code>12345</code> obtained from <code>deets.txt</code> file and it works:  </p>
-<p class="nested"re><code>ssh togie@192.168.92.191
+<pre class="nested"><code>ssh togie@192.168.92.191
 </code></pre>
 
 <p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_lazysysadmin1/screenshot04a.png" />  </p>
@@ -215,7 +182,7 @@ wordpress: admin, togie
 <p class="nested"><img alt="writeup.exploitation.steps.3.1" src="/static/files/posts_vulnhub_lazysysadmin1/screenshot10.png" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.3.2" src="/static/files/posts_vulnhub_lazysysadmin1/screenshot12.png" />  </p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
-<p class="nested"re><code>www-data@LazySysAdmin&gt; id
+<pre class="nested"><code>www-data@LazySysAdmin&gt; id
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
 www-data@LazySysAdmin&gt;  
 www-data@LazySysAdmin&gt; uname
@@ -239,25 +206,25 @@ togie
 
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. We find that the user <code>togie</code> can execute any commands as user <code>root</code>. We use this misconfiguration to elevate privileges:  </p>
-<p class="nested"re><code>sudo -l
+<pre class="nested"><code>sudo -l
 sudo bash
 </code></pre>
 
 <p class="nested"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_lazysysadmin1/screenshot15.png" />  </p>
 <p class="nested"><img alt="writeup.privesc.steps.1.2" src="/static/files/posts_vulnhub_lazysysadmin1/screenshot16.png" />  </p>
 <p class="nested">2. We then view the contents of the <code>/root/proof.txt</code> file to complete the challenge:  </p>
-<p class="nested"re><code>cat /root/proof.txt
+<pre class="nested"><code>cat /root/proof.txt
 </code></pre>
 
 <p class="nested"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_lazysysadmin1/screenshot17.png" />  </p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
-<p class="nested"re><code>root:$6$O4bZf1Ju$0xcLPNyQkVcKT0CajZYBOTz4thlujMRjQ7XuFstUDWwYHKmVmJsDmzGXUwYbU1uqr6jxEvX4XJjSUgiwj........................
+<pre class="nested"><code>root:$6$O4bZf1Ju$0xcLPNyQkVcKT0CajZYBOTz4thlujMRjQ7XuFstUDWwYHKmVmJsDmzGXUwYbU1uqr6jxEvX4XJjSUgiwj........................
 togie:$6$dvOTOc6x$jpt1MVPeBsVlfkhVXl3sv21x2Ls2qle8ouv/JMdR6yNpt2nHHahrh0cyT.8PfVcNqlrAHYFkK2WYdSbxQ........................
 </code></pre>
 
 <h3 class="h3 collapsible" onclick="toggle(this);">Credentials</h3>
-<p class="nested"re><code>ssh: togie/12...
+<pre class="nested"><code>ssh: togie/12...
 mysql: Admin/TogieMYSQL12.....
 wordpress: admin/TogieMYSQL12.....
 </code></pre>
@@ -268,19 +235,17 @@ wordpress: admin/TogieMYSQL12.....
 <li><a href="https://www.gerrenmurphy.com/vulnhub-lazysysadmin-walkthrough/">https://www.gerrenmurphy.com/vulnhub-lazysysadmin-walkthrough/</a>  </li>
 <li><a href="https://neilsec.com/ctf/vulnhub-lazysysadmin-1-ctf-attempt/">https://neilsec.com/ctf/vulnhub-lazysysadmin-1-ctf-attempt/</a>  </li>
 </ul>
-        <p class="nested" style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p>
-                  <p class="nested" style="text-align:center;">« <a href="/posts/20191028_vulnhub-node1.html">[VulnHub] Node: 1...</a> « | » <a href="/posts/20191101_htb-lame.html">[HackTheBox] Lame...</a> »</p>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20191028_vulnhub-node1.html">[VulnHub] Node: 1...</a> « | » <a href="/posts/20191101_htb-lame.html">[HackTheBox] Lame...</a> »</p>
             </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
     <script>
       function toggle(elem) {
         elem.classList.toggle("expanded");
-
-        var ish2 = false; var ish3 = false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }
-        console.log(elem); console.log(ish2); console.log(ish3);
-
+        var ish2=false; var ish3=false; var ish4=false;
+        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
+        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
         var sibling = elem.nextElementSibling;
         while (sibling) {
           if (ish2 && sibling.classList.contains("h2")) {
@@ -288,6 +253,10 @@ wordpress: admin/TogieMYSQL12.....
             break;
           }
           if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
             sibling.classList.toggle("active");
             break;
           }

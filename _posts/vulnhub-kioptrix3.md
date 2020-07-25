@@ -81,7 +81,7 @@ sqlmap --batch -u "http://kioptrix3.com/gallery/gallery.php?id=null" --dump
 ![writeup.enumeration.steps.5.2](/static/files/posts_vulnhub_kioptrix3/screenshot04.png)  
 
 ### Findings
-#### Open Ports:
+#### Open Ports
 ```
 22/tcp  |  ssh   |  OpenSSH 4.7p1 Debian 8ubuntu1.2 (protocol 2.0)
 80/tcp  |  http  |  Apache httpd 2.2.8 ((Ubuntu) PHP/5.2.4-2ubuntu5.6 with Suhosin-Patch)

@@ -21,39 +21,6 @@
     <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
    </head>
   <body>
-    <style>
-      .collapsible {
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        cursor: pointer;
-      }
-      .collapsible:after {
-        content: "+";
-        transition: transform .3s ease;
-        display: inline-block;
-        font-weight: bold;
-        float: right;
-      }
-      .expanded::after {
-        content: "-";
-        -ms-transform: rotate(360deg);
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-      }
-      .nested {
-        display: none;
-      }
-      .active {
-        display: block;
-      }
-    </style>
     <div class="header">
       <table>
         <tr>
@@ -66,7 +33,7 @@
     </div>
     <div class="body">
           <h1 class="h1 collapsible" onclick="toggle(this);">Vulnerable Weekends #3: Cisco WebEx Player and ISC DHCP</h1>
-                  <p class="nested"><a href="/posts/20111203_vuln-weekends-2.html"> « </a>📅 published on <code>10/Dec/2011</code><a href="/posts/20111218_vuln-weekends-4.html"> » </a></p>
+                  <p><a href="/posts/20111203_vuln-weekends-2.html"> « </a>📅 published on <code>10/Dec/2011</code><a href="/posts/20111218_vuln-weekends-4.html"> » </a></p>
                 <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested">Report #3A analyzes the Cisco WebEx Player remote code execution vulnerability. The vendor states that a functional exploit for this vulnerability exists, however no public sources confirm its availability.</p>
 <p class="nested">Report #3B analyzes the ISC DHCP denial of service vulnerability. Although, DHCP requests will only be received from local clients, attackers could also exploit this vulnerability from an adjacent network using a relay agent that comes bundled with the vulnerable product suite.</p>
@@ -122,19 +89,17 @@
 <p class="nested"><a href="http://cve.mitre.org">cve.mitre.org</a><br />
 <a href="http://www.first.org/cvss/cvss-guide.html">cvss-guide</a><br />
 <a href="http://nvd.nist.gov/cvss.cfm?calculator&amp;adv&amp;version=2">cvss-calculator</a>  </p>
-        <p class="nested" style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnweekends>vulnweekends</a>)</p>
-                  <p class="nested" style="text-align:center;">« <a href="/posts/20111203_vuln-weekends-2.html">Vulnerable Weekends #2: GNU GD...</a> « | » <a href="/posts/20111218_vuln-weekends-4.html">Vulnerable Weekends #4: Window...</a> »</p>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnweekends>vulnweekends</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20111203_vuln-weekends-2.html">Vulnerable Weekends #2: GNU GD...</a> « | » <a href="/posts/20111218_vuln-weekends-4.html">Vulnerable Weekends #4: Window...</a> »</p>
             </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
     <script>
       function toggle(elem) {
         elem.classList.toggle("expanded");
-
-        var ish2 = false; var ish3 = false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }
-        console.log(elem); console.log(ish2); console.log(ish3);
-
+        var ish2=false; var ish3=false; var ish4=false;
+        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
+        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
         var sibling = elem.nextElementSibling;
         while (sibling) {
           if (ish2 && sibling.classList.contains("h2")) {
@@ -142,6 +107,10 @@
             break;
           }
           if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
             sibling.classList.toggle("active");
             break;
           }

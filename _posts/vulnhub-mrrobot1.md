@@ -95,7 +95,7 @@ wpuser http://192.168.92.134/ users
 ![writeup.enumeration.steps.5.2](/static/files/posts_vulnhub_mrrobot1/screenshot04a.png)  
 
 ### Findings
-#### Open Ports:
+#### Open Ports
 ```
 80/tcp   |  http      |  Apache httpd
 443/tcp  |  ssl/http  |  Apache httpd

@@ -21,39 +21,6 @@
     <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
    </head>
   <body>
-    <style>
-      .collapsible {
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        cursor: pointer;
-      }
-      .collapsible:after {
-        content: "+";
-        transition: transform .3s ease;
-        display: inline-block;
-        font-weight: bold;
-        float: right;
-      }
-      .expanded::after {
-        content: "-";
-        -ms-transform: rotate(360deg);
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-      }
-      .nested {
-        display: none;
-      }
-      .active {
-        display: block;
-      }
-    </style>
     <div class="header">
       <table>
         <tr>
@@ -66,13 +33,13 @@
     </div>
     <div class="body">
           <h1 class="h1 collapsible" onclick="toggle(this);">[VulnHub] Brainpan: 1</h1>
-                  <p class="nested"><a href="/posts/20160312_circllu.html"> « </a>📅 published on <code>31/Aug/2019</code><a href="/posts/20190905_vulnhub-billymadison1dot1.html"> » </a></p>
+                  <p><a href="/posts/20160312_circllu.html"> « </a>📅 published on <code>31/Aug/2019</code><a href="/posts/20190905_vulnhub-billymadison1dot1.html"> » </a></p>
                 <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/brainpan-1,51/">Brainpan: 1</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p>
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_brainpan/killchain.png" /></p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
-<p class="nested"re><code># Nmap 7.70 scan initiated Wed Jul 31 15:33:35 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/vulnhub/brainpan/results/192.168.92.141/scans/_quick_tcp_nmap.txt -oX /root/toolbox/vulnhub/brainpan/results/192.168.92.141/scans/xml/_quick_tcp_nmap.xml 192.168.92.141
+<pre class="nested"><code># Nmap 7.70 scan initiated Wed Jul 31 15:33:35 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/vulnhub/brainpan/results/192.168.92.141/scans/_quick_tcp_nmap.txt -oX /root/toolbox/vulnhub/brainpan/results/192.168.92.141/scans/xml/_quick_tcp_nmap.xml 192.168.92.141
 Nmap scan report for 192.168.92.141
 Host is up, received arp-response (0.00077s latency).
 Scanned at 2019-07-31 15:33:36 PDT for 44s
@@ -133,20 +100,20 @@ Service detection performed. Please report any incorrect results at https://nmap
 
 <p class="nested">2. Downloaded file from <code>http://192.168.92.141:10000/bin/brainpan.exe</code>.  </p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
-<h4>Open Ports:</h4>
-<p class="nested"re><code>9999/tcp   |  abyss?  |
+<h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
+<pre class="nested"><code>9999/tcp   |  abyss?  |
 10000/tcp  |  http    |  SimpleHTTPServer 0.6 (Python 2.7.3)
 </code></pre>
 
-<h4>Files</h4>
-<p class="nested"re><code>http://192.168.92.141:10000/bin/brainpan.exe
+<h4 class="h4 collapsible" onclick="toggle(this);">Files</h4>
+<pre class="nested"><code>http://192.168.92.141:10000/bin/brainpan.exe
 </code></pre>
 
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. There's a buffer overflow vulnerability in the service running on <code>9999/tcp</code>. We have access to the vulnerable service file via a HTTP server running on <code>10000/tcp</code>. Analyze the service, create exploit and gain remote access to VM.  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_brainpan/writeup.exploitation.screenshot.png" />  </p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
-<p class="nested"re><code>puck@brainpan&gt; id
+<pre class="nested"><code>puck@brainpan&gt; id
 uid=1002(puck) gid=1002(puck) groups=1002(puck)
 puck@brainpan&gt;  
 puck@brainpan&gt; uname
@@ -172,7 +139,7 @@ puck
 <p class="nested"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_brainpan/writeup.privesc.screenshot.png" />  </p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
-<p class="nested"re><code>root:$6$m20VT7lw$172.XYFP3mb9Fbp/IgxPQJJKDgdOhg34jZD5sxVMIx3dKq.DBwv.mw3HgCmRd0QcN4TCzaUtmx4C5DvZa........................
+<pre class="nested"><code>root:$6$m20VT7lw$172.XYFP3mb9Fbp/IgxPQJJKDgdOhg34jZD5sxVMIx3dKq.DBwv.mw3HgCmRd0QcN4TCzaUtmx4C5DvZa........................
 reynard:$6$h54J.qxd$yL5md3J4dONwNl.36iA.mkcabQqRMmeZ0VFKxIVpXeNpfK.mvmYpYsx8W0Xq02zH8bqo2K.mkQzz55U2H........................
 anansi:$6$hblZftkV$vmZoctRs1nmcdQCk5gjlmcLUb18xvJa3efaU6cpw9hoOXC/kHupYqQ2qz5O.ekVE.SwMfvRnf.QcB1lyD........................
 puck:$6$A/mZxJX0$Zmgb3T6SAq.FxO1gEmbIcBF9Oi7q2eAi0TMMqOhg0pjdgDjBr0p2NBpIRqs4OIEZB4op6ueK888lhO7gc........................
@@ -184,19 +151,17 @@ puck:$6$A/mZxJX0$Zmgb3T6SAq.FxO1gEmbIcBF9Oi7q2eAi0TMMqOhg0pjdgDjBr0p2NBpIRqs4OIE
 <li><a href="https://isroot.nl/2019/05/12/vulnhub-write-up-brainpan-1/">https://isroot.nl/2019/05/12/vulnhub-write-up-brainpan-1/</a>  </li>
 <li><a href="https://d7x.promiselabs.net/2018/03/04/ctf-brainpan-1-ctf-walkthrough-introduction-to-exploit-development-part-i/">https://d7x.promiselabs.net/2018/03/04/ctf-brainpan-1-ctf-walkthrough-introduction-to-exploit-development-part-i/</a>  </li>
 </ul>
-        <p class="nested" style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p>
-                  <p class="nested" style="text-align:center;">« <a href="/posts/20160312_circllu.html">circllu.py: Querying circl.lu ...</a> « | » <a href="/posts/20190905_vulnhub-billymadison1dot1.html">[VulnHub] Billy Madison: 1.1...</a> »</p>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20160312_circllu.html">circllu.py: Querying circl.lu ...</a> « | » <a href="/posts/20190905_vulnhub-billymadison1dot1.html">[VulnHub] Billy Madison: 1.1...</a> »</p>
             </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
     <script>
       function toggle(elem) {
         elem.classList.toggle("expanded");
-
-        var ish2 = false; var ish3 = false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }
-        console.log(elem); console.log(ish2); console.log(ish3);
-
+        var ish2=false; var ish3=false; var ish4=false;
+        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
+        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
         var sibling = elem.nextElementSibling;
         while (sibling) {
           if (ish2 && sibling.classList.contains("h2")) {
@@ -204,6 +169,10 @@ puck:$6$A/mZxJX0$Zmgb3T6SAq.FxO1gEmbIcBF9Oi7q2eAi0TMMqOhg0pjdgDjBr0p2NBpIRqs4OIE
             break;
           }
           if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
             sibling.classList.toggle("active");
             break;
           }

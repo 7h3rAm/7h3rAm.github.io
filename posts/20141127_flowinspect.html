@@ -21,39 +21,6 @@
     <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
    </head>
   <body>
-    <style>
-      .collapsible {
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        cursor: pointer;
-      }
-      .collapsible:after {
-        content: "+";
-        transition: transform .3s ease;
-        display: inline-block;
-        font-weight: bold;
-        float: right;
-      }
-      .expanded::after {
-        content: "-";
-        -ms-transform: rotate(360deg);
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-      }
-      .nested {
-        display: none;
-      }
-      .active {
-        display: block;
-      }
-    </style>
     <div class="header">
       <table>
         <tr>
@@ -66,11 +33,12 @@
     </div>
     <div class="body">
           <h1 class="h1 collapsible" onclick="toggle(this);">Flowinspect: A Network Inspection Tool</h1>
-                  <p class="nested"><a href="/posts/20141115_pcapedit.html"> « </a>📅 published on <code>27/Nov/2014</code><a href="/posts/20150312_chopshop-shellcode.html"> » </a></p>
-                <p class="nested">For last couple of months I've been working on a network inspection tool, Flowinspect. I was honored to be able to present it at <a href="http://nullcon.net/website/goa-14/speakers/ankur-tyagi.php">Nullcon 2014</a> and <a href="https://www.blackhat.com/us-14/arsenal.html#Tyagi">Black Hat USA 2014 Arsenal</a>. It started as an internal tool that proved useful for me and my colleagues at Juniper Networks for our signature development tasks. However, within just few months of inception, it started taking shape of a generic network inspection utility that allows automation of a number of tasks. It is opensource, released under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a> license terms and available on <a href="https://github.com/7h3rAm/flowinspect">Github</a>.</p>
+                  <p><a href="/posts/20141115_pcapedit.html"> « </a>📅 published on <code>27/Nov/2014</code><a href="/posts/20150312_chopshop-shellcode.html"> » </a></p>
+                <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+<p class="nested">For last couple of months I've been working on a network inspection tool, Flowinspect. I was honored to be able to present it at <a href="http://nullcon.net/website/goa-14/speakers/ankur-tyagi.php">Nullcon 2014</a> and <a href="https://www.blackhat.com/us-14/arsenal.html#Tyagi">Black Hat USA 2014 Arsenal</a>. It started as an internal tool that proved useful for me and my colleagues at Juniper Networks for our signature development tasks. However, within just few months of inception, it started taking shape of a generic network inspection utility that allows automation of a number of tasks. It is opensource, released under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a> license terms and available on <a href="https://github.com/7h3rAm/flowinspect">Github</a>.</p>
 <p class="nested">At its core, Flowinspect uses <a href="http://libnids.sourceforge.net/">libnids</a> and its Python binding <a href="http://jon.oberheide.org/pynids/">pynids</a> to defragment IP and reassemble TCP packets. The result of this operation results in the generation of a TCP stream that can then be either dumped to file, saved as a pcap, analyzed via multiple inspection engines, etc.</p>
 <p class="nested">Here's a brief summary of available options:</p>
-<p class="nested"re><code>$ ./flowinspect.py -h
+<pre class="nested"><code>$ ./flowinspect.py -h
         ______              _                            __
        / __/ /___ _      __(_)___  _________  ___  _____/ /_
       / /_/ / __ \ | /| / / / __ \/ ___/ __ \/ _ \/ ___/ __/
@@ -162,8 +130,9 @@ Misc. Options:
   -n                    show argument stats
 </code></pre>
 
+<h2 class="h2 collapsible" onclick="toggle(this);">Usage</h2>
 <p class="nested">There are two modes of input: a pcap file or an interface name for live network traffic inspection. Let's try a pcap file that has HTTP trace for <code>google.com</code>:</p>
-<p class="nested"re><code>$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap
+<pre class="nested"><code>$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap
 [27-Nov-2014 09:35:10.920648 IST] [main] NORM: NIDS initialized, waiting for events...
 
 [27-Nov-2014 09:35:10.921427 IST] [handletcp] NORM: [IP#1.TCP#1] Skipping inspection as linemode is enabled.
@@ -284,10 +253,12 @@ Misc. Options:
 [27-Nov-2014 09:35:10.953669 IST] [doexit] NORM: Session completed in 0:00:00.097070. Exiting.
 </code></pre>
 
-<p class="nested">With the default options, Flowinspect will trace all TCP sessions from the input pcap and show a hexdump summary on a per packet basis. As can be seen from the output above, there is just one TCP session in the input pcap. The data sent by the client to the server is labelled as CTS (Client-to-Server) and that sent by the server in response is labelled as STC (Server-to-Client). In the last hexdump output, the second MATCH line shows that the STC buffer is of size 4857B, ie, the server replied with ~4.7KB of data for the initial request which was of size 627B.</p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Regex Inspection Mode</h2>
+<p class="nested">With the default options, Flowinspect will trace all TCP sessions from the input pcap and show a hexdump summary on a per packet basis. As can be seen from the output above, there is just one TCP session in the input pcap. The data sent by the client to the server is labelled as CTS (Client-to-Server) and that sent by the server in response is labelled as STC (Server-to-Client). In the last hexdump output, the second MATCH line shows that the STC buffer is of size <code>4857B</code>, ie, the server replied with <code>~4.7KB</code> of data 
+for the initial request which was of size <code>627B</code>.</p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Operating Modes</h2>
+<h3 class="h3 collapsible" onclick="toggle(this);">Regex Inspection Mode</h3>
 <p class="nested">Each of the inspection engines are triggered once the <code>libnids</code> engine completes reassembly and provides CTS/STC buffers per session. These buffers are then passed on to respective inspection engines. Let's now have a look at each of the inspection mode options, starting with regex mode first. Here's a listing of options available for regex mode inspection:</p>
-<p class="nested"re><code>RegEx per Direction:
+<pre class="nested"><code>RegEx per Direction:
   -c --cregex           regex to match against CTS data
   -s --sregex           regex to match against STC data
   -a --aregex           regex to match against ANY data
@@ -298,7 +269,7 @@ RegEx Options:
 </code></pre>
 
 <p class="nested">The first three options allow users to specify regular expressions that will be matched upon respective TCP stream buffers. So let's assume you wish to find all HTTP requests initiated by <code>Firefox</code>. From the <a href="http://www.useragentstring.com/pages/Firefox/">UserAgentStrings.com</a> listing for Firefox browser, we know that each such request will start with either <code>Mozilla/5.0</code> or <code>Mozilla/6.0</code> which can be shortened to <code>Mozilla/[56]\.0</code> regex:</p>
-<p class="nested"re><code>$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -c 'Mozilla/[56]\.0'
+<pre class="nested"><code>$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -c 'Mozilla/[56]\.0'
 [27-Nov-2014 09:59:08.385845 IST] [main] NORM: NIDS initialized, waiting for events...
 
 [MATCH] (00000001/00000001) [IP#1.TCP#1] 172.16.16.128:1606 -&gt; 74.125.95.104:80 matches regex: 'Mozilla/[56]\.0'
@@ -314,7 +285,7 @@ RegEx Options:
 <p class="nested">So we find a match of 11B within the CTS stream for <code>172.16.16.128:1606 - 74.125.95.104:80</code> TCP session. Another interesting thing to nte in this output is that the match was found within packet #4 itself. Flowinspect will perform a reverse calculation to identify packet boundaries per match. This is an extremely useful feature for those cases when you have millions of packets to scan and even after finding a match you are left clueless about the packet offset.</p>
 <p class="nested">If you provide multiple regexes per direction, Flowinspect will match them upon streams as new packets arrive and reassembly completes. This means that if you provide both CTS/STC regexes and STC packets arrive first, then it will inspect STC regexes first. Additionally, Flowinspect will also inherently stop inspection on the first match. This is a performance optimization with the assumption that the first match signifies that what you were looking for within the network stream has been found (although partially) and as such there is no need to scan further. However, considering the fact that this behavior might not suffice everyone's need, there's a <code>multi match</code> mode that is enabled via the <code>-j</code> option and performs inspection even after we find a match. This mode will also help you find all the matches for an input expression within the network stream.</p>
 <p class="nested">Regex mode also provides two options <code>-i</code> and <code>-m</code> to ignore case and disable multiline matches:</p>
-<p class="nested"re><code>$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -c 'mozilla/[56]\.0'
+<pre class="nested"><code>$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -c 'mozilla/[56]\.0'
 [27-Nov-2014 11:13:27.451806 IST] [main] NORM: NIDS initialized, waiting for events...
 
 [27-Nov-2014 11:13:27.452312 IST] [dumpmatchstats] NORM: UDP Stats: { Processed: 0, Matched: 0 { Shortest: 0B (#0), Longest: 0B (#0) }}
@@ -335,9 +306,9 @@ $ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -c 'mozi
 [27-Nov-2014 11:13:30.962186 IST] [doexit] NORM: Session completed in 0:00:00.016381. Exiting.
 </code></pre>
 
-<h2 class="h2 collapsible" onclick="toggle(this);">Fuzzy String Inspection Mode</h2>
+<h3 class="h3 collapsible" onclick="toggle(this);">Fuzzy String Inspection Mode</h3>
 <p class="nested">The second inspection mode is Fuzzy string matching that allows inspection via similarity matches rather than exact matches. Fuzzy string matching allows to specify a threshold which can be compared against a match ration between two strings. If the ration satisfies the threshold, the match is considered to be valid else not. Let's assume you wish to find all strings similar to <code>http</code>:</p>
-<p class="nested"re><code>$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -G 'http' -V
+<pre class="nested"><code>$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -G 'http' -V
 [27-Nov-2014 11:18:34.928901 IST] [main] NORM: NIDS initialized, waiting for events...
 
 [27-Nov-2014 11:18:34.929290 IST] [handletcp] INFO: [IP#1.TCP#1] 172.16.16.128:1606 - 74.125.95.104:80 [NEW] { TRACKED: 1 }
@@ -357,7 +328,7 @@ $ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -c 'mozi
 </code></pre>
 
 <p class="nested">The <code>-V</code> option increases verbosity and the output shows that Flowinspect found a match, but since ratio (50%) was below the default threshold (75%), it was ignored. You can try different strings or change the default threshold for testing purposes:</p>
-<p class="nested"re><code>$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -G 'hTTp' -V -b32
+<pre class="nested"><code>$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -G 'hTTp' -V -b32
 [27-Nov-2014 11:22:44.919888 IST] [main] NORM: NIDS initialized, waiting for events...
 
 [27-Nov-2014 11:22:44.920530 IST] [handletcp] INFO: [IP#1.TCP#1] 172.16.16.128:1606 - 74.125.95.104:80 [NEW] { TRACKED: 1 }
@@ -438,16 +409,16 @@ $ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -G 'HTTp
 [27-Nov-2014 11:23:06.122211 IST] [doexit] NORM: Session completed in 0:00:00.024924. Exiting.
 </code></pre>
 
-<h2 class="h2 collapsible" onclick="toggle(this);">Yara Inspection Mode</h2>
+<h3 class="h3 collapsible" onclick="toggle(this);">Yara Inspection Mode</h3>
 <p class="nested">The third inspection option is Yara rule matching over network streams. Yara is a signature-based malware identification and classification tool. Its yara-python bindings provide an API to use existing/custom signature files on an input buffer which in Flowinspect's usecase is a network stream. Let's have a look at the available options for Yara inspection mode:</p>
-<p class="nested"re><code>Yara Rules per Direction:
+<pre class="nested"><code>Yara Rules per Direction:
   -P --cyararules       Yara rules to match on CTS data
   -Q --syararules       Yara rules to match on STC data
   -R --ayararules       Yara rules to match on ANY data
 </code></pre>
 
 <p class="nested">This mode expects a rule file from which rules are parsed, compiled and matched upon respective network streams:</p>
-<p class="nested"re><code>$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -R ~/toolbox/testfiles/rules/yara/http.yar -V
+<pre class="nested"><code>$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -R ~/toolbox/testfiles/rules/yara/http.yar -V
 [27-Nov-2014 11:55:25.451002 IST] [main] NORM: NIDS initialized, waiting for events...
 
 [27-Nov-2014 11:55:25.452056 IST] [handletcp] INFO: [IP#1.TCP#1] 172.16.16.128:1606 - 74.125.95.104:80 [NEW] { TRACKED: 1 }
@@ -474,9 +445,9 @@ $ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -G 'HTTp
 </code></pre>
 
 <p class="nested">In the output above, Flowinspect informs that a rule named <code>http</code> matched on <code>172.16.16.128:1606 - 74.125.95.104:80</code> TCP stream. The content that is matched via this rule is of size 15B and is contained within the STC buffer spanning packet #6.</p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Shellcode Inspection Mode</h2>
+<h3 class="h3 collapsible" onclick="toggle(this);">Shellcode Inspection Mode</h3>
 <p class="nested">The fourth and the last inspection mode is shellcode matching. There's a library called <a href="http://libemu.carnivore.it/">libemu</a> that provides x86 emulation as well as shellcode detection via the GetPC heuristics. Most of Metasploit x86 architecture shellcode can be <a href="http://resources.infosecinstitute.com/shellcode-detection-emulation-libemu/">detected</a> <a href="https://bwall.github.io/libemu-scapy-for-shellcode-on-the-network/">via</a> <a href="http://nuald.blogspot.in/2010/10/shellcode-detection-using-libemu.html">Libemu</a>. Flowinspect uses its Python bindings, <a href="https://github.com/buffer/pylibemu">pylibemu</a> to inspect CTS/STC buffers. Let's have a look at the options provided in this mode:</p>
-<p class="nested"re><code>Shellcode Detection:
+<pre class="nested"><code>Shellcode Detection:
   -M                    enable shellcode detection
   -J                    enable shellcode disassembly
   -y                    generate emulator profile for detected shellcode
@@ -486,7 +457,7 @@ $ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -G 'HTTp
 </code></pre>
 
 <p class="nested">Unlike the other three inspection modes, shellcode detection work explicitly on both CTS and STC buffers at the same time. This means that when you request inspection and Flowinspect will auto inspect both buffers and reports matches. Let's give this mode a test run:</p>
-<p class="nested"re><code>$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/shellcode/shellcode-reverse-tcp-4444.pcap -M
+<pre class="nested"><code>$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/shellcode/shellcode-reverse-tcp-4444.pcap -M
 [27-Nov-2014 12:14:19.750865 IST] [main] NORM: NIDS initialized, waiting for events...
 
 [MATCH] (00000002/00000001) [IP#1.TCP#1] 55.51.105.73:60246 &lt;- 53.70.78.87:80 contains shellcode [Offset: 104]
@@ -510,7 +481,7 @@ $ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -G 'HTTp
 </code></pre>
 
 <p class="nested">So we found a match on the STC buffer of a TCP stream <code>55.51.105.73:60246 &lt;- 53.70.78.87:80</code>. The match is of size 172B and spans packet #6. Although, it's great that we can find shellcode in network traffic, we still know nothing about the shellcode itself. It would be awesome if we can also identify the type of shellcode and what damage it can cause when executed on the victim system. This is where Libemu's profiling feature comes in handy. It traces each system call, its arguments and return type which provide significant insight into the shellcode behavior:</p>
-<p class="nested"re><code>$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/shellcode/shellcode-reverse-tcp-4444.pcap -My -b32
+<pre class="nested"><code>$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/shellcode/shellcode-reverse-tcp-4444.pcap -My -b32
 [27-Nov-2014 12:38:18.796721 IST] [main] NORM: NIDS initialized, waiting for events...
 
 [MATCH] (00000002/00000001) [IP#1.TCP#1] 55.51.105.73:60246 &lt;- 53.70.78.87:80 contains shellcode [Offset: 104]
@@ -527,8 +498,8 @@ $ ll
 -rw-rw-r-- 1 shiv shiv  903 Dec 30 12:18 TCP-00000001-55.51.105.73.60246-53.70.78.87.80-STC.emuprofile
 </code></pre>
 
-<p class="nested">The <code>-b</code> option specifies max number of bytes to show in output modes for matching streams. Since we don't really care about the hexadecimal bytes for now, we requested dumping of first 32B only. Above invocation of Flowinspect will dump the emulator profile to a TCP session based <code>.emuprofile</code> file:</p>
-<p class="nested"re><code class="c">$ cat TCP-00000001-55.51.105.73.60246-53.70.78.87.80-STC.emuprofile
+<p class="nested">The <code>-b</code> option specifies max number of bytes to show in output modes for matching streams. Since we don't really care about the hexadecimal bytes for now, we requested dumping of first <code>32B</code> only. Above invocation of Flowinspect will dump the emulator profile to a TCP session based <code>.emuprofile</code> file:</p>
+<pre class="nested"><code class="c">$ cat TCP-00000001-55.51.105.73.60246-53.70.78.87.80-STC.emuprofile
 HMODULE LoadLibraryA (
      LPCTSTR = 0x010bee90 =&gt;
            = &quot;ws2_32&quot;;
@@ -568,16 +539,17 @@ int recv (
 </code></pre>
 
 <p class="nested">From this profiling output, we can clearly identify and acknowledge the fact that the detected shellcode can do the following:</p>
-<p class="nested"re><code class="c">1. Load a dynamic library named ws2_32, which is the Windows 32 socket library
+<pre class="nested"><code class="c">1. Load a dynamic library named ws2_32, which is the Windows 32 socket library
 2. Initialize an AF_INET SOCK_STREAM (af:2 and type:0) socket
 3. Attempt connection via this socket to 192.168.53.20:4444
 4. If successful, receive data from 192.168.53.20
 </code></pre>
 
 <p class="nested">This behavior is indicative of the fact that it is a <a href="http://morgawr.github.io/hacking/2014/03/29/shellcode-to-reverse-bind-with-netcat/">TCP Reverse Shell</a> spawning shellcode. Armed with this knowledge, users can enforce policy actions upon the probable attacker controlled system: <code>192.168.53.20</code></p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Content Modifiers</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Features</h2>
+<h3 class="h3 collapsible" onclick="toggle(this);">Content Modifiers</h3>
 <p class="nested">Flowinspect supports two Snort like content modifiers, <a href="http://manual.snort.org/node32.html#SECTION00458000000000000000">offset</a> and <a href="http://manual.snort.org/node32.html#SECTION00457000000000000000">depth</a>, invoked via the <code>-O</code> and <code>-D</code> options respectively. The <code>offset</code> modifier instructs Flowinspect to start inspection after skipping specified number of bytes. Similarly, the <code>depth</code> modifier instructs Flowinspect to only inspect specified number of bytes starting from the current value of offset. When used in combination these modifiers can prove to be extremely useful:</p>
-<p class="nested"re><code>$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/shellcode/shellcode-reverse-tcp-4444.pcap -b16 -c '.*'
+<pre class="nested"><code>$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/shellcode/shellcode-reverse-tcp-4444.pcap -b16 -c '.*'
 [27-Nov-2014 13:41:44.463742 IST] [main] NORM: NIDS initialized, waiting for events...
 
 [MATCH] (00000001/00000001) [IP#1.TCP#1] 55.51.105.73:60246 -&gt; 53.70.78.87:80 matches regex: '.*'
@@ -626,9 +598,9 @@ $ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/shellcode/shellcode-reverse-tcp-
 [27-Nov-2014 13:42:01.362984 IST] [doexit] NORM: Session completed in 0:00:00.020027. Exiting.
 </code></pre>
 
-<h2 class="h2 collapsible" onclick="toggle(this);">Inspection and Display Limits</h2>
+<h3 class="h3 collapsible" onclick="toggle(this);">Inspection and Display Limits</h3>
 <p class="nested">Sometimes you might find yourself glancing at thousands of sessions and even with the powerful regex and other inspection mode matches that Flowinspect provides, you might still find it difficult to locate suspicious session. There are cases when you would like to restrict inspection and display to certain number of sessions and that where the following options come in handy:</p>
-<p class="nested"re><code>Inspection Limits:
+<pre class="nested"><code>Inspection Limits:
   -T --maxinspstreams   max streams to inspect
   -U --maxinsppackets   max packets to inspect
 
@@ -639,10 +611,10 @@ Display Limits:
 </code></pre>
 
 <p class="nested">So for example, to limit inspection to first 100 TCP sessions, you can use the <code>-T</code> option. If you would like to view only the first 10 matches you can use the <code>-U</code> option.</p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Output and Miscellaneous Options</h2>
+<h3 class="h3 collapsible" onclick="toggle(this);">Output and Miscellaneous Options</h3>
 <p class="nested">Flowinspect allows matching packets/streams to be dumped in the raw format to files via the <code>-w</code> option. It might come in handy in case you need to inspect such streams using an external tool and only rely upon Flowinspect's reassembly capabilities.</p>
 <p class="nested">There are certain output dumping modes that later the way matching streams are dumped to <code>stdout</code>:</p>
-<p class="nested"re><code>$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/shellcode/shellcode-reverse-tcp-4444.pcap -c '.*' -o meta
+<pre class="nested"><code>$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/shellcode/shellcode-reverse-tcp-4444.pcap -c '.*' -o meta
 [27-Nov-2014 13:58:40.804023 IST] [main] NORM: NIDS initialized, waiting for events...
 
 [MATCH] (00000001/00000001) [IP#1.TCP#1] 55.51.105.73:60246 -&gt; 53.70.78.87:80 matches regex: '.*'
@@ -717,7 +689,7 @@ Connection: keep-alive
 
 <p class="nested">You are allowed to combine these options together as can be seen in the last invocation in the above output.</p>
 <p class="nested">Flowinspect also supports <a href="https://en.wikipedia.org/wiki/Berkeley_Packet_Filter">BPF expressions</a> to filter network traffic. It also allows negation of the match logic, reseting the TCP connection for matching streams and writing post-match packets to a pcap file via the miscellaneous options category:</p>
-<p class="nested"re><code>Misc. Options:
+<pre class="nested"><code>Misc. Options:
   -f --bpf              BPF expression
   -v                    invert match
   -V                    verbose output (max: 3)
@@ -731,20 +703,19 @@ Connection: keep-alive
   -n                    show argument stats
 </code></pre>
 
+<h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested">Flowinspect has been under active development for some time now and I am constantly pushing fixes and feature to its <a href="https://github.com/7h3rAm/flowinspect">GitHub</a> repository. Please feel free to try it and let me know if it seems useful in network inspection scenarios you come across.</p>
-        <p class="nested" style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a>)</p>
-                  <p class="nested" style="text-align:center;">« <a href="/posts/20141115_pcapedit.html">pcapedit: An Interactive Scapy...</a> « | » <a href="/posts/20150312_chopshop-shellcode.html">Shellcode Detection Module in ...</a> »</p>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20141115_pcapedit.html">pcapedit: An Interactive Scapy...</a> « | » <a href="/posts/20150312_chopshop-shellcode.html">Shellcode Detection Module in ...</a> »</p>
             </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
     <script>
       function toggle(elem) {
         elem.classList.toggle("expanded");
-
-        var ish2 = false; var ish3 = false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }
-        console.log(elem); console.log(ish2); console.log(ish3);
-
+        var ish2=false; var ish3=false; var ish4=false;
+        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
+        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
         var sibling = elem.nextElementSibling;
         while (sibling) {
           if (ish2 && sibling.classList.contains("h2")) {
@@ -752,6 +723,10 @@ Connection: keep-alive
             break;
           }
           if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
             sibling.classList.toggle("active");
             break;
           }

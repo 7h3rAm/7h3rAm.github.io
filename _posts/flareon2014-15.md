@@ -4,12 +4,15 @@ date: 18/Feb/2016
 summary: The following post is a writeup for FireEye's FLARE On 2014 challenges that I recently attempted.
 tags: ctf
 
+## Introduction
+
 FireEye has been putting up CTF styled malware and forensics challenges for last two years, named [FLARE On](http://www.flare-on.com/). I recently attempted few of those challenges from the 2014 set and will document steps to complete them.
 
 The challenge files are available under the [PastResults/2014/Downloads](http://www.flare-on.com/PastResults/2014/Downloads) directory on the site. If you are into malware analysis and have worked with publicly available samples earlier, you can easily guess the password. If not consider this archive to be a challenge and try breaking the password scheme for it :)
 
 Once you get hold of the challenge files, you will find that there are total seven of them. This writeup documents the steps involved in solving challenges 1-5 and 6-7 have been left out for another post. Let's get started with the writeup now.
 
+## Challenges
 ### Challenge #1
 The first challenge seems to be a PE file but let's do the initial reconnaissance to gather more details:
 

@@ -74,7 +74,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 2\. Downloaded file from `http://192.168.92.141:10000/bin/brainpan.exe`.  
 
 ### Findings
-#### Open Ports:
+#### Open Ports
 ```
 9999/tcp   |  abyss?  |
 10000/tcp  |  http    |  SimpleHTTPServer 0.6 (Python 2.7.3)

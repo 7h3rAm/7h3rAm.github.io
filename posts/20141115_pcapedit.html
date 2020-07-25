@@ -21,39 +21,6 @@
     <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
    </head>
   <body>
-    <style>
-      .collapsible {
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        cursor: pointer;
-      }
-      .collapsible:after {
-        content: "+";
-        transition: transform .3s ease;
-        display: inline-block;
-        font-weight: bold;
-        float: right;
-      }
-      .expanded::after {
-        content: "-";
-        -ms-transform: rotate(360deg);
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-      }
-      .nested {
-        display: none;
-      }
-      .active {
-        display: block;
-      }
-    </style>
     <div class="header">
       <table>
         <tr>
@@ -66,10 +33,11 @@
     </div>
     <div class="body">
           <h1 class="h1 collapsible" onclick="toggle(this);">pcapedit: An Interactive Scapy-based Pcap Editor</h1>
-                  <p class="nested"><a href="/posts/20140918_little-pdf.html"> « </a>📅 published on <code>15/Nov/2014</code><a href="/posts/20141127_flowinspect.html"> » </a></p>
-                <p class="nested">While working with pcap files, I occasionally come across situations where I need to edit them for some weird usecases. When in such a situation, I had to write a loop that iterates over packets, check if the current packet needs modification, apply changes if so and save these changes to a new pcap. As I repeated these steps a few times, need for automation became obvious. I sat together with my colleague and good friend <a href="http://x00itachi.blogspot.in/">Natraj</a> and discussed about how we can automate this process so that it helps with our IPS signature development efforts. Eventually, a draft for an interactive tool was formulated and <a href="https://github.com/7h3rAm/pcapedit">pcapedit</a> was born.</p>
+                  <p><a href="/posts/20140918_little-pdf.html"> « </a>📅 published on <code>15/Nov/2014</code><a href="/posts/20141127_flowinspect.html"> » </a></p>
+                <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+<p class="nested">While working with pcap files, I occasionally come across situations where I need to edit them for some weird usecases. When in such a situation, I had to write a loop that iterates over packets, check if the current packet needs modification, apply changes if so and save these changes to a new pcap. As I repeated these steps a few times, need for automation became obvious. I sat together with my colleague and good friend <a href="http://x00itachi.blogspot.in/">Natraj</a> and discussed about how we can automate this process so that it helps with our IPS signature development efforts. Eventually, a draft for an interactive tool was formulated and <a href="https://github.com/7h3rAm/pcapedit">pcapedit</a> was born.</p>
 <p class="nested"><code>pcapedit</code> is a Python-based tool that allows users to enter commands to edit and save pcaps. It has a hard dependency on <code>Scapy</code> and <code>cmd2</code> modules so make sure these are installed. Here is a snippet from test run:</p>
-<p class="nested"re><code>$ ./pcapedit.py
+<pre class="nested"><code>$ ./pcapedit.py
 PcapEdit - An Interactive Pcap Editor
 
 &gt;&gt;&gt;
@@ -105,8 +73,9 @@ EOF  eof  exit  help  q  quit
 &gt;&gt;&gt; q
 </code></pre>
 
+<h2 class="h2 collapsible" onclick="toggle(this);">Usecases</h2>
 <p class="nested">So we have a few commands to try out. Let's assume that you have a <code>http.pcap</code> file that needs editing. Let's see how pcapedit can be useful in this case:</p>
-<p class="nested"re><code>$ ./pcapedit.py
+<pre class="nested"><code>$ ./pcapedit.py
 PcapEdit - An Interactive Pcap Editor
 
 &gt;&gt;&gt; analyze http.cap
@@ -162,7 +131,7 @@ Read 43 packets from http.cap
 </code></pre>
 
 <p class="nested">The <code>summary</code> command displays a listing of all packets and their most common attributes. When provided an integer argument, it considers that to be the packet index and shows a one-line description for the packet itself. Let's now assume you need to edit packet #6:</p>
-<p class="nested"re><code>(http.cap) &gt;&gt;&gt; edit 6
+<pre class="nested"><code>(http.cap) &gt;&gt;&gt; edit 6
 Editing packet id: 6
      6: 2004/05/13 15:47:09    145.254.160.237:3372 -&gt; 65.208.228.223:80       TCP A
 (http.cap|#6) &gt;&gt;&gt;
@@ -216,7 +185,7 @@ None
 </code></pre>
 
 <p class="nested">So we selected the packet id, provided the respective protocol field names, new values and used the <code>ls</code> command to glance over changes. Since all looks good, we can now request <code>pcapedit</code> to save these changes, which it will then write to a <code>filename.mod.pcap</code> named file (you can override the default name and provide new name via the <code>outpcap</code> command):</p>
-<p class="nested"re><code>(http.cap|#6) &gt;&gt;&gt; save
+<pre class="nested"><code>(http.cap|#6) &gt;&gt;&gt; save
 Wrote 1 packet(s) to http.mod.cap
 (http.cap|#6) &gt;&gt;&gt;
 (http.cap|#6) &gt;&gt;&gt; q
@@ -226,8 +195,8 @@ $ ls -l *.cap
 -rw-rw-r-- 1 shiv shiv    94 Nov 15 14:31 http.mod.cap
 </code></pre>
 
-<p class="nested">One thing to note here is that the <code>save</code> command only write one packet (#6) to the file and skip the rest. This is because <code>pcapedit</code> is a context-sensitive tool, ie. <strong>it takes current context into consideration while executing commands</strong>. Since at the time of issuing <code>save</code> command, the user was in per-packet editing mode (for packet #6), it intentionally skipped other packets. This is an immensely powerful feature as packets can now be edited individually and extracted from source pcap file to a new pcap file. However, if one wishes to save all packets, all they have to do is issue the <code>back</code> command to exit per-packet editing mode and then issue <code>save</code> command which will now honor the context and work as expected:</p>
-<p class="nested"re><code>(http.cap|#6) &gt;&gt;&gt; back
+<p class="nested">One thing to note here is that the <code>save</code> command only write one packet (#6) to the file and skip the rest. This is because <code>pcapedit</code> is a context-sensitive tool, ie. <code>it takes current context into consideration while executing commands</code>. Since at the time of issuing <code>save</code> command, the user was in per-packet editing mode (for packet #6), it intentionally skipped other packets. This is an immensely powerful feature as packets can now be edited individually and extracted from source pcap file to a new pcap file. However, if one wishes to save all packets, all they have to do is issue the <code>back</code> command to exit per-packet editing mode and then issue <code>save</code> command which will now honor the context and work as expected:</p>
+<pre class="nested"><code>(http.cap|#6) &gt;&gt;&gt; back
 (http.cap) &gt;&gt;&gt;
 (http.cap) &gt;&gt;&gt; save
 Wrote 43 packet(s) to http.mod.cap
@@ -241,7 +210,7 @@ $ ls -l *.cap
 <p class="nested">Here's a screenshot of Wireshark parsing and decoding the edited packet:</p>
 <p class="nested"><img alt="pcapedit-wireshark.png" src="/static/files/posts_pcapedit/pcapedit-wireshark.png" /></p>
 <p class="nested">So at this point we know how to edit individual packets and save them to a new file, but doing this for hundreds or thousands of packets would still remain a daunting task and something that needs automation. That's where the <em>scriptfile</em> feature comes handy. You can save commands to a file and pass them as input to <code>pcapedit</code> and it will happily do as instructed:</p>
-<p class="nested"re><code>$ ./pcapedit.py &lt;tcpcmdstest.txt
+<pre class="nested"><code>$ ./pcapedit.py &lt;tcpcmdstest.txt
 PcapEdit - An Interactive Pcap Editor
 
 &gt;&gt;&gt; Read 43 packets from http.cap
@@ -291,20 +260,19 @@ $ ls -l *.cap
 $
 </code></pre>
 
+<h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested">There are a few other nifty commands that will be useful and I strongly recommend you to give <code>pcapedit</code> a try.</p>
-        <p class="nested" style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a>)</p>
-                  <p class="nested" style="text-align:center;">« <a href="/posts/20140918_little-pdf.html">Little PDF Puzzle from Didier ...</a> « | » <a href="/posts/20141127_flowinspect.html">Flowinspect: A Network Inspect...</a> »</p>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20140918_little-pdf.html">Little PDF Puzzle from Didier ...</a> « | » <a href="/posts/20141127_flowinspect.html">Flowinspect: A Network Inspect...</a> »</p>
             </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
     <script>
       function toggle(elem) {
         elem.classList.toggle("expanded");
-
-        var ish2 = false; var ish3 = false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }
-        console.log(elem); console.log(ish2); console.log(ish3);
-
+        var ish2=false; var ish3=false; var ish4=false;
+        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
+        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
         var sibling = elem.nextElementSibling;
         while (sibling) {
           if (ish2 && sibling.classList.contains("h2")) {
@@ -312,6 +280,10 @@ $
             break;
           }
           if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
             sibling.classList.toggle("active");
             break;
           }

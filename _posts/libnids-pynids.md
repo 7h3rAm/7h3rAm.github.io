@@ -4,7 +4,11 @@ date: 18/Jun/2013
 summary: Libnids is a library that emulates Linux kernel 2.0.x TCP/IP stack to offer IP defragmentation, TCP reassembly and port scan detection features. This post talks about the Python wrapper and how to use it.
 tags: code
 
+## Introduction
+
 [Libnids](http://libnids.sourceforge.net/) is a library that emulates Linux kernel 2.0.x TCP/IP stack to offer IP defragmentation, TCP reassembly and port scan detection features. It allows programs to accept arbitrary packet data, either from a packet capture file or directly from a network interface and extract TCP streams out of it. This stream is what layer 7 applications will process and as such it is a very good source for inspection tools to look for malicious content in it. In this post, we'll be seeing how Libnids and its Python binding can be used to create a nifty network inspection utility.
+
+## Installation and Testing
 
 We'll be using the [pynids](https://jon.oberheide.org/pynids/) Python binding from [Jon Oberheide](https://jon.oberheide.org/). Installation instructions are very well documented within the `README` file and I suggest you read and follow them. Let's have a look at an example program to test pynids installation:
 
@@ -96,6 +100,8 @@ Content-Type: text/html; charset=ISO-8859-1
 
 <?xml version="1.0" encoding="UTF-8"?>
 ```
+
+## Conclusion
 
 The test pcap contains an HTTP session and the program dumps CTS and STC content (limited to first 300B) and this is exactly what the applications at layer 7 will send/receive while interacting with lower layers. Gaining direct access to this data opens up a number of possibilities for us to explore. Network inspection tools, primarily Intrusion Detection and Prevention Systems, will reassemble TCP packets and to create this buffer and then inspect this buffer in various ways to identify if it contains malicious content. One of the very common practices is to carry out signature based inspection on network streams to identify if they contain exploit traffic.
 

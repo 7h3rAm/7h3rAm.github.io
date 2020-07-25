@@ -21,39 +21,6 @@
     <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
    </head>
   <body>
-    <style>
-      .collapsible {
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        cursor: pointer;
-      }
-      .collapsible:after {
-        content: "+";
-        transition: transform .3s ease;
-        display: inline-block;
-        font-weight: bold;
-        float: right;
-      }
-      .expanded::after {
-        content: "-";
-        -ms-transform: rotate(360deg);
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-      }
-      .nested {
-        display: none;
-      }
-      .active {
-        display: block;
-      }
-    </style>
     <div class="header">
       <table>
         <tr>
@@ -66,9 +33,10 @@
     </div>
     <div class="body">
           <h1 class="h1 collapsible" onclick="toggle(this);">circllu.py: Querying circl.lu API for CVE Information</h1>
-                  <p class="nested"><a href="/posts/20160218_flareon2014-15.html"> « </a>📅 published on <code>12/Mar/2016</code><a href="/posts/20190831_vulnhub-brainpan.html"> » </a></p>
-                <p class="nested">The <a href="https://www.circl.lu/services/cve-search/#public-web-api-of-cve-search">circl.lu</a> API is really useful for querying CVE information. I wrote a few methods to query the API and get this information:</p>
-<p class="nested"re><code class="python">from pprint import pprint
+                  <p><a href="/posts/20160218_flareon2014-15.html"> « </a>📅 published on <code>12/Mar/2016</code><a href="/posts/20190831_vulnhub-brainpan.html"> » </a></p>
+                <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+<p class="nested">The <a href="https://www.circl.lu/services/cve-search/#public-web-api-of-cve-search">circl.lu</a> API is really useful for querying CVE information. I wrote a few methods to query the API and get this information:</p>
+<pre class="nested"><code class="python">from pprint import pprint
 import requests
 import json
 
@@ -168,8 +136,9 @@ if __name__ == &quot;__main__&quot;:
   pprint(circllu_cvesearch())
 </code></pre>
 
+<h2 class="h2 collapsible" onclick="toggle(this);">Testing</h2>
 <p class="nested">Let's give this script a test run:</p>
-<p class="nested"re><code>{
+<pre class="nested"><code>{
  'cve': 'CVE-2015-1234',
  'references': [u'https://codereview.chromium.org/1016193003',
                 u'https://code.google.com/p/chromium/issues/detail?id=468936',
@@ -248,20 +217,19 @@ if __name__ == &quot;__main__&quot;:
 }
 </code></pre>
 
+<h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested">The <code>circllu_cveinfo</code> method allows querying the API for a specific CVE while returning a summary and references if the CVE is found in the database. The <code>circllu_cverecent</code> returns a list of recently requested CVEs. And finally, the <code>circllu_cvesearch</code> method allows you to search for a product or vendor and get listing of all reported vulnerabilities for the same. You can get this script <a href="https://gist.github.com/7h3rAm/812eff486865f30c0da5c4a9d41ff73e">here</a>.</p>
-        <p class="nested" style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a>)</p>
-                  <p class="nested" style="text-align:center;">« <a href="/posts/20160218_flareon2014-15.html">FireEye FLARE On 2014 Challeng...</a> « | » <a href="/posts/20190831_vulnhub-brainpan.html">[VulnHub] Brainpan: 1...</a> »</p>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20160218_flareon2014-15.html">FireEye FLARE On 2014 Challeng...</a> « | » <a href="/posts/20190831_vulnhub-brainpan.html">[VulnHub] Brainpan: 1...</a> »</p>
             </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
     <script>
       function toggle(elem) {
         elem.classList.toggle("expanded");
-
-        var ish2 = false; var ish3 = false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }
-        console.log(elem); console.log(ish2); console.log(ish3);
-
+        var ish2=false; var ish3=false; var ish4=false;
+        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
+        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
         var sibling = elem.nextElementSibling;
         while (sibling) {
           if (ish2 && sibling.classList.contains("h2")) {
@@ -269,6 +237,10 @@ if __name__ == &quot;__main__&quot;:
             break;
           }
           if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
             sibling.classList.toggle("active");
             break;
           }

@@ -66,7 +66,7 @@ plaintext: snowflake
 ![writeup.enumeration.steps.2.3](/static/files/posts_vulnhub_node1/screenshot03.png)  
 
 ### Findings
-#### Open Ports:
+#### Open Ports
 ```
 22/tcp    |  ssh   |  OpenSSH 7.2p2 Ubuntu 4ubuntu2.2 (Ubuntu Linux; protocol 2.0)
 3000/tcp  |  http  |  Node.js Express framework

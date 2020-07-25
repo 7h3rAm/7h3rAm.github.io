@@ -4,6 +4,8 @@ date: 18/Jun/2014
 summary: This post introduces PCAP-Generation-Tools project which allows one to create pcaps using Python and Scapy without touching the network stack. The post also mentions a filetype identification patch that I submitted and which was merged in the master branch.
 tags: code
 
+## Introduction
+
 I came across the [PCAPGenerationTools](https://github.com/andrewg-felinemenace/PCAP-Generation-Tools) project more than a year ago and immediately got hooked to it. A huge shoutout to its author [Andrew Griffiths](https://github.com/andrewg-felinemenace) who did an amazing job creating this tool and made it opensource for the community. It is amongst those tools that I didn't create and use on a daily basis.
 
 At its core, `PCAPGenerationTools` allows you to create pcaps for an input file. That's a description in extreme brevity. To make things clear let's consider an example where you are working on a scenario in which you need to look at a pcap that captures file download. The file being downloaded could be of any type but for our case let's assume it is a PDF file. So, when you host a PDF file on a webserver and request that file from the server, underlying packet exchange is what `PCAPGenerationTools` will create for you. And it can do this without hosting the file on the server and requesting it while some network sniffer runs in background. Let's give the tool a test run to clarify things a bit:
@@ -60,8 +62,12 @@ And here's how the reassembled HTTP stream looks like:
 
 That's pure awesomeness! It created pcaps with different HTTP `Content-Type` and `Transfer-Encoding` combinations, active/passive mode in FTP, upload/download over HTTP and FTP and various MIMEtype encodings for POP3/IMAP/SMTP. These pcaps were created without hosting files and using respective clients and without generating any network traffic.
 
+## Patch Contributions
+
 I submitted [three patches](https://github.com/andrewg-felinemenace/PCAP-Generation-Tools/pulls?utf8=%E2%9C%93&q=is%3Apr+author%3A7h3rAm+) of which two have been merged in the master branch of the project. The first patch [auto content type identification and output directory creation](https://github.com/andrewg-felinemenace/PCAP-Generation-Tools/pull/1) which basically added a MIMEtype identification feature for `Content-Type` headers in HTTP pcaps. In the screenshot above, you will notice that the server response (in blue) shows `Content-Type` header with the correct MIMEtype of `application/pdf`. This feature helps create pcaps that simulate real world scenarios.
 
 Another patch that I submitted and which is yet to be merged, [adds raw TCP CTS/STC payload pcap generation feature](https://github.com/andrewg-felinemenace/PCAP-Generation-Tools/pull/3) to `PCAPGenerationTools`. This patch allows creation of pcaps that capture file transfer over TCP itself and where layer 7 protocols are not involved. An example scenario would be transferring files over a netcat session.
+
+## Conclusion
 
 `PCAPGenerationTools` is an amazing project and quite powerful in many ways. Make sure you try and let me know if you share the same excitement as I do about this tool.

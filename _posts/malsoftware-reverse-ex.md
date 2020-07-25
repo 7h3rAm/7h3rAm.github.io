@@ -4,7 +4,11 @@ date: 24/Aug/2013
 summary: The recently concluded Malicious Software course on Coursera had an interesting reversing challenge: reverse-ex. This is a writeup on how to complete it.
 tags: ctf, reversing
 
+## Introduction
+
 The recently concluded [Malicious Software and its Undergound Economy](https://class.coursera.org/malsoftware-001/) course on [Coursera](https://www.coursera.org/) had an interesting reverse engineering challenge as part of its coursework: [reverse-ex](/static/files/posts_malsoftware_reverse_ex/reverse-ex). I found it interesting since it will be equally entertaining for someone who has never tried such challenges or one who has mastered many of them. This post details the steps I took to complete this challenge.
+
+## Program Analysis and Testing
 
 The first thing I normally do after obtaining such challenges is to test them with `file` command. This provides some insight about various file attributes like its type (ELF, PE, etc.), processor architecture compatibility, symbol table inclusion, etc:
 
@@ -335,5 +339,7 @@ A debugging session is active.
 
 Quit anyway? (y or n) y
 ```
+
+## Conclusion
 
 We add a breakpoint at `checkkey` function and manually inspect the content of the 0x8048770 address (it might change on our system) and it indeed turns out to be `KFFSE_XHKYOKXOHOFEDM^E_Y`. This concludes this writeup and in an [upcoming post](https://7h3ram.github.io/posts/20130829_malsoftware-reverse-challenge.html) I'll write about the second challenge from this course.

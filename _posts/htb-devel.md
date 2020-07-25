@@ -48,7 +48,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 ![writeup.enumeration.steps.2.2](/static/files/posts_htb_devel/screenshot02.png)  
 
 ### Findings
-#### Open Ports:
+#### Open Ports
 ```
 21/tcp  |  ftp   |  Microsoft ftpd
 80/tcp  |  http  |  Microsoft IIS httpd 7.5

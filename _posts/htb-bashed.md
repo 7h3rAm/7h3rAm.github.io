@@ -64,7 +64,7 @@ $ cat results/10.10.10.68/scans/tcp_80_http_gobuster_dirbuster.txt
 ![writeup.enumeration.steps.4.1](/static/files/posts_htb_bashed/screenshot02.png)  
 
 ### Findings
-#### Open Ports:
+#### Open Ports
 ```
 80/tcp  | http      | 2.4.18 ((Ubuntu))
 ```

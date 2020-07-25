@@ -79,7 +79,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 ```
 
 ### Findings
-#### Open Ports:
+#### Open Ports
 ```
 137/udp  |  netbios-ns    |  Microsoft Windows netbios-ns (workgroup: HTB)
 139/tcp  |  netbios-ssn   |  Microsoft Windows netbios-ssn

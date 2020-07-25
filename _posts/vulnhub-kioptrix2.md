@@ -123,7 +123,7 @@ admin/' or 1=1 -- -
 ![writeup.enumeration.steps.3.2](/static/files/posts_vulnhub_kioptrix2/screenshot04.png)  
 
 ### Findings
-#### Open Ports:
+#### Open Ports
 ```
 22/tcp    |  ssh       |  OpenSSH 3.9p1 (protocol 1.99)
 80/tcp    |  http      |  Apache httpd 2.0.52 ((CentOS))

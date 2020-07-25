@@ -73,7 +73,7 @@ http://192.168.92.169/robots.txt → /backup_wordpress
 ![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot01.png)  
 
 ### Findings
-#### Open Ports:
+#### Open Ports
 ```
 21/tcp  |  ftp   |  vsftpd 2.3.5
 22/tcp  |  ssh   |  OpenSSH 5.9p1 Debian 5ubuntu1.10 (Ubuntu Linux; protocol 2.0)

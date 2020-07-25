@@ -45,7 +45,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 ![writeup.enumeration.steps.2.1](/static/files/posts_htb_granny/screenshot01.png)  
 
 ### Findings
-#### Open Ports:
+#### Open Ports
 ```
 80/tcp  |  http  |  Microsoft IIS httpd 6.0
 ```

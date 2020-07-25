@@ -4,6 +4,8 @@ date: 2/Aug/2015
 summary: This post introduces a pure-Python way of parsing a pcap file and generating statistics like capinfos tool from Wireshark.
 tags: code
 
+## Introduction
+
 The [capinfos](https://www.wireshark.org/docs/man-pages/capinfos.html) tool from Wireshark parses a pcap file and displays useful statistics like packet count, bitrate, byterate, capture duration, etc. I needed a pure-Python parser to obtain these details and ended up with the following code:
 
 ```python
@@ -105,6 +107,8 @@ if __name__ == "__main__":
   pprint(capinfos(sys.argv[1]))
 ```
 
+## Usage
+
 Let's try this script on a HTTP pcap:
 
 ```
@@ -127,5 +131,7 @@ $ python capinfos.py /media/shiv/red_third/stoolbox/testfiles/pcaps/layer7/http_
  'version_minor': 4
 }
 ```
+
+## Conclusion
 
 The script accepts a pcap file as input and natively parse its structure to calculate required values. As can be seen in the output file, it shows a quick summary of statistics which could be quite useful for scripting and automation or to have a quick overview of input file. You can get this script [here](https://gist.github.com/7h3rAm/225e36ad59729000e00e7814e9644622).

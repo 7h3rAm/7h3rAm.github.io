@@ -4,6 +4,8 @@ date: 15/Nov/2014
 summary: pcapedit is an interactive pcap editor. It provides quick shorthand over Scapy commands and aims to be useful for mundane pcap editing tasks. The interactive mode allows saving of command history to a script which can then be used to edit multiple files together.
 tags: code
 
+## Introduction
+
 While working with pcap files, I occasionally come across situations where I need to edit them for some weird usecases. When in such a situation, I had to write a loop that iterates over packets, check if the current packet needs modification, apply changes if so and save these changes to a new pcap. As I repeated these steps a few times, need for automation became obvious. I sat together with my colleague and good friend [Natraj](http://x00itachi.blogspot.in/) and discussed about how we can automate this process so that it helps with our IPS signature development efforts. Eventually, a draft for an interactive tool was formulated and [pcapedit](https://github.com/7h3rAm/pcapedit) was born.
 
 `pcapedit` is a Python-based tool that allows users to enter commands to edit and save pcaps. It has a hard dependency on `Scapy` and `cmd2` modules so make sure these are installed. Here is a snippet from test run:
@@ -44,6 +46,8 @@ EOF  eof  exit  help  q  quit
 
 >>> q
 ```
+
+## Usecases
 
 So we have a few commands to try out. Let's assume that you have a `http.pcap` file that needs editing. Let's see how pcapedit can be useful in this case:
 
@@ -172,7 +176,7 @@ $ ls -l *.cap
 -rw-rw-r-- 1 shiv shiv    94 Nov 15 14:31 http.mod.cap
 ```
 
-One thing to note here is that the `save` command only write one packet (#6) to the file and skip the rest. This is because `pcapedit` is a context-sensitive tool, ie. **it takes current context into consideration while executing commands**. Since at the time of issuing `save` command, the user was in per-packet editing mode (for packet #6), it intentionally skipped other packets. This is an immensely powerful feature as packets can now be edited individually and extracted from source pcap file to a new pcap file. However, if one wishes to save all packets, all they have to do is issue the `back` command to exit per-packet editing mode and then issue `save` command which will now honor the context and work as expected:
+One thing to note here is that the `save` command only write one packet (#6) to the file and skip the rest. This is because `pcapedit` is a context-sensitive tool, ie. `it takes current context into consideration while executing commands`. Since at the time of issuing `save` command, the user was in per-packet editing mode (for packet #6), it intentionally skipped other packets. This is an immensely powerful feature as packets can now be edited individually and extracted from source pcap file to a new pcap file. However, if one wishes to save all packets, all they have to do is issue the `back` command to exit per-packet editing mode and then issue `save` command which will now honor the context and work as expected:
 
 ```
 (http.cap|#6) >>> back
@@ -242,5 +246,7 @@ $ ls -l *.cap
 -rw-rw-r-- 1 shiv shiv  6805 Nov 15 14:44 http.mod.cap
 $
 ```
+
+## Conclusion
 
 There are a few other nifty commands that will be useful and I strongly recommend you to give `pcapedit` a try.

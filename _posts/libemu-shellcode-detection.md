@@ -4,6 +4,8 @@ date: 06/Mar/2013
 summary: Libemu is a C library for x86 emulation and shellcode detection. Pylibemu is its Python wrapper that provides an easy-to-use API and has additional features compared to the default bindings.
 tags: code, reversing
 
+## Introduction
+
 [Libemu](http://libemu.carnivore.it/) is a C library that provides x86 architecture emulation and [shellcode](http://www.infosecwriters.com/hhworld/shellcode.txt) detection features. It uses [GetPC](http://skypher.com/wiki/index.php?title=Hacking/Shellcode/GetPC) heuristics to identify shellcode blobs within an input buffer.
 
 > `GetPC` is a shellcode writing technique, commonly used with
@@ -22,7 +24,9 @@ tags: code, reversing
 > being [Position
 > Independent](http://en.wikipedia.org/wiki/Position-independent_code).
 
-Installation instructions are very well documented and a quick search would provide you good references, like [this](http://blog.xanda.org/2012/05/16/installation-of-libemu-and-pylibemu-on-ubuntu/) for example. Once both Libemu and it's Python binding, [pylibemu](https://github.com/buffer/pylibemu), are installed we can have a quick validation test:
+## Installation and Testing
+
+Libemu install instructions are very well documented and a quick search would provide you good references, like [this](http://blog.xanda.org/2012/05/16/installation-of-libemu-and-pylibemu-on-ubuntu/) for example. Once both Libemu and it's Python binding, [pylibemu](https://github.com/buffer/pylibemu), are installed we can have a quick validation test:
 
 ```python
 #!/usr/bin/env python
@@ -95,6 +99,8 @@ int connect (
 ```
 
 The profiling API identifies critical windows API calls above and emulates them in its x86 emulator. The return values for all system calls are recorded and dumped when requested. From the output it is evident that the shellcode under test will load the win32 socket library and then invoke socket calls to connect to host `192.168.53.20` through `4444/tcp` port. This implies that we are dealing with Windows/x86 Reverse TCP Bind shellcode.
+
+## Extended Testing and CFG Generation
 
 Libemu allows you to test arbitrary blob of bytes and test if it depicts shellcode-like behavior. Projects like [peepdf](http://code.google.com/p/peepdf/), [pyew](https://code.google.com/p/pyew/), and [Malzilla](https://code.google.com/p/pyew/) use Libemu for identifying, profiling and analyzing shellcode within arbitrary binary streams. Identifying shellcode in network streams is another interesting usecase and there is an [example](https://github.com/MITRECND/chopshop/blob/master/modules/shellcode_detector.py) for you to play around.
 

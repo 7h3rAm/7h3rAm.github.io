@@ -1,5 +1,5 @@
-# 🔬 Research <a name="top"></a>
-## 📜 Patents<a href="#top"> ↟ </a>
+# 🔬 Research
+## 📜 Patents
 {% for patent in datadict.metadata.research.patents %}
 {% if patent.url is not none %}
 
@@ -12,7 +12,7 @@
 {% endif %}
 {% endfor %}
 
-## 🎙️ Talks/Papers/Demos<a href="#top"> ↟ </a>
+## 🎙️ Talks/Papers/Demos
 {% for talk in datadict.metadata.research.talks %}
 ### {{ talk.name }}
 {{ talk.description }}<br/>
@@ -23,7 +23,7 @@
 {% endfor %}
 {% endfor %}
 
-## 📰 Media<a href="#top"> ↟ </a>
+## 📰 Media
 {% for article in datadict.metadata.research.media %}
 
   * `{{ article.date }}`: {{ article.name }} ([{{ article.publication }}]({{ article.url }}))

@@ -144,7 +144,7 @@ ftp://veronica@192.168.92.167/eg-01.cap
 ![writeup.enumeration.steps.11.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot09.png)  
 
 ### Findings
-#### Open Ports:
+#### Open Ports
 ```
 22/tcp    |  tcpwrapped   |
 23/tcp    |  telnet?      |

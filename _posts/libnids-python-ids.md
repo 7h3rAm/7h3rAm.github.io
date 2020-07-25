@@ -4,13 +4,17 @@ date: 15/Sep/2013
 summary: What do you get when you combine a TCP/IP reassembly/defragmentation library with Python's re module? Read on to know more.
 tags: code
 
+## Introduction
+
 In this post I'll try to explain how [pynids](https://jon.oberheide.org/pynids/) can be combined with Python's `re` module to develop a minimal IPS-like tool. In an earlier post, [Network Stream Reassembly and Defragmentation](https://7h3ram.github.io/posts/20130618_libnids-pynids.html), I talked about how to leverage pynids API to create a TCP reassembly module. I would suggest you read that post before continuing further since I'll be skipping over reassembly basics. First let's understand the architecture of a very basic IPS:
 
-![image](/static/files/libnids_python_ids/minips-arch.png)
+![image](/static/files/posts_libnids_python_ids/minips-arch.png)
 
 Since it is a prevention system, an IPS has to be placed inline between the firewall at the perimeter edge the default gateway of your network. For any sessions that match inspection rules, they will be either dropped or logged or both if required. This action is basically per session/match configurable and can be changed through system's policy files. An inspection system needs network traffic as input and this input can come from different sources but for the sake of simplicity, we'll only be focusing on packet capture files and direct network device access as sources of input. Once the input is available in the form of raw packets, the system will need to reassemble them and extract layer payload which an inspection engine can consume.
 
 Rule/Signature based inspection engines use custom variants of the PCRE engine specifically optimized for performance and throughput. These engines use different techniques for performing string matches, either using native implementations of proven algorithms like [Aho Corasick](http://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_string_matching_algorithm), [Boyer Moore](http://en.wikipedia.org/wiki/Boyer%E2%80%93Moore_string_search_algorithm), [Rabin Karp](http://en.wikipedia.org/wiki/Rabin%E2%80%93Karp_string_search_algorithm), etc. [Finite State Automaton](http://en.wikipedia.org/wiki/Finite-state_machine) is also used in some implementations. In this post, we'll be using Libnids to extract TCP streams/UDP packets and match user-supplied regular expressions over this data. If a match is found, we'll log details and optionally drop the connection.
+
+## Design Considerations
 
 Before we begin with development, let's design the pseudocode for our IPS:
 
@@ -45,6 +49,8 @@ Before we begin with development, let's design the pseudocode for our IPS:
     7.2.1 return match statistics
 ```
 
+## Implementation and Testing
+
 Please have a look at the [minips.py](https://gist.github.com/7h3rAm/10974463) program which implements the above pseudo code.
 
 It will inspect each TCP and UDP packet and for matching TCP streams, stop tracking it any further. This is a performance optimization feature with an understanding that if a stream matches certain regex, it is the one the user intended to find. There is no need to inspect additional data in the stream since it already has what the user intended to find. This is only true for TCP streams as for UDP there is no stream/flow and as such inspection always happens on a per-packet basis.
@@ -75,5 +81,7 @@ $ python minips.py -p ~/toolbox/testfiles/pcaps/http.cap -r '.*com'
 ```
 
 The program correctly identified regex match over the TCP stream in the CTS (client-to-server) direction and dumped match statistics along with matching content. The regex might have matched on the STC payload as well but when the first match on this stream was found, the program stopped tracking it any further and since that match was on CTS direction, any payload following it was never seen. For UDP matches, note that for the same flow, there are two matches: one while the data is being sent from a client at UDP/3009 to server at `UDP/53` and again when the server replied to the client. Since, there are no flow details for a UDP session, any such program won't have an implicit knowledge of the direction towards which payload is forwarded. However, it is not trivial to implement such functionality in the UDP callback enabling it to identify the client and server sides of the connection and then taking appropriate action.
+
+## Conclusion
 
 The `inspect` function currently only includes regex matches as the only source of inspection over TCP/UDP payload but this can be extended to add really interesting capabilities like [shellcode detection](https://7h3ram.github.io/posts/20130306_libemu-shellcode-detection.html), [Yara](http://code.google.com/p/yara-project/) rule matching, [Fuzzy String](https://github.com/seatgeek/fuzzywuzzy) matching, file identification, file type based inspection, hash matching, javascript extraction, deobfuscation, emulation and analysis, etc. I've been working on a project which implements a few of these capabilities in addition to various other nifty features desirable from such inspection tools. Check it out @ [flowinspect](https://github.com/7h3rAm/flowinspect). The `minips.py` program can also be extended to read input regex from a flat file and match them in sequence over input packets. This will allow the user to inspect network flows using multiple regexes, enabling true IPS-like matching functionality.

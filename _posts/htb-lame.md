@@ -90,7 +90,7 @@ smbclient \\\\10.10.10.3\\tmp
 ![writeup.enumeration.steps.3.1](/static/files/posts_htb_lame/screenshot03.png)  
 
 ### Findings
-#### Open Ports:
+#### Open Ports
 ```
 21/tcp   |  ftp          |  vsftpd 2.3.4
 22/tcp   |  ssh          |  OpenSSH 4.7p1 Debian 8ubuntu1 (protocol 2.0)

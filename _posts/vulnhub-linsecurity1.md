@@ -57,7 +57,7 @@ showmount -e 192.168.92.186
 ![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_linsecurity1/screenshot01.png)  
 
 ### Findings
-#### Open Ports:
+#### Open Ports
 ```
 22/tcp     |  ssh       |  OpenSSH 7.6p1 Ubuntu 4 (Ubuntu Linux; protocol 2.0)
 111/tcp    |  rpcbind   |  2-4 (RPC #100000)

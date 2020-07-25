@@ -4,12 +4,16 @@ date: 27/May/2015
 summary: This post is a writeup for the bin100 challenge (Dice Revenge) from Eindbazen CTF 2013.
 tags: code, ctf
 
+## Introduction
+
 From the [challenges page](http://ebctf.nl/challenges/), download the [bin100](/static/files/posts_ebctf_bin100/bin100) binary and start following along. The challenge title is "Dice Revenge" and the description talks about Linux debugging skills. Let's see what `file` commands tells us about this file:
 
 ```
 $ file bin100
 bin100: ELF 32-bit LSB  executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.26, BuildID[sha1]=b07165d860e4c153770483d43e42a54f92f5ac93, not stripped
 ```
+
+## Challenge Analysis and Testing
 
 Alright, an ELF file. Let's issue a customary `strings` command on the challenge file:
 
@@ -741,5 +745,7 @@ $ ./bin100.patched
 [*] You rolled 3-1-3-3-7, what does that make you? ELEET! \o/
 [*] Nice job, here is the flag: ebCTF{9a9689dbd47a1fd3fc0bf17d60edf545}
 ```
+
+## Conclusion
 
 Awesome! We sucessfully solve this challenge and are presented with the flag. You can download the patched file [here](/static/files/posts_ebctf_bin100/bin100.patched).

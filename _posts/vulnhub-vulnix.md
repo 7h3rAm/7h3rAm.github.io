@@ -314,7 +314,7 @@ hydra -l user -P /usr/share/wordlists/rockyou.txt -e nsr ssh://192.168.92.177
 ![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_vulnix/screenshot01.png)  
 
 ### Findings
-#### Open Ports:
+#### Open Ports
 ```
 22/tcp     |  ssh       |  OpenSSH 5.9p1 Debian 5ubuntu1 (Ubuntu Linux; protocol 2.0)
 25/tcp     |  smtp      |  Postfix smtpd

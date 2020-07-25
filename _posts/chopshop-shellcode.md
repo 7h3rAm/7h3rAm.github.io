@@ -4,11 +4,15 @@ date: 12/Mar/2015
 summary: This post shows a shellcode detection module that I submitted to MITRECND's ChopShop Protocol Analysis/Decoder Framework.
 tags: code
 
+## Introduction
+
 Around an year ago I submitted a pull request to the [ChopShop](https://github.com/MITRECND/chopshop) project from [MITRECND](https://github.com/MITRECND). This request included a module that enabled shellcode detection for TCP streams and UDP packets. In this post I'll show how to use this module to identify shellcode within network streams. Here's the project description:
 
 > ChopShop is a MITRE developed framework to aid analysts in the creation and execution of pynids based decoders and detectors of APT tradecraft.
 
 It provides reliable network stream reassembly via libnids and provides an API to write plugins/modules that can operate upon the reassembled network data. The project is in active development since September 2012 and numerous interesting modules have been added to it recently.
+
+## Patch Contribution
 
 Last year I submitted a [shellcode detection module](https://github.com/MITRECND/chopshop/pull/29) that was merged in the project with few changes. This module leverages ChopShop APIs to obtain network data and inspects it using [Libemu to check if it contains shellcode](http://7h3ram.github.io/posts/20130306_libemu-shellcode-detection.html). I got this idea while working on one of my projects, [Flowinspect](https://7h3ram.github.io/posts/20141127_flowinspect.html), which includes shellcode detection and other interesting ways of identifying suspicious network traffic.
 
@@ -52,5 +56,7 @@ ChopShop Complete
 ```
 
 In the above example, ChopShop was invoked to execute the `shellcode_detector` module with its `-p` and `-x` arguments. The output confirms that shellcode was found in the STC stream of input pcap at offset 107. The module then display a hexdump of shellcode bytes as well as a profiled output highlighting the Windows API calls, arguments and their return types. This output is extremely useful as it tells that the shellcode will spawn a `calc.exe` process if it is successfully deployed on the victim system.
+
+## Conclusion
 
 You can also have a look at the module [sourcecode](https://github.com/MITRECND/chopshop/blob/master/modules/shellcode_detector.py). I would strongly recommend reading the [project documentation](https://github.com/MITRECND/chopshop/tree/master/docs/chopshop_docs) to familiarize yourself with architecture and terminology. Also checkout the [module authoring documentation](https://github.com/MITRECND/chopshop/blob/master/docs/chopshop_docs/module_authoring.md) and [this](http://www.mitre.org/capabilities/cybersecurity/overview/cybersecurity-blog/how-chopshop-modules-work) amazing post by [Wesley Shields](https://github.com/wxsBSD), who is one of the project authors, if you wish to write your own modules.

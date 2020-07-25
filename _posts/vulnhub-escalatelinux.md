@@ -121,7 +121,7 @@ DOWNLOADED: 27558 - FOUND: 4
 ```
 
 ### Findings
-#### Open Ports:
+#### Open Ports
 ```
 80/tcp     |  http         |  Apache httpd 2.4.29 ((Ubuntu))
 111/tcp    |  rpcbind      |  2-4 (RPC #100000)

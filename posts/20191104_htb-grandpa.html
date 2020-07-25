@@ -21,39 +21,6 @@
     <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
    </head>
   <body>
-    <style>
-      .collapsible {
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        cursor: pointer;
-      }
-      .collapsible:after {
-        content: "+";
-        transition: transform .3s ease;
-        display: inline-block;
-        font-weight: bold;
-        float: right;
-      }
-      .expanded::after {
-        content: "-";
-        -ms-transform: rotate(360deg);
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-      }
-      .nested {
-        display: none;
-      }
-      .active {
-        display: block;
-      }
-    </style>
     <div class="header">
       <table>
         <tr>
@@ -66,14 +33,14 @@
     </div>
     <div class="body">
           <h1 class="h1 collapsible" onclick="toggle(this);">[HackTheBox] Grandpa</h1>
-                  <p class="nested"><a href="/posts/20191104_htb-optimum.html"> « </a>📅 published on <code>04/Nov/2019</code><a href="/posts/20191105_htb-devel.html"> » </a></p>
+                  <p><a href="/posts/20191104_htb-optimum.html"> « </a>📅 published on <code>04/Nov/2019</code><a href="/posts/20191105_htb-devel.html"> » </a></p>
                 <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested"><img alt="writeup.metadata.infocard" src="/static/files/posts_htb_grandpa/infocard.png" /></p>
 <p class="nested">This is a writeup for HTB VM <a href="https://www.hackthebox.eu/home/machines/profile/13">Grandpa</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p>
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_htb_grandpa/killchain.png" /></p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
-<p class="nested"re><code># Nmap 7.70 scan initiated Mon Nov  4 15:43:14 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.grandpa/results/10.10.10.14/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.grandpa/results/10.10.10.14/scans/xml/_quick_tcp_nmap.xml 10.10.10.14
+<pre class="nested"><code># Nmap 7.70 scan initiated Mon Nov  4 15:43:14 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.grandpa/results/10.10.10.14/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.grandpa/results/10.10.10.14/scans/xml/_quick_tcp_nmap.xml 10.10.10.14
 Nmap scan report for 10.10.10.14
 Host is up, received user-set (0.057s latency).
 Scanned at 2019-11-04 15:43:15 PST for 23s
@@ -102,8 +69,8 @@ Service detection performed. Please report any incorrect results at https://nmap
 <p class="nested">2. We look for IIS 6.0 vulnerabilities and find multiple WebDAV related hits:  </p>
 <p class="nested"><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_htb_grandpa/screenshot01.png" />  </p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
-<h4>Open Ports:</h4>
-<p class="nested"re><code>80/tcp  |  http  |  Microsoft IIS httpd 6.0
+<h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
+<pre class="nested"><code>80/tcp  |  http  |  Microsoft IIS httpd 6.0
 </code></pre>
 
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
@@ -111,7 +78,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 <p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_htb_grandpa/screenshot02.png" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_htb_grandpa/screenshot03.png" />  </p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
-<p class="nested"re><code>ntauth/network@GRANPA&gt; id
+<pre class="nested"><code>ntauth/network@GRANPA&gt; id
 NT AUTHORITY\NETWORK SERVICE
 ntauth/network@GRANPA&gt;  
 ntauth/network@GRANPA&gt; uname
@@ -144,14 +111,14 @@ Harry
 <p class="nested"><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_htb_grandpa/screenshot06.png" />  </p>
 <p class="nested"><img alt="writeup.privesc.steps.3.2" src="/static/files/posts_htb_grandpa/screenshot07.png" />  </p>
 <p class="nested">4. We then obtain further information about the system and read the contents of both user.txt and root.txt files to comeplete the challenge:  </p>
-<p class="nested"re><code>cat &quot;C:\Documents and Settings\Harry\Desktop\user.txt&quot;
+<pre class="nested"><code>cat &quot;C:\Documents and Settings\Harry\Desktop\user.txt&quot;
 cat &quot;C:\Documents and Settings\Administrator\Desktop\root.txt&quot;
 </code></pre>
 
 <p class="nested"><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_htb_grandpa/screenshot08.png" />  </p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
-<p class="nested"re><code>Administrator:500:0a70918d669baeb307012642393148ab:34dec8a1db14cdde2a.................
+<pre class="nested"><code>Administrator:500:0a70918d669baeb307012642393148ab:34dec8a1db14cdde2a.................
 ASPNET:1007:3f71d62ec68a06a39721cb3f54f04a3b:edc0d5506804653f589................
 Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c...............
 Harry:1008:93c50499355883d1441208923e8628e6:031f5563e0ac4ba538e................
@@ -161,7 +128,7 @@ SUPPORT_388945a0:1001:aad3b435b51404eeaad3b435b51404ee:8ed3993efb4e6476e........
 </code></pre>
 
 <h3 class="h3 collapsible" onclick="toggle(this);">Flags</h3>
-<p class="nested"re><code>C:\Documents and Settings\Harry\Desktop\user.txt: bdff5ec67c3cff01................
+<pre class="nested"><code>C:\Documents and Settings\Harry\Desktop\user.txt: bdff5ec67c3cff01................
 C:\Documents and Settings\Administrator\Desktop\root.txt: 9359e905a2c35f..................
 </code></pre>
 
@@ -169,19 +136,17 @@ C:\Documents and Settings\Administrator\Desktop\root.txt: 9359e905a2c35f........
 <ul class="nested">
 <li><a href="https://www.hackthebox.eu/home/machines/profile/13">https://www.hackthebox.eu/home/machines/profile/13</a>  </li>
 </ul>
-        <p class="nested" style="text-align:center;">(🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a>)</p>
-                  <p class="nested" style="text-align:center;">« <a href="/posts/20191104_htb-optimum.html">[HackTheBox] Optimum...</a> « | » <a href="/posts/20191105_htb-devel.html">[HackTheBox] Devel...</a> »</p>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20191104_htb-optimum.html">[HackTheBox] Optimum...</a> « | » <a href="/posts/20191105_htb-devel.html">[HackTheBox] Devel...</a> »</p>
             </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
     <script>
       function toggle(elem) {
         elem.classList.toggle("expanded");
-
-        var ish2 = false; var ish3 = false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }
-        console.log(elem); console.log(ish2); console.log(ish3);
-
+        var ish2=false; var ish3=false; var ish4=false;
+        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
+        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
         var sibling = elem.nextElementSibling;
         while (sibling) {
           if (ish2 && sibling.classList.contains("h2")) {
@@ -189,6 +154,10 @@ C:\Documents and Settings\Administrator\Desktop\root.txt: 9359e905a2c35f........
             break;
           }
           if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
             sibling.classList.toggle("active");
             break;
           }

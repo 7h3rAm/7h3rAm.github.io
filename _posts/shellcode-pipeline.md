@@ -4,7 +4,11 @@ date: 18/Mar/2014
 summary: This post talks about creating an automated shellcode analysis pipeline where in the shellcode is sourced from public portals and tested via multiple analysis engines. It provides an automated way of testing the accuracy of detection engines like Libemu/Snort/Suricata/Bro against publicly available shellcode.
 tags: code, reversing
 
+## Introduction
+
 I recently required an automated way of analyzing shellcode and verifying if it is detected by [Libemu](http://libemu.carnivore.it/), [Snort](http://www.snort.org/), [Suricata](http://suricata-ids.org/), [Bro](https://www.bro.org/), etc. Shellcode had to come from public sources like [ShellStorm](http://repo.shell-storm.org/shellcode/), [ExploitDB](http://www.exploit-db.com/shellcode/) and [Metasploit](https://github.com/rapid7/metasploit-framework/tree/master/modules/payloads). I needed an automated way of sourcing shellcode from these projects and pass it on to the analysis engines in a pipeline-like mechanism. This posts documents the method I used to complete this task and the overall progress of the project.
+
+## Design Considerations
 
 I basically divided the project into three independent tasks:
 
@@ -13,6 +17,8 @@ I basically divided the project into three independent tasks:
 3. test shellcode with Libemu and pcaps with Snort/Suricata/Bro
 
 These are independent since any of them can be used individually, as a unit, and developed outside of the system. The first task itself was divided into smaller sub-tasks and I started with sourcing shellcode from shell-storm. The shell-storm shellcode page documents steps needed to access shell-storm database and there is an example script that provides an easy to use cli to search for and download individual shellcode files from shell-storm. I used this script in my project and added a wrapper over it to search, download and generate pcaps all with just one cli invocation. The script currently is in beta and satisfies only a few of the above requirements. Shell-storm sourcing is implemented, pcap generation is working and shellcode testing currently happens with Libemu only. Additional sources and analysis engines would be added shortly.
+
+## Implementation and Testing
 
 Please visit the following link to get the complete source listing: [sap](https://gist.github.com/7h3rAm/11087025)
 
@@ -181,5 +187,7 @@ ScId    Size Title
 [146]   n/a  Windows - XP download and exec source
 [159]   n/a  Windows - Download and Execute Shellcode Generator
 ```
+
+## Conclusion
 
 Currently Libemu is the only analysis engine but soon I'll be adding support for additional engines. Sourcing from other projects will also be added in subsequent versions. Feel free to try it out and let me know what you think of it.

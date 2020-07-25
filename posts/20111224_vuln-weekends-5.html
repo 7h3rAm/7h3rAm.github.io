@@ -21,39 +21,6 @@
     <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
    </head>
   <body>
-    <style>
-      .collapsible {
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        cursor: pointer;
-      }
-      .collapsible:after {
-        content: "+";
-        transition: transform .3s ease;
-        display: inline-block;
-        font-weight: bold;
-        float: right;
-      }
-      .expanded::after {
-        content: "-";
-        -ms-transform: rotate(360deg);
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-      }
-      .nested {
-        display: none;
-      }
-      .active {
-        display: block;
-      }
-    </style>
     <div class="header">
       <table>
         <tr>
@@ -66,7 +33,7 @@
     </div>
     <div class="body">
           <h1 class="h1 collapsible" onclick="toggle(this);">Vulnerable Weekends #5: MIT Kerberos and VLC TiVo</h1>
-                  <p class="nested"><a href="/posts/20111218_vuln-weekends-4.html"> « </a>📅 published on <code>24/Dec/2011</code><a href="/posts/20120101_vuln-weekends-6.html"> » </a></p>
+                  <p><a href="/posts/20111218_vuln-weekends-4.html"> « </a>📅 published on <code>24/Dec/2011</code><a href="/posts/20120101_vuln-weekends-6.html"> » </a></p>
                 <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested">Report #5A analyzes the MIT Kerberos Telnet remote, privileged code execution vulnerability. This vulnerability has been identified within the MIT Kerberos based Telnet installations that are provided with FreeBSD, GNU inetutils, etc.</p>
 <p class="nested">Report #5B analyzes the VLC TiVo file parser arbitrary code execution vulnerability.</p>
@@ -89,7 +56,7 @@
 <p class="nested">MIT <code>krb5-appl</code> has been reported to contain a vulnerability that could be leveraged by a remote attacker to execute arbitrary code on the targeted system. The vulnerability has been reported in the code responsible for handling Kerberos based authentication mechanism.</p>
 <p class="nested">The vulnerability was introduced when BSD telnet daemon and client utilities included support for cryptographic security via MIT Kerberos based authentication mechanism. This code was further included within FreeBSD and GNU inetutils making these vulnerable as well.</p>
 <p class="nested">The vulnerability allows a pre-authentication memory corruption error that could be triggered remotely by submitting an arbitrarily long encryption key to the target system. Specifically, the vulnerability exists within the <code>encrypt_keyid()</code> function of the <code>encrypt.c</code> source file of the affected software:</p>
-<p class="nested"re><code class="c">static void
+<pre class="nested"><code class="c">static void
 encrypt_keyid(struct key_info *kp, unsigned char *keyid, int len)
 {
    ...
@@ -106,7 +73,7 @@ encrypt_keyid(struct key_info *kp, unsigned char *keyid, int len)
 </code></pre>
 
 <p class="nested">The vulnerable source file defines the following structure to keep record of the encryption state:</p>
-<p class="nested"re><code class="c">#define   MAXKEYLEN 64
+<pre class="nested"><code class="c">#define   MAXKEYLEN 64
 
 static struct key_info {
     unsigned char keyid[MAXKEYLEN];
@@ -145,7 +112,7 @@ static struct key_info {
 <strong>Temporal Score</strong>:6.9  </p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Details</h3>
 <p class="nested">VLC Media Player has been reported to contain a vulnerability that could allow a remote attacker to execute arbitrary code on the targeted system. The vulnerability is introduced by the <code>libty_plugin</code> that helps parsing of <code>.ty</code> files.</p>
-<p class="nested"re><code class="c">struct demux_sys_t
+<pre class="nested"><code class="c">struct demux_sys_t
 {
 ...
 ty_rec_hdr_t    *rec_hdrs;          /* record headers array */
@@ -156,7 +123,7 @@ int             i_num_recs;         /* number of recs in this chunk */
 </code></pre>
 
 <p class="nested">The vulnerability exists due to an implementation flaw within the <code>get_chunk_header()</code> function of the <code>ty.c</code> source file of the vulnerable plugin. The vulnerable plugin improperly handles the record headers array, <code>rec_hdrs</code>, corrupting heap structures in the memory.</p>
-<p class="nested"re><code class="c">diff --git a/modules/demux/ty.c b/modules/demux/ty.c
+<pre class="nested"><code class="c">diff --git a/modules/demux/ty.c b/modules/demux/ty.c
 index e916b41..b181a6a 100644 (file)
 
 --- a/modules/demux/ty.c
@@ -179,19 +146,17 @@ index e916b41..b181a6a 100644 (file)
 <p class="nested"><a href="http://cve.mitre.org">cve.mitre.org</a><br />
 <a href="http://www.first.org/cvss/cvss-guide.html">cvss-guide</a><br />
 <a href="http://nvd.nist.gov/cvss.cfm?calculator&amp;adv&amp;version=2">cvss-calculator</a>  </p>
-        <p class="nested" style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnweekends>vulnweekends</a>)</p>
-                  <p class="nested" style="text-align:center;">« <a href="/posts/20111218_vuln-weekends-4.html">Vulnerable Weekends #4: Window...</a> « | » <a href="/posts/20120101_vuln-weekends-6.html">Vulnerable Weekends #6: WPS Br...</a> »</p>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnweekends>vulnweekends</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20111218_vuln-weekends-4.html">Vulnerable Weekends #4: Window...</a> « | » <a href="/posts/20120101_vuln-weekends-6.html">Vulnerable Weekends #6: WPS Br...</a> »</p>
             </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
     <script>
       function toggle(elem) {
         elem.classList.toggle("expanded");
-
-        var ish2 = false; var ish3 = false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }
-        console.log(elem); console.log(ish2); console.log(ish3);
-
+        var ish2=false; var ish3=false; var ish4=false;
+        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
+        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
         var sibling = elem.nextElementSibling;
         while (sibling) {
           if (ish2 && sibling.classList.contains("h2")) {
@@ -199,6 +164,10 @@ index e916b41..b181a6a 100644 (file)
             break;
           }
           if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
             sibling.classList.toggle("active");
             break;
           }

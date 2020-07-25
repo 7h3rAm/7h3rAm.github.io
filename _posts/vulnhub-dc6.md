@@ -49,7 +49,7 @@ admin, graham, mark, sarah and jens
 ![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_dc6/screenshot01.png)  
 
 ### Findings
-#### Open Ports:
+#### Open Ports
 ```
 22/tcp  |  ssh   |  OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)
 80/tcp  |  http  |  Apache httpd 2.4.25 ((Debian))

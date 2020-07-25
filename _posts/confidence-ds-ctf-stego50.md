@@ -4,6 +4,8 @@ date: 6/May/2014
 summary: This post discusses how I completed the stego50 challenge from Dragon Sector CTF team. It is a simplistic challenge but a good source for learning about PDF internals.
 tags: code, ctf
 
+## Challenge Analysis
+
 The challenge consists a [pdf](/static/files/posts_confidence_ds_ctf_stego50/stegano50.pdf) file. Let's see what `exiftool` tells us about it:
 
 ```
@@ -51,6 +53,8 @@ There it is! A `div` element has the text blob we need. Let's extract and transl
 $ echo -n "BABA BBB BA BBA ABA AB B AAB ABAA AB B AA BBB BA AAA BBAABB AABA ABAA AB BBA BBBAAA ABBBB BA AAAB ABBBB AAAAA ABBBB BAAA ABAA AAABB BB AAABB AAAAA AAAAA AAAAB BBA AAABB" | tr AB .-
 -.-. --- -. --. .-. .- - ..- .-.. .- - .. --- -. ... --..-- ..-. .-.. .- --. ---... .---- -. ...- .---- ..... .---- -... .-.. ...-- -- ...-- ..... ..... ....- --. ...--
 ```
+
+## Automation and Testing
 
 Alright, we now have some Morse code that has to be decoded. There are [several](http://mattfedder.com/cgi-bin/morse.pl) [online](http://morsecode.scphillips.com/translator.html) [decoders](http://www.onlineconversion.com/morse_code.htm) [available](http://www.unit-conversion.info/texttools/morse-code/), however, I tend to use Python for such tasks. Here is a snippet of Python code to help us with encode and decode tasks:
 

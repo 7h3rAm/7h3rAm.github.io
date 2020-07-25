@@ -21,39 +21,6 @@
     <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
    </head>
   <body>
-    <style>
-      .collapsible {
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        cursor: pointer;
-      }
-      .collapsible:after {
-        content: "+";
-        transition: transform .3s ease;
-        display: inline-block;
-        font-weight: bold;
-        float: right;
-      }
-      .expanded::after {
-        content: "-";
-        -ms-transform: rotate(360deg);
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-      }
-      .nested {
-        display: none;
-      }
-      .active {
-        display: block;
-      }
-    </style>
     <div class="header">
       <table>
         <tr>
@@ -66,15 +33,17 @@
     </div>
     <div class="body">
           <h1 class="h1 collapsible" onclick="toggle(this);">Shellcode Detection Module in ChopShop</h1>
-                  <p class="nested"><a href="/posts/20141127_flowinspect.html"> « </a>📅 published on <code>12/Mar/2015</code><a href="/posts/20150527_ebctf-bin100.html"> » </a></p>
-                <p class="nested">Around an year ago I submitted a pull request to the <a href="https://github.com/MITRECND/chopshop">ChopShop</a> project from <a href="https://github.com/MITRECND">MITRECND</a>. This request included a module that enabled shellcode detection for TCP streams and UDP packets. In this post I'll show how to use this module to identify shellcode within network streams. Here's the project description:</p>
+                  <p><a href="/posts/20141127_flowinspect.html"> « </a>📅 published on <code>12/Mar/2015</code><a href="/posts/20150527_ebctf-bin100.html"> » </a></p>
+                <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+<p class="nested">Around an year ago I submitted a pull request to the <a href="https://github.com/MITRECND/chopshop">ChopShop</a> project from <a href="https://github.com/MITRECND">MITRECND</a>. This request included a module that enabled shellcode detection for TCP streams and UDP packets. In this post I'll show how to use this module to identify shellcode within network streams. Here's the project description:</p>
 <blockquote>
 <p class="nested">ChopShop is a MITRE developed framework to aid analysts in the creation and execution of pynids based decoders and detectors of APT tradecraft.</p>
 </blockquote>
 <p class="nested">It provides reliable network stream reassembly via libnids and provides an API to write plugins/modules that can operate upon the reassembled network data. The project is in active development since September 2012 and numerous interesting modules have been added to it recently.</p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Patch Contribution</h2>
 <p class="nested">Last year I submitted a <a href="https://github.com/MITRECND/chopshop/pull/29">shellcode detection module</a> that was merged in the project with few changes. This module leverages ChopShop APIs to obtain network data and inspects it using <a href="http://7h3ram.github.io/posts/20130306_libemu-shellcode-detection.html">Libemu to check if it contains shellcode</a>. I got this idea while working on one of my projects, <a href="https://7h3ram.github.io/posts/20141127_flowinspect.html">Flowinspect</a>, which includes shellcode detection and other interesting ways of identifying suspicious network traffic.</p>
 <p class="nested">To invoke ChopShop you need to provide a pcapfile as input and then a list of modules to be invoked. Each module can be provided respective arguments as well. Let's have a look at the command line invocation and usage of the shellcode module:</p>
-<p class="nested"re><code>$ ./chopshop -f ~/toolbox/testfiles/pcaps/shellcode/shellcode-winexec-calc.pcap &quot;shellcode_detector -xp&quot;
+<pre class="nested"><code>$ ./chopshop -f ~/toolbox/testfiles/pcaps/shellcode/shellcode-winexec-calc.pcap &quot;shellcode_detector -xp&quot;
 Starting ChopShop
 Initializing Modules ...
     Initializing module 'shellcode_detector'
@@ -111,20 +80,19 @@ ChopShop Complete
 </code></pre>
 
 <p class="nested">In the above example, ChopShop was invoked to execute the <code>shellcode_detector</code> module with its <code>-p</code> and <code>-x</code> arguments. The output confirms that shellcode was found in the STC stream of input pcap at offset 107. The module then display a hexdump of shellcode bytes as well as a profiled output highlighting the Windows API calls, arguments and their return types. This output is extremely useful as it tells that the shellcode will spawn a <code>calc.exe</code> process if it is successfully deployed on the victim system.</p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested">You can also have a look at the module <a href="https://github.com/MITRECND/chopshop/blob/master/modules/shellcode_detector.py">sourcecode</a>. I would strongly recommend reading the <a href="https://github.com/MITRECND/chopshop/tree/master/docs/chopshop_docs">project documentation</a> to familiarize yourself with architecture and terminology. Also checkout the <a href="https://github.com/MITRECND/chopshop/blob/master/docs/chopshop_docs/module_authoring.md">module authoring documentation</a> and <a href="http://www.mitre.org/capabilities/cybersecurity/overview/cybersecurity-blog/how-chopshop-modules-work">this</a> amazing post by <a href="https://github.com/wxsBSD">Wesley Shields</a>, who is one of the project authors, if you wish to write your own modules.</p>
-        <p class="nested" style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a>)</p>
-                  <p class="nested" style="text-align:center;">« <a href="/posts/20141127_flowinspect.html">Flowinspect: A Network Inspect...</a> « | » <a href="/posts/20150527_ebctf-bin100.html">Eindbazen CTF Challenge: bin10...</a> »</p>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20141127_flowinspect.html">Flowinspect: A Network Inspect...</a> « | » <a href="/posts/20150527_ebctf-bin100.html">Eindbazen CTF Challenge: bin10...</a> »</p>
             </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
     <script>
       function toggle(elem) {
         elem.classList.toggle("expanded");
-
-        var ish2 = false; var ish3 = false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }
-        console.log(elem); console.log(ish2); console.log(ish3);
-
+        var ish2=false; var ish3=false; var ish4=false;
+        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
+        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
         var sibling = elem.nextElementSibling;
         while (sibling) {
           if (ish2 && sibling.classList.contains("h2")) {
@@ -132,6 +100,10 @@ ChopShop Complete
             break;
           }
           if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
             sibling.classList.toggle("active");
             break;
           }

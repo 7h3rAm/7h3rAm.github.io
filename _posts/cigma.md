@@ -4,9 +4,11 @@ date: 22/Nov/2015
 summary: Cigma is a minimal, pure Python filetype identification library I created as an alternative to various Python ports of libmagic that are floating around.
 tags: code
 
+## Introduction
+
 Filetype identification is the process of scanning [respective](https://en.wikipedia.org/wiki/Magic_number_%28programming%29) [magicbytes](https://en.wikipedia.org/wiki/List_of_file_signatures) for each filetype within input streams. The mapping for various filetypes and their magicbytes are stored in different formats which is then queried by the identification library. If a match is found, input stream is classified to be of that type. In case of match collisions, a signature preference logic prioritizes matches. Tools like [TrID](http://mark0.net/soft-trid-e.html) and [others](http://www.forensicswiki.org/wiki/File_Format_Identification) use similar logic.
 
-[cigma](https://github.com/7h3rAm/cigma) is a Python library to identify filetypes. It provides [libmagic](https://github.com/threatstack/libmagic) like mimetype identification of a file or data buffer. This is similar to what the `file` command on *nix systems will provide:
+[cigma](https://github.com/7h3rAm/cigma) is a Python library to identify filetypes. It provides [libmagic](https://github.com/threatstack/libmagic) like mimetype identification of a file or data buffer. This is similar to what the `file` command on \*nix systems will provide:
 
 ```
 $ file cigma.py
@@ -24,6 +26,8 @@ $
 $ file /dev/sda
 /dev/sda: block special
 ```
+
+## Usage and Usecases
 
 `cigma` uses a custom JSON formatted signature file to stores filetype mappings. Let's try identifying a few files:
 
@@ -150,5 +154,7 @@ Cigma(filename="/home/shiv/toolbox/testfiles/binary/crafted_corkami/gui.exe").ci
   'patterns': [{'offset': 0, 'regex': '\\x4D\\x5A', 'size': 2}],
   'shortname': 'EXE'})
 ```
+
+## Conclusion
 
 The primary purpose of `cigma` is to be able to identify mundane files at lightning speeds. It doesn't aim to provide exhaustive insight into each file by parsing and decoding it. Currently, there are 70+ signatures and identification for more filetypes will be available as the project grows.

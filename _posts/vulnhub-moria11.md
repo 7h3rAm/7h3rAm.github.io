@@ -103,7 +103,7 @@ john --format=dynamic_6 hashes
 ![writeup.enumeration.steps.9.1](/static/files/posts_vulnhub_moria11/screenshot10.png)  
 
 ### Findings
-#### Open Ports:
+#### Open Ports
 ```
 21/tcp  |  ftp   |  vsftpd 2.0.8 or later
 22/tcp  |  ssh   |  OpenSSH 6.6.1 (protocol 2.0)

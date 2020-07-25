@@ -4,6 +4,8 @@ date: 12/Mar/2016
 summary: This post demos a few nifty API endpoints from circl.lu that provide information on CVE and the vulnerabilities
 tags: code
 
+## Introduction
+
 The [circl.lu](https://www.circl.lu/services/cve-search/#public-web-api-of-cve-search) API is really useful for querying CVE information. I wrote a few methods to query the API and get this information:
 
 ```python
@@ -107,6 +109,8 @@ if __name__ == "__main__":
   pprint(circllu_cvesearch())
 ```
 
+## Testing
+
 Let's give this script a test run:
 
 ```
@@ -188,5 +192,7 @@ Let's give this script a test run:
  'vendorproduct': 'Adobe/Reader'
 }
 ```
+
+## Conclusion
 
 The `circllu_cveinfo` method allows querying the API for a specific CVE while returning a summary and references if the CVE is found in the database. The `circllu_cverecent` returns a list of recently requested CVEs. And finally, the `circllu_cvesearch` method allows you to search for a product or vendor and get listing of all reported vulnerabilities for the same. You can get this script [here](https://gist.github.com/7h3rAm/812eff486865f30c0da5c4a9d41ff73e).

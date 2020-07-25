@@ -4,6 +4,8 @@ date: 27/Nov/2014
 summary: This post introduces a network inspection tool that I've developed, called Flowinspect. It aims to reassemble network data and scan it via different inspection engines. Results of these scan can be viewed as a HTML report or consumed as a JSON via external applications.
 tags: code
 
+## Introduction
+
 For last couple of months I've been working on a network inspection tool, Flowinspect. I was honored to be able to present it at [Nullcon 2014](http://nullcon.net/website/goa-14/speakers/ankur-tyagi.php) and [Black Hat USA 2014 Arsenal](https://www.blackhat.com/us-14/arsenal.html#Tyagi). It started as an internal tool that proved useful for me and my colleagues at Juniper Networks for our signature development tasks. However, within just few months of inception, it started taking shape of a generic network inspection utility that allows automation of a number of tasks. It is opensource, released under the [CC BY NC SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) license terms and available on [Github](https://github.com/7h3rAm/flowinspect).
 
 At its core, Flowinspect uses [libnids](http://libnids.sourceforge.net/) and its Python binding [pynids](http://jon.oberheide.org/pynids/) to defragment IP and reassemble TCP packets. The result of this operation results in the generation of a TCP stream that can then be either dumped to file, saved as a pcap, analyzed via multiple inspection engines, etc.
@@ -102,6 +104,8 @@ Misc. Options:
   -S                    skip match summary display at exit
   -n                    show argument stats
 ```
+
+## Usage
 
 There are two modes of input: a pcap file or an interface name for live network traffic inspection. Let's try a pcap file that has HTTP trace for `google.com`:
 
@@ -227,9 +231,11 @@ $ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap
 [27-Nov-2014 09:35:10.953669 IST] [doexit] NORM: Session completed in 0:00:00.097070. Exiting.
 ```
 
-With the default options, Flowinspect will trace all TCP sessions from the input pcap and show a hexdump summary on a per packet basis. As can be seen from the output above, there is just one TCP session in the input pcap. The data sent by the client to the server is labelled as CTS (Client-to-Server) and that sent by the server in response is labelled as STC (Server-to-Client). In the last hexdump output, the second MATCH line shows that the STC buffer is of size 4857B, ie, the server replied with ~4.7KB of data for the initial request which was of size 627B.
+With the default options, Flowinspect will trace all TCP sessions from the input pcap and show a hexdump summary on a per packet basis. As can be seen from the output above, there is just one TCP session in the input pcap. The data sent by the client to the server is labelled as CTS (Client-to-Server) and that sent by the server in response is labelled as STC (Server-to-Client). In the last hexdump output, the second MATCH line shows that the STC buffer is of size `4857B`, ie, the server replied with `~4.7KB` of data 
+for the initial request which was of size `627B`.
 
-## Regex Inspection Mode
+## Operating Modes
+### Regex Inspection Mode
 Each of the inspection engines are triggered once the `libnids` engine completes reassembly and provides CTS/STC buffers per session. These buffers are then passed on to respective inspection engines. Let's now have a look at each of the inspection mode options, starting with regex mode first. Here's a listing of options available for regex mode inspection:
 
 ```
@@ -287,7 +293,7 @@ $ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -c 'mozi
 [27-Nov-2014 11:13:30.962186 IST] [doexit] NORM: Session completed in 0:00:00.016381. Exiting.
 ```
 
-## Fuzzy String Inspection Mode
+### Fuzzy String Inspection Mode
 The second inspection mode is Fuzzy string matching that allows inspection via similarity matches rather than exact matches. Fuzzy string matching allows to specify a threshold which can be compared against a match ration between two strings. If the ration satisfies the threshold, the match is considered to be valid else not. Let's assume you wish to find all strings similar to `http`:
 
 ```
@@ -394,7 +400,7 @@ $ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -G 'HTTp
 [27-Nov-2014 11:23:06.122211 IST] [doexit] NORM: Session completed in 0:00:00.024924. Exiting.
 ```
 
-## Yara Inspection Mode
+### Yara Inspection Mode
 The third inspection option is Yara rule matching over network streams. Yara is a signature-based malware identification and classification tool. Its yara-python bindings provide an API to use existing/custom signature files on an input buffer which in Flowinspect's usecase is a network stream. Let's have a look at the available options for Yara inspection mode:
 
 ```
@@ -435,7 +441,7 @@ $ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -R ~/too
 
 In the output above, Flowinspect informs that a rule named `http` matched on `172.16.16.128:1606 - 74.125.95.104:80` TCP stream. The content that is matched via this rule is of size 15B and is contained within the STC buffer spanning packet #6.
 
-## Shellcode Inspection Mode
+### Shellcode Inspection Mode
 The fourth and the last inspection mode is shellcode matching. There's a library called [libemu](http://libemu.carnivore.it/) that provides x86 emulation as well as shellcode detection via the GetPC heuristics. Most of Metasploit x86 architecture shellcode can be [detected](http://resources.infosecinstitute.com/shellcode-detection-emulation-libemu/) [via](https://bwall.github.io/libemu-scapy-for-shellcode-on-the-network/) [Libemu](http://nuald.blogspot.in/2010/10/shellcode-detection-using-libemu.html). Flowinspect uses its Python bindings, [pylibemu](https://github.com/buffer/pylibemu) to inspect CTS/STC buffers. Let's have a look at the options provided in this mode:
 
 ```
@@ -494,7 +500,7 @@ $ ll
 -rw-rw-r-- 1 shiv shiv  903 Dec 30 12:18 TCP-00000001-55.51.105.73.60246-53.70.78.87.80-STC.emuprofile
 ```
 
-The `-b` option specifies max number of bytes to show in output modes for matching streams. Since we don't really care about the hexadecimal bytes for now, we requested dumping of first 32B only. Above invocation of Flowinspect will dump the emulator profile to a TCP session based `.emuprofile` file:
+The `-b` option specifies max number of bytes to show in output modes for matching streams. Since we don't really care about the hexadecimal bytes for now, we requested dumping of first `32B` only. Above invocation of Flowinspect will dump the emulator profile to a TCP session based `.emuprofile` file:
 
 ```c
 $ cat TCP-00000001-55.51.105.73.60246-53.70.78.87.80-STC.emuprofile
@@ -547,7 +553,8 @@ From this profiling output, we can clearly identify and acknowledge the fact tha
 
 This behavior is indicative of the fact that it is a [TCP Reverse Shell](http://morgawr.github.io/hacking/2014/03/29/shellcode-to-reverse-bind-with-netcat/) spawning shellcode. Armed with this knowledge, users can enforce policy actions upon the probable attacker controlled system: `192.168.53.20`
 
-## Content Modifiers
+## Features
+### Content Modifiers
 Flowinspect supports two Snort like content modifiers, [offset](http://manual.snort.org/node32.html#SECTION00458000000000000000) and [depth](http://manual.snort.org/node32.html#SECTION00457000000000000000), invoked via the `-O` and `-D` options respectively. The `offset` modifier instructs Flowinspect to start inspection after skipping specified number of bytes. Similarly, the `depth` modifier instructs Flowinspect to only inspect specified number of bytes starting from the current value of offset. When used in combination these modifiers can prove to be extremely useful:
 
 ```
@@ -600,7 +607,7 @@ $ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/shellcode/shellcode-reverse-tcp-
 [27-Nov-2014 13:42:01.362984 IST] [doexit] NORM: Session completed in 0:00:00.020027. Exiting.
 ```
 
-## Inspection and Display Limits
+### Inspection and Display Limits
 Sometimes you might find yourself glancing at thousands of sessions and even with the powerful regex and other inspection mode matches that Flowinspect provides, you might still find it difficult to locate suspicious session. There are cases when you would like to restrict inspection and display to certain number of sessions and that where the following options come in handy:
 
 ```
@@ -616,7 +623,7 @@ Display Limits:
 
 So for example, to limit inspection to first 100 TCP sessions, you can use the `-T` option. If you would like to view only the first 10 matches you can use the `-U` option.
 
-## Output and Miscellaneous Options
+### Output and Miscellaneous Options
 Flowinspect allows matching packets/streams to be dumped in the raw format to files via the `-w` option. It might come in handy in case you need to inspect such streams using an external tool and only rely upon Flowinspect's reassembly capabilities.
 
 There are certain output dumping modes that later the way matching streams are dumped to `stdout`:
@@ -713,5 +720,7 @@ Misc. Options:
   -S                    skip match summary display at exit
   -n                    show argument stats
 ```
+
+## Conclusion
 
 Flowinspect has been under active development for some time now and I am constantly pushing fixes and feature to its [GitHub](https://github.com/7h3rAm/flowinspect) repository. Please feel free to try it and let me know if it seems useful in network inspection scenarios you come across.

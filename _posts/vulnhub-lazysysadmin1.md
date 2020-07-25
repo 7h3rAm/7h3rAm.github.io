@@ -132,7 +132,7 @@ http://192.168.92.191/deets.txt
 ![writeup.enumeration.steps.4.3](/static/files/posts_vulnhub_lazysysadmin1/screenshot04.png)  
 
 ### Findings
-#### Open Ports:
+#### Open Ports
 ```
 22/tcp    |  ssh          |  OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.8 (Ubuntu Linux; protocol 2.0)
 80/tcp    |  http         |  Apache httpd 2.4.7 ((Ubuntu))

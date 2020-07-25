@@ -21,39 +21,6 @@
     <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
    </head>
   <body>
-    <style>
-      .collapsible {
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        cursor: pointer;
-      }
-      .collapsible:after {
-        content: "+";
-        transition: transform .3s ease;
-        display: inline-block;
-        font-weight: bold;
-        float: right;
-      }
-      .expanded::after {
-        content: "-";
-        -ms-transform: rotate(360deg);
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-      }
-      .nested {
-        display: none;
-      }
-      .active {
-        display: block;
-      }
-    </style>
     <div class="header">
       <table>
         <tr>
@@ -66,14 +33,14 @@
     </div>
     <div class="body">
           <h1 class="h1 collapsible" onclick="toggle(this);">[HackTheBox] Devel</h1>
-                  <p class="nested"><a href="/posts/20191104_htb-grandpa.html"> « </a>📅 published on <code>05/Nov/2019</code><a href="/posts/20191112_htb-mirai.html"> » </a></p>
+                  <p><a href="/posts/20191104_htb-grandpa.html"> « </a>📅 published on <code>05/Nov/2019</code><a href="/posts/20191112_htb-mirai.html"> » </a></p>
                 <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested"><img alt="writeup.metadata.infocard" src="/static/files/posts_htb_devel/infocard.png" /></p>
 <p class="nested">This is a writeup for HTB VM <a href="https://www.hackthebox.eu/home/machines/profile/3">Devel</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p>
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_htb_devel/killchain.png" /></p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
-<p class="nested"re><code># Nmap 7.70 scan initiated Tue Nov  5 11:28:16 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.devel/results/10.10.10.5/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.devel/results/10.10.10.5/scans/xml/_quick_tcp_nmap.xml 10.10.10.5
+<pre class="nested"><code># Nmap 7.70 scan initiated Tue Nov  5 11:28:16 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.devel/results/10.10.10.5/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.devel/results/10.10.10.5/scans/xml/_quick_tcp_nmap.xml 10.10.10.5
 Nmap scan report for 10.10.10.5
 Host is up, received user-set (0.11s latency).
 Scanned at 2019-11-05 11:28:18 PST for 60s
@@ -104,8 +71,8 @@ Service detection performed. Please report any incorrect results at https://nmap
 <p class="nested"><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_htb_devel/screenshot01.png" />  </p>
 <p class="nested"><img alt="writeup.enumeration.steps.2.2" src="/static/files/posts_htb_devel/screenshot02.png" />  </p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
-<h4>Open Ports:</h4>
-<p class="nested"re><code>21/tcp  |  ftp   |  Microsoft ftpd
+<h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
+<pre class="nested"><code>21/tcp  |  ftp   |  Microsoft ftpd
 80/tcp  |  http  |  Microsoft IIS httpd 7.5
 </code></pre>
 
@@ -117,7 +84,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 <p class="nested"><img alt="writeup.exploitation.steps.1.4" src="/static/files/posts_htb_devel/screenshot07.png" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.1.5" src="/static/files/posts_htb_devel/screenshot08.png" />  </p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
-<p class="nested"re><code>web@DEVEL&gt; id
+<pre class="nested"><code>web@DEVEL&gt; id
 iis apppool\web
 web@DEVEL&gt;  
 web@DEVEL&gt; uname
@@ -156,7 +123,7 @@ babis
 <p class="nested"><img alt="writeup.privesc.steps.4.2" src="/static/files/posts_htb_devel/screenshot16.png" />  </p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Flags</h3>
-<p class="nested"re><code>c:\Users\babis\Desktop\user.txt.txt: 9ecdd6a3aedf24b415..............
+<pre class="nested"><code>c:\Users\babis\Desktop\user.txt.txt: 9ecdd6a3aedf24b415..............
 c:\Users\Administrator\Desktop\root.txt.txt: e621a0b5041708797...............
 </code></pre>
 
@@ -165,19 +132,17 @@ c:\Users\Administrator\Desktop\root.txt.txt: e621a0b5041708797...............
 <li><a href="https://www.hackthebox.eu/home/machines/profile/3">https://www.hackthebox.eu/home/machines/profile/3</a>  </li>
 <li><a href="https://xd3m0n.xyz/htb_devel/">https://xd3m0n.xyz/htb_devel/</a>  </li>
 </ul>
-        <p class="nested" style="text-align:center;">(🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a>)</p>
-                  <p class="nested" style="text-align:center;">« <a href="/posts/20191104_htb-grandpa.html">[HackTheBox] Grandpa...</a> « | » <a href="/posts/20191112_htb-mirai.html">[HackTheBox] Mirai...</a> »</p>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20191104_htb-grandpa.html">[HackTheBox] Grandpa...</a> « | » <a href="/posts/20191112_htb-mirai.html">[HackTheBox] Mirai...</a> »</p>
             </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
     <script>
       function toggle(elem) {
         elem.classList.toggle("expanded");
-
-        var ish2 = false; var ish3 = false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }
-        console.log(elem); console.log(ish2); console.log(ish3);
-
+        var ish2=false; var ish3=false; var ish4=false;
+        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
+        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
         var sibling = elem.nextElementSibling;
         while (sibling) {
           if (ish2 && sibling.classList.contains("h2")) {
@@ -185,6 +150,10 @@ c:\Users\Administrator\Desktop\root.txt.txt: e621a0b5041708797...............
             break;
           }
           if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
             sibling.classList.toggle("active");
             break;
           }

@@ -122,7 +122,7 @@ smbclient -N \\\\10.10.10.27\\backups
 ![writeup.enumeration.steps.4.1](/static/files/posts_htb_archetype/screenshot03.png)  
 
 ### Findings
-#### Open Ports:
+#### Open Ports
 ```
 135/tcp    msrpc         Microsoft Windows RPC
 139/tcp    netbios-ssn   Microsoft Windows netbios-ssn

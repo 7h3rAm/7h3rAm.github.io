@@ -4,7 +4,11 @@ date: 29/Aug/2013
 summary: This post is a writeup on the reverse-challenge from recently concluded Malicious Software course on Coursera.
 tags: ctf, reversing
 
+## Introduction
+
 This post follows an earlier one: [reverse-ex Challenge from Coursera's Malicious Software Course](https://7h3ram.github.io/posts/20130824_malsoftware-reverse-ex.html). If you've not already read it, I would suggest you do so since both these challenges share a few common concepts and I'll be skipping detail if it has been mentioned before.
+
+## Program Analysis and Testing
 
 The challenge file is hosted here: [reverse-challenge](/static/files/posts_malsoftware_reverse_challenge/reverse-challenge). The first thing to do is to test it with `file` command:
 
@@ -74,5 +78,7 @@ exit_group(1)                           = ?
 ```
 
 The program stopped since the `ptrace` system call returned `EPERM` error code which indicates that the `PTRACE_TRACEME` operation is not permitted. This is a very commonly used anti-debugging method and it works since such program already invoke `ptrace` over them before executing any other functions and as such when a user manually tries to debug it (via `ptrace` calls), it fails since a trace session is already active on the program and another cannot be initialized.
+
+## Conclusion
 
 Anyways, like the previous challenge, this was also completed without actually debugging the program. However, there are still ways in which we can bypass the anti-debugging mechanisms and analyze the program via dynamic analysis only. Rest on this in a future post. Stay tuned.

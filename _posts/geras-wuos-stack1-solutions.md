@@ -4,6 +4,8 @@ date: 27/Aug/2012
 summary: Solutions for Gera's Warming up on Stack #1 program.
 tags: exploit, ctf
 
+## Introduction
+
 This is the part 1 in a series of posts that aim to provide an analysis and possible solutions for the vulnerable programs provided by Gera at his Insecure Programming by example page.
 
 Familiarity with exploit mitigation techniques is expected to gain a proper understanding of the concepts we talk about here. If terms like `ASLR`, `NX`, `SSP`, `RELRO`, etc. seem unfamiliar, I would suggest reading the [Exploit Mitigation Techniques on Linux Systems](https://7h3ram.github.io/posts/20120710_exploit-mitigation-techniques-on-linux.html) post that talks about these.
@@ -33,7 +35,7 @@ The above program accepts user-input through the `gets` function and then looks 
 Here are a few observations that could be made by looking at the source of the program:
 
 1. Since it is defined prior to buf, the cookie would be placed at a higher memory address on the program stack, just below the saved registers from the function prologue
-2. The `buf` character array would be at an offset of at least 80B from `cookie`
+2. The `buf` character array would be at an offset of at least `80B` from `cookie`
 3. The `gets` call would accept unbounded user-input within `buf` array and hence it provides a mechanism to alter the call stack contents.
 
 To attempt exploitation, proper understanding of a program's memory layout and the positioning of its metadata is very important. We first need to understand the [call stack](http://www.csee.umbc.edu/%7Echang/cs313.s02/stack.shtml) for the `stack1` program.
@@ -56,7 +58,7 @@ Based on these observations, let's try to visualize the call stack layout for th
 
 NOTE: The stack is assumed to be 4B aligned and we are working on an x86 machine. The addresses in the layouts are for reference only.While thinking about possible solutions for this program, I came up with the below listed ideas:
 
-- Solution #1: Overflow the 4B past `buf`, where the `cookie` is stored, with the desired value (`0x41424344` in this case)
+- Solution #1: Overflow the `4B` past `buf`, where the `cookie` is stored, with the desired value (`0x41424344` in this case)
 - Solution #2: Overwrite EIP with the address of the `printf` statement that prints the `you win!` message
 - Solution #3: Inject and execute a shellcode that simulates the second `printf` statement, through the internal `buf` character array
 - Solution #4: Inject and execute a shellcode, that simulates the second `printf` statement, through an environment variable and overwrite EIP with its address
@@ -80,7 +82,7 @@ model name  : Intel(R) Core(TM) i5-4200M CPU @ 2.50GHz
 flags   : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 syscall nx rdtscp lm constant_tsc up xtopology pni pclmulqdq monitor ssse3 cx16 sse4_1 sse4_2 aes xsave avx lahf_lm abm
 ```
 
-Below is the GCC command-line to compile the `stack1.c` source file. The `-mpreferred-stack-boundary=2` option is used to align stack entries at QWORD (8B) boundary:
+Below is the GCC command-line to compile the `stack1.c` source file. The `-mpreferred-stack-boundary=2` option is used to align stack entries at QWORD (`8B`) boundary:
 
 ```
 # gcc -mpreferred-stack-boundary=2 -o stack1 stack1.c
@@ -92,7 +94,7 @@ stack1.c:8: warning: format ‘%08x’ expects type ‘unsigned int’, but argu
 stack1.c:(.text+`0x32`): warning: the `gets' function is dangerous and should not be used.
 ```
 
-GCC outlines a few warnings with the above code, out of which, the last one suggests to find an alternative for the gets, since it is a *dangerous* function. We are in the process of figuring out just how dangerous `gets` can be and hence we can ignore this and earlier warnings.
+GCC outlines a few warnings with the above code, out of which, the last one suggests to find an alternative for the gets, since it is a `dangerous` function. We are in the process of figuring out just how dangerous `gets` can be and hence we can ignore this and earlier warnings.
 
 Lets have a peak into the assembly code of the stack1 ELF binary. Below command-line uses the objdump utility to dump the disassembled object code of a program in [Intel](http://asm.sourceforge.net/articles/linasm.html#Syntax) syntax (remove the `-Mintel` option from the below command-line to view AT&T syntax formatted assembled code):
 
@@ -134,10 +136,10 @@ Lets have a peak into the assembly code of the stack1 ELF binary. Below command-
 There are a few very important points to note from the above output:
 
 1. To witness the [SSP](http://en.wikipedia.org/wiki/Buffer_overflow_protection#GCC_Stack-Smashing_Protector_.28ProPolice.29) mitigation technique, locate the `mov eax, gs:0x14` instruction at memory address `0x080484aa`. This instruction inserts a random 4B canary value just below the function prologue.
-2. Variable reordering feature of SSP is also in place since for the initial `printf` call, the first variable to be pushed on to stack is `&cookie` instead of `&buf` (refer [cdecl](http://en.wikipedia.org/wiki/X86_calling_conventions#cdecl) calling convention). This is concluded from the addresses used to move arguments onto stack. The `&cookie` is accessed from the location `[ebp-0x58]` and `&buf` from `[ebp-0x54]`. As such, cookie is placed at a distance of 88B from EBP and `buf` is located right above it at a distance of 84B from EBP. The additional 4B are from the canary placed inbetween `buf` and EBP.
+2. Variable reordering feature of SSP is also in place since for the initial `printf` call, the first variable to be pushed on to stack is `&cookie` instead of `&buf` (refer [cdecl](http://en.wikipedia.org/wiki/X86_calling_conventions#cdecl) calling convention). This is concluded from the addresses used to move arguments onto stack. The `&cookie` is accessed from the location `[ebp-0x58]` and `&buf` from `[ebp-0x54]`. As such, cookie is placed at a distance of `88B` from EBP and `buf` is located right above it at a distance of 84B from EBP. The additional 4B are from the canary placed inbetween `buf` and EBP.
 3. The code to verify the content of canary, before returning control to the parent process, is also added and can be found at address `0x080484f0`. If this check fails, the `__stack_chk_fail` function is called to abort the execution of this program.
 
-**NOTE**: These SSP features are enabled by default and hence were introduced automatically through the vanilla command-line we used to compile `stack1.c` above. It is, however, suggested to use explicit command-line arguments without considering their default status when compiling your source files. This ensures portability of security checks in your applications.
+> These SSP features are enabled by default and hence were introduced automatically through the vanilla command-line we used to compile `stack1.c` above. It is, however, suggested to use explicit command-line arguments without considering their default status when compiling your source files. This ensures portability of security checks in your applications.
 
 You must have already guessed that the call stack layout we saw earlier is no longer in sync with the compiled binary. We need to recreate it considering the above discussed modifications:
 
@@ -225,7 +227,7 @@ SUMMARY:
 * Number of unchecked functions in the executable    : 4
 ```
 
-As discussed earlier, the default compilation command-line enabled quite a few mitigation features like `Partial RELRO`, `stack canary`, `NX` and a few others. These features have made significant modifications to the vulnerable program and their presence will prohibit its successful exploitation. From the above output, also note that the `printf` and `gets` functions have not been replaced with their safer counterparts. This should have happened through the default command-line. But since the program source did not include the necessary standard libraries for these functions, the `FORTIFY_SOURCE` mitigation feature failed to detect their presence and as such could not replace them. If you recompile the source with the necessary libraries included, you will encounter the *stack smashing detected* error message. Even in the absence of this feature, the ELF binary is quite difficult to exploit. We need to print the `you win!` message to successfully exploit this program. But since the `cookie` has been reordered and placed below `buf`, we simply have no way to modify it. Additionally, any attempts to overwrite the return address would fail since the canary is placed in between. While overwriting EIP, it will also be overwritten and the `__stack_chk_fail` function would terminate the program before the message is printed:
+As discussed earlier, the default compilation command-line enabled quite a few mitigation features like `Partial RELRO`, `stack canary`, `NX` and a few others. These features have made significant modifications to the vulnerable program and their presence will prohibit its successful exploitation. From the above output, also note that the `printf` and `gets` functions have not been replaced with their safer counterparts. This should have happened through the default command-line. But since the program source did not include the necessary standard libraries for these functions, the `FORTIFY_SOURCE` mitigation feature failed to detect their presence and as such could not replace them. If you recompile the source with the necessary libraries included, you will encounter the `stack smashing detected` error message. Even in the absence of this feature, the ELF binary is quite difficult to exploit. We need to print the `you win!` message to successfully exploit this program. But since the `cookie` has been reordered and placed below `buf`, we simply have no way to modify it. Additionally, any attempts to overwrite the return address would fail since the canary is placed in between. While overwriting EIP, it will also be overwritten and the `__stack_chk_fail` function would terminate the program before the message is printed:
 
 ```
 # perl -e 'print "A"x81' | ./stack1
@@ -308,7 +310,7 @@ The `buf` is at `0xbfa68294` and the cookie at `0xbfa682e4`. The variables have 
 
 From here we could proceed to the exploitation phase.
 
-##Solution #1: Overflow the 4B past buf, where the cookie is stored, with the desired value (`0x41424344` in this case)
+## Solution #1: Overflow the `4B` past buf, where the cookie is stored, with the desired value (`0x41424344` in this case)
 
 For this solution we first need to calculate the offset between `buf` and `cookie`:
 
@@ -321,7 +323,7 @@ AAAAAAA
 offset: 80
 ```
 
-As expected, it came out to be 80B. We craft a perl command-line to overwrite 80B of data to reach past the `buf` boundary. Once this is done, we're pointing at the cookie, which can then be overwritten with the desired content:
+As expected, it came out to be 80B. We craft a perl command-line to overwrite `80B` of data to reach past the `buf` boundary. Once this is done, we're pointing at the cookie, which can then be overwritten with the desired content:
 
 ```
 # perl -e 'print "A"x80 . "\x44\x43\x42\x41"' | ./stack1
@@ -331,7 +333,7 @@ you win!
 
 **NOTE**: The test system is a x86 Intel machine that uses [little-endian](http://isisblogs.poly.edu/2012/05/28/endianness/) byte ordering. We take this into account and reorder individual bytes to set the `cookie` with appropriate value.
 
-##Solution #2: Overwrite EIP with the address of the printf statement that prints the you win! message
+## Solution #2: Overwrite EIP with the address of the `printf` statement that prints the `you win!` message
 
 For the second solution, we need to overwrite EIP with the address of the `printf` statement that prints the required `you win!` message. This will ensure that when the program returns from `main()`, control transfers to stack1's `.text` segment instead of the `__libc_start_main()`. But first we need to find the address of the `printf` statement from `stack1`'s assembly code:
 
@@ -362,9 +364,9 @@ For the second solution, we need to overwrite EIP with the address of the `print
 
 The last call instruction prepares the stack for a call to `puts`. That's right, the stack is prepared for `puts` and not `printf`. This is due to a default [GCC optimization option](http://www.ciselant.de/projects/gcc_printf/gcc_printf.html) that finds the second `printf` call in `stack1.c` incompatible with its built-in declaration and replaces (optimizes) it with a call to `puts`. For our exploit attempts, we can safely ignore the implicit differences between functions used here. Since the `puts` function will do the same thing as `printf`, we just want its address for proper control transfer. However we need the address of the instruction just above call `puts` as well, because it is where the `you win!` message is pushed onto the stack. From the above output we see that it is `0x08048479`.
 
-Now that we have the address to overwrite with, we need the exact offset where we can inject it. For this solution we need to overwrite EIP, whereas in the previous solution, we overwrote cookie, ie. 4B past buf. The size of `buf` was the offset that we used for junk data to reach `cookie`. We concluded this offset using the variable adjacency property. All local variables are placed adjacent to each other at lower memory addresses in the order in which they were declared in the source program. As such we could find out the offset of the EIP as well.
+Now that we have the address to overwrite with, we need the exact offset where we can inject it. For this solution we need to overwrite EIP, whereas in the previous solution, we overwrote cookie, ie. `4B` past `buf`. The size of `buf` was the offset that we used for junk data to reach `cookie`. We concluded this offset using the variable adjacency property. All local variables are placed adjacent to each other at lower memory addresses in the order in which they were declared in the source program. As such we could find out the offset of the EIP as well.
 
-Referring the call stack layout we saw earlier, the offset of EIP can be easily calculated. The `buf` 80B + cookie 4B + saved Frame Pointer 4B = 88B. This is the offset of EIP from the start of the `buf` array:
+Referring the call stack layout we saw earlier, the offset of EIP can be easily calculated. The `buf 80B` + `cookie 4B` + `saved Frame Pointer 4B` = `88B`. This is the offset of EIP from the start of the `buf` array:
 
 ```
 # perl -e 'print "A"x88 . "\x59\x84\x04\x08"' | ./stack1
@@ -375,7 +377,7 @@ Segmentation fault
 
 We were able to overwrite EIP and redirect control to a desired location. This action helped us to bypass the if condition without actually modifying the contents of the source program.
 
-##Solution #3: Inject and execute a shellcode that simulates the second printf statement, through the internal buf character array
+## Solution #3: Inject and execute a shellcode that simulates the second `printf` statement, through the internal `buf` character array
 
 We now move on to the third solution for this program. We have found that the program has a buffer in which we can inject junk data and we also have the ability to redirect control to arbitrary locations. These two possibilities, when combined together, allow us to execute arbitrary shellcode. We will design a shellcode that simulates the behavior of the `puts` call and inject it within the program buffer. We will then modify the contents of EIP to point to the buffer where our injected shellcode ends up. If all goes well, this shellcode will be executed and we will have the message printed.There is however one thing we will have to think about before we move ahead. Recall the `checksec.sh` output above. It tells that one of the mitigation features, `NX`, is enabled for the vulnerable `stack1` program. This means that when we execute this binary, it will have its stack segment marked as non-executable:
 
@@ -515,7 +517,7 @@ You would have already guessed by now. It is due to the `ASLR` mitigation featur
             init      1 Full RELRO        Canary found           NX enabled    PIE enabled
 ```
 
-On systems that support [brk](https://wiki.ubuntu.com/Security/Features#brk_ASLR) [ASLR](https://wiki.ubuntu.com/Security/Features#Address_Space_Layout_Randomisation_.28ASLR.29), the `/proc/sys/kernel/randomize_va_space` file stores a value of 2. On other systems it stores a value of 1 by default to indicate the presence of vanilla `ASLR`. Modifying this file with a value of 0 will immediately turn off this feature for all newly spawned processes:
+On systems that support [brk](https://wiki.ubuntu.com/Security/Features#brk_ASLR) [ASLR](https://wiki.ubuntu.com/Security/Features#Address_Space_Layout_Randomisation_.28ASLR.29), the `/proc/sys/kernel/randomize_va_space` file stores a value of `2`. On other systems it stores a value of `1` by default to indicate the presence of vanilla `ASLR`. Modifying this file with a value of `0` will immediately turn off this feature for all newly spawned processes:
 
 ```
 # cat /proc/sys/kernel/randomize_va_space
@@ -536,7 +538,7 @@ buf: bffff4d4 cookie: bffff524
 AAAA
 ```
 
-For all the 3 invocations of `stack1` program, the locations for `buf` (`0xbffff4d4`) and `cookie` (`0xbffff524`) remains constant. Since the `buf` is always placed at a known static address, we could use it for EIP redirection. Let's proceed to the exploitation phase. Since the shellcode is of size 38B and the `buf` is located at an offset of 88B from the EIP, we have a junk space of 50B. We could use this space to increase the reliability of our exploit by adding a NOP sled at the start of our shellcode. This although is not required as we are already aware of the location of our shellcode. But we still have to fill this space with junk bytes to reach the offset of EIP. Let's craft a perl command-line to inject our shellcode at the location where this correct address could be overwritten. However, we were not able to get the shellcode executed:
+For all the 3 invocations of `stack1` program, the locations for `buf` (`0xbffff4d4`) and `cookie` (`0xbffff524`) remains constant. Since the `buf` is always placed at a known static address, we could use it for EIP redirection. Let's proceed to the exploitation phase. Since the shellcode is of size 38B and the `buf` is located at an offset of 88B from the EIP, we have a junk space of `50B`. We could use this space to increase the reliability of our exploit by adding a NOP sled at the start of our shellcode. This although is not required as we are already aware of the location of our shellcode. But we still have to fill this space with junk bytes to reach the offset of EIP. Let's craft a perl command-line to inject our shellcode at the location where this correct address could be overwritten. However, we were not able to get the shellcode executed:
 
 ```
 ./stack1
@@ -574,7 +576,7 @@ It did work! Although a junk byte was appended to the winning message, it really
 
 For this solution, we turned off another mitigation feature (`ASLR`). Even in its presence we were able to gain successful exploitation (using solutions #1 and #2) but that was because we had alternate tricks. However, those were very specific to the vulnerable `stack1` program. They won't always work, but you now understand that an insight about how things really work, could help with designing custom solutions and hacking around any limitations that stop you from gaining successful exploitation. This solution helped us to get an insight into how useful addressing information could be for an exploit writer and how the `ASLR` technique helps to mitigate exploit attempts that use such information.
 
-##Solution #4: Inject and execute a shellcode, that simulates the second printf statement, through an environment variable and overwrite EIP with its address
+## Solution #4: Inject and execute a shellcode, that simulates the second `printf` statement, through an environment variable and overwrite EIP with its address
 
 Let's now move to the final solution for the `stack1` program. First, let's have a quick review of solution #3. We injected a shellcode that simulated the behavior of `printf` statement. We redirected control to our shellcode and achieved exploitation. However, a minor modification was required to our exploit command-line that changed the look and feel of our winning message. The newline character caused the `gets` copy loop to stop overwriting memory addresses past the terminating character and as such we had to remove it from our exploit shellcode. Although this issue was easily resolved though a quick and dirty hack, it might pose significant issues in real world exploit attempts. Could there be a better/elegant solution to this problem?
 
@@ -582,7 +584,7 @@ Okay, no guess work required here. There indeed is one such trick that could hel
 
 There are a few scenarios in which injecting shellcode through an environment variable is the only viable option. One such scenario is when you encounter a buffer that is too small to fit in your desired shellcode. Since an environment variable could be of arbitrary size, we could inject a huge shellcode like the one simulating the [Meterpreter](http://en.wikibooks.org/wiki/Metasploit/MeterpreterClient) payload in [Metasploit Framework](http://en.wikibooks.org/wiki/Metasploit) and get it executed on the target system. In our case, we were lucky enough to have a large `buf` that could completely hold our `printf` shellcode. Another scenario could be when string termination filters, like newline above, are encountered. For solution #3, we hacked around and got the message printed, but it obviously won't work in all cases. In such a scenario, we could inject our shellcode into an environment variable. Since the shellcode is injected independent of the vulnerable program, it helps to bypass its inherent filters. The only challenging part that remains is redirecting control to the location where this shellcode in the environment variable is placed.
 
-One of the most important reason to use an environment variable to hold exploit shellcode is its memory placement. These variables are copied into the stack segment of all processes and as such they provide a means for code execution for stack-based exploits. Let's inject the shellcode we prepared earlier into an environment variable, called `WINCODE` and use its address to overwrite EIP and get code execution. There are a few techniques using which the address of an environment variable can be accurately calculated and we won't need a NOP sled in front of our shellcode. If you have any queries regarding environment variable based exploitation, please refer **section 0x331 Using the Environment** from [Hacking - The Art of Exploitation](https://www.nostarch.com/hacking2.htm) book:
+One of the most important reason to use an environment variable to hold exploit shellcode is its memory placement. These variables are copied into the stack segment of all processes and as such they provide a means for code execution for stack-based exploits. Let's inject the shellcode we prepared earlier into an environment variable, called `WINCODE` and use its address to overwrite EIP and get code execution. There are a few techniques using which the address of an environment variable can be accurately calculated and we won't need a NOP sled in front of our shellcode. If you have any queries regarding environment variable based exploitation, please refer `section 0x331 Using the Environment` from [Hacking - The Art of Exploitation](https://www.nostarch.com/hacking2.htm) book:
 
 ```
 # export WINCODE=$(cat shellcode.bin)
@@ -627,5 +629,7 @@ you win!
 ```
 
 This time just the `0x0a` was echoed back and it, as expected, corrects the exploit output. However, I could not understand this strange behavior. If you have any ideas please get back. So, we have now successfully exploited the `stack1` program through a shellcode injected into an environment variable. Please note that the use of environment variables is only possible for local exploits and as such it is not much used in common exploits that you see in the wild. However, as you have already seen, it is one of the most reliable methods of exploitation.
+
+## Conclusion
 
 All these solutions are however not practical since they require disabling of recent mitigation features. They serve the purpose of understanding how exploits worked before mitigation features were introduced.

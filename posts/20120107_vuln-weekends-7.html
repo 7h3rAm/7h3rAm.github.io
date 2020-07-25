@@ -21,39 +21,6 @@
     <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
    </head>
   <body>
-    <style>
-      .collapsible {
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        cursor: pointer;
-      }
-      .collapsible:after {
-        content: "+";
-        transition: transform .3s ease;
-        display: inline-block;
-        font-weight: bold;
-        float: right;
-      }
-      .expanded::after {
-        content: "-";
-        -ms-transform: rotate(360deg);
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-      }
-      .nested {
-        display: none;
-      }
-      .active {
-        display: block;
-      }
-    </style>
     <div class="header">
       <table>
         <tr>
@@ -66,7 +33,7 @@
     </div>
     <div class="body">
           <h1 class="h1 collapsible" onclick="toggle(this);">Vulnerable Weekends #7: Iptools rcmd DoS</h1>
-                  <p class="nested"><a href="/posts/20120101_vuln-weekends-6.html"> « </a>📅 published on <code>07/Jan/2012</code><a href="/posts/20120602_vuln-weekends-8.html"> » </a></p>
+                  <p><a href="/posts/20120101_vuln-weekends-6.html"> « </a>📅 published on <code>07/Jan/2012</code><a href="/posts/20120602_vuln-weekends-8.html"> » </a></p>
                 <h2 class="h2 collapsible" onclick="toggle(this);">Vulnerability Report #7: Iptools rcmd Denial of Service Vulnerability</h2>
 <p class="nested"><strong>Vulnerable Product</strong>: Installations of Iptools with version 0.1.4</p>
 <p class="nested"><strong>CVE ID</strong>: NA</p>
@@ -85,7 +52,7 @@
 <h3 class="h3 collapsible" onclick="toggle(this);">Details</h3>
 <p class="nested">Iptools is a popular set of tiny TCP/IP utilities implemented as Perl scripts, that include a minimalist webserver, a remote command server on the lines of Telnet, a TFTP server/client, SNMP browser, etc. The toolset has been reported to be vulnerable to a denial of service (DoS) vulnerability, specifically within its remote command server script, <code>rcmd</code>.</p>
 <p class="nested">The vulnerable utility receives user-supplied input through its listening port, TCP/23, which is then tested against a set of weak sanitization checks. This input is used as a placeholder for the <code>EXPR</code> parameter used by the internal <code>chdir</code> function which parses it as a filename reference. Since this parameter could reference a string of an unbounded length, the directory change operation could generate an untrappable exception. This flaw could make the vulnerable utility unstable, effectively terminating the Perl interpreter abnormally, leading to the DoS condition. The following code snippet depicts where the vulnerability could have been introduced within the <code>rcmd</code> script:</p>
-<p class="nested"re><code class="python">chop($curdir=`cd`);
+<pre class="nested"><code class="python">chop($curdir=`cd`);
 print NS &quot;$curdir&gt; &quot;;
 while (&lt;NS&gt;) {
   print &quot;Client request : &quot;;
@@ -105,19 +72,17 @@ while (&lt;NS&gt;) {
 <p class="nested"><a href="http://cve.mitre.org">cve.mitre.org</a><br />
 <a href="http://www.first.org/cvss/cvss-guide.html">cvss-guide</a><br />
 <a href="http://nvd.nist.gov/cvss.cfm?calculator&amp;adv&amp;version=2">cvss-calculator</a>  </p>
-        <p class="nested" style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnweekends>vulnweekends</a>)</p>
-                  <p class="nested" style="text-align:center;">« <a href="/posts/20120101_vuln-weekends-6.html">Vulnerable Weekends #6: WPS Br...</a> « | » <a href="/posts/20120602_vuln-weekends-8.html">Vulnerable Weekends #8: HP Loa...</a> »</p>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnweekends>vulnweekends</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20120101_vuln-weekends-6.html">Vulnerable Weekends #6: WPS Br...</a> « | » <a href="/posts/20120602_vuln-weekends-8.html">Vulnerable Weekends #8: HP Loa...</a> »</p>
             </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
     <script>
       function toggle(elem) {
         elem.classList.toggle("expanded");
-
-        var ish2 = false; var ish3 = false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }
-        console.log(elem); console.log(ish2); console.log(ish3);
-
+        var ish2=false; var ish3=false; var ish4=false;
+        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
+        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
         var sibling = elem.nextElementSibling;
         while (sibling) {
           if (ish2 && sibling.classList.contains("h2")) {
@@ -125,6 +90,10 @@ while (&lt;NS&gt;) {
             break;
           }
           if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
             sibling.classList.toggle("active");
             break;
           }
