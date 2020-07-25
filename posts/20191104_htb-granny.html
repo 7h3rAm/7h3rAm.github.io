@@ -1,46 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
-    <meta name="description" content="Personal Weblog"/>
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    <title>Mannthan</title>
-    <link href="/static/images/mannthan-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
-    <script src="/static/js/highlight.min.js"></script>
-    <script src="/static/js/highlightjs-line-numbers.min.js"></script>
-    <script charset="UTF-8" src="/static/js/go.min.js"></script>
-    <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/github-gist.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/style.md.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
-    <link rel="stylesheet" href="/static/css/github-gist.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
-   </head>
-  <body>
-    <div class="header">
-      <table>
-        <tr>
-          <td><a href="/index.html" style="color:#fe4164; font-size:14pt;">🏡 Home </a></td>
-          <td><a href="/archive.html" style="color:#f90; font-size:14pt;">💾 Archive </a></td>
-          <td><a href="/tags.html" style="color:#69359c; font-size:14pt;">🔖 Tags </a></td>
-          <td><a href="/stats.html" style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td>
-        </tr>
-      </table>
-    </div>
-    <div class="body">
-          <h1 class="h1 collapsible" onclick="toggle(this);">[HackTheBox] Granny</h1>
-                  <p><a href="/posts/20191101_htb-blue.html"> « </a>📅 published on <code>04/Nov/2019</code><a href="/posts/20191104_htb-optimum.html"> » </a></p>
-                <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
-<p class="nested"><img alt="writeup.metadata.infocard" src="/static/files/posts_htb_granny/infocard.png" /></p>
-<p class="nested">This is a writeup for HTB VM <a href="https://www.hackthebox.eu/home/machines/profile/14">Granny</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p>
-<p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_htb_granny/killchain.png" /></p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
-<p class="nested">1. Here's the Nmap scan result:  </p>
-<pre class="nested"><code># Nmap 7.70 scan initiated Mon Nov  4 13:35:36 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.granny/results/10.10.10.15/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.granny/results/10.10.10.15/scans/xml/_quick_tcp_nmap.xml 10.10.10.15
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=author content="Ankur Tyagi (@7h3rAm)"><meta name=description content="Personal Weblog"><meta content="width=device-width, initial-scale=1" name=viewport><title>Mannthan</title><link href=/static/images/mannthan-32x32.png sizes=32x32 rel=icon type=image/png><script src=/static/js/highlight.min.js></script><script src=/static/js/highlightjs-line-numbers.min.js></script><script charset=UTF-8 src=/static/js/go.min.js></script><link rel=stylesheet href=/static/css/github-gist.min.css><link rel=stylesheet type=text/css href=/static/css/style.md.css media=screen></head><body><div class=header><table><tr><td><a href=/index.html style="color:#fe4164; font-size:14pt;">🏡 Home </a></td><td><a href=/archive.html style="color:#f90; font-size:14pt;">💾 Archive </a></td><td><a href=/tags.html style="color:#69359c; font-size:14pt;">🔖 Tags </a></td><td><a href=/stats.html style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td></tr></table></div><div class=body><h1 class="h1 collapsible" onclick=toggle(this);>[HackTheBox] Granny</h1><p><a href=/posts/20191101_htb-blue.html> « </a>📅 published on <code>04/Nov/2019</code><a href=/posts/20191104_htb-optimum.html> » </a></p><h2 class="h2 collapsible" onclick=toggle(this);>Overview</h2><p class=nested><img alt=writeup.metadata.infocard src=/static/files/posts_htb_granny/infocard.png></p><p class=nested>This is a writeup for HTB VM <a href=https://www.hackthebox.eu/home/machines/profile/14>Granny</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p><p class=nested><img alt=writeup.overview.killchain src=/static/files/posts_htb_granny/killchain.png></p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #1: Enumeration</h2><p class=nested>1. Here's the Nmap scan result: </p><pre class=nested><code># Nmap 7.70 scan initiated Mon Nov  4 13:35:36 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.granny/results/10.10.10.15/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.granny/results/10.10.10.15/scans/xml/_quick_tcp_nmap.xml 10.10.10.15
 Nmap scan report for 10.10.10.15
 Host is up, received user-set (0.051s latency).
 Scanned at 2019-11-04 13:35:37 PST for 21s
@@ -64,21 +22,8 @@ Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
 Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Mon Nov  4 13:35:58 2019 -- 1 IP address (1 host up) scanned in 21.97 seconds
-</code></pre>
-
-<p class="nested">2. We look for IIS 6.0 vulnerabilities and find multiple WebDAV related hits:  </p>
-<p class="nested"><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_htb_granny/screenshot01.png" />  </p>
-<h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
-<h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
-<pre class="nested"><code>80/tcp  |  http  |  Microsoft IIS httpd 6.0
-</code></pre>
-
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
-<p class="nested">1. We decide to use the Metasploit <code>windows/iis/iis_webdav_upload_asp</code> exploit and it successully gives us a Meterpreter shell:  </p>
-<p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_htb_granny/screenshot02.png" />  </p>
-<p class="nested"><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_htb_granny/screenshot03.png" />  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
-<pre class="nested"><code>ntauth/network@GRANNY&gt; id
+</code></pre><p class=nested>2. We look for IIS 6.0 vulnerabilities and find multiple WebDAV related hits: </p><p class=nested><img alt=writeup.enumeration.steps.2.1 src=/static/files/posts_htb_granny/screenshot01.png> </p><h3 class="h3 collapsible" onclick=toggle(this);>Findings</h3><h4 class="h4 collapsible" onclick=toggle(this);>Open Ports</h4><pre class=nested><code>80/tcp  |  http  |  Microsoft IIS httpd 6.0
+</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2: Exploitation</h2><p class=nested>1. We decide to use the Metasploit <code>windows/iis/iis_webdav_upload_asp</code> exploit and it successully gives us a Meterpreter shell: </p><p class=nested><img alt=writeup.exploitation.steps.1.1 src=/static/files/posts_htb_granny/screenshot02.png> </p><p class=nested><img alt=writeup.exploitation.steps.1.2 src=/static/files/posts_htb_granny/screenshot03.png> </p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2.5: Post Exploitation</h2><pre class=nested><code>ntauth/network@GRANNY&gt; id
 NT AUTHORITY\NETWORK SERVICE
 ntauth/network@GRANNY&gt;  
 ntauth/network@GRANNY&gt; uname
@@ -100,77 +45,15 @@ ntauth/network@GRANNY&gt;
 ntauth/network@GRANNY&gt; users
 Administrator
 Lakis
-</code></pre>
-
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
-<p class="nested">1. Since we have certain restrictions that stop us from running commands like <code>getuid</code>, we have to migrate to a different process. We find the PID for process <code>davcdata.exe</code> and migrate to it:  </p>
-<p class="nested"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_htb_granny/screenshot04.png" />  </p>
-<p class="nested">2. We can now use the Metasploit <code>multi/recon/local_exploit_suggester</code> module to look for privesc options:  </p>
-<p class="nested"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_htb_granny/screenshot05.png" />  </p>
-<p class="nested">3. We tried a few exploits from this list and eventually the <code>windows/local/ms15_051_client_copy_image</code> module worked and provided an elevated session:  </p>
-<p class="nested"><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_htb_granny/screenshot06.png" />  </p>
-<p class="nested"><img alt="writeup.privesc.steps.3.2" src="/static/files/posts_htb_granny/screenshot07.png" />  </p>
-<p class="nested">4. We then obtain further information about the system and read the contents of both user.txt and root.txt files to comeplete the challenge:  </p>
-<pre class="nested"><code>cat &quot;C:\Documents and Settings\Lakis\Desktop\user.txt&quot;
+</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Phase #3: Privilege Escalation</h2><p class=nested>1. Since we have certain restrictions that stop us from running commands like <code>getuid</code>, we have to migrate to a different process. We find the PID for process <code>davcdata.exe</code> and migrate to it: </p><p class=nested><img alt=writeup.privesc.steps.1.1 src=/static/files/posts_htb_granny/screenshot04.png> </p><p class=nested>2. We can now use the Metasploit <code>multi/recon/local_exploit_suggester</code> module to look for privesc options: </p><p class=nested><img alt=writeup.privesc.steps.2.1 src=/static/files/posts_htb_granny/screenshot05.png> </p><p class=nested>3. We tried a few exploits from this list and eventually the <code>windows/local/ms15_051_client_copy_image</code> module worked and provided an elevated session: </p><p class=nested><img alt=writeup.privesc.steps.3.1 src=/static/files/posts_htb_granny/screenshot06.png> </p><p class=nested><img alt=writeup.privesc.steps.3.2 src=/static/files/posts_htb_granny/screenshot07.png> </p><p class=nested>4. We then obtain further information about the system and read the contents of both user.txt and root.txt files to comeplete the challenge: </p><pre class=nested><code>cat &quot;C:\Documents and Settings\Lakis\Desktop\user.txt&quot;
 cat &quot;C:\Documents and Settings\Administrator\Desktop\root.txt&quot;
-</code></pre>
-
-<p class="nested"><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_htb_granny/screenshot08.png" />  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
-<h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
-<pre class="nested"><code>Administrator:500:c74761604a24f0dfd0a9ba2c30e462cf:d6908f022af0373e9e.................
+</code></pre><p class=nested><img alt=writeup.privesc.steps.4.1 src=/static/files/posts_htb_granny/screenshot08.png> </p><h2 class="h2 collapsible" onclick=toggle(this);>Loot</h2><h3 class="h3 collapsible" onclick=toggle(this);>Hashes</h3><pre class=nested><code>Administrator:500:c74761604a24f0dfd0a9ba2c30e462cf:d6908f022af0373e9e.................
 ASPNET:1007:3f71d62ec68a06a39721cb3f54f04a3b:edc0d5506804653f589................
 Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c...............
 IUSR_GRANPA:1003:a274b4532c9ca5cdf684351fab962e86:6a981cb5e038b2d8b7.................
 IWAM_GRANPA:1004:95d112c4da2348b599183ac6b1d67840:a97f39734c21b3f615.................
 Lakis:1009:f927b0679b3cc0e192410d9b0b40873c:3064b6fc432033870c6................
 SUPPORT_388945a0:1001:aad3b435b51404eeaad3b435b51404ee:8ed3993efb4e6476e..................
-</code></pre>
-
-<h3 class="h3 collapsible" onclick="toggle(this);">Flags</h3>
-<pre class="nested"><code>C:\Documents and Settings\Lakis\Desktop\user.txt: 700c5dc163014e22................
+</code></pre><h3 class="h3 collapsible" onclick=toggle(this);>Flags</h3><pre class=nested><code>C:\Documents and Settings\Lakis\Desktop\user.txt: 700c5dc163014e22................
 C:\Documents and Settings\Administrator\Desktop\root.txt: aa4beed1c05844..................
-</code></pre>
-
-<h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
-<ul class="nested">
-<li><a href="https://www.hackthebox.eu/home/machines/profile/14">https://www.hackthebox.eu/home/machines/profile/14</a>  </li>
-<li><a href="https://marcelowoloszyn.cl/hackthebox/hack-the-box-write-up-granny/">https://marcelowoloszyn.cl/hackthebox/hack-the-box-write-up-granny/</a>  </li>
-<li><a href="https://reboare.github.io/hackthebox/htb-granny.html">https://reboare.github.io/hackthebox/htb-granny.html</a>  </li>
-</ul>
-        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a>)</p>
-                  <p style="text-align:center;">« <a href="/posts/20191101_htb-blue.html">[HackTheBox] Blue...</a> « | » <a href="/posts/20191104_htb-optimum.html">[HackTheBox] Optimum...</a> »</p>
-            </div>
-    <script>hljs.initHighlightingOnLoad();</script>
-    <script>hljs.initLineNumbersOnLoad();</script>
-    <script>
-      function toggle(elem) {
-        elem.classList.toggle("expanded");
-        var ish2=false; var ish3=false; var ish4=false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
-        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
-        var sibling = elem.nextElementSibling;
-        while (sibling) {
-          if (ish2 && sibling.classList.contains("h2")) {
-            sibling.classList.toggle("active");
-            break;
-          }
-          if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
-            sibling.classList.toggle("active");
-            break;
-          }
-          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
-            sibling.classList.toggle("active");
-            break;
-          }
-          if (sibling.classList.contains("collapsible")) {
-            sibling.classList.toggle("expanded");
-          }
-          sibling.classList.toggle("active");
-          sibling = sibling.nextElementSibling;
-        }
-      }
-    </script>
-    <div class=footer><p><a href=https://creativecommons.org/licenses/by-sa/4.0/ rel=license><img src=/static/files/ccbysa4.svg></a></p></div>
-  </body>
-</html>
+</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>References</h2><ul class=nested><li><a href=https://www.hackthebox.eu/home/machines/profile/14>https://www.hackthebox.eu/home/machines/profile/14</a> </li><li><a href=https://marcelowoloszyn.cl/hackthebox/hack-the-box-write-up-granny/ >https://marcelowoloszyn.cl/hackthebox/hack-the-box-write-up-granny/</a> </li><li><a href=https://reboare.github.io/hackthebox/htb-granny.html>https://reboare.github.io/hackthebox/htb-granny.html</a> </li></ul><p style=text-align:center;>(🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a>)</p><p style=text-align:center;>« <a href=/posts/20191101_htb-blue.html>[HackTheBox] Blue...</a> « | » <a href=/posts/20191104_htb-optimum.html>[HackTheBox] Optimum...</a> »</p></div><script>hljs.initHighlightingOnLoad();</script><script>hljs.initLineNumbersOnLoad();</script><script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script><div class=footer><p><a href=https://creativecommons.org/licenses/by-sa/4.0/ rel=license><img src=/static/files/ccbysa4.svg></a></p></div></body></html>

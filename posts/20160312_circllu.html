@@ -1,42 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
-    <meta name="description" content="Personal Weblog"/>
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    <title>Mannthan</title>
-    <link href="/static/images/mannthan-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
-    <script src="/static/js/highlight.min.js"></script>
-    <script src="/static/js/highlightjs-line-numbers.min.js"></script>
-    <script charset="UTF-8" src="/static/js/go.min.js"></script>
-    <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/github-gist.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/style.md.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
-    <link rel="stylesheet" href="/static/css/github-gist.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
-   </head>
-  <body>
-    <div class="header">
-      <table>
-        <tr>
-          <td><a href="/index.html" style="color:#fe4164; font-size:14pt;">🏡 Home </a></td>
-          <td><a href="/archive.html" style="color:#f90; font-size:14pt;">💾 Archive </a></td>
-          <td><a href="/tags.html" style="color:#69359c; font-size:14pt;">🔖 Tags </a></td>
-          <td><a href="/stats.html" style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td>
-        </tr>
-      </table>
-    </div>
-    <div class="body">
-          <h1 class="h1 collapsible" onclick="toggle(this);">circllu.py: Querying circl.lu API for CVE Information</h1>
-                  <p><a href="/posts/20160218_flareon2014-15.html"> « </a>📅 published on <code>12/Mar/2016</code><a href="/posts/20190831_vulnhub-brainpan.html"> » </a></p>
-                <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
-<p class="nested">The <a href="https://www.circl.lu/services/cve-search/#public-web-api-of-cve-search">circl.lu</a> API is really useful for querying CVE information. I wrote a few methods to query the API and get this information:</p>
-<pre class="nested"><code class="python">from pprint import pprint
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=author content="Ankur Tyagi (@7h3rAm)"><meta name=description content="Personal Weblog"><meta content="width=device-width, initial-scale=1" name=viewport><title>Mannthan</title><link href=/static/images/mannthan-32x32.png sizes=32x32 rel=icon type=image/png><script src=/static/js/highlight.min.js></script><script src=/static/js/highlightjs-line-numbers.min.js></script><script charset=UTF-8 src=/static/js/go.min.js></script><link rel=stylesheet href=/static/css/github-gist.min.css><link rel=stylesheet type=text/css href=/static/css/style.md.css media=screen></head><body><div class=header><table><tr><td><a href=/index.html style="color:#fe4164; font-size:14pt;">🏡 Home </a></td><td><a href=/archive.html style="color:#f90; font-size:14pt;">💾 Archive </a></td><td><a href=/tags.html style="color:#69359c; font-size:14pt;">🔖 Tags </a></td><td><a href=/stats.html style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td></tr></table></div><div class=body><h1 class="h1 collapsible" onclick=toggle(this);>circllu.py: Querying circl.lu API for CVE Information</h1><p><a href=/posts/20160218_flareon2014-15.html> « </a>📅 published on <code>12/Mar/2016</code><a href=/posts/20190831_vulnhub-brainpan.html> » </a></p><h2 class="h2 collapsible" onclick=toggle(this);>Introduction</h2><p class=nested>The <a href=https://www.circl.lu/services/cve-search/#public-web-api-of-cve-search>circl.lu</a> API is really useful for querying CVE information. I wrote a few methods to query the API and get this information:</p><pre class=nested><code class=python>from pprint import pprint
 import requests
 import json
 
@@ -134,11 +96,7 @@ if __name__ == &quot;__main__&quot;:
   pprint(circllu_cveinfo())
   pprint(circllu_cverecent())
   pprint(circllu_cvesearch())
-</code></pre>
-
-<h2 class="h2 collapsible" onclick="toggle(this);">Testing</h2>
-<p class="nested">Let's give this script a test run:</p>
-<pre class="nested"><code>{
+</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Testing</h2><p class=nested>Let's give this script a test run:</p><pre class=nested><code>{
  'cve': 'CVE-2015-1234',
  'references': [u'https://codereview.chromium.org/1016193003',
                 u'https://code.google.com/p/chromium/issues/detail?id=468936',
@@ -215,43 +173,4 @@ if __name__ == &quot;__main__&quot;:
  'success': True,
  'vendorproduct': 'Adobe/Reader'
 }
-</code></pre>
-
-<h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
-<p class="nested">The <code>circllu_cveinfo</code> method allows querying the API for a specific CVE while returning a summary and references if the CVE is found in the database. The <code>circllu_cverecent</code> returns a list of recently requested CVEs. And finally, the <code>circllu_cvesearch</code> method allows you to search for a product or vendor and get listing of all reported vulnerabilities for the same. You can get this script <a href="https://gist.github.com/7h3rAm/812eff486865f30c0da5c4a9d41ff73e">here</a>.</p>
-        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a>)</p>
-                  <p style="text-align:center;">« <a href="/posts/20160218_flareon2014-15.html">FireEye FLARE On 2014 Challeng...</a> « | » <a href="/posts/20190831_vulnhub-brainpan.html">[VulnHub] Brainpan: 1...</a> »</p>
-            </div>
-    <script>hljs.initHighlightingOnLoad();</script>
-    <script>hljs.initLineNumbersOnLoad();</script>
-    <script>
-      function toggle(elem) {
-        elem.classList.toggle("expanded");
-        var ish2=false; var ish3=false; var ish4=false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
-        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
-        var sibling = elem.nextElementSibling;
-        while (sibling) {
-          if (ish2 && sibling.classList.contains("h2")) {
-            sibling.classList.toggle("active");
-            break;
-          }
-          if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
-            sibling.classList.toggle("active");
-            break;
-          }
-          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
-            sibling.classList.toggle("active");
-            break;
-          }
-          if (sibling.classList.contains("collapsible")) {
-            sibling.classList.toggle("expanded");
-          }
-          sibling.classList.toggle("active");
-          sibling = sibling.nextElementSibling;
-        }
-      }
-    </script>
-    <div class=footer><p><a href=https://creativecommons.org/licenses/by-sa/4.0/ rel=license><img src=/static/files/ccbysa4.svg></a></p></div>
-  </body>
-</html>
+</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Conclusion</h2><p class=nested>The <code>circllu_cveinfo</code> method allows querying the API for a specific CVE while returning a summary and references if the CVE is found in the database. The <code>circllu_cverecent</code> returns a list of recently requested CVEs. And finally, the <code>circllu_cvesearch</code> method allows you to search for a product or vendor and get listing of all reported vulnerabilities for the same. You can get this script <a href=https://gist.github.com/7h3rAm/812eff486865f30c0da5c4a9d41ff73e>here</a>.</p><p style=text-align:center;>(🔖 tagged <a href=/tags.html#code>code</a>)</p><p style=text-align:center;>« <a href=/posts/20160218_flareon2014-15.html>FireEye FLARE On 2014 Challeng...</a> « | » <a href=/posts/20190831_vulnhub-brainpan.html>[VulnHub] Brainpan: 1...</a> »</p></div><script>hljs.initHighlightingOnLoad();</script><script>hljs.initLineNumbersOnLoad();</script><script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script><div class=footer><p><a href=https://creativecommons.org/licenses/by-sa/4.0/ rel=license><img src=/static/files/ccbysa4.svg></a></p></div></body></html>

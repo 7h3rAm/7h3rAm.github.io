@@ -4,7 +4,11 @@ date: 02/Sep/2012
 summary: Word List Builder SEH overflow via a pop-pop-return overwrite and negative jumps.
 tags: code, exploit
 
+## Introduction
+
 The Word List Builder version 1.0 has a SEH overflow vulnerability. Processing specially-crafted `.dic` dictionary files triggers a SEH overwrite that could be leveraged further to gain arbitrary code execution. The exploit for this vulnerability has been documented at [EDB: 17086](http://www.exploit-db.com/exploits/17086/)
+
+## Exploit Code
 
 Here is a complete rewrite of this exploit:
 

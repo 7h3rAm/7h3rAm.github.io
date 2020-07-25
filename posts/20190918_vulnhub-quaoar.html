@@ -1,45 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
-    <meta name="description" content="Personal Weblog"/>
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    <title>Mannthan</title>
-    <link href="/static/images/mannthan-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
-    <script src="/static/js/highlight.min.js"></script>
-    <script src="/static/js/highlightjs-line-numbers.min.js"></script>
-    <script charset="UTF-8" src="/static/js/go.min.js"></script>
-    <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/github-gist.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/style.md.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
-    <link rel="stylesheet" href="/static/css/github-gist.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
-   </head>
-  <body>
-    <div class="header">
-      <table>
-        <tr>
-          <td><a href="/index.html" style="color:#fe4164; font-size:14pt;">🏡 Home </a></td>
-          <td><a href="/archive.html" style="color:#f90; font-size:14pt;">💾 Archive </a></td>
-          <td><a href="/tags.html" style="color:#69359c; font-size:14pt;">🔖 Tags </a></td>
-          <td><a href="/stats.html" style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td>
-        </tr>
-      </table>
-    </div>
-    <div class="body">
-          <h1 class="h1 collapsible" onclick="toggle(this);">[VulnHub] hackfest2016: Quaoar</h1>
-                  <p><a href="/posts/20190917_vulnhub-escalatelinux.html"> « </a>📅 published on <code>18/Sep/2019</code><a href="/posts/20190919_vulnhub-sedna.html"> » </a></p>
-                <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
-<p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/hackfest2016-quaoar,180/">hackfest2016: Quaoar</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p>
-<p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_quaoar/killchain.png" /></p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
-<p class="nested">1. Here's the Nmap scan result:  </p>
-<pre class="nested"><code># Nmap 7.70 scan initiated Wed Sep 18 14:14:44 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.quaoar/results/192.168.92.175/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.quaoar/results/192.168.92.175/scans/xml/_quick_tcp_nmap.xml 192.168.92.175
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=author content="Ankur Tyagi (@7h3rAm)"><meta name=description content="Personal Weblog"><meta content="width=device-width, initial-scale=1" name=viewport><title>Mannthan</title><link href=/static/images/mannthan-32x32.png sizes=32x32 rel=icon type=image/png><script src=/static/js/highlight.min.js></script><script src=/static/js/highlightjs-line-numbers.min.js></script><script charset=UTF-8 src=/static/js/go.min.js></script><link rel=stylesheet href=/static/css/github-gist.min.css><link rel=stylesheet type=text/css href=/static/css/style.md.css media=screen></head><body><div class=header><table><tr><td><a href=/index.html style="color:#fe4164; font-size:14pt;">🏡 Home </a></td><td><a href=/archive.html style="color:#f90; font-size:14pt;">💾 Archive </a></td><td><a href=/tags.html style="color:#69359c; font-size:14pt;">🔖 Tags </a></td><td><a href=/stats.html style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td></tr></table></div><div class=body><h1 class="h1 collapsible" onclick=toggle(this);>[VulnHub] hackfest2016: Quaoar</h1><p><a href=/posts/20190917_vulnhub-escalatelinux.html> « </a>📅 published on <code>18/Sep/2019</code><a href=/posts/20190919_vulnhub-sedna.html> » </a></p><h2 class="h2 collapsible" onclick=toggle(this);>Overview</h2><p class=nested>This is a writeup for VulnHub VM <a href=https://www.vulnhub.com/entry/hackfest2016-quaoar,180/ >hackfest2016: Quaoar</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p><p class=nested><img alt=writeup.overview.killchain src=/static/files/posts_vulnhub_quaoar/killchain.png></p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #1: Enumeration</h2><p class=nested>1. Here's the Nmap scan result: </p><pre class=nested><code># Nmap 7.70 scan initiated Wed Sep 18 14:14:44 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.quaoar/results/192.168.92.175/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.quaoar/results/192.168.92.175/scans/xml/_quick_tcp_nmap.xml 192.168.92.175
 Nmap scan report for 192.168.92.175
 Host is up, received arp-response (0.0084s latency).
 Scanned at 2019-09-18 14:14:45 PDT for 23s
@@ -239,10 +198,7 @@ Host script results:
 Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Wed Sep 18 14:15:08 2019 -- 1 IP address (1 host up) scanned in 23.69 seconds
-</code></pre>
-
-<p class="nested">2. Upon checking <code>robots.txt</code> file we find a <code>wordpress</code> entry:  </p>
-<pre class="nested"><code>HTTP/1.1 200 OK
+</code></pre><p class=nested>2. Upon checking <code>robots.txt</code> file we find a <code>wordpress</code> entry: </p><pre class=nested><code>HTTP/1.1 200 OK
 Date: Wed, 18 Sep 2019 21:24:15 GMT
 Server: Apache/2.2.22 (Ubuntu)
 Last-Modified: Mon, 24 Oct 2016 06:56:49 GMT
@@ -260,18 +216,9 @@ Allow: /wordpress/
 # //  / / | | |/ _` |/ _ \ / _` | '__|
 #/ \_/ /| |_| | (_| | (_) | (_| | |   
 #\___,_\ \__,_|\__,_|\___/ \__,_|_|   
-</code></pre>
-
-<p class="nested"><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_quaoar/screenshot01.png" />  </p>
-<p class="nested">3. We run <code>wpscan</code> to enumerate users and find 2 hits:  </p>
-<pre class="nested"><code>admin
+</code></pre><p class=nested><img alt=writeup.enumeration.steps.2.1 src=/static/files/posts_vulnhub_quaoar/screenshot01.png> </p><p class=nested>3. We run <code>wpscan</code> to enumerate users and find 2 hits: </p><pre class=nested><code>admin
 wpuser
-</code></pre>
-
-<p class="nested"><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_vulnhub_quaoar/screenshot02.png" />  </p>
-<h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
-<h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
-<pre class="nested"><code>22/tcp   |  ssh          |  OpenSSH 5.9p1 Debian 5ubuntu1 (Ubuntu Linux; protocol 2.0)
+</code></pre><p class=nested><img alt=writeup.enumeration.steps.3.1 src=/static/files/posts_vulnhub_quaoar/screenshot02.png> </p><h3 class="h3 collapsible" onclick=toggle(this);>Findings</h3><h4 class="h4 collapsible" onclick=toggle(this);>Open Ports</h4><pre class=nested><code>22/tcp   |  ssh          |  OpenSSH 5.9p1 Debian 5ubuntu1 (Ubuntu Linux; protocol 2.0)
 53/tcp   |  domain       |  ISC BIND 9.8.1-P1
 80/tcp   |  http         |  Apache httpd 2.2.22 ((Ubuntu))
 110/tcp  |  pop3         |  Dovecot pop3d
@@ -281,27 +228,10 @@ wpuser
 445/tcp  |  netbios-ssn  |  Samba smbd 3.6.3 (workgroup: WORKGROUP)
 993/tcp  |  ssl/imap     |  Dovecot imapd
 995/tcp  |  ssl/pop3     |  Dovecot pop3d
-</code></pre>
-
-<h4 class="h4 collapsible" onclick="toggle(this);">Files</h4>
-<pre class="nested"><code>http://192.168.92.175/robots.txt
-</code></pre>
-
-<h4 class="h4 collapsible" onclick="toggle(this);">Users</h4>
-<pre class="nested"><code>wordpress: admin, wpuser
-</code></pre>
-
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
-<p class="nested">1. We tried the default credentials <code>admin/admin</code> and got administrative access to the Wordpress installation:  </p>
-<p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_quaoar/screenshot03.png" />  </p>
-<p class="nested">2. We then edit the <code>Hello Dolly</code> plugin file <code>hello.php</code>, add a PHP reverse shell to it and activate the plugin while running a <code>netcat</code> listener to catch incoming shell:  </p>
-<pre class="nested"><code>nc -nlvp 9999
-</code></pre>
-
-<p class="nested"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_quaoar/screenshot05.png" />  </p>
-<p class="nested"><img alt="writeup.exploitation.steps.2.2" src="/static/files/posts_vulnhub_quaoar/screenshot04.png" />  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
-<pre class="nested"><code>www-data@Quaoar&gt; id
+</code></pre><h4 class="h4 collapsible" onclick=toggle(this);>Files</h4><pre class=nested><code>http://192.168.92.175/robots.txt
+</code></pre><h4 class="h4 collapsible" onclick=toggle(this);>Users</h4><pre class=nested><code>wordpress: admin, wpuser
+</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2: Exploitation</h2><p class=nested>1. We tried the default credentials <code>admin/admin</code> and got administrative access to the Wordpress installation: </p><p class=nested><img alt=writeup.exploitation.steps.1.1 src=/static/files/posts_vulnhub_quaoar/screenshot03.png> </p><p class=nested>2. We then edit the <code>Hello Dolly</code> plugin file <code>hello.php</code>, add a PHP reverse shell to it and activate the plugin while running a <code>netcat</code> listener to catch incoming shell: </p><pre class=nested><code>nc -nlvp 9999
+</code></pre><p class=nested><img alt=writeup.exploitation.steps.2.1 src=/static/files/posts_vulnhub_quaoar/screenshot05.png> </p><p class=nested><img alt=writeup.exploitation.steps.2.2 src=/static/files/posts_vulnhub_quaoar/screenshot04.png> </p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2.5: Post Exploitation</h2><pre class=nested><code>www-data@Quaoar&gt; id
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
 www-data@Quaoar&gt;  
 www-data@Quaoar&gt; uname
@@ -316,83 +246,14 @@ eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP
 www-data@Quaoar&gt;  
 www-data@Quaoar&gt; users
 wpadmin
-</code></pre>
-
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
-<p class="nested">1. While exploring <code>home</code> directory for user <code>wpadmin</code> we find a <code>flag.txt</code> file:  </p>
-<pre class="nested"><code>cat /home/wpadmin/flag.txt
-</code></pre>
-
-<p class="nested"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_quaoar/screenshot06.png" />  </p>
-<p class="nested">2. While exploring the <code>/var/www/wordpress</code> directory we find <code>wp-config.php</code> file with MySQL credentials in it:  </p>
-<pre class="nested"><code>cat /var/www/wordpress/wp-config.php → root/rootpassword!
-</code></pre>
-
-<p class="nested"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_quaoar/screenshot08.png" />  </p>
-<p class="nested">3. We test these credentials to gain <code>root</code> privleges and are successfully given access:  </p>
-<pre class="nested"><code>su
-</code></pre>
-
-<p class="nested"><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_quaoar/screenshot07.png" />  </p>
-<p class="nested">4. We then read the <code>/root/flag.txt</code> file to complete the challenge:  </p>
-<pre class="nested"><code>cat /root/flag.txt
-</code></pre>
-
-<p class="nested"><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_vulnhub_quaoar/screenshot10.png" />  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
-<h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
-<pre class="nested"><code>root:$6$CM3c1cdI$HbQWZlQdGEWV8yo3j7M84i1/RFK4G7fafTUIUYLWk52zm9O8KRLhqZenF8KbqsUjHlZQk4VmNEeEbBCRj........................
+</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Phase #3: Privilege Escalation</h2><p class=nested>1. While exploring <code>home</code> directory for user <code>wpadmin</code> we find a <code>flag.txt</code> file: </p><pre class=nested><code>cat /home/wpadmin/flag.txt
+</code></pre><p class=nested><img alt=writeup.privesc.steps.1.1 src=/static/files/posts_vulnhub_quaoar/screenshot06.png> </p><p class=nested>2. While exploring the <code>/var/www/wordpress</code> directory we find <code>wp-config.php</code> file with MySQL credentials in it: </p><pre class=nested><code>cat /var/www/wordpress/wp-config.php → root/rootpassword!
+</code></pre><p class=nested><img alt=writeup.privesc.steps.2.1 src=/static/files/posts_vulnhub_quaoar/screenshot08.png> </p><p class=nested>3. We test these credentials to gain <code>root</code> privleges and are successfully given access: </p><pre class=nested><code>su
+</code></pre><p class=nested><img alt=writeup.privesc.steps.3.1 src=/static/files/posts_vulnhub_quaoar/screenshot07.png> </p><p class=nested>4. We then read the <code>/root/flag.txt</code> file to complete the challenge: </p><pre class=nested><code>cat /root/flag.txt
+</code></pre><p class=nested><img alt=writeup.privesc.steps.4.1 src=/static/files/posts_vulnhub_quaoar/screenshot10.png> </p><h2 class="h2 collapsible" onclick=toggle(this);>Loot</h2><h3 class="h3 collapsible" onclick=toggle(this);>Hashes</h3><pre class=nested><code>root:$6$CM3c1cdI$HbQWZlQdGEWV8yo3j7M84i1/RFK4G7fafTUIUYLWk52zm9O8KRLhqZenF8KbqsUjHlZQk4VmNEeEbBCRj........................
 wpadmin:$6$FtTN/YPC$iidNFmRVpQ1p2kkfoOZ6OzNPqR95DQ/7G10aze2CA2W3ik/sHHyEPaNNY57tMvRDU0/Rs62FEimiKXD2V........................
-</code></pre>
-
-<h3 class="h3 collapsible" onclick="toggle(this);">Credentials</h3>
-<pre class="nested"><code>ssh: wpadmin/wpad..., root/rootpassw....
+</code></pre><h3 class="h3 collapsible" onclick=toggle(this);>Credentials</h3><pre class=nested><code>ssh: wpadmin/wpad..., root/rootpassw....
 wordpress: admin/ad...
-</code></pre>
-
-<h3 class="h3 collapsible" onclick="toggle(this);">Flags</h3>
-<pre class="nested"><code>2bafe61f03117ac66a73c3c51.......
+</code></pre><h3 class="h3 collapsible" onclick=toggle(this);>Flags</h3><pre class=nested><code>2bafe61f03117ac66a73c3c51.......
 8e3f9ec016e3598c5eec11fd3.......
-</code></pre>
-
-<h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
-<ul class="nested">
-<li><a href="https://www.vulnhub.com/entry/hackfest2016-quaoar,180/">https://www.vulnhub.com/entry/hackfest2016-quaoar,180/</a>  </li>
-<li><a href="https://www.blackroomsec.com/quaoar-write-up/">https://www.blackroomsec.com/quaoar-write-up/</a>  </li>
-</ul>
-        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p>
-                  <p style="text-align:center;">« <a href="/posts/20190917_vulnhub-escalatelinux.html">[VulnHub] Escalate_Linux: 1...</a> « | » <a href="/posts/20190919_vulnhub-sedna.html">[VulnHub] hackfest2016: Sedna...</a> »</p>
-            </div>
-    <script>hljs.initHighlightingOnLoad();</script>
-    <script>hljs.initLineNumbersOnLoad();</script>
-    <script>
-      function toggle(elem) {
-        elem.classList.toggle("expanded");
-        var ish2=false; var ish3=false; var ish4=false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
-        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
-        var sibling = elem.nextElementSibling;
-        while (sibling) {
-          if (ish2 && sibling.classList.contains("h2")) {
-            sibling.classList.toggle("active");
-            break;
-          }
-          if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
-            sibling.classList.toggle("active");
-            break;
-          }
-          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
-            sibling.classList.toggle("active");
-            break;
-          }
-          if (sibling.classList.contains("collapsible")) {
-            sibling.classList.toggle("expanded");
-          }
-          sibling.classList.toggle("active");
-          sibling = sibling.nextElementSibling;
-        }
-      }
-    </script>
-    <div class=footer><p><a href=https://creativecommons.org/licenses/by-sa/4.0/ rel=license><img src=/static/files/ccbysa4.svg></a></p></div>
-  </body>
-</html>
+</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>References</h2><ul class=nested><li><a href=https://www.vulnhub.com/entry/hackfest2016-quaoar,180/ >https://www.vulnhub.com/entry/hackfest2016-quaoar,180/</a> </li><li><a href=https://www.blackroomsec.com/quaoar-write-up/ >https://www.blackroomsec.com/quaoar-write-up/</a> </li></ul><p style=text-align:center;>(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p><p style=text-align:center;>« <a href=/posts/20190917_vulnhub-escalatelinux.html>[VulnHub] Escalate_Linux: 1...</a> « | » <a href=/posts/20190919_vulnhub-sedna.html>[VulnHub] hackfest2016: Sedna...</a> »</p></div><script>hljs.initHighlightingOnLoad();</script><script>hljs.initLineNumbersOnLoad();</script><script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script><div class=footer><p><a href=https://creativecommons.org/licenses/by-sa/4.0/ rel=license><img src=/static/files/ccbysa4.svg></a></p></div></body></html>

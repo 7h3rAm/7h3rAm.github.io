@@ -40,15 +40,6 @@
   * Practice: [oscp-practice (HackTheBox and TryHackMe machines)](https://github.com/ajdumanhug/oscp-practice)
 
 ## 📑 Resources
-### OSCPlike Machines Sheet
-
-This [gsheet](https://docs.google.com/spreadsheets/d/1syxzcX5rJj2qffBfZYjlEGaRuns-Ec_kkLiblsed8Zs/copy) lists OSCPlike HackTheBox, TryHackMe and VulnHub machines curated from various sources<br/>
-
-![sheet01](/static/files/pages_oscp/sheet01.png)<br/>
-![sheet02](/static/files/pages_oscp/sheet02.png)<br/>
-![sheet03](/static/files/pages_oscp/sheet03.png)<br/>
-![sheet04](/static/files/pages_oscp/sheet04.png)<br/>
-
 ### machinescli
 
 This [tool](https://github.com/7h3rAm/machinescli) provides commandline access for HackTheBox and VulnHub machines<br/>
@@ -65,7 +56,7 @@ This [tool](https://github.com/7h3rAm/svachal) provides an automation framework 
 ![svachal01](/static/files/pages_oscp/svachal01.png)<br/>
 ![svachal02](/static/files/pages_oscp/svachal02.png)<br/>
 
-### [writeups
+### writeups
 
 These are writeups for OSCPlike machines
 
@@ -105,7 +96,10 @@ These are writeups for OSCPlike machines
   * `05/Sep/2019`: [[VulnHub] Billy Madison: 1.1](/posts/20190905_vulnhub-billymadison1dot1.html)
   * `31/Aug/2019`: [[VulnHub] Brainpan: 1](/posts/20190831_vulnhub-brainpan.html)
 
-### [writeups/readme.md](https://github.com/7h3rAm/writeups/blob/master/readme.md): These are notes, stats, TTPs and trend graphs from completed writeups
+### writeups/readme.md
+
+These are [notes, stats, TTPs and trend graphs](https://github.com/7h3rAm/writeups/blob/master/readme.md) from completed writeups
+
 ![writeups_readme](/static/files/pages_oscp/writeups_readme.png)<br/>
 ![writeups_machines](/static/files/pages_oscp/writeups_machines.png)<br/>
 ![top_ports](/static/files/pages_oscp/top_ports.png)<br/>
@@ -114,3 +108,12 @@ These are writeups for OSCPlike machines
 ![top_ttps_enumerate](/static/files/pages_oscp/top_ttps_enumerate.png)<br/>
 ![top_ttps_exploit](/static/files/pages_oscp/top_ttps_exploit.png)<br/>
 ![top_ttps_privesc](/static/files/pages_oscp/top_ttps_privesc.png)<br/>
+
+### OSCPlike Machines Sheet
+
+This [gsheet](https://docs.google.com/spreadsheets/d/1syxzcX5rJj2qffBfZYjlEGaRuns-Ec_kkLiblsed8Zs/copy) lists OSCPlike HackTheBox, TryHackMe and VulnHub machines curated from various sources<br/>
+
+![sheet01](/static/files/pages_oscp/sheet01.png)<br/>
+![sheet02](/static/files/pages_oscp/sheet02.png)<br/>
+![sheet03](/static/files/pages_oscp/sheet03.png)<br/>
+![sheet04](/static/files/pages_oscp/sheet04.png)<br/>

