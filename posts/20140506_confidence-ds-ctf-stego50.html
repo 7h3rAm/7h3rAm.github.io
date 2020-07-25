@@ -1,4 +1,74 @@
-<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=author content="Ankur Tyagi (@7h3rAm)"><meta name=description content="Personal Weblog"><meta content="width=device-width, initial-scale=1" name=viewport><title>Mannthan</title><link href=/static/images/mannthan-32x32.png sizes=32x32 rel=icon type=image/png><script src=/static/js/highlight.min.js></script><script src=/static/js/highlightjs-line-numbers.min.js></script><script charset=UTF-8 src=/static/js/go.min.js></script><link rel=stylesheet href=/static/css/github-gist.min.css><link rel=stylesheet type=text/css href=/static/css/style.md.css media=screen></head><body><div class=header><table><tr><td><a href=/index.html style="color:#fe4164; font-size:14pt;">🏡 Home </a></td><td><a href=/archive.html style="color:#f90; font-size:14pt;">💾 Archive </a></td><td><a href=/tags.html style="color:#69359c; font-size:14pt;">🔖 Tags </a></td><td><a href=/stats.html style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td></tr></table></div><div class=body><h1>CONFidence DS CTF Teaser: Stegano50</h1><p><a href=/posts/20140327_northrop-challenge.html> « </a>📅 published on <code>06/May/2014</code><a href=/posts/20140618_pcapgentools-contentype-patch.html> » </a></p><p>The challenge consists a <a href=/static/files/posts_confidence_ds_ctf_stego50/stegano50.pdf>pdf</a> file. Let's see what <code>exiftool</code> tells us about it:</p><pre><code>$ exiftool stegano50.pdf
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
+    <meta name="description" content="Personal Weblog"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>Mannthan</title>
+    <link href="/static/images/mannthan-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
+    <script src="/static/js/highlight.min.js"></script>
+    <script src="/static/js/highlightjs-line-numbers.min.js"></script>
+    <script charset="UTF-8" src="/static/js/go.min.js"></script>
+    <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github-gist.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/style.md.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
+    <link rel="stylesheet" href="/static/css/github-gist.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
+   </head>
+  <body>
+    <style>
+      .collapsible {
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        cursor: pointer;
+      }
+      .collapsible:after {
+        content: "+";
+        transition: transform .3s ease;
+        display: inline-block;
+        font-weight: bold;
+        float: right;
+      }
+      .expanded::after {
+        content: "-";
+        -ms-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+      .nested {
+        display: none;
+      }
+      .active {
+        display: block;
+      }
+    </style>
+    <div class="header">
+      <table>
+        <tr>
+          <td><a href="/index.html" style="color:#fe4164; font-size:14pt;">🏡 Home </a></td>
+          <td><a href="/archive.html" style="color:#f90; font-size:14pt;">💾 Archive </a></td>
+          <td><a href="/tags.html" style="color:#69359c; font-size:14pt;">🔖 Tags </a></td>
+          <td><a href="/stats.html" style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td>
+        </tr>
+      </table>
+    </div>
+    <div class="body">
+          <h1 class="h1 collapsible" onclick="toggle(this);">CONFidence DS CTF Teaser: Stegano50</h1>
+                  <p class="nested"><a href="/posts/20140327_northrop-challenge.html"> « </a>📅 published on <code>06/May/2014</code><a href="/posts/20140618_pcapgentools-contentype-patch.html"> » </a></p>
+                <p class="nested">The challenge consists a <a href="/static/files/posts_confidence_ds_ctf_stego50/stegano50.pdf">pdf</a> file. Let's see what <code>exiftool</code> tells us about it:</p>
+<p class="nested"re><code>$ exiftool stegano50.pdf
 ExifTool Version Number         : 9.46
 File Name                       : stegano50.pdf
 Directory                       : .
@@ -23,11 +93,22 @@ Create Date                     : 2014:03:13 22:33:50+01:00
 Modify Date                     : 2014:03:13 22:33:50+01:00
 Trapped                         : False
 PTEX Fullbanner                 : This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) kpathsea version 6.1.1
-</code></pre><p>All attributes seem standard except for <code>Subject</code>, <code>Producer</code> and <code>Keywords</code>. Since the <code>Keywords</code> obviously hints at a flag like string which seems to be base64 encoded, the first thing I tried was to decode it:</p><pre><code>$ echo -n &quot;Tm9wZSAsIG5vdCBoZXJlIDspCg==&quot; | base64 -d - 
+</code></pre>
+
+<p class="nested">All attributes seem standard except for <code>Subject</code>, <code>Producer</code> and <code>Keywords</code>. Since the <code>Keywords</code> obviously hints at a flag like string which seems to be base64 encoded, the first thing I tried was to decode it:</p>
+<p class="nested"re><code>$ echo -n &quot;Tm9wZSAsIG5vdCBoZXJlIDspCg==&quot; | base64 -d - 
 Nope , not here ;)
-</code></pre><p>Well, that explains. Let's focus on <code>Subject</code> and <code>Producer</code> once again. These definitely hint towards a blob of text that might need Morse code decoding. The <code>Subject</code> hints towards translating A and B to dot and dash and it obviously points to the fact that the blob of text has to be all As and Bs. Let's view the pdf in Firefox via its <a href=https://mozilla.github.io/pdf.js/ >pdf.js</a> renderer:</p><p><img alt=stego50_pdfjs.png src=/static/files/posts_confidence_ds_ctf_stego50/stego50_pdfjs.png></p><p>There it is! A <code>div</code> element has the text blob we need. Let's extract and translate it as per the hint:</p><pre><code>$ echo -n &quot;BABA BBB BA BBA ABA AB B AAB ABAA AB B AA BBB BA AAA BBAABB AABA ABAA AB BBA BBBAAA ABBBB BA AAAB ABBBB AAAAA ABBBB BAAA ABAA AAABB BB AAABB AAAAA AAAAA AAAAB BBA AAABB&quot; | tr AB .-
+</code></pre>
+
+<p class="nested">Well, that explains. Let's focus on <code>Subject</code> and <code>Producer</code> once again. These definitely hint towards a blob of text that might need Morse code decoding. The <code>Subject</code> hints towards translating A and B to dot and dash and it obviously points to the fact that the blob of text has to be all As and Bs. Let's view the pdf in Firefox via its <a href="https://mozilla.github.io/pdf.js/">pdf.js</a> renderer:</p>
+<p class="nested"><img alt="stego50_pdfjs.png" src="/static/files/posts_confidence_ds_ctf_stego50/stego50_pdfjs.png" /></p>
+<p class="nested">There it is! A <code>div</code> element has the text blob we need. Let's extract and translate it as per the hint:</p>
+<p class="nested"re><code>$ echo -n &quot;BABA BBB BA BBA ABA AB B AAB ABAA AB B AA BBB BA AAA BBAABB AABA ABAA AB BBA BBBAAA ABBBB BA AAAB ABBBB AAAAA ABBBB BAAA ABAA AAABB BB AAABB AAAAA AAAAA AAAAB BBA AAABB&quot; | tr AB .-
 -.-. --- -. --. .-. .- - ..- .-.. .- - .. --- -. ... --..-- ..-. .-.. .- --. ---... .---- -. ...- .---- ..... .---- -... .-.. ...-- -- ...-- ..... ..... ....- --. ...--
-</code></pre><p>Alright, we now have some Morse code that has to be decoded. There are <a href=http://mattfedder.com/cgi-bin/morse.pl>several</a> <a href=http://morsecode.scphillips.com/translator.html>online</a> <a href=http://www.onlineconversion.com/morse_code.htm>decoders</a> <a href=http://www.unit-conversion.info/texttools/morse-code/ >available</a>, however, I tend to use Python for such tasks. Here is a snippet of Python code to help us with encode and decode tasks:</p><pre><code class=python>#!/usr/bin/env python
+</code></pre>
+
+<p class="nested">Alright, we now have some Morse code that has to be decoded. There are <a href="http://mattfedder.com/cgi-bin/morse.pl">several</a> <a href="http://morsecode.scphillips.com/translator.html">online</a> <a href="http://www.onlineconversion.com/morse_code.htm">decoders</a> <a href="http://www.unit-conversion.info/texttools/morse-code/">available</a>, however, I tend to use Python for such tasks. Here is a snippet of Python code to help us with encode and decode tasks:</p>
+<p class="nested"re><code class="python">#!/usr/bin/env python
 
 class morse:
   def __init__(self):
@@ -106,7 +187,10 @@ class morse:
       if c in self.fromcode.keys():
         i.append(self.fromcode[c])
     return &quot;&quot;.join(i)
-</code></pre><p>Let's quickly use this script from within <code>iPython</code> and decode the Morse encoded message:</p><pre><code class=python>$ ipython --no-banner
+</code></pre>
+
+<p class="nested">Let's quickly use this script from within <code>iPython</code> and decode the Morse encoded message:</p>
+<p class="nested"re><code class="python">$ ipython --no-banner
 
 &gt;&gt;&gt; import morse
 &gt;&gt;&gt; morse = morse.morse()
@@ -116,4 +200,40 @@ class morse:
 &gt;&gt;&gt; morse.from_morse(message)
 'CONGRATULATIONS,FLAG:1NV151BL3M3554G3'
 &gt;&gt;&gt;
-</code></pre><p>There we go!</p><p style=text-align:center;>(🔖 tagged <a href=/tags.html#code>code</a> and <a href=/tags.html#ctf>ctf</a>)</p><p style=text-align:center;>« <a href=/posts/20140327_northrop-challenge.html>Northrop's Online Challenge...</a> « | » <a href=/posts/20140618_pcapgentools-contentype-patch.html>PCAP-GenerationTools and Conte...</a> »</p></div><div class=footer><p style=text-align:center;><a href=https://creativecommons.org/licenses/by-sa/4.0/ rel=license><img src=/static/files/ccbysa4.svg></a></p></div><script>hljs.initHighlightingOnLoad();</script><script>hljs.initLineNumbersOnLoad();</script></body></html>
+</code></pre>
+
+<p class="nested">There we go!</p>
+        <p class="nested" style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a> and <a href=/tags.html#ctf>ctf</a>)</p>
+                  <p class="nested" style="text-align:center;">« <a href="/posts/20140327_northrop-challenge.html">Northrop's Online Challenge...</a> « | » <a href="/posts/20140618_pcapgentools-contentype-patch.html">PCAP-GenerationTools and Conte...</a> »</p>
+            </div>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>hljs.initLineNumbersOnLoad();</script>
+    <script>
+      function toggle(elem) {
+        elem.classList.toggle("expanded");
+
+        var ish2 = false; var ish3 = false;
+        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }
+        console.log(elem); console.log(ish2); console.log(ish3);
+
+        var sibling = elem.nextElementSibling;
+        while (sibling) {
+          if (ish2 && sibling.classList.contains("h2")) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (sibling.classList.contains("collapsible")) {
+            sibling.classList.toggle("expanded");
+          }
+          sibling.classList.toggle("active");
+          sibling = sibling.nextElementSibling;
+        }
+      }
+    </script>
+    <div class=footer><p><a href=https://creativecommons.org/licenses/by-sa/4.0/ rel=license><img src=/static/files/ccbysa4.svg></a></p></div>
+  </body>
+</html>

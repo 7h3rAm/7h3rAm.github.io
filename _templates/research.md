@@ -23,7 +23,7 @@
 {% endfor %}
 {% endfor %}
 
-# 📰 Media<a href="#top"> ↟ </a>
+## 📰 Media<a href="#top"> ↟ </a>
 {% for article in datadict.metadata.research.media %}
 
   * `{{ article.date }}`: {{ article.name }} ([{{ article.publication }}]({{ article.url }}))

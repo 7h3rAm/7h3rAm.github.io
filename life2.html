@@ -1,0 +1,125 @@
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=author content="Ankur Tyagi (@7h3rAm)"><meta name=description content="Personal Weblog"><meta content="width=device-width, initial-scale=1" name=viewport><title>Mannthan</title><link href=/static/images/mannthan-32x32.png sizes=32x32 rel=icon type=image/png><link rel=stylesheet type=text/css href=/static/css/style.md.css media=screen></head><body><div class=header><table><tr><td><a href=/index.html style="color:#fe4164; font-size:14pt;">🏡 Home </a></td><td><a href=/archive.html style="color:#f90; font-size:14pt;">💾 Archive </a></td><td><a href=/tags.html style="color:#69359c; font-size:14pt;">🔖 Tags </a></td><td><a href=/stats.html style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td></tr></table></div>
+
+  <style>
+    .collapsible {
+      cursor: pointer;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      cursor: pointer;
+    }
+    .collapsible:after {
+      content: "+";
+      transition: transform .3s ease;
+      display: inline-block;
+      font-weight: bold;
+      float: right;
+    }
+    .expanded::after {
+      content: "-";
+      -ms-transform: rotate(360deg);
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);  
+    }
+    .nested {
+      display: none;
+    }
+    .active {
+      display: block;
+    }
+  </style>
+  <div class=body>
+    <script>
+      function toggle(elem) {
+        elem.classList.toggle("expanded");
+
+        var ish2 = false; var ish3 = false;
+        if (elem.classList.contains("h2")) { ish2=true; } if (elem.classList.contains("h3")) { ish3=true; }
+        console.log(elem); console.log(ish2); console.log(ish3);
+
+        var sibling = elem.nextElementSibling;
+        while (sibling) {
+          if (ish2 && sibling.classList.contains("h2")) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (sibling.classList.contains("collapsible")) {
+            sibling.classList.toggle("expanded");
+          }
+          sibling.classList.toggle("active");
+          sibling = sibling.nextElementSibling;
+        }
+      }
+    </script>
+
+    <h1 class="h1 collapsible" onclick="toggle(this);">♻️ Life</h1>
+      <h2 class="h2 collapsible" onclick="toggle(this);">🚀 Goal</h2>
+        <ul class="nested">
+          <li>🌄 🏋️ 🧗 🏊 🏃 🚴 ⟶ 🍎 🥛 🥦 🥕 🥗 ⟶ 🏡 🧘 🔕 🙈 🙊 🙉</li>
+          <li>Intellectual Athlete</li>
+          <li>Warrior Monk</li>
+          <li>Warrior Philosopher</li>
+        </ul>
+
+        <ul class="nested">
+          <li>🌄 🏋️ 🧗 🏊 🏃 🚴 ⟶ 🍎 🥛 🥦 🥕 🥗 ⟶ 🏡 🧘 🔕 🙈 🙊 🙉</li>
+          <li>Intellectual Athlete</li>
+          <li>Warrior Monk</li>
+          <li>Warrior Philosopher</li>
+        </ul>
+
+      <h2 class="h2 collapsible" onclick="toggle(this);">📐 Physics (First Principles | Undeniable Truths)</h2>
+        <ul class="nested">
+          <li><a href=https://twitter.com/elonmusk>Elon Musk</a></li>
+        </ul>
+
+      <h2 class="h2 collapsible" onclick="toggle(this);">🧍 Fitness</h2>
+        <h3 class="h3 collapsible" onclick="toggle(this);">🏊 Sprinting/Jumping/Swimming/Climbing</h3>
+          <ul class="nested">
+            <li><a href=https://en.wikipedia.org/wiki/George_Hackenschmidt>George Hackenschmidt</a></li>
+            <li><a href=https://twitter.com/rosstraining>Ross Enamait</a></li>
+            <li><a href=https://twitter.com/joerogan>Joe Rogan</a></li>
+            <li><a href=https://www.instagram.com/davidgoggins/ >David Goggins</a></li>
+            <li><a href=https://twitter.com/solbrah>Sol Brah</a></li>
+            <li><a href=https://www.youtube.com/channel/UCObA5o3mcc1felIMAv6cukw>Geoffrey Verity Schofield</a></li>
+          </ul>
+        <h3 class="h3 collapsible" onclick="toggle(this);">🏋️ Olympic Lifting</h3>
+          <ul class="nested">
+            <li><a href=https://www.instagram.com/clarencekennedy_/ >Clarence Kennedy</a></li>
+            <li><a href=https://www.instagram.com/torokhtiy/ >Oleksiy Torokhtiy</a></li>
+          </ul>
+
+      <h2 class="h2 collapsible" onclick="toggle(this);">🧮 Economics</h2>
+        <ul class="nested">
+          <li><a href=https://twitter.com/NickSzabo4>Nick Szabo</a></li>
+          <li><a href=https://twitter.com/saifedean>Saifedean Ammous</a></li>
+        </ul>
+
+      <h2 class="h2 collapsible" onclick="toggle(this);">📈 Investing</h2>
+        <ul class="nested">
+          <li><a href=https://twitter.com/baronfunds>Ron Baron</a></li>
+          <li><a href=https://twitter.com/chamath>Chamath Palihapitiya</a></li>
+          <li><a href=https://twitter.com/cathiedwood>Cathie Wood</a></li>
+          <li><a href=https://twitter.com/munster_gene>Gene Munster</a></li>
+        </ul>
+
+      <h2 class="h2 collapsible" onclick="toggle(this);">🗿 Humanities</h2>
+        <ul class="nested">
+          <li><a href=https://twitter.com/SadhguruJV>Sadhguru</a></li>
+          <li><a href=https://twitter.com/naval>Naval Ravikant</a></li>
+          <li><a href=https://twitter.com/jordanbpeterson>Jordan Peterson</a></li>
+          <li><a href=https://twitter.com/chuckpalahniuk>Chuck Palahniuk</a></li>
+        </ul>
+
+  </div>
+
+<div class=footer><p style=text-align:center;><a href=https://creativecommons.org/licenses/by-sa/4.0/ rel=license><img src=/static/files/ccbysa4.svg></a></p></div></body></html>

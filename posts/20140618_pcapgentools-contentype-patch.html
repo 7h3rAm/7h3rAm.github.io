@@ -1,4 +1,75 @@
-<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=author content="Ankur Tyagi (@7h3rAm)"><meta name=description content="Personal Weblog"><meta content="width=device-width, initial-scale=1" name=viewport><title>Mannthan</title><link href=/static/images/mannthan-32x32.png sizes=32x32 rel=icon type=image/png><script src=/static/js/highlight.min.js></script><script src=/static/js/highlightjs-line-numbers.min.js></script><script charset=UTF-8 src=/static/js/go.min.js></script><link rel=stylesheet href=/static/css/github-gist.min.css><link rel=stylesheet type=text/css href=/static/css/style.md.css media=screen></head><body><div class=header><table><tr><td><a href=/index.html style="color:#fe4164; font-size:14pt;">🏡 Home </a></td><td><a href=/archive.html style="color:#f90; font-size:14pt;">💾 Archive </a></td><td><a href=/tags.html style="color:#69359c; font-size:14pt;">🔖 Tags </a></td><td><a href=/stats.html style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td></tr></table></div><div class=body><h1>PCAP-GenerationTools and Content-Type Identification Patch</h1><p><a href=/posts/20140506_confidence-ds-ctf-stego50.html> « </a>📅 published on <code>18/Jun/2014</code><a href=/posts/20140918_little-pdf.html> » </a></p><p>I came across the <a href=https://github.com/andrewg-felinemenace/PCAP-Generation-Tools>PCAPGenerationTools</a> project more than a year ago and immediately got hooked to it. A huge shoutout to its author <a href=https://github.com/andrewg-felinemenace>Andrew Griffiths</a> who did an amazing job creating this tool and made it opensource for the community. It is amongst those tools that I didn't create and use on a daily basis.</p><p>At its core, <code>PCAPGenerationTools</code> allows you to create pcaps for an input file. That's a description in extreme brevity. To make things clear let's consider an example where you are working on a scenario in which you need to look at a pcap that captures file download. The file being downloaded could be of any type but for our case let's assume it is a PDF file. So, when you host a PDF file on a webserver and request that file from the server, underlying packet exchange is what <code>PCAPGenerationTools</code> will create for you. And it can do this without hosting the file on the server and requesting it while some network sniffer runs in background. Let's give the tool a test run to clarify things a bit:</p><pre><code>$ ./pgt.py hello-world.pdf
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
+    <meta name="description" content="Personal Weblog"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>Mannthan</title>
+    <link href="/static/images/mannthan-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
+    <script src="/static/js/highlight.min.js"></script>
+    <script src="/static/js/highlightjs-line-numbers.min.js"></script>
+    <script charset="UTF-8" src="/static/js/go.min.js"></script>
+    <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github-gist.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/style.md.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
+    <link rel="stylesheet" href="/static/css/github-gist.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
+   </head>
+  <body>
+    <style>
+      .collapsible {
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        cursor: pointer;
+      }
+      .collapsible:after {
+        content: "+";
+        transition: transform .3s ease;
+        display: inline-block;
+        font-weight: bold;
+        float: right;
+      }
+      .expanded::after {
+        content: "-";
+        -ms-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+      .nested {
+        display: none;
+      }
+      .active {
+        display: block;
+      }
+    </style>
+    <div class="header">
+      <table>
+        <tr>
+          <td><a href="/index.html" style="color:#fe4164; font-size:14pt;">🏡 Home </a></td>
+          <td><a href="/archive.html" style="color:#f90; font-size:14pt;">💾 Archive </a></td>
+          <td><a href="/tags.html" style="color:#69359c; font-size:14pt;">🔖 Tags </a></td>
+          <td><a href="/stats.html" style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td>
+        </tr>
+      </table>
+    </div>
+    <div class="body">
+          <h1 class="h1 collapsible" onclick="toggle(this);">PCAP-GenerationTools and Content-Type Identification Patch</h1>
+                  <p class="nested"><a href="/posts/20140506_confidence-ds-ctf-stego50.html"> « </a>📅 published on <code>18/Jun/2014</code><a href="/posts/20140918_little-pdf.html"> » </a></p>
+                <p class="nested">I came across the <a href="https://github.com/andrewg-felinemenace/PCAP-Generation-Tools">PCAPGenerationTools</a> project more than a year ago and immediately got hooked to it. A huge shoutout to its author <a href="https://github.com/andrewg-felinemenace">Andrew Griffiths</a> who did an amazing job creating this tool and made it opensource for the community. It is amongst those tools that I didn't create and use on a daily basis.</p>
+<p class="nested">At its core, <code>PCAPGenerationTools</code> allows you to create pcaps for an input file. That's a description in extreme brevity. To make things clear let's consider an example where you are working on a scenario in which you need to look at a pcap that captures file download. The file being downloaded could be of any type but for our case let's assume it is a PDF file. So, when you host a PDF file on a webserver and request that file from the server, underlying packet exchange is what <code>PCAPGenerationTools</code> will create for you. And it can do this without hosting the file on the server and requesting it while some network sniffer runs in background. Let's give the tool a test run to clarify things a bit:</p>
+<p class="nested"re><code>$ ./pgt.py hello-world.pdf
 WARNING: No route found for IPv6 destination :: (no default route?)
 [*] Doing FTP
 [*] output/hello-world.pdf/FTP_upload_active.pcap...
@@ -37,4 +108,47 @@ FTP_download_active.pcap   HTTP_GET_deflate_chunked.pcap  HTTP_GET_raw_chunked.p
 FTP_download_passive.pcap  HTTP_GET_deflate_raw.pcap      HTTP_GET_raw_raw.pcap           HTTP_POST_gzip_raw.pcap      IMAP_base64.pcap   POP3_quopri.pcap   TCP_CTS_raw.pcap
 FTP_upload_active.pcap     HTTP_GET_gzip_chunked.pcap     HTTP_POST_deflate_chunked.pcap  HTTP_POST_raw_chunked.pcap   IMAP_quopri.pcap   SMTP_7or8bit.pcap  TCP_STC_raw.pcap
 FTP_upload_passive.pcap    HTTP_GET_gzip_raw.pcap         HTTP_POST_deflate_raw.pcap      HTTP_POST_raw_raw.pcap       POP3_7or8bit.pcap  SMTP_base64.pcap
-</code></pre><p>I'm using sample PDF files from Didier Stevens blog post on <a href=http://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/ >Physical and Logical Structure of PDF Files</a>. <code>PCAPGenerationTools</code> created pcaps for FTP, POP3, IMAP, SMTP, HTTP and TCP. Let's have a look at one of the HTTP pcaps in Wireshark:</p><p><img alt=pcapgentools-1.png src=/static/files/posts_pcapgentools_contentype_patch/pcapgentools-1.png></p><p>And here's how the reassembled HTTP stream looks like:</p><p><img alt=pcapgentools-2.png src=/static/files/posts_pcapgentools_contentype_patch/pcapgentools-2.png></p><p>That's pure awesomeness! It created pcaps with different HTTP <code>Content-Type</code> and <code>Transfer-Encoding</code> combinations, active/passive mode in FTP, upload/download over HTTP and FTP and various MIMEtype encodings for POP3/IMAP/SMTP. These pcaps were created without hosting files and using respective clients and without generating any network traffic.</p><p>I submitted <a href="https://github.com/andrewg-felinemenace/PCAP-Generation-Tools/pulls?utf8=%E2%9C%93&q=is%3Apr+author%3A7h3rAm+">three patches</a> of which two have been merged in the master branch of the project. The first patch <a href=https://github.com/andrewg-felinemenace/PCAP-Generation-Tools/pull/1>auto content type identification and output directory creation</a> which basically added a MIMEtype identification feature for <code>Content-Type</code> headers in HTTP pcaps. In the screenshot above, you will notice that the server response (in blue) shows <code>Content-Type</code> header with the correct MIMEtype of <code>application/pdf</code>. This feature helps create pcaps that simulate real world scenarios.</p><p>Another patch that I submitted and which is yet to be merged, <a href=https://github.com/andrewg-felinemenace/PCAP-Generation-Tools/pull/3>adds raw TCP CTS/STC payload pcap generation feature</a> to <code>PCAPGenerationTools</code>. This patch allows creation of pcaps that capture file transfer over TCP itself and where layer 7 protocols are not involved. An example scenario would be transferring files over a netcat session.</p><p><code>PCAPGenerationTools</code> is an amazing project and quite powerful in many ways. Make sure you try and let me know if you share the same excitement as I do about this tool.</p><p style=text-align:center;>(🔖 tagged <a href=/tags.html#code>code</a>)</p><p style=text-align:center;>« <a href=/posts/20140506_confidence-ds-ctf-stego50.html>CONFidence DS CTF Teaser: Steg...</a> « | » <a href=/posts/20140918_little-pdf.html>Little PDF Puzzle from Didier ...</a> »</p></div><div class=footer><p style=text-align:center;><a href=https://creativecommons.org/licenses/by-sa/4.0/ rel=license><img src=/static/files/ccbysa4.svg></a></p></div><script>hljs.initHighlightingOnLoad();</script><script>hljs.initLineNumbersOnLoad();</script></body></html>
+</code></pre>
+
+<p class="nested">I'm using sample PDF files from Didier Stevens blog post on <a href="http://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/">Physical and Logical Structure of PDF Files</a>. <code>PCAPGenerationTools</code> created pcaps for FTP, POP3, IMAP, SMTP, HTTP and TCP. Let's have a look at one of the HTTP pcaps in Wireshark:</p>
+<p class="nested"><img alt="pcapgentools-1.png" src="/static/files/posts_pcapgentools_contentype_patch/pcapgentools-1.png" /></p>
+<p class="nested">And here's how the reassembled HTTP stream looks like:</p>
+<p class="nested"><img alt="pcapgentools-2.png" src="/static/files/posts_pcapgentools_contentype_patch/pcapgentools-2.png" /></p>
+<p class="nested">That's pure awesomeness! It created pcaps with different HTTP <code>Content-Type</code> and <code>Transfer-Encoding</code> combinations, active/passive mode in FTP, upload/download over HTTP and FTP and various MIMEtype encodings for POP3/IMAP/SMTP. These pcaps were created without hosting files and using respective clients and without generating any network traffic.</p>
+<p class="nested">I submitted <a href="https://github.com/andrewg-felinemenace/PCAP-Generation-Tools/pulls?utf8=%E2%9C%93&amp;q=is%3Apr+author%3A7h3rAm+">three patches</a> of which two have been merged in the master branch of the project. The first patch <a href="https://github.com/andrewg-felinemenace/PCAP-Generation-Tools/pull/1">auto content type identification and output directory creation</a> which basically added a MIMEtype identification feature for <code>Content-Type</code> headers in HTTP pcaps. In the screenshot above, you will notice that the server response (in blue) shows <code>Content-Type</code> header with the correct MIMEtype of <code>application/pdf</code>. This feature helps create pcaps that simulate real world scenarios.</p>
+<p class="nested">Another patch that I submitted and which is yet to be merged, <a href="https://github.com/andrewg-felinemenace/PCAP-Generation-Tools/pull/3">adds raw TCP CTS/STC payload pcap generation feature</a> to <code>PCAPGenerationTools</code>. This patch allows creation of pcaps that capture file transfer over TCP itself and where layer 7 protocols are not involved. An example scenario would be transferring files over a netcat session.</p>
+<p class="nested"><code>PCAPGenerationTools</code> is an amazing project and quite powerful in many ways. Make sure you try and let me know if you share the same excitement as I do about this tool.</p>
+        <p class="nested" style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a>)</p>
+                  <p class="nested" style="text-align:center;">« <a href="/posts/20140506_confidence-ds-ctf-stego50.html">CONFidence DS CTF Teaser: Steg...</a> « | » <a href="/posts/20140918_little-pdf.html">Little PDF Puzzle from Didier ...</a> »</p>
+            </div>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>hljs.initLineNumbersOnLoad();</script>
+    <script>
+      function toggle(elem) {
+        elem.classList.toggle("expanded");
+
+        var ish2 = false; var ish3 = false;
+        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }
+        console.log(elem); console.log(ish2); console.log(ish3);
+
+        var sibling = elem.nextElementSibling;
+        while (sibling) {
+          if (ish2 && sibling.classList.contains("h2")) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (sibling.classList.contains("collapsible")) {
+            sibling.classList.toggle("expanded");
+          }
+          sibling.classList.toggle("active");
+          sibling = sibling.nextElementSibling;
+        }
+      }
+    </script>
+    <div class=footer><p><a href=https://creativecommons.org/licenses/by-sa/4.0/ rel=license><img src=/static/files/ccbysa4.svg></a></p></div>
+  </body>
+</html>

