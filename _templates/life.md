@@ -1,4 +1,4 @@
-# ♻️ Life
+# 🧬 Life
 ## 🚀 Goal
 * 🌄 🏋️ 🧗 🏊 🏃 🚴 ⟶ 🍎 🥛 🥦 🥕 🥗 ⟶ 🏡 🧘 🔕 🙈 🙊 🙉
 * Intellectual Athlete
