@@ -1,4 +1,4 @@
-# Fitness
+# 🏋️ Fitness
 
 ## Goals
 * 10 pull ups
