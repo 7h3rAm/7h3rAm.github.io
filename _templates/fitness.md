@@ -1,13 +1,13 @@
 # 🏋️ Fitness
 
-## 🚀 Goals
+## Goals
 * 10 pull ups
 * 20 dips
 * 30 push ups
 * 8 minute mile
 * 5+5 skater squats
 
-## 🛠️ Equipments
+## Equipments
 * Kettlebell
 * Dumbbell
 * Sandbag
@@ -16,7 +16,7 @@
 * Stones
 * Ropes
 
-## 💊 Stacks
+## Stacks
 * Health
     * Vitamin D3
     * Omega 369
