@@ -44,17 +44,17 @@
 
 This [tool](https://github.com/7h3rAm/machinescli) provides commandline access for HackTheBox and VulnHub machines<br/>
 
-![machinescli16](/static/files/pages_oscp/machinescli16.png)<br/>
-![machinescli03a](/static/files/pages_oscp/machinescli03a.png)<br/>
-![machinescli06](/static/files/pages_oscp/machinescli06.png)<br/>
-![machinescli04](/static/files/pages_oscp/machinescli04.png)<br/>
+![machinescli16](/static/files/pages_oscp/machinescli16.png.webp)<br/>
+![machinescli03a](/static/files/pages_oscp/machinescli03a.png.webp)<br/>
+![machinescli06](/static/files/pages_oscp/machinescli06.png.webp)<br/>
+![machinescli04](/static/files/pages_oscp/machinescli04.png.webp)<br/>
 
 ### svachal
 
 This [tool](https://github.com/7h3rAm/svachal) provides an automation framework for machine writeups<br/>
 
-![svachal01](/static/files/pages_oscp/svachal01.png)<br/>
-![svachal02](/static/files/pages_oscp/svachal02.png)<br/>
+![svachal01](/static/files/pages_oscp/svachal01.png.webp)<br/>
+![svachal02](/static/files/pages_oscp/svachal02.png.webp)<br/>
 
 ### writeups
 
@@ -100,20 +100,20 @@ These are writeups for OSCPlike machines
 
 These are [notes, stats, TTPs and trend graphs](https://github.com/7h3rAm/writeups/blob/master/readme.md) from completed writeups
 
-![writeups_readme](/static/files/pages_oscp/writeups_readme.png)<br/>
-![writeups_machines](/static/files/pages_oscp/writeups_machines.png)<br/>
-![top_ports](/static/files/pages_oscp/top_ports.png)<br/>
-![top_protocols](/static/files/pages_oscp/top_protocols.png)<br/>
-![top_services](/static/files/pages_oscp/top_services.png)<br/>
-![top_ttps_enumerate](/static/files/pages_oscp/top_ttps_enumerate.png)<br/>
-![top_ttps_exploit](/static/files/pages_oscp/top_ttps_exploit.png)<br/>
-![top_ttps_privesc](/static/files/pages_oscp/top_ttps_privesc.png)<br/>
+![writeups_readme](/static/files/pages_oscp/writeups_readme.png.webp)<br/>
+![writeups_machines](/static/files/pages_oscp/writeups_machines.png.webp)<br/>
+![top_ports](/static/files/pages_oscp/top_ports.png.webp)<br/>
+![top_protocols](/static/files/pages_oscp/top_protocols.png.webp)<br/>
+![top_services](/static/files/pages_oscp/top_services.png.webp)<br/>
+![top_ttps_enumerate](/static/files/pages_oscp/top_ttps_enumerate.png.webp)<br/>
+![top_ttps_exploit](/static/files/pages_oscp/top_ttps_exploit.png.webp)<br/>
+![top_ttps_privesc](/static/files/pages_oscp/top_ttps_privesc.png.webp)<br/>
 
 ### OSCPlike Machines Sheet
 
 This [gsheet](https://docs.google.com/spreadsheets/d/1syxzcX5rJj2qffBfZYjlEGaRuns-Ec_kkLiblsed8Zs/copy) lists OSCPlike HackTheBox, TryHackMe and VulnHub machines curated from various sources<br/>
 
-![sheet01](/static/files/pages_oscp/sheet01.png)<br/>
-![sheet02](/static/files/pages_oscp/sheet02.png)<br/>
-![sheet03](/static/files/pages_oscp/sheet03.png)<br/>
-![sheet04](/static/files/pages_oscp/sheet04.png)<br/>
+![sheet01](/static/files/pages_oscp/sheet01.png.webp)<br/>
+![sheet02](/static/files/pages_oscp/sheet02.png.webp)<br/>
+![sheet03](/static/files/pages_oscp/sheet03.png.webp)<br/>
+![sheet04](/static/files/pages_oscp/sheet04.png.webp)<br/>

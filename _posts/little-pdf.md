@@ -31,11 +31,11 @@ Page Count                      : 1
 
 All these attributes look standard and nothing suspicious pops out in the output. The author, Didier Stevens, hints that it is a simple challenge and can be solved using just Notepad or a standard PDF reader. Let's view contents of this file in a text editor:
 
-![littlepdf-texteditor.png](/static/files/posts_little_pdf/littlepdf-texteditor.png)
+![littlepdf-texteditor](/static/files/posts_little_pdf/littlepdf-texteditor.png.webp)
 
 If you have not read Didier Stevens's [Physical and Logical Structure of PDF Files](http://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/) post I strongly recommend reading it before reading further. It will help you identify something out of the ordinary in above output. There are two copies of xref table and trailer in this file hinting that it is probably a PDF with [Incremental Updates](https://en.wikipedia.org/wiki/Portable_Document_Format#File_structure). The new content (after the first `%%EOF`) has redefined object 5 and updated the xref table to help renders know its new offset. If you open this file in a PDF viewer, you will see something like this:
 
-![littlepdf-pdfjs.png](/static/files/posts_little_pdf/littlepdf-pdfjs.png)
+![littlepdf-pdfjs](/static/files/posts_little_pdf/littlepdf-pdfjs.png.webp)
 
 The reader is using updated object and renders its content, thus overriding the older object definition. Since both object definitions contain `ASCII85Decode` encoded streams, we can manually decode and look at the raw content:
 
