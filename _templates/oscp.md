@@ -1,13 +1,13 @@
 # 🟠 OSCP
 
-## 🌱 TL;DR
+## TL;DR
   * Join [Infosec Prep](https://discord.gg/RRgKaep") Discord server
   * Create a documentation strategy and automate report writing
   * Create a [methodology](https://medium.com/@falconspy/oscp-developing-a-methodology-32f4ab471fd6) and remember it should evolve as you learn new stuff
   * Own OSCPlike machines [VulnHub](https://www.vulnhub.com/)|[TryHackMe](https://tryhackme.com/)|[HackTheBox](https://www.hackthebox.eu/)
   * [PWK](https://www.offensive-security.com/pwk-oscp/) → own the lab → [exam guide](https://support.offensive-security.com/oscp-exam-guide/) → own the exam
 
-## 🧘‍♂️ Read/Watch/Follow
+## Read/Watch/Follow
   * [@0xdf_](https://twitter.com/0xdf_): [writeups](https://0xdf.gitlab.io/tags.html#oscp-like)
   * [@0xfalconspy](https://twitter.com/0xfalconspy): [review](https://medium.com/@falconspy/passing-oscp-exam-attempt-3-efce6b0d6f6c)
   * [@bond006_5](https://twitter.com/bond006_5): [review](https://medium.com/@bondo.mike/certification-oscp-de41adeb9d7e), [writeups](https://medium.com/@bondo.mike)
@@ -20,7 +20,7 @@
   * [@TibSec](https://twitter.com/tibsec): [courses](https://www.udemy.com/user/tib3rius/), [review](https://medium.com/@Tib3rius/59-hosts-to-glory-passing-the-oscp-acf0fd384371)
   * [@TJ_Null](https://twitter.com/tj_null): [review](https://www.netsecfocus.com/oscp/review/2019/01/29/An_Adventure_to_Try_Harder_Tjnulls_OSCP_Journey.html), [prepguide](https://www.netsecfocus.com/oscp/2019/03/29/The_Journey_to_Try_Harder-_TJNulls_Preparation_Guide_for_PWK_OSCP.html)
 
-## 🏋️‍♂️ Do
+## Do
 ### Notes/Report
   * [OSCP-MarkdownReportingTemplates](https://github.com/chvancooten/OSCP-MarkdownReportingTemplates)
   * [OSCP-Exam-Report-Template-Markdown](https://github.com/noraj/OSCP-Exam-Report-Template-Markdown)
@@ -39,7 +39,7 @@
   * OSCPlike: [NetSecFocus Trophy Room (VulnHub and HackTheBox machines)](https://docs.google.com/spreadsheets/u/1/d/1dwSMIAPIam0PuRBkCiDI88pU3yzrqqHkDtBngUHNCw8/htmlview), [Offensive Pentesting Learning Pathway (TryHackMe machines)](https://tryhackme.com/path/outline/OSCP)
   * Practice: [oscp-practice (HackTheBox and TryHackMe machines)](https://github.com/ajdumanhug/oscp-practice)
 
-## 📑 Resources
+## Resources
 ### machinescli
 
 This [tool](https://github.com/7h3rAm/machinescli) provides commandline access for HackTheBox and VulnHub machines<br/>

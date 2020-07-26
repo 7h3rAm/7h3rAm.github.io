@@ -8,13 +8,13 @@
 * 5+5 skater squats
 
 ## Equipments
-* Kettlebell
-* Dumbbell
-* Sandbag
-* Resistance band
-* Weighted vest
-* Stones
-* Ropes
+* [Kettlebell](https://www.roguefitness.com/rogue-kettlebells)
+* [Dumbbell](https://www.roguefitness.com/rogue-dumbbells)
+* [Sandbag](https://www.roguefitness.com/rogue-sandbags)
+* [Resistance band](https://www.roguefitness.com/mobility-rehab/mobility-tools/bands)
+* [Weighted vest](https://www.roguefitness.com/bodyweight-gymnastics/body-weight/weight-vests)
+* [Stones](https://www.roguefitness.com/rogue-rubber-atlas-stones)
+* [Ropes](https://www.roguefitness.com/conditioning/jump-ropes)
 
 ## Stacks
 * Health
