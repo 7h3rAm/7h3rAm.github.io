@@ -24,7 +24,7 @@ IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 h1, h2, h3, h4, h5, h6, ul, ol, p, pre { margin-bottom:1em; }
 strong, b { font-weight:bold; }
 em, i { font-style:italic; }
-pre, code { color:#e83e8c; background-color:#fffffa; }
+pre, code { color:#e83e8c; background-color:#fffffd; }
 pre::before, pre::after { display:block; }
 code::before, code::after { background:#fff; }
 ol li { margin-left:4ex; }
@@ -32,7 +32,6 @@ ul li { margin-left:3ex; }
 ol li { list-style:decimal outside; }
 h1, h2, h3, h4, h5, h6 { color:#900900; background-color:#fffffd }
 h1 code, h2 code, h3 code, h4 code, h5 code, h6 code { background:#fff; }
-
 /* 🔆 ⚜️ 🔰 ❇️ 💠 🌀 💿 📀 ⌛️ ⏳ ⚪️ 🔴 🔵 🟡 🟢 🟣 🔷 */
 h1::before { color:#198388; }
 h2::before { content:"🔰 "; color:#5EBDAB; }
