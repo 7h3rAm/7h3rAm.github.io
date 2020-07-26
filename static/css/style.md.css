@@ -30,14 +30,17 @@ code::before, code::after { background:#fff; }
 ol li { margin-left:4ex; }
 ul li { margin-left:3ex; }
 ol li { list-style:decimal outside; }
-h1, h2, h3, h4, h5, h6 { color:#900; }
+h1, h2, h3, h4, h5, h6 { color:#900900; background-color:#fffffd }
 h1 code, h2 code, h3 code, h4 code, h5 code, h6 code { background:#fff; }
-h1::before { content:"# "; color:#09a; }
-h2::before { content:"## "; color:#09a; }
-h3::before { content:"### "; color:#09a; }
-h4::before { content:"#### "; color:#09a; }
-h5::before { content:"##### "; color:#09a; }
-h6::before { content:"###### "; color:#09a; }
+
+/* 🔆 ⚜️ 🔰 ❇️ 💠 🌀 💿 📀 ⌛️ ⏳ ⚪️ 🔴 🔵 🟡 🟢 🟣 🔷 */
+h1::before { color:#198388; }
+h2::before { content:"🔰 "; color:#5EBDAB; }
+h3::before { content:"💠 "; color:#47D4B9; }
+h4::before { content:"🌀 "; color:#49AEE6; }
+h5::before { content:"🟡 "; color:#367bf0; }
+h6::before { content:"🟣 "; color:#05A1F7; }
+
 ul li::before { content:"* "; display:block; margin-left:-3ex; color:#f90; float:left; }
 a { color:#5b92e5; text-decoration:none; }
 a:hover { color:#900 }
