@@ -36,7 +36,7 @@
     * Milk: boosts saturated fats, increasing testosterone
     * Avoid stress: increases cortisol which results in decrease of testosterone and muscle mass
 
-## 💪 Training
+## Training
 ### Arms
   * Concentration Curl
   * Cross-body Hammer Curl
