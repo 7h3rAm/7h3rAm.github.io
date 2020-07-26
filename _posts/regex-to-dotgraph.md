@@ -70,7 +70,7 @@ $ ./re2dotgraph.py 'a*b?c+'
 
 The input regex is represented using a FSM which is then rendered to a `dot` file. This `dot` file is then rendered to an image name `regex.png` (name can be changed by passing a custom value as the second argument) using the installed `dot` program, called natively from inside Python runtime using the `os.system` method. Here is how the graph looks like:
 
-![image](/static/files/posts_regex_to_dotgraph/regex1.png)
+![image](/static/files/posts_regex_to_dotgraph/regex1.png.webp)
 
 I would like to point out that representing regular expressions as FSMs is really tricky. There are certain aspects of a regex that can never be represented (like backreferences and lookaheads) due to the fact that FSMs don't have memory to keep note of what was matched previously. This highlights the fact that any regexes, with backreferences or lookaheads won't be rendered correctly. Also, the pyFSA page mentions that the project currently is not fully compliant with POSIX regex guidelines. This severely limits the real-world use-cases:
 
@@ -95,7 +95,7 @@ $ ./re2dotgraph.py 'a\dc'
 
 And here's the generated image:
 
-![image](/static/files/posts_regex_to_dotgraph/regex2.png)
+![image](/static/files/posts_regex_to_dotgraph/regex2.png.webp)
 
 ## Conclusion
 

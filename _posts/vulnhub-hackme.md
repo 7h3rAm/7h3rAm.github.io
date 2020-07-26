@@ -7,7 +7,7 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [hackme: 1](https://www.vulnhub.com/entry/hackme-1,330/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_vulnhub_hackme/killchain.png)
+![writeup.overview.killchain](/static/files/posts_vulnhub_hackme/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -56,11 +56,11 @@ gobuster -u http://192.168.92.180:80/ -w /usr/share/seclists/Discovery/Web-Conte
 
 3\. We are redirected to the `http://192.168.92.180:80/login.php` link at every page visit so we try some common credentials and SQLi attempts. When these do not help, we decide to use the registration option which takes us to the `http://192.168.92.180:80/register.php` page. We register a username `foobar` with `foobar` password and get logged in to the web application:  
 
-![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_hackme/screenshot01.png)  
+![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_hackme/screenshot01.png.webp)  
 
-![writeup.enumeration.steps.3.2](/static/files/posts_vulnhub_hackme/screenshot02.png)  
+![writeup.enumeration.steps.3.2](/static/files/posts_vulnhub_hackme/screenshot02.png.webp)  
 
-![writeup.enumeration.steps.3.3](/static/files/posts_vulnhub_hackme/screenshot03.png)  
+![writeup.enumeration.steps.3.3](/static/files/posts_vulnhub_hackme/screenshot03.png.webp)  
 
 ### Findings
 #### Open Ports
@@ -92,17 +92,17 @@ sqlmap -r searchform.txt --dbs --batch
 sqlmap -r searchform.txt -D webapphacking --dump-all --batch
 ```
 
-![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_hackme/screenshot04.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_hackme/screenshot04.png.webp)  
 
-![writeup.exploitation.steps.1.2](/static/files/posts_vulnhub_hackme/screenshot05.png)  
+![writeup.exploitation.steps.1.2](/static/files/posts_vulnhub_hackme/screenshot05.png.webp)  
 
-![writeup.exploitation.steps.1.3](/static/files/posts_vulnhub_hackme/screenshot06.png)  
+![writeup.exploitation.steps.1.3](/static/files/posts_vulnhub_hackme/screenshot06.png.webp)  
 
-![writeup.exploitation.steps.1.4](/static/files/posts_vulnhub_hackme/screenshot07.png)  
+![writeup.exploitation.steps.1.4](/static/files/posts_vulnhub_hackme/screenshot07.png.webp)  
 
-![writeup.exploitation.steps.1.5](/static/files/posts_vulnhub_hackme/screenshot08.png)  
+![writeup.exploitation.steps.1.5](/static/files/posts_vulnhub_hackme/screenshot08.png.webp)  
 
-![writeup.exploitation.steps.1.6](/static/files/posts_vulnhub_hackme/screenshot09.png)  
+![writeup.exploitation.steps.1.6](/static/files/posts_vulnhub_hackme/screenshot09.png.webp)  
 
 2\. We log in to the web application as user `superadmin` and are presented with file upload functionality. We create a PHP reverse shell file and upload it successfully. There was no need to bypass any kind of upload filters in this case. The location for uploaded files is already known to be `192.168.92.180/uploads/` directory from the `gobuster` scan. We find our uploaded file within this directory and proceeded to get the initial shell:  
 ```
@@ -110,13 +110,13 @@ nc -nlvp 443
 192.168.92.180/uploads/rs.php
 ```
 
-![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_hackme/screenshot10.png)  
+![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_hackme/screenshot10.png.webp)  
 
-![writeup.exploitation.steps.2.2](/static/files/posts_vulnhub_hackme/screenshot11.png)  
+![writeup.exploitation.steps.2.2](/static/files/posts_vulnhub_hackme/screenshot11.png.webp)  
 
-![writeup.exploitation.steps.2.3](/static/files/posts_vulnhub_hackme/screenshot12.png)  
+![writeup.exploitation.steps.2.3](/static/files/posts_vulnhub_hackme/screenshot12.png.webp)  
 
-![writeup.exploitation.steps.2.4](/static/files/posts_vulnhub_hackme/screenshot13.png)  
+![writeup.exploitation.steps.2.4](/static/files/posts_vulnhub_hackme/screenshot13.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```
@@ -148,9 +148,9 @@ find / -type f -perm -04000 2>/dev/null
   /home/legacy/touchmenot
 ```
 
-![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_hackme/screenshot14.png)  
+![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_hackme/screenshot14.png.webp)  
 
-![writeup.privesc.steps.1.2](/static/files/posts_vulnhub_hackme/screenshot15.png)  
+![writeup.privesc.steps.1.2](/static/files/posts_vulnhub_hackme/screenshot15.png.webp)  
 
 2\. We locate this file and check it's permissions manually. We then procced to execute this file and get elevated access:  
 ```
@@ -159,7 +159,7 @@ file /home/legacy/touchmenot
 /home/legacy/touchmenot
 ```
 
-![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_hackme/screenshot16.png)  
+![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_hackme/screenshot16.png.webp)  
 
 ## Loot
 ### Hashes

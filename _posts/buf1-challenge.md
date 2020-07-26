@@ -37,11 +37,11 @@ W00T!
 
 There's the `gets` syscall and the `W00T!` string which confirm that this indeed is very similar to the previous challenge. Before we execute this file, let's do some static analysis on it using IDA:
 
-![image](/static/files/posts_buf1_challenge/ida-start.png)
+![image](/static/files/posts_buf1_challenge/ida-start.png.webp)
 
 Apart from the standard libc defintions and `main`, I see an interesting function called `returnToMe` at location 0x08048404. Let's follow this function and see what is it doing:
 
-![image](/static/files/posts_buf1_challenge/ida-returntome.png)
+![image](/static/files/posts_buf1_challenge/ida-returntome.png.webp)
 
 Let's figure out the size of the buffer to know how many bytes would be needed to reach saved EIP:
 

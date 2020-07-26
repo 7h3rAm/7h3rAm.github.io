@@ -7,7 +7,7 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [DC: 6](https://www.vulnhub.com/entry/dc-6,315/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_vulnhub_dc6/killchain.png)
+![writeup.overview.killchain](/static/files/posts_vulnhub_dc6/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -46,7 +46,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 admin, graham, mark, sarah and jens
 ```
 
-![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_dc6/screenshot01.png)  
+![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_dc6/screenshot01.png.webp)  
 
 ### Findings
 #### Open Ports
@@ -71,30 +71,30 @@ cat /usr/share/wordlists/rockyou.txt | grep k01 > passwords.txt
 wpscan --url http://wordy/ --wordlist ./passwords.txt → helpdesk01
 ```
 
-![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_dc6/screenshot04.png)  
+![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_dc6/screenshot04.png.webp)  
 
 3\. Running a Wordpress password bruteforce scan using `hydra` gave similar results:  
 ```
 hydra -l mark -P passwords.txt 192.168.92.170 http-post-form "/wp-login.php:log=mark&pwd=^PASS^:ERROR" → helpdesk01
 ```
 
-![writeup.exploitation.steps.3.1](/static/files/posts_vulnhub_dc6/screenshot02.png)  
+![writeup.exploitation.steps.3.1](/static/files/posts_vulnhub_dc6/screenshot02.png.webp)  
 
 4\. We use these credentials and login as user `mark`:  
 
-![writeup.exploitation.steps.4.1](/static/files/posts_vulnhub_dc6/screenshot03.png)  
+![writeup.exploitation.steps.4.1](/static/files/posts_vulnhub_dc6/screenshot03.png.webp)  
 
 5\. This installation has `Activity Monitor` plugin installed. There's an exploit for this plugin on ExploitDB:  
 
-![writeup.exploitation.steps.5.1](/static/files/posts_vulnhub_dc6/screenshot16.png)  
+![writeup.exploitation.steps.5.1](/static/files/posts_vulnhub_dc6/screenshot16.png.webp)  
 
 6\. We update the exploit with right IPs and chnage the `nc` commandline. This file when opened shows a HTML button which when clicked will execute the command and return a reverse shell:  
 
-![writeup.exploitation.steps.6.1](/static/files/posts_vulnhub_dc6/screenshot08.png)  
+![writeup.exploitation.steps.6.1](/static/files/posts_vulnhub_dc6/screenshot08.png.webp)  
 
-![writeup.exploitation.steps.6.2](/static/files/posts_vulnhub_dc6/screenshot09.png)  
+![writeup.exploitation.steps.6.2](/static/files/posts_vulnhub_dc6/screenshot09.png.webp)  
 
-![writeup.exploitation.steps.6.3](/static/files/posts_vulnhub_dc6/screenshot05.png)  
+![writeup.exploitation.steps.6.3](/static/files/posts_vulnhub_dc6/screenshot05.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```
@@ -125,32 +125,32 @@ jens
 wpdbuser/meErKatZ
 ```
 
-![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_dc6/screenshot06.png)  
+![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_dc6/screenshot06.png.webp)  
 
 2\. We also extract hashes for all Wordpress users from `wp_users` table:  
 
-![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_dc6/screenshot07.png)  
+![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_dc6/screenshot07.png.webp)  
 
 3\. Exploring filesystem further, we find credentials for user `graham` within the `/home/mark/stuff/things-to-do.txt` file:  
 ```
 graham/GSo7isUM1D4
 ```
 
-![writeup.privesc.steps.3.1](/static/files/posts_vulnhub_dc6/screenshot11.png)  
+![writeup.privesc.steps.3.1](/static/files/posts_vulnhub_dc6/screenshot11.png.webp)  
 
 4\. We `ssh` into the system as user `graham` to gain interactive access:  
 
-![writeup.privesc.steps.4.1](/static/files/posts_vulnhub_dc6/screenshot12.png)  
+![writeup.privesc.steps.4.1](/static/files/posts_vulnhub_dc6/screenshot12.png.webp)  
 
 5\. User `graham` can edit and execute the `/home/jens/backups.sh` as user `jens`. We modify the script to execute a shell and gain interactive access as user `jens`:  
 
-![writeup.privesc.steps.5.1](/static/files/posts_vulnhub_dc6/screenshot13.png)  
+![writeup.privesc.steps.5.1](/static/files/posts_vulnhub_dc6/screenshot13.png.webp)  
 
 6\. User `jens` can execute `/usr/bin/nmap` as `root`. We use this to gain elevated privileges and read the flag:  
 
-![writeup.privesc.steps.6.1](/static/files/posts_vulnhub_dc6/screenshot14.png)  
+![writeup.privesc.steps.6.1](/static/files/posts_vulnhub_dc6/screenshot14.png.webp)  
 
-![writeup.privesc.steps.6.2](/static/files/posts_vulnhub_dc6/screenshot15.png)  
+![writeup.privesc.steps.6.2](/static/files/posts_vulnhub_dc6/screenshot15.png.webp)  
 
 ## Loot
 ### Hashes

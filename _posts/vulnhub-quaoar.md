@@ -7,7 +7,7 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [hackfest2016: Quaoar](https://www.vulnhub.com/entry/hackfest2016-quaoar,180/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_vulnhub_quaoar/killchain.png)
+![writeup.overview.killchain](/static/files/posts_vulnhub_quaoar/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -236,7 +236,7 @@ Allow: /wordpress/
 #\___,_\ \__,_|\__,_|\___/ \__,_|_|   
 ```
 
-![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_quaoar/screenshot01.png)  
+![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_quaoar/screenshot01.png.webp)  
 
 3\. We run `wpscan` to enumerate users and find 2 hits:  
 ```
@@ -244,7 +244,7 @@ admin
 wpuser
 ```
 
-![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_quaoar/screenshot02.png)  
+![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_quaoar/screenshot02.png.webp)  
 
 ### Findings
 #### Open Ports
@@ -272,16 +272,16 @@ wordpress: admin, wpuser
 ## Phase #2: Exploitation
 1\. We tried the default credentials `admin/admin` and got administrative access to the Wordpress installation:  
 
-![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_quaoar/screenshot03.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_quaoar/screenshot03.png.webp)  
 
 2\. We then edit the `Hello Dolly` plugin file `hello.php`, add a PHP reverse shell to it and activate the plugin while running a `netcat` listener to catch incoming shell:  
 ```
 nc -nlvp 9999
 ```
 
-![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_quaoar/screenshot05.png)  
+![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_quaoar/screenshot05.png.webp)  
 
-![writeup.exploitation.steps.2.2](/static/files/posts_vulnhub_quaoar/screenshot04.png)  
+![writeup.exploitation.steps.2.2](/static/files/posts_vulnhub_quaoar/screenshot04.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```
@@ -308,28 +308,28 @@ wpadmin
 cat /home/wpadmin/flag.txt
 ```
 
-![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_quaoar/screenshot06.png)  
+![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_quaoar/screenshot06.png.webp)  
 
 2\. While exploring the `/var/www/wordpress` directory we find `wp-config.php` file with MySQL credentials in it:  
 ```
 cat /var/www/wordpress/wp-config.php → root/rootpassword!
 ```
 
-![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_quaoar/screenshot08.png)  
+![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_quaoar/screenshot08.png.webp)  
 
 3\. We test these credentials to gain `root` privleges and are successfully given access:  
 ```
 su
 ```
 
-![writeup.privesc.steps.3.1](/static/files/posts_vulnhub_quaoar/screenshot07.png)  
+![writeup.privesc.steps.3.1](/static/files/posts_vulnhub_quaoar/screenshot07.png.webp)  
 
 4\. We then read the `/root/flag.txt` file to complete the challenge:  
 ```
 cat /root/flag.txt
 ```
 
-![writeup.privesc.steps.4.1](/static/files/posts_vulnhub_quaoar/screenshot10.png)  
+![writeup.privesc.steps.4.1](/static/files/posts_vulnhub_quaoar/screenshot10.png.webp)  
 
 ## Loot
 ### Hashes

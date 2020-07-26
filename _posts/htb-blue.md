@@ -5,11 +5,11 @@ summary: This is the summary for an awesome post.
 tags: hackthebox, writeup
 
 ## Overview
-![writeup.metadata.infocard](/static/files/posts_htb_blue/infocard.png)
+![writeup.metadata.infocard](/static/files/posts_htb_blue/infocard.png.webp)
 
 This is a writeup for HTB VM [Blue](https://www.hackthebox.eu/home/machines/profile/51). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_htb_blue/killchain.png)
+![writeup.overview.killchain](/static/files/posts_htb_blue/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -55,7 +55,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 nmap -p139,445 --script smb-vuln-* --script-args=unsafe=1 10.10.10.40
 ```
 
-![writeup.enumeration.steps.2.1](/static/files/posts_htb_blue/screenshot01.png)  
+![writeup.enumeration.steps.2.1](/static/files/posts_htb_blue/screenshot01.png.webp)  
 
 3\. We find that the target system is missing patches from [MS17-010](https://docs.microsoft.com/en-us/security-updates/securitybulletins/2017/ms17-010) bulletin and as such vulnerable. We can use the [zzz_exploit.py](https://github.com/worawit/MS17-010) EternalBlue exploit to gain interactive access. But before that we need to determine the target OS version and the name of an active pipe:  
 
@@ -68,7 +68,7 @@ msfconsole
   run
 ```
 
-![writeup.enumeration.steps.4.1](/static/files/posts_htb_blue/screenshot02.png)  
+![writeup.enumeration.steps.4.1](/static/files/posts_htb_blue/screenshot02.png.webp)  
 
 5\. Then we use another Metasploit auxiliary module `scanner/smb/pipe_auditor` to find multiple open pipes `\netlogon, \lsarpc, \samr, \browser, \atsvc, \epmapper, \eventlog, \InitShutdown, \keysvc, \lsass, \LSM_API_service, \ntsvcs, \plugplay, \protected_storage, \scerpc, \srvsvc, \trkwks, \W32TIME_ALT, \wkssvc`:  
 ```
@@ -79,7 +79,7 @@ msfconsole
   run
 ```
 
-![writeup.enumeration.steps.5.1](/static/files/posts_htb_blue/screenshot03.png)  
+![writeup.enumeration.steps.5.1](/static/files/posts_htb_blue/screenshot03.png.webp)  
 
 ### Findings
 #### Open Ports
@@ -122,15 +122,15 @@ msfconsole
   getuid
 ```
 
-![writeup.exploitation.steps.1.1](/static/files/posts_htb_blue/screenshot04.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_htb_blue/screenshot04.png.webp)  
 
-![writeup.exploitation.steps.1.2](/static/files/posts_htb_blue/screenshot05.png)  
+![writeup.exploitation.steps.1.2](/static/files/posts_htb_blue/screenshot05.png.webp)  
 
-![writeup.exploitation.steps.1.3](/static/files/posts_htb_blue/screenshot06.png)  
+![writeup.exploitation.steps.1.3](/static/files/posts_htb_blue/screenshot06.png.webp)  
 
-![writeup.exploitation.steps.1.4](/static/files/posts_htb_blue/screenshot07.png)  
+![writeup.exploitation.steps.1.4](/static/files/posts_htb_blue/screenshot07.png.webp)  
 
-![writeup.exploitation.steps.1.5](/static/files/posts_htb_blue/screenshot08.png)  
+![writeup.exploitation.steps.1.5](/static/files/posts_htb_blue/screenshot08.png.webp)  
 
 2\. We then obtain further information about the system and read the contents of both user.txt and root.txt files to comeplete the challenge:  
 ```
@@ -139,11 +139,11 @@ cat C:\Users\haris\Desktop\user.txt
 cat C:\Users\haris\Desktop\root.txt
 ```
 
-![writeup.exploitation.steps.2.1](/static/files/posts_htb_blue/screenshot09.png)  
+![writeup.exploitation.steps.2.1](/static/files/posts_htb_blue/screenshot09.png.webp)  
 
-![writeup.exploitation.steps.2.2](/static/files/posts_htb_blue/screenshot10.png)  
+![writeup.exploitation.steps.2.2](/static/files/posts_htb_blue/screenshot10.png.webp)  
 
-![writeup.exploitation.steps.2.3](/static/files/posts_htb_blue/screenshot11.png)  
+![writeup.exploitation.steps.2.3](/static/files/posts_htb_blue/screenshot11.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```

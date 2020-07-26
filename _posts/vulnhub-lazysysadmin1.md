@@ -7,7 +7,7 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [LazySysAdmin: 1](https://www.vulnhub.com/entry/lazysysadmin-1,205/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_vulnhub_lazysysadmin1/killchain.png)
+![writeup.overview.killchain](/static/files/posts_vulnhub_lazysysadmin1/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -102,9 +102,9 @@ Service detection performed. Please report any incorrect results at https://nmap
 
 2\. Upon visiting the `80/tcp`, we find an unknown web application. Inspecting further, we find a few links via `robots.txt` file but none of those seem useful.  
 
-![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_lazysysadmin1/screenshot01.png)  
+![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_lazysysadmin1/screenshot01.png.webp)  
 
-![writeup.enumeration.steps.2.2](/static/files/posts_vulnhub_lazysysadmin1/screenshot02.png)  
+![writeup.enumeration.steps.2.2](/static/files/posts_vulnhub_lazysysadmin1/screenshot02.png.webp)  
 
 3\. We also find a `wordpress` directory from the `gobuster` scan report. Initial attempts to login via common default credentials didn't succeed. Since we already have read access to Wordpress installation via the open SMB share, we download the `wp-config.php` file and obtain the hardcoded MySQL credentials within it:  
 ```
@@ -114,9 +114,9 @@ smbclient //192.168.92.191/share$
   get wp-config.php
 ```
 
-![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_lazysysadmin1/screenshot07.png)  
+![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_lazysysadmin1/screenshot07.png.webp)  
 
-![writeup.enumeration.steps.3.2](/static/files/posts_vulnhub_lazysysadmin1/screenshot08.png)  
+![writeup.enumeration.steps.3.2](/static/files/posts_vulnhub_lazysysadmin1/screenshot08.png.webp)  
 
 4\. We explore the SMB service and find that there is a user named `togie` on this system. Other than that, there is an open (readonly) SMB share and it is also the web root. We find a lot of interesting files within this directory, particularly the `deets.txt` file that has a password `12345`, possibly for user `togie`:  
 ```
@@ -125,11 +125,11 @@ smbclient //192.168.92.191/share$
 http://192.168.92.191/deets.txt
 ```
 
-![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_lazysysadmin1/screenshot03.png)  
+![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_lazysysadmin1/screenshot03.png.webp)  
 
-![writeup.enumeration.steps.4.2](/static/files/posts_vulnhub_lazysysadmin1/screenshot03a.png)  
+![writeup.enumeration.steps.4.2](/static/files/posts_vulnhub_lazysysadmin1/screenshot03a.png.webp)  
 
-![writeup.enumeration.steps.4.3](/static/files/posts_vulnhub_lazysysadmin1/screenshot04.png)  
+![writeup.enumeration.steps.4.3](/static/files/posts_vulnhub_lazysysadmin1/screenshot04.png.webp)  
 
 ### Findings
 #### Open Ports
@@ -160,17 +160,17 @@ wordpress: admin, togie
 ssh togie@192.168.92.191
 ```
 
-![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_lazysysadmin1/screenshot04a.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_lazysysadmin1/screenshot04a.png.webp)  
 
 2\. On the other hand, we successfully used credentials obtained from `wp-config.php` file to login to Wordpress since the administrator has reused those credentials:  
 
-![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_lazysysadmin1/screenshot09.png)  
+![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_lazysysadmin1/screenshot09.png.webp)  
 
 3\. To get interactive access, we edit the `404.php` template page and add a PHP reverse shell to it. We then start a local `netcat` listener and visit a non-existing page to trigger the webshell:  
 
-![writeup.exploitation.steps.3.1](/static/files/posts_vulnhub_lazysysadmin1/screenshot10.png)  
+![writeup.exploitation.steps.3.1](/static/files/posts_vulnhub_lazysysadmin1/screenshot10.png.webp)  
 
-![writeup.exploitation.steps.3.2](/static/files/posts_vulnhub_lazysysadmin1/screenshot12.png)  
+![writeup.exploitation.steps.3.2](/static/files/posts_vulnhub_lazysysadmin1/screenshot12.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```
@@ -203,16 +203,16 @@ sudo -l
 sudo bash
 ```
 
-![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_lazysysadmin1/screenshot15.png)  
+![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_lazysysadmin1/screenshot15.png.webp)  
 
-![writeup.privesc.steps.1.2](/static/files/posts_vulnhub_lazysysadmin1/screenshot16.png)  
+![writeup.privesc.steps.1.2](/static/files/posts_vulnhub_lazysysadmin1/screenshot16.png.webp)  
 
 2\. We then view the contents of the `/root/proof.txt` file to complete the challenge:  
 ```
 cat /root/proof.txt
 ```
 
-![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_lazysysadmin1/screenshot17.png)  
+![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_lazysysadmin1/screenshot17.png.webp)  
 
 ## Loot
 ### Hashes

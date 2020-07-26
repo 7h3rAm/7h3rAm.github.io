@@ -7,7 +7,7 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [Brainpan: 1](https://www.vulnhub.com/entry/brainpan-1,51/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_vulnhub_brainpan/killchain.png)
+![writeup.overview.killchain](/static/files/posts_vulnhub_brainpan/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -87,7 +87,7 @@ http://192.168.92.141:10000/bin/brainpan.exe
 ## Phase #2: Exploitation
 1\. There's a buffer overflow vulnerability in the service running on `9999/tcp`. We have access to the vulnerable service file via a HTTP server running on `10000/tcp`. Analyze the service, create exploit and gain remote access to VM.  
 
-![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_brainpan/writeup.exploitation.screenshot.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_brainpan/writeup.exploitation.screenshot.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```
@@ -115,7 +115,7 @@ puck
 ## Phase #3: Privilege Escalation
 1\. There's a binary, `anansi_util` that allows `sudo` access. Running the service, we see that it has 3 options, one of which is to view `man` page for any command. We use this option to escape to shell.  
 
-![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_brainpan/writeup.privesc.screenshot.png)  
+![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_brainpan/writeup.privesc.screenshot.png.webp)  
 
 ## Loot
 ### Hashes

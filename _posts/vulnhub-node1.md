@@ -7,7 +7,7 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [Node: 1](https://www.vulnhub.com/entry/node-1,252/#). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_vulnhub_node1/killchain.png)
+![writeup.overview.killchain](/static/files/posts_vulnhub_node1/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -59,11 +59,11 @@ hash: de5a1adf4fedcce1533915edc60177547f1057b61b7119fd130e1f7428705f73
 plaintext: snowflake
 ```
 
-![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_node1/screenshot01.png)  
+![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_node1/screenshot01.png.webp)  
 
-![writeup.enumeration.steps.2.2](/static/files/posts_vulnhub_node1/screenshot02.png)  
+![writeup.enumeration.steps.2.2](/static/files/posts_vulnhub_node1/screenshot02.png.webp)  
 
-![writeup.enumeration.steps.2.3](/static/files/posts_vulnhub_node1/screenshot03.png)  
+![writeup.enumeration.steps.2.3](/static/files/posts_vulnhub_node1/screenshot03.png.webp)  
 
 ### Findings
 #### Open Ports
@@ -93,13 +93,13 @@ frackzip -uDP /usr/share/wordlists/rockyou.txt unknown
 unzip -o -P "magicword" unknown
 ```
 
-![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_node1/screenshot04.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_node1/screenshot04.png.webp)  
 
-![writeup.exploitation.steps.1.2](/static/files/posts_vulnhub_node1/screenshot06.png)  
+![writeup.exploitation.steps.1.2](/static/files/posts_vulnhub_node1/screenshot06.png.webp)  
 
-![writeup.exploitation.steps.1.3](/static/files/posts_vulnhub_node1/screenshot07.png)  
+![writeup.exploitation.steps.1.3](/static/files/posts_vulnhub_node1/screenshot07.png.webp)  
 
-![writeup.exploitation.steps.1.4](/static/files/posts_vulnhub_node1/screenshot08.png)  
+![writeup.exploitation.steps.1.4](/static/files/posts_vulnhub_node1/screenshot08.png.webp)  
 
 2\. Within the extracted the zip archive we get a backup of the `/var` directory on the target system. This directory has source for the Node.js web application running on `3000/tcp`. Within the source, we find hardcoded MongoDB credentials for user `mark`. We try those credentials to login via SSH and get local access:  
 ```
@@ -108,9 +108,9 @@ head var/www/myplace/app.js
 ssh mark@192.168.92.189
 ```
 
-![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_node1/screenshot09.png)  
+![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_node1/screenshot09.png.webp)  
 
-![writeup.exploitation.steps.2.2](/static/files/posts_vulnhub_node1/screenshot10.png)  
+![writeup.exploitation.steps.2.2](/static/files/posts_vulnhub_node1/screenshot10.png.webp)  
 
 3\. We find that the there is a `user.txt` file within `/home/tom/` directory and as user `mark` we don't have access to that file. We need to switch to user `tom` to proceed further:  
 ```
@@ -118,9 +118,9 @@ ls /home/*
 cat /home/tom/user.txt
 ```
 
-![writeup.exploitation.steps.3.1](/static/files/posts_vulnhub_node1/screenshot11.png)  
+![writeup.exploitation.steps.3.1](/static/files/posts_vulnhub_node1/screenshot11.png.webp)  
 
-![writeup.exploitation.steps.3.2](/static/files/posts_vulnhub_node1/screenshot12.png)  
+![writeup.exploitation.steps.3.2](/static/files/posts_vulnhub_node1/screenshot12.png.webp)  
 
 4\. We find that we can run arbitrary commands from within the MongoDB instance using its `scheduler` record for which we already found credentials via `app.js` file from the backup archive. Since the MongoDB instance is running as user `tom`, we spawn a Bash reverse shell to switch users:  
 ```
@@ -131,13 +131,13 @@ mongo -p -u mark scheduler
 cat /home/tom/user.txt
 ```
 
-![writeup.exploitation.steps.4.1](/static/files/posts_vulnhub_node1/screenshot13.png)  
+![writeup.exploitation.steps.4.1](/static/files/posts_vulnhub_node1/screenshot13.png.webp)  
 
-![writeup.exploitation.steps.4.2](/static/files/posts_vulnhub_node1/screenshot14.png)  
+![writeup.exploitation.steps.4.2](/static/files/posts_vulnhub_node1/screenshot14.png.webp)  
 
-![writeup.exploitation.steps.4.3](/static/files/posts_vulnhub_node1/screenshot15.png)  
+![writeup.exploitation.steps.4.3](/static/files/posts_vulnhub_node1/screenshot15.png.webp)  
 
-![writeup.exploitation.steps.4.4](/static/files/posts_vulnhub_node1/screenshot16.png)  
+![writeup.exploitation.steps.4.4](/static/files/posts_vulnhub_node1/screenshot16.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```
@@ -171,15 +171,15 @@ find / -type f -perm -04000 2>/dev/null
 /usr/local/bin/backup -q '45fac180e9eee72f4fd2d9386ea7033e52b7c740afc3d98a8d0230167104d474' /tmp/test/
 ```
 
-![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_node1/screenshot17.png)  
+![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_node1/screenshot17.png.webp)  
 
-![writeup.privesc.steps.1.2](/static/files/posts_vulnhub_node1/screenshot18.png)  
+![writeup.privesc.steps.1.2](/static/files/posts_vulnhub_node1/screenshot18.png.webp)  
 
-![writeup.privesc.steps.1.3](/static/files/posts_vulnhub_node1/screenshot19.png)  
+![writeup.privesc.steps.1.3](/static/files/posts_vulnhub_node1/screenshot19.png.webp)  
 
-![writeup.privesc.steps.1.4](/static/files/posts_vulnhub_node1/screenshot20.png)  
+![writeup.privesc.steps.1.4](/static/files/posts_vulnhub_node1/screenshot20.png.webp)  
 
-![writeup.privesc.steps.1.5](/static/files/posts_vulnhub_node1/screenshot21.png)  
+![writeup.privesc.steps.1.5](/static/files/posts_vulnhub_node1/screenshot21.png.webp)  
 
 2\. Upon following the usual steps and extracting the contents of the password encrypted zip archive, we get access to the `/root` directory and obtain the `root.txt` file to complete the challenge:  
 ```
@@ -189,7 +189,7 @@ cat tmp/test/root/root.txt
 
 ```
 
-![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_node1/screenshot22.png)  
+![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_node1/screenshot22.png.webp)  
 
 ## Loot
 ### Hashes

@@ -8,7 +8,7 @@ tags: code
 
 In this post I'll try to explain how [pynids](https://jon.oberheide.org/pynids/) can be combined with Python's `re` module to develop a minimal IPS-like tool. In an earlier post, [Network Stream Reassembly and Defragmentation](https://7h3ram.github.io/posts/20130618_libnids-pynids.html), I talked about how to leverage pynids API to create a TCP reassembly module. I would suggest you read that post before continuing further since I'll be skipping over reassembly basics. First let's understand the architecture of a very basic IPS:
 
-![image](/static/files/posts_libnids_python_ids/minips-arch.png)
+![image](/static/files/posts_libnids_python_ids/minips-arch.png.webp)
 
 Since it is a prevention system, an IPS has to be placed inline between the firewall at the perimeter edge the default gateway of your network. For any sessions that match inspection rules, they will be either dropped or logged or both if required. This action is basically per session/match configurable and can be changed through system's policy files. An inspection system needs network traffic as input and this input can come from different sources but for the sake of simplicity, we'll only be focusing on packet capture files and direct network device access as sources of input. Once the input is available in the form of raw packets, the system will need to reassemble them and extract layer payload which an inspection engine can consume.
 

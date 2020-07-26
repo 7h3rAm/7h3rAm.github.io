@@ -90,23 +90,23 @@ $
 
 So the first challenge is a `.Net` file. Let's try executing it:
 
-![image](/static/files/posts_flareon2014_15/flareon2014-c1-1.png)
+![image](/static/files/posts_flareon2014_15/flareon2014-c1-1.png.webp)
 
 The file shows a window with `Form1` as its title, a funny image with a message `Let's start with something easy!` and a huge `DECODE!` button. Upon clicking the button, image turns awkward and message changes to some cryptic text:
 
-![image](/static/files/posts_flareon2014_15/flareon2014-c1-2.png)
+![image](/static/files/posts_flareon2014_15/flareon2014-c1-2.png.webp)
 
 I opened this file with [ILSpy](http://ilspy.net/) and found the `Form1` object with an interesting method called `btnDecode_Click`:
 
-![image](/static/files/posts_flareon2014_15/flareon2014-c1-ilspy-btndecode.png)
+![image](/static/files/posts_flareon2014_15/flareon2014-c1-ilspy-btndecode.png.webp)
 
 This method is the callback for the `OnClick` eventhandler of the `DECODE!` button we saw on the UI. Interestingly it has some loops that mangle bits and update the message with the resulting encoded text. The source message is loaded from a resource object called `dat_secret`. You can save this object as a binary blob to a local file for further analysis:
 
-![image](/static/files/posts_flareon2014_15/flareon2014-c1-ilspy-datsecret-save.png)
+![image](/static/files/posts_flareon2014_15/flareon2014-c1-ilspy-datsecret-save.png.webp)
 
 Upon loading this binary blob, the first loop in the file performs some byte shifting and xor operations on it:
 
-![image](/static/files/posts_flareon2014_15/flareon2014-c1-ilspy-deobfuscate.png)
+![image](/static/files/posts_flareon2014_15/flareon2014-c1-ilspy-deobfuscate.png.webp)
 
 Let's quickly reverse these operations before proceeding further:
 
@@ -173,7 +173,7 @@ $
 
 Honestly, this output depressed me a bit as there was nothing particularly interesting here. But before delving into analyzing the HTML, I decided to view the image once:
 
-![image](/static/files/posts_flareon2014_15/flareon2014-c2-1.png)
+![image](/static/files/posts_flareon2014_15/flareon2014-c2-1.png.webp)
 
 Ah! This left me no choice but to open the HTML and analyze the source, something I was reluctant to do. Anyways, I viewed the source and here's a snippet of interesting stuff:
 
@@ -205,7 +205,7 @@ Ah! This left me no choice but to open the HTML and analyze the source, somethin
 
 Take note of the `php include` near bottom of the page. The PNG image is being loaded as a PHP script. This is highly deceptive and immediately reassures my initial belief that the PNG indeed has something interesting in it. I decided to open the PNG in a text editor:
 
-![image](/static/files/posts_flareon2014_15/flareon2014-c2-2.png)
+![image](/static/files/posts_flareon2014_15/flareon2014-c2-2.png.webp)
 
 Alright, so the PNG file has a PHP script appended to it. Let's extract and analyze this script separately:
 
@@ -307,19 +307,19 @@ $
 
 That's an extremely small number of strings but nothing out of the ordinary. I used [pestudio](https://www.winitor.com/) at this point but there wasn't much to infer. Eventually I decided to debug the file with [Ollydbg](http://www.ollydbg.de/):
 
-![image](/static/files/posts_flareon2014_15/flareon2014-c3-1.png)
+![image](/static/files/posts_flareon2014_15/flareon2014-c3-1.png.webp)
 
 I stepped through the code, carefully avoiding the `msvcrt` code and placing breakpoints at `CALL` instructions. That is when I stumbled across one such instruction: `CALL 00401000`. When I stepped over this call, the program terminated with a popup showing `BrokenByte` message:
 
-![image](/static/files/posts_flareon2014_15/flareon2014-c3-2.png)
+![image](/static/files/posts_flareon2014_15/flareon2014-c3-2.png.webp)
 
 I decided to enter this code and restarted the process. Upon entering it I found a lot of code performing stack operations. I skipped through these instructions till the point where a `CALL EAX` instruction was placed immediately after the stack operations. Upon entering this call, I found instructions that seemed like part of a decoding routine:
 
-![image](/static/files/posts_flareon2014_15/flareon2014-c3-3.png)
+![image](/static/files/posts_flareon2014_15/flareon2014-c3-3.png.webp)
 
 However, it turned out to be just another excessively long routine doing useless stuff, decoding strings like `nopasaurus`, `and i'm spent`, etc. I decided to keep a tab on these string locations. A few instructions later the `BrokenByte` string was pushed to stack hence indicating termination of program. At this point it was evident that the program won't display flag as a popup message but instead decode and keep it in memory. Looking around the memory locations where strings were being decoded, I found an email like string:
 
-![image](/static/files/posts_flareon2014_15/flareon2014-c3-3.png)
+![image](/static/files/posts_flareon2014_15/flareon2014-c3-3.png.webp)
 
 So the flag for this challenge turned out to be: `such.5h311010101.flare-on.com`
 
@@ -614,7 +614,7 @@ $
 
 While analyzing this file using Ollydbg, the email is decoded and placed right in front :)
 
-![image](/static/files/posts_flareon2014_15/flareon2014-c4-1.png)
+![image](/static/files/posts_flareon2014_15/flareon2014-c4-1.png.webp)
 
 So, the flag for this challenge is: `wa1ch.d3m.spl01ts@flare-on.com`
 
@@ -664,6 +664,6 @@ $
 
 This is a DLL that has interesting strings referring some keyboard and registry keys. Also referenced is a Windows API, `GetAsyncKeyState` that is commonly used within keyloggers to know whether a key is pressed or not. I tried analyzing this file through IDA and it proved quite useful. Upon loading the file you will find that there are references to a large number of variables that check if a certain key is pressed or not. I traced through the cross-references of all these variable and eventually found the flag:
 
-![image](/static/files/posts_flareon2014_15/flareon2014-c5-1.png)
+![image](/static/files/posts_flareon2014_15/flareon2014-c5-1.png.webp)
 
 As can be seen from the screenshot above, all these variable check if certain keys are pressed in sequence. The keys to be pressed and the order they have to be pressed is the flag: `l0gging.ur.5tr0ke5@flare-on.com`

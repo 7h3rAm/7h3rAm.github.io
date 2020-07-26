@@ -7,7 +7,7 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [Kioptrix: Level 1.3 (#4)](https://www.vulnhub.com/entry/kioptrix-level-13-4,25/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_vulnhub_kioptrix4/killchain.png)
+![writeup.overview.killchain](/static/files/posts_vulnhub_kioptrix4/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -111,25 +111,25 @@ name: robert
 password: ' or 1=1 -- -
 ```
 
-![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_kioptrix4/screenshot01.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_kioptrix4/screenshot01.png.webp)  
 
-![writeup.exploitation.steps.1.2](/static/files/posts_vulnhub_kioptrix4/screenshot02.png)  
+![writeup.exploitation.steps.1.2](/static/files/posts_vulnhub_kioptrix4/screenshot02.png.webp)  
 
-![writeup.exploitation.steps.1.3](/static/files/posts_vulnhub_kioptrix4/screenshot03.png)  
+![writeup.exploitation.steps.1.3](/static/files/posts_vulnhub_kioptrix4/screenshot03.png.webp)  
 
 2\. We successfully ssh as user `john` since this user has reused their web application credentials:  
 ```
 ssh john@192.168.92.131
 ```
 
-![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_kioptrix4/screenshot04.png)  
+![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_kioptrix4/screenshot04.png.webp)  
 
 3\. We find ourselves in a restricted [lshell](https://github.com/ghantoos/lshell) that severly limits usability. We escape this restricted shell by running the `echo` command with `os.system` function:  
 ```
 echo os.system('/bin/bash')
 ```
 
-![writeup.exploitation.steps.3.1](/static/files/posts_vulnhub_kioptrix4/screenshot05.png)  
+![writeup.exploitation.steps.3.1](/static/files/posts_vulnhub_kioptrix4/screenshot05.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```
@@ -159,11 +159,11 @@ robert
 ## Phase #3: Privilege Escalation
 1\. We explore the web directory and find `mysql` credentials for user `root`:  
 
-![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_kioptrix4/screenshot06.png)  
+![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_kioptrix4/screenshot06.png.webp)  
 
 2\. We explore running processes and find that `mysql` is executing with elevated privileges (pid: 4638). We search for the required `mysql` shared object file and find it at `/usr/lib/lib_mysqludf_sys.so`. This means we can run custom commands from within `mysql` shell as user `root`:  
 
-![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_kioptrix4/screenshot07.png)  
+![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_kioptrix4/screenshot07.png.webp)  
 
 3\. We connect to `mysql` as user `root` and execute a command to add user `john` to the `admin` group:  
 ```
@@ -172,7 +172,7 @@ mysql -h localhost -u root -p
   exit
 ```
 
-![writeup.privesc.steps.3.1](/static/files/posts_vulnhub_kioptrix4/screenshot08.png)  
+![writeup.privesc.steps.3.1](/static/files/posts_vulnhub_kioptrix4/screenshot08.png.webp)  
 
 4\. Now we can change to user `root` and complete the challenge:  
 ```
@@ -180,9 +180,9 @@ sudo su
 cat /root/congrats.txt
 ```
 
-![writeup.privesc.steps.4.1](/static/files/posts_vulnhub_kioptrix4/screenshot09.png)  
+![writeup.privesc.steps.4.1](/static/files/posts_vulnhub_kioptrix4/screenshot09.png.webp)  
 
-![writeup.privesc.steps.4.2](/static/files/posts_vulnhub_kioptrix4/screenshot10.png)  
+![writeup.privesc.steps.4.2](/static/files/posts_vulnhub_kioptrix4/screenshot10.png.webp)  
 
 ## Loot
 ### Hashes

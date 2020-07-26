@@ -5,11 +5,11 @@ summary: This is the summary for an awesome post.
 tags: hackthebox, writeup
 
 ## Overview
-![writeup.metadata.infocard](/static/files/posts_htb_grandpa/infocard.png)
+![writeup.metadata.infocard](/static/files/posts_htb_grandpa/infocard.png.webp)
 
 This is a writeup for HTB VM [Grandpa](https://www.hackthebox.eu/home/machines/profile/13). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_htb_grandpa/killchain.png)
+![writeup.overview.killchain](/static/files/posts_htb_grandpa/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -42,7 +42,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 
 2\. We look for IIS 6.0 vulnerabilities and find multiple WebDAV related hits:  
 
-![writeup.enumeration.steps.2.1](/static/files/posts_htb_grandpa/screenshot01.png)  
+![writeup.enumeration.steps.2.1](/static/files/posts_htb_grandpa/screenshot01.png.webp)  
 
 ### Findings
 #### Open Ports
@@ -53,9 +53,9 @@ Service detection performed. Please report any incorrect results at https://nmap
 ## Phase #2: Exploitation
 1\. We decide to use the Metasploit `windows/iis/iis_webdav_scstoragepathfromurl` exploit and it successully gives us a Meterpreter shell:  
 
-![writeup.exploitation.steps.1.1](/static/files/posts_htb_grandpa/screenshot02.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_htb_grandpa/screenshot02.png.webp)  
 
-![writeup.exploitation.steps.1.2](/static/files/posts_htb_grandpa/screenshot03.png)  
+![writeup.exploitation.steps.1.2](/static/files/posts_htb_grandpa/screenshot03.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```
@@ -86,17 +86,17 @@ Harry
 ## Phase #3: Privilege Escalation
 1\. Since we have certain restrictions that stop us from running commands like `getuid`, we have to migrate to a different process. We find the PID for process `davcdata.exe` and migrate to it:  
 
-![writeup.privesc.steps.1.1](/static/files/posts_htb_grandpa/screenshot04.png)  
+![writeup.privesc.steps.1.1](/static/files/posts_htb_grandpa/screenshot04.png.webp)  
 
 2\. We can now use the Metasploit `multi/recon/local_exploit_suggester` module to look for privesc options:  
 
-![writeup.privesc.steps.2.1](/static/files/posts_htb_grandpa/screenshot05.png)  
+![writeup.privesc.steps.2.1](/static/files/posts_htb_grandpa/screenshot05.png.webp)  
 
 3\. We tried a few exploits from this list and eventually the `windows/local/ms14_070_tcpip_ioctl` module worked and provided an elevated session:  
 
-![writeup.privesc.steps.3.1](/static/files/posts_htb_grandpa/screenshot06.png)  
+![writeup.privesc.steps.3.1](/static/files/posts_htb_grandpa/screenshot06.png.webp)  
 
-![writeup.privesc.steps.3.2](/static/files/posts_htb_grandpa/screenshot07.png)  
+![writeup.privesc.steps.3.2](/static/files/posts_htb_grandpa/screenshot07.png.webp)  
 
 4\. We then obtain further information about the system and read the contents of both user.txt and root.txt files to comeplete the challenge:  
 ```
@@ -104,7 +104,7 @@ cat "C:\Documents and Settings\Harry\Desktop\user.txt"
 cat "C:\Documents and Settings\Administrator\Desktop\root.txt"
 ```
 
-![writeup.privesc.steps.4.1](/static/files/posts_htb_grandpa/screenshot08.png)  
+![writeup.privesc.steps.4.1](/static/files/posts_htb_grandpa/screenshot08.png.webp)  
 
 ## Loot
 ### Hashes

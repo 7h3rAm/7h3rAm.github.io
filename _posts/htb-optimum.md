@@ -5,11 +5,11 @@ summary: This is the summary for an awesome post.
 tags: hackthebox, writeup
 
 ## Overview
-![writeup.metadata.infocard](/static/files/posts_htb_optimum/infocard.png)
+![writeup.metadata.infocard](/static/files/posts_htb_optimum/infocard.png.webp)
 
 This is a writeup for HTB VM [Optimum](https://www.hackthebox.eu/home/machines/profile/6). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_htb_optimum/killchain.png)
+![writeup.overview.killchain](/static/files/posts_htb_optimum/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -36,7 +36,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 
 2\. We find `HttpFileServer 2.3` running on the target system. Upon searching for exploits we find multiple hits:  
 
-![writeup.enumeration.steps.2.1](/static/files/posts_htb_optimum/screenshot01.png)  
+![writeup.enumeration.steps.2.1](/static/files/posts_htb_optimum/screenshot01.png.webp)  
 
 ### Findings
 #### Open Ports
@@ -47,11 +47,11 @@ Service detection performed. Please report any incorrect results at https://nmap
 ## Phase #2: Exploitation
 1\. We use the command execution exploit, slightly modify it to print debug information and get interactive access on the target system:  
 
-![writeup.exploitation.steps.1.1](/static/files/posts_htb_optimum/screenshot02.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_htb_optimum/screenshot02.png.webp)  
 
-![writeup.exploitation.steps.1.2](/static/files/posts_htb_optimum/screenshot03.png)  
+![writeup.exploitation.steps.1.2](/static/files/posts_htb_optimum/screenshot03.png.webp)  
 
-![writeup.exploitation.steps.1.3](/static/files/posts_htb_optimum/screenshot04.png)  
+![writeup.exploitation.steps.1.3](/static/files/posts_htb_optimum/screenshot04.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```
@@ -81,29 +81,29 @@ kostas
 ## Phase #3: Privilege Escalation
 1\. We can now view the contents of the `user.txt.txt` file to get the first flag:  
 
-![writeup.privesc.steps.1.1](/static/files/posts_htb_optimum/screenshot05.png)  
+![writeup.privesc.steps.1.1](/static/files/posts_htb_optimum/screenshot05.png.webp)  
 
 2\. We now use the `windows-exploit-suggester.py` script to get list of possible privesc vectors. To do this, we first had to download `netcat` onto target system via Powershell and transfer the text output of `systeminfo` command to our local system:  
 
-![writeup.privesc.steps.2.1](/static/files/posts_htb_optimum/screenshot06.png)  
+![writeup.privesc.steps.2.1](/static/files/posts_htb_optimum/screenshot06.png.webp)  
 
-![writeup.privesc.steps.2.2](/static/files/posts_htb_optimum/screenshot07.png)  
+![writeup.privesc.steps.2.2](/static/files/posts_htb_optimum/screenshot07.png.webp)  
 
-![writeup.privesc.steps.2.3](/static/files/posts_htb_optimum/screenshot08.png)  
+![writeup.privesc.steps.2.3](/static/files/posts_htb_optimum/screenshot08.png.webp)  
 
 3\. The `windows-exploit-suggester.py` scripts lists several privesc vectors and we decide to use [EDB:41020](https://www.exploit-db.com/exploits/41020) because it provides a pre-compiled binary ready to used. We again transfer this exploit file to the target system using Powershell:  
 
-![writeup.privesc.steps.3.1](/static/files/posts_htb_optimum/screenshot09.png)  
+![writeup.privesc.steps.3.1](/static/files/posts_htb_optimum/screenshot09.png.webp)  
 
-![writeup.privesc.steps.3.2](/static/files/posts_htb_optimum/screenshot10.png)  
+![writeup.privesc.steps.3.2](/static/files/posts_htb_optimum/screenshot10.png.webp)  
 
 4\. Once executed, we get elevated privileges on the target system:  
 
-![writeup.privesc.steps.4.1](/static/files/posts_htb_optimum/screenshot11.png)  
+![writeup.privesc.steps.4.1](/static/files/posts_htb_optimum/screenshot11.png.webp)  
 
 5\. We can now view the contents of the `root.txt` file to complete the challenge:  
 
-![writeup.privesc.steps.5.1](/static/files/posts_htb_optimum/screenshot12.png)  
+![writeup.privesc.steps.5.1](/static/files/posts_htb_optimum/screenshot12.png.webp)  
 
 ## Loot
 ### Flags

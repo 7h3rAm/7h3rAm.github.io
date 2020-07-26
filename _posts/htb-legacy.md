@@ -5,11 +5,11 @@ summary: This is the summary for an awesome post.
 tags: hackthebox, writeup
 
 ## Overview
-![writeup.metadata.infocard](/static/files/posts_htb_legacy/infocard.png)
+![writeup.metadata.infocard](/static/files/posts_htb_legacy/infocard.png.webp)
 
 This is a writeup for HTB VM [Legacy](https://www.hackthebox.eu/home/machines/profile/2). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_htb_legacy/killchain.png)
+![writeup.overview.killchain](/static/files/posts_htb_legacy/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -97,7 +97,7 @@ msfconsole
   exploit
 ```
 
-![writeup.exploitation.steps.1.1](/static/files/posts_htb_legacy/screenshot01.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_htb_legacy/screenshot01.png.webp)  
 
 2\. We then obtain further information about the system and read the contents of both `user.txt` and `root.txt` files to comeplete the challenge:  
 ```
@@ -108,11 +108,11 @@ type "C:\Documents and Settings\john\Desktop\user.txt"
 type "C:\Documents and Settings\Administrator\Desktop\root.txt"
 ```
 
-![writeup.exploitation.steps.2.1](/static/files/posts_htb_legacy/screenshot02.png)  
+![writeup.exploitation.steps.2.1](/static/files/posts_htb_legacy/screenshot02.png.webp)  
 
-![writeup.exploitation.steps.2.2](/static/files/posts_htb_legacy/screenshot03.png)  
+![writeup.exploitation.steps.2.2](/static/files/posts_htb_legacy/screenshot03.png.webp)  
 
-![writeup.exploitation.steps.2.3](/static/files/posts_htb_legacy/screenshot04.png)  
+![writeup.exploitation.steps.2.3](/static/files/posts_htb_legacy/screenshot04.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```

@@ -7,7 +7,7 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [Kioptrix: Level 1 (#1)](https://www.vulnhub.com/entry/kioptrix-level-1-1,22/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_vulnhub_kioptrix1/killchain.png)
+![writeup.overview.killchain](/static/files/posts_vulnhub_kioptrix1/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -107,7 +107,7 @@ searchsploit mod_ssl
   Apache mod_ssl < 2.8.7 OpenSSL - 'OpenFuckV2.c' Remote Buffer Overflow (2)  | exploits/unix/remote/47080.c
 ```
 
-![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_kioptrix1/screenshot01.png)  
+![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_kioptrix1/screenshot01.png.webp)  
 
 ### Findings
 #### Open Ports
@@ -130,18 +130,18 @@ gcc -o 47080 47080.c -lcrypto
 ./47080 0x6b 192.168.92.181 443
 ```
 
-![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_kioptrix1/screenshot02.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_kioptrix1/screenshot02.png.webp)  
 
-![writeup.exploitation.steps.1.2](/static/files/posts_vulnhub_kioptrix1/screenshot03.png)  
+![writeup.exploitation.steps.1.2](/static/files/posts_vulnhub_kioptrix1/screenshot03.png.webp)  
 
-![writeup.exploitation.steps.1.3](/static/files/posts_vulnhub_kioptrix1/screenshot04.png)  
+![writeup.exploitation.steps.1.3](/static/files/posts_vulnhub_kioptrix1/screenshot04.png.webp)  
 
 2\. We can now read the `/var/mail/root` file to complete the challenge:  
 ```
 cat /var/mail/root
 ```
 
-![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_kioptrix1/screenshot05.png)  
+![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_kioptrix1/screenshot05.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```

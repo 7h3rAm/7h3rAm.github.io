@@ -7,7 +7,7 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [FristiLeaks: 1.3](https://www.vulnhub.com/entry/fristileaks-13,133/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_vulnhub_fristileaks1dot3/killchain.png)
+![writeup.overview.killchain](/static/files/posts_vulnhub_fristileaks1dot3/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -41,11 +41,11 @@ http://192.168.92.133/sisi
 http://192.168.92.133/beer
 ```
 
-![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot01.png)  
+![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot01.png.webp)  
 
 3\. These directories don't have anything useful other than a meme image. Since all these directory names are references to drinks and the name of this VM also referes to one, we try `http://192.168.92.133/fristi` and are presented with a login page:  
 
-![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot02.png)  
+![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot02.png.webp)  
 
 ### Findings
 #### Open Ports
@@ -68,16 +68,16 @@ ssh: eezeepz, admin, fristigod
 eezeepz/keKkeKKeKKeKkEkkEk
 ```
 
-![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot02a.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot02a.png.webp)  
 
-![writeup.exploitation.steps.1.2](/static/files/posts_vulnhub_fristileaks1dot3/screenshot02b.png)  
+![writeup.exploitation.steps.1.2](/static/files/posts_vulnhub_fristileaks1dot3/screenshot02b.png.webp)  
 
 2\. We login using these credentials and are presented with a file upload page. We create a PHP reverse shell, add `GIF89a` magic byte to it start and rename it as `rs.php.gif` to evade filters and upload the file. Once uploaded the applications informs us of the upload directory as well:  
 ```
 rs.php.gif → http://192.168.92.133/fristi/uploads/rs.php.gif
 ```
 
-![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot03.png)  
+![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot03.png.webp)  
 
 3\. We start a Netcat listener, issue a request for this file using `curl` and are presented with the initial shell:  
 ```
@@ -85,9 +85,9 @@ nc -nlvp 443
 curl -v "http://192.168.92.133/fristi/uploads/rs.php.gif"
 ```
 
-![writeup.exploitation.steps.3.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot04.png)  
+![writeup.exploitation.steps.3.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot04.png.webp)  
 
-![writeup.exploitation.steps.3.2](/static/files/posts_vulnhub_fristileaks1dot3/screenshot05.png)  
+![writeup.exploitation.steps.3.2](/static/files/posts_vulnhub_fristileaks1dot3/screenshot05.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```
@@ -120,7 +120,7 @@ cd /var/www
 cat notes.txt
 ```
 
-![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot06.png)  
+![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot06.png.webp)  
 
 2\. We find another interesting file at `/home/eezeepz/notes.txt` which hints at a possible privesc method:  
 ```
@@ -128,7 +128,7 @@ cd /home/eezeepz
 cat notes.txt
 ```
 
-![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot07.png)  
+![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot07.png.webp)  
 
 3\. As suggested in the notes file, we create a file `/tmp/runthis` to execute a command starting with `/usr/bin` followed by directory traversal strings to copy the `bash` shell into `/tmp` directory and setuid on it. Since these commadns are executed within the scope of user `admin`, wehn we run the `/tmp/bash` file, we get a shell as user `admin`:  
 ```
@@ -136,7 +136,7 @@ echo -e "/usr/bin/../../bin/cp /bin/bash /tmp/bash; chmod u+s /tmp/bash" >/tmp/r
 /tmp/bash -p
 ```
 
-![writeup.privesc.steps.3.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot07a.png)  
+![writeup.privesc.steps.3.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot07a.png.webp)  
 
 4\. We move into `/home/admin` directory and find a reversed, Base64 encoded string within `whoisyourgodnow.txt` file, that is owned by user `fristigod`. We also find a Python script `cryptpass.py` in this directory. Looking at the script, we reverse the encoding process and add a decoding method to it. Testing updated script with `=RFn0AKnlMHMPIzpyuTI0ITG` reveals the password for user `fristigod` to be `LetThereBeFristi!`. We the use `su` to switch user:  
 ```
@@ -146,9 +146,9 @@ python cryptpass.py =RFn0AKnlMHMPIzpyuTI0ITG
 su - fristigod
 ```
 
-![writeup.privesc.steps.4.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot07b.png)  
+![writeup.privesc.steps.4.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot07b.png.webp)  
 
-![writeup.privesc.steps.4.2](/static/files/posts_vulnhub_fristileaks1dot3/screenshot07c.png)  
+![writeup.privesc.steps.4.2](/static/files/posts_vulnhub_fristileaks1dot3/screenshot07c.png.webp)  
 
 5\. Looking at the file `cryptedpass.txt`, which is owned by user `admin`, we see a similar encoded string as before and repeat the process to get decoded the decoded password `thisisalsopw123`. We use this to switch user:  
 ```
@@ -158,9 +158,9 @@ python cryptpass.py mVGZ3O3omkJLmy2pcuTq
 su - admin
 ```
 
-![writeup.privesc.steps.5.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot07d.png)  
+![writeup.privesc.steps.5.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot07d.png.webp)  
 
-![writeup.privesc.steps.5.2](/static/files/posts_vulnhub_fristileaks1dot3/screenshot07e.png)  
+![writeup.privesc.steps.5.2](/static/files/posts_vulnhub_fristileaks1dot3/screenshot07e.png.webp)  
 
 6\. We return to being user `fristigod` and explore their home directory. Within the `./bash_history` file we find references to a local, setuid file `.secret_admin_stuff/doCom`:  
 ```
@@ -168,16 +168,16 @@ cd /home/fristigod
 cat .bash_history
 ```
 
-![writeup.privesc.steps.6.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot07f.png)  
+![writeup.privesc.steps.6.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot07f.png.webp)  
 
-![writeup.privesc.steps.6.2](/static/files/posts_vulnhub_fristileaks1dot3/screenshot07g.png)  
+![writeup.privesc.steps.6.2](/static/files/posts_vulnhub_fristileaks1dot3/screenshot07g.png.webp)  
 
 7\. Using examples from `.bash_history`, we run the setuid file to execute `/bin/bash` and gain elevated privileges:  
 ```
 sudo -u fristi ./doCom "/bin/bash"
 ```
 
-![writeup.privesc.steps.7.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot08.png)  
+![writeup.privesc.steps.7.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot08.png.webp)  
 
 8\. We then explore `root`'s home directory and find the flag within `/root/fristileaks_secrets.txt` file:  
 ```
@@ -185,7 +185,7 @@ cd /root
 cat fristileaks_secrets
 ```
 
-![writeup.privesc.steps.8.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot09.png)  
+![writeup.privesc.steps.8.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot09.png.webp)  
 
 ## Loot
 ### Hashes

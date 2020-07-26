@@ -5,11 +5,11 @@ summary: This is the summary for an awesome post.
 tags: hackthebox, writeup
 
 ## Overview
-![writeup.metadata.infocard](/static/files/posts_htb_devel/infocard.png)
+![writeup.metadata.infocard](/static/files/posts_htb_devel/infocard.png.webp)
 
 This is a writeup for HTB VM [Devel](https://www.hackthebox.eu/home/machines/profile/3). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_htb_devel/killchain.png)
+![writeup.overview.killchain](/static/files/posts_htb_devel/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -43,9 +43,9 @@ Service detection performed. Please report any incorrect results at https://nmap
 
 2\. We find that the FTP service allows `anonymous` login and it shares directory with IIS server web root. This means we can upload `.aspx` reverse shell file via FTP and trigger it using the HTTP service:  
 
-![writeup.enumeration.steps.2.1](/static/files/posts_htb_devel/screenshot01.png)  
+![writeup.enumeration.steps.2.1](/static/files/posts_htb_devel/screenshot01.png.webp)  
 
-![writeup.enumeration.steps.2.2](/static/files/posts_htb_devel/screenshot02.png)  
+![writeup.enumeration.steps.2.2](/static/files/posts_htb_devel/screenshot02.png.webp)  
 
 ### Findings
 #### Open Ports
@@ -57,15 +57,15 @@ Service detection performed. Please report any incorrect results at https://nmap
 ## Phase #2: Exploitation
 1\. We create a reverse shell file using `msfvenom` and upload it to the FTP server. We then start `multi/handler` listener to catch the incoming connection and request the uploaded file via web browser to get interactive access on the target system:  
 
-![writeup.exploitation.steps.1.1](/static/files/posts_htb_devel/screenshot03.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_htb_devel/screenshot03.png.webp)  
 
-![writeup.exploitation.steps.1.2](/static/files/posts_htb_devel/screenshot04.png)  
+![writeup.exploitation.steps.1.2](/static/files/posts_htb_devel/screenshot04.png.webp)  
 
-![writeup.exploitation.steps.1.3](/static/files/posts_htb_devel/screenshot05.png)  
+![writeup.exploitation.steps.1.3](/static/files/posts_htb_devel/screenshot05.png.webp)  
 
-![writeup.exploitation.steps.1.4](/static/files/posts_htb_devel/screenshot07.png)  
+![writeup.exploitation.steps.1.4](/static/files/posts_htb_devel/screenshot07.png.webp)  
 
-![writeup.exploitation.steps.1.5](/static/files/posts_htb_devel/screenshot08.png)  
+![writeup.exploitation.steps.1.5](/static/files/posts_htb_devel/screenshot08.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```
@@ -95,29 +95,29 @@ babis
 ## Phase #3: Privilege Escalation
 1\. We first upload the `netcat` binary to the target system using the FTP server and use it to get `systeminfo` output. With this, we can start exploring possible exploits for the target system:  
 
-![writeup.privesc.steps.1.1](/static/files/posts_htb_devel/screenshot06.png)  
+![writeup.privesc.steps.1.1](/static/files/posts_htb_devel/screenshot06.png.webp)  
 
-![writeup.privesc.steps.1.2](/static/files/posts_htb_devel/screenshot09.png)  
+![writeup.privesc.steps.1.2](/static/files/posts_htb_devel/screenshot09.png.webp)  
 
-![writeup.privesc.steps.1.3](/static/files/posts_htb_devel/screenshot10.png)  
+![writeup.privesc.steps.1.3](/static/files/posts_htb_devel/screenshot10.png.webp)  
 
 2\. Upon looking for exploits for the target system, we find [EDB:40564](https://www.exploit-db.com/exploits/40564) but it needs compilation of source file. We search and find a pre-compiled exploit from the [SecWiki/windows-kernel-exploits](https://github.com/SecWiki/windows-kernel-exploits/tree/master/MS11-046) project:  
 
-![writeup.privesc.steps.2.1](/static/files/posts_htb_devel/screenshot11.png)  
+![writeup.privesc.steps.2.1](/static/files/posts_htb_devel/screenshot11.png.webp)  
 
 3\. Once downloaded locally, we need to transfer the exploit file to the target system using the FTP server. Once done, we execute the file and gain elevated privileges:  
 
-![writeup.privesc.steps.3.1](/static/files/posts_htb_devel/screenshot12.png)  
+![writeup.privesc.steps.3.1](/static/files/posts_htb_devel/screenshot12.png.webp)  
 
-![writeup.privesc.steps.3.2](/static/files/posts_htb_devel/screenshot13.png)  
+![writeup.privesc.steps.3.2](/static/files/posts_htb_devel/screenshot13.png.webp)  
 
-![writeup.privesc.steps.3.3](/static/files/posts_htb_devel/screenshot14.png)  
+![writeup.privesc.steps.3.3](/static/files/posts_htb_devel/screenshot14.png.webp)  
 
 4\. We can now view the contents of the `user.txt.txt` and `root.txt.txt` files to complete the challenge:  
 
-![writeup.privesc.steps.4.1](/static/files/posts_htb_devel/screenshot15.png)  
+![writeup.privesc.steps.4.1](/static/files/posts_htb_devel/screenshot15.png.webp)  
 
-![writeup.privesc.steps.4.2](/static/files/posts_htb_devel/screenshot16.png)  
+![writeup.privesc.steps.4.2](/static/files/posts_htb_devel/screenshot16.png.webp)  
 
 ## Loot
 ### Flags

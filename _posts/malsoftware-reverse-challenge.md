@@ -24,11 +24,11 @@ Like the previous challenge this is also a 32bit [ELF](http://en.wikipedia.org/w
 
 If you've read the previous post this output would certainly delight you due to the discernible similarity between the two challenge files. Similar looking status strings and a static flag indicate that this program, like its predecessor, also uses some mutation mechanism (mostly XOR, but we will validate it soon) and a static key which we can use to reverse the algorithm. This time, let's use IDA to disassemble and analyze this program:
 
-![image](/static/files/posts_malsoftware_reverse_challenge/ida-start.png)
+![image](/static/files/posts_malsoftware_reverse_challenge/ida-start.png.webp)
 
 Since the program includes anti-reversing techniques, I tried to avoid traversing the code manually and quickly searched for the section referencing the flag we found in `strings` output: `xKZl_^_XCY^CIE`. It was found that this flag was being referenced at location 0x08048694. Before that, there was the code responsible for performing the mutation, which in this case was also XOR. However, instead of using a static value as a key, it was being computed at runtime. The `mov dword ptr [ebp-10h], 0FAh` and `and edx, 2Bh` instructions at locations 0x08048664 and 0x08048677 respectively initialized `edx` with a value of 0x2a which is then used in a XOR operation at location 0x0804867A.
 
-![image](/static/files/posts_malsoftware_reverse_challenge/ida-checkkey.png)
+![image](/static/files/posts_malsoftware_reverse_challenge/ida-checkkey.png.webp)
 
 Thus the per-byte XOR key for this program turns out to be 0x2a. Let's invoke the python script we used in previous post with `xKZl_^_XCY^CIE` as the flag and 0x2a as the key and reverse the simple XOR mutation logic:
 

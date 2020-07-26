@@ -5,11 +5,11 @@ summary: This is the summary for an awesome post.
 tags: hackthebox, writeup
 
 ## Overview
-![writeup.metadata.infocard](/static/files/posts_htb_blocky/infocard.png)
+![writeup.metadata.infocard](/static/files/posts_htb_blocky/infocard.png.webp)
 
 This is a writeup for HTB VM [Blocky](https://www.hackthebox.eu/home/machines/profile/48). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_htb_blocky/killchain.png)
+![writeup.overview.killchain](/static/files/posts_htb_blocky/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -46,13 +46,13 @@ Service detection performed. Please report any incorrect results at https://nmap
 
 2\. We find a Wordpress installation and manually find a username `notch`. Attempts to login via common default credentials failed:  
 
-![writeup.enumeration.steps.2.1](/static/files/posts_htb_blocky/screenshot01.png)  
+![writeup.enumeration.steps.2.1](/static/files/posts_htb_blocky/screenshot01.png.webp)  
 
 3\. We find a `plugins` directory that lists two `jar` files. We download those and find hardcoded SQL credentials for user `root` in the `BlockyCore.class` file:  
 
-![writeup.enumeration.steps.3.1](/static/files/posts_htb_blocky/screenshot02.png)  
+![writeup.enumeration.steps.3.1](/static/files/posts_htb_blocky/screenshot02.png.webp)  
 
-![writeup.enumeration.steps.3.2](/static/files/posts_htb_blocky/screenshot03.png)  
+![writeup.enumeration.steps.3.2](/static/files/posts_htb_blocky/screenshot03.png.webp)  
 
 ### Findings
 #### Open Ports
@@ -74,13 +74,13 @@ wordpress: notch
 ## Phase #2: Exploitation
 1\. We successfully login via FTP as user `notch` with password found in the `BlockCore.class` file. We find that the FTP root directory is set to the user `notch`'s home directory:  
 
-![writeup.exploitation.steps.1.1](/static/files/posts_htb_blocky/screenshot04.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_htb_blocky/screenshot04.png.webp)  
 
 2\. We also successfully gain interactive SSH access using the same credentials as above which gives us access to the first flag file, `user.txt`:  
 
-![writeup.exploitation.steps.2.1](/static/files/posts_htb_blocky/screenshot05.png)  
+![writeup.exploitation.steps.2.1](/static/files/posts_htb_blocky/screenshot05.png.webp)  
 
-![writeup.exploitation.steps.2.2](/static/files/posts_htb_blocky/screenshot06.png)  
+![writeup.exploitation.steps.2.2](/static/files/posts_htb_blocky/screenshot06.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```
@@ -109,13 +109,13 @@ notch
 ## Phase #3: Privilege Escalation
 1\. From the output of the `id` command and also confirming via `sudo -l`, we know that the user `notch` is a member of the `sudo` group. This means we can switch to `root` and gain elevated privileges:  
 
-![writeup.privesc.steps.1.1](/static/files/posts_htb_blocky/screenshot07.png)  
+![writeup.privesc.steps.1.1](/static/files/posts_htb_blocky/screenshot07.png.webp)  
 
-![writeup.privesc.steps.1.2](/static/files/posts_htb_blocky/screenshot08.png)  
+![writeup.privesc.steps.1.2](/static/files/posts_htb_blocky/screenshot08.png.webp)  
 
 2\. We then read the contents of `root.txt` file to complete the challenge:  
 
-![writeup.privesc.steps.2.1](/static/files/posts_htb_blocky/screenshot09.png)  
+![writeup.privesc.steps.2.1](/static/files/posts_htb_blocky/screenshot09.png.webp)  
 
 ## Loot
 ### Hashes

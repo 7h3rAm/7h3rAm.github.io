@@ -7,7 +7,7 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [Mr-Robot: 1](https://www.vulnhub.com/entry/mr-robot-1,151/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_vulnhub_mrrobot1/killchain.png)
+![writeup.overview.killchain](/static/files/posts_vulnhub_mrrobot1/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -66,20 +66,20 @@ http://192.168.92.134/robots.txt
   http://192.168.92.134/key-1-of-3.txt
 ```
 
-![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_mrrobot1/screenshot01.png)  
+![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_mrrobot1/screenshot01.png.webp)  
 
-![writeup.enumeration.steps.2.2](/static/files/posts_vulnhub_mrrobot1/screenshot01a.png)  
+![writeup.enumeration.steps.2.2](/static/files/posts_vulnhub_mrrobot1/screenshot01a.png.webp)  
 
 3\. We download the dictionary file and trim its contents to have only unique entries. This reduced the count of possible passwords from `858160` to `11451`:  
 
-![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_mrrobot1/screenshot02.png)  
+![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_mrrobot1/screenshot02.png.webp)  
 
 4\. From the `gobuster` scan, we also find entries pointing to a Wordpress installation. We confirm this by visiting the login page:  
 ```
 http://192.168.92.134/wp-login
 ```
 
-![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_mrrobot1/screenshot03.png)  
+![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_mrrobot1/screenshot03.png.webp)  
 
 5\. After trying a few credentials manually, we decide to bruteforce usernames first. We first need to create a usernames list from the `fsocity.dic` dictionary found earlier. For our case, we will filter on strings that are 4-8 chars long. Doing this, we eventually find 5247 possible candidates. We then bruteforce these strings and find a valid username:  
 ```
@@ -90,9 +90,9 @@ wpuser http://192.168.92.134/ users
   Found valid username: ELLIOT
 ```
 
-![writeup.enumeration.steps.5.1](/static/files/posts_vulnhub_mrrobot1/screenshot04.png)  
+![writeup.enumeration.steps.5.1](/static/files/posts_vulnhub_mrrobot1/screenshot04.png.webp)  
 
-![writeup.enumeration.steps.5.2](/static/files/posts_vulnhub_mrrobot1/screenshot04a.png)  
+![writeup.enumeration.steps.5.2](/static/files/posts_vulnhub_mrrobot1/screenshot04a.png.webp)  
 
 ### Findings
 #### Open Ports
@@ -118,21 +118,21 @@ wpscan --url http://192.168.92.134 -P fsocity.dic.trimmed -U elliot
    | Username: elliot, Password: ER28-0652
 ```
 
-![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_mrrobot1/screenshot05.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_mrrobot1/screenshot05.png.webp)  
 
-![writeup.exploitation.steps.1.2](/static/files/posts_vulnhub_mrrobot1/screenshot06.png)  
+![writeup.exploitation.steps.1.2](/static/files/posts_vulnhub_mrrobot1/screenshot06.png.webp)  
 
 2\. We now authenticate as user `elliot` to the Wordpress installation and find that this user has administrative privileges. We can use these privileges to successfully upload a PHP reverse shell by modifying the `404.php` template and gain interactive access on the target system:  
 
-![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_mrrobot1/screenshot07.png)  
+![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_mrrobot1/screenshot07.png.webp)  
 
-![writeup.exploitation.steps.2.2](/static/files/posts_vulnhub_mrrobot1/screenshot07a.png)  
+![writeup.exploitation.steps.2.2](/static/files/posts_vulnhub_mrrobot1/screenshot07a.png.webp)  
 
-![writeup.exploitation.steps.2.3](/static/files/posts_vulnhub_mrrobot1/screenshot07b.png)  
+![writeup.exploitation.steps.2.3](/static/files/posts_vulnhub_mrrobot1/screenshot07b.png.webp)  
 
-![writeup.exploitation.steps.2.4](/static/files/posts_vulnhub_mrrobot1/screenshot07c.png)  
+![writeup.exploitation.steps.2.4](/static/files/posts_vulnhub_mrrobot1/screenshot07c.png.webp)  
 
-![writeup.exploitation.steps.2.5](/static/files/posts_vulnhub_mrrobot1/screenshot07d.png)  
+![writeup.exploitation.steps.2.5](/static/files/posts_vulnhub_mrrobot1/screenshot07d.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```
@@ -169,11 +169,11 @@ su - robot
 cat /home/robot/key-2-of-3.txt
 ```
 
-![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_mrrobot1/screenshot08.png)  
+![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_mrrobot1/screenshot08.png.webp)  
 
-![writeup.privesc.steps.1.2](/static/files/posts_vulnhub_mrrobot1/screenshot08a.png)  
+![writeup.privesc.steps.1.2](/static/files/posts_vulnhub_mrrobot1/screenshot08a.png.webp)  
 
-![writeup.privesc.steps.1.3](/static/files/posts_vulnhub_mrrobot1/screenshot08b.png)  
+![writeup.privesc.steps.1.3](/static/files/posts_vulnhub_mrrobot1/screenshot08b.png.webp)  
 
 2\. We find that the `nmap` binary on this system has `setuid` privileges. We can use this to gain elevated access:  
 ```
@@ -184,20 +184,20 @@ nmap --interactive
   !sh
 ```
 
-![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_mrrobot1/screenshot09.png)  
+![writeup.privesc.steps.2.1](/static/files/posts_vulnhub_mrrobot1/screenshot09.png.webp)  
 
-![writeup.privesc.steps.2.2](/static/files/posts_vulnhub_mrrobot1/screenshot09a.png)  
+![writeup.privesc.steps.2.2](/static/files/posts_vulnhub_mrrobot1/screenshot09a.png.webp)  
 
-![writeup.privesc.steps.2.3](/static/files/posts_vulnhub_mrrobot1/screenshot09b.png)  
+![writeup.privesc.steps.2.3](/static/files/posts_vulnhub_mrrobot1/screenshot09b.png.webp)  
 
-![writeup.privesc.steps.2.4](/static/files/posts_vulnhub_mrrobot1/screenshot09c.png)  
+![writeup.privesc.steps.2.4](/static/files/posts_vulnhub_mrrobot1/screenshot09c.png.webp)  
 
 3\. We can now read the `/root/key-3-of-3.txt` file to complete the challenge:  
 ```
 cat /root/key-3-of-3.txt
 ```
 
-![writeup.privesc.steps.3.1](/static/files/posts_vulnhub_mrrobot1/screenshot10.png)  
+![writeup.privesc.steps.3.1](/static/files/posts_vulnhub_mrrobot1/screenshot10.png.webp)  
 
 ## Loot
 ### Hashes

