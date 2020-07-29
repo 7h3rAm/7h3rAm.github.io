@@ -7,7 +7,7 @@
           <li><a href="{{ connect.url }}">{{ connect.name }}</a></li>
         {% endfor %}
         </ul>
-        <h2>⏱️ Recent Posts</h2>
+        <h2>Recent Posts</h2>
         <ul>
         {% for post in datadict.posts[:datadict.recent_count] %}
           <li><code>{{ post.pretty_date }}</code>: <a href="{{ post.url }}">{{ post.title }}</a></li>
