@@ -17,6 +17,7 @@
   * [Geoffrey Verity Schofield](https://www.youtube.com/channel/UCObA5o3mcc1felIMAv6cukw)
 
 ### Olympic Lifting
+  * [Dimitry Klokov](https://www.instagram.com/klokovd/)
   * [Clarence Kennedy](https://www.instagram.com/clarencekennedy_/)
   * [Oleksiy Torokhtiy](https://www.instagram.com/torokhtiy/)
 

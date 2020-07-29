@@ -17,24 +17,26 @@
 * [Ropes](https://www.roguefitness.com/conditioning/jump-ropes)
 
 ## Stacks
-* Health
-    * Vitamin D3
-    * Omega 369
-    * Gycline
-    * Creatine Monohydrate
-* Hypertrophy
-    * Whey Protein
-* Testosterone
-    * Meditation
-    * WheatGerm
-    * Peanut Butter
-    * Choline Inositol
-    * Ubiquinol+Creatine
-    * ZMA+Glycine
-    * Ginseng Tea
-    * Dark Chocolate (90%+ blocks Myostatin)
-    * Milk: boosts saturated fats, increasing testosterone
-    * Avoid stress: increases cortisol which results in decrease of testosterone and muscle mass
+### Health
+  * Vitamin D3
+  * Omega 369
+  * Gycline
+  * Creatine Monohydrate
+
+### Hypertrophy
+  * Whey Protein
+
+### Testosterone
+  * Meditation
+  * WheatGerm
+  * Peanut Butter
+  * Choline Inositol
+  * Ubiquinol+Creatine
+  * ZMA+Glycine
+  * Ginseng Tea
+  * Dark Chocolate (90%+ blocks Myostatin)
+  * Milk: boosts saturated fats, increasing testosterone
+  * Avoid stress: increases cortisol which results in decrease of testosterone and muscle mass
 
 ## Training
 ### Arms
