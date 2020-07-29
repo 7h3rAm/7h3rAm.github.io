@@ -54,7 +54,8 @@ model name  : Intel(R) Core(TM) i3 CPU       M 350  @ 2.27GHz
 flags       : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 syscall nx lm constant_tsc up pni monitor ssse3 lahf_l
 ```
 
-## Solution #1: Inject a NOP-prefixed `printf(you win!)` shellcode and overwrite EIP with its address
+## Solutions
+### Solution #1: Inject a NOP-prefixed `printf(you win!)` shellcode and overwrite EIP with its address
 
 Here's the GCC commandline to prepare [stack4.c](http://community.corest.com/%7Egera/InsecureProgramming/stack4.html) for Solution #1:
 
@@ -82,7 +83,7 @@ buf: bffff4c4 ``cookie``: bffff514
 you win!#
 ```
 
-## Solution #2: Inject a NOP-prefixed `printf(you win!)` shellcode through an environment var and overwrite EIP with its address
+### Solution #2: Inject a NOP-prefixed `printf(you win!)` shellcode through an environment var and overwrite EIP with its address
 
 Lets get straight to the exploitation:
 
@@ -107,4 +108,4 @@ So, we have now successfully exploited the [stack5.c](http://community.corest.co
 
 Like I said, earlier, these solutions are not practical anymore. They just serve the purpose of understanding how exploits used to work before mitigation features were introduced in modern systems. But, as with everything else, understanding basics is really important. As mitigation features mature, exploitation techniques become increasingly complex. And to understand those, we need to build upon the solid foundation of basic concepts, like those discussed on this and other blogs.
 
-This was the last post in the *Geras' Warming Up on Stack* series. I plan to start another series for *Gera's Advanced Buffer Overflows* examples. Stay tuned for further updates.
+This was the last post in the `Geras' Warming Up on Stack` series. I plan to start another series for `Gera's Advanced Buffer Overflows` examples. Stay tuned for further updates.

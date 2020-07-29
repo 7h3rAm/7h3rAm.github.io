@@ -310,7 +310,8 @@ The `buf` is at `0xbfa68294` and the cookie at `0xbfa682e4`. The variables have 
 
 From here we could proceed to the exploitation phase.
 
-## Solution #1: Overflow the `4B` past buf, where the cookie is stored, with the desired value (`0x41424344` in this case)
+## Solutions
+### Solution #1: Overflow the `4B` past buf, where the cookie is stored, with the desired value (`0x41424344` in this case)
 
 For this solution we first need to calculate the offset between `buf` and `cookie`:
 
@@ -333,7 +334,7 @@ you win!
 
 **NOTE**: The test system is a x86 Intel machine that uses [little-endian](http://isisblogs.poly.edu/2012/05/28/endianness/) byte ordering. We take this into account and reorder individual bytes to set the `cookie` with appropriate value.
 
-## Solution #2: Overwrite EIP with the address of the `printf` statement that prints the `you win!` message
+### Solution #2: Overwrite EIP with the address of the `printf` statement that prints the `you win!` message
 
 For the second solution, we need to overwrite EIP with the address of the `printf` statement that prints the required `you win!` message. This will ensure that when the program returns from `main()`, control transfers to stack1's `.text` segment instead of the `__libc_start_main()`. But first we need to find the address of the `printf` statement from `stack1`'s assembly code:
 
@@ -377,7 +378,7 @@ Segmentation fault
 
 We were able to overwrite EIP and redirect control to a desired location. This action helped us to bypass the if condition without actually modifying the contents of the source program.
 
-## Solution #3: Inject and execute a shellcode that simulates the second `printf` statement, through the internal `buf` character array
+### Solution #3: Inject and execute a shellcode that simulates the second `printf` statement, through the internal `buf` character array
 
 We now move on to the third solution for this program. We have found that the program has a buffer in which we can inject junk data and we also have the ability to redirect control to arbitrary locations. These two possibilities, when combined together, allow us to execute arbitrary shellcode. We will design a shellcode that simulates the behavior of the `puts` call and inject it within the program buffer. We will then modify the contents of EIP to point to the buffer where our injected shellcode ends up. If all goes well, this shellcode will be executed and we will have the message printed.There is however one thing we will have to think about before we move ahead. Recall the `checksec.sh` output above. It tells that one of the mitigation features, `NX`, is enabled for the vulnerable `stack1` program. This means that when we execute this binary, it will have its stack segment marked as non-executable:
 
@@ -576,7 +577,7 @@ It did work! Although a junk byte was appended to the winning message, it really
 
 For this solution, we turned off another mitigation feature (`ASLR`). Even in its presence we were able to gain successful exploitation (using solutions #1 and #2) but that was because we had alternate tricks. However, those were very specific to the vulnerable `stack1` program. They won't always work, but you now understand that an insight about how things really work, could help with designing custom solutions and hacking around any limitations that stop you from gaining successful exploitation. This solution helped us to get an insight into how useful addressing information could be for an exploit writer and how the `ASLR` technique helps to mitigate exploit attempts that use such information.
 
-## Solution #4: Inject and execute a shellcode, that simulates the second `printf` statement, through an environment variable and overwrite EIP with its address
+### Solution #4: Inject and execute a shellcode, that simulates the second `printf` statement, through an environment variable and overwrite EIP with its address
 
 Let's now move to the final solution for the `stack1` program. First, let's have a quick review of solution #3. We injected a shellcode that simulated the behavior of `printf` statement. We redirected control to our shellcode and achieved exploitation. However, a minor modification was required to our exploit command-line that changed the look and feel of our winning message. The newline character caused the `gets` copy loop to stop overwriting memory addresses past the terminating character and as such we had to remove it from our exploit shellcode. Although this issue was easily resolved though a quick and dirty hack, it might pose significant issues in real world exploit attempts. Could there be a better/elegant solution to this problem?
 

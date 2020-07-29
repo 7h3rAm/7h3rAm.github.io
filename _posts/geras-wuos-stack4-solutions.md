@@ -59,7 +59,8 @@ model name  : Intel(R) Core(TM) i3 CPU       M 350  @ 2.27GHz
 flags       : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 syscall nx lm constant_tsc up pni monitor ssse3 lahf_l
 ```
 
-## Solution #1: Overflow the internal `buf` array to overwrite EIP with the address of `printf(you win!)`
+## Solutions
+### Solution #1: Overflow the internal `buf` array to overwrite EIP with the address of `printf(you win!)`
 
 Here's the GCC commandline to prepare [stack4.c](http://community.corest.com/%7Egera/InsecureProgramming/stack4.html) for this solution:
 
@@ -109,7 +110,7 @@ you win!
 Segmentation fault
 ```
 
-## Solution #2: Inject a NOP-prefixed `printf(you win!)` shellcode and overwrite EIP with its address
+### Solution #2: Inject a NOP-prefixed `printf(you win!)` shellcode and overwrite EIP with its address
 
 Let's first recompile [stack4.c](http://community.corest.com/%7Egera/InsecureProgramming/stack4.html) and request GCC to mark program stack as executable. Additionally, we also need to turn ASLR off so that we can have a static return address to overwrite EIP with:
 
@@ -138,7 +139,7 @@ buf: bffff4c4 cookie: bffff514
 you win!#
 ```
 
-## Solution #3: Inject a NOP-prefixed `printf(you win!)` shellcode through an environment var overwrite EIP with its address
+### Solution #3: Inject a NOP-prefixed `printf(you win!)` shellcode through an environment var overwrite EIP with its address
 
 Lets get straight to the exploitation:
 
