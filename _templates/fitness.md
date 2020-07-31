@@ -29,7 +29,7 @@
 
 ## Stacks
 ### Health
-  * [Creatine Monohydrate](https://smile.amazon.com/dp/B002DYIZEO/)
+  * [Creatine (Monohydrate)](https://smile.amazon.com/dp/B002DYIZEO/)
   * [Gycline](https://smile.amazon.com/dp/B0013OVZJW/)
   * [L-Dopa](https://smile.amazon.com/gp/product/B001QG5F0W/)
   * [Omega 3](https://smile.amazon.com/dp/B002CQU564/)
@@ -38,9 +38,9 @@
   * [Vitamin D3+K2](https://smile.amazon.com/dp/B07255MPRN/)
 
 ### Hypertrophy
+  * [Whey Protein (Isolate)](https://smile.amazon.com/dp/B00E7IODXQ/)
   * [Magnesium Chloride Oil](https://www.amazon.com/gp/product/B01CKEBFSE/)
   * [Taurine](https://smile.amazon.com/gp/product/B00663G4ZK/)
-  * [Whey Protein Isolate](https://smile.amazon.com/dp/B00E7IODXQ/)
 
 ### Testosterone
   * Sunlight
@@ -48,7 +48,6 @@
   * Meditation
   * Sleep + Nap
   * Whole Milk + Ghee + Paneer
-
   * [DHEA](https://smile.amazon.com/dp/B004R68K14/)
   * [Boron](https://smile.amazon.com/dp/B000LLYDEM/)
   * [Zinc+Magnesium](https://smile.amazon.com/dp/B000GIQS02/)
