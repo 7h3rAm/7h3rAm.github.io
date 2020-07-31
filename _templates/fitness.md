@@ -11,12 +11,12 @@
 ### Fat Loss
 * Fasting
 * Strength Training + Sprints
-* Protein (70) + Carbs (25) + Fats (5)
+* Protein+Fats+Carbs (80+10+10)
 
 ### Muscle Building
 * Feast + Fasting
 * Strength Training + Sprints
-* Protein (70) + Fats (25) + Carbs (5)
+* Protein+Fats+Carbs (70+20+10)
 
 ## Equipments
 * [Dumbbell](https://www.roguefitness.com/rogue-dumbbells)
@@ -56,8 +56,8 @@
 
 ## Training
 ### Warmup
-  * Resistance Band
-  * Jump Rope
+  * [Jump Rope](https://www.youtube.com/watch?v=wwzkJOKEHNA)
+  * [Resistance Band](https://www.youtube.com/watch?v=hXS5di58qf0)
 
 ### Kettlebell
   * Swing
