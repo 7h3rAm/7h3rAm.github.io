@@ -1,7 +1,7 @@
 # 🟠 OSCP
 
 ## TL;DR
-  * Join [Infosec Prep](https://discord.gg/RRgKaep") Discord server
+  * Join [Infosec Prep](https://discord.gg/RRgKaep) Discord server
   * Create a documentation strategy and automate report writing
   * Create a [methodology](https://medium.com/@falconspy/oscp-developing-a-methodology-32f4ab471fd6) and remember it should evolve as you learn new stuff
   * Own OSCPlike machines [VulnHub](https://www.vulnhub.com/)|[TryHackMe](https://tryhackme.com/)|[HackTheBox](https://www.hackthebox.eu/)
@@ -27,9 +27,9 @@
   * [OSCP - Taking Notes & Resources](https://www.youtube.com/watch?v=MQGozZzHUwQ)
 
 ### Buffer Overflow
+  * [Exploit writing tutorial part 1 : Stack Based Overflows](https://www.corelan.be/index.php/2009/07/19/exploit-writing-tutorial-part-1-stack-based-overflows/)
+  * [Pentester Academy TV - 013 bad characters](https://www.youtube.com/watch?v=FAonEAfID4c)
   * [OSCP Buffer Overflow Prep](https://tryhackme.com/room/oscpbufferoverflowprep)
-  * [dostackbufferoverflowgood](https://github.com/justinsteven/dostackbufferoverflowgood)
-  * [Brainpan: 1](https://www.vulnhub.com/entry/brainpan-1,51/)
 
 ### Privesc
   * [Linux Privilege Escalation for OSCP & Beyond!](https://www.udemy.com/course/linux-privilege-escalation/learn/lecture/16313118#overview) + [Linux PrivEsc](https://tryhackme.com/room/linuxprivesc)
