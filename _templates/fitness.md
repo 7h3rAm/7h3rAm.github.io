@@ -9,14 +9,14 @@
 
 ## Program
 ### Fat Loss
+* Fasting
 * Strength Training + Sprints
 * Protein (70) + Carbs (25) + Fats (5)
-* Fast
 
 ### Muscle Building
+* Feast + Fasting
 * Strength Training + Sprints
 * Protein (70) + Fats (25) + Carbs (5)
-* Feast + Fast
 
 ## Equipments
 * [Dumbbell](https://www.roguefitness.com/rogue-dumbbells)
