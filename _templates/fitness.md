@@ -7,114 +7,60 @@
 * 8 minute mile
 * 5+5 skater squats
 
+## Program
+### Fat Loss
+* Strength Training + Sprints
+* Protein (70) + Carbs (25) + Fats (5)
+* Fast
+
+### Muscle Building
+* Strength Training + Sprints
+* Protein (70) + Fats (25) + Carbs (5)
+* Feast + Fast
+
 ## Equipments
-* [Kettlebell](https://www.roguefitness.com/rogue-kettlebells)
 * [Dumbbell](https://www.roguefitness.com/rogue-dumbbells)
+* [Jump Ropes](https://www.roguefitness.com/conditioning/jump-ropes)
+* [Kettlebell](https://www.roguefitness.com/rogue-kettlebells)
+* [Resistance Band](https://www.roguefitness.com/mobility-rehab/mobility-tools/bands)
 * [Sandbag](https://www.roguefitness.com/rogue-sandbags)
-* [Resistance band](https://www.roguefitness.com/mobility-rehab/mobility-tools/bands)
-* [Weighted vest](https://www.roguefitness.com/bodyweight-gymnastics/body-weight/weight-vests)
 * [Stones](https://www.roguefitness.com/rogue-rubber-atlas-stones)
-* [Ropes](https://www.roguefitness.com/conditioning/jump-ropes)
+* [Weighted Vest](https://www.roguefitness.com/bodyweight-gymnastics/body-weight/weight-vests)
 
 ## Stacks
 ### Health
-  * Vitamin D3
-  * Omega 369
-  * Gycline
-  * Creatine Monohydrate
+  * [Creatine Monohydrate](https://smile.amazon.com/dp/B002DYIZEO/)
+  * [Gycline](https://smile.amazon.com/dp/B0013OVZJW/)
+  * [L-Dopa](https://smile.amazon.com/gp/product/B001QG5F0W/)
+  * [Omega 3](https://smile.amazon.com/dp/B002CQU564/)
+  * [Vitamin B12](https://smile.amazon.com/dp/B0013OQGO6/)
+  * [Vitamin B3/Niacin](https://smile.amazon.com/gp/product/B0041SFOY4/)
+  * [Vitamin D3+K2](https://smile.amazon.com/dp/B07255MPRN/)
 
 ### Hypertrophy
-  * Whey Protein
+  * [Magnesium Chloride Oil](https://www.amazon.com/gp/product/B01CKEBFSE/)
+  * [Taurine](https://smile.amazon.com/gp/product/B00663G4ZK/)
+  * [Whey Protein Isolate](https://smile.amazon.com/dp/B00E7IODXQ/)
 
 ### Testosterone
+  * Sunlight
+  * Cold Shower
   * Meditation
-  * WheatGerm
-  * Peanut Butter
-  * Choline Inositol
-  * Ubiquinol+Creatine
-  * ZMA+Glycine
-  * Ginseng Tea
-  * Dark Chocolate (90%+ blocks Myostatin)
-  * Milk: boosts saturated fats, increasing testosterone
-  * Avoid stress: increases cortisol which results in decrease of testosterone and muscle mass
+  * Sleep + Nap
+  * Whole Milk + Ghee + Paneer
+
+  * [DHEA](https://smile.amazon.com/dp/B004R68K14/)
+  * [Boron](https://smile.amazon.com/dp/B000LLYDEM/)
+  * [Zinc+Magnesium](https://smile.amazon.com/dp/B000GIQS02/)
+  * [Ubiquinol/CoQ10](https://smile.amazon.com/dp/B00KHQJDWS/)
+  * [Ashwagandha Root Powder](https://smile.amazon.com/dp/B081B9KN7F/)
 
 ## Training
-### Arms
-  * Concentration Curl
-  * Cross-body Hammer Curl
-  * DB Close-grip Bench Press
-  * DB Curl
-  * DB Grip / Pinch Hold
-  * DB Seated Incline Extension Curl
-  * Hammer Curl, Slow Eccentric
-  * Incline Dumbell Curl
-  * Standing Tricep Extension
-  * Tricep Extension
-  * Tricep Pushdown
-  * Zottman Curl
+### Warmup
+  * Resistance Band
+  * Jump Rope
 
-### Jacked Look
-  * [Reference](https://www.youtube.com/watch?v=yy2nG18TfRQ)
-  * Inclined DB Bench Press
-  * Neutral Grip Pull-downs
-  * Lateral Raises
-  * Yates Rows
-  * Lying DB Neck Flexion
-  * Focus: Neck/Traps/Delts (Front)/Upper Chest/Lats/Narrow Waist
-
-### Compound-DB
-  * DB Thrusters
-  * DB Snatches
-  * Renegade Rows
-  * DB Deadlifts
-  * Front Loaded Alternating Lunges
-  * Floor Press
-  * DB Curl to Press
-
-### Compound-Push
-  * DB Bench Press
-  * DB Overhead Press
-  * Arnold Shoulder Press
-  * Lateral Raise
-  * Tricep Push-downs
-  * Tricep Dips
-
-### Compound-Pull
-  * Pull Ups
-  * Lat Pull Downs
-  * DB Rows
-  * DB Snatches
-  * Hammer Curls
-  * Face Pulls
-
-### Compound-Lower
-  * DB Squats
-  * DB Lunges
-  * Deadlifts
-  * Hamstring Extension
-  * Seated Leg Extension
-
-### Compound-Heavy
-  * Chest Fly
-  * Bench Press (Decline/Flat/Incline)
-  * Standing Overhead Press
-  * Bent-over DB Rows
-  * Front Squats
-  * Deadlift + Shrugs
-  * Farmer's Walk
-  * Pullup Bar Hangs
-
-### Compound-Medium
-  * DB Snatch
-  * DB Cleans
-  * Push Press
-  * DB Rows
-  * Lat Pulldowns
-  * DB Lunges
-  * Leg Extensions
-  * Squat Curl Press
-
-### Compound-KB
+### Kettlebell
   * Swing
   * Clean
   * Press
@@ -122,29 +68,18 @@
   * Squat
   * Lunge
 
-### HIIT-Heavy
-  * Alternating Reverse Lunges
-  * Jump Squats
-  * Lateral Plyometric Pushups
-  * Pushups
-  * Sprints
-  * Kneeling Reactive Vertical
-  * Pause Front Squats
-  * Front Squats
-  * Goblet Squats
-  * Kettlebell Swings
+### Compound
+  * Dips
+  * Pullups
+  * Face Pulls
+  * Bench press
+  * Clean + Press
+  * Rows
+  * Squats
+  * Deadlifts
 
-### HIIT-Medium
-  * Barbell Snatch
-  * Burpee
-  * Cycling
-  * Good Morning
-  * Leg Raises
-  * Plank
-  * Resistance Band
-  * Treadmill
-
-### HIIT-Desi
+### Desi
+  * Deekli
   * Lunges
   * Jump Dips
   * Dips Forward
@@ -152,8 +87,12 @@
   * Uth Baith Sapate
   * Daddu Kuud (Squat Jump)
   * Langdi (Single Leg Jump Run)
-  * Deekli
 
-### Warmup
-  * Resistance Band
-  * Gripper
+### Jacked
+  * [Reference](https://www.youtube.com/watch?v=yy2nG18TfRQ)
+  * Focus: Neck/Traps/Delts/UpperChest/Lats/NarrowWaist
+  * Inclined DB Bench Press
+  * Neutral Grip Pull-downs
+  * Lateral Raises
+  * Yates Rows
+  * Lying DB Neck Flexion
