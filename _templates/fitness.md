@@ -18,7 +18,7 @@
 * Strength Training + Sprints
 * Protein+Fats+Carbs (70+20+10)
 
-## Equipments
+## Equipment
 * [Dumbbell](https://www.roguefitness.com/rogue-dumbbells)
 * [Jump Ropes](https://www.roguefitness.com/conditioning/jump-ropes)
 * [Kettlebell](https://www.roguefitness.com/rogue-kettlebells)

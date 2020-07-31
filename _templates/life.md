@@ -43,7 +43,7 @@
   * [https://twitter.com/naval/status/1054984950192181248](https://twitter.com/naval/status/1054984950192181248)
 
 ### Barbell Strategy
-  * Technqiue in which you take little to no risk with 90% of your capital and with the rest 10%, invest in a diversified set of very risky asset investments
+  * Technique in which you take little to no risk with 90% of your capital and with the rest 10%, invest in a diversified set of very risky asset investments
   * [https://www.investopedia.com/terms/b/barbell.asp](https://www.investopedia.com/terms/b/barbell.asp)
 
 ### Bitcoin
@@ -51,11 +51,11 @@
   * All players in a non-cooperative game benefit the most by not changing their strategy
   * Apex predator of money
   * Austrian economic theory proposes that influence of government in markets ought to be kept at a bare minimum at all times
-  * Ban bitcoin ~= against free speech ~= not a free society
+  * Ban Bitcoin ~= against free speech ~= not a free society
   * Banks hold reserves equal to only a fraction of its deposit liabilities
   * Base metal that is as scarce as gold, but can be transferred over a communications channel
   * Bitcoin - always in state of nash equilibrium, incentivized miners to not cheat and users to use honest software
-  * Bitcoin > network protocol > computer code > maths with friendly ui > maths is a way to expresses abstract relationships > expression is speech > speech is one of two tools to resolve conflicts and settle disputes (other tool is violence)
+  * Bitcoin > network protocol > computer code > maths with friendly ui > maths is a way to express abstract relationships > expression is speech > speech is one of two tools to resolve conflicts and settle disputes (other tool is violence)
   * Bitcoin is a veblen good (for which demand increases as price increases due to its exclusive nature and appeal as a status symbol)
   * Bitcoin is not for humans to have opinions about, it exists regardless of what anyone thinks about it and it should be studied rather than discussed
   * Bitcoin is resilient. Bitcoin is principled. Bitcoin is native to internet ideals. And it’s a great brand.
@@ -84,12 +84,12 @@
   * States that the effect of a telecommunication network is proportional to the square of the number of users. Also referred to as network effect
   * Stock-to-flow ratio - quantifying scarcity
   * Time and freedom are true wealth, money is a container for time and method of transfer
-  * Trust minimzation is the greatest value of bitcoin - nick szabo
+  * Trust minimzation is the greatest value of Bitcoin - nick szabo
   * Unforgeable costliness
   * Universal clock/timekeeping machine - timestamping function acts as a universal clock
   * Will help transition towards type-1 civilization
-  * [https://hackernoon.com/concepts-to-grasp-in-order-to-better-understand-bitcoin-2199ab3b6ba4](https://hackernoon.com/concepts-to-grasp-in-order-to-better-understand-bitcoin-2199ab3b6ba4)
-  * [https://letstalkbitcoin.com/blog/post/what-bitcoin-did-43-dan-held-on-bitcoins-immaculate-conception](https://letstalkbitcoin.com/blog/post/what-bitcoin-did-43-dan-held-on-bitcoins-immaculate-conception)
+  * [https://hackernoon.com/concepts-to-grasp-in-order-to-better-understand-Bitcoin-2199ab3b6ba4](https://hackernoon.com/concepts-to-grasp-in-order-to-better-understand-Bitcoin-2199ab3b6ba4)
+  * [https://letstalkBitcoin.com/blog/post/what-Bitcoin-did-43-dan-held-on-Bitcoins-immaculate-conception](https://letstalkBitcoin.com/blog/post/what-Bitcoin-did-43-dan-held-on-Bitcoins-immaculate-conception)
   * [https://twitter.com/jack/status/1092920168060088320](https://twitter.com/jack/status/1092920168060088320)
   * [https://twitter.com/Moon__Rekt/status/1197259238348906496](https://twitter.com/Moon__Rekt/status/1197259238348906496)
   * [https://twitter.com/nickszabo4/status/705606919398895616](https://twitter.com/nickszabo4/status/705606919398895616)
@@ -98,7 +98,7 @@
 ### Fitness
   * Fatigue makes cowards of us all
   * If you can't hold it, you can't lift it
-  * Scholar Athelete - One who has attained wisdom and strength
+  * Scholar Athlete - One who has attained wisdom and strength
   * Strong mind leads to a strong body
   * Warm Body, Cold Mind #wbcm #focusbitch
   * You'll never be stronger than your hands
