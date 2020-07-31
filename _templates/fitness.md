@@ -34,7 +34,7 @@
   * [L-Dopa](https://smile.amazon.com/gp/product/B001QG5F0W/)
   * [Omega 3](https://smile.amazon.com/dp/B002CQU564/)
   * [Vitamin B12](https://smile.amazon.com/dp/B0013OQGO6/)
-  * [Vitamin B3/Niacin](https://smile.amazon.com/gp/product/B0041SFOY4/)
+  * [Vitamin B3 (Niacin)](https://smile.amazon.com/gp/product/B0041SFOY4/)
   * [Vitamin D3+K2](https://smile.amazon.com/dp/B07255MPRN/)
 
 ### Hypertrophy
@@ -51,7 +51,7 @@
   * [DHEA](https://smile.amazon.com/dp/B004R68K14/)
   * [Boron](https://smile.amazon.com/dp/B000LLYDEM/)
   * [Zinc+Magnesium](https://smile.amazon.com/dp/B000GIQS02/)
-  * [Ubiquinol/CoQ10](https://smile.amazon.com/dp/B00KHQJDWS/)
+  * [Ubiquinol (CoQ10)](https://smile.amazon.com/dp/B00KHQJDWS/)
   * [Ashwagandha Root Powder](https://smile.amazon.com/dp/B081B9KN7F/)
 
 ## Training
