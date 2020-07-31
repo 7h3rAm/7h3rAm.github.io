@@ -55,18 +55,6 @@
   * [Ashwagandha Root Powder](https://smile.amazon.com/dp/B081B9KN7F/)
 
 ## Training
-### Warmup
-  * [Jump Rope](https://www.youtube.com/watch?v=wwzkJOKEHNA)
-  * [Resistance Band](https://www.youtube.com/watch?v=hXS5di58qf0)
-
-### Kettlebell
-  * Swing
-  * Clean
-  * Press
-  * Snatch
-  * Squat
-  * Lunge
-
 ### Compound
   * Dips
   * Pullups
@@ -95,3 +83,15 @@
   * Lateral Raises
   * Yates Rows
   * Lying DB Neck Flexion
+
+### Kettlebell
+  * Swing
+  * Clean
+  * Press
+  * Snatch
+  * Squat
+  * Lunge
+
+### Warmup
+  * [Jump Rope](https://www.youtube.com/watch?v=wwzkJOKEHNA)
+  * [Resistance Band](https://www.youtube.com/watch?v=hXS5di58qf0)
