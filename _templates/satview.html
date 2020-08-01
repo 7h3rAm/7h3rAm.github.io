@@ -40,8 +40,8 @@
     <script>
       function doTime() {
         var localdatetime = new Date();
-        document.getElementById("currenttime_utc").innerHTML = "GMT: " + localdatetime.toUTCString();
-        document.getElementById("currenttime_local").innerHTML = "Local: " + localdatetime.toString();
+        document.getElementById("currenttime_utc").innerHTML = "<code>GMT</code>: " + localdatetime.toUTCString();
+        document.getElementById("currenttime_local").innerHTML = "<code>Local</code>: " + localdatetime.toString();
       }
 
       function doImages() {
