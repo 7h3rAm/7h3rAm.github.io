@@ -4,7 +4,7 @@
   * Join [Infosec Prep](https://discord.gg/RRgKaep) Discord server
   * Create a documentation strategy and automate report writing
   * Create a [methodology](https://medium.com/@falconspy/oscp-developing-a-methodology-32f4ab471fd6) and remember it should evolve as you learn new stuff
-  * Own OSCPlike machines [VulnHub](https://www.vulnhub.com/)|[TryHackMe](https://tryhackme.com/)|[HackTheBox](https://www.hackthebox.eu/)
+  * Own OSCPlike [VulnHub](https://www.vulnhub.com/)|[TryHackMe](https://tryhackme.com/)|[HackTheBox](https://www.hackthebox.eu/) machines
   * [PWK](https://www.offensive-security.com/pwk-oscp/) → own the lab → [exam guide](https://support.offensive-security.com/oscp-exam-guide/) → own the exam
 
 ## Read/Watch/Follow
