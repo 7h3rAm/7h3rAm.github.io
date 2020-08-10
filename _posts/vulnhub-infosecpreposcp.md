@@ -5,7 +5,7 @@ summary: This is the summary for an awesome post.
 tags: vulnhub, writeup
 
 ## Overview
-This is a writeup for VulnHub VM [`InfoSec Prep: OSCP`](https://www.vulnhub.com/entry/infosec-prep-oscp,508/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
+This is a writeup for VulnHub VM [InfoSec Prep: OSCP](https://www.vulnhub.com/entry/infosec-prep-oscp,508/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
 ![writeup.overview.killchain](/static/files/posts_vulnhub_infosecpreposcp/killchain.png.webp)
 
