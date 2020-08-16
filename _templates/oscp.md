@@ -27,16 +27,15 @@
   * [OSCP - Taking Notes & Resources](https://www.youtube.com/watch?v=MQGozZzHUwQ)
 
 ### Buffer Overflow
-  * [Exploit writing tutorial part 1 : Stack Based Overflows](https://www.corelan.be/index.php/2009/07/19/exploit-writing-tutorial-part-1-stack-based-overflows/)
-  * [Pentester Academy TV - 013 bad characters](https://www.youtube.com/watch?v=FAonEAfID4c)
-  * [OSCP Buffer Overflow Prep](https://tryhackme.com/room/oscpbufferoverflowprep)
+  * [Buffer Overflow Prep](https://tryhackme.com/room/bufferoverflowprep)
+  * [Stack Based Buffer Overflow Prep](https://www.twitch.tv/videos/710183038)
 
 ### Privesc
   * [Linux Privilege Escalation for OSCP & Beyond!](https://www.udemy.com/course/linux-privilege-escalation/learn/lecture/16313118#overview) + [Linux PrivEsc](https://tryhackme.com/room/linuxprivesc)
   * [Windows Privilege Escalation for OSCP & Beyond!](https://www.udemy.com/course/windows-privilege-escalation/learn/lecture/18153180#overview) + [Windows PrivEsc](https://tryhackme.com/room/windows10privesc)
 
 ### Machines
-  * OSCPlike: [NetSecFocus Trophy Room (VulnHub and HackTheBox machines)](https://docs.google.com/spreadsheets/u/1/d/1dwSMIAPIam0PuRBkCiDI88pU3yzrqqHkDtBngUHNCw8/htmlview), [Offensive Pentesting Learning Pathway (TryHackMe machines)](https://tryhackme.com/path/outline/OSCP)
+  * OSCPlike: [NetSecFocus Trophy Room](https://docs.google.com/spreadsheets/u/1/d/1dwSMIAPIam0PuRBkCiDI88pU3yzrqqHkDtBngUHNCw8/htmlview), [Offensive Pentesting Learning Pathway](https://tryhackme.com/path/outline/OSCP)
   * Practice: [oscp-practice (HackTheBox and TryHackMe machines)](https://github.com/ajdumanhug/oscp-practice)
 
 ## Resources
