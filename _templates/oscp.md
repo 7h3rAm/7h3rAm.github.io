@@ -2,7 +2,7 @@
 
 ## TL;DR
   * Join [Infosec Prep](https://discord.gg/RRgKaep) Discord server
-  * Create a documentation strategy and automate report writing
+  * Create a [documentation strategy](#notesreport) and use it throughout your learning journey
   * Create a [methodology](https://medium.com/@falconspy/oscp-developing-a-methodology-32f4ab471fd6) and remember it should evolve as you learn new stuff
   * Own OSCPlike [VulnHub](https://www.vulnhub.com/)|[TryHackMe](https://tryhackme.com/)|[HackTheBox](https://www.hackthebox.eu/) machines
   * [PWK](https://www.offensive-security.com/pwk-oscp/) → own the lab → [exam guide](https://support.offensive-security.com/oscp-exam-guide/) → own the exam
@@ -21,14 +21,14 @@
   * [@TJ_Null](https://twitter.com/tj_null): [review](https://www.netsecfocus.com/oscp/review/2019/01/29/An_Adventure_to_Try_Harder_Tjnulls_OSCP_Journey.html), [prepguide](https://www.netsecfocus.com/oscp/2019/03/29/The_Journey_to_Try_Harder-_TJNulls_Preparation_Guide_for_PWK_OSCP.html)
 
 ## Do
-### Notes/Report
+<a name="notesreport">### Notes/Report</a>
+  * [OSCP - Taking Notes & Resources](https://www.youtube.com/watch?v=MQGozZzHUwQ)
   * [OSCP-MarkdownReportingTemplates](https://github.com/chvancooten/OSCP-MarkdownReportingTemplates)
   * [OSCP-Exam-Report-Template-Markdown](https://github.com/noraj/OSCP-Exam-Report-Template-Markdown)
-  * [OSCP - Taking Notes & Resources](https://www.youtube.com/watch?v=MQGozZzHUwQ)
 
 ### Buffer Overflow
   * [Buffer Overflow Prep](https://tryhackme.com/room/bufferoverflowprep)
-  * [Stack Based Buffer Overflow Prep](https://www.twitch.tv/videos/710183038)
+  * [Stack Based Buffer Overflow Prep](https://www.youtube.com/watch?v=1X2JGF_9JGM)
 
 ### Privesc
   * [Linux Privilege Escalation for OSCP & Beyond!](https://www.udemy.com/course/linux-privilege-escalation/learn/lecture/16313118#overview) + [Linux PrivEsc](https://tryhackme.com/room/linuxprivesc)
