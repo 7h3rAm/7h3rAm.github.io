@@ -2,10 +2,10 @@
 
 ## TL;DR
   * Join [Infosec Prep](https://discord.gg/RRgKaep) Discord server
-  * Create a [documentation strategy](#notesreport) and use it throughout your learning journey
   * Create a [methodology](https://medium.com/@falconspy/oscp-developing-a-methodology-32f4ab471fd6) and remember it should evolve as you learn new stuff
-  * Own OSCPlike [VulnHub](https://www.vulnhub.com/)|[TryHackMe](https://tryhackme.com/)|[HackTheBox](https://www.hackthebox.eu/) machines
-  * [PWK](https://www.offensive-security.com/pwk-oscp/) → own the lab → [exam guide](https://support.offensive-security.com/oscp-exam-guide/) → own the exam
+  * Create a [documentation](#notesreport) strategy and use it throughout your learning journey
+  * Learn [Buffer Overflow and Privilege Escalation](#bofpe) techniques, own [OSCPlike](#machines) VulnHub|TryHackMe|HackTheBox machines
+  * Register for [PWK](https://www.offensive-security.com/pwk-oscp/) → own the lab → read [exam guide](https://support.offensive-security.com/oscp-exam-guide/) → own the exam
 
 ## Read/Watch/Follow
   * [@0xdf_](https://twitter.com/0xdf_): [writeups](https://0xdf.gitlab.io/tags.html#oscp-like)
@@ -21,22 +21,19 @@
   * [@TJ_Null](https://twitter.com/tj_null): [review](https://www.netsecfocus.com/oscp/review/2019/01/29/An_Adventure_to_Try_Harder_Tjnulls_OSCP_Journey.html), [prepguide](https://www.netsecfocus.com/oscp/2019/03/29/The_Journey_to_Try_Harder-_TJNulls_Preparation_Guide_for_PWK_OSCP.html)
 
 ## Do
-### <a name="notesreport">Notes/Report</a>
+### Documentation<a name="notesreport"></a>
   * [OSCP - Taking Notes & Resources](https://www.youtube.com/watch?v=MQGozZzHUwQ)
   * [OSCP-MarkdownReportingTemplates](https://github.com/chvancooten/OSCP-MarkdownReportingTemplates)
   * [OSCP-Exam-Report-Template-Markdown](https://github.com/noraj/OSCP-Exam-Report-Template-Markdown)
 
-### Buffer Overflow
-  * [Buffer Overflow Prep](https://tryhackme.com/room/bufferoverflowprep)
-  * [Stack Based Buffer Overflow Prep](https://www.youtube.com/watch?v=1X2JGF_9JGM)
-
-### Privesc
-  * [Linux Privilege Escalation for OSCP & Beyond!](https://www.udemy.com/course/linux-privilege-escalation/learn/lecture/16313118#overview) + [Linux PrivEsc](https://tryhackme.com/room/linuxprivesc)
-  * [Windows Privilege Escalation for OSCP & Beyond!](https://www.udemy.com/course/windows-privilege-escalation/learn/lecture/18153180#overview) + [Windows PrivEsc](https://tryhackme.com/room/windows10privesc)
-
-### Machines
+### Machines<a name="machines"></a>
   * OSCPlike: [NetSecFocus Trophy Room](https://docs.google.com/spreadsheets/u/1/d/1dwSMIAPIam0PuRBkCiDI88pU3yzrqqHkDtBngUHNCw8/htmlview), [Offensive Pentesting Learning Pathway](https://tryhackme.com/path/outline/OSCP)
   * Practice: [oscp-practice (HackTheBox and TryHackMe machines)](https://github.com/ajdumanhug/oscp-practice)
+
+### Buffer Overflow and Privilege Escalation<a name="bofpe"></a>
+  * [Buffer Overflow Prep](https://tryhackme.com/room/bufferoverflowprep) + [Stack Based Buffer Overflow Prep](https://www.youtube.com/watch?v=1X2JGF_9JGM)
+  * [Linux Privilege Escalation for OSCP & Beyond!](https://www.udemy.com/course/linux-privilege-escalation/learn/lecture/16313118#overview) + [Linux PrivEsc](https://tryhackme.com/room/linuxprivesc)
+  * [Windows Privilege Escalation for OSCP & Beyond!](https://www.udemy.com/course/windows-privilege-escalation/learn/lecture/18153180#overview) + [Windows PrivEsc](https://tryhackme.com/room/windows10privesc)
 
 ## Resources
 ### machinescli
