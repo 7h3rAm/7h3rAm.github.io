@@ -9,7 +9,13 @@ tags: hackthebox, writeup
 
 This is a writeup for HTB VM [Shocker](https://www.hackthebox.eu/home/machines/profile/108). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
+### Killchain
+
 ![writeup.overview.killchain](/static/files/posts_htb_shocker/killchain.png.webp)
+
+### TTPs
+1\. `80/tcp/http/Apache httpd 2.4.18 ((Ubuntu))`: [`exploit_shellshock`](https://github.com/7h3rAm/writeups#exploit_shellshock), [`privesc_sudoers`](https://github.com/7h3rAm/writeups#privesc_sudoers)  
+
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
