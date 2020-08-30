@@ -9,7 +9,11 @@ tags: hackthebox, writeup
 
 This is a writeup for HTB VM [Cronos](https://www.hackthebox.eu/home/machines/profile/11). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
+### Killchain
 ![writeup.overview.killchain](/static/files/posts_htb_cronos/killchain.png.webp)
+
+### TTPs
+1\. `80/tcp/http/Apache httpd 2.4.18 ((Ubuntu))`: [exploit_sqli](https://github.com/7h3rAm/writeups#exploit_sqli), [privesc_cron](https://github.com/7h3rAm/writeups#privesc_cron)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  

@@ -9,7 +9,11 @@ tags: hackthebox, writeup
 
 This is a writeup for HTB VM [Mirai](https://www.hackthebox.eu/home/machines/profile/64). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
+### Killchain
 ![writeup.overview.killchain](/static/files/posts_htb_mirai/killchain.png.webp)
+
+### TTPs
+1\. `22/tcp/ssh/OpenSSH 6.7p1 Debian 5+deb8u3 (protocol 2.0)`: [exploit_defaultcreds](https://github.com/7h3rAm/writeups#exploit_defaultcreds), [privesc_sudoers](https://github.com/7h3rAm/writeups#privesc_sudoers)  
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  

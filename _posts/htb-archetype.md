@@ -9,7 +9,12 @@ tags: hackthebox, writeup
 
 This is a writeup for HTB VM [Archetype](https://www.hackthebox.eu/home/start). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
+### Killchain
 ![writeup.overview.killchain](/static/files/posts_htb_archetype/killchain.png.webp)
+
+### TTPs
+1\. `445/tcp/microsoft-ds/Windows Server 2019 Standard 17763 microsoft-ds`: [enumerate_proto_smb](https://github.com/7h3rAm/writeups#enumerate_proto_smb), [enumerate_proto_smb_anonymous_access](https://github.com/7h3rAm/writeups#enumerate_proto_smb_anonymous_access), [privesc_psexec_login](https://github.com/7h3rAm/writeups#privesc_psexec_login)  
+2\. `1433/tcp/ms-sql-s/Microsoft SQL Server 14.00.1000.00`: [enumerate_proto_sql](https://github.com/7h3rAm/writeups#enumerate_proto_sql), [enumerate_proto_sql_ssis_dtsconfig](https://github.com/7h3rAm/writeups#enumerate_proto_sql_ssis_dtsconfig), [enumerate_app_powershell_history](https://github.com/7h3rAm/writeups#enumerate_app_powershell_history), [exploit_sql_login](https://github.com/7h3rAm/writeups#exploit_sql_login), [exploit_sql_xpcmdshell](https://github.com/7h3rAm/writeups#exploit_sql_xpcmdshell)  
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  

@@ -9,7 +9,11 @@ tags: hackthebox, writeup
 
 This is a writeup for HTB VM [Blue](https://www.hackthebox.eu/home/machines/profile/51). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
+### Killchain
 ![writeup.overview.killchain](/static/files/posts_htb_blue/killchain.png.webp)
+
+### TTPs
+1\. `139/tcp/netbios-ssn/Microsoft Windows netbios-ssn`: [exploit_smb_ms17_010](https://github.com/7h3rAm/writeups#exploit_smb_ms17_010)  
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  

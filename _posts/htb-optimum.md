@@ -9,7 +9,11 @@ tags: hackthebox, writeup
 
 This is a writeup for HTB VM [Optimum](https://www.hackthebox.eu/home/machines/profile/6). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
+### Killchain
 ![writeup.overview.killchain](/static/files/posts_htb_optimum/killchain.png.webp)
+
+### TTPs
+1\. `80/tcp/http/HttpFileServer httpd 2.3`: [exploit_hfs_cmd_exec](https://github.com/7h3rAm/writeups#exploit_hfs_cmd_exec), [privesc_windows_ms16_098](https://github.com/7h3rAm/writeups#privesc_windows_ms16_098)  
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  

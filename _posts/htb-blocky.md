@@ -9,7 +9,11 @@ tags: hackthebox, writeup
 
 This is a writeup for HTB VM [Blocky](https://www.hackthebox.eu/home/machines/profile/48). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
+### Killchain
 ![writeup.overview.killchain](/static/files/posts_htb_blocky/killchain.png.webp)
+
+### TTPs
+1\. `80/tcp/http/Apache httpd 2.4.18 ((Ubuntu))`: [enumerate_app_wordpress](https://github.com/7h3rAm/writeups#enumerate_app_wordpress), [exploit_wordpress_plugin](https://github.com/7h3rAm/writeups#exploit_wordpress_plugin), [exploit_credsreuse](https://github.com/7h3rAm/writeups#exploit_credsreuse), [privesc_sudoers](https://github.com/7h3rAm/writeups#privesc_sudoers)  
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  

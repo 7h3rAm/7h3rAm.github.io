@@ -9,7 +9,11 @@ tags: hackthebox, writeup
 
 This is a writeup for HTB VM [Grandpa](https://www.hackthebox.eu/home/machines/profile/13). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
+### Killchain
 ![writeup.overview.killchain](/static/files/posts_htb_grandpa/killchain.png.webp)
+
+### TTPs
+1\. `80/tcp/http/Microsoft IIS httpd 6.0`: [exploit_iis_webdav](https://github.com/7h3rAm/writeups#exploit_iis_webdav), [privesc_windows_ms14_070](https://github.com/7h3rAm/writeups#privesc_windows_ms14_070)  
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  

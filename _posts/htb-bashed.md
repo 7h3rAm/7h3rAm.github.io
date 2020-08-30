@@ -9,7 +9,11 @@ tags: hackthebox, writeup
 
 This is a writeup for HTB VM [Bashed](https://www.hackthebox.eu/home/machines/profile/118). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
+### Killchain
 ![writeup.overview.killchain](/static/files/posts_htb_bashed/killchain.png.webp)
+
+### TTPs
+1\. `80/tcp/http/2.4.18 ((Ubuntu))`: [enumerate_proto_http](https://github.com/7h3rAm/writeups#enumerate_proto_http), [exploit_python_reverseshell](https://github.com/7h3rAm/writeups#exploit_python_reverseshell), [privesc_sudo](https://github.com/7h3rAm/writeups#privesc_sudo), [privesc_cron_rootjobs](https://github.com/7h3rAm/writeups#privesc_cron_rootjobs)  
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  

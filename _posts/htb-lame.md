@@ -9,7 +9,11 @@ tags: hackthebox, writeup
 
 This is a writeup for HTB VM [Lame](htps://www.hackthebox.eu/home/machines/profile/1). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
+### Killchain
 ![writeup.overview.killchain](/static/files/posts_htb_lame/killchain.png.webp)
+
+### TTPs
+1\. `139/tcp/netbios-ssn/Samba smbd 3.X - 4.X (workgroup: WORKGROUP)`: [exploit_smb_usermap](https://github.com/7h3rAm/writeups#exploit_smb_usermap)  
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
