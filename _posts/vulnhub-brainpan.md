@@ -7,7 +7,12 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [Brainpan: 1](https://www.vulnhub.com/entry/brainpan-1,51/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
+### Killchain
 ![writeup.overview.killchain](/static/files/posts_vulnhub_brainpan/killchain.png.webp)
+
+### TTPs
+1\. `9999/tcp/abyss?`: [privesc_anansi](https://github.com/7h3rAm/writeups#privesc_anansi), [privesc_sudo](https://github.com/7h3rAm/writeups#privesc_sudo)  
+2\. `10000/tcp/http/SimpleHTTPServer 0.6 (Python 2.7.3)`: [exploit_bof](https://github.com/7h3rAm/writeups#exploit_bof)  
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  

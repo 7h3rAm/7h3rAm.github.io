@@ -7,7 +7,11 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [hackfest2016: Quaoar](https://www.vulnhub.com/entry/hackfest2016-quaoar,180/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
+### Killchain
 ![writeup.overview.killchain](/static/files/posts_vulnhub_quaoar/killchain.png.webp)
+
+### TTPs
+1\. `80/tcp/http/Apache httpd 2.2.22 ((Ubuntu))`: [enumerate_app_wordpress](https://github.com/7h3rAm/writeups#enumerate_app_wordpress), [exploit_wordpress_defaultcreds](https://github.com/7h3rAm/writeups#exploit_wordpress_defaultcreds), [exploit_wordpress_plugin_hellodolly](https://github.com/7h3rAm/writeups#exploit_wordpress_plugin_hellodolly), [exploit_php_reverseshell](https://github.com/7h3rAm/writeups#exploit_php_reverseshell), [privesc_mysql_creds](https://github.com/7h3rAm/writeups#privesc_mysql_creds), [privesc_credsreuse](https://github.com/7h3rAm/writeups#privesc_credsreuse)  
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  

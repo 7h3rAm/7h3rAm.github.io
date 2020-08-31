@@ -7,7 +7,11 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [Misdirection: 1](https://www.vulnhub.com/entry/misdirection-1,371/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
+### Killchain
 ![writeup.overview.killchain](/static/files/posts_vulnhub_misdirection1/killchain.png.webp)
+
+### TTPs
+1\. `8080/tcp/http/Apache httpd 2.4.29 ((Ubuntu))`: [exploit_php_webshell](https://github.com/7h3rAm/writeups#exploit_php_webshell), [exploit_bash_reverseshell](https://github.com/7h3rAm/writeups#exploit_bash_reverseshell), [privesc_sudoers](https://github.com/7h3rAm/writeups#privesc_sudoers), [privesc_passwd_writable](https://github.com/7h3rAm/writeups#privesc_passwd_writable)  
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  

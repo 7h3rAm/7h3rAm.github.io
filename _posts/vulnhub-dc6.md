@@ -7,7 +7,11 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [DC: 6](https://www.vulnhub.com/entry/dc-6,315/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
+### Killchain
 ![writeup.overview.killchain](/static/files/posts_vulnhub_dc6/killchain.png.webp)
+
+### TTPs
+1\. `80/tcp/http/Apache httpd 2.4.25 ((Debian))`: [enumerate_app_wordpress](https://github.com/7h3rAm/writeups#enumerate_app_wordpress), [exploit_wordpress_plugin_activitymonitor](https://github.com/7h3rAm/writeups#exploit_wordpress_plugin_activitymonitor), [privesc_mysql_creds](https://github.com/7h3rAm/writeups#privesc_mysql_creds), [privesc_sudo](https://github.com/7h3rAm/writeups#privesc_sudo), [privesc_nmap](https://github.com/7h3rAm/writeups#privesc_nmap)  
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  

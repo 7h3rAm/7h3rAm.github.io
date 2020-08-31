@@ -7,7 +7,13 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [BSides Vancouver: 2018 (Workshop)](https://www.vulnhub.com/entry/bsides-vancouver-2018-workshop,231/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
+### Killchain
 ![writeup.overview.killchain](/static/files/posts_vulnhub_bsidesvancouver2018workshop/killchain.png.webp)
+
+### TTPs
+1\. `21/tcp/ftp/vsftpd 2.3.5`: [enumerate_proto_ftp](https://github.com/7h3rAm/writeups#enumerate_proto_ftp)  
+2\. `22/tcp/ssh/OpenSSH 5.9p1 Debian 5ubuntu1.10 (Ubuntu Linux; protocol 2.0)`: [enumerate_proto_ssh](https://github.com/7h3rAm/writeups#enumerate_proto_ssh), [exploit_ssh_bruteforce](https://github.com/7h3rAm/writeups#exploit_ssh_bruteforce)  
+3\. `80/tcp/http/Apache httpd 2.2.22 ((Ubuntu))`: [enumerate_proto_http](https://github.com/7h3rAm/writeups#enumerate_proto_http), [enumerate_app_wordpress](https://github.com/7h3rAm/writeups#enumerate_app_wordpress), [exploit_wordpress_plugin_hellodolly](https://github.com/7h3rAm/writeups#exploit_wordpress_plugin_hellodolly), [exploit_php_reverseshell](https://github.com/7h3rAm/writeups#exploit_php_reverseshell), [privesc_cron](https://github.com/7h3rAm/writeups#privesc_cron), [privesc_sudoers](https://github.com/7h3rAm/writeups#privesc_sudoers)  
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  

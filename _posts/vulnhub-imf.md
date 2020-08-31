@@ -7,7 +7,11 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [IMF: 1](https://www.vulnhub.com/entry/imf-1,162/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
+### Killchain
 ![writeup.overview.killchain](/static/files/posts_vulnhub_imf/killchain.png.webp)
+
+### TTPs
+1\. `80/tcp/http/Apache httpd 2.4.18 ((Ubuntu))`: [exploit_php_fileupload_bypass](https://github.com/7h3rAm/writeups#exploit_php_fileupload_bypass), [privesc_bof](https://github.com/7h3rAm/writeups#privesc_bof)  
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  

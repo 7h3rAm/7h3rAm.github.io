@@ -7,7 +7,11 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [Lin.Security: 1](https://www.vulnhub.com/entry/linsecurity-1,244/). Here's an overview of the `enumeration → exploitation → privilege escalation` process:
 
+### Killchain
 ![writeup.overview.killchain](/static/files/posts_vulnhub_linsecurity1/killchain.png.webp)
+
+### TTPs
+1\. `2049/tcp/nfs_acl/3 (RPC #100227)`: [exploit_nfs_rw](https://github.com/7h3rAm/writeups#exploit_nfs_rw), [exploit_ssh_authorizedkeys](https://github.com/7h3rAm/writeups#exploit_ssh_authorizedkeys), [privesc_strace_setuid](https://github.com/7h3rAm/writeups#privesc_strace_setuid), [privesc_docker_group](https://github.com/7h3rAm/writeups#privesc_docker_group)  
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  

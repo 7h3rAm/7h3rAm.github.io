@@ -7,6 +7,7 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [Moria: 1.1](https://www.vulnhub.com/entry/moria-1,187/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
+### Killchain
 ![writeup.overview.killchain](/static/files/posts_vulnhub_moria11/killchain.png.webp)
 
 ## Phase #1: Enumeration

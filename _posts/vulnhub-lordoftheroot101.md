@@ -7,7 +7,11 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [Lord Of The Root: 1.0.1](https://www.vulnhub.com/entry/lord-of-the-root-101,129/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
+### Killchain
 ![writeup.overview.killchain](/static/files/posts_vulnhub_lordoftheroot101/killchain.png.webp)
+
+### TTPs
+1\. `1337/tcp/http/Apache httpd 2.4.7 ((Ubuntu))`: [exploit_sqli](https://github.com/7h3rAm/writeups#exploit_sqli), [exploit_credsreuse](https://github.com/7h3rAm/writeups#exploit_credsreuse), [privesc_kernel_overlayfs](https://github.com/7h3rAm/writeups#privesc_kernel_overlayfs), [privesc_mysql_root](https://github.com/7h3rAm/writeups#privesc_mysql_root), [privesc_mysql_udf](https://github.com/7h3rAm/writeups#privesc_mysql_udf)  
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  

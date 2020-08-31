@@ -7,7 +7,11 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [FristiLeaks: 1.3](https://www.vulnhub.com/entry/fristileaks-13,133/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
+### Killchain
 ![writeup.overview.killchain](/static/files/posts_vulnhub_fristileaks1dot3/killchain.png.webp)
+
+### TTPs
+1\. `80/tcp/http/Apache httpd 2.2.15 ((CentOS) DAV/2 PHP/5.3.3)`: [exploit_php_fileupload](https://github.com/7h3rAm/writeups#exploit_php_fileupload), [exploit_php_fileupload_bypass](https://github.com/7h3rAm/writeups#exploit_php_fileupload_bypass), [privesc_sudo](https://github.com/7h3rAm/writeups#privesc_sudo), [privesc_setuid](https://github.com/7h3rAm/writeups#privesc_setuid)  
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  

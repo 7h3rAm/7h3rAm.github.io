@@ -7,7 +7,11 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [Kioptrix: Level 1.3 (#4)](https://www.vulnhub.com/entry/kioptrix-level-13-4,25/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
+### Killchain
 ![writeup.overview.killchain](/static/files/posts_vulnhub_kioptrix4/killchain.png.webp)
+
+### TTPs
+1\. `80/tcp/http/Apache httpd 2.2.8 ((Ubuntu) PHP/5.2.4-2ubuntu5.6 with Suhosin-Patch)`: [exploit_sqli](https://github.com/7h3rAm/writeups#exploit_sqli), [exploit_credsreuse](https://github.com/7h3rAm/writeups#exploit_credsreuse), [privesc_shell_escape](https://github.com/7h3rAm/writeups#privesc_shell_escape), [privesc_mysql_root](https://github.com/7h3rAm/writeups#privesc_mysql_root), [privesc_mysql_udf](https://github.com/7h3rAm/writeups#privesc_mysql_udf)  
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  

@@ -7,7 +7,11 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [InfoSec Prep: OSCP](https://www.vulnhub.com/entry/infosec-prep-oscp,508/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
+### Killchain
 ![writeup.overview.killchain](/static/files/posts_vulnhub_infosecpreposcp/killchain.png.webp)
+
+### TTPs
+1\. `80/tcp/http/Apache httpd 2.4.41 ((Ubuntu))`: [enumerate_proto_http](https://github.com/7h3rAm/writeups#enumerate_proto_http), [exploit_ssh_privatekeys](https://github.com/7h3rAm/writeups#exploit_ssh_privatekeys), [privesc_lxc_bash](https://github.com/7h3rAm/writeups#privesc_lxc_bash)  
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  

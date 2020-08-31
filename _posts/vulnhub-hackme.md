@@ -7,7 +7,11 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [hackme: 1](https://www.vulnhub.com/entry/hackme-1,330/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
+### Killchain
 ![writeup.overview.killchain](/static/files/posts_vulnhub_hackme/killchain.png.webp)
+
+### TTPs
+1\. `80/tcp/http/Apache httpd 2.4.34 ((Ubuntu))`: [exploit_php_fileupload](https://github.com/7h3rAm/writeups#exploit_php_fileupload), [exploit_php_reverseshell](https://github.com/7h3rAm/writeups#exploit_php_reverseshell), [privesc_setuid](https://github.com/7h3rAm/writeups#privesc_setuid)  
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  

@@ -7,7 +7,13 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [LazySysAdmin: 1](https://www.vulnhub.com/entry/lazysysadmin-1,205/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
+### Killchain
 ![writeup.overview.killchain](/static/files/posts_vulnhub_lazysysadmin1/killchain.png.webp)
+
+### TTPs
+1\. `22/tcp/ssh/OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.8 (Ubuntu Linux; protocol 2.0)`: [privesc_sudo](https://github.com/7h3rAm/writeups#privesc_sudo)  
+2\. `80/tcp/http/Apache httpd 2.4.7 ((Ubuntu))`: [enumerate_app_wordpress](https://github.com/7h3rAm/writeups#enumerate_app_wordpress), [exploit_credsreuse](https://github.com/7h3rAm/writeups#exploit_credsreuse), [exploit_php_reverseshell](https://github.com/7h3rAm/writeups#exploit_php_reverseshell), [exploit_wordpress_template](https://github.com/7h3rAm/writeups#exploit_wordpress_template)  
+3\. `139/tcp/netbios-ssn/Samba smbd 3.X - 4.X (workgroup: WORKGROUP)`: [exploit_smb_nullsession](https://github.com/7h3rAm/writeups#exploit_smb_nullsession), [exploit_smb_web_root](https://github.com/7h3rAm/writeups#exploit_smb_web_root)  
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  

@@ -7,7 +7,11 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [hackfest2016: Sedna](https://www.vulnhub.com/entry/hackfest2016-sedna,181/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
+### Killchain
 ![writeup.overview.killchain](/static/files/posts_vulnhub_sedna/killchain.png.webp)
+
+### TTPs
+1\. `80/tcp/http/Apache httpd 2.4.7 ((Ubuntu))`: [exploit_php_fileupload](https://github.com/7h3rAm/writeups#exploit_php_fileupload), [exploit_php_reverseshell](https://github.com/7h3rAm/writeups#exploit_php_reverseshell), [privesc_chkrootkit](https://github.com/7h3rAm/writeups#privesc_chkrootkit), [privesc_cron](https://github.com/7h3rAm/writeups#privesc_cron), [privesc_bash_reverseshell](https://github.com/7h3rAm/writeups#privesc_bash_reverseshell)  
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  

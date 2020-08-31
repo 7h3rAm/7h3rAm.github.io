@@ -7,7 +7,11 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [Node: 1](https://www.vulnhub.com/entry/node-1,252/#). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
+### Killchain
 ![writeup.overview.killchain](/static/files/posts_vulnhub_node1/killchain.png.webp)
+
+### TTPs
+1\. `3000/tcp/http/Node.js Express framework`: [exploit_nodejs](https://github.com/7h3rAm/writeups#exploit_nodejs), [exploit_credsreuse](https://github.com/7h3rAm/writeups#exploit_credsreuse), [exploit_mongodb](https://github.com/7h3rAm/writeups#exploit_mongodb), [privesc_setuid](https://github.com/7h3rAm/writeups#privesc_setuid)  
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  

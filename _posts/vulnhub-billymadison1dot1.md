@@ -7,7 +7,11 @@ tags: vulnhub, writeup
 ## Overview
 This is a writeup for VulnHub VM [Billy Madison: 1.1](https://www.vulnhub.com/entry/billy-madison-11,161). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
+### Killchain
 ![writeup.overview.killchain](/static/files/posts_vulnhub_billymadison1dot1/killchain.png.webp)
+
+### TTPs
+1\. `1974/tcp`: [privesc_setuid](https://github.com/7h3rAm/writeups#privesc_setuid), [privesc_cron](https://github.com/7h3rAm/writeups#privesc_cron), [privesc_sudoers](https://github.com/7h3rAm/writeups#privesc_sudoers)  
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
