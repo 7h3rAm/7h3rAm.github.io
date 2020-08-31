@@ -26,14 +26,14 @@
   * [OSCP-MarkdownReportingTemplates](https://github.com/chvancooten/OSCP-MarkdownReportingTemplates)
   * [OSCP-Exam-Report-Template-Markdown](https://github.com/noraj/OSCP-Exam-Report-Template-Markdown)
 
-### Machines<a name="machines"></a>
-  * OSCPlike: [NetSecFocus Trophy Room](https://docs.google.com/spreadsheets/u/1/d/1dwSMIAPIam0PuRBkCiDI88pU3yzrqqHkDtBngUHNCw8/htmlview), [Offensive Pentesting Learning Pathway](https://tryhackme.com/path/outline/OSCP)
-  * Practice: [oscp-practice (HackTheBox and TryHackMe machines)](https://github.com/ajdumanhug/oscp-practice)
-
 ### Buffer Overflow and Privilege Escalation<a name="bofpe"></a>
   * [Buffer Overflow Prep](https://tryhackme.com/room/bufferoverflowprep) + [Stack Based Buffer Overflow Prep](https://www.youtube.com/watch?v=1X2JGF_9JGM)
   * [Linux Privilege Escalation for OSCP & Beyond!](https://www.udemy.com/course/linux-privilege-escalation/learn/lecture/16313118#overview) + [Linux PrivEsc](https://tryhackme.com/room/linuxprivesc)
   * [Windows Privilege Escalation for OSCP & Beyond!](https://www.udemy.com/course/windows-privilege-escalation/learn/lecture/18153180#overview) + [Windows PrivEsc](https://tryhackme.com/room/windows10privesc)
+
+### Machines<a name="machines"></a>
+  * OSCPlike: [NetSecFocus Trophy Room](https://docs.google.com/spreadsheets/u/1/d/1dwSMIAPIam0PuRBkCiDI88pU3yzrqqHkDtBngUHNCw8/htmlview), [Offensive Pentesting Learning Pathway](https://tryhackme.com/path/outline/OSCP)
+  * Practice: [oscp-practice (HackTheBox and TryHackMe machines)](https://github.com/ajdumanhug/oscp-practice)
 
 ## Resources
 ### machinescli
