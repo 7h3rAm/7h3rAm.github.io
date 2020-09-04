@@ -25,7 +25,7 @@
   * [Ross Enamait](https://twitter.com/rosstraining)
   * [Sol Brah](https://twitter.com/solbrah)
 
-## Humanities
+## Life
   * [Chuck Palahniuk](https://twitter.com/chuckpalahniuk)
   * [Jordan Peterson](https://twitter.com/jordanbpeterson)
   * [Naval Ravikant](https://twitter.com/naval)
@@ -124,6 +124,24 @@
   * Value is subjective, there's no intrinsic value to anything
   * With proper design, the features come cheaply. This approach is arduous, but continues to succeed - Dennis Ritchie
   * You should never tell people what they should be doing, tell them what you are doing (in context of deadlifting and implies skin in the game) - @nntaleb (Skin in the game)
+
+### @Naval
+#### Specific Knowledge
+  * Can not be trained for
+  * Acquired via apprenticeship
+
+#### Leverage
+  * Permissioned: capital, labor
+  * Permission-less: code, creative
+
+#### Wealth
+  * Assets that earn while you sleep
+
+#### Money
+  * How you transfer wealth and time
+
+#### Status
+  * Your place in social heirarchy
 
 ### Pareto Distribution
   * 80-20 rule -> 20% of population controls 80% of wealth
@@ -260,6 +278,7 @@
   * [The Bitcoin Standard: The Decentralized Alternative to Central Banking - Saifedean Ammous](https://smile.amazon.com/dp/1119473861/)
   * [The Elements of Style: Classic Edition (2018): With Editor's Notes, New Chapters & Study Guide - William Strunk Jr., Richard De A'Morelli](https://smile.amazon.com/dp/1643990004/)
   * [The Global Economy as You've Never Seen It: 99 Ingenious Infographics That Put It All Together - Thomas Ramge, Jan Schwochow](https://smile.amazon.com/dp/1615195173/)
+  * [The Intelligent Investor: The Definitive Book on Value Investing - Benjamin Graham, Jason Zweig, Warren E. Buffett](https://smile.amazon.com/dp/0060555661/)
   * [The Price of Tomorrow: Why Deflation is the Key to an Abundant Future - Jeff Booth](https://smile.amazon.com/dp/1999257405/)
   * [The Richest Man in Babylon: 9789387669369 - George S. Clason, GP Editors](https://smile.amazon.com/dp/B07BB5N17S/)
   * [The Richest Man in Babylon: Original 1926 Edition - George S. Clason, Charles Conrad](https://smile.amazon.com/dp/1508524351/)
