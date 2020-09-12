@@ -4,7 +4,7 @@
   * Join [Infosec Prep](https://discord.gg/RRgKaep) Discord server
   * Create a [methodology](https://medium.com/@falconspy/oscp-developing-a-methodology-32f4ab471fd6) and remember it should evolve as you learn new stuff
   * Create a [documentation](#notesreport) strategy and use it throughout your learning journey
-  * Learn [Buffer Overflow and Privilege Escalation](#bofpe) techniques, own [OSCPlike](#machines) VulnHub|TryHackMe|HackTheBox machines
+  * Learn and practice [Buffer Overflow](#bof) and [Privilege Escalation](#pe) techniques, own [OSCPlike](#machines) VulnHub|TryHackMe|HackTheBox machines
   * Register for [PWK](https://www.offensive-security.com/pwk-oscp/) → own the lab → read [exam guide](https://support.offensive-security.com/oscp-exam-guide/) → own the exam
 
 ## Read/Watch/Follow
@@ -26,8 +26,10 @@
   * [OSCP-MarkdownReportingTemplates](https://github.com/chvancooten/OSCP-MarkdownReportingTemplates)
   * [OSCP-Exam-Report-Template-Markdown](https://github.com/noraj/OSCP-Exam-Report-Template-Markdown)
 
-### Buffer Overflow and Privilege Escalation<a name="bofpe"></a>
+### Buffer Overflow<a name="bof"></a>
   * [Buffer Overflow Prep](https://tryhackme.com/room/bufferoverflowprep) + [Stack Based Buffer Overflow Prep](https://www.youtube.com/watch?v=1X2JGF_9JGM)
+
+### Privilege Escalation<a name="pe"></a>
   * [Linux Privilege Escalation for OSCP & Beyond!](https://www.udemy.com/course/linux-privilege-escalation/learn/lecture/16313118#overview) + [Linux PrivEsc](https://tryhackme.com/room/linuxprivesc)
   * [Windows Privilege Escalation for OSCP & Beyond!](https://www.udemy.com/course/windows-privilege-escalation/learn/lecture/18153180#overview) + [Windows PrivEsc](https://tryhackme.com/room/windows10privesc)
 
