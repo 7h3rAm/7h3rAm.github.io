@@ -17,7 +17,8 @@
   * [Dimitry Klokov](https://www.instagram.com/klokovd/)
   * [Oleksiy Torokhtiy](https://www.instagram.com/torokhtiy/)
 
-### Sprint/Jump/Swim/Climb
+### Climb/Jump/Sprint/Swim
+  * [Adam Sinicki](https://twitter.com/thebioneer)
   * [David Goggins](https://www.instagram.com/davidgoggins/)
   * [Geoffrey Verity Schofield](https://www.youtube.com/channel/UCObA5o3mcc1felIMAv6cukw)
   * [George Hackenschmidt](https://en.wikipedia.org/wiki/George_Hackenschmidt)

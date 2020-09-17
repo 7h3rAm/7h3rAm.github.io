@@ -1,13 +1,34 @@
 # 🏋️ Fitness
 
-## Goals
+## Notes
+### Goals
 * 10 pull ups
 * 20 dips
 * 30 push ups
 * 8 minute mile
 * 5+5 skater squats
 
-## Program
+### Pillars of Fitness [🔗](https://www.youtube.com/watch?v=mUlj3agnE84)
+* Agility
+* Cognitive Function
+* Endurance
+* Speed
+* Strength
+
+### What Matters for Muscle Growth? [🔗](https://www.youtube.com/watch?v=rl51CJlWhQY)
+* Hard Work
+* Progressing in Load
+* Going Close to Failure
+* Rep Ranges
+* Use the Best Exercises
+* Get enough volume
+* Frequency
+* Recovery
+* Avoiding Injury
+* Eating Enough
+
+
+## Training
 ### Fat Loss
 * Fasting
 * Strength Training + Sprints
@@ -18,6 +39,7 @@
 * Strength Training + Sprints
 * Protein+Fats+Carbs (70+20+10)
 
+
 ## Equipment
 * [Dumbbell](https://www.roguefitness.com/rogue-dumbbells)
 * [Jump Ropes](https://www.roguefitness.com/conditioning/jump-ropes)
@@ -26,6 +48,7 @@
 * [Sandbag](https://www.roguefitness.com/rogue-sandbags)
 * [Stones](https://www.roguefitness.com/rogue-rubber-atlas-stones)
 * [Weighted Vest](https://www.roguefitness.com/bodyweight-gymnastics/body-weight/weight-vests)
+
 
 ## Stacks
 ### Health
@@ -53,6 +76,7 @@
   * [Zinc+Magnesium](https://smile.amazon.com/dp/B000GIQS02/)
   * [Ubiquinol (CoQ10)](https://smile.amazon.com/dp/B00KHQJDWS/)
   * [Ashwagandha Root Powder](https://smile.amazon.com/dp/B081B9KN7F/)
+
 
 ## Training
 ### Compound
