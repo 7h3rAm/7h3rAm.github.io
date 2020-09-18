@@ -24,12 +24,12 @@ IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 @media print { a { color:#00f!important; } body { width:auto; font-size:12pt; } }
 a { color:#367bf0; text-decoration:none; }
 a, a:active, a:focus{ outline:none; }
-a:hover { color:#fc6b0a; }
+a:hover { color:#fc580c; }
 em, i { font-style:italic; }
 h1 code, h2 code, h3 code, h4 code, h5 code, h6 code { background:#fff; }
 h1, h2, h3, h4, h5, h6, ul, ol, p, pre { margin-bottom:1em; }
 
-h1 { color:#fc6b0a; background-color:#fffffd; font-size:18pt; }
+h1 { color:#fc580c; background-color:#fffffd; font-size:18pt; }
 h1::before { color:#198388; }
 h2 { color:#900; background-color:#fffffd; font-size:16pt; }
 h2::before { content:"+ "; color:#fe4164; }
@@ -44,7 +44,6 @@ h6::before { content:"+ "; color:#fe4164; }
 
 hr { border-top:1px solid #fe4164; }
 img { display:block; margin:0 auto; vertical-align:middle; -webkit-border-radius:3px; max-width:99% !important; width:auto; height:auto; max-width:450px; }
-p { text-align:justify; text-justify:inter-word; }
 pre > code > table { margin-left:0px; }
 pre > code { font-family:"Fira Code Retina", "Consolas", "Sans Mono", "Courier", monospace; border:1px solid #69359c; }
 pre, code { color:#fe4164; background-color:#fffffa; }
