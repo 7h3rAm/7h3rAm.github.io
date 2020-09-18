@@ -10,22 +10,22 @@
 
 ### Pillars of Fitness [🔗](https://www.youtube.com/watch?v=mUlj3agnE84)
 * Agility
-* Cognitive Function
+* Cognitive function
 * Endurance
 * Speed
 * Strength
 
 ### What Matters for Muscle Growth? [🔗](https://www.youtube.com/watch?v=rl51CJlWhQY)
-* Hard Work
-* Progressing in Load
-* Going Close to Failure
-* Rep Ranges
-* Use the Best Exercises
+* Hard work
+* Progressing in load
+* Going close to failure
+* Rep ranges
+* Use the best exercises
 * Get enough volume
 * Frequency
 * Recovery
-* Avoiding Injury
-* Eating Enough
+* Avoiding injury
+* Eating enough
 
 ### Equipment
 * [Dumbbell](https://www.roguefitness.com/rogue-dumbbells)

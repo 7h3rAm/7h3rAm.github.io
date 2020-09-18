@@ -4,12 +4,15 @@
   * Intellectual Athlete
   * 🌄 🏋️ 🧗 🏊 🏃 🚴 -> 🍎 🥛 🥦 🥕 🥗 -> 🏡 🧘 🔕 🙈 🙊 🙉
 
+
 ## First Principles (Undeniable Truths)
   * [Elon Musk](https://twitter.com/elonmusk)
+
 
 ## Economics
   * [Nick Szabo](https://twitter.com/NickSzabo4)
   * [Saifedean Ammous](https://twitter.com/saifedean)
+
 
 ## Fitness
 ### Olympic Lifting
@@ -26,17 +29,20 @@
   * [Ross Enamait](https://twitter.com/rosstraining)
   * [Sol Brah](https://twitter.com/solbrah)
 
+
 ## Life
   * [Chuck Palahniuk](https://twitter.com/chuckpalahniuk)
   * [Jordan Peterson](https://twitter.com/jordanbpeterson)
   * [Naval Ravikant](https://twitter.com/naval)
   * [Sadhguru](https://twitter.com/SadhguruJV)
 
+
 ## Investing
   * [Cathie Wood](https://twitter.com/cathiedwood)
   * [Chamath Palihapitiya](https://twitter.com/chamath)
   * [Gene Munster](https://twitter.com/munster_gene)
   * [Ron Baron](https://twitter.com/baronfunds)
+
 
 ## Quotes
 ### Asymmetric Opportunity
@@ -126,7 +132,7 @@
   * With proper design, the features come cheaply. This approach is arduous, but continues to succeed - Dennis Ritchie
   * You should never tell people what they should be doing, tell them what you are doing (in context of deadlifting and implies skin in the game) - @nntaleb (Skin in the game)
 
-### @Naval
+### Naval
 #### Specific Knowledge
   * Can not be trained for
   * Acquired via apprenticeship
@@ -183,6 +189,7 @@
   * Learning/Experience Curve
   * Progress increases with experience
   * [https://spectrum.ieee.org/tech-talk/at-work/test-and-measurement/wrights-law-edges-out-moores-law-in-predicting-technology-development](https://spectrum.ieee.org/tech-talk/at-work/test-and-measurement/wrights-law-edges-out-moores-law-in-predicting-technology-development)
+
 
 ## Read
 ### CyberSec
@@ -274,6 +281,7 @@
   * [Mystic's Musings - Jaggi Vasudev](https://smile.amazon.com/dp/8186685596/)
   * [Sapiens: A Brief History of Humankind - Yuval Noah Harari](https://smile.amazon.com/dp/0062316117/)
   * [Skin in the Game: Hidden Asymmetries in Daily Life - Nassim Nicholas Taleb](https://smile.amazon.com/dp/042528462X/)
+  * [The Almanack of Naval Ravikant: A Guide to Wealth and Happiness Paperback - Eric Jorgenson (Author), Jack Butcher (Illustrator), Tim Ferriss (Foreword)](https://smile.amazon.com/dp/1544514212/)
   * [The Atlas Obscura Explorer’s Guide for the World’s Most Adventurous Kid - Dylan Thuras, Rosemary Mosco](https://smile.amazon.com/dp/1523503548/)
   * [The Automatic Millionaire, Expanded and Updated: A Powerful One-Step Plan to Live and Finish Rich - David Bach](https://smile.amazon.com/dp/B01G0GD0PE/)
   * [The Bitcoin Standard: The Decentralized Alternative to Central Banking - Saifedean Ammous](https://smile.amazon.com/dp/1119473861/)
