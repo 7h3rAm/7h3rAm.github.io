@@ -27,6 +27,15 @@
 * Avoiding Injury
 * Eating Enough
 
+### Equipment
+* [Dumbbell](https://www.roguefitness.com/rogue-dumbbells)
+* [Jump Ropes](https://www.roguefitness.com/conditioning/jump-ropes)
+* [Kettlebell](https://www.roguefitness.com/rogue-kettlebells)
+* [Resistance Band](https://www.roguefitness.com/mobility-rehab/mobility-tools/bands)
+* [Sandbag](https://www.roguefitness.com/rogue-sandbags)
+* [Stones](https://www.roguefitness.com/rogue-rubber-atlas-stones)
+* [Weighted Vest](https://www.roguefitness.com/bodyweight-gymnastics/body-weight/weight-vests)
+
 
 ## Training
 ### Fat Loss
@@ -38,16 +47,6 @@
 * Feast + Fasting
 * Strength Training + Sprints
 * Protein+Fats+Carbs (70+20+10)
-
-
-## Equipment
-* [Dumbbell](https://www.roguefitness.com/rogue-dumbbells)
-* [Jump Ropes](https://www.roguefitness.com/conditioning/jump-ropes)
-* [Kettlebell](https://www.roguefitness.com/rogue-kettlebells)
-* [Resistance Band](https://www.roguefitness.com/mobility-rehab/mobility-tools/bands)
-* [Sandbag](https://www.roguefitness.com/rogue-sandbags)
-* [Stones](https://www.roguefitness.com/rogue-rubber-atlas-stones)
-* [Weighted Vest](https://www.roguefitness.com/bodyweight-gymnastics/body-weight/weight-vests)
 
 
 ## Stacks
