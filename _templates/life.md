@@ -133,24 +133,24 @@
   * You should never tell people what they should be doing, tell them what you are doing (in context of deadlifting and implies skin in the game) - @nntaleb (Skin in the game)
 
 ### Naval
-#### Specific Knowledge
-  * Can not be trained for
-  * Acquired via apprenticeship
-
 #### Leverage
   * Permissioned: capital, labor
   * Permission-less: code, creative
 
-#### Wealth
-  * Assets that earn while you sleep
-
 #### Money
   * How you transfer wealth and time
+
+#### Specific Knowledge
+  * Can not be trained for
+  * Acquired via apprenticeship
 
 #### Status
   * Your place in social heirarchy
 
-### Pareto Distribution
+#### Wealth
+  * Assets that earn while you sleep
+
+### Pareto Distribution [🔗](https://en.wikipedia.org/wiki/Pareto_distribution)
   * 80-20 rule -> 20% of population controls 80% of wealth
   * A large portion of wealth is a society is held by a small percentage of population. Generally applied to wealth distribution
   * Amount of time a user on steam will spend playing different games (some games get played a lot, but most get played never)
@@ -162,11 +162,9 @@
   * Size of sand particles
   * Standardized price returns of individual stocks
   * Value of oil fields (many small fields, few large fields)
-  * [https://en.wikipedia.org/wiki/Pareto_distribution](https://en.wikipedia.org/wiki/Pareto_distribution)
 
-### Power Law
+### Power Law [🔗](https://en.wikipedia.org/wiki/Power_law)
   * Functional relationship between two quantities, where a relative change in one quantity results in a proportional relative change in the other quantity, independent of the initial size of those quantities (one quantity behaves as a power of another)
-  * [https://en.wikipedia.org/wiki/Power_law](https://en.wikipedia.org/wiki/Power_law)
 
 ### Sadhguru
   * Aham Brahmami (I'm the cosmos)

@@ -105,4 +105,4 @@ Content-Type: text/html; charset=ISO-8859-1
 
 The test pcap contains an HTTP session and the program dumps CTS and STC content (limited to first 300B) and this is exactly what the applications at layer 7 will send/receive while interacting with lower layers. Gaining direct access to this data opens up a number of possibilities for us to explore. Network inspection tools, primarily Intrusion Detection and Prevention Systems, will reassemble TCP packets and to create this buffer and then inspect this buffer in various ways to identify if it contains malicious content. One of the very common practices is to carry out signature based inspection on network streams to identify if they contain exploit traffic.
 
-In an [upcoming post](https://7h3ram.github.io/posts/20130915_libnids-python-ids.html), I'll try to explain how pynids and native Python modules can be used to develop a minimal IDS from scratch. Stay tuned.
+In an [upcoming post](/posts/20130915_libnids-python-ids.html), I'll try to explain how pynids and native Python modules can be used to develop a minimal IDS from scratch. Stay tuned.
