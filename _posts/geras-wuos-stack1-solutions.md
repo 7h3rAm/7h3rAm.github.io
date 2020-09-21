@@ -6,13 +6,13 @@ tags: exploit, ctf
 
 ## Introduction
 
-This is the part 1 in a series of posts that aim to provide an analysis and possible solutions for the vulnerable programs provided by Gera at his Insecure Programming by example page.
+This is the part 1 in a series of posts that aim to provide an analysis and possible solutions for the vulnerable programs provided by Gerardo 'gera' Richarte at the [Insecure Programming by example](http://pages.cs.wisc.edu/~riccardo/sec/) page.
 
 Familiarity with exploit mitigation techniques is expected to gain a proper understanding of the concepts we talk about here. If terms like `ASLR`, `NX`, `SSP`, `RELRO`, etc. seem unfamiliar, I would suggest reading the [Exploit Mitigation Techniques on Linux Systems](https://7h3ram.github.io/posts/20120710_exploit-mitigation-techniques-on-linux.html) post that talks about these.
 
 We will start with a scenario in which most of the exploit mitigation techniques will be enabled through the default GCC compilation command-line. Since, these techniques prevent successful exploit attempts, we will incrementally turn them off until successful exploitation is achieved. This setup will allow us to witness how these individual techniques succeed in restricting exploit attempts and how their absence affects exploitation reliability.
 
-Below is the source for the vulnerable [stack1.c](http://community.corest.com/%7Egera/InsecureProgramming/stack1.html) program:
+Below is the source for the vulnerable [stack1.c](http://pages.cs.wisc.edu/~riccardo/sec/stack1.html) program:
 
 ```c
 /* stack1.c                                     *

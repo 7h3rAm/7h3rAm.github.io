@@ -6,11 +6,11 @@ tags: exploit, ctf
 
 ## Introduction
 
-Following is the part 3 in the series of posts I started back in August 2012 with an aim to provide an analysis and possible solutions for the vulnerable programs provided by [Gera](http://corelabs.coresecurity.com/index.php?module=Wiki&action=view&type=researcher&name=Gerardo_Richarte) at his [Insecure Programming](http://community.corest.com/%7Egera/InsecureProgramming/) by example page.
+Following is the part 3 in the series of posts I started back in August 2012 with an aim to provide an analysis and possible solutions for the vulnerable programs provided by Gerardo 'gera' Richarte at the [Insecure Programming by example](http://pages.cs.wisc.edu/~riccardo/sec/) page.
 
 This post follows the [Gera's Warming Up on Stack #2 - Solutions](/posts/20130102_geras-wuos-stack2-solutions.html) post and if you have not read it, I request you to please do so. Most of the concepts are very similar and since they have been already talked about, I'll not be reiterating them here.
 
-Let's get started. Below is the source for the vulnerable [stack3.c](http://community.corest.com/%7Egera/InsecureProgramming/stack3.html) program:
+Let's get started. Below is the source for the vulnerable [stack3.c](http://pages.cs.wisc.edu/~riccardo/sec/stack3.html) program:
 
 ```c
 /* stack3.c                                     *
