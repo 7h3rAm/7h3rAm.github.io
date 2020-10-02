@@ -44,9 +44,8 @@ h6::before { content:"+ "; color:#fe4164; }
 
 hr { border-top:1px solid #fe4164; }
 img { display:block; margin:0 auto; vertical-align:middle; -webkit-border-radius:3px; max-width:99% !important; width:auto; height:auto; max-width:450px; }
-p { text-align:justify; text-justify:inter-word; }
 pre > code > table { margin-left:0px; }
-pre > code { font-family:"Fira Code Retina", "Consolas", "Sans Mono", "Courier", monospace; border:1px solid #69359c; }
+pre > code { font-family:"Fira Code Retina", "Consolas", "Sans Mono", "Courier", monospace; -webkit-border-radius:6px; border:1px solid #ffffff; }
 pre, code { color:#fe4164; background-color:#fffffa; }
 pre::before, pre::after { display:block; }
 strong, b { font-weight:bold; }
