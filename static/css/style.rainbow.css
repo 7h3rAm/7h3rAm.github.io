@@ -46,7 +46,7 @@ a:hover { color:#fc580c; }
 em, i { font-style:italic; }
 strong, b { font-weight:bold; }
 
-pre, code { font-family:"Consolas", "Sans Mono", "Courier", monospace; color:#69359c; background-color:#fffaf0; -webkit-border-radius:3px; }
+pre, code { color:#766e6b; background-color:#f6f6f6; -webkit-border-radius:3px; }
 pre::before, pre::after { display:block; }
 pre > code { -webkit-border-radius:3px; }
 pre > code > table { margin-left:0px; }
