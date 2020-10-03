@@ -47,7 +47,7 @@ em, i { font-style:italic; }
 
 pre > code > table { margin-left:0px; }
 pre > code { -webkit-border-radius:6px; border:1px solid #ffffff; }
-pre, code { font-family:"Consolas", "Sans Mono", "Courier", monospace; font-weight:bold; color:#69359c; background-color:#fdf3f4; -webkit-border-radius:6px; }
+pre, code { font-family:"Consolas", "Sans Mono", "Courier", monospace; color:#69359c; background-color:#fdf3f4; -webkit-border-radius:6px; }
 pre::before, pre::after { display:block; }
 strong, b { font-weight:bold; }
 
