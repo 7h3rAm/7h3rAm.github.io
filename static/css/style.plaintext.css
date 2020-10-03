@@ -20,7 +20,6 @@ IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 
 * { font-family:"Fira Code Retina", "Inconsolata", monospace; font-size:12pt; border:0; margin:auto; max-width:80ch; padding:.2ch; list-style:none; font-weight:normal; }
-body { background-color:#f4f8fb; }
 @font-face { font-family:"Fira Code Retina"; src:url(/static/fonts/firacode/FiraCode-Retina.ttf); font-display:swap; }
 @media print { a { color:#00f!important; } body { width:auto; font-size:12pt; } }
 a { color:#367bf0; text-decoration:none; }
