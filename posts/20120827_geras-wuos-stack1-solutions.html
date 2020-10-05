@@ -197,7 +197,7 @@ buf: bfbb8bf4 cookie: bfbb8c44
  8048465: c9                    leave
  8048466: c3                    ret
  8048467: 90                    nop
-</code></pre><p class=nested>From here we could proceed to the exploitation phase.</p><h2 class="h2 collapsible" onclick=toggle(this);>Solutions</h2><h3 class="h3 collapsible" onclick=toggle(this);>Solution #1: Overflow the <code>4B</code> past buf, where the cookie is stored, with the desired value (<code>0x41424344</code> in this case)</h3><p class=nested>For this solution we first need to calculate the offset between <code>buf</code> and <code>cookie</code>:</p><pre class=nested><code># ./stack1
+</code></pre><p class=nested>From here we can proceed to the exploitation phase.</p><h2 class="h2 collapsible" onclick=toggle(this);>Solutions</h2><h3 class="h3 collapsible" onclick=toggle(this);>Solution #1: Overflow the <code>4B</code> past buf, where the cookie is stored, with the desired value (<code>0x41424344</code> in this case)</h3><p class=nested>For this solution we first need to calculate the offset between <code>buf</code> and <code>cookie</code>:</p><pre class=nested><code># ./stack1
 buf: bfad87b4 cookie: bfad8804
 AAAAAAA
 

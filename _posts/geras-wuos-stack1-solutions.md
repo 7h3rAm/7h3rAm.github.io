@@ -308,7 +308,7 @@ The `buf` is at `0xbfa68294` and the cookie at `0xbfa682e4`. The variables have 
  8048467: 90                    nop
 ```
 
-From here we could proceed to the exploitation phase.
+From here we can proceed to the exploitation phase.
 
 ## Solutions
 ### Solution #1: Overflow the `4B` past buf, where the cookie is stored, with the desired value (`0x41424344` in this case)
