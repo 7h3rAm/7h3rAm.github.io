@@ -23,10 +23,10 @@ IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 @font-face { font-family:"Fira Code Retina"; src:url(/static/fonts/firacode/FiraCode-Retina.ttf); font-display:swap; }
 @media print { a { color:#00f!important; } body { width:auto; font-size:12pt; } }
 
-.menu_home { color:#fc580c; font-size:22pt; background-color:#fff5ee; -webkit-border-radius:3px; } .menu_home:hover { color:#fc580c; }
-.menu_archive { color:#20b2aa; font-size:18pt; background-color:#eef8f1; -webkit-border-radius:3px; } .menu_archive:hover { color:#20b2aa; }
-.menu_tags { color:#fe4164; font-size:18pt; background-color:#fff0f5; -webkit-border-radius:3px; } .menu_tags:hover { color:#fe4164; }
-.menu_stats { color:#69359c; font-size:18pt; background-color:#f3f3fd; -webkit-border-radius:3px; } .menu_stats:hover { color:#69359c; }
+.menu_home { color:#fc580c; font-size:22pt; } .menu_home:hover { color:#fc580c; }
+.menu_archive { color:#20b2aa; font-size:18pt; } .menu_archive:hover { color:#20b2aa; }
+.menu_tags { color:#fe4164; font-size:18pt; } .menu_tags:hover { color:#fe4164; }
+.menu_stats { color:#69359c; font-size:18pt; } .menu_stats:hover { color:#69359c; }
 
 h1, h2, h3, h4, h5, h6 { margin-top:.7em; margin-bottom:.7em; }
 ul, ol, p, pre { margin-top:.5em; margin-bottom:.5em; }
