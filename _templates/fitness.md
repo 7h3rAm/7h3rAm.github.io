@@ -51,18 +51,17 @@
 
 ## Stacks
 ### Health
+  * [Collagen Protein](https://smile.amazon.com/dp/B07GY22VLW/)
   * [Creatine (Monohydrate)](https://smile.amazon.com/dp/B002DYIZEO/)
   * [Gycline](https://smile.amazon.com/dp/B0013OVZJW/)
-  * [L-Dopa](https://smile.amazon.com/gp/product/B001QG5F0W/)
   * [Omega 3](https://smile.amazon.com/dp/B002CQU564/)
-  * [Vitamin B12](https://smile.amazon.com/dp/B0013OQGO6/)
-  * [Vitamin B3 (Niacin)](https://smile.amazon.com/gp/product/B0041SFOY4/)
+  * [Vitamin B Complex](https://smile.amazon.com/dp/B07414752B/) or ([B3](https://smile.amazon.com/gp/product/B0041SFOY4/)+[B12](https://smile.amazon.com/dp/B0013OQGO6/))
   * [Vitamin D3+K2](https://smile.amazon.com/dp/B07255MPRN/)
 
 ### Hypertrophy
-  * [Whey Protein (Isolate)](https://smile.amazon.com/dp/B00E7IODXQ/)
   * [Magnesium Chloride Oil](https://www.amazon.com/gp/product/B01CKEBFSE/)
   * [Taurine](https://smile.amazon.com/gp/product/B00663G4ZK/)
+  * [Whey Protein (Isolate)](https://smile.amazon.com/dp/B00E7IODXQ/)
 
 ### Testosterone
   * Sunlight
