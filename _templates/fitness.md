@@ -67,8 +67,7 @@
   * Sunlight
   * Cold Shower
   * Meditation
-  * Sleep + Nap
-  * Whole Milk + Ghee + Paneer
+  * Nap + Slee * Whole Milk + Ghee + Paneer
   * [DHEA](https://smile.amazon.com/dp/B004R68K14/)
   * [Boron](https://smile.amazon.com/dp/B000LLYDEM/)
   * [Zinc+Magnesium](https://smile.amazon.com/dp/B000GIQS02/)
