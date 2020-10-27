@@ -19,8 +19,8 @@ ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
 IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 
-* { font-family:"Fira Code Retina", "Inconsolata", monospace; font-size:12pt; font-weight:normal; border:0; margin:auto; max-width:90ch; padding:.2ch; list-style:none; }
-@font-face { font-family:"Fira Code Retina"; src:url(/static/fonts/firacode/FiraCode-Retina.ttf); font-display:swap; }
+* { font-family:"FiraCode Nerd Font", "Inconsolata", monospace; font-size:12pt; font-weight:normal; border:0; margin:auto; max-width:90ch; padding:.2ch; list-style:none; }
+@font-face { font-family:"FiraCode Nerd Font"; src:url("/static/fonts/firacode/firacode-nerdfont/Fira Code Regular Nerd Font Complete.ttf"); font-display:swap; }
 @media print { a { color:#00f!important; } body { width:auto; font-size:12pt; } }
 
 .menu_home { color:#fc580c; font-size:22pt; } .menu_home:hover { color:#fc580c; }
