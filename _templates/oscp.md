@@ -42,10 +42,21 @@
 
 This [tool](https://github.com/7h3rAm/machinescli) provides commandline access for HackTheBox and VulnHub machines<br/>
 
-![machinescli16](/static/files/pages_oscp/machinescli16.png.webp)<br/>
-![machinescli03a](/static/files/pages_oscp/machinescli03a.png.webp)<br/>
-![machinescli06](/static/files/pages_oscp/machinescli06.png.webp)<br/>
+![machinescli01](/static/files/pages_oscp/machinescli01.png.webp)<br/>
+![machinescli02](/static/files/pages_oscp/machinescli02.png.webp)<br/>
+![machinescli03](/static/files/pages_oscp/machinescli03.png.webp)<br/>
 ![machinescli04](/static/files/pages_oscp/machinescli04.png.webp)<br/>
+![machinescli05](/static/files/pages_oscp/machinescli05.png.webp)<br/>
+![machinescli06](/static/files/pages_oscp/machinescli06.png.webp)<br/>
+![machinescli07](/static/files/pages_oscp/machinescli07.png.webp)<br/>
+![machinescli08](/static/files/pages_oscp/machinescli08.png.webp)<br/>
+![machinescli09](/static/files/pages_oscp/machinescli09.png.webp)<br/>
+![machinescli10](/static/files/pages_oscp/machinescli10.png.webp)<br/>
+![machinescli11](/static/files/pages_oscp/machinescli11.png.webp)<br/>
+![machinescli12](/static/files/pages_oscp/machinescli12.png.webp)<br/>
+![machinescli13](/static/files/pages_oscp/machinescli13.png.webp)<br/>
+![machinescli14](/static/files/pages_oscp/machinescli14.png.webp)<br/>
+![machinescli15](/static/files/pages_oscp/machinescli15.png.webp)<br/>
 
 ### svachal
 
@@ -53,6 +64,8 @@ This [tool](https://github.com/7h3rAm/svachal) provides an automation framework 
 
 ![svachal01](/static/files/pages_oscp/svachal01.png.webp)<br/>
 ![svachal02](/static/files/pages_oscp/svachal02.png.webp)<br/>
+![svachal03](/static/files/pages_oscp/svachal03.png.webp)<br/>
+![svachal04](/static/files/pages_oscp/svachal04.png.webp)<br/>
 
 ### writeups
 
