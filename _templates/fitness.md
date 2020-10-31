@@ -29,6 +29,7 @@
 
 ### Equipment
 * [Dumbbell](https://www.roguefitness.com/rogue-dumbbells)
+* [Fat Gripz](https://smile.amazon.com/dp/B07QKML1SL/)
 * [Jump Ropes](https://www.roguefitness.com/conditioning/jump-ropes)
 * [Kettlebell](https://www.roguefitness.com/rogue-kettlebells)
 * [Resistance Band](https://www.roguefitness.com/mobility-rehab/mobility-tools/bands)
