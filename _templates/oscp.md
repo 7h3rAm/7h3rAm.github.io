@@ -111,14 +111,7 @@ These are writeups for OSCPlike machines
 
 These are [notes, stats, TTPs and trend graphs](https://github.com/7h3rAm/writeups/blob/master/readme.md) from completed writeups
 
-![writeups_readme](/static/files/pages_oscp/writeups_readme.png.webp)<br/>
-![writeups_machines](/static/files/pages_oscp/writeups_machines.png.webp)<br/>
-![top_ports](/static/files/pages_oscp/top_ports.png.webp)<br/>
-![top_protocols](/static/files/pages_oscp/top_protocols.png.webp)<br/>
-![top_services](/static/files/pages_oscp/top_services.png.webp)<br/>
-![top_ttps_enumerate](/static/files/pages_oscp/top_ttps_enumerate.png.webp)<br/>
-![top_ttps_exploit](/static/files/pages_oscp/top_ttps_exploit.png.webp)<br/>
-![top_ttps_privesc](/static/files/pages_oscp/top_ttps_privesc.png.webp)<br/>
+![writeups](/static/files/pages_oscp/writeups.png.webp)<br/>
 
 ### OSCPlike Machines Sheet
 
