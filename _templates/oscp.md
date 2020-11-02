@@ -1,4 +1,4 @@
-# 🟠 OSCP
+# 🟣 OSCP
 
 ## TL;DR
   * Join [Infosec Prep](https://discord.gg/RRgKaep) Discord server
