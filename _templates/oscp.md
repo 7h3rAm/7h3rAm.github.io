@@ -42,30 +42,28 @@
 
 This [tool](https://github.com/7h3rAm/machinescli) provides commandline access for HackTheBox and VulnHub machines<br/>
 
-![machinescli01](/static/files/pages_oscp/machinescli01.png.webp)<br/>
-![machinescli02](/static/files/pages_oscp/machinescli02.png.webp)<br/>
-![machinescli03](/static/files/pages_oscp/machinescli03.png.webp)<br/>
-![machinescli04](/static/files/pages_oscp/machinescli04.png.webp)<br/>
-![machinescli05](/static/files/pages_oscp/machinescli05.png.webp)<br/>
-![machinescli06](/static/files/pages_oscp/machinescli06.png.webp)<br/>
-![machinescli07](/static/files/pages_oscp/machinescli07.png.webp)<br/>
-![machinescli08](/static/files/pages_oscp/machinescli08.png.webp)<br/>
-![machinescli09](/static/files/pages_oscp/machinescli09.png.webp)<br/>
-![machinescli10](/static/files/pages_oscp/machinescli10.png.webp)<br/>
-![machinescli11](/static/files/pages_oscp/machinescli11.png.webp)<br/>
-![machinescli12](/static/files/pages_oscp/machinescli12.png.webp)<br/>
-![machinescli13](/static/files/pages_oscp/machinescli13.png.webp)<br/>
-![machinescli14](/static/files/pages_oscp/machinescli14.png.webp)<br/>
-![machinescli15](/static/files/pages_oscp/machinescli15.png.webp)<br/>
+<a href="https://github.com/7h3rAm/machinescli"><img alt="machinescli" src="/static/files/pages_oscp/machinescli.png.webp"></a><br/>
 
 ### svachal
 
 This [tool](https://github.com/7h3rAm/svachal) provides an automation framework for machine writeups<br/>
 
-![svachal01](/static/files/pages_oscp/svachal01.png.webp)<br/>
-![svachal02](/static/files/pages_oscp/svachal02.png.webp)<br/>
-![svachal03](/static/files/pages_oscp/svachal03.png.webp)<br/>
-![svachal04](/static/files/pages_oscp/svachal04.png.webp)<br/>
+<a href="https://github.com/7h3rAm/svachal"><img alt="svachal" src="/static/files/pages_oscp/svachal.png.webp"></a><br/>
+
+### OSCPlike Machines Sheet
+
+This [gsheet](https://docs.google.com/spreadsheets/d/1syxzcX5rJj2qffBfZYjlEGaRuns-Ec_kkLiblsed8Zs/copy) lists OSCPlike HackTheBox, TryHackMe and VulnHub machines curated from various sources<br/>
+
+<a href="https://docs.google.com/spreadsheets/d/1syxzcX5rJj2qffBfZYjlEGaRuns-Ec_kkLiblsed8Zs/copy"><img alt="sheet01" src="/static/files/pages_oscp/sheet01.png.webp"></a><br/>
+<a href="https://docs.google.com/spreadsheets/d/1syxzcX5rJj2qffBfZYjlEGaRuns-Ec_kkLiblsed8Zs/copy"><img alt="sheet02" src="/static/files/pages_oscp/sheet02.png.webp"></a><br/>
+<a href="https://docs.google.com/spreadsheets/d/1syxzcX5rJj2qffBfZYjlEGaRuns-Ec_kkLiblsed8Zs/copy"><img alt="sheet03" src="/static/files/pages_oscp/sheet03.png.webp"></a><br/>
+<a href="https://docs.google.com/spreadsheets/d/1syxzcX5rJj2qffBfZYjlEGaRuns-Ec_kkLiblsed8Zs/copy"><img alt="sheet04" src="/static/files/pages_oscp/sheet04.png.webp"></a><br/>
+
+### writeups/readme.md
+
+These are [notes, stats, TTPs and trend graphs](https://github.com/7h3rAm/writeups/blob/master/readme.md) from completed writeups
+
+<a href="https://github.com/7h3rAm/writeups/blob/master/readme.md"><img alt="writeups" src="/static/files/pages_oscp/writeups.readme.png.webp"></a><br/>
 
 ### writeups
 
@@ -106,18 +104,3 @@ These are writeups for OSCPlike machines
   * `09/Sep/2019`: [[VulnHub] BSides Vancouver: 2018 (Workshop)](/posts/20190909_vulnhub-bsidesvancouver2018workshop.html)
   * `05/Sep/2019`: [[VulnHub] Billy Madison: 1.1](/posts/20190905_vulnhub-billymadison1dot1.html)
   * `31/Aug/2019`: [[VulnHub] Brainpan: 1](/posts/20190831_vulnhub-brainpan.html)
-
-### writeups/readme.md
-
-These are [notes, stats, TTPs and trend graphs](https://github.com/7h3rAm/writeups/blob/master/readme.md) from completed writeups
-
-![writeups](/static/files/pages_oscp/writeups.png.webp)<br/>
-
-### OSCPlike Machines Sheet
-
-This [gsheet](https://docs.google.com/spreadsheets/d/1syxzcX5rJj2qffBfZYjlEGaRuns-Ec_kkLiblsed8Zs/copy) lists OSCPlike HackTheBox, TryHackMe and VulnHub machines curated from various sources<br/>
-
-![sheet01](/static/files/pages_oscp/sheet01.png.webp)<br/>
-![sheet02](/static/files/pages_oscp/sheet02.png.webp)<br/>
-![sheet03](/static/files/pages_oscp/sheet03.png.webp)<br/>
-![sheet04](/static/files/pages_oscp/sheet04.png.webp)<br/>
