@@ -34,7 +34,7 @@
   * [Windows Privilege Escalation for OSCP & Beyond!](https://www.udemy.com/course/windows-privilege-escalation/learn/lecture/18153180#overview) + [Windows PrivEsc](https://tryhackme.com/room/windows10privesc)
 
 ### Machines<a name="machines"></a>
-  * OSCPlike: [NetSecFocus Trophy Room](https://docs.google.com/spreadsheets/u/1/d/1dwSMIAPIam0PuRBkCiDI88pU3yzrqqHkDtBngUHNCw8/htmlview), [Offensive Pentesting Learning Pathway](https://tryhackme.com/path/outline/OSCP)
+  * OSCPlike: [NetSecFocus Trophy Room](https://docs.google.com/spreadsheets/u/1/d/1dwSMIAPIam0PuRBkCiDI88pU3yzrqqHkDtBngUHNCw8/htmlview), [Offensive Pentesting Learning Pathway](https://tryhackme.com/path/outline/pentesting)
   * Practice: [oscp-practice (HackTheBox and TryHackMe machines)](https://github.com/ajdumanhug/oscp-practice)
 
 ## Resources
