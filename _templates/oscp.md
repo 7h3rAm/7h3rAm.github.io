@@ -40,7 +40,7 @@
 ## Resources
 ### machinescli
 
-This [tool](https://github.com/7h3rAm/machinescli) provides commandline access for HackTheBox and VulnHub machines<br/>
+This [tool](https://github.com/7h3rAm/machinescli) provides commandline access for [HackTheBox](https://www.hackthebox.eu), [TryHackMe](https://tryhackme.com/) and [VulnHub](https://www.vulnhub.com/) machines.<br/>
 
 <a href="https://github.com/7h3rAm/machinescli"><img alt="machinescli" src="/static/files/pages_oscp/machinescli.png.webp"></a><br/>
 
