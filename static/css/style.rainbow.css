@@ -66,3 +66,7 @@ ul li { margin-left:3ex; } ul li::before { content:"* "; color:#69359c; margin-l
 .collapsible { cursor:pointer; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; }
 .collapsible::before { transition:transform .6s ease; display:inline-block; margin-right:9px; }
 .expanded::before { -ms-transform:rotate(360deg); -webkit-transform:rotate(360deg); transform:rotate(360deg); }
+
+.footer { display:block; width:100%; text-decoration: none !important; border-bottom:none; }
+.footercenter { display:inline-block; text-align:center; }
+.footspan { color:#766e6b; font-size:9pt; } .footspan:hover { color:#766e6b; }
