@@ -1,4 +1,4 @@
-# [HackTheBox] Buff
+[HackTheBox] Buff
 ===============
 date: 24/Nov/2020
 summary: This is the summary for an awesome post.
