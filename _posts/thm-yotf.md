@@ -252,7 +252,7 @@ root
 ```
 
 ## Phase #3: Privilege Escalation
-1\. We find that we can execute the `/usr/sbin/shutdown` file with `sudo`. Since the target machine doesn't have `strings` installed, we transfer this file to our attacking machine and investigate further. We find a reference to the `poweroff` binary name, which when combined with the fact that `secure_path` is not defined wihtin `/etc/sudoers` (seen in `sudo -l` output), hint that a environment path modification vector could help us escalate privileges:  
+1\. We find that we can execute the `/usr/sbin/shutdown` file with `sudo`. Since the target machine doesn't have `strings` installed, we transfer this file to our attacking machine and investigate further. We find a reference to the `poweroff` binary name, which when combined with the fact that `secure_path` is not defined within `/etc/sudoers` (seen in `sudo -l` output), hint that a environment path modification vector could help us escalate privileges:  
 
 ![writeup.privesc.steps.1.1](/static/files/posts_thm_yotf/screenshot13.png.webp)  
 
@@ -280,7 +280,7 @@ cat /home/rascal/.did-you-think-I-was-useless.root
 
 ## Learning/Recommendation
 * The webapp exposed a search field which was vulnerable to command injection. This allowed the attacker to gain interactive access of the target machine. It is advised to follow a secure development lifecycle for critical production web applications.
-* The `shutdown` binary was vulnerable to a path expansion attack which allowed the atatcker to gain elevated privileges.
+* The `shutdown` binary was vulnerable to a path expansion attack which allowed the attacker to gain elevated privileges.
 
 ## Loot
 ### Credentials
