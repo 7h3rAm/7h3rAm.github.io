@@ -69,4 +69,4 @@ ul li { margin-left:3ex; } ul li::before { content:"* "; color:#69359c; margin-l
 
 .footer { display:block; width:100%; text-decoration: none !important; border-bottom:none; }
 .footercenter { display:inline-block; text-align:center; }
-.footspan { color:#766e6b; font-size:9pt; } .footspan:hover { color:#766e6b; }
+.footspan { color:#766e6b; font-size:11pt; } .footspan:hover { color:#766e6b; }
