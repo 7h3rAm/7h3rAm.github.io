@@ -7,7 +7,7 @@ tags: hackthebox, writeup
 ## Overview
 This is a writeup for HackTheBox VM [Buff](https://www.hackthebox.eu/home/machines/profile/263). Here are stats for this machine from [machinescli](https://github.com/7h3rAm/machinescli):
 
-![writeup.overview.machinescli](/static/files/posts_htb_buff/machinescli.png)
+![writeup.overview.machinescli](/static/files/posts_htb_buff/machinescli.png.webp)
 
 ### Killchain
 Here's the killchain (`enumeration` → `exploitation` → `privilege escalation`) for this machine:
@@ -39,11 +39,15 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Wed Jul 22 21:06:17 2020 -- 1 IP address (1 host up) scanned in 114.83 seconds
 ```
 
-2\. We find '8080/tcp' to be open and running `Apache httpd 2.4.43`. We start by looking at the webpage and find it be hosting a fitness center portal:  
+2\. Here's the summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:  
 
-![writeup.enumeration.steps.2.1](/static/files/posts_htb_buff/screenshot01.png.webp)  
+![writeup.enumeration.steps.2.1](/static/files/posts_htb_buff/openports.png.webp)  
 
-3\. We find multiple pages from the `gobuster` scan results and upon visiting `/contacts.php` page, we find that we are interacting with the `Gym Management Software 1.0` web application:  
+3\. We find '8080/tcp' to be open and running `Apache httpd 2.4.43`. We start by looking at the webpage and find it be hosting a fitness center portal:  
+
+![writeup.enumeration.steps.3.1](/static/files/posts_htb_buff/screenshot01.png.webp)  
+
+4\. We find multiple pages from the `gobuster` scan results and upon visiting `/contacts.php` page, we find that we are interacting with the `Gym Management Software 1.0` web application:  
 ```
 cat ./10.10.10.198/scans/tcp_8080_http_gobuster.txt | grep -v 403
   /ADMIN (Status: 301) [Size: 343]
@@ -74,7 +78,7 @@ cat ./10.10.10.198/scans/tcp_8080_http_gobuster.txt | grep -v 403
   /upload.php (Status: 200) [Size: 107]
 ```
 
-![writeup.enumeration.steps.3.1](/static/files/posts_htb_buff/screenshot02.png.webp)  
+![writeup.enumeration.steps.4.1](/static/files/posts_htb_buff/screenshot02.png.webp)  
 
 ### Findings
 #### Open Ports
