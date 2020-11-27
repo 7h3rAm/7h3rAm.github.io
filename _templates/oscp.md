@@ -69,6 +69,8 @@ These are [notes, stats, TTPs and trend graphs](https://github.com/7h3rAm/writeu
 
 These are writeups for OSCPlike machines
 
+  * `24/Nov/2020`: [[HackTheBox] Buff](/posts/20201124_htb-buff.html)
+  * `10/Aug/2020`: [[VulnHub] InfoSec Prep: OSCP](/posts/20200810_vulnhub-infosecpreposcp.html)
   * `25/Jun/2020`: [[HackTheBox] Bashed](/posts/20200625_htb-bashed.html)
   * `13/Nov/2019`: [[HackTheBox] CronOS](/posts/20191113_htb-cronos.html)
   * `13/Nov/2019`: [[HackTheBox] Shocker](/posts/20191113_htb-shocker.html)
