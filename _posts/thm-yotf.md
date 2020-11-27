@@ -83,9 +83,9 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Wed Jul 29 19:55:04 2020 -- 1 IP address (1 host up) scanned in 56.96 seconds
 ```
 
-2\. Here a summary of open ports and their associated TTPs:
+2\. Here a summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:
 
-![writeup.enumeration.steps.2.1](/static/files/posts_thm_yotf/openports-ttps.png.webp)  
+![writeup.enumeration.steps.2.1](/static/files/posts_thm_yotf/openports.png.webp)  
 
 3\. We find `80/tcp` to be open and enumerate it further. The webapp enforces authentication due to which we are not allowed to view any pages. We will need to find the credentials for the web app to proceed with this further:  
 
