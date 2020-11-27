@@ -5,9 +5,13 @@ summary: This is the summary for an awesome post.
 tags: vulnhub, writeup
 
 ## Overview
-This is a writeup for VulnHub VM [InfoSec Prep: OSCP](https://www.vulnhub.com/entry/infosec-prep-oscp,508/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
+This is a writeup for VulnHub VM [InfoSec Prep: OSCP](https://www.vulnhub.com/entry/infosec-prep-oscp,508/). Here are stats for this machine from [machinescli](https://github.com/7h3rAm/machinescli):
+
+![writeup.overview.machinescli](/static/files/posts_vulnhub_infosecpreposcp/machinescli.png.webp)
 
 ### Killchain
+Here's the killchain (`enumeration` → `exploitation` → `privilege escalation`) for this machine:
+
 ![writeup.overview.killchain](/static/files/posts_vulnhub_infosecpreposcp/killchain.png.webp)
 
 ### TTPs
@@ -40,22 +44,26 @@ Service detection performed. Please report any incorrect results at https://nmap
 
 ```
 
-2\. We find `80/tcp` to be open. Upon browsing the webpage we see that it looks to be a Wordpress blog with a post named "OSCP Voucher". This posts lists the process to submit the flag and also mentions that there's a user named `oscp` on this machine:  
+2\. Here's the summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:  
 
-![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_infosecpreposcp/screenshot01.png.webp)  
+![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_infosecpreposcp/openports.png.webp)  
 
-3\. The `gobuster` scan result confirms that this is a Wordpress blog. We see an interesting entry `secret.txt` from `gobuster` scan results and also from the `robots.txt` file:  
+3\. We find `80/tcp` to be open. Upon browsing the webpage we see that it looks to be a Wordpress blog with a post named "OSCP Voucher". This posts lists the process to submit the flag and also mentions that there's a user named `oscp` on this machine:  
 
-![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_infosecpreposcp/screenshot02.png.webp)  
+![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_infosecpreposcp/screenshot01.png.webp)  
 
-![writeup.enumeration.steps.3.2](/static/files/posts_vulnhub_infosecpreposcp/screenshot03.png.webp)  
+4\. The `gobuster` scan result confirms that this is a Wordpress blog. We see an interesting entry `secret.txt` from `gobuster` scan results and also from the `robots.txt` file:  
 
-4\. This file has base64 encoded content that we decode to find a SSH private key file:  
+![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_infosecpreposcp/screenshot02.png.webp)  
+
+![writeup.enumeration.steps.4.2](/static/files/posts_vulnhub_infosecpreposcp/screenshot03.png.webp)  
+
+5\. This file has base64 encoded content that we decode to find a SSH private key file:  
 ```
 curl http://192.168.119.198/secret.txt | base64 -d -
 ```
 
-![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_infosecpreposcp/screenshot04.png.webp)  
+![writeup.enumeration.steps.5.1](/static/files/posts_vulnhub_infosecpreposcp/screenshot04.png.webp)  
 
 ### Findings
 #### Open Ports
