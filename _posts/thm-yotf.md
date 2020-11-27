@@ -9,9 +9,9 @@ This is a writeup for TryHackMe VM [Year of the Fox](https://tryhackme.com/room/
 
 ![writeup.overview.machinescli](/static/files/posts_thm_yotf/machinescli.png.webp)
 
+### Killchain
 Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
-### Killchain
 ![writeup.overview.killchain](/static/files/posts_thm_yotf/killchain.png.webp)
 
 ### TTPs
