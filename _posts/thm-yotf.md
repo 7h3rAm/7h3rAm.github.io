@@ -6,6 +6,7 @@ tags: tryhackme, writeup
 
 ## Overview
 This is a writeup for TryHackMe VM [Year of the Fox](https://tryhackme.com/room/yotf). Here are stats for this machine from [machinescli](https://github.com/7h3rAm/machinescli):
+
 ![writeup.overview.machinescli](/static/files/posts_thm_yotf/machinescli.png.webp)
 
 Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
