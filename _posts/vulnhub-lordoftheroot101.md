@@ -5,9 +5,13 @@ summary: This is the summary for an awesome post.
 tags: vulnhub, writeup
 
 ## Overview
-This is a writeup for VulnHub VM [Lord Of The Root: 1.0.1](https://www.vulnhub.com/entry/lord-of-the-root-101,129/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
+This is a writeup for VulnHub VM [Lord Of The Root: 1.0.1](https://www.vulnhub.com/entry/lord-of-the-root-101,129/). Here are stats for this machine from [machinescli](https://github.com/7h3rAm/machinescli):
+
+![writeup.overview.machinescli](/static/files/posts_vulnhub_lordoftheroot101/machinescli.png.webp)
 
 ### Killchain
+Here's the killchain (`enumeration` → `exploitation` → `privilege escalation`) for this machine:
+
 ![writeup.overview.killchain](/static/files/posts_vulnhub_lordoftheroot101/killchain.png.webp)
 
 ### TTPs
@@ -41,7 +45,11 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Thu Oct 10 14:06:44 2019 -- 1 IP address (1 host up) scanned in 5.59 seconds
 ```
 
-2\. We just have 1 open port, `22/tcp` and start there. Upon connecting we see a banner that hints at port knocking sequence `1,2,3`. We knock on these ports and find a new port, `1337/tcp`, open up on the target system:  
+2\. Here a summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:
+
+![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_lordoftheroot101/openports.png.webp)  
+
+3\. We just have 1 open port, `22/tcp` and start there. Upon connecting we see a banner that hints at port knocking sequence `1,2,3`. We knock on these ports and find a new port, `1337/tcp`, open up on the target system:  
 ```
 ssh root@192.168.92.151
                                                     .____    _____________________________
@@ -65,13 +73,13 @@ knock 192.168.92.151 1,2,3
   1337/tcp open  waste
 ```
 
-![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_lordoftheroot101/screenshot01.png.webp)  
+![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_lordoftheroot101/screenshot01.png.webp)  
 
-![writeup.enumeration.steps.2.2](/static/files/posts_vulnhub_lordoftheroot101/screenshot02.png.webp)  
+![writeup.enumeration.steps.3.2](/static/files/posts_vulnhub_lordoftheroot101/screenshot02.png.webp)  
 
-![writeup.enumeration.steps.2.3](/static/files/posts_vulnhub_lordoftheroot101/screenshot03.png.webp)  
+![writeup.enumeration.steps.3.3](/static/files/posts_vulnhub_lordoftheroot101/screenshot03.png.webp)  
 
-3\. We see that the newly opened port is running a HTTP service. We explore it using a web browser. We find a Base64 encoded text within HTML source of the `robots.txt` page. Upon decoding it twice we find a directory path which leads to a login form:  
+4\. We see that the newly opened port is running a HTTP service. We explore it using a web browser. We find a Base64 encoded text within HTML source of the `robots.txt` page. Upon decoding it twice we find a directory path which leads to a login form:  
 ```
 http://192.168.92.151:1337/robots.txt
   THprM09ETTBOVEl4TUM5cGJtUmxlQzV3YUhBPSBDbG9zZXIh
@@ -83,11 +91,11 @@ b64d Lzk3ODM0NTIxMC9pbmRleC5waHA=
   /978345210/index.php
 ```
 
-![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_lordoftheroot101/screenshot04.png.webp)  
+![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_lordoftheroot101/screenshot04.png.webp)  
 
-![writeup.enumeration.steps.3.2](/static/files/posts_vulnhub_lordoftheroot101/screenshot05.png.webp)  
+![writeup.enumeration.steps.4.2](/static/files/posts_vulnhub_lordoftheroot101/screenshot05.png.webp)  
 
-![writeup.enumeration.steps.3.3](/static/files/posts_vulnhub_lordoftheroot101/screenshot06.png.webp)  
+![writeup.enumeration.steps.4.3](/static/files/posts_vulnhub_lordoftheroot101/screenshot06.png.webp)  
 
 ### Findings
 #### Open Ports

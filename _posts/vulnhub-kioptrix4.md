@@ -5,9 +5,13 @@ summary: This is the summary for an awesome post.
 tags: vulnhub, writeup
 
 ## Overview
-This is a writeup for VulnHub VM [Kioptrix: Level 1.3 (#4)](https://www.vulnhub.com/entry/kioptrix-level-13-4,25/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
+This is a writeup for VulnHub VM [Kioptrix: Level 1.3 (#4)](https://www.vulnhub.com/entry/kioptrix-level-13-4,25/). Here are stats for this machine from [machinescli](https://github.com/7h3rAm/machinescli):
+
+![writeup.overview.machinescli](/static/files/posts_vulnhub_kioptrix4/machinescli.png.webp)
 
 ### Killchain
+Here's the killchain (`enumeration` → `exploitation` → `privilege escalation`) for this machine:
+
 ![writeup.overview.killchain](/static/files/posts_vulnhub_kioptrix4/killchain.png.webp)
 
 ### TTPs
@@ -79,7 +83,11 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Tue Oct  8 15:47:38 2019 -- 1 IP address (1 host up) scanned in 36.59 seconds
 ```
 
-2\. From the SMB scan, we find that there are 3 users (other than `root`) on the target system:  
+2\. Here a summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:
+
+![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_kioptrix4/openports.png.webp)  
+
+3\. From the SMB scan, we find that there are 3 users (other than `root`) on the target system:  
 ```
 ===============================
 |    Users on 192.168.92.131  |

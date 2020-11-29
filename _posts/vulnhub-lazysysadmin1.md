@@ -5,9 +5,13 @@ summary: This is the summary for an awesome post.
 tags: vulnhub, writeup
 
 ## Overview
-This is a writeup for VulnHub VM [LazySysAdmin: 1](https://www.vulnhub.com/entry/lazysysadmin-1,205/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
+This is a writeup for VulnHub VM [LazySysAdmin: 1](https://www.vulnhub.com/entry/lazysysadmin-1,205/). Here are stats for this machine from [machinescli](https://github.com/7h3rAm/machinescli):
+
+![writeup.overview.machinescli](/static/files/posts_vulnhub_lazysysadmin1/machinescli.png.webp)
 
 ### Killchain
+Here's the killchain (`enumeration` → `exploitation` → `privilege escalation`) for this machine:
+
 ![writeup.overview.killchain](/static/files/posts_vulnhub_lazysysadmin1/killchain.png.webp)
 
 ### TTPs
@@ -106,13 +110,17 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Tue Oct 29 11:18:30 2019 -- 1 IP address (1 host up) scanned in 30.69 seconds
 ```
 
-2\. Upon visiting the `80/tcp`, we find an unknown web application. Inspecting further, we find a few links via `robots.txt` file but none of those seem useful.  
+2\. Here a summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:
 
-![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_lazysysadmin1/screenshot01.png.webp)  
+![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_lazysysadmin1/openports.png.webp)  
 
-![writeup.enumeration.steps.2.2](/static/files/posts_vulnhub_lazysysadmin1/screenshot02.png.webp)  
+3\. Upon visiting the `80/tcp`, we find an unknown web application. Inspecting further, we find a few links via `robots.txt` file but none of those seem useful.  
 
-3\. We also find a `wordpress` directory from the `gobuster` scan report. Initial attempts to login via common default credentials didn't succeed. Since we already have read access to Wordpress installation via the open SMB share, we download the `wp-config.php` file and obtain the hardcoded MySQL credentials within it:  
+![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_lazysysadmin1/screenshot01.png.webp)  
+
+![writeup.enumeration.steps.3.2](/static/files/posts_vulnhub_lazysysadmin1/screenshot02.png.webp)  
+
+4\. We also find a `wordpress` directory from the `gobuster` scan report. Initial attempts to login via common default credentials didn't succeed. Since we already have read access to Wordpress installation via the open SMB share, we download the `wp-config.php` file and obtain the hardcoded MySQL credentials within it:  
 ```
 gobuster -u http://192.168.92.191:80/ -w /usr/share/seclists/Discovery/Web-Content/common.txt -e -k -l -s "200,204,301,302,307,401,403" -x "txt,html,php,asp,aspx,jsp"
 smbclient //192.168.92.191/share$
@@ -120,22 +128,22 @@ smbclient //192.168.92.191/share$
   get wp-config.php
 ```
 
-![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_lazysysadmin1/screenshot07.png.webp)  
+![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_lazysysadmin1/screenshot07.png.webp)  
 
-![writeup.enumeration.steps.3.2](/static/files/posts_vulnhub_lazysysadmin1/screenshot08.png.webp)  
+![writeup.enumeration.steps.4.2](/static/files/posts_vulnhub_lazysysadmin1/screenshot08.png.webp)  
 
-4\. We explore the SMB service and find that there is a user named `togie` on this system. Other than that, there is an open (readonly) SMB share and it is also the web root. We find a lot of interesting files within this directory, particularly the `deets.txt` file that has a password `12345`, possibly for user `togie`:  
+5\. We explore the SMB service and find that there is a user named `togie` on this system. Other than that, there is an open (readonly) SMB share and it is also the web root. We find a lot of interesting files within this directory, particularly the `deets.txt` file that has a password `12345`, possibly for user `togie`:  
 ```
 enum4linux -a -M -l -d 192.168.92.191
 smbclient //192.168.92.191/share$
 http://192.168.92.191/deets.txt
 ```
 
-![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_lazysysadmin1/screenshot03.png.webp)  
+![writeup.enumeration.steps.5.1](/static/files/posts_vulnhub_lazysysadmin1/screenshot03.png.webp)  
 
-![writeup.enumeration.steps.4.2](/static/files/posts_vulnhub_lazysysadmin1/screenshot03a.png.webp)  
+![writeup.enumeration.steps.5.2](/static/files/posts_vulnhub_lazysysadmin1/screenshot03a.png.webp)  
 
-![writeup.enumeration.steps.4.3](/static/files/posts_vulnhub_lazysysadmin1/screenshot04.png.webp)  
+![writeup.enumeration.steps.5.3](/static/files/posts_vulnhub_lazysysadmin1/screenshot04.png.webp)  
 
 ### Findings
 #### Open Ports

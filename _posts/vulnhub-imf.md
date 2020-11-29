@@ -5,9 +5,13 @@ summary: This is the summary for an awesome post.
 tags: vulnhub, writeup
 
 ## Overview
-This is a writeup for VulnHub VM [IMF: 1](https://www.vulnhub.com/entry/imf-1,162/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
+This is a writeup for VulnHub VM [IMF: 1](https://www.vulnhub.com/entry/imf-1,162/). Here are stats for this machine from [machinescli](https://github.com/7h3rAm/machinescli):
+
+![writeup.overview.machinescli](/static/files/posts_vulnhub_imf/machinescli.png.webp)
 
 ### Killchain
+Here's the killchain (`enumeration` → `exploitation` → `privilege escalation`) for this machine:
+
 ![writeup.overview.killchain](/static/files/posts_vulnhub_imf/killchain.png.webp)
 
 ### TTPs
@@ -35,7 +39,11 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Sun Sep 22 12:16:36 2019 -- 1 IP address (1 host up) scanned in 13.16 seconds
 ```
 
-2\. The Nmap NSE script `http-comments-displayer` found out first flag on the `contact.php` page:  
+2\. Here a summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:
+
+![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_imf/openports.png.webp)  
+
+3\. The Nmap NSE script `http-comments-displayer` found out first flag on the `contact.php` page:  
 ```
 view-source:http://192.168.92.178/contact.php
   |     Path: http://192.168.92.178:80/contact.php
@@ -47,9 +55,9 @@ b64d "YWxsdGhlZmlsZXM=" ; echo
   allthefiles
 ```
 
-![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_imf/screenshot01.png.webp)  
+![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_imf/screenshot01.png.webp)  
 
-3\. We also find base64 strings used as filenames for some javascript files. Decoding these strings reveal the second flag:  
+4\. We also find base64 strings used as filenames for some javascript files. Decoding these strings reveal the second flag:  
 ```
 view-source:http://192.168.92.178/index.php
   <script src="js/ZmxhZzJ7YVcxbVl.js"></script>
@@ -63,42 +71,42 @@ b64d "aW1mYWRtaW5pc3RyYXRvcg=="
   imfadministrator
 ```
 
-![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_imf/screenshot02.png.webp)  
+![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_imf/screenshot02.png.webp)  
 
-![writeup.enumeration.steps.3.2](/static/files/posts_vulnhub_imf/screenshot03.png.webp)  
+![writeup.enumeration.steps.4.2](/static/files/posts_vulnhub_imf/screenshot03.png.webp)  
 
-4\. Following up on the `imfadministrator` string, it turned out to be a directory name. Visting this link gives a login page with an interesting comment in HTML source. We made a few attempts but could not successfully login:  
+5\. Following up on the `imfadministrator` string, it turned out to be a directory name. Visting this link gives a login page with an interesting comment in HTML source. We made a few attempts but could not successfully login:  
 ```
 http://192.168.92.178/imfadministrator/index.php
   <!-- I couldn't get the SQL working, so I hard-coded the password. It's still mad secure through. - Roger -->
 ```
 
-![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_imf/screenshot04.png.webp)  
+![writeup.enumeration.steps.5.1](/static/files/posts_vulnhub_imf/screenshot04.png.webp)  
 
-5\. We intercept the login request via Burp proxy and change the `pass` field to an array which confuses the application and returns a page with the third flag:  
+6\. We intercept the login request via Burp proxy and change the `pass` field to an array which confuses the application and returns a page with the third flag:  
 ```
 flag3{Y29udGludWVUT2Ntcw==}
   b64d "Y29udGludWVUT2Ntcw=="
     continueTOcms
 ```
 
-![writeup.enumeration.steps.5.1](/static/files/posts_vulnhub_imf/screenshot05.png.webp)  
+![writeup.enumeration.steps.6.1](/static/files/posts_vulnhub_imf/screenshot05.png.webp)  
 
-![writeup.enumeration.steps.5.2](/static/files/posts_vulnhub_imf/screenshot06.png.webp)  
+![writeup.enumeration.steps.6.2](/static/files/posts_vulnhub_imf/screenshot06.png.webp)  
 
-![writeup.enumeration.steps.5.3](/static/files/posts_vulnhub_imf/screenshot07.png.webp)  
+![writeup.enumeration.steps.6.3](/static/files/posts_vulnhub_imf/screenshot07.png.webp)  
 
-![writeup.enumeration.steps.5.4](/static/files/posts_vulnhub_imf/screenshot08.png.webp)  
+![writeup.enumeration.steps.6.4](/static/files/posts_vulnhub_imf/screenshot08.png.webp)  
 
-6\. We explored the CMS link but could not find anything interesting apart from the `pagename` parameter in URL. Upon further enumeration, the URL handler was found to be vulnerable to SQLi:  
+7\. We explored the CMS link but could not find anything interesting apart from the `pagename` parameter in URL. Upon further enumeration, the URL handler was found to be vulnerable to SQLi:  
 ```
 http://192.168.92.178/imfadministrator/cms.php?pagename=home'
   Warning: mysqli_fetch_row() expects parameter 1 to be mysqli_result, boolean given in /var/www/html/imfadministrator/cms.php on line 29
 ```
 
-![writeup.enumeration.steps.6.1](/static/files/posts_vulnhub_imf/screenshot09.png.webp)  
+![writeup.enumeration.steps.7.1](/static/files/posts_vulnhub_imf/screenshot09.png.webp)  
 
-7\. We fire up `sqlmap` on this URL and from the database dump, found a new page containing an image `whiteboard.jpg`. This image has a QR code that encodes the fourth flag:  
+8\. We fire up `sqlmap` on this URL and from the database dump, found a new page containing an image `whiteboard.jpg`. This image has a QR code that encodes the fourth flag:  
 ```
 http://192.168.92.178/imfadministrator/images/whiteboard.jpg
   flag4{dXBsb2Fkcjk0Mi5waHA=}
@@ -106,9 +114,9 @@ http://192.168.92.178/imfadministrator/images/whiteboard.jpg
       uploadr942.php
 ```
 
-![writeup.enumeration.steps.7.1](/static/files/posts_vulnhub_imf/screenshot10.png.webp)  
+![writeup.enumeration.steps.8.1](/static/files/posts_vulnhub_imf/screenshot10.png.webp)  
 
-![writeup.enumeration.steps.7.2](/static/files/posts_vulnhub_imf/screenshot11.png.webp)  
+![writeup.enumeration.steps.8.2](/static/files/posts_vulnhub_imf/screenshot11.png.webp)  
 
 ### Findings
 #### Open Ports

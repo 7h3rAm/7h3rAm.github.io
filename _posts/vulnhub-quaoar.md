@@ -5,9 +5,13 @@ summary: This is the summary for an awesome post.
 tags: vulnhub, writeup
 
 ## Overview
-This is a writeup for VulnHub VM [hackfest2016: Quaoar](https://www.vulnhub.com/entry/hackfest2016-quaoar,180/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
+This is a writeup for VulnHub VM [hackfest2016: Quaoar](https://www.vulnhub.com/entry/hackfest2016-quaoar,180/). Here are stats for this machine from [machinescli](https://github.com/7h3rAm/machinescli):
+
+![writeup.overview.machinescli](/static/files/posts_vulnhub_quaoar/machinescli.png.webp)
 
 ### Killchain
+Here's the killchain (`enumeration` → `exploitation` → `privilege escalation`) for this machine:
+
 ![writeup.overview.killchain](/static/files/posts_vulnhub_quaoar/killchain.png.webp)
 
 ### TTPs
@@ -218,7 +222,11 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Wed Sep 18 14:15:08 2019 -- 1 IP address (1 host up) scanned in 23.69 seconds
 ```
 
-2\. Upon checking `robots.txt` file we find a `wordpress` entry:  
+2\. Here a summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:
+
+![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_quaoar/openports.png.webp)  
+
+3\. Upon checking `robots.txt` file we find a `wordpress` entry:  
 ```
 HTTP/1.1 200 OK
 Date: Wed, 18 Sep 2019 21:24:15 GMT
@@ -240,15 +248,15 @@ Allow: /wordpress/
 #\___,_\ \__,_|\__,_|\___/ \__,_|_|   
 ```
 
-![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_quaoar/screenshot01.png.webp)  
+![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_quaoar/screenshot01.png.webp)  
 
-3\. We run `wpscan` to enumerate users and find 2 hits:  
+4\. We run `wpscan` to enumerate users and find 2 hits:  
 ```
 admin
 wpuser
 ```
 
-![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_quaoar/screenshot02.png.webp)  
+![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_quaoar/screenshot02.png.webp)  
 
 ### Findings
 #### Open Ports

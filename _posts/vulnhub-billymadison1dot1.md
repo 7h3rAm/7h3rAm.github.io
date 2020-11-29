@@ -5,9 +5,13 @@ summary: This is the summary for an awesome post.
 tags: vulnhub, writeup
 
 ## Overview
-This is a writeup for VulnHub VM [Billy Madison: 1.1](https://www.vulnhub.com/entry/billy-madison-11,161). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
+This is a writeup for VulnHub VM [Billy Madison: 1.1](https://www.vulnhub.com/entry/billy-madison-11,161). Here are stats for this machine from [machinescli](https://github.com/7h3rAm/machinescli):
+
+![writeup.overview.machinescli](/static/files/posts_vulnhub_billymadison1dot1/machinescli.png.webp)
 
 ### Killchain
+Here's the killchain (`enumeration` → `exploitation` → `privilege escalation`) for this machine:
+
 ![writeup.overview.killchain](/static/files/posts_vulnhub_billymadison1dot1/killchain.png.webp)
 
 ### TTPs
@@ -82,70 +86,74 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Thu Sep  5 17:47:28 2019 -- 1 IP address (1 host up) scanned in 97.41 seconds
 ```
 
-2\. Tried connecting to Telnet service and found a ROT13 encoded string:  
+2\. Here a summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:
 
-![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot01.png.webp)  
+![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_billymadison1dot1/openports.png.webp)  
 
-3\. Decoded the ROT13 (Caesar Cipher) encoded string and used it as the HTTP directory name:  
+3\. Tried connecting to Telnet service and found a ROT13 encoded string:  
+
+![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot01.png.webp)  
+
+4\. Decoded the ROT13 (Caesar Cipher) encoded string and used it as the HTTP directory name:  
 ```
 http://192.168.92.167/exschmenuating
 ```
 
-![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot02.png.webp)  
+![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot02.png.webp)  
 
-4\. Found reference to the presence of files with names from `rockyou.txt` wordlist and `veronica` string in them. We created a custom wordlist, ran a `gobuster` scan and found a network capture file:  
+5\. Found reference to the presence of files with names from `rockyou.txt` wordlist and `veronica` string in them. We created a custom wordlist, ran a `gobuster` scan and found a network capture file:  
 ```
 gobuster -u http://192.168.92.167/exschmenuating -w veronica.wordlist -e -k -l -s "200,204,301,302,307,403,500" -x "cap,pcap,capture" -o "results/192.168.92.167/scans/tcp_80_http_gobuster_dirbuster.txt" → http://192.168.92.167/exschmenuating/012987veronica.cap
 ```
 
-![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot03.png.webp)  
+![writeup.enumeration.steps.5.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot03.png.webp)  
 
-![writeup.enumeration.steps.4.2](/static/files/posts_vulnhub_billymadison1dot1/screenshot04.png.webp)  
+![writeup.enumeration.steps.5.2](/static/files/posts_vulnhub_billymadison1dot1/screenshot04.png.webp)  
 
-5\. Ran a port knock using the [Spanish Armada](https://www.youtube.com/watch?v=z5YU7JwVy7s) combo to open the FTP backdoor:  
+6\. Ran a port knock using the [Spanish Armada](https://www.youtube.com/watch?v=z5YU7JwVy7s) combo to open the FTP backdoor:  
 ```
 for port in 1466 67 1469 1514 1981 1986; do nmap -Pn --host_timeout 201 --max-retries 0 -p ${port} 192.168.92.167; done
 nmap -p21 192.168.92.167
 ```
 
-6\. Found FTP password for user `veronica` using `hydra` and the custom wordlist created earlier:  
+7\. Found FTP password for user `veronica` using `hydra` and the custom wordlist created earlier:  
 ```
 hydra -l veronica -P veronica.wordlist 192.168.92.167 ftp → veronica/babygirl_veronica07@yahoo.com
 ```
 
-![writeup.enumeration.steps.6.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot05.png.webp)  
+![writeup.enumeration.steps.7.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot05.png.webp)  
 
-7\. Found FTP password for user `eric` from the network capture file `012987veronica.cap`:  
+8\. Found FTP password for user `eric` from the network capture file `012987veronica.cap`:  
 ```
 eric/ericdoesntdrinkhisownpee
 ```
 
-![writeup.enumeration.steps.7.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot06a.png.webp)  
+![writeup.enumeration.steps.8.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot06a.png.webp)  
 
-8\. Connected as user `eric` to the FTP service and found a `.notes` file:  
+9\. Connected as user `eric` to the FTP service and found a `.notes` file:  
 ```
 ftp://eric@192.168.92.167/.notes
 ```
 
-![writeup.enumeration.steps.8.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot06.png.webp)  
+![writeup.enumeration.steps.9.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot06.png.webp)  
 
-9\. Found reference to a SSH backdoor that requires sending an email with text `My kid will be a **soccer player**`:  
+10\. Found reference to a SSH backdoor that requires sending an email with text `My kid will be a **soccer player**`:  
 ```
 swaks --to eric@madisonhotels.com --from vvaughn@polyfector.edu --server 192.168.92.167:2525 --body "My kid will be a soccer player" --header "Subject: My kid will be a soccer player"
 ```
 
-![writeup.enumeration.steps.9.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot10.png.webp)  
+![writeup.enumeration.steps.10.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot10.png.webp)  
 
-10\. Port `1974/tcp` is the SSH backdoor placed on the target host by user `eric`:  
+11\. Port `1974/tcp` is the SSH backdoor placed on the target host by user `eric`:  
 
-![writeup.enumeration.steps.10.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot11.png.webp)  
+![writeup.enumeration.steps.11.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot11.png.webp)  
 
-11\. Found a network capture file `eg-01.cap` from user `veronica`'s FTP directory:  
+12\. Found a network capture file `eg-01.cap` from user `veronica`'s FTP directory:  
 ```
 ftp://veronica@192.168.92.167/eg-01.cap
 ```
 
-![writeup.enumeration.steps.11.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot09.png.webp)  
+![writeup.enumeration.steps.12.1](/static/files/posts_vulnhub_billymadison1dot1/screenshot09.png.webp)  
 
 ### Findings
 #### Open Ports

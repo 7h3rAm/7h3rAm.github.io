@@ -5,9 +5,13 @@ summary: This is the summary for an awesome post.
 tags: vulnhub, writeup
 
 ## Overview
-This is a writeup for VulnHub VM [hackme: 1](https://www.vulnhub.com/entry/hackme-1,330/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
+This is a writeup for VulnHub VM [hackme: 1](https://www.vulnhub.com/entry/hackme-1,330/). Here are stats for this machine from [machinescli](https://github.com/7h3rAm/machinescli):
+
+![writeup.overview.machinescli](/static/files/posts_vulnhub_hackme/machinescli.png.webp)
 
 ### Killchain
+Here's the killchain (`enumeration` → `exploitation` → `privilege escalation`) for this machine:
+
 ![writeup.overview.killchain](/static/files/posts_vulnhub_hackme/killchain.png.webp)
 
 ### TTPs
@@ -44,7 +48,11 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Fri Sep 27 12:01:14 2019 -- 1 IP address (1 host up) scanned in 12.51 seconds
 ```
 
-2\. We find quite a few interesting links from the `gobuster` scan and open the `http://192.168.92.180:80/index.php` page to explore the web application further:  
+2\. Here a summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:
+
+![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_hackme/openports.png.webp)  
+
+3\. We find quite a few interesting links from the `gobuster` scan and open the `http://192.168.92.180:80/index.php` page to explore the web application further:  
 ```
 gobuster -u http://192.168.92.180:80/ -w /usr/share/seclists/Discovery/Web-Content/common.txt -e -k -l -s "200,204,301,302,307,401,403" -x "txt,html,php,asp,aspx,jsp"
   http://192.168.92.180:80/config.php (Status: 200) [Size: 0]
@@ -58,13 +66,13 @@ gobuster -u http://192.168.92.180:80/ -w /usr/share/seclists/Discovery/Web-Conte
   http://192.168.92.180:80/welcome.php (Status: 302)
 ```
 
-3\. We are redirected to the `http://192.168.92.180:80/login.php` link at every page visit so we try some common credentials and SQLi attempts. When these do not help, we decide to use the registration option which takes us to the `http://192.168.92.180:80/register.php` page. We register a username `foobar` with `foobar` password and get logged in to the web application:  
+4\. We are redirected to the `http://192.168.92.180:80/login.php` link at every page visit so we try some common credentials and SQLi attempts. When these do not help, we decide to use the registration option which takes us to the `http://192.168.92.180:80/register.php` page. We register a username `foobar` with `foobar` password and get logged in to the web application:  
 
-![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_hackme/screenshot01.png.webp)  
+![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_hackme/screenshot01.png.webp)  
 
-![writeup.enumeration.steps.3.2](/static/files/posts_vulnhub_hackme/screenshot02.png.webp)  
+![writeup.enumeration.steps.4.2](/static/files/posts_vulnhub_hackme/screenshot02.png.webp)  
 
-![writeup.enumeration.steps.3.3](/static/files/posts_vulnhub_hackme/screenshot03.png.webp)  
+![writeup.enumeration.steps.4.3](/static/files/posts_vulnhub_hackme/screenshot03.png.webp)  
 
 ### Findings
 #### Open Ports

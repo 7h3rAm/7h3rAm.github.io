@@ -5,9 +5,13 @@ summary: This is the summary for an awesome post.
 tags: vulnhub, writeup
 
 ## Overview
-This is a writeup for VulnHub VM [Kioptrix: Level 1 (#1)](https://www.vulnhub.com/entry/kioptrix-level-1-1,22/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
+This is a writeup for VulnHub VM [Kioptrix: Level 1 (#1)](https://www.vulnhub.com/entry/kioptrix-level-1-1,22/). Here are stats for this machine from [machinescli](https://github.com/7h3rAm/machinescli):
+
+![writeup.overview.machinescli](/static/files/posts_vulnhub_kioptrix1/machinescli.png.webp)
 
 ### Killchain
+Here's the killchain (`enumeration` → `exploitation` → `privilege escalation`) for this machine:
+
 ![writeup.overview.killchain](/static/files/posts_vulnhub_kioptrix1/killchain.png.webp)
 
 ### TTPs
@@ -95,7 +99,11 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Fri Sep 27 15:46:34 2019 -- 1 IP address (1 host up) scanned in 274.07 seconds
 ```
 
-2\. We explore the various directories and files found with `gobuster` scan but nothing interesting is found:  
+2\. Here a summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:
+
+![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_kioptrix1/openports.png.webp)  
+
+3\. We explore the various directories and files found with `gobuster` scan but nothing interesting is found:  
 ```
 gobuster -u http://192.168.92.181:80/ -w /usr/share/seclists/Discovery/Web-Content/common.txt -e -k -l -s "200,204,301,302,307,401,403" -x "txt,html,php,asp,aspx,jsp"
   http://192.168.92.181:80/index.html (Status: 200) [Size: 2890]
@@ -105,13 +113,13 @@ gobuster -u http://192.168.92.181:80/ -w /usr/share/seclists/Discovery/Web-Conte
   http://192.168.92.181:80/usage (Status: 301)
 ```
 
-3\. We fallback on Nmap version detection for `443/tcp` and search exploits for `Apache/1.3.20 (Unix)  (Red-Hat/Linux) mod_ssl/2.8.4 OpenSSL/0.9.6b` using `searchsploit`:  
+4\. We fallback on Nmap version detection for `443/tcp` and search exploits for `Apache/1.3.20 (Unix)  (Red-Hat/Linux) mod_ssl/2.8.4 OpenSSL/0.9.6b` using `searchsploit`:  
 ```
 searchsploit mod_ssl
   Apache mod_ssl < 2.8.7 OpenSSL - 'OpenFuckV2.c' Remote Buffer Overflow (2)  | exploits/unix/remote/47080.c
 ```
 
-![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_kioptrix1/screenshot01.png.webp)  
+![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_kioptrix1/screenshot01.png.webp)  
 
 ### Findings
 #### Open Ports

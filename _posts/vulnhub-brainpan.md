@@ -5,9 +5,13 @@ summary: This is the summary for an awesome post.
 tags: vulnhub, writeup
 
 ## Overview
-This is a writeup for VulnHub VM [Brainpan: 1](https://www.vulnhub.com/entry/brainpan-1,51/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
+This is a writeup for VulnHub VM [Brainpan: 1](https://www.vulnhub.com/entry/brainpan-1,51/). Here are stats for this machine from [machinescli](https://github.com/7h3rAm/machinescli):
+
+![writeup.overview.machinescli](/static/files/posts_vulnhub_brainpan/machinescli.png.webp)
 
 ### Killchain
+Here's the killchain (`enumeration` → `exploitation` → `privilege escalation`) for this machine:
+
 ![writeup.overview.killchain](/static/files/posts_vulnhub_brainpan/killchain.png.webp)
 
 ### TTPs
@@ -76,7 +80,11 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Wed Jul 31 15:34:20 2019 -- 1 IP address (1 host up) scanned in 45.02 seconds
 ```
 
-2\. Downloaded file from `http://192.168.92.141:10000/bin/brainpan.exe`.  
+2\. Here a summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:
+
+![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_brainpan/openports.png.webp)  
+
+3\. Downloaded file from `http://192.168.92.141:10000/bin/brainpan.exe`.  
 
 ### Findings
 #### Open Ports

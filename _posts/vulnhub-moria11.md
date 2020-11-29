@@ -5,9 +5,13 @@ summary: This is the summary for an awesome post.
 tags: vulnhub, writeup
 
 ## Overview
-This is a writeup for VulnHub VM [Moria: 1.1](https://www.vulnhub.com/entry/moria-1,187/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
+This is a writeup for VulnHub VM [Moria: 1.1](https://www.vulnhub.com/entry/moria-1,187/). Here are stats for this machine from [machinescli](https://github.com/7h3rAm/machinescli):
+
+![writeup.overview.machinescli](/static/files/posts_vulnhub_moria11/machinescli.png.webp)
 
 ### Killchain
+Here's the killchain (`enumeration` → `exploitation` → `privilege escalation`) for this machine:
+
 ![writeup.overview.killchain](/static/files/posts_vulnhub_moria11/killchain.png.webp)
 
 ## Phase #1: Enumeration
@@ -41,14 +45,18 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Fri Oct 11 15:32:18 2019 -- 1 IP address (1 host up) scanned in 28.21 seconds
 ```
 
-2\. We find a possible username from FTP banner:  
+2\. Here a summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:
+
+![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_moria11/openports.png.webp)  
+
+3\. We find a possible username from FTP banner:  
 ```
 PORT   STATE SERVICE REASON         VERSION
 21/tcp open  ftp     syn-ack ttl 64 vsftpd 2.0.8 or later
 |_banner: 220 Welcome Balrog!
 ```
 
-3\. We find a few interesting directories from `gobuster` scan. Exploring the `http://192.168.92.188:80/w` link, we follow it till the `http://192.168.92.188/w/h/i/s/p/e/r/the_abyss/` link which shows some random text:  
+4\. We find a few interesting directories from `gobuster` scan. Exploring the `http://192.168.92.188:80/w` link, we follow it till the `http://192.168.92.188/w/h/i/s/p/e/r/the_abyss/` link which shows some random text:  
 ```
 http://192.168.92.188:80/cgi-bin/ (Status: 403) [Size: 210]
 http://192.168.92.188:80/cgi-bin/.html (Status: 403) [Size: 215]
@@ -58,50 +66,50 @@ http://192.168.92.188:80/w (Status: 301)
 http://192.168.92.188/w/h/i/s/p/e/r/the_abyss/
 ```
 
-![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_moria11/screenshot01.png.webp)  
+![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_moria11/screenshot01.png.webp)  
 
-![writeup.enumeration.steps.3.2](/static/files/posts_vulnhub_moria11/screenshot02.png.webp)  
+![writeup.enumeration.steps.4.2](/static/files/posts_vulnhub_moria11/screenshot02.png.webp)  
 
-4\. This link shows text that seems to be hinting towards port knocking, but we don't know the ports to knock on. Upon further exploration, it seems one of the text also hints towards `listening` or sniffing that could prove useful:  
+5\. This link shows text that seems to be hinting towards port knocking, but we don't know the ports to knock on. Upon further exploration, it seems one of the text also hints towards `listening` or sniffing that could prove useful:  
 
-![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_moria11/screenshot03.png.webp)  
+![writeup.enumeration.steps.5.1](/static/files/posts_vulnhub_moria11/screenshot03.png.webp)  
 
-5\. We run `wireshark` with a display filter `ip.addr == 192.168.92.188` to limit noise. In some time we see a bunch of `SYN` packets being sent to us from the target system. These packets are sent to following ports: `77, 101, 108, 108, 111, 110`  
+6\. We run `wireshark` with a display filter `ip.addr == 192.168.92.188` to limit noise. In some time we see a bunch of `SYN` packets being sent to us from the target system. These packets are sent to following ports: `77, 101, 108, 108, 111, 110`  
 
-![writeup.enumeration.steps.5.1](/static/files/posts_vulnhub_moria11/screenshot04.png.webp)  
+![writeup.enumeration.steps.6.1](/static/files/posts_vulnhub_moria11/screenshot04.png.webp)  
 
-6\. We try to knock these ports on the target system but nothing changed. Upon further exploration, it is found that the sequence actually is the ASCII values for a string `Mellon` that could be the password for the only known username we have as of now: `Balrog`  
+7\. We try to knock these ports on the target system but nothing changed. Upon further exploration, it is found that the sequence actually is the ASCII values for a string `Mellon` that could be the password for the only known username we have as of now: `Balrog`  
 ```
 nmap -Pn --host-timeout 100 --max-retries 0 -sS -p 77, 101, 108, 108, 111, 110
 python -c 'print "".join([chr(x) for x in [77, 101, 108, 108, 111, 110]])'
   Mellon
 ```
 
-![writeup.enumeration.steps.6.1](/static/files/posts_vulnhub_moria11/screenshot05.png.webp)  
+![writeup.enumeration.steps.7.1](/static/files/posts_vulnhub_moria11/screenshot05.png.webp)  
 
-![writeup.enumeration.steps.6.2](/static/files/posts_vulnhub_moria11/screenshot06.png.webp)  
+![writeup.enumeration.steps.7.2](/static/files/posts_vulnhub_moria11/screenshot06.png.webp)  
 
-7\. We tried to connect to FTP service with the `Balrog/Mellon` credentials but for some reason it didn't work:  
+8\. We tried to connect to FTP service with the `Balrog/Mellon` credentials but for some reason it didn't work:  
 ```
 ftp 192.168.92.188
   Balrog
   Mellon
 ```
 
-![writeup.enumeration.steps.7.1](/static/files/posts_vulnhub_moria11/screenshot07.png.webp)  
+![writeup.enumeration.steps.8.1](/static/files/posts_vulnhub_moria11/screenshot07.png.webp)  
 
-8\. From public writeups we find that the FTP user has access to the web root directory and this directory has an interesting file: `http://192.168.92.188/QlVraKW4fbIkXau9zkAPNGzviT3UKntl`  
+9\. From public writeups we find that the FTP user has access to the web root directory and this directory has an interesting file: `http://192.168.92.188/QlVraKW4fbIkXau9zkAPNGzviT3UKntl`  
 
-![writeup.enumeration.steps.8.1](/static/files/posts_vulnhub_moria11/screenshot08.png.webp)  
+![writeup.enumeration.steps.9.1](/static/files/posts_vulnhub_moria11/screenshot08.png.webp)  
 
-![writeup.enumeration.steps.8.2](/static/files/posts_vulnhub_moria11/screenshot09.png.webp)  
+![writeup.enumeration.steps.9.2](/static/files/posts_vulnhub_moria11/screenshot09.png.webp)  
 
-9\. This file lists several usernames and what looks like password hashes. The page source also reveals the password salts and hash format as `MD5(MD5(Password).Salt)`. We find a good [reference](https://github.com/piyushcse29/john-the-ripper/blob/master/doc/DYNAMIC) for `john`'s dynamic hash variants. We create a `hashes` file by adding usernames, hashes and salts to it. We can now use `john` to crack these hashes:  
+10\. This file lists several usernames and what looks like password hashes. The page source also reveals the password salts and hash format as `MD5(MD5(Password).Salt)`. We find a good [reference](https://github.com/piyushcse29/john-the-ripper/blob/master/doc/DYNAMIC) for `john`'s dynamic hash variants. We create a `hashes` file by adding usernames, hashes and salts to it. We can now use `john` to crack these hashes:  
 ```
 john --format=dynamic_6 hashes
 ```
 
-![writeup.enumeration.steps.9.1](/static/files/posts_vulnhub_moria11/screenshot10.png.webp)  
+![writeup.enumeration.steps.10.1](/static/files/posts_vulnhub_moria11/screenshot10.png.webp)  
 
 ### Findings
 #### Open Ports

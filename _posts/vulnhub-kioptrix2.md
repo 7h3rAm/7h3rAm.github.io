@@ -5,9 +5,13 @@ summary: This is the summary for an awesome post.
 tags: vulnhub, writeup
 
 ## Overview
-This is a writeup for VulnHub VM [Kioptrix: Level 1.1 (#2)](https://www.vulnhub.com/entry/kioptrix-level-11-2,23/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
+This is a writeup for VulnHub VM [Kioptrix: Level 1.1 (#2)](https://www.vulnhub.com/entry/kioptrix-level-11-2,23/). Here are stats for this machine from [machinescli](https://github.com/7h3rAm/machinescli):
+
+![writeup.overview.machinescli](/static/files/posts_vulnhub_kioptrix2/machinescli.png.webp)
 
 ### Killchain
+Here's the killchain (`enumeration` → `exploitation` → `privilege escalation`) for this machine:
+
 ![writeup.overview.killchain](/static/files/posts_vulnhub_kioptrix2/killchain.png.webp)
 
 ### TTPs
@@ -111,20 +115,24 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Fri Sep 27 18:17:03 2019 -- 1 IP address (1 host up) scanned in 15.14 seconds
 ```
 
-2\. We find a login form served at `80/tcp`. Within HTML comments we find reference to a possible username `admin` and successfully login using SQL injection:  
+2\. Here a summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:
+
+![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_kioptrix2/openports.png.webp)  
+
+3\. We find a login form served at `80/tcp`. Within HTML comments we find reference to a possible username `admin` and successfully login using SQL injection:  
 ```
 admin/' or 1=1 -- -
 ```
 
-![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_kioptrix2/screenshot01.png.webp)  
+![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_kioptrix2/screenshot01.png.webp)  
 
-![writeup.enumeration.steps.2.2](/static/files/posts_vulnhub_kioptrix2/screenshot02.png.webp)  
+![writeup.enumeration.steps.3.2](/static/files/posts_vulnhub_kioptrix2/screenshot02.png.webp)  
 
-3\. Once logged in, we find a web administration console with a text input field to accept an IP address. The web console will `POST` this IP to the `pingit.php` script that runs a `ping` query against this IP and shows result:  
+4\. Once logged in, we find a web administration console with a text input field to accept an IP address. The web console will `POST` this IP to the `pingit.php` script that runs a `ping` query against this IP and shows result:  
 
-![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_kioptrix2/screenshot03.png.webp)  
+![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_kioptrix2/screenshot03.png.webp)  
 
-![writeup.enumeration.steps.3.2](/static/files/posts_vulnhub_kioptrix2/screenshot04.png.webp)  
+![writeup.enumeration.steps.4.2](/static/files/posts_vulnhub_kioptrix2/screenshot04.png.webp)  
 
 ### Findings
 #### Open Ports

@@ -5,9 +5,13 @@ summary: This is the summary for an awesome post.
 tags: vulnhub, writeup
 
 ## Overview
-This is a writeup for VulnHub VM [FristiLeaks: 1.3](https://www.vulnhub.com/entry/fristileaks-13,133/). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
+This is a writeup for VulnHub VM [FristiLeaks: 1.3](https://www.vulnhub.com/entry/fristileaks-13,133/). Here are stats for this machine from [machinescli](https://github.com/7h3rAm/machinescli):
+
+![writeup.overview.machinescli](/static/files/posts_vulnhub_fristileaks1dot3/machinescli.png.webp)
 
 ### Killchain
+Here's the killchain (`enumeration` → `exploitation` → `privilege escalation`) for this machine:
+
 ![writeup.overview.killchain](/static/files/posts_vulnhub_fristileaks1dot3/killchain.png.webp)
 
 ### TTPs
@@ -38,18 +42,22 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Wed Sep 11 13:59:54 2019 -- 1 IP address (1 host up) scanned in 14.00 seconds
 ```
 
-2\. We find references to 3 directories from `robots.txt`:  
+2\. Here a summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:
+
+![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_fristileaks1dot3/openports.png.webp)  
+
+3\. We find references to 3 directories from `robots.txt`:  
 ```
 http://192.168.92.133/cola
 http://192.168.92.133/sisi
 http://192.168.92.133/beer
 ```
 
-![writeup.enumeration.steps.2.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot01.png.webp)  
+![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot01.png.webp)  
 
-3\. These directories don't have anything useful other than a meme image. Since all these directory names are references to drinks and the name of this VM also referes to one, we try `http://192.168.92.133/fristi` and are presented with a login page:  
+4\. These directories don't have anything useful other than a meme image. Since all these directory names are references to drinks and the name of this VM also referes to one, we try `http://192.168.92.133/fristi` and are presented with a login page:  
 
-![writeup.enumeration.steps.3.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot02.png.webp)  
+![writeup.enumeration.steps.4.1](/static/files/posts_vulnhub_fristileaks1dot3/screenshot02.png.webp)  
 
 ### Findings
 #### Open Ports
