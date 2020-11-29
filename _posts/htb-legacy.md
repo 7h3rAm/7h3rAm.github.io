@@ -17,7 +17,6 @@ Here's the killchain (`enumeration` → `exploitation` → `privilege escalation
 ### TTPs
 1\. `139/tcp/netbios-ssn/Microsoft Windows netbios-ssn`: [exploit_smb_ms08_067](https://github.com/7h3rAm/writeups#exploit_smb_ms08_067)  
 
-
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
 ```
@@ -74,7 +73,11 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Fri Nov  1 14:49:04 2019 -- 1 IP address (1 host up) scanned in 276.38 seconds
 ```
 
-2\. From the Nmap scan results, we find that the target system has SMB service running and is a Windows XP system:  
+2\. Here's the summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:  
+
+![writeup.enumeration.steps.2.1](/static/files/posts_htb_legacy/openports.png.webp)  
+
+3\. From the Nmap scan results, we find that the target system has SMB service running and is a Windows XP system:  
 ```
 | smb-os-discovery:
 |   OS: Windows XP (Windows 2000 LAN Manager)

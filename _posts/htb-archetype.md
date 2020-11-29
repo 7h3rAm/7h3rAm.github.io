@@ -15,11 +15,11 @@ Here's the killchain (`enumeration` → `exploitation` → `privilege escalation
 ![writeup.overview.killchain](/static/files/posts_htb_bashed/killchain.png.webp)
 
 ### TTPs
-1. `445/tcp/microsoft-ds/Windows Server 2019 Standard 17763 microsoft-ds`: [enumerate_proto_smb](https://github.com/7h3rAm/writeups#enumerate_proto_smb), [enumerate_proto_smb_anonymous_access](https://github.com/7h3rAm/writeups#enumerate_proto_smb_anonymous_access), [privesc_psexec_login](https://github.com/7h3rAm/writeups#privesc_psexec_login)  
-1. `1433/tcp/ms-sql-s/Microsoft SQL Server 14.00.1000.00`: [enumerate_proto_sql](https://github.com/7h3rAm/writeups#enumerate_proto_sql), [enumerate_proto_sql_ssis_dtsconfig](https://github.com/7h3rAm/writeups#enumerate_proto_sql_ssis_dtsconfig), [enumerate_app_powershell_history](https://github.com/7h3rAm/writeups#enumerate_app_powershell_history), [exploit_sql_login](https://github.com/7h3rAm/writeups#exploit_sql_login), [exploit_sql_xpcmdshell](https://github.com/7h3rAm/writeups#exploit_sql_xpcmdshell)  
+1\. `445/tcp/microsoft-ds/Windows Server 2019 Standard 17763 microsoft-ds`: [enumerate_proto_smb](https://github.com/7h3rAm/writeups#enumerate_proto_smb), [enumerate_proto_smb_anonymous_access](https://github.com/7h3rAm/writeups#enumerate_proto_smb_anonymous_access), [privesc_psexec_login](https://github.com/7h3rAm/writeups#privesc_psexec_login)  
+2\. `1433/tcp/ms-sql-s/Microsoft SQL Server 14.00.1000.00`: [enumerate_proto_sql](https://github.com/7h3rAm/writeups#enumerate_proto_sql), [enumerate_proto_sql_ssis_dtsconfig](https://github.com/7h3rAm/writeups#enumerate_proto_sql_ssis_dtsconfig), [enumerate_app_powershell_history](https://github.com/7h3rAm/writeups#enumerate_app_powershell_history), [exploit_sql_login](https://github.com/7h3rAm/writeups#exploit_sql_login), [exploit_sql_xpcmdshell](https://github.com/7h3rAm/writeups#exploit_sql_xpcmdshell)  
 
 ## Phase #1: Enumeration
-1. Here's the Nmap scan result:  
+1\. Here's the Nmap scan result:  
 ```
 # Nmap 7.70 scan initiated Tue Apr 28 07:55:10 2020 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.archetype/results/10.10.10.27/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.archetype/results/10.10.10.27/scans/xml/_quick_tcp_nmap.xml 10.10.10.27
 Increasing send delay for 10.10.10.27 from 0 to 5 due to 32 out of 106 dropped probes since last increase.
@@ -110,27 +110,27 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Tue Apr 28 07:56:23 2020 -- 1 IP address (1 host up) scanned in 73.83 seconds
 ```
 
-1. Here's the summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:  
+2\. Here's the summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:  
 
-![writeup.enumeration.steps.2.1](/static/files/posts_htb_buff/openports.png.webp)  
+![writeup.enumeration.steps.2.1](/static/files/posts_htb_archetype/openports.png.webp)  
 
-1. We find `445/tcp` to be open and can use `smbclient` to check if it allows anonymous access:  
+3\. We find `445/tcp` to be open and can use `smbclient` to check if it allows anonymous access:  
 ```
 smbclient -N -L \\\\10.10.10.27
 ```
 
-![writeup.enumeration.steps.2.1](/static/files/posts_htb_archetype/screenshot01.png.webp)  
+![writeup.enumeration.steps.3.1](/static/files/posts_htb_archetype/screenshot01.png.webp)  
 
-1. We find a non-default share named `backups` which seems interesting. Let's explore further:  
+4\. We find a non-default share named `backups` which seems interesting. Let's explore further:  
 ```
 smbclient -N \\\\10.10.10.27\\backups
 ```
 
-![writeup.enumeration.steps.3.1](/static/files/posts_htb_archetype/screenshot02.png.webp)  
+![writeup.enumeration.steps.4.1](/static/files/posts_htb_archetype/screenshot02.png.webp)  
 
-1. We find a `prod.dtsConfig` file on the SMB share. The `.dtsConfig` files are used by [SQL Server Integration Services (SSIS)](https://en.wikipedia.org/wiki/SQL_Server_Integration_Services). We find that this file contains plaintext credentials for the default SQL service user:  
+5\. We find a `prod.dtsConfig` file on the SMB share. The `.dtsConfig` files are used by [SQL Server Integration Services (SSIS)](https://en.wikipedia.org/wiki/SQL_Server_Integration_Services). We find that this file contains plaintext credentials for the default SQL service user:  
 
-![writeup.enumeration.steps.4.1](/static/files/posts_htb_archetype/screenshot03.png.webp)  
+![writeup.enumeration.steps.5.1](/static/files/posts_htb_archetype/screenshot03.png.webp)  
 
 ### Findings
 #### Open Ports

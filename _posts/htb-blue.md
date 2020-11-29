@@ -56,16 +56,20 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Fri Nov  1 17:08:32 2019 -- 1 IP address (1 host up) scanned in 171.43 seconds
 ```
 
-2\. We find SMB ports to be open on the target system. We run a Nmap NSE script scan to check if the SMB service is vulnerable:  
+2\. Here's the summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:  
+
+![writeup.enumeration.steps.2.1](/static/files/posts_htb_blue/openports.png.webp)  
+
+3\. We find SMB ports to be open on the target system. We run a Nmap NSE script scan to check if the SMB service is vulnerable:  
 ```
 nmap -p139,445 --script smb-vuln-* --script-args=unsafe=1 10.10.10.40
 ```
 
-![writeup.enumeration.steps.2.1](/static/files/posts_htb_blue/screenshot01.png.webp)  
+![writeup.enumeration.steps.3.1](/static/files/posts_htb_blue/screenshot01.png.webp)  
 
-3\. We find that the target system is missing patches from [MS17-010](https://docs.microsoft.com/en-us/security-updates/securitybulletins/2017/ms17-010) bulletin and as such vulnerable. We can use the [zzz_exploit.py](https://github.com/worawit/MS17-010) EternalBlue exploit to gain interactive access. But before that we need to determine the target OS version and the name of an active pipe:  
+4\. We find that the target system is missing patches from [MS17-010](https://docs.microsoft.com/en-us/security-updates/securitybulletins/2017/ms17-010) bulletin and as such vulnerable. We can use the [zzz_exploit.py](https://github.com/worawit/MS17-010) EternalBlue exploit to gain interactive access. But before that we need to determine the target OS version and the name of an active pipe.  
 
-4\. We first use Metasploit auxiliary module `scanner/smb/smb_version` to determine target OS version to be `Windows 7 Professional SP1 (build:7601) (name:HARIS-PC)`:  
+5\. We first use Metasploit auxiliary module `scanner/smb/smb_version` to determine target OS version to be `Windows 7 Professional SP1 (build:7601) (name:HARIS-PC)`:  
 ```
 msfconsole
   use auxiliary/scanner/smb/smb_version
@@ -74,9 +78,9 @@ msfconsole
   run
 ```
 
-![writeup.enumeration.steps.4.1](/static/files/posts_htb_blue/screenshot02.png.webp)  
+![writeup.enumeration.steps.5.1](/static/files/posts_htb_blue/screenshot02.png.webp)  
 
-5\. Then we use another Metasploit auxiliary module `scanner/smb/pipe_auditor` to find multiple open pipes `\netlogon, \lsarpc, \samr, \browser, \atsvc, \epmapper, \eventlog, \InitShutdown, \keysvc, \lsass, \LSM_API_service, \ntsvcs, \plugplay, \protected_storage, \scerpc, \srvsvc, \trkwks, \W32TIME_ALT, \wkssvc`:  
+6\. Then we use another Metasploit auxiliary module `scanner/smb/pipe_auditor` to find multiple open pipes `\netlogon, \lsarpc, \samr, \browser, \atsvc, \epmapper, \eventlog, \InitShutdown, \keysvc, \lsass, \LSM_API_service, \ntsvcs, \plugplay, \protected_storage, \scerpc, \srvsvc, \trkwks, \W32TIME_ALT, \wkssvc`:  
 ```
 msfconsole
   use auxiliary/scanner/smb/pipe_auditor
@@ -85,7 +89,7 @@ msfconsole
   run
 ```
 
-![writeup.enumeration.steps.5.1](/static/files/posts_htb_blue/screenshot03.png.webp)  
+![writeup.enumeration.steps.6.1](/static/files/posts_htb_blue/screenshot03.png.webp)  
 
 ### Findings
 #### Open Ports

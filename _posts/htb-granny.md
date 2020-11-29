@@ -17,7 +17,6 @@ Here's the killchain (`enumeration` → `exploitation` → `privilege escalation
 ### TTPs
 1\. `80/tcp/http/Microsoft IIS httpd 6.0`: [exploit_iis_webdav](https://github.com/7h3rAm/writeups#exploit_iis_webdav), [privesc_windows_ms15_051](https://github.com/7h3rAm/writeups#privesc_windows_ms15_051)  
 
-
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
 ```
@@ -47,9 +46,13 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Mon Nov  4 13:35:58 2019 -- 1 IP address (1 host up) scanned in 21.97 seconds
 ```
 
-2\. We look for IIS 6.0 vulnerabilities and find multiple WebDAV related hits:  
+2\. Here's the summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:  
 
-![writeup.enumeration.steps.2.1](/static/files/posts_htb_granny/screenshot01.png.webp)  
+![writeup.enumeration.steps.2.1](/static/files/posts_htb_granny/openports.png.webp)  
+
+3\. We look for IIS 6.0 vulnerabilities and find multiple WebDAV related hits:  
+
+![writeup.enumeration.steps.3.1](/static/files/posts_htb_granny/screenshot01.png.webp)  
 
 ### Findings
 #### Open Ports

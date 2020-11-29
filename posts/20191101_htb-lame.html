@@ -49,15 +49,15 @@ Host script results:
 Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Fri Nov  1 12:31:47 2019 -- 1 IP address (1 host up) scanned in 93.91 seconds
-</code></pre><p class=nested>2. We find that the <code>vsftpd</code> service allows anonymous logins and as such connect to it but don't find anything inetresting there. We however find a MSF exploit for the <code>vsftpd</code> version <code>2.3.4</code>. This exploit failed to obtain a session: </p><pre class=nested><code>ftp 10.10.10.3
+</code></pre><p class=nested>2. Here's the summary of open ports and associated <a href=https://github.com/Tib3rius/AutoRecon>AutoRecon</a> scan files: </p><p class=nested><img alt=writeup.enumeration.steps.2.1 src=/static/files/posts_htb_lame/openports.png.webp> </p><p class=nested>3. We find that the <code>vsftpd</code> service allows anonymous logins and as such connect to it but don't find anything inetresting there. We however find a MSF exploit for the <code>vsftpd</code> version <code>2.3.4</code>. This exploit failed to obtain a session: </p><pre class=nested><code>ftp 10.10.10.3
 msfconsole
   use exploit/unix/ftp/vsftpd_234_backdoor
   set RHOST 10.10.10.3
   show options
   exploit
-</code></pre><p class=nested><img alt=writeup.enumeration.steps.2.1 src=/static/files/posts_htb_lame/screenshot01.png.webp> </p><p class=nested><img alt=writeup.enumeration.steps.2.2 src=/static/files/posts_htb_lame/screenshot02.png.webp> </p><p class=nested>3. We then explore the open (read+write) SMB share <code>tmp</code> but since there is no service (like HTTP for example) to leverage uploaded files, we move on: </p><pre class=nested><code>smbclient \\\\10.10.10.3\\tmp
+</code></pre><p class=nested><img alt=writeup.enumeration.steps.3.1 src=/static/files/posts_htb_lame/screenshot01.png.webp> </p><p class=nested><img alt=writeup.enumeration.steps.3.2 src=/static/files/posts_htb_lame/screenshot02.png.webp> </p><p class=nested>4. We then explore the open (read+write) SMB share <code>tmp</code> but since there is no service (like HTTP for example) to leverage uploaded files, we move on: </p><pre class=nested><code>smbclient \\\\10.10.10.3\\tmp
   dir
-</code></pre><p class=nested><img alt=writeup.enumeration.steps.3.1 src=/static/files/posts_htb_lame/screenshot03.png.webp> </p><h3 class="h3 collapsible" onclick=toggle(this);>Findings</h3><h4 class="h4 collapsible" onclick=toggle(this);>Open Ports</h4><pre class=nested><code>21/tcp   |  ftp          |  vsftpd 2.3.4
+</code></pre><p class=nested><img alt=writeup.enumeration.steps.4.1 src=/static/files/posts_htb_lame/screenshot03.png.webp> </p><h3 class="h3 collapsible" onclick=toggle(this);>Findings</h3><h4 class="h4 collapsible" onclick=toggle(this);>Open Ports</h4><pre class=nested><code>21/tcp   |  ftp          |  vsftpd 2.3.4
 22/tcp   |  ssh          |  OpenSSH 4.7p1 Debian 8ubuntu1 (protocol 2.0)
 139/tcp  |  netbios-ssn  |  Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
 445/tcp  |  netbios-ssn  |  Samba smbd 3.0.20-Debian (workgroup: WORKGROUP)

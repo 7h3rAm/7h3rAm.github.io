@@ -48,11 +48,15 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Tue Nov  5 11:29:18 2019 -- 1 IP address (1 host up) scanned in 61.93 seconds
 ```
 
-2\. We find that the FTP service allows `anonymous` login and it shares directory with IIS server web root. This means we can upload `.aspx` reverse shell file via FTP and trigger it using the HTTP service:  
+2\. Here's the summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:  
 
-![writeup.enumeration.steps.2.1](/static/files/posts_htb_devel/screenshot01.png.webp)  
+![writeup.enumeration.steps.2.1](/static/files/posts_htb_devel/openports.png.webp)  
 
-![writeup.enumeration.steps.2.2](/static/files/posts_htb_devel/screenshot02.png.webp)  
+3\. We find that the FTP service allows `anonymous` login and it shares directory with IIS server web root. This means we can upload `.aspx` reverse shell file via FTP and trigger it using the HTTP service:  
+
+![writeup.enumeration.steps.3.1](/static/files/posts_htb_devel/screenshot01.png.webp)  
+
+![writeup.enumeration.steps.3.2](/static/files/posts_htb_devel/screenshot02.png.webp)  
 
 ### Findings
 #### Open Ports

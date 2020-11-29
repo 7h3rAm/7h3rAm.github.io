@@ -53,17 +53,21 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Tue Nov 12 15:49:46 2019 -- 1 IP address (1 host up) scanned in 27.40 seconds
 ```
 
-2\. From the HTTP response headers, we find that the HTTP service is running the [PiHole](https://pi-hole.net/) project:  
+2\. Here's the summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:  
 
-![writeup.enumeration.steps.2.1](/static/files/posts_htb_mirai/screenshot01.png.webp)  
+![writeup.enumeration.steps.2.1](/static/files/posts_htb_mirai/openports.png.webp)  
 
-3\. We also find an `admin` directory from the `gobuster` scan:  
+3\. From the HTTP response headers, we find that the HTTP service is running the [PiHole](https://pi-hole.net/) project:  
 
-![writeup.enumeration.steps.3.1](/static/files/posts_htb_mirai/screenshot02.png.webp)  
+![writeup.enumeration.steps.3.1](/static/files/posts_htb_mirai/screenshot01.png.webp)  
 
-4\. Upon visiting the `http://10.10.10.48/admin/` page, we get the default PiHole dashboard:  
+4\. We also find an `admin` directory from the `gobuster` scan:  
 
-![writeup.enumeration.steps.4.1](/static/files/posts_htb_mirai/screenshot03.png.webp)  
+![writeup.enumeration.steps.4.1](/static/files/posts_htb_mirai/screenshot02.png.webp)  
+
+5\. Upon visiting the `http://10.10.10.48/admin/` page, we get the default PiHole dashboard:  
+
+![writeup.enumeration.steps.5.1](/static/files/posts_htb_mirai/screenshot03.png.webp)  
 
 ### Findings
 #### Open Ports

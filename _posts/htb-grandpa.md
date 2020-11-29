@@ -46,9 +46,13 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Mon Nov  4 15:43:38 2019 -- 1 IP address (1 host up) scanned in 23.46 seconds
 ```
 
-2\. We look for IIS 6.0 vulnerabilities and find multiple WebDAV related hits:  
+2\. Here's the summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:  
 
-![writeup.enumeration.steps.2.1](/static/files/posts_htb_grandpa/screenshot01.png.webp)  
+![writeup.enumeration.steps.2.1](/static/files/posts_htb_grandpa/openports.png.webp)  
+
+3\. We look for IIS 6.0 vulnerabilities and find multiple WebDAV related hits:  
+
+![writeup.enumeration.steps.3.1](/static/files/posts_htb_grandpa/screenshot01.png.webp)  
 
 ### Findings
 #### Open Ports

@@ -41,7 +41,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 
 2\. Here's the summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:  
 
-![writeup.enumeration.steps.2.1](/static/files/posts_htb_buff/openports.png.webp)  
+![writeup.enumeration.steps.2.1](/static/files/posts_htb_bashed/openports.png.webp)  
 
 3\. We see that the port `80/tcp` is the only open port on this machine. Let's run `gobuster` and find interesting directories on this web server:  
 ```
@@ -65,13 +65,13 @@ $ cat results/10.10.10.68/scans/tcp_80_http_gobuster_dirbuster.txt
   http://10.10.10.68:80/single.html (Status: 200) [Size: 7476]
 ```
 
-![writeup.enumeration.steps.3.1](/static/files/posts_htb_bashed/screenshot03.png.webp)  
+![writeup.enumeration.steps.4.1](/static/files/posts_htb_bashed/screenshot03.png.webp)  
 
-![writeup.enumeration.steps.3.2](/static/files/posts_htb_bashed/screenshot01.png.webp)  
+![writeup.enumeration.steps.4.2](/static/files/posts_htb_bashed/screenshot01.png.webp)  
 
 5\. We find that [`phpbash`](https://github.com/Arrexel/phpbash) is a minimal web shell that can give us interactive access to the target machine.  
 
-![writeup.enumeration.steps.4.1](/static/files/posts_htb_bashed/screenshot02.png.webp)  
+![writeup.enumeration.steps.5.1](/static/files/posts_htb_bashed/screenshot02.png.webp)  
 
 ### Findings
 #### Open Ports

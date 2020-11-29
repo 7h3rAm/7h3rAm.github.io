@@ -50,19 +50,23 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Wed Nov 13 14:08:25 2019 -- 1 IP address (1 host up) scanned in 24.49 seconds
 ```
 
-2\. We start with DNS enumeration and with a reverse lookup and find that the subdomain `ns1.cronos.htb` is associated with the target IP. Since DNS is responding on TCP, we also perform a DNS zone transfer and find additional subdomains associated with the target IP:  
+2\. Here's the summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:  
+
+![writeup.enumeration.steps.2.1](/static/files/posts_htb_cronos/openports.png.webp)  
+
+3\. We start with DNS enumeration and with a reverse lookup and find that the subdomain `ns1.cronos.htb` is associated with the target IP. Since DNS is responding on TCP, we also perform a DNS zone transfer and find additional subdomains associated with the target IP:  
 ```
 dig +noall +answer -x 10.10.10.13 @10.10.10.13
 host -t axfr cronos.htb 10.10.10.13
 ```
 
-![writeup.enumeration.steps.2.1](/static/files/posts_htb_cronos/screenshot01.png.webp)  
+![writeup.enumeration.steps.3.1](/static/files/posts_htb_cronos/screenshot01.png.webp)  
 
-![writeup.enumeration.steps.2.2](/static/files/posts_htb_cronos/screenshot02.png.webp)  
+![writeup.enumeration.steps.3.2](/static/files/posts_htb_cronos/screenshot02.png.webp)  
 
-3\. Upon visiting the `admin.cronos.htb` subdomain, we are presented with a login page, that is vulnerable to SQL injection:  
+4\. Upon visiting the `admin.cronos.htb` subdomain, we are presented with a login page, that is vulnerable to SQL injection:  
 
-![writeup.enumeration.steps.3.1](/static/files/posts_htb_cronos/screenshot03.png.webp)  
+![writeup.enumeration.steps.4.1](/static/files/posts_htb_cronos/screenshot03.png.webp)  
 
 ### Findings
 #### Open Ports

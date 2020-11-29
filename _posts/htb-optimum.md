@@ -40,9 +40,13 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Mon Nov  4 17:35:16 2019 -- 1 IP address (1 host up) scanned in 19.87 seconds
 ```
 
-2\. We find `HttpFileServer 2.3` running on the target system. Upon searching for exploits we find multiple hits:  
+2\. Here's the summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:  
 
-![writeup.enumeration.steps.2.1](/static/files/posts_htb_optimum/screenshot01.png.webp)  
+![writeup.enumeration.steps.2.1](/static/files/posts_htb_optimum/openports.png.webp)  
+
+3\. We find `HttpFileServer 2.3` running on the target system. Upon searching for exploits we find multiple hits:  
+
+![writeup.enumeration.steps.3.1](/static/files/posts_htb_optimum/screenshot01.png.webp)  
 
 ### Findings
 #### Open Ports

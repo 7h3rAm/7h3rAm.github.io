@@ -5,7 +5,9 @@ summary: This is the summary for an awesome post.
 tags: hackthebox, writeup
 
 ## Overview
-This is a writeup for HTB VM [Shocker](https://www.hackthebox.eu/home/machines/profile/108). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
+This is a writeup for HTB VM [Shocker](https://www.hackthebox.eu/home/machines/profile/108). Here are stats for this machine from [machinescli](https://github.com/7h3rAm/machinescli):
+
+![writeup.overview.machinescli](/static/files/posts_htb_shocker/machinescli.png.webp)
 
 ### Killchain
 Here's the killchain (`enumeration` → `exploitation` → `privilege escalation`) for this machine:
@@ -47,22 +49,26 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Wed Nov 13 16:00:49 2019 -- 1 IP address (1 host up) scanned in 26.24 seconds
 ```
 
-2\. We try Shellshock related enumeration steps to identify interesting scripts to be used as entrypoint:  
+2\. Here's the summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:  
+
+![writeup.enumeration.steps.2.1](/static/files/posts_htb_shocker/openports.png.webp)  
+
+3\. We try Shellshock related enumeration steps to identify interesting scripts to be used as entrypoint:  
 ```
 gobuster -u 10.10.10.56 -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt -s 200,204,301,302,307,403
 gobuster -u 10.10.10.56 -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt -s 200,204,301,302,307,403 -k -x sh,pl
 nmap -sV -p80 --script http-shellshock --script-args uri=/cgi-bin/user.sh,cmd=ls 10.10.10.56
 ```
 
-![writeup.enumeration.steps.2.1](/static/files/posts_htb_shocker/screenshot01.png.webp)  
+![writeup.enumeration.steps.3.1](/static/files/posts_htb_shocker/screenshot01.png.webp)  
 
-![writeup.enumeration.steps.2.2](/static/files/posts_htb_shocker/screenshot02.png.webp)  
+![writeup.enumeration.steps.3.2](/static/files/posts_htb_shocker/screenshot02.png.webp)  
 
-3\. The `user.sh` script looks interesting and we manually confirm that it is vulnerable to Shellshock:  
+4\. The `user.sh` script looks interesting and we manually confirm that it is vulnerable to Shellshock:  
 
-![writeup.enumeration.steps.3.1](/static/files/posts_htb_shocker/screenshot03.png.webp)  
+![writeup.enumeration.steps.4.1](/static/files/posts_htb_shocker/screenshot03.png.webp)  
 
-![writeup.enumeration.steps.3.2](/static/files/posts_htb_shocker/screenshot04.png.webp)  
+![writeup.enumeration.steps.4.2](/static/files/posts_htb_shocker/screenshot04.png.webp)  
 
 ### Findings
 #### Open Ports

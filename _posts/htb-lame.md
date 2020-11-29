@@ -73,7 +73,11 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Fri Nov  1 12:31:47 2019 -- 1 IP address (1 host up) scanned in 93.91 seconds
 ```
 
-2\. We find that the `vsftpd` service allows anonymous logins and as such connect to it but don't find anything inetresting there. We however find a MSF exploit for the `vsftpd` version `2.3.4`. This exploit failed to obtain a session:  
+2\. Here's the summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:  
+
+![writeup.enumeration.steps.2.1](/static/files/posts_htb_lame/openports.png.webp)  
+
+3\. We find that the `vsftpd` service allows anonymous logins and as such connect to it but don't find anything inetresting there. We however find a MSF exploit for the `vsftpd` version `2.3.4`. This exploit failed to obtain a session:  
 ```
 ftp 10.10.10.3
 msfconsole
@@ -83,17 +87,17 @@ msfconsole
   exploit
 ```
 
-![writeup.enumeration.steps.2.1](/static/files/posts_htb_lame/screenshot01.png.webp)  
+![writeup.enumeration.steps.3.1](/static/files/posts_htb_lame/screenshot01.png.webp)  
 
-![writeup.enumeration.steps.2.2](/static/files/posts_htb_lame/screenshot02.png.webp)  
+![writeup.enumeration.steps.3.2](/static/files/posts_htb_lame/screenshot02.png.webp)  
 
-3\. We then explore the open (read+write) SMB share `tmp` but since there is no service (like HTTP for example) to leverage uploaded files, we move on:  
+4\. We then explore the open (read+write) SMB share `tmp` but since there is no service (like HTTP for example) to leverage uploaded files, we move on:  
 ```
 smbclient \\\\10.10.10.3\\tmp
   dir
 ```
 
-![writeup.enumeration.steps.3.1](/static/files/posts_htb_lame/screenshot03.png.webp)  
+![writeup.enumeration.steps.4.1](/static/files/posts_htb_lame/screenshot03.png.webp)  
 
 ### Findings
 #### Open Ports
