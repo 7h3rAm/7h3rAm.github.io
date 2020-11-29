@@ -5,11 +5,13 @@ summary: This is the summary for an awesome post.
 tags: hackthebox, writeup
 
 ## Overview
-![writeup.metadata.infocard](/static/files/posts_htb_bashed/infocard.png.webp)
+This is a writeup for HTB VM [Bashed](https://www.hackthebox.eu/home/machines/profile/118). Here are stats for this machine from [machinescli](https://github.com/7h3rAm/machinescli):
 
-This is a writeup for HTB VM [Bashed](https://www.hackthebox.eu/home/machines/profile/118). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
+![writeup.overview.machinescli](/static/files/posts_htb_bashed/machinescli.png.webp)
 
 ### Killchain
+Here's the killchain (`enumeration` → `exploitation` → `privilege escalation`) for this machine:
+
 ![writeup.overview.killchain](/static/files/posts_htb_bashed/killchain.png.webp)
 
 ### TTPs
@@ -37,12 +39,16 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Fri May 29 19:05:10 2020 -- 1 IP address (1 host up) scanned in 59.85 seconds
 ```
 
-2\. We see that the port `80/tcp` is the only open port on this machine. Let's run `gobuster` and find interesting directories on this web server:  
+2\. Here's the summary of open ports and associated [AutoRecon](https://github.com/Tib3rius/AutoRecon) scan files:  
+
+![writeup.enumeration.steps.2.1](/static/files/posts_htb_buff/openports.png.webp)  
+
+3\. We see that the port `80/tcp` is the only open port on this machine. Let's run `gobuster` and find interesting directories on this web server:  
 ```
 gobuster dir -u http://10.10.10.68:80/ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -e -k -l -s "200,204,301,302,307,403,500" -x "txt,html,php,asp,aspx,jsp" -z -o "/home/kali/toolbox/writeups/htb.bashed/results/10.10.10.68/scans/tcp_80_http_gobuster_dirbuster.txt"
 ```
 
-3\. We find a few directories from `gobuster` scan and the `/dev` directory lists two interesting files: `phpbash.min.php` and `phpbash.php`  
+4\. We find a few directories from `gobuster` scan and the `/dev` directory lists two interesting files: `phpbash.min.php` and `phpbash.php`  
 ```
 $ cat results/10.10.10.68/scans/tcp_80_http_gobuster_dirbuster.txt 
   http://10.10.10.68:80/images (Status: 301) [Size: 311]
@@ -63,7 +69,7 @@ $ cat results/10.10.10.68/scans/tcp_80_http_gobuster_dirbuster.txt
 
 ![writeup.enumeration.steps.3.2](/static/files/posts_htb_bashed/screenshot01.png.webp)  
 
-4\. We find that [`phpbash`](https://github.com/Arrexel/phpbash) is a minimal web shell that can give us interactive access to the target machine.  
+5\. We find that [`phpbash`](https://github.com/Arrexel/phpbash) is a minimal web shell that can give us interactive access to the target machine.  
 
 ![writeup.enumeration.steps.4.1](/static/files/posts_htb_bashed/screenshot02.png.webp)  
 

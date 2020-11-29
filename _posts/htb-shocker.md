@@ -5,11 +5,11 @@ summary: This is the summary for an awesome post.
 tags: hackthebox, writeup
 
 ## Overview
-![writeup.metadata.infocard](/static/files/posts_htb_shocker/infocard.png.webp)
-
 This is a writeup for HTB VM [Shocker](https://www.hackthebox.eu/home/machines/profile/108). Here's an overview of the `enumeration` → `exploitation` → `privilege escalation` process:
 
 ### Killchain
+Here's the killchain (`enumeration` → `exploitation` → `privilege escalation`) for this machine:
+
 ![writeup.overview.killchain](/static/files/posts_htb_shocker/killchain.png.webp)
 
 ### TTPs
