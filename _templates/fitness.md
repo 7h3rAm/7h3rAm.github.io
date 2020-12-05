@@ -117,3 +117,24 @@
 ### Warmup
   * [Jump Rope](https://www.youtube.com/watch?v=wwzkJOKEHNA)
   * [Resistance Band](https://www.youtube.com/watch?v=hXS5di58qf0)
+
+
+## Grooming:
+### Hair Care:
+  * Multani Mitti (Fuller's Earth) + Gulab Jal (Rose Water) + Dahi (Curd)
+  * Coconut Oil
+  * Collagen Supplement
+
+### Body Wash:
+  * Multani Mitti + Gulab Jal
+  * Chandan (Sandalwood) + Gulab Jal
+  * Neem Powder + Gulab Jal
+
+### Body Care:
+  * Almond Oil Massage
+  * Almonds, Ghee, Dahi, Raw Veggies
+  * Haldi Doodh (Tumeric Milk)
+  * Neem Powder + Honey
+  * D3+K2, Boron, ZMA, Omega 3, VitB Complex
+  * Glycine
+  * Creatine
