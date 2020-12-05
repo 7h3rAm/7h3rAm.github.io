@@ -38,7 +38,7 @@
 * [Weighted Vest](https://www.roguefitness.com/bodyweight-gymnastics/body-weight/weight-vests)
 
 
-## Training
+## Goals
 ### Fat Loss
 * Fasting
 * Strength Training + Sprints
