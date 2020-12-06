@@ -4,7 +4,7 @@
 <br/><br/>
 
 ## Introduction
-{{ datadict.metadata.cv.intro }}<br/>
+<p>{{ datadict.metadata.cv.intro }}</p>
 
 {% for domain in datadict.metadata.cv.domains %}
 
