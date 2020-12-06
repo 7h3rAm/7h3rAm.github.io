@@ -8,10 +8,7 @@ tags: code
 
 Around an year ago I submitted a pull request to the [ChopShop](https://github.com/MITRECND/chopshop) project from [MITRECND](https://github.com/MITRECND). This request included a module that enabled shellcode detection for TCP streams and UDP packets. In this post I'll show how to use this module to identify shellcode within network streams. Here's the project description:
 
-```
-ChopShop is a MITRE developed framework to aid analysts in the creation and execution of pynids
-based decoders and detectors of APT tradecraft.
-```
+`ChopShop is a MITRE developed framework to aid analysts in the creation and execution of pynids based decoders and detectors of APT tradecraft.`
 
 It provides reliable network stream reassembly via libnids and provides an API to write plugins/modules that can operate upon the reassembled network data. The project is in active development since September 2012 and numerous interesting modules have been added to it recently.
 
