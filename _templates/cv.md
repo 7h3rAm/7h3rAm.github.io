@@ -22,7 +22,7 @@
 ## Experience</h2>
 {% for job in datadict.metadata.jobs %}
 ### {{ job.title }} @ {{ job.employer }}
-`{{ job.years }} ({{ job.duration }})`
+* `{{ job.years }} ({{ job.duration }})`
 <br/><br/>
 {% for desc in job.description %}
 {% if desc and desc != "" %}
