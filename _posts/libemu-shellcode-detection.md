@@ -9,7 +9,14 @@ tags: code, reversing
 [Libemu](http://libemu.carnivore.it/) is a C library that provides x86 architecture emulation and [shellcode](http://www.infosecwriters.com/hhworld/shellcode.txt) detection features. It uses [GetPC](http://skypher.com/wiki/index.php?title=Hacking/Shellcode/GetPC) heuristics to identify shellcode blobs within an input buffer.
 
 ```
-`GetPC` is a shellcode writing technique, commonly used with [selfmodifying](http://www.blackhatlibrary.net/Shellcode/Self-modifying) shellcode. Self-modification is a technique that enables a piece code to mutate itself, primarily to hide from AV/HIPS filters. A shellcode won't be loaded by a trusted loading mechanism, but would rather be injected into a target process's virtual address space. As such, during execution, it will have very limited knowledge of its execution context. Specifically, it won't be loaded at a known location and a reliable guess of its base location is unfeasible. Due to this limitation, one cannot use hardcoded `jmp`/`call` addresses in a shellcode but rather rely on some code to get the base address and then use offsets from the current base to reach specific locations inside shellcode buffer. Such a piece of code is also referred to as being [Position Independent](http://en.wikipedia.org/wiki/Position-independent_code).
+`GetPC` is a shellcode writing technique, commonly used with [selfmodifying](http://www.blackhatlibrary.net/Shellcode/Self-modifying)
+shellcode. Self-modification is a technique that enables a piece code to mutate itself, primarily to hide from AV/HIPS filters.
+A shellcode won't be loaded by a trusted loading mechanism, but would rather be injected into a target process's virtual
+address space. As such, during execution, it will have very limited knowledge of its execution context. Specifically, it
+won't be loaded at a known location and a reliable guess of its base location is unfeasible. Due to this limitation, one
+cannot use hardcoded `jmp`/`call` addresses in a shellcode but rather rely on some code to get the base address and then
+use offsets from the current base to reach specific locations inside shellcode buffer. Such a piece of code is also referred
+to as being [Position Independent](http://en.wikipedia.org/wiki/Position-independent_code).
 ```
 
 ## Installation and Testing
