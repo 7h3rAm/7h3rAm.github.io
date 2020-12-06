@@ -4,7 +4,7 @@
 <br/><br/>
 
 ## Introduction
-<p>{{ datadict.metadata.cv.intro }}</p>
+### {{ datadict.metadata.cv.intro }}
 
 {% for domain in datadict.metadata.cv.domains %}
 
@@ -22,7 +22,7 @@
 ## Experience</h2>
 {% for job in datadict.metadata.jobs %}
 ### {{ job.title }} @ {{ job.employer }}
-<p>`{{ job.years }} ({{ job.duration }})`</p>
+#### `{{ job.years }} ({{ job.duration }})`
 <br/><br/>
 {% for desc in job.description %}
 {% if desc and desc != "" %}
