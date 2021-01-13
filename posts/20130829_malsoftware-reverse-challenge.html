@@ -9,7 +9,7 @@ $
 $ ./reverse-challenge
 Are you feeling lucky today? BRapFuturistico
 [+] WooT!: xKZl_^_XCY^CIE
-</code></pre><p class=nested>As expected, <code>RapFuturistico</code> indeed is the right input string derived from reversing the XOR-based mutation logic used in the program. Like earlier, we could have also tried debugging this program but the <code>Dude, no debugging ;-)</code> string from the <code>strings</code> output indicates presence of anti-debugging measures and I refrained using it in this challenge. It can be confirmed with a simple <code>strace</code> of the program:</p><pre class=nested><code class=c>$ strace ./reverse-challenge
+</code></pre><p class=nested>As expected, <code>RapFuturistico</code> indeed is the right input string derived from reversing the XOR-based mutation logic used in the program. Like earlier, we could have also tried debugging this program but the <code>Dude, no debugging ;-)</code> string from the <code>strings</code> output indicates presence of anti-debugging measures and I refrained using it in this challenge. It can be confirmed with a simple <code>strace</code> of the program:</p><pre class=nested><code class=language-c>$ strace ./reverse-challenge
 execve(&quot;./reverse-challenge&quot;, [&quot;./reverse-challenge&quot;], [/* 63 vars */]) = 0
 [ Process PID=22998 runs in 32 bit mode. ]
 brk(0)                                  = 0x9882000

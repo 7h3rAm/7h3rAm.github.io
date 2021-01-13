@@ -412,7 +412,7 @@ $ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap -G 'HTTp
 $
 $ ll
 -rw-rw-r-- 1 shiv shiv  903 Dec 30 12:18 TCP-00000001-55.51.105.73.60246-53.70.78.87.80-STC.emuprofile
-</code></pre><p class=nested>The <code>-b</code> option specifies max number of bytes to show in output modes for matching streams. Since we don't really care about the hexadecimal bytes for now, we requested dumping of first <code>32B</code> only. Above invocation of Flowinspect will dump the emulator profile to a TCP session based <code>.emuprofile</code> file:</p><pre class=nested><code class=c>$ cat TCP-00000001-55.51.105.73.60246-53.70.78.87.80-STC.emuprofile
+</code></pre><p class=nested>The <code>-b</code> option specifies max number of bytes to show in output modes for matching streams. Since we don't really care about the hexadecimal bytes for now, we requested dumping of first <code>32B</code> only. Above invocation of Flowinspect will dump the emulator profile to a TCP session based <code>.emuprofile</code> file:</p><pre class=nested><code class=language-c>$ cat TCP-00000001-55.51.105.73.60246-53.70.78.87.80-STC.emuprofile
 HMODULE LoadLibraryA (
      LPCTSTR = 0x010bee90 =&gt;
            = &quot;ws2_32&quot;;
@@ -449,7 +449,7 @@ int recv (
      int len = 3072;
      int flags = 0;
 ) =  0xc00;
-</code></pre><p class=nested>From this profiling output, we can clearly identify and acknowledge the fact that the detected shellcode can do the following:</p><pre class=nested><code class=c>1. Load a dynamic library named ws2_32, which is the Windows 32 socket library
+</code></pre><p class=nested>From this profiling output, we can clearly identify and acknowledge the fact that the detected shellcode can do the following:</p><pre class=nested><code class=language-c>1. Load a dynamic library named ws2_32, which is the Windows 32 socket library
 2. Initialize an AF_INET SOCK_STREAM (af:2 and type:0) socket
 3. Attempt connection via this socket to 192.168.53.20:4444
 4. If successful, receive data from 192.168.53.20
