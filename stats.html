@@ -1,1 +1,143 @@
-<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=author content="Ankur Tyagi (@7h3rAm)"><meta name=description content="Personal Weblog"><meta content="width=device-width, initial-scale=1" name=viewport><title>मंथन | Manthan</title><link rel=icon type=image/webp sizes=32x32 href=/static/images/manthan-32x32.png.webp><link rel=stylesheet type=text/css media=screen href=/static/css/style.rainbow.css><style type=text/css>p{text-align:justify;text-justify:inter-word;}</style></head><body style=background-color:#f3f3fd;><div class=header><table><tr><td><a href=/index.html class=menu_home>मंथन</a></td><td> | </td><td><a href=/archive.html class=menu_archive>Archive</a></td><td> | </td><td><a href=/tags.html class=menu_tags>Tags</a></td><td> | </td><td><a href=/stats.html class=menu_stats>Stats</a></td></tr></table></div><div class=body><h1>📊 Stats <a name=top></a></h1><h2>Summary <a href=#top> ↟ </a></h2><ul><li>There are a total of <code>80</code> posts with <code>9</code> tags, written over a period of <code>9y0m8d</code> (from <code>16/Nov/2011</code> till <code>24/Nov/2020</code>)</li><li>From the most recent update (on <code>13/Jan/2021</code>), it's been <code>0y1m20d</code> when the last post was published and <code>9y1m28d</code> since the first post</li><li>The year <code>2019</code> has highest number of posts with a count of <code>34</code>, while the year <code>2016</code> has lowest number of posts with a count of <code>2</code></li><li>The year <code>2020</code> has highest number of tags with a count of <code>4</code>, while the year <code>2016</code> has lowest number of tags with a count of <code>1</code></li><li>The most widely used of all <code>9</code> tags across <code>80</code> posts is <code>writeup</code> while the least used is <code>tryhackme</code></li><li>On an average, there are <code>15</code> posts per tag and <code>10</code> posts, <code>2</code> tags per year</li></ul><h2>Graphs <a href=#top> ↟ </a></h2><h3>Posts per Tag <a href=#top> ↟ </a></h3><p><img class=rectimages src=/static/files/pages_stats/posts_per_tag.png.webp></p><h3>Posts per Year <a href=#top> ↟ </a></h3><p><img class=rectimages src=/static/files/pages_stats/posts_per_year.png.webp></p><h3>Tags per Year <a href=#top> ↟ </a></h3><p><img class=rectimages src=/static/files/pages_stats/tags_per_year.png.webp></p></div><script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script><script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script><div class="footer footercenter"><span><a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a></span></div></body></html>
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <meta charset=utf-8>
+    <meta name=author content="Ankur Tyagi (@7h3rAm)">
+    <meta name=description content="Personal Weblog">
+    <meta content="width=device-width, initial-scale=1" name=viewport>
+    <title>मंथन | Manthan</title>
+    <link rel=icon type=image/webp sizes=32x32 href=/static/images/manthan-32x32.png.webp>
+
+    <style type="text/css">
+      * { border:0; color: #333; font-family:"FiraCode Nerd Font","Inconsolata",monospace; font-size:12pt; font-weight:normal; list-style:none; margin:auto; max-width:90ch; padding:.2ch; }
+      @font-face { font-family:"FiraCode Nerd Font"; src:url("/static/fonts/firacode/firacode-nerdfont/Fira Code Regular Nerd Font Complete.ttf"); font-display:swap; }
+      @media print { a { color:#00f!important; } body { width:auto; font-size:12pt; } }
+      a { color:#367bf0; text-decoration:none; } a, a:active, a:focus{ outline:none; } a:hover { color:#fc580c; }
+      blockquote :first-child { margin-top: 0; }
+      blockquote :last-child { margin-bottom: 0; }
+      blockquote { background:#eee; border-left:medium solid #ccc; margin:1em 0; padding:0.5em; }
+      em, i { font-style:italic; }
+      figcaption { font-size:small; }
+      figure { margin:1em 0; text-align:center; }
+      h1 { color:#fc580c; font-size:18pt; }
+      h2 { color:#900; font-size:16pt; }
+      h3 { color:#20b2aa; font-size:14pt; }
+      h4 { color:#e83e8c; font-size:12pt; }
+      h5 { color:#f90; font-size:11pt; }
+      h6 { color:#367bf0; font-size:10pt; }
+      hr { border-top:1px solid #fe4164; }
+      img { display:block; margin:0 auto; vertical-align:middle; -webkit-border-radius:3px; max-width:99% !important; width:auto; height:auto; max-width:450px; }
+      img { max-width:100%; }
+      pre > code > table { margin-left:0px; }
+      pre > code { -webkit-border-radius:3px; }
+      pre, code { color:#766e6b; background-color:#f6f6f6; -webkit-border-radius:3px; }
+      pre::before, pre::after { display:block; }
+      strong, b { font-weight:bold; }
+      #cloud a { padding:0px; text-decoration:none; }
+      #cloud li { display: inline-block; }
+      #cloud li::before { content:""; }
+      #cloud { margin:0px; padding:2px; line-height:2em; text-align:center; }
+      .menu_home { color:#fc580c; font-size:22pt; } .menu_home:hover { color:#fc580c; }
+      .menu_archive { color:#20b2aa; font-size:18pt; } .menu_archive:hover { color:#20b2aa; }
+      .menu_tags { color:#fe4164; font-size:18pt; } .menu_tags:hover { color:#fe4164; }
+      .menu_stats { color:#69359c; font-size:18pt; } .menu_stats:hover { color:#69359c; }
+      .hljs-ln-numbers { color:#909090; text-align:right; vertical-align:middle; border-right:0px solid #909090; }
+      .rectimages { width:540px; height:270px; max-width:540px; max-height:270px; }
+      .sqimages { width:540px; height:540px; max-width:540px; max-height:540px; }
+      .nested { display:none; }
+      .active { display:block; }
+      .collapsible { cursor:pointer; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; }
+      .collapsible::before { transition:transform .6s ease; display:inline-block; margin-right:9px; }
+      .expanded::before { -ms-transform:rotate(360deg); -webkit-transform:rotate(360deg); transform:rotate(360deg); }
+      .footer { display:block; width:100%; text-decoration: none !important; border-bottom:none; }
+      .footercenter { display:inline-block; text-align:center; }
+      .footspan { color:#766e6b; font-size:11pt; } .footspan:hover { color:#766e6b; }
+    </style>
+
+    <style type="text/css">
+      ul {
+        cursor: pointer;
+        list-style: none;
+        padding-left: 20px;
+      }
+      li {
+        position: relative;
+      }
+      li::before, li::after {
+        content: "";
+        position: absolute;
+        left: -12px;
+      }
+      li::before {
+        border-top: 2px solid #69359c;
+        top: 12px;
+        width: 8px;
+      }
+      li::after {
+        border-left: 2px solid #69359c;
+        height: 100%;
+        top: 4px;
+      }
+      li:last-child::after {
+        height: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class=header>
+      <table>
+        <tr>
+         <td><a href=/index.html class=menu_home>मंथन</a></td>
+         <td> | </td>
+         <td><a href=/archive.html class=menu_archive>Archive</a></td>
+         <td> | </td>
+         <td><a href=/tags.html class=menu_tags>Tags</a></td>
+         <td> | </td>
+         <td><a href=/stats.html class=menu_stats>Stats</a></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="body">
+      <h1 class="h1">📊 Stats</h1>
+      <ul class="active">
+
+        <li><h2 class="h2 collapsible" onclick=toggle(this);>Summary</h2><ul class="active nested">
+          <li>There are a total of <code>80</code> posts with <code>9</code> tags, written over a period of <code>9y0m8d</code> (from <code>16/Nov/2011</code> till <code>24/Nov/2020</code>)</li>
+          <li>From the most recent update (on <code>15/Jan/2021</code>), it's been <code>0y1m22d</code> when the last post was published and <code>9y1m30d</code> since the first post</li>
+          <li>The year <code>2019</code> has highest number of posts with a count of <code>34</code>, while the year <code>2016</code> has lowest number of posts with a count of <code>2</code></li>
+          <li>The year <code>2020</code> has highest number of tags with a count of <code>4</code>, while the year <code>2016</code> has lowest number of tags with a count of <code>1</code></li>
+          <li>The most widely used of all <code>9</code> tags across <code>80</code> posts is <code>writeup</code> while the least used is <code>tryhackme</code></li>
+          <li>On an average, there are <code>15</code> posts per tag and <code>10</code> posts, <code>2</code> tags per year</li>
+        </ul></li>
+
+        <li><h2 class="h2 collapsible" onclick=toggle(this);>Graphs</h2><ul class="active nested">
+          <li><h3 class="h3 collapsible" onclick=toggle(this);>Posts per Tag</h3><ul class="active nested">
+            <li><p><img class=rectimages src=/static/files/pages_stats/posts_per_tag.png.webp></p></li>
+          </ul></li>
+          <li><h3 class="h3 collapsible" onclick=toggle(this);>Posts per Year</h3><ul class="active nested">
+            <li><p><img class=rectimages src=/static/files/pages_stats/posts_per_year.png.webp></p></li>
+          </ul></li>
+          <li><h3 class="h3 collapsible" onclick=toggle(this);>Tags per Year</h3><ul class="active nested">
+            <li><p><img class=rectimages src=/static/files/pages_stats/tags_per_year.png.webp></p></li>
+          </ul></li>
+        </ul></li>
+
+      </ul>
+    </div>
+    <div class="footer footercenter">
+      <span>
+        <a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a>
+      </span>
+    </div>
+    <script>
+      function toggle(s){
+        s.classList.toggle("expanded");
+        for(var l=s.nextElementSibling;l;){
+          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
+        }
+      }
+    </script>
+    <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
+  </body>
+</html>
