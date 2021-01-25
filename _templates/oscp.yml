@@ -1,0 +1,207 @@
+tldr:
+  - Join [Infosec Prep](https://discord.gg/RRgKaep) Discord server
+  - Create a [methodology](https://medium.com/@falconspy/oscp-developing-a-methodology-32f4ab471fd6) and remember it should evolve as you learn new stuff
+  - Create a [documentation](#notesreport) strategy and use it throughout your learning journey
+  - Learn and practice [Buffer Overflow](#bof) and [Privilege Escalation](#pe) techniques, own [OSCPlike](#machines) VulnHub|TryHackMe|HackTheBox machines
+  - Register for [PWK](https://www.offensive-security.com/pwk-oscp/) → own the lab → read [exam guide](https://support.offensive-security.com/oscp-exam-guide/) → own the exam
+
+readwatchfollow:
+  - name: "@0xdf_"
+    url: https://twitter.com/0xdf_
+    content: "[writeups](https://0xdf.gitlab.io/tags.html#oscp-like)"
+  - name: "@0xfalconspy"
+    url: https://twitter.com/0xfalconspy
+    content: "[review](https://medium.com/@falconspy/passing-oscp-exam-attempt-3-efce6b0d6f6c)"
+  - name: "@bond006_5"
+    url: https://twitter.com/bond006_5
+    content: "[review](https://medium.com/@bondo.mike/certification-oscp-de41adeb9d7e), [writeups](https://medium.com/@bondo.mike)"
+  - name: "@curlXx_"
+    url: https://twitter.com/curlXx_
+    content: "[writeups](https://medium.com/@sebnemK)"
+  - name: "@ippsec"
+    url: https://twitter.com/ippsec
+    content: "[playlist](https://www.youtube.com/playlist?list=PLidcsTyj9JXK-fnabFLVEVulnHubinQ14Jy5tf), [search](https://ippsec.rocks/)"
+  - name: "@joehelle"
+    url: https://twitter.com/joehelle
+    content: "[review](https://medium.com/cybersecpadawan/the-long-awaited-oscp-review-5a377f103a39), [writeups](https://www.cybersecpadawan.com/p/tewst.html)"
+  - name: "@rana__khalil"
+    url: https://twitter.com/rana__khalil
+    content: "[review](https://medium.com/@ranakhalil101/my-oscp-journey-a-review-fa779b4339d9), [writeups](https://medium.com/@ranakhalil101)"
+  - name: "@sabebarker"
+    url: https://twitter.com/sabebarker
+    content: "[writeups](https://sabebarker.com/writeups/)"
+  - name: "@thecybermentor"
+    url: https://twitter.com/thecybermentor
+    content: "[courses](https://www.udemy.com/user/heath-adams-2/), [playlists](https://www.youtube.com/channel/UC0ArlFuFYMpEewyRBzdLHiw/playlists)"
+  - name: "@TibSec"
+    url: https://twitter.com/tibsec
+    content: "[courses](https://www.udemy.com/user/tib3rius/), [review](https://medium.com/@Tib3rius/59-hosts-to-glory-passing-the-oscp-acf0fd384371)"
+  - name: "@TJ_Null"
+    url: https://twitter.com/tj_null
+    content: "[review](https://www.netsecfocus.com/oscp/review/2019/01/29/An_Adventure_to_Try_Harder_Tjnulls_OSCP_Journey.html), [prepguide](https://www.netsecfocus.com/oscp/2019/03/29/The_Journey_to_Try_Harder-_TJNulls_Preparation_Guide_for_PWK_OSCP.html)"
+
+do:
+  - name: Documentation
+    references:
+      - "[OSCP - Taking Notes & Resources](https://www.youtube.com/watch?v=MQGozZzHUwQ)"
+      - "[OSCP-MarkdownReportingTemplates](https://github.com/chvancooten/OSCP-MarkdownReportingTemplates)"
+      - "[OSCP-Exam-Report-Template-Markdown](https://github.com/noraj/OSCP-Exam-Report-Template-Markdown)"
+
+  - name: Buffer Overflow
+    references:
+      - "[Buffer Overflow Prep](https://tryhackme.com/room/bufferoverflowprep) + [Stack Based Buffer Overflow Prep](https://www.youtube.com/watch?v=1X2JGF_9JGM)"
+
+  - name: Privilege Escalation
+    references:
+      - "[Linux Privilege Escalation for OSCP & Beyond!](https://www.udemy.com/course/linux-privilege-escalation/learn/lecture/16313118#overview) + [Linux PrivEsc](https://tryhackme.com/room/linuxprivesc)"
+      - "[Windows Privilege Escalation for OSCP & Beyond!](https://www.udemy.com/course/windows-privilege-escalation/learn/lecture/18153180#overview) + [Windows PrivEsc](https://tryhackme.com/room/windows10privesc)"
+
+  - name: Machines
+    references:
+      - "[NetSecFocus Trophy Room](https://docs.google.com/spreadsheets/u/1/d/1dwSMIAPIam0PuRBkCiDI88pU3yzrqqHkDtBngUHNCw8/htmlview)"
+      - "[Offensive Pentesting Learning Pathway](https://tryhackme.com/path/outline/pentesting)"
+      - "[oscp-practice (HackTheBox and TryHackMe machines)](https://github.com/ajdumanhug/oscp-practice)"
+
+resources:
+  - name: machinescli
+    description: This [tool](https://github.com/7h3rAm/machinescli) provides commandline access for [HackTheBox](https://www.hackthebox.eu), [TryHackMe](https://tryhackme.com/) and [VulnHub](https://www.vulnhub.com/) machines.
+    url: https://github.com/7h3rAm/machinescli
+    screenshots:
+      - /static/files/pages_oscp/machinescli.png.webp
+
+  - name: svachal
+    description: This [tool](https://github.com/7h3rAm/svachal) provides an automation framework for machine writeups.
+    url: https://github.com/7h3rAm/svachal
+    screenshots:
+      - /static/files/pages_oscp/svachal.png.webp
+
+  - name: OSCPlike Machines Sheet
+    description: This [gsheet](https://docs.google.com/spreadsheets/d/1syxzcX5rJj2qffBfZYjlEGaRuns-Ec_kkLiblsed8Zs/copy) lists OSCPlike HackTheBox, TryHackMe and VulnHub machines curated from various sources.
+    url: https://docs.google.com/spreadsheets/d/1syxzcX5rJj2qffBfZYjlEGaRuns-Ec_kkLiblsed8Zs/copy
+    screenshots:
+      - /static/files/pages_oscp/sheet01.png.webp
+      - /static/files/pages_oscp/sheet02.png.webp
+      - /static/files/pages_oscp/sheet03.png.webp
+      - /static/files/pages_oscp/sheet04.png.webp
+
+  - name: writeups/readme.md
+    description: These are [notes, stats, TTPs and trend graphs](https://github.com/7h3rAm/writeups/blob/master/readme.md) from completed writeups.
+    url: https://github.com/7h3rAm/writeups/blob/master/readme.md
+    screenshots:
+      - /static/files/pages_oscp/writeups.readme.png.webp
+
+  - name: writeups
+    description: These are [writeups](/tags.html#writeup) for OSCPlike machines.
+    url: /tags.html#writeup
+    writeups:
+      - date: 24/Nov/2020
+        title: "[HackTheBox] Buff"
+        url: /posts/20201124_htb-buff.html
+      - date: 10/Aug/2020
+        title: "[VulnHub] InfoSec Prep: OSCP"
+        url: /posts/20200810_vulnhub-infosecpreposcp.html
+      - date: 25/Jun/2020
+        title: "[HackTheBox] Bashed"
+        url: /posts/20200625_htb-bashed.html
+      - date: 13/Nov/2019
+        title: "[HackTheBox] CronOS"
+        url: /posts/20191113_htb-cronos.html
+      - date: 13/Nov/2019
+        title: "[HackTheBox] Shocker"
+        url: /posts/20191113_htb-shocker.html
+      - date: 13/Nov/2019
+        title: "[HackTheBox] Blocky"
+        url: /posts/20191113_htb-blocky.html
+      - date: 12/Nov/2019
+        title: "[HackTheBox] Mirai"
+        url: /posts/20191112_htb-mirai.html
+      - date: 05/Nov/2019
+        title: "[HackTheBox] Devel"
+        url: /posts/20191105_htb-devel.html
+      - date: 04/Nov/2019
+        title: "[HackTheBox] Granny"
+        url: /posts/20191104_htb-granny.html
+      - date: 04/Nov/2019
+        title: "[HackTheBox] Optimum"
+        url: /posts/20191104_htb-optimum.html
+      - date: 04/Nov/2019
+        title: "[HackTheBox] Grandpa"
+        url: /posts/20191104_htb-grandpa.html
+      - date: 01/Nov/2019
+        title: "[HackTheBox] Lame"
+        url: /posts/20191101_htb-lame.html
+      - date: 01/Nov/2019
+        title: "[HackTheBox] Legacy"
+        url: /posts/20191101_htb-legacy.html
+      - date: 01/Nov/2019
+        title: "[HackTheBox] Blue"
+        url: /posts/20191101_htb-blue.html
+      - date: 29/Oct/2019
+        title: "[VulnHub] LazySysAdmin: 1"
+        url: /posts/20191029_vulnhub-lazysysadmin1.html
+      - date: 28/Oct/2019
+        title: "[VulnHub] Node: 1"
+        url: /posts/20191028_vulnhub-node1.html
+      - date: 21/Oct/2019
+        title: "[VulnHub] Mr-Robot: 1"
+        url: /posts/20191021_vulnhub-mrrobot1.html
+      - date: 17/Oct/2019
+        title: "[VulnHub] Moria: 1.1"
+        url: /posts/20191017_vulnhub-moria11.html
+      - date: 11/Oct/2019
+        title: "[VulnHub] Misdirection: 1"
+        url: /posts/20191011_vulnhub-misdirection1.html
+      - date: 10/Oct/2019
+        title: "[VulnHub] Lin.Security: 1"
+        url: /posts/20191010_vulnhub-linsecurity1.html
+      - date: 10/Oct/2019
+        title: "[VulnHub] Lord Of The Root: 1.0.1"
+        url: /posts/20191010_vulnhub-lordoftheroot101.html
+      - date: 09/Oct/2019
+        title: "[VulnHub] Kioptrix: 2014 (#5)"
+        url: /posts/20191009_vulnhub-kioptrix5.html
+      - date: 08/Oct/2019
+        title: "[VulnHub] Kioptrix: Level 1.3 (#4)"
+        url: /posts/20191008_vulnhub-kioptrix4.html
+      - date: 29/Sep/2019
+        title: "[VulnHub] Kioptrix: Level 1.2 (#3)"
+        url: /posts/20190929_vulnhub-kioptrix3.html
+      - date: 28/Sep/2019
+        title: "[VulnHub] Kioptrix: Level 1 (#1)"
+        url: /posts/20190928_vulnhub-kioptrix1.html
+      - date: 28/Sep/2019
+        title: "[VulnHub] Kioptrix: Level 1.1 (#2)"
+        url: /posts/20190928_vulnhub-kioptrix2.html
+      - date: 27/Sep/2019
+        title: "[VulnHub] hackme: 1"
+        url: /posts/20190927_vulnhub-hackme.html
+      - date: 26/Sep/2019
+        title: "[VulnHub] IMF: 1"
+        url: /posts/20190926_vulnhub-imf.html
+      - date: 20/Sep/2019
+        title: "[VulnHub] HackLAB: Vulnix"
+        url: /posts/20190920_vulnhub-vulnix.html
+      - date: 19/Sep/2019
+        title: "[VulnHub] hackfest2016: Sedna"
+        url: /posts/20190919_vulnhub-sedna.html
+      - date: 18/Sep/2019
+        title: "[VulnHub] hackfest2016: Quaoar"
+        url: /posts/20190918_vulnhub-quaoar.html
+      - date: 17/Sep/2019
+        title: "[VulnHub] Escalate_Linux: 1"
+        url: /posts/20190917_vulnhub-escalatelinux.html
+      - date: 11/Sep/2019
+        title: "[VulnHub] FristiLeaks: 1.3"
+        url: /posts/20190911_vulnhub-fristikeals1dot3.html
+      - date: 10/Sep/2019
+        title: "[VulnHub] DC: 6"
+        url: /posts/20190910_vulnhub-dc6.html
+      - date: 09/Sep/2019
+        title: "[VulnHub] BSides Vancouver: 2018 (Workshop)"
+        url: /posts/20190909_vulnhub-bsidesvancouver2018workshop.html
+      - date: 05/Sep/2019
+        title: "[VulnHub] Billy Madison: 1.1"
+        url: /posts/20190905_vulnhub-billymadison1dot1.html
+      - date: 31/Aug/2019
+        title: "[VulnHub] Brainpan: 1"
+        url: /posts/20190831_vulnhub-brainpan.html

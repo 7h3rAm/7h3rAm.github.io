@@ -1,4 +1,71 @@
 {% extends "base.html" %}
 {% block body %}
-{{ datadict.pages.fitness }}
+  <h1 class="h1">🏋️ Fitness</h1>
+    <ul class="active">
+      <li><h2 class="h2 collapsible" onclick=toggle(this);>Notes</h2><ul class="active nested">
+        {% for note in datadict.fitness.notes %}
+          {% if note.url %}
+            <li><h3 class="h3 collapsible" onclick=toggle(this);>{{ note.name|md2html|removepara }} <a href={{ note.url }}>[🔗]</a></h3><ul class="active nested">
+          {% else %}
+            <li><h3 class="h3 collapsible" onclick=toggle(this);>{{ note.name|md2html|removepara }}</h3><ul class="active nested">
+          {% endif %}
+            {% for listing in note.listing %}
+            <li>{{ listing|md2html|removepara }}</li>
+            {% endfor %}
+          </ul></li>
+        {% endfor %}
+      </ul></li>
+      <li><h2 class="h2 collapsible" onclick=toggle(this);>Goals</h2><ul class="active nested">
+        {% for goal in datadict.fitness.goals %}
+          {% if goal.url %}
+            <li><h3 class="h3 collapsible" onclick=toggle(this);>{{ goal.name|md2html|removepara }} <a href={{ goal.url }}>[🔗]</a></h3><ul class="active nested">
+          {% else %}
+            <li><h3 class="h3 collapsible" onclick=toggle(this);>{{ goal.name|md2html|removepara }}</h3><ul class="active nested">
+          {% endif %}
+            {% for listing in goal.listing %}
+            <li>{{ listing|md2html|removepara }}</li>
+            {% endfor %}
+          </ul></li>
+        {% endfor %}
+      </ul></li>
+      <li><h2 class="h2 collapsible" onclick=toggle(this);>Stacks</h2><ul class="active nested">
+        {% for stack in datadict.fitness.stacks %}
+          {% if stack.url %}
+            <li><h3 class="h3 collapsible" onclick=toggle(this);>{{ stack.name|md2html|removepara }} <a href={{ stack.url }}>[🔗]</a></h3><ul class="active nested">
+          {% else %}
+            <li><h3 class="h3 collapsible" onclick=toggle(this);>{{ stack.name|md2html|removepara }}</h3><ul class="active nested">
+          {% endif %}
+            {% for listing in stack.listing %}
+            <li>{{ listing|md2html|removepara }}</li>
+            {% endfor %}
+          </ul></li>
+        {% endfor %}
+      </ul></li>
+      <li><h2 class="h2 collapsible" onclick=toggle(this);>Training</h2><ul class="active nested">
+        {% for train in datadict.fitness.training %}
+          {% if train.url %}
+            <li><h3 class="h3 collapsible" onclick=toggle(this);>{{ train.name|md2html|removepara }} <a href={{ train.url }}>[🔗]</a></h3><ul class="active nested">
+          {% else %}
+            <li><h3 class="h3 collapsible" onclick=toggle(this);>{{ train.name|md2html|removepara }}</h3><ul class="active nested">
+          {% endif %}
+            {% for listing in train.listing %}
+            <li>{{ listing|md2html|removepara }}</li>
+            {% endfor %}
+          </ul></li>
+        {% endfor %}
+      </ul></li>
+      <li><h2 class="h2 collapsible" onclick=toggle(this);>Grooming</h2><ul class="active nested">
+        {% for groom in datadict.fitness.grooming %}
+          {% if groom.url %}
+            <li><h3 class="h3 collapsible" onclick=toggle(this);>{{ groom.name|md2html|removepara }} <a href={{ groom.url }}>[🔗]</a></h3><ul class="active nested">
+          {% else %}
+            <li><h3 class="h3 collapsible" onclick=toggle(this);>{{ groom.name|md2html|removepara }}</h3><ul class="active nested">
+          {% endif %}
+            {% for listing in groom.listing %}
+            <li>{{ listing|md2html|removepara }}</li>
+            {% endfor %}
+          </ul></li>
+        {% endfor %}
+      </ul></li>
+    </ul>
 {% endblock %}

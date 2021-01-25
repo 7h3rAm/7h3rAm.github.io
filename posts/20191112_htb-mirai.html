@@ -1,4 +1,49 @@
-<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=author content="Ankur Tyagi (@7h3rAm)"><meta name=description content="Personal Weblog"><meta content="width=device-width, initial-scale=1" name=viewport><title>मंथन | Manthan</title><link rel=icon type=image/webp sizes=32x32 href=/static/images/manthan-32x32.png.webp><link rel=stylesheet type=text/css media=screen href=/static/css/style.rainbow.css><link rel=stylesheet href=/static/css/atelier-forest-light.css><script charset=UTF-8 src=/static/js/highlight.min.js></script><script charset=UTF-8 src=/static/js/highlightjs-line-numbers.min.js></script><script charset=UTF-8 src=/static/js/go.min.js></script></head><body><div class=header><table><tr><td><a href=/index.html class=menu_home>मंथन</a></td><td> | </td><td><a href=/archive.html class=menu_archive>Archive</a></td><td> | </td><td><a href=/tags.html class=menu_tags>Tags</a></td><td> | </td><td><a href=/stats.html class=menu_stats>Stats</a></td></tr></table></div><div class=body><h1 class="h1 collapsible" onclick=toggle(this);>[HackTheBox] Mirai</h1><p><a href=/posts/20191105_htb-devel.html> « </a>📅 published on <code>12/Nov/2019</code><a href=/posts/20191113_htb-blocky.html> » </a></p><h2 class="h2 collapsible" onclick=toggle(this);>Overview</h2><p class=nested>This is a writeup for HTB VM <a href=https://www.hackthebox.eu/home/machines/profile/64>Mirai</a>. Here are stats for this machine from <a href=https://github.com/7h3rAm/machinescli>machinescli</a>:</p><p class=nested><img alt=writeup.overview.machinescli src=/static/files/posts_htb_mirai/machinescli.png.webp></p><h3 class="h3 collapsible" onclick=toggle(this);>Killchain</h3><p class=nested>Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p><p class=nested><img alt=writeup.overview.killchain src=/static/files/posts_htb_mirai/killchain.png.webp></p><h3 class="h3 collapsible" onclick=toggle(this);>TTPs</h3><p class=nested>1. <code>22/tcp/ssh/OpenSSH 6.7p1 Debian 5+deb8u3 (protocol 2.0)</code>: <a href=https://github.com/7h3rAm/writeups#exploit_defaultcreds>exploit_defaultcreds</a>, <a href=https://github.com/7h3rAm/writeups#privesc_sudoers>privesc_sudoers</a> </p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #1: Enumeration</h2><p class=nested>1. Here's the Nmap scan result: </p><pre class=nested><code># Nmap 7.70 scan initiated Tue Nov 12 15:49:18 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.mirai/results/10.10.10.48/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.mirai/results/10.10.10.48/scans/xml/_quick_tcp_nmap.xml 10.10.10.48
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
+    <meta name="description" content="Personal Weblog"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>मंथन | Manthan</title>
+    <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.rainbow.css"/>
+    <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
+    <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github-gist.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
+    <script charset="UTF-8" src="/static/js/highlight.min.js"></script>
+    <script charset="UTF-8" src="/static/js/highlightjs-line-numbers.min.js"></script>
+    <script charset="UTF-8" src="/static/js/go.min.js"></script>
+   </head>
+  <body>
+    <div class="header">
+      <table>
+        <tr>
+          <td><a href="/index.html" class="menu_home">मंथन</a></td><td> | </td>
+          <td><a href="/archive.html" class="menu_archive">Archive</a></td><td> | </td>
+          <td><a href="/tags.html" class="menu_tags">Tags</a></td><td> | </td>
+          <td><a href="/stats.html" class="menu_stats">Stats</a></td>
+        </tr>
+      </table>
+    </div>
+    <div class="body">
+          <h1>[HackTheBox] Mirai</h1>
+                  <p><a href="/posts/20191105_htb-devel.html"> « </a>📅 published on <code>12/Nov/2019</code><a href="/posts/20191113_htb-blocky.html"> » </a></p>
+                <h2>Overview</h2>
+<p>This is a writeup for HTB VM <a href="https://www.hackthebox.eu/home/machines/profile/64">Mirai</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
+<p><img alt="writeup.overview.machinescli" src="/static/files/posts_htb_mirai/machinescli.png.webp" /></p>
+<h3>Killchain</h3>
+<p>Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
+<p><img alt="writeup.overview.killchain" src="/static/files/posts_htb_mirai/killchain.png.webp" /></p>
+<h3>TTPs</h3>
+<p>1. <code>22/tcp/ssh/OpenSSH 6.7p1 Debian 5+deb8u3 (protocol 2.0)</code>: <a href="https://github.com/7h3rAm/writeups#exploit_defaultcreds">exploit_defaultcreds</a>, <a href="https://github.com/7h3rAm/writeups#privesc_sudoers">privesc_sudoers</a>  </p>
+<h2>Phase #1: Enumeration</h2>
+<p>1. Here's the Nmap scan result:  </p>
+<pre><code># Nmap 7.70 scan initiated Tue Nov 12 15:49:18 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.mirai/results/10.10.10.48/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.mirai/results/10.10.10.48/scans/xml/_quick_tcp_nmap.xml 10.10.10.48
 Increasing send delay for 10.10.10.48 from 0 to 5 due to 275 out of 915 dropped probes since last increase.
 Nmap scan report for 10.10.10.48
 Host is up, received user-set (0.060s latency).
@@ -29,16 +74,38 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Tue Nov 12 15:49:46 2019 -- 1 IP address (1 host up) scanned in 27.40 seconds
-</code></pre><p class=nested>2. Here's the summary of open ports and associated <a href=https://github.com/Tib3rius/AutoRecon>AutoRecon</a> scan files: </p><p class=nested><img alt=writeup.enumeration.steps.2.1 src=/static/files/posts_htb_mirai/openports.png.webp> </p><p class=nested>3. From the HTTP response headers, we find that the HTTP service is running the <a href=https://pi-hole.net/ >PiHole</a> project: </p><p class=nested><img alt=writeup.enumeration.steps.3.1 src=/static/files/posts_htb_mirai/screenshot01.png.webp> </p><p class=nested>4. We also find an <code>admin</code> directory from the <code>gobuster</code> scan: </p><p class=nested><img alt=writeup.enumeration.steps.4.1 src=/static/files/posts_htb_mirai/screenshot02.png.webp> </p><p class=nested>5. Upon visiting the <code>http://10.10.10.48/admin/</code> page, we get the default PiHole dashboard: </p><p class=nested><img alt=writeup.enumeration.steps.5.1 src=/static/files/posts_htb_mirai/screenshot03.png.webp> </p><h3 class="h3 collapsible" onclick=toggle(this);>Findings</h3><h4 class="h4 collapsible" onclick=toggle(this);>Open Ports</h4><pre class=nested><code>22/tcp     |  ssh     |  OpenSSH 6.7p1 Debian 5+deb8u3 (protocol 2.0)
+</code></pre>
+<p>2. Here's the summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:  </p>
+<p><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_htb_mirai/openports.png.webp" />  </p>
+<p>3. From the HTTP response headers, we find that the HTTP service is running the <a href="https://pi-hole.net/">PiHole</a> project:  </p>
+<p><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_htb_mirai/screenshot01.png.webp" />  </p>
+<p>4. We also find an <code>admin</code> directory from the <code>gobuster</code> scan:  </p>
+<p><img alt="writeup.enumeration.steps.4.1" src="/static/files/posts_htb_mirai/screenshot02.png.webp" />  </p>
+<p>5. Upon visiting the <code>http://10.10.10.48/admin/</code> page, we get the default PiHole dashboard:  </p>
+<p><img alt="writeup.enumeration.steps.5.1" src="/static/files/posts_htb_mirai/screenshot03.png.webp" />  </p>
+<h3>Findings</h3>
+<h4>Open Ports</h4>
+<pre><code>22/tcp     |  ssh     |  OpenSSH 6.7p1 Debian 5+deb8u3 (protocol 2.0)
 53/tcp     |  domain  |  dnsmasq 2.76
 80/tcp     |  http    |  lighttpd 1.4.35
 123/udp    |  ntp     |  NTP v4 (unsynchronized)
 1323/tcp   |  upnp    |  Platinum UPnP 1.0.5.13 (UPnP/1.0 DLNADOC/1.50)
 32400/tcp  |  http    |  Plex Media Server httpd
 32469/tcp  |  upnp    |  Platinum UPnP 1.0.5.13 (UPnP/1.0 DLNADOC/1.50)
-</code></pre><h4 class="h4 collapsible" onclick=toggle(this);>Files</h4><pre class=nested><code>http://10.10.10.48/admin/
-</code></pre><h4 class="h4 collapsible" onclick=toggle(this);>Users</h4><pre class=nested><code>ssh: pi
-</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2: Exploitation</h2><p class=nested>1. We take hint from the name of this VM, Mirai, referring to the <a href=https://en.wikipedia.org/wiki/Mirai_(malware)>botnet</a> that targeted Internet systems configured with default credentials. Since the target system is running PiHole and by default such systems have a user <code>pi</code> with password <code>raspberry</code>, using this combination gives us interactive access: </p><p class=nested><img alt=writeup.exploitation.steps.1.1 src=/static/files/posts_htb_mirai/screenshot04.png.webp> </p><p class=nested>2. We then view contents of the <code>user.txt</code> file: </p><p class=nested><img alt=writeup.exploitation.steps.2.1 src=/static/files/posts_htb_mirai/screenshot09.png.webp> </p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2.5: Post Exploitation</h2><pre class=nested><code>pi@raspberrypi&gt; id
+</code></pre>
+<h4>Files</h4>
+<pre><code>http://10.10.10.48/admin/
+</code></pre>
+<h4>Users</h4>
+<pre><code>ssh: pi
+</code></pre>
+<h2>Phase #2: Exploitation</h2>
+<p>1. We take hint from the name of this VM, Mirai, referring to the <a href="https://en.wikipedia.org/wiki/Mirai_(malware)">botnet</a> that targeted Internet systems configured with default credentials. Since the target system is running PiHole and by default such systems have a user <code>pi</code> with password <code>raspberry</code>, using this combination gives us interactive access:  </p>
+<p><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_htb_mirai/screenshot04.png.webp" />  </p>
+<p>2. We then view contents of the <code>user.txt</code> file:  </p>
+<p><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_htb_mirai/screenshot09.png.webp" />  </p>
+<h2>Phase #2.5: Post Exploitation</h2>
+<pre><code>pi@raspberrypi&gt; id
 uid=1000(pi) gid=1000(pi) groups=1000(pi),4(adm),20(dialout),24(cdrom),27(sudo),29(audio),44(video),46(plugdev),60(games),100(users),101(input),108(netdev),117(i2c),998(gpio),999(spi)
 pi@raspberrypi&gt;  
 pi@raspberrypi&gt; uname
@@ -60,8 +127,49 @@ pi@raspberrypi&gt;
 pi@raspberrypi&gt; users
 root
 pi
-</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Phase #3: Privilege Escalation</h2><p class=nested>1. From the output of the <code>id</code> command and also confirming via <code>sudo -l</code>, we know that the user <code>pi</code> is a member of the <code>sudo</code> group. This means we can switch to <code>root</code> and gain elevated privileges: </p><p class=nested><img alt=writeup.privesc.steps.1.1 src=/static/files/posts_htb_mirai/screenshot05.png.webp> </p><p class=nested><img alt=writeup.privesc.steps.1.2 src=/static/files/posts_htb_mirai/screenshot06.png.webp> </p><p class=nested>2. When trying to vie wthe contents of the <code>root.txt</code> file, we see that the original file has been deleted and a backup exists on the USB drive. We use the <code>df -lh</code> command to find the absolute path for mounted USB drive, find a file in it but it too didn't give us the flag. The original file seems to be deleted from the USB stick which means we need to use some quick forensics to obtain the deleted file: </p><p class=nested><img alt=writeup.privesc.steps.2.1 src=/static/files/posts_htb_mirai/screenshot07.png.webp> </p><p class=nested>3. We try to extract strings from the mounted device file <code>/dev/sdb</code> and find the contents of the original <code>root.txt</code> file: </p><p class=nested><img alt=writeup.privesc.steps.3.1 src=/static/files/posts_htb_mirai/screenshot08.png.webp> </p><h2 class="h2 collapsible" onclick=toggle(this);>Loot</h2><h3 class="h3 collapsible" onclick=toggle(this);>Hashes</h3><pre class=nested><code>pi:$6$SQPHFoql$gSE5qWbZRGHDin4LnFY56sMnQsmvH/o2oIlXv.3KcqVsJCYgJ09R9/Pws88e8yjKgJnaxN3zdq8f5ots1b.......................
-</code></pre><h3 class="h3 collapsible" onclick=toggle(this);>Credentials</h3><pre class=nested><code>ssh: pi/raspbe...
-</code></pre><h3 class="h3 collapsible" onclick=toggle(this);>Flags</h3><pre class=nested><code>/home/pi/Desktop/user.txt: ff837707441b257a20e3............
+</code></pre>
+<h2>Phase #3: Privilege Escalation</h2>
+<p>1. From the output of the <code>id</code> command and also confirming via <code>sudo -l</code>, we know that the user <code>pi</code> is a member of the <code>sudo</code> group. This means we can switch to <code>root</code> and gain elevated privileges:  </p>
+<p><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_htb_mirai/screenshot05.png.webp" />  </p>
+<p><img alt="writeup.privesc.steps.1.2" src="/static/files/posts_htb_mirai/screenshot06.png.webp" />  </p>
+<p>2. When trying to vie wthe contents of the <code>root.txt</code> file, we see that the original file has been deleted and a backup exists on the USB drive. We use the <code>df -lh</code> command to find the absolute path for mounted USB drive, find a file in it but it too didn't give us the flag. The original file seems to be deleted from the USB stick which means we need to use some quick forensics to obtain the deleted file:  </p>
+<p><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_htb_mirai/screenshot07.png.webp" />  </p>
+<p>3. We try to extract strings from the mounted device file <code>/dev/sdb</code> and find the contents of the original <code>root.txt</code> file:  </p>
+<p><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_htb_mirai/screenshot08.png.webp" />  </p>
+<h2>Loot</h2>
+<h3>Hashes</h3>
+<pre><code>pi:$6$SQPHFoql$gSE5qWbZRGHDin4LnFY56sMnQsmvH/o2oIlXv.3KcqVsJCYgJ09R9/Pws88e8yjKgJnaxN3zdq8f5ots1b.......................
+</code></pre>
+<h3>Credentials</h3>
+<pre><code>ssh: pi/raspbe...
+</code></pre>
+<h3>Flags</h3>
+<pre><code>/home/pi/Desktop/user.txt: ff837707441b257a20e3............
 /root/root.txt -&gt; /media/usbstick/root.txt: 3d3e483143ff12ec5...............
-</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>References</h2><ul class=nested><li><a href=https://www.hackthebox.eu/home/machines/profile/64>https://www.hackthebox.eu/home/machines/profile/64</a> </li><li><a href="https://www.youtube.com/watch?v=SRmvRGUuuno">https://www.youtube.com/watch?v=SRmvRGUuuno</a> </li></ul><p style=text-align:center;>(🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a>)</p><p style=text-align:center;>« <a href=/posts/20191105_htb-devel.html>[HackTheBox] Devel...</a> « | » <a href=/posts/20191113_htb-blocky.html>[HackTheBox] Blocky...</a> »</p></div><script>hljs.initHighlightingOnLoad();</script><script>hljs.initLineNumbersOnLoad();</script><script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script><script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script><div class="footer footercenter"><span><a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a></span></div></body></html>
+</code></pre>
+<h2>References</h2>
+<ul>
+<li><a href="https://www.hackthebox.eu/home/machines/profile/64">https://www.hackthebox.eu/home/machines/profile/64</a>  </li>
+<li><a href="https://www.youtube.com/watch?v=SRmvRGUuuno">https://www.youtube.com/watch?v=SRmvRGUuuno</a>  </li>
+</ul>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20191105_htb-devel.html">[HackTheBox] Devel...</a> « | » <a href="/posts/20191113_htb-blocky.html">[HackTheBox] Blocky...</a> »</p>
+            </div>
+    <div class="footer footercenter">
+      <span>
+        <a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a>
+      </span>
+    </div>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>hljs.initLineNumbersOnLoad();</script>
+    <script>
+      function toggle(s){
+        s.classList.toggle("expanded");
+        for(var l=s.nextElementSibling;l;){
+          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
+        }
+      }
+    </script>
+    <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
+  </body>
+</html>

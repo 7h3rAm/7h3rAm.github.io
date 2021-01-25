@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block body %}
+  <h1 class="h1">@7h3rAm</h1>
+  <ul class="active">
+    {% for category in datadict.startpage.categories %}
+    <li><h2 class="h2 collapsible" onclick=toggle(this);>{{ category }}</h2><ul class="active nested">
+      {% for entry in datadict.startpage.categories[category] %}
+      <li><a href="{{ entry.url }}" target="_blank">{{ entry.name }}</a></li>
+      {% endfor %}
+    </ul></li>
+    {% endfor %}
+  </ul>
+{% endblock %}

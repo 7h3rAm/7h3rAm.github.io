@@ -1,4 +1,53 @@
-<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=author content="Ankur Tyagi (@7h3rAm)"><meta name=description content="Personal Weblog"><meta content="width=device-width, initial-scale=1" name=viewport><title>मंथन | Manthan</title><link rel=icon type=image/webp sizes=32x32 href=/static/images/manthan-32x32.png.webp><link rel=stylesheet type=text/css media=screen href=/static/css/style.rainbow.css><link rel=stylesheet href=/static/css/atelier-forest-light.css><script charset=UTF-8 src=/static/js/highlight.min.js></script><script charset=UTF-8 src=/static/js/highlightjs-line-numbers.min.js></script><script charset=UTF-8 src=/static/js/go.min.js></script></head><body><div class=header><table><tr><td><a href=/index.html class=menu_home>मंथन</a></td><td> | </td><td><a href=/archive.html class=menu_archive>Archive</a></td><td> | </td><td><a href=/tags.html class=menu_tags>Tags</a></td><td> | </td><td><a href=/stats.html class=menu_stats>Stats</a></td></tr></table></div><div class=body><h1 class="h1 collapsible" onclick=toggle(this);>Shellcode Analysis Pipleine</h1><p><a href=/posts/20140224_buf1-challenge.html> « </a>📅 published on <code>18/Mar/2014</code><a href=/posts/20140327_northrop-challenge.html> » </a></p><h2 class="h2 collapsible" onclick=toggle(this);>Introduction</h2><p class=nested>I recently required an automated way of analyzing shellcode and verifying if it is detected by <a href=http://libemu.carnivore.it/ >Libemu</a>, <a href=http://www.snort.org/ >Snort</a>, <a href=http://suricata-ids.org/ >Suricata</a>, <a href=https://www.bro.org/ >Bro</a>, etc. Shellcode had to come from public sources like <a href=http://repo.shell-storm.org/shellcode/ >ShellStorm</a>, <a href=http://www.exploit-db.com/shellcode/ >ExploitDB</a> and <a href=https://github.com/rapid7/metasploit-framework/tree/master/modules/payloads>Metasploit</a>. I needed an automated way of sourcing shellcode from these projects and pass it on to the analysis engines in a pipeline-like mechanism. This posts documents the method I used to complete this task and the overall progress of the project.</p><h2 class="h2 collapsible" onclick=toggle(this);>Design Considerations</h2><p class=nested>I basically divided the project into three independent tasks:</p><ol class=nested><li>source shellcode from shell-storm, exploit-db and metasploit</li><li>generate pcaps for obtained shellcode</li><li>test shellcode with Libemu and pcaps with Snort/Suricata/Bro</li></ol><p class=nested>These are independent since any of them can be used individually, as a unit, and developed outside of the system. The first task itself was divided into smaller sub-tasks and I started with sourcing shellcode from shell-storm. The shell-storm shellcode page documents steps needed to access shell-storm database and there is an example script that provides an easy to use cli to search for and download individual shellcode files from shell-storm. I used this script in my project and added a wrapper over it to search, download and generate pcaps all with just one cli invocation. The script currently is in beta and satisfies only a few of the above requirements. Shell-storm sourcing is implemented, pcap generation is working and shellcode testing currently happens with Libemu only. Additional sources and analysis engines would be added shortly.</p><h2 class="h2 collapsible" onclick=toggle(this);>Implementation and Testing</h2><p class=nested>Please visit the following link to get the complete source listing: <a href=https://gist.github.com/7h3rAm/11087025>sap</a></p><p class=nested>It will read configuration file to populate internal variables and then move on to its core. First, the <code>doshellstorm()</code> method is called to source shellcode samples from shell-storm. The API example script is used to search shellcode that satisfies certain search criteria and then matching shell-storm shellcode ids are downloaded, extracted and saved to a <code>&lt;shellcode-id&gt;.bin</code> named file. For all shellcode ids for which we successfully extracted shellcode bytes, they are then passed onto the <code>bin2pcap()</code> method which uses an updated version of <a href=https://github.com/7h3rAm/PCAP-Generation-Tools>PCAPGGenerationTTools</a> and creates pcap files with HTTP GET/POST requests and <a href=https://github.com/7h3rAm/PCAP-Generation-Tools/commit/fc7418eefc9febef936d4646c61bad67e26935b7>TCP CTS/STC</a> sessions. These pcaps can then be tested with intrusion detection engines in the pipeline. Once the pcap generation module completes, the Libemu engine is invoked and run over all <code>.bin</code> shellcode files. Later versions will add support for Snort/Suricata/Bro based shellcode pcap testing.</p><p class=nested>Let's have a look at the help message from the tool:</p><pre class=nested><code>$ ./sap.py -h
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
+    <meta name="description" content="Personal Weblog"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>मंथन | Manthan</title>
+    <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.rainbow.css"/>
+    <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
+    <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github-gist.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
+    <script charset="UTF-8" src="/static/js/highlight.min.js"></script>
+    <script charset="UTF-8" src="/static/js/highlightjs-line-numbers.min.js"></script>
+    <script charset="UTF-8" src="/static/js/go.min.js"></script>
+   </head>
+  <body>
+    <div class="header">
+      <table>
+        <tr>
+          <td><a href="/index.html" class="menu_home">मंथन</a></td><td> | </td>
+          <td><a href="/archive.html" class="menu_archive">Archive</a></td><td> | </td>
+          <td><a href="/tags.html" class="menu_tags">Tags</a></td><td> | </td>
+          <td><a href="/stats.html" class="menu_stats">Stats</a></td>
+        </tr>
+      </table>
+    </div>
+    <div class="body">
+          <h1>Shellcode Analysis Pipleine</h1>
+                  <p><a href="/posts/20140224_buf1-challenge.html"> « </a>📅 published on <code>18/Mar/2014</code><a href="/posts/20140327_northrop-challenge.html"> » </a></p>
+                <h2>Introduction</h2>
+<p>I recently required an automated way of analyzing shellcode and verifying if it is detected by <a href="http://libemu.carnivore.it/">Libemu</a>, <a href="http://www.snort.org/">Snort</a>, <a href="http://suricata-ids.org/">Suricata</a>, <a href="https://www.bro.org/">Bro</a>, etc. Shellcode had to come from public sources like <a href="http://repo.shell-storm.org/shellcode/">ShellStorm</a>, <a href="http://www.exploit-db.com/shellcode/">ExploitDB</a> and <a href="https://github.com/rapid7/metasploit-framework/tree/master/modules/payloads">Metasploit</a>. I needed an automated way of sourcing shellcode from these projects and pass it on to the analysis engines in a pipeline-like mechanism. This posts documents the method I used to complete this task and the overall progress of the project.</p>
+<h2>Design Considerations</h2>
+<p>I basically divided the project into three independent tasks:</p>
+<ol>
+<li>source shellcode from shell-storm, exploit-db and metasploit</li>
+<li>generate pcaps for obtained shellcode</li>
+<li>test shellcode with Libemu and pcaps with Snort/Suricata/Bro</li>
+</ol>
+<p>These are independent since any of them can be used individually, as a unit, and developed outside of the system. The first task itself was divided into smaller sub-tasks and I started with sourcing shellcode from shell-storm. The shell-storm shellcode page documents steps needed to access shell-storm database and there is an example script that provides an easy to use cli to search for and download individual shellcode files from shell-storm. I used this script in my project and added a wrapper over it to search, download and generate pcaps all with just one cli invocation. The script currently is in beta and satisfies only a few of the above requirements. Shell-storm sourcing is implemented, pcap generation is working and shellcode testing currently happens with Libemu only. Additional sources and analysis engines would be added shortly.</p>
+<h2>Implementation and Testing</h2>
+<p>Please visit the following link to get the complete source listing: <a href="https://gist.github.com/7h3rAm/11087025">sap</a></p>
+<p>It will read configuration file to populate internal variables and then move on to its core. First, the <code>doshellstorm()</code> method is called to source shellcode samples from shell-storm. The API example script is used to search shellcode that satisfies certain search criteria and then matching shell-storm shellcode ids are downloaded, extracted and saved to a <code>&lt;shellcode-id&gt;.bin</code> named file. For all shellcode ids for which we successfully extracted shellcode bytes, they are then passed onto the <code>bin2pcap()</code> method which uses an updated version of <a href="https://github.com/7h3rAm/PCAP-Generation-Tools">PCAPGGenerationTTools</a> and creates pcap files with HTTP GET/POST requests and <a href="https://github.com/7h3rAm/PCAP-Generation-Tools/commit/fc7418eefc9febef936d4646c61bad67e26935b7">TCP CTS/STC</a> sessions. These pcaps can then be tested with intrusion detection engines in the pipeline. Once the pcap generation module completes, the Libemu engine is invoked and run over all <code>.bin</code> shellcode files. Later versions will add support for Snort/Suricata/Bro based shellcode pcap testing.</p>
+<p>Let's have a look at the help message from the tool:</p>
+<pre><code>$ ./sap.py -h
 sap.py - Shellcode Analysis Pipleline (v0.1)
 Ankur Tyagi (7h3rAm)
 
@@ -21,7 +70,9 @@ optional arguments:
   -p, --genpcaps        generate pcaps
 
 EXAMPLE: sap.py -s windows
-</code></pre><p class=nested>There are no mandatory options since most of them are read from the config file if not available on the command-line. The tool supports explicit lookup for shell-storm, exploitdb or metasploit projects. Pcap generation has to be explicitly requested but it will be inherently skipped if no bin files are not created for obtained shellcode. Let's have a test run of the tool with <code>arm</code> as the search string to test only ARM shellcode available at Shell-Storm:</p><pre class=nested><code>$ ./sap.py -s arm -d
+</code></pre>
+<p>There are no mandatory options since most of them are read from the config file if not available on the command-line. The tool supports explicit lookup for shell-storm, exploitdb or metasploit projects. Pcap generation has to be explicitly requested but it will be inherently skipped if no bin files are not created for obtained shellcode. Let's have a test run of the tool with <code>arm</code> as the search string to test only ARM shellcode available at Shell-Storm:</p>
+<pre><code>$ ./sap.py -s arm -d
 sap.py - Shellcode Analysis Pipleline (v0.1)
 Ankur Tyagi (7h3rAm)
 
@@ -68,7 +119,10 @@ Ankur Tyagi (7h3rAm)
 [18-Mar-2014 20:54:31.712890 IST] [emutest] [NORM]: (009/010) Testing shellcode file: ./698.bin with Libemu: offset = -1
 [18-Mar-2014 20:54:31.713120 IST] [emutest] [NORM]: (010/010) Testing shellcode file: ./660.bin with Libemu: offset = -1
 [18-Mar-2014 20:54:31.713370 IST] [main] [NORM]: Session completed in 0:00:08.883860
-</code></pre><p class=nested>I enabled <code>debug</code> output for additional verbosity in the above command-line. The tool identified 26 shellcode samples that satisfy search criteria <code>arm</code>. From these 26 samples, only 10 could be converted to <code>.bin</code> equivalents via the regex pattern and these were then passed on to the Libemu analysis engine. Those familiar with Libemu will immediately notice that all of these 10 tested shellcode samples, <code>offset</code> was found to be -1 which indicates that Libemu failed in identification of these as probable shellcode candidates. The offset value returned by the <code>shellcode_getpc_test()</code> method should ideally be 0 or more to indicate the starting offset inside the input buffer from where the actual shellcode starts. Since Libemu only supports x86 architecture, all the 10 ARM shellcode samples were bound to fail in the above test.</p><p class=nested>Let's now try a Windows x86 shellcode with the tool:</p><pre class=nested><code>$ ./sap.py -s download
+</code></pre>
+<p>I enabled <code>debug</code> output for additional verbosity in the above command-line. The tool identified 26 shellcode samples that satisfy search criteria <code>arm</code>. From these 26 samples, only 10 could be converted to <code>.bin</code> equivalents via the regex pattern and these were then passed on to the Libemu analysis engine. Those familiar with Libemu will immediately notice that all of these 10 tested shellcode samples, <code>offset</code> was found to be -1 which indicates that Libemu failed in identification of these as probable shellcode candidates. The offset value returned by the <code>shellcode_getpc_test()</code> method should ideally be 0 or more to indicate the starting offset inside the input buffer from where the actual shellcode starts. Since Libemu only supports x86 architecture, all the 10 ARM shellcode samples were bound to fail in the above test.</p>
+<p>Let's now try a Windows x86 shellcode with the tool:</p>
+<pre><code>$ ./sap.py -s download
 sap.py - Shellcode Analysis Pipleline (v0.1)
 Ankur Tyagi (7h3rAm)
 
@@ -122,7 +176,9 @@ void ExitProcess (
 [18-Mar-2014 21:32:44.955597 IST] [emutest] [NORM]: (007/008) Testing shellcode file: ./227.bin with Libemu: offset = -1
 [18-Mar-2014 21:32:44.955655 IST] [emutest] [NORM]: (008/008) Testing shellcode file: ./611.bin with Libemu: offset = -1
 [18-Mar-2014 21:32:44.955725 IST] [main] [NORM]: Session completed in 0:00:05.001388
-</code></pre><p class=nested>Id 162 was successfully identified by Libemu as shellcode and it even generated the profiling output for it. From the profile output it seems like the shellcode, when executed, will trigger the download and execution of a malware sample. This is also evident from the shellcode description provided by shell-storm for this shellcode id:</p><pre class=nested><code>$ shell-storm-api.py -search download
+</code></pre>
+<p>Id 162 was successfully identified by Libemu as shellcode and it even generated the profiling output for it. From the profile output it seems like the shellcode, when executed, will trigger the download and execution of a malware sample. This is also evident from the shellcode description provided by shell-storm for this shellcode id:</p>
+<pre><code>$ shell-storm-api.py -search download
 Connecting to shell-storm.org...
 Found 14 shellcodes
 ScId    Size Title
@@ -140,4 +196,27 @@ ScId    Size Title
 [767]   n/a  Windows - Vista/7/2008 - download and execute file via reverse DNS channel
 [146]   n/a  Windows - XP download and exec source
 [159]   n/a  Windows - Download and Execute Shellcode Generator
-</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Conclusion</h2><p class=nested>Currently Libemu is the only analysis engine but soon I'll be adding support for additional engines. Sourcing from other projects will also be added in subsequent versions. Feel free to try it out and let me know what you think of it.</p><p style=text-align:center;>(🔖 tagged <a href=/tags.html#code>code</a> and <a href=/tags.html#reversing>reversing</a>)</p><p style=text-align:center;>« <a href=/posts/20140224_buf1-challenge.html>buf1 - Another Buffer Overflow...</a> « | » <a href=/posts/20140327_northrop-challenge.html>Northrop's Online Challenge...</a> »</p></div><script>hljs.initHighlightingOnLoad();</script><script>hljs.initLineNumbersOnLoad();</script><script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script><script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script><div class="footer footercenter"><span><a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a></span></div></body></html>
+</code></pre>
+<h2>Conclusion</h2>
+<p>Currently Libemu is the only analysis engine but soon I'll be adding support for additional engines. Sourcing from other projects will also be added in subsequent versions. Feel free to try it out and let me know what you think of it.</p>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a> and <a href=/tags.html#reversing>reversing</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20140224_buf1-challenge.html">buf1 - Another Buffer Overflow...</a> « | » <a href="/posts/20140327_northrop-challenge.html">Northrop's Online Challenge...</a> »</p>
+            </div>
+    <div class="footer footercenter">
+      <span>
+        <a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a>
+      </span>
+    </div>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>hljs.initLineNumbersOnLoad();</script>
+    <script>
+      function toggle(s){
+        s.classList.toggle("expanded");
+        for(var l=s.nextElementSibling;l;){
+          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
+        }
+      }
+    </script>
+    <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
+  </body>
+</html>

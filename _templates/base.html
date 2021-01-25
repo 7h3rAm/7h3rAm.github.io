@@ -1,23 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang=en>
   <head>
     <meta charset="utf-8"/>
-    <meta name="author" content="{{ datadict.metadata.name }} ({{ datadict.metadata.handle }})"/>
-    <meta name="description" content="Personal Weblog"/>
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <meta name="author" content="Ankur Tyagi (@7h3rAm)">
+    <meta name="description" content="Personal Weblog">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
     <title>मंथन | Manthan</title>
-    <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/{{ datadict.themefile }}"/>
-    <style type="text/css">p{text-align:justify;text-justify:inter-word;}</style>
-   </head>
-  <body style="background-color:{{ datadict.bgcolor }};">
+    <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp">
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/{{ datadict.themefile }}">
+  </head>
+  <body>
     <div class="header">
       <table>
         <tr>
-          <td><a href="/index.html" class="menu_home">मंथन</a></td><td> | </td>
-          <td><a href="/archive.html" class="menu_archive">Archive</a></td><td> | </td>
-          <td><a href="/tags.html" class="menu_tags">Tags</a></td><td> | </td>
-          <td><a href="/stats.html" class="menu_stats">Stats</a></td>
+         <td><a href="/index.html" class="menu_home">मंथन</a></td>
+         <td> | </td>
+         <td><a href="/archive.html" class="menu_archive">Archive</a></td>
+         <td> | </td>
+         <td><a href="/tags.html" class="menu_tags">Tags</a></td>
+         <td> | </td>
+         <td><a href="/stats.html" class="menu_stats">Stats</a></td>
         </tr>
       </table>
     </div>
@@ -25,8 +27,19 @@
     {% block body %}
     {% endblock %}
     </div>
-    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
-    <script data-goatcounter="https://manthan.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-    <div class="footer"></div>
+    <div class="footer footercenter">
+      <span>
+        <a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a>
+      </span>
+    </div>
+    <script>
+      function toggle(s){
+        s.classList.toggle("expanded");
+        for(var l=s.nextElementSibling;l;){
+          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
+        }
+      }
+    </script>
+    <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
   </body>
 </html>

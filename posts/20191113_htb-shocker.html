@@ -1,4 +1,49 @@
-<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=author content="Ankur Tyagi (@7h3rAm)"><meta name=description content="Personal Weblog"><meta content="width=device-width, initial-scale=1" name=viewport><title>मंथन | Manthan</title><link rel=icon type=image/webp sizes=32x32 href=/static/images/manthan-32x32.png.webp><link rel=stylesheet type=text/css media=screen href=/static/css/style.rainbow.css><link rel=stylesheet href=/static/css/atelier-forest-light.css><script charset=UTF-8 src=/static/js/highlight.min.js></script><script charset=UTF-8 src=/static/js/highlightjs-line-numbers.min.js></script><script charset=UTF-8 src=/static/js/go.min.js></script></head><body><div class=header><table><tr><td><a href=/index.html class=menu_home>मंथन</a></td><td> | </td><td><a href=/archive.html class=menu_archive>Archive</a></td><td> | </td><td><a href=/tags.html class=menu_tags>Tags</a></td><td> | </td><td><a href=/stats.html class=menu_stats>Stats</a></td></tr></table></div><div class=body><h1 class="h1 collapsible" onclick=toggle(this);>[HackTheBox] Shocker</h1><p><a href=/posts/20191113_htb-cronos.html> « </a>📅 published on <code>13/Nov/2019</code><a href=/posts/20200428_htb-archetype.html> » </a></p><h2 class="h2 collapsible" onclick=toggle(this);>Overview</h2><p class=nested>This is a writeup for HTB VM <a href=https://www.hackthebox.eu/home/machines/profile/108>Shocker</a>. Here are stats for this machine from <a href=https://github.com/7h3rAm/machinescli>machinescli</a>:</p><p class=nested><img alt=writeup.overview.machinescli src=/static/files/posts_htb_shocker/machinescli.png.webp></p><h3 class="h3 collapsible" onclick=toggle(this);>Killchain</h3><p class=nested>Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p><p class=nested><img alt=writeup.overview.killchain src=/static/files/posts_htb_shocker/killchain.png.webp></p><h3 class="h3 collapsible" onclick=toggle(this);>TTPs</h3><p class=nested>1. <code>80/tcp/http/Apache httpd 2.4.18 ((Ubuntu))</code>: <a href=https://github.com/7h3rAm/writeups#exploit_shellshock>exploit_shellshock</a>, <a href=https://github.com/7h3rAm/writeups#privesc_sudoers>privesc_sudoers</a> </p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #1: Enumeration</h2><p class=nested>1. Here's the Nmap scan result: </p><pre class=nested><code># Nmap 7.70 scan initiated Wed Nov 13 16:00:23 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.shocker/results/10.10.10.56/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.shocker/results/10.10.10.56/scans/xml/_quick_tcp_nmap.xml 10.10.10.56
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
+    <meta name="description" content="Personal Weblog"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>मंथन | Manthan</title>
+    <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.rainbow.css"/>
+    <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
+    <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github-gist.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
+    <script charset="UTF-8" src="/static/js/highlight.min.js"></script>
+    <script charset="UTF-8" src="/static/js/highlightjs-line-numbers.min.js"></script>
+    <script charset="UTF-8" src="/static/js/go.min.js"></script>
+   </head>
+  <body>
+    <div class="header">
+      <table>
+        <tr>
+          <td><a href="/index.html" class="menu_home">मंथन</a></td><td> | </td>
+          <td><a href="/archive.html" class="menu_archive">Archive</a></td><td> | </td>
+          <td><a href="/tags.html" class="menu_tags">Tags</a></td><td> | </td>
+          <td><a href="/stats.html" class="menu_stats">Stats</a></td>
+        </tr>
+      </table>
+    </div>
+    <div class="body">
+          <h1>[HackTheBox] Shocker</h1>
+                  <p><a href="/posts/20191113_htb-cronos.html"> « </a>📅 published on <code>13/Nov/2019</code><a href="/posts/20200428_htb-archetype.html"> » </a></p>
+                <h2>Overview</h2>
+<p>This is a writeup for HTB VM <a href="https://www.hackthebox.eu/home/machines/profile/108">Shocker</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
+<p><img alt="writeup.overview.machinescli" src="/static/files/posts_htb_shocker/machinescli.png.webp" /></p>
+<h3>Killchain</h3>
+<p>Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
+<p><img alt="writeup.overview.killchain" src="/static/files/posts_htb_shocker/killchain.png.webp" /></p>
+<h3>TTPs</h3>
+<p>1. <code>80/tcp/http/Apache httpd 2.4.18 ((Ubuntu))</code>: <a href="https://github.com/7h3rAm/writeups#exploit_shellshock">exploit_shellshock</a>, <a href="https://github.com/7h3rAm/writeups#privesc_sudoers">privesc_sudoers</a>  </p>
+<h2>Phase #1: Enumeration</h2>
+<p>1. Here's the Nmap scan result:  </p>
+<pre><code># Nmap 7.70 scan initiated Wed Nov 13 16:00:23 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.shocker/results/10.10.10.56/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.shocker/results/10.10.10.56/scans/xml/_quick_tcp_nmap.xml 10.10.10.56
 Increasing send delay for 10.10.10.56 from 0 to 5 due to 145 out of 482 dropped probes since last increase.
 Nmap scan report for 10.10.10.56
 Host is up, received user-set (0.11s latency).
@@ -24,13 +69,35 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Wed Nov 13 16:00:49 2019 -- 1 IP address (1 host up) scanned in 26.24 seconds
-</code></pre><p class=nested>2. Here's the summary of open ports and associated <a href=https://github.com/Tib3rius/AutoRecon>AutoRecon</a> scan files: </p><p class=nested><img alt=writeup.enumeration.steps.2.1 src=/static/files/posts_htb_shocker/openports.png.webp> </p><p class=nested>3. We try Shellshock related enumeration steps to identify interesting scripts to be used as entrypoint: </p><pre class=nested><code>gobuster -u 10.10.10.56 -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt -s 200,204,301,302,307,403
+</code></pre>
+<p>2. Here's the summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:  </p>
+<p><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_htb_shocker/openports.png.webp" />  </p>
+<p>3. We try Shellshock related enumeration steps to identify interesting scripts to be used as entrypoint:  </p>
+<pre><code>gobuster -u 10.10.10.56 -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt -s 200,204,301,302,307,403
 gobuster -u 10.10.10.56 -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt -s 200,204,301,302,307,403 -k -x sh,pl
 nmap -sV -p80 --script http-shellshock --script-args uri=/cgi-bin/user.sh,cmd=ls 10.10.10.56
-</code></pre><p class=nested><img alt=writeup.enumeration.steps.3.1 src=/static/files/posts_htb_shocker/screenshot01.png.webp> </p><p class=nested><img alt=writeup.enumeration.steps.3.2 src=/static/files/posts_htb_shocker/screenshot02.png.webp> </p><p class=nested>4. The <code>user.sh</code> script looks interesting and we manually confirm that it is vulnerable to Shellshock: </p><p class=nested><img alt=writeup.enumeration.steps.4.1 src=/static/files/posts_htb_shocker/screenshot03.png.webp> </p><p class=nested><img alt=writeup.enumeration.steps.4.2 src=/static/files/posts_htb_shocker/screenshot04.png.webp> </p><h3 class="h3 collapsible" onclick=toggle(this);>Findings</h3><h4 class="h4 collapsible" onclick=toggle(this);>Open Ports</h4><pre class=nested><code>80/tcp    |  http  |  Apache httpd 2.4.18 ((Ubuntu))
+</code></pre>
+<p><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_htb_shocker/screenshot01.png.webp" />  </p>
+<p><img alt="writeup.enumeration.steps.3.2" src="/static/files/posts_htb_shocker/screenshot02.png.webp" />  </p>
+<p>4. The <code>user.sh</code> script looks interesting and we manually confirm that it is vulnerable to Shellshock:  </p>
+<p><img alt="writeup.enumeration.steps.4.1" src="/static/files/posts_htb_shocker/screenshot03.png.webp" />  </p>
+<p><img alt="writeup.enumeration.steps.4.2" src="/static/files/posts_htb_shocker/screenshot04.png.webp" />  </p>
+<h3>Findings</h3>
+<h4>Open Ports</h4>
+<pre><code>80/tcp    |  http  |  Apache httpd 2.4.18 ((Ubuntu))
 2222/tcp  |  ssh   |  OpenSSH 7.2p2 Ubuntu 4ubuntu2.2 (Ubuntu Linux; protocol 2.0)
-</code></pre><h4 class="h4 collapsible" onclick=toggle(this);>Files</h4><pre class=nested><code>http://10.10.10.56/cgi-bin/user.sh
-</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2: Exploitation</h2><p class=nested>1. We inject a Bash reverse shell command within the HTTP User-Agent header and get interactive access on the target system: </p><p class=nested><img alt=writeup.exploitation.steps.1.1 src=/static/files/posts_htb_shocker/screenshot05.png.webp> </p><p class=nested><img alt=writeup.exploitation.steps.1.2 src=/static/files/posts_htb_shocker/screenshot06.png.webp> </p><p class=nested>2. We can now view the contents of the first flag file, <code>user.txt</code>: </p><p class=nested><img alt=writeup.exploitation.steps.2.1 src=/static/files/posts_htb_shocker/screenshot07.png.webp> </p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2.5: Post Exploitation</h2><pre class=nested><code>shelly@Shocker&gt; id
+</code></pre>
+<h4>Files</h4>
+<pre><code>http://10.10.10.56/cgi-bin/user.sh
+</code></pre>
+<h2>Phase #2: Exploitation</h2>
+<p>1. We inject a Bash reverse shell command within the HTTP User-Agent header and get interactive access on the target system:  </p>
+<p><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_htb_shocker/screenshot05.png.webp" />  </p>
+<p><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_htb_shocker/screenshot06.png.webp" />  </p>
+<p>2. We can now view the contents of the first flag file, <code>user.txt</code>:  </p>
+<p><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_htb_shocker/screenshot07.png.webp" />  </p>
+<h2>Phase #2.5: Post Exploitation</h2>
+<pre><code>shelly@Shocker&gt; id
 uid=1000(shelly) gid=1000(shelly) groups=1000(shelly),4(adm),24(cdrom),30(dip),46(plugdev),110(lxd),115(lpadmin),116(sambashare)
 shelly@Shocker&gt;  
 shelly@Shocker&gt; uname
@@ -50,10 +117,49 @@ shelly@Shocker&gt;
 shelly@Shocker&gt; users
 root
 shelly
-</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Phase #3: Privilege Escalation</h2><p class=nested>1. From the output of the <code>sudo -l</code>, we know that the user <code>shelly</code> can execute <code>perl</code> with <code>sudo</code> privileges. We use this to execute Bash and get elevated privileges: </p><pre class=nested><code>sudo -l
+</code></pre>
+<h2>Phase #3: Privilege Escalation</h2>
+<p>1. From the output of the <code>sudo -l</code>, we know that the user <code>shelly</code> can execute <code>perl</code> with <code>sudo</code> privileges. We use this to execute Bash and get elevated privileges:  </p>
+<pre><code>sudo -l
 sudo perl -e 'exec &quot;/bin/sh&quot;;'
-</code></pre><p class=nested><img alt=writeup.privesc.steps.1.1 src=/static/files/posts_htb_shocker/screenshot08.png.webp> </p><p class=nested><img alt=writeup.privesc.steps.1.2 src=/static/files/posts_htb_shocker/screenshot09.png.webp> </p><p class=nested>2. We then view the contents of the <code>root.txt</code> file to complete the challenge: </p><p class=nested><img alt=writeup.privesc.steps.2.1 src=/static/files/posts_htb_shocker/screenshot10.png.webp> </p><h2 class="h2 collapsible" onclick=toggle(this);>Loot</h2><h3 class="h3 collapsible" onclick=toggle(this);>Hashes</h3><pre class=nested><code>root:$6$BVgS5ne0$Q6rV3guK7QQUy7uRMwbQ3vv2Y5I9yQUhIzvrIhuiDso/o5UfDxZw7MMq8atR3UdJjhpkFVxVD0cVtjXQd........................
+</code></pre>
+<p><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_htb_shocker/screenshot08.png.webp" />  </p>
+<p><img alt="writeup.privesc.steps.1.2" src="/static/files/posts_htb_shocker/screenshot09.png.webp" />  </p>
+<p>2. We then view the contents of the <code>root.txt</code> file to complete the challenge:  </p>
+<p><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_htb_shocker/screenshot10.png.webp" />  </p>
+<h2>Loot</h2>
+<h3>Hashes</h3>
+<pre><code>root:$6$BVgS5ne0$Q6rV3guK7QQUy7uRMwbQ3vv2Y5I9yQUhIzvrIhuiDso/o5UfDxZw7MMq8atR3UdJjhpkFVxVD0cVtjXQd........................
 shelly:$6$aYLAoDIC$CJ8f8WSCT6GYmbx7x8z5RfrbTG5mpDkkJkLW097hoiEw3tqei2cE7EcUTYdJTVMSa3PALZeBHjhiFR8Ba........................
-</code></pre><h3 class="h3 collapsible" onclick=toggle(this);>Flags</h3><pre class=nested><code>/home/shelly/user.txt: 2ec24e11320026d1e70ff...........
+</code></pre>
+<h3>Flags</h3>
+<pre><code>/home/shelly/user.txt: 2ec24e11320026d1e70ff...........
 /root/root.txt: 52c2715605d70c76190305..........
-</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>References</h2><ul class=nested><li><a href=https://www.hackthebox.eu/home/machines/profile/108>https://www.hackthebox.eu/home/machines/profile/108</a> </li><li><a href="https://www.youtube.com/watch?v=IBlTdguhgfY">https://www.youtube.com/watch?v=IBlTdguhgfY</a> </li><li><a href=https://xd3m0n.xyz/htb_shocker/ >https://xd3m0n.xyz/htb_shocker/</a> </li></ul><p style=text-align:center;>(🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a>)</p><p style=text-align:center;>« <a href=/posts/20191113_htb-cronos.html>[HackTheBox] CronOS...</a> « | » <a href=/posts/20200428_htb-archetype.html>[HackTheBox] Archetype...</a> »</p></div><script>hljs.initHighlightingOnLoad();</script><script>hljs.initLineNumbersOnLoad();</script><script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script><script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script><div class="footer footercenter"><span><a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a></span></div></body></html>
+</code></pre>
+<h2>References</h2>
+<ul>
+<li><a href="https://www.hackthebox.eu/home/machines/profile/108">https://www.hackthebox.eu/home/machines/profile/108</a>  </li>
+<li><a href="https://www.youtube.com/watch?v=IBlTdguhgfY">https://www.youtube.com/watch?v=IBlTdguhgfY</a>  </li>
+<li><a href="https://xd3m0n.xyz/htb_shocker/">https://xd3m0n.xyz/htb_shocker/</a>  </li>
+</ul>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20191113_htb-cronos.html">[HackTheBox] CronOS...</a> « | » <a href="/posts/20200428_htb-archetype.html">[HackTheBox] Archetype...</a> »</p>
+            </div>
+    <div class="footer footercenter">
+      <span>
+        <a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a>
+      </span>
+    </div>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>hljs.initLineNumbersOnLoad();</script>
+    <script>
+      function toggle(s){
+        s.classList.toggle("expanded");
+        for(var l=s.nextElementSibling;l;){
+          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
+        }
+      }
+    </script>
+    <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
+  </body>
+</html>

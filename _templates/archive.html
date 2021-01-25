@@ -1,37 +1,37 @@
 {% extends "base.html" %}
 {% block body %}
-  <h1>💾 Archive <a name="top"></a></h1>
-  <h2>Pages <a href="#top"> ↟ </a></h2>
-    <ul>
-      <li>🚧 Projects</a>
-        <ul>
-          <li><a href="https://github.com/7h3rAm/angad">angad</a></li>
-          <li><a href="https://github.com/7h3rAm/flowinspect">flowinspect</a></li>
-          <li><a href="https://github.com/7h3rAm/kalpi">kalpi</a></li>
-          <li><a href="https://github.com/7h3rAm/machinescli">machinescli</a></li>
-          <li><a href="https://github.com/7h3rAm/rudra">rudra</a></li>
-          <li><a href="https://github.com/7h3rAm/svachal">svachal</a></li>
-          <li><a href="https://github.com/7h3rAm/yml2dot">yml2dot</a></li>
-        </ul>
-      </li>
-      <li><a href="/pages/research.html">🔬 Research</a></li>
-      <li><a href="/pages/cv.html">📄 Curriculum Vitae</a></li>
-      <li><a href="/pages/satview.html">🛰️ Satellite Views</a></li>
-    </ul>
-  <h2>Posts <a href="#top"> ↟ </a></h2>
-    <ol>
-    {% set count=[1] %}
-    {% set revcount=[datadict.posts|count] %}
-    {% for year,year_list in datadict.posts|groupby('year')|reverse %}
-      {% for month,month_list in year_list|groupby('month')|reverse %}
-        {% for day,day_list in month_list|groupby('day')|reverse %}
-          {% for post in day_list %}
-            <li><code>{{ post.pretty_date }}</code>: <a href="{{ post.url }}">{{ post.title }}</a></li>
-            {% if count.append(count.pop()+1) %}{% endif %}
-            {% if revcount.append(revcount.pop()-1) %}{% endif %}
+  <h1 class="h1">💾 Archive</h1>
+    <ul class="active">
+      <li><h2 class="h2 collapsible" onclick=toggle(this);>Pages</h2><ul class="active nested">
+        <li><a href=/pages/research.html>🔬 Research</a></li>
+        <li><a href=/pages/cv.html>📄 Curriculum Vitae</a></li>
+        <li><a href=/pages/satview.html>🛰️ Satellite Views</a></li>
+        <li><a href=/pages/fitness.html>🏋️ Fitness</a></li>
+        <li><a href=/pages/life.html>🧘 Life</a></li>
+        <li><h3 class="h3 collapsible" onclick=toggle(this);>🚧 Projects</h3><ul class="active nested">
+          <li><a href=https://github.com/7h3rAm/angad>angad</a></li>
+          <li><a href=https://github.com/7h3rAm/flowinspect>flowinspect</a></li>
+          <li><a href=https://github.com/7h3rAm/kalpi>kalpi</a></li>
+          <li><a href=https://github.com/7h3rAm/machinescli>machinescli</a></li>
+          <li><a href=https://github.com/7h3rAm/rudra>rudra</a></li>
+          <li><a href=https://github.com/7h3rAm/svachal>svachal</a></li>
+          <li><a href=https://github.com/7h3rAm/yml2dot>yml2dot</a></li>
+        </ul></li>
+      </ul></li>
+      <li><h2 class="h2 collapsible" onclick=toggle(this);>Posts</h2><ul class="active nested">
+        {% set count=[1] %}
+        {% set revcount=[datadict.posts|count] %}
+        {% for year,year_list in datadict.posts|groupby('year')|reverse %}
+          {% for month,month_list in year_list|groupby('month')|reverse %}
+            {% for day,day_list in month_list|groupby('day')|reverse %}
+              {% for post in day_list %}
+                <li><code>{{ post.pretty_date }}</code>: <a href="{{ post.url }}">{{ post.title }}</a></li>
+                {% if count.append(count.pop()+1) %}{% endif %}
+                {% if revcount.append(revcount.pop()-1) %}{% endif %}
+              {% endfor %}
+            {% endfor %}
           {% endfor %}
         {% endfor %}
-      {% endfor %}
-    {% endfor %}
-    </ol>
+      </ul></li>
+    </ul>
 {% endblock %}

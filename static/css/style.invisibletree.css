@@ -42,7 +42,7 @@ strong, b { font-weight:bold; }
 .expanded::before { -ms-transform:rotate(360deg); -webkit-transform:rotate(360deg); transform:rotate(360deg); }
 .footer { display:block; width:100%; text-decoration: none !important; border-bottom:none; }
 .footercenter { display:inline-block; text-align:center; }
-.footspan { color:#766e6b; font-size:11pt; } .footspan:hover { color:#766e6b; }
+.footspan { color:#DCDCDC; font-size:11pt; } .footspan:hover { color:#DCDCDC; }
 
 ul {
   list-style: none;

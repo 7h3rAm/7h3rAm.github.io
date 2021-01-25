@@ -1,17 +1,22 @@
 {% extends "base.html" %}
 {% block body %}
-      <h1>📊 Stats <a name="top"></a></h1>
-        <h2>Summary <a href="#top"> ↟ </a></h2>
-          <ul>
-          {% for entry in datadict.stats.summary %}
-            <li>{{ entry }}</li>
-          {% endfor %}
-          </ul>
-        <h2>Graphs <a href="#top"> ↟ </a></h2>
-          <h3>Posts per Tag <a href="#top"> ↟ </a></h3>
-            <p><img class="rectimages" src="/static/files/pages_stats/posts_per_tag.png.webp"/></p>
-          <h3>Posts per Year <a href="#top"> ↟ </a></h3>
-            <p><img class="rectimages" src="/static/files/pages_stats/posts_per_year.png.webp"/></p>
-          <h3>Tags per Year <a href="#top"> ↟ </a></h3>
-            <p><img class="rectimages" src="/static/files/pages_stats/tags_per_year.png.webp"/></p>
+  <h1 class="h1">📊 Stats</h1>
+    <ul class="active">
+      <li><h2 class="h2 collapsible" onclick=toggle(this);>Summary</h2><ul class="active nested">
+        {% for entry in datadict.stats.summary %}
+        <li>{{ entry|md2html|removepara }}</li>
+        {% endfor %}
+      </ul></li>
+      <li><h2 class="h2 collapsible" onclick=toggle(this);>Graphs</h2><ul class="active nested">
+        <li><h3 class="h3 collapsible" onclick=toggle(this);>Posts per Tag</h3><ul class="active nested">
+          <li><p><img class=rectimages src=/static/files/pages_stats/posts_per_tag.png.webp></p></li>
+        </ul></li>
+        <li><h3 class="h3 collapsible" onclick=toggle(this);>Posts per Year</h3><ul class="active nested">
+          <li><p><img class=rectimages src=/static/files/pages_stats/posts_per_year.png.webp></p></li>
+        </ul></li>
+        <li><h3 class="h3 collapsible" onclick=toggle(this);>Tags per Year</h3><ul class="active nested">
+          <li><p><img class=rectimages src=/static/files/pages_stats/tags_per_year.png.webp></p></li>
+        </ul></li>
+      </ul></li>
+    </ul>
 {% endblock %}

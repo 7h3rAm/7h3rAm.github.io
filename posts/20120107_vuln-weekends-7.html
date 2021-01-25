@@ -1,4 +1,57 @@
-<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=author content="Ankur Tyagi (@7h3rAm)"><meta name=description content="Personal Weblog"><meta content="width=device-width, initial-scale=1" name=viewport><title>मंथन | Manthan</title><link rel=icon type=image/webp sizes=32x32 href=/static/images/manthan-32x32.png.webp><link rel=stylesheet type=text/css media=screen href=/static/css/style.rainbow.css><link rel=stylesheet href=/static/css/atelier-forest-light.css><script charset=UTF-8 src=/static/js/highlight.min.js></script><script charset=UTF-8 src=/static/js/highlightjs-line-numbers.min.js></script><script charset=UTF-8 src=/static/js/go.min.js></script></head><body><div class=header><table><tr><td><a href=/index.html class=menu_home>मंथन</a></td><td> | </td><td><a href=/archive.html class=menu_archive>Archive</a></td><td> | </td><td><a href=/tags.html class=menu_tags>Tags</a></td><td> | </td><td><a href=/stats.html class=menu_stats>Stats</a></td></tr></table></div><div class=body><h1 class="h1 collapsible" onclick=toggle(this);>Vulnerable Weekends #7: Iptools rcmd DoS</h1><p><a href=/posts/20120101_vuln-weekends-6.html> « </a>📅 published on <code>07/Jan/2012</code><a href=/posts/20120602_vuln-weekends-8.html> » </a></p><h2 class="h2 collapsible" onclick=toggle(this);>Vulnerability Report #7: Iptools rcmd Denial of Service Vulnerability</h2><p class=nested><strong>Vulnerable Product</strong>: Installations of Iptools with version 0.1.4</p><p class=nested><strong>CVE ID</strong>: NA</p><p class=nested><strong>CVSS v2 Score</strong>:<br><strong>Access Vector</strong>: NETWORK<br><strong>Access Complexity</strong>: LOW<br><strong>Authentication</strong>: NONE </p><p class=nested><strong>Confidentiality Impact</strong>: NONE<br><strong>Integrity Impact</strong>: NONE<br><strong>Availability Impact</strong>: PARTIAL<br><strong>Base Score</strong>: 5 </p><p class=nested><strong>Exploitability</strong>: PROOF-OF-CONCEPT<br><strong>Remediation Level</strong>: WORKAROUND<br><strong>Report Confidence</strong>: UNCORROBORATED<br><strong>Temporal Score</strong>: 4.1 </p><h3 class="h3 collapsible" onclick=toggle(this);>Details</h3><p class=nested>Iptools is a popular set of tiny TCP/IP utilities implemented as Perl scripts, that include a minimalist webserver, a remote command server on the lines of Telnet, a TFTP server/client, SNMP browser, etc. The toolset has been reported to be vulnerable to a denial of service (DoS) vulnerability, specifically within its remote command server script, <code>rcmd</code>.</p><p class=nested>The vulnerable utility receives user-supplied input through its listening port, TCP/23, which is then tested against a set of weak sanitization checks. This input is used as a placeholder for the <code>EXPR</code> parameter used by the internal <code>chdir</code> function which parses it as a filename reference. Since this parameter could reference a string of an unbounded length, the directory change operation could generate an untrappable exception. This flaw could make the vulnerable utility unstable, effectively terminating the Perl interpreter abnormally, leading to the DoS condition. The following code snippet depicts where the vulnerability could have been introduced within the <code>rcmd</code> script:</p><pre class=nested><code class=language-python>chop($curdir=`cd`);
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
+    <meta name="description" content="Personal Weblog"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>मंथन | Manthan</title>
+    <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.rainbow.css"/>
+    <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
+    <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github-gist.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
+    <script charset="UTF-8" src="/static/js/highlight.min.js"></script>
+    <script charset="UTF-8" src="/static/js/highlightjs-line-numbers.min.js"></script>
+    <script charset="UTF-8" src="/static/js/go.min.js"></script>
+   </head>
+  <body>
+    <div class="header">
+      <table>
+        <tr>
+          <td><a href="/index.html" class="menu_home">मंथन</a></td><td> | </td>
+          <td><a href="/archive.html" class="menu_archive">Archive</a></td><td> | </td>
+          <td><a href="/tags.html" class="menu_tags">Tags</a></td><td> | </td>
+          <td><a href="/stats.html" class="menu_stats">Stats</a></td>
+        </tr>
+      </table>
+    </div>
+    <div class="body">
+          <h1>Vulnerable Weekends #7: Iptools rcmd DoS</h1>
+                  <p><a href="/posts/20120101_vuln-weekends-6.html"> « </a>📅 published on <code>07/Jan/2012</code><a href="/posts/20120602_vuln-weekends-8.html"> » </a></p>
+                <h2>Vulnerability Report #7: Iptools rcmd Denial of Service Vulnerability</h2>
+<p><strong>Vulnerable Product</strong>: Installations of Iptools with version 0.1.4</p>
+<p><strong>CVE ID</strong>: NA</p>
+<p><strong>CVSS v2 Score</strong>:<br />
+<strong>Access Vector</strong>: NETWORK<br />
+<strong>Access Complexity</strong>: LOW<br />
+<strong>Authentication</strong>: NONE  </p>
+<p><strong>Confidentiality Impact</strong>: NONE<br />
+<strong>Integrity Impact</strong>: NONE<br />
+<strong>Availability Impact</strong>: PARTIAL<br />
+<strong>Base Score</strong>: 5  </p>
+<p><strong>Exploitability</strong>: PROOF-OF-CONCEPT<br />
+<strong>Remediation Level</strong>: WORKAROUND<br />
+<strong>Report Confidence</strong>: UNCORROBORATED<br />
+<strong>Temporal Score</strong>: 4.1  </p>
+<h3>Details</h3>
+<p>Iptools is a popular set of tiny TCP/IP utilities implemented as Perl scripts, that include a minimalist webserver, a remote command server on the lines of Telnet, a TFTP server/client, SNMP browser, etc. The toolset has been reported to be vulnerable to a denial of service (DoS) vulnerability, specifically within its remote command server script, <code>rcmd</code>.</p>
+<p>The vulnerable utility receives user-supplied input through its listening port, TCP/23, which is then tested against a set of weak sanitization checks. This input is used as a placeholder for the <code>EXPR</code> parameter used by the internal <code>chdir</code> function which parses it as a filename reference. Since this parameter could reference a string of an unbounded length, the directory change operation could generate an untrappable exception. This flaw could make the vulnerable utility unstable, effectively terminating the Perl interpreter abnormally, leading to the DoS condition. The following code snippet depicts where the vulnerability could have been introduced within the <code>rcmd</code> script:</p>
+<pre><code class="language-python">chop($curdir=`cd`);
 print NS &quot;$curdir&gt; &quot;;
 while (&lt;NS&gt;) {
   print &quot;Client request : &quot;;
@@ -8,4 +61,33 @@ while (&lt;NS&gt;) {
                     chdir &quot;$dir&quot; || print NS &quot;Invalid directory\015\012&quot;  ; last CASE; };
       /^(\b)*(.:)/ &amp;&amp; do { $drive=$2; ; print &quot;driver:[$drive]&quot; if $debug;
                     chdir &quot;$drive&quot; || print NS &quot;Invalid drive\015\012&quot;  ; last CASE; };
-</code></pre><p class=nested>An official confirmation and software updates are currently unavailable. Users are requested to avoid using the vulnerable utility until official fixes are released. For a workaround, users could consider introducing restrictive firewall policies that prohibit unnecessary access to the vulnerable script from an unauthorized source.</p><h3 class="h3 collapsible" onclick=toggle(this);>Vulnerability Sources</h3><p class=nested><a href=http://www.securityfocus.com/bid/51312/ >bid:51312</a><br><a href=http://iptools.sourceforge.net/iptools.html>iptools</a> </p><h3 class="h3 collapsible" onclick=toggle(this);>Generic Sources</h3><p class=nested><a href=http://cve.mitre.org>cve.mitre.org</a><br><a href=http://www.first.org/cvss/cvss-guide.html>cvss-guide</a><br><a href="http://nvd.nist.gov/cvss.cfm?calculator&amp;adv&version=2">cvss-calculator</a> </p><p style=text-align:center;>(🔖 tagged <a href=/tags.html#vulnweekends>vulnweekends</a>)</p><p style=text-align:center;>« <a href=/posts/20120101_vuln-weekends-6.html>Vulnerable Weekends #6: WPS Br...</a> « | » <a href=/posts/20120602_vuln-weekends-8.html>Vulnerable Weekends #8: HP Loa...</a> »</p></div><script>hljs.initHighlightingOnLoad();</script><script>hljs.initLineNumbersOnLoad();</script><script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script><script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script><div class="footer footercenter"><span><a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a></span></div></body></html>
+</code></pre>
+<p>An official confirmation and software updates are currently unavailable. Users are requested to avoid using the vulnerable utility until official fixes are released. For a workaround, users could consider introducing restrictive firewall policies that prohibit unnecessary access to the vulnerable script from an unauthorized source.</p>
+<h3>Vulnerability Sources</h3>
+<p><a href="http://www.securityfocus.com/bid/51312/">bid:51312</a><br />
+<a href="http://iptools.sourceforge.net/iptools.html">iptools</a>  </p>
+<h3>Generic Sources</h3>
+<p><a href="http://cve.mitre.org">cve.mitre.org</a><br />
+<a href="http://www.first.org/cvss/cvss-guide.html">cvss-guide</a><br />
+<a href="http://nvd.nist.gov/cvss.cfm?calculator&amp;adv&amp;version=2">cvss-calculator</a>  </p>
+        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnweekends>vulnweekends</a>)</p>
+                  <p style="text-align:center;">« <a href="/posts/20120101_vuln-weekends-6.html">Vulnerable Weekends #6: WPS Br...</a> « | » <a href="/posts/20120602_vuln-weekends-8.html">Vulnerable Weekends #8: HP Loa...</a> »</p>
+            </div>
+    <div class="footer footercenter">
+      <span>
+        <a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a>
+      </span>
+    </div>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>hljs.initLineNumbersOnLoad();</script>
+    <script>
+      function toggle(s){
+        s.classList.toggle("expanded");
+        for(var l=s.nextElementSibling;l;){
+          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
+        }
+      }
+    </script>
+    <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
+  </body>
+</html>
