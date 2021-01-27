@@ -9,7 +9,7 @@ em, i { font-style:italic; }
 figcaption { font-size:small; }
 figure { margin:1em 0; text-align:center; }
 h1, h2, h3, h4, h5, h6 { margin:auto; }
-h1 { font-size:18pt; color:#fc580c; }
+h1 { font-size:18pt; color:#69359c; }
 h2 { font-size:16pt; color:#20b2aa; } h2.collapsed { color:#333; } h2.expanded { color:#20b2aa; }
 h3 { font-size:14pt; color:#20b2aa; } h3.collapsed { color:#333; } h3.expanded { color:#20b2aa; }
 h4 { font-size:12pt; color:#20b2aa; } h4.collapsed { color:#333; } h4.expanded { color:#20b2aa; }
