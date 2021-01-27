@@ -2,29 +2,29 @@
 {% block body %}
   <h1 class="h1">🟣 OSCP</h1>
     <ul class="active">
-      <li><h2 class="h2 collapsible" onclick=toggle(this);>TL;DR</h2><ul class="active nested">
+      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>TL;DR</h2><ul class="active nested">
         {% for tldr in datadict.oscp.tldr %}
           <li>{{ tldr|md2html|removepara }}</li>
         {% endfor %}
       </ul></li>
-      <li><h2 class="h2 collapsible" onclick=toggle(this);>Read/Watch/Follow</h2><ul class="active nested">
+      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Read/Watch/Follow</h2><ul class="active nested">
         {% for rwf in datadict.oscp.readwatchfollow %}
           <li><a href={{ rwf.url }}>{{ rwf.name }}</a>: {{ rwf.content|md2html|removepara }}</li>
         {% endfor %}
       </ul></li>
-      <li><h2 class="h2 collapsible" onclick=toggle(this);>Do</h2><ul class="active nested">
+      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Do</h2><ul class="active nested">
         {% for doo in datadict.oscp.do %}
-        <li><h3 class="h3 collapsible" onclick=toggle(this);>{{ doo.name }}<a name=notesreport></a></h3><ul class="active nested">
+        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>{{ doo.name }}<a name=notesreport></a></h3><ul class="active nested">
           {% for refs in doo.references %}
             <li>{{ refs|md2html|removepara }}</li>
           {% endfor %}
         </ul></li>
         {% endfor %}
       </ul></li>
-      <li><h2 class="h2 collapsible" onclick=toggle(this);>Resources</h2><ul class="active nested">
+      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Resources</h2><ul class="active nested">
         {% for res in datadict.oscp.resources %}
         <li>
-          <h3 class="h3 collapsible" onclick=toggle(this);>{{ res.name }}</h3>
+          <h3 class="h3 collapsible expanded" onclick=toggle(this);>{{ res.name }}</h3>
           <p class="active nested">{{ res.description|md2html|removepara }}</p>
           {% if res.screenshots and res.screenshots != "" %}
           <p class="active nested">

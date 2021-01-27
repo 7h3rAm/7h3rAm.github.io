@@ -2,7 +2,7 @@
 {% block body %}
   <h1 class="h1">🔬 Research</h1>
     <ul class="active">
-      <li><h2 class="h2 collapsible" onclick=toggle(this);>Patents</h2><ul class="active nested">
+      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Patents</h2><ul class="active nested">
         {% for patent in datadict.metadata.research.patents %}
           {% if patent.url is not none %}
             <li><code>{{ patent.date }}</code>: {{ patent.name }} (<a href={{ patent.url }}>{{ patent.id }}</a>)</li>
@@ -11,9 +11,9 @@
           {% endif %}
         {% endfor %}
       </ul></li>
-      <li><h2 class="h2 collapsible" onclick=toggle(this);>Talks/Papers/Demos</h2><ul class="active nested">
+      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Talks/Papers/Demos</h2><ul class="active nested">
         {% for talk in datadict.metadata.research.talks %}
-        <li><h3 class="h3 collapsible" onclick=toggle(this);>{{ talk.name }}</h3><ul class="active nested">
+        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>{{ talk.name }}</h3><ul class="active nested">
           <li><p class="active nested">{{ talk.description }}</p></li>
           {% for conference in talk.conferences %}
             <li><code>{{ conference.date }}</code>: <a href={{ conference.url }}>{{ conference.name }}</a></li>
@@ -21,7 +21,7 @@
         </ul></li>
         {% endfor %}
       </ul></li>
-      <li><h2 class="h2 collapsible" onclick=toggle(this);>Media</h2><ul class="active nested">
+      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Media</h2><ul class="active nested">
         {% for article in datadict.metadata.research.media %}
           <li><code>{{ article.date }}</code>: {{ article.name }} (<a href={{ article.url }}>{{ article.publication }}</a>)</li>
         {% endfor %}

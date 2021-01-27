@@ -32,12 +32,11 @@
     </div>
     <script>
       function toggle(s){
-        s.classList.toggle("expanded");
+        s.classList.toggle("expanded"); s.classList.toggle("collapsed");
         for(var l=s.nextElementSibling;l;){
           l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
         }
       }
     </script>
-    <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
   </body>
 </html>

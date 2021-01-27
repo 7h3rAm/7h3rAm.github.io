@@ -3,21 +3,21 @@
   <h1 class="h1">📄 Ankur Tyagi</h1>
     <code>{{ datadict.metadata.cv.contact|md2html|removepara }}</code>
     <ul class="active">
-      <li><h2 class="h2 collapsible" onclick=toggle(this);>Introduction</h2><ul class="active nested">
+      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Introduction</h2><ul class="active nested">
         <li>{{ datadict.metadata.cv.intro }}
         <ul>{% for domain in datadict.metadata.cv.domains %}
           <li>{{ domain }}</li>
         {% endfor %}</ul>
         </li>
-        <li><h3 class="h3 collapsible" onclick=toggle(this);>Specialties</h3><ul class="active nested">
+        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Specialties</h3><ul class="active nested">
           {% for specialty in datadict.metadata.cv.specialties %}
             <li>{{ specialty }}</li>
           {% endfor %}
         </ul></li>
       </ul></li>
-      <li><h2 class="h2 collapsible" onclick=toggle(this);>Experience</h2><ul class="active nested">
+      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Experience</h2><ul class="active nested">
         {% for job in datadict.metadata.jobs %}
-        <li><h3 class="h3 collapsible" onclick=toggle(this);>{{ job.title }} @ {{ job.employer }}</h3><ul class="active nested">
+        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>{{ job.title }} @ {{ job.employer }}</h3><ul class="active nested">
           <li>
             <code>{{ job.years }} ({{ job.duration }})</code>
             <ul>{% for desc in job.description %}
@@ -29,8 +29,8 @@
         </ul></li>
         {% endfor %}
       </ul></li>
-      <li><h2 class="h2 collapsible" onclick=toggle(this);>Research</h2><ul class="active nested">
-        <li><h3 class="h3 collapsible" onclick=toggle(this);>Patents</h3><ul class="active nested">
+      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Research</h2><ul class="active nested">
+        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Patents</h3><ul class="active nested">
         {% for patent in datadict.metadata.research.patents %}
           {% if patent.url is not none %}
             <li><code>{{ patent.date }}</code>: {{ patent.name }} (<a href={{ patent.url }}>{{ patent.id }}</a>)</li>
@@ -39,9 +39,9 @@
           {% endif %}
         {% endfor %}
         </ul></li>
-        <li><h3 class="h3 collapsible" onclick=toggle(this);>Talks/Papers/Demos</h3><ul class="active nested">
+        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Talks/Papers/Demos</h3><ul class="active nested">
         {% for talk in datadict.metadata.research.talks %}
-        <li><h4 class="h4 collapsible" onclick=toggle(this);>{{ talk.name }}</h4><ul class="active nested">
+        <li><h4 class="h4 collapsible expanded" onclick=toggle(this);>{{ talk.name }}</h4><ul class="active nested">
           <li><p class="active nested">{{ talk.description }}</p></li>
           {% for conference in talk.conferences %}
             <li><code>{{ conference.date }}</code>: <a href={{ conference.url }}>{{ conference.name }}</a></li>
@@ -49,19 +49,19 @@
         </ul></li>
         {% endfor %}
         </ul></li>
-        <li><h3 class="h3 collapsible" onclick=toggle(this);>Media</h3><ul class="active nested">
+        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Media</h3><ul class="active nested">
           {% for article in datadict.metadata.research.media %}
             <li><code>{{ article.date }}</code>: {{ article.name }} (<a href={{ article.url }}>{{ article.publication }}</a>)</li>
           {% endfor %}
         </ul></li>
       </ul></li>
-      <li><h2 class="h2 collapsible" onclick=toggle(this);>Academics</h2><ul class="active nested">
-        <li><h3 class="h3 collapsible" onclick=toggle(this);>University</h3><ul class="active nested">
+      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Academics</h2><ul class="active nested">
+        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>University</h3><ul class="active nested">
           {% for acad in datadict.metadata.academics %}
             <li><code>{{ acad.date }}</code>: {{ acad.course }} @ {{ acad.institute }}</li>
           {% endfor %}
         </ul></li>
-        <li><h3 class="h3 collapsible" onclick=toggle(this);>Certification</h3><ul class="active nested">
+        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Certification</h3><ul class="active nested">
           {% for cert in datadict.metadata.certifications %}
             <li><code>{{ cert.date }}</code>: {{ cert.name }} @ {{ cert.institute }} (<code>ID: {{ cert.id }}</code>)</li>
           {% endfor %}

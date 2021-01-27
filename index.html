@@ -22,7 +22,7 @@
       <br/><br/>
     </div>
     <div class="body">
-      <h1 class="h1">🙏 ॥ नमस्ते ॥</h1>
+      <h1 class="h1">🙏 नमस्ते</h1>
     <ul class="active">
       <li>I am Ankur Tyagi and this is a web space where I document ideas, gather notes and list updates on topics of interest.
 All content on this site is under a <a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons</a> license.
@@ -32,7 +32,7 @@ If you find something useful, feel free to connect and share feedback:
                     <li><a href="https://twitter.com/7h3rAm">🐤 Twitter</a></li>
                   </ul>
       </li>
-      <li><h2 class="h2 collapsible" onclick=toggle(this);>Recent Posts</h2><ul class="active nested">
+      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Recent Posts</h2><ul class="active nested">
                 <li><code>24/Nov/2020</code>: <a href="/posts/20201124_htb-buff.html">[HackTheBox] Buff</a></li>
                 <li><code>10/Aug/2020</code>: <a href="/posts/20200810_vulnhub-infosecpreposcp.html">[VulnHub] InfoSec Prep: OSCP</a></li>
                 <li><code>30/Jul/2020</code>: <a href="/posts/20200730_thm-yotf.html">[TryHackMe] Year of the Fox</a></li>
@@ -49,12 +49,11 @@ If you find something useful, feel free to connect and share feedback:
     </div>
     <script>
       function toggle(s){
-        s.classList.toggle("expanded");
+        s.classList.toggle("expanded"); s.classList.toggle("collapsed");
         for(var l=s.nextElementSibling;l;){
           l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
         }
       }
     </script>
-    <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
   </body>
 </html>

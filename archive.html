@@ -24,13 +24,13 @@
     <div class="body">
       <h1 class="h1">💾 Archive</h1>
     <ul class="active">
-      <li><h2 class="h2 collapsible" onclick=toggle(this);>Pages</h2><ul class="active nested">
+      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Pages</h2><ul class="active nested">
         <li><a href=/pages/research.html>🔬 Research</a></li>
         <li><a href=/pages/cv.html>📄 Curriculum Vitae</a></li>
         <li><a href=/pages/satview.html>🛰️ Satellite Views</a></li>
         <li><a href=/pages/fitness.html>🏋️ Fitness</a></li>
         <li><a href=/pages/life.html>🧘 Life</a></li>
-        <li><h3 class="h3 collapsible" onclick=toggle(this);>🚧 Projects</h3><ul class="active nested">
+        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🚧 Projects</h3><ul class="active nested">
           <li><a href=https://github.com/7h3rAm/angad>angad</a></li>
           <li><a href=https://github.com/7h3rAm/flowinspect>flowinspect</a></li>
           <li><a href=https://github.com/7h3rAm/kalpi>kalpi</a></li>
@@ -40,7 +40,7 @@
           <li><a href=https://github.com/7h3rAm/yml2dot>yml2dot</a></li>
         </ul></li>
       </ul></li>
-      <li><h2 class="h2 collapsible" onclick=toggle(this);>Posts</h2><ul class="active nested">
+      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Posts</h2><ul class="active nested">
                                                                             <li><code>24/Nov/2020</code>: <a href="/posts/20201124_htb-buff.html">[HackTheBox] Buff</a></li>
                                                                                                               <li><code>10/Aug/2020</code>: <a href="/posts/20200810_vulnhub-infosecpreposcp.html">[VulnHub] InfoSec Prep: OSCP</a></li>
                                                                                                               <li><code>30/Jul/2020</code>: <a href="/posts/20200730_thm-yotf.html">[TryHackMe] Year of the Fox</a></li>
@@ -131,12 +131,11 @@
     </div>
     <script>
       function toggle(s){
-        s.classList.toggle("expanded");
+        s.classList.toggle("expanded"); s.classList.toggle("collapsed");
         for(var l=s.nextElementSibling;l;){
           l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
         }
       }
     </script>
-    <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
   </body>
 </html>

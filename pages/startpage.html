@@ -24,7 +24,7 @@
     <div class="body">
       <h1 class="h1">@7h3rAm</h1>
   <ul class="active">
-        <li><h2 class="h2 collapsible" onclick=toggle(this);>Daily</h2><ul class="active nested">
+        <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Daily</h2><ul class="active nested">
             <li><a href="http://172.16.1.46:9999" target="_blank">API</a></li>
             <li><a href="http://172.16.1.46:1880/#flow/c5b3168d.36ab6" target="_blank">NodeRed</a></li>
             <li><a href="https://mail.google.com/mail/u/0/#inbox" target="_blank">Mail</a></li>
@@ -32,7 +32,7 @@
             <li><a href="https://drive.google.com/drive/u/0/my-drive" target="_blank">Drive</a></li>
             <li><a href="https://docs.google.com/spreadsheets/u/0/" target="_blank">Sheets</a></li>
           </ul></li>
-        <li><h2 class="h2 collapsible" onclick=toggle(this);>Social</h2><ul class="active nested">
+        <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Social</h2><ul class="active nested">
             <li><a href="https://discord.com/channels/354052889364267008/617042541468057610" target="_blank">Discord</a></li>
             <li><a href="https://www.reddit.com/" target="_blank">Reddit</a></li>
             <li><a href="https://www.twitter.com/7h3rAm" target="_blank">Twitter</a></li>
@@ -40,7 +40,7 @@
             <li><a href="https://news.ycombinator.com/news" target="_blank">HackerNews</a></li>
             <li><a href="https://app.slack.com/client/T5KFMRXDF/unreads" target="_blank">Slack</a></li>
           </ul></li>
-        <li><h2 class="h2 collapsible" onclick=toggle(this);>Learning</h2><ul class="active nested">
+        <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Learning</h2><ul class="active nested">
             <li><a href="https://wiki.archlinux.org/" target="_blank">ArchWiki</a></li>
             <li><a href="https://github.com/7h3rAm" target="_blank">Github</a></li>
             <li><a href="https://stackoverflow.com/users/1079836/7h3ram" target="_blank">StackOverflow</a></li>
@@ -54,12 +54,11 @@
     </div>
     <script>
       function toggle(s){
-        s.classList.toggle("expanded");
+        s.classList.toggle("expanded"); s.classList.toggle("collapsed");
         for(var l=s.nextElementSibling;l;){
           l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
         }
       }
     </script>
-    <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
   </body>
 </html>

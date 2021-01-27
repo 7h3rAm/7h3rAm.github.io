@@ -2,16 +2,16 @@
 {% block body %}
   <h1 class="h1">🔖 Tags</h1>
     <ul class="active">
-      <li><h2 class="h2 collapsible" onclick=toggle(this);>Cloud</h2><ul class="active nested">
+      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Cloud</h2><ul class="active nested">
         <ul id=cloud>
           {% for tag in datadict.tagcloud %}
           <li><a style="{{ datadict.tagcloud[tag] }}" href="/tags.html#{{tag}}">{{ tag }}</a></li>
           {% endfor %}
         </ul>
       </ul></li>
-      <li><h2 class="h2 collapsible" onclick=toggle(this);>Listing</h2><ul class="active nested">
+      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Listing</h2><ul class="active nested">
         {% for tag in datadict.tags|sort %}
-        <li><h3 class="h3 collapsible" onclick=toggle(this);>{{ tag }}<a name={{ tag }}></a></h3><ul class="active nested">
+        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>{{ tag }}<a name={{ tag }}></a></h3><ul class="active nested">
           {% set count=[1] %}
           {% set revcount=[datadict.tags[tag]|count] %}
           {% for year,year_list in datadict.tags[tag]|groupby('year')|reverse %}

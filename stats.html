@@ -24,7 +24,7 @@
     <div class="body">
       <h1 class="h1">📊 Stats</h1>
     <ul class="active">
-      <li><h2 class="h2 collapsible" onclick=toggle(this);>Summary</h2><ul class="active nested">
+      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Summary</h2><ul class="active nested">
                 <li>There are a total of <code>80</code> posts with <code>9</code> tags, written over a period of <code>9y0m8d</code> (from <code>16/Nov/2011</code> till <code>24/Nov/2020</code>)</li>
                 <li>From the most recent update (on <code>27/Jan/2021</code>), it's been <code>0y2m3d</code> when the last post was published and <code>9y2m11d</code> since the first post</li>
                 <li>The year <code>2019</code> has highest number of posts with a count of <code>34</code>, while the year <code>2016</code> has lowest number of posts with a count of <code>2</code></li>
@@ -32,14 +32,14 @@
                 <li>The most widely used of all <code>9</code> tags across <code>80</code> posts is <code>writeup</code> while the least used is <code>tryhackme</code></li>
                 <li>On an average, there are <code>15</code> posts per tag and <code>10</code> posts, <code>2</code> tags per year</li>
               </ul></li>
-      <li><h2 class="h2 collapsible" onclick=toggle(this);>Graphs</h2><ul class="active nested">
-        <li><h3 class="h3 collapsible" onclick=toggle(this);>Posts per Tag</h3><ul class="active nested">
+      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Graphs</h2><ul class="active nested">
+        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Posts per Tag</h3><ul class="active nested">
           <li><p><img class=rectimages src=/static/files/pages_stats/posts_per_tag.png.webp></p></li>
         </ul></li>
-        <li><h3 class="h3 collapsible" onclick=toggle(this);>Posts per Year</h3><ul class="active nested">
+        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Posts per Year</h3><ul class="active nested">
           <li><p><img class=rectimages src=/static/files/pages_stats/posts_per_year.png.webp></p></li>
         </ul></li>
-        <li><h3 class="h3 collapsible" onclick=toggle(this);>Tags per Year</h3><ul class="active nested">
+        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Tags per Year</h3><ul class="active nested">
           <li><p><img class=rectimages src=/static/files/pages_stats/tags_per_year.png.webp></p></li>
         </ul></li>
       </ul></li>
@@ -52,12 +52,11 @@
     </div>
     <script>
       function toggle(s){
-        s.classList.toggle("expanded");
+        s.classList.toggle("expanded"); s.classList.toggle("collapsed");
         for(var l=s.nextElementSibling;l;){
           l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
         }
       }
     </script>
-    <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
   </body>
 </html>
