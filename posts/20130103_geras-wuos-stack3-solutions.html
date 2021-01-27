@@ -21,19 +21,20 @@
    </head>
   <body>
     <div class="header">
-      <table>
+      <span class="menu_left"><a class="menu_home" href="/index.html">मंथन</a></span>
+      <span class="menu_right"><table>
         <tr>
-          <td><a href="/index.html" class="menu_home">मंथन</a></td><td> | </td>
-          <td><a href="/archive.html" class="menu_archive">Archive</a></td><td> | </td>
-          <td><a href="/tags.html" class="menu_tags">Tags</a></td><td> | </td>
-          <td><a href="/stats.html" class="menu_stats">Stats</a></td>
+          <td><a class="menu_archive" href="/archive.html">Archive</a></td><td>|</td>
+          <td><a class="menu_tags" href="/tags.html">Tags</a></td><td>|</td>
+          <td><a class="menu_stats" href="/stats.html">Stats</a></td>
         </tr>
-      </table>
+      </table></span>
+      <br/><br/>
     </div>
     <div class="body">
-          <h1 class="h1 collapsible" onclick="toggle(this);">Gera's Warming Up on Stack #3 - Solutions</h1>
-                  <p><a href="/posts/20130102_geras-wuos-stack2-solutions.html"> « </a>📅 published on <code>03/Jan/2013</code><a href="/posts/20130104_geras-wuos-stack4-solutions.html"> » </a></p>
-                <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+      <h1 class="h1 collapsible" onclick="toggle(this);">Gera's Warming Up on Stack #3 - Solutions</h1>
+          <p><a href="/posts/20130102_geras-wuos-stack2-solutions.html"> « </a>📅 published on <code>03/Jan/2013</code><a href="/posts/20130104_geras-wuos-stack4-solutions.html"> » </a></p>
+        <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested">Following is the part 3 in the series of posts I started back in August 2012 with an aim to provide an analysis and possible solutions for the vulnerable programs provided by Gerardo 'gera' Richarte at the <a href="http://pages.cs.wisc.edu/~riccardo/sec/">Insecure Programming by example</a> page.</p>
 <p class="nested">This post follows the <a href="/posts/20130102_geras-wuos-stack2-solutions.html">Gera's Warming Up on Stack #2 - Solutions</a> post and if you have not read it, I request you to please do so. Most of the concepts are very similar and since they have been already talked about, I'll not be reiterating them here.</p>
 <p class="nested">Let's get started. Below is the source for the vulnerable <a href="http://pages.cs.wisc.edu/~riccardo/sec/stack3.html">stack3.c</a> program:</p>
@@ -161,9 +162,10 @@ you win!
 <p class="nested">So, we have now successfully exploited the <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack3.html">stack3.c</a> program through four different techniques. Depending on the motive of your exploitation attempt, other techniques could be devised and some, mentioned here, be rejected.</p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested">Like I said, earlier, these solutions are not practical anymore. They just serve the purpose of understanding how exploits used to work before mitigation features were introduced in modern systems. But, as with everything else, understanding basics is really important. As mitigation features mature, exploitation techniques become increasingly complex. And to understand those, we need to build upon the solid foundation of basic concepts, like those discussed on this and other blogs.</p>
-        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#ctf>ctf</a> and <a href=/tags.html#exploit>exploit</a>)</p>
-                  <p style="text-align:center;">« <a href="/posts/20130102_geras-wuos-stack2-solutions.html">Gera's Warming Up on Stack #2 ...</a> « | » <a href="/posts/20130104_geras-wuos-stack4-solutions.html">Gera's Warming Up on Stack #4 ...</a> »</p>
-            </div>
+    <p style="text-align:center;">(🔖 tagged <a href=/tags.html#ctf>ctf</a> and <a href=/tags.html#exploit>exploit</a>)</p>
+          <p style="float:left;">« <a href="/posts/20130102_geras-wuos-stack2-solutions.html">Gera's Warming Up on Stack #2 ...</a> «</p>
+      <p style="float:right;">» <a href="/posts/20130104_geras-wuos-stack4-solutions.html">Gera's Warming Up on Stack #4 ...</a> »</p>
+        </div>
     <div class="footer footercenter">
       <span>
         <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>

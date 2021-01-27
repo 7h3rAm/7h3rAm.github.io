@@ -21,19 +21,20 @@
    </head>
   <body>
     <div class="header">
-      <table>
+      <span class="menu_left"><a class="menu_home" href="/index.html">मंथन</a></span>
+      <span class="menu_right"><table>
         <tr>
-          <td><a href="/index.html" class="menu_home">मंथन</a></td><td> | </td>
-          <td><a href="/archive.html" class="menu_archive">Archive</a></td><td> | </td>
-          <td><a href="/tags.html" class="menu_tags">Tags</a></td><td> | </td>
-          <td><a href="/stats.html" class="menu_stats">Stats</a></td>
+          <td><a class="menu_archive" href="/archive.html">Archive</a></td><td>|</td>
+          <td><a class="menu_tags" href="/tags.html">Tags</a></td><td>|</td>
+          <td><a class="menu_stats" href="/stats.html">Stats</a></td>
         </tr>
-      </table>
+      </table></span>
+      <br/><br/>
     </div>
     <div class="body">
-          <h1 class="h1 collapsible" onclick="toggle(this);">Eindbazen CTF Challenge: bin100</h1>
-                  <p><a href="/posts/20150312_chopshop-shellcode.html"> « </a>📅 published on <code>27/May/2015</code><a href="/posts/20150802_capinfos.html"> » </a></p>
-                <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+      <h1 class="h1 collapsible" onclick="toggle(this);">Eindbazen CTF Challenge: bin100</h1>
+          <p><a href="/posts/20150312_chopshop-shellcode.html"> « </a>📅 published on <code>27/May/2015</code><a href="/posts/20150802_capinfos.html"> » </a></p>
+        <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested">From the <a href="http://ebctf.nl/challenges/">challenges page</a>, download the <a href="/static/files/posts_ebctf_bin100/bin100">bin100</a> binary and start following along. The challenge title is "Dice Revenge" and the description talks about Linux debugging skills. Let's see what <code>file</code> commands tells us about this file:</p>
 <pre class="nested"><code>$ file bin100
 bin100: ELF 32-bit LSB  executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.26, BuildID[sha1]=b07165d860e4c153770483d43e42a54f92f5ac93, not stripped
@@ -750,9 +751,10 @@ e.save('bin100.patched')
 </code></pre>
 <h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested">Awesome! We sucessfully solve this challenge and are presented with the flag. You can download the patched file <a href="/static/files/posts_ebctf_bin100/bin100.patched">here</a>.</p>
-        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a> and <a href=/tags.html#ctf>ctf</a>)</p>
-                  <p style="text-align:center;">« <a href="/posts/20150312_chopshop-shellcode.html">Shellcode Detection Module in ...</a> « | » <a href="/posts/20150802_capinfos.html">capinfos.py: Pure Python Pcap ...</a> »</p>
-            </div>
+    <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a> and <a href=/tags.html#ctf>ctf</a>)</p>
+          <p style="float:left;">« <a href="/posts/20150312_chopshop-shellcode.html">Shellcode Detection Module in ...</a> «</p>
+      <p style="float:right;">» <a href="/posts/20150802_capinfos.html">capinfos.py: Pure Python Pcap ...</a> »</p>
+        </div>
     <div class="footer footercenter">
       <span>
         <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>

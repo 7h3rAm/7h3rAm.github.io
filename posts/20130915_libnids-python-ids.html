@@ -21,19 +21,20 @@
    </head>
   <body>
     <div class="header">
-      <table>
+      <span class="menu_left"><a class="menu_home" href="/index.html">मंथन</a></span>
+      <span class="menu_right"><table>
         <tr>
-          <td><a href="/index.html" class="menu_home">मंथन</a></td><td> | </td>
-          <td><a href="/archive.html" class="menu_archive">Archive</a></td><td> | </td>
-          <td><a href="/tags.html" class="menu_tags">Tags</a></td><td> | </td>
-          <td><a href="/stats.html" class="menu_stats">Stats</a></td>
+          <td><a class="menu_archive" href="/archive.html">Archive</a></td><td>|</td>
+          <td><a class="menu_tags" href="/tags.html">Tags</a></td><td>|</td>
+          <td><a class="menu_stats" href="/stats.html">Stats</a></td>
         </tr>
-      </table>
+      </table></span>
+      <br/><br/>
     </div>
     <div class="body">
-          <h1 class="h1 collapsible" onclick="toggle(this);">Developing a Minimal IPS from Scratch</h1>
-                  <p><a href="/posts/20130829_malsoftware-reverse-challenge.html"> « </a>📅 published on <code>15/Sep/2013</code><a href="/posts/20131127_regex-to-dotgraph.html"> » </a></p>
-                <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+      <h1 class="h1 collapsible" onclick="toggle(this);">Developing a Minimal IPS from Scratch</h1>
+          <p><a href="/posts/20130829_malsoftware-reverse-challenge.html"> « </a>📅 published on <code>15/Sep/2013</code><a href="/posts/20131127_regex-to-dotgraph.html"> » </a></p>
+        <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested">In this post I'll try to explain how <a href="https://jon.oberheide.org/pynids/">pynids</a> can be combined with Python's <code>re</code> module to develop a minimal IPS-like tool. In an earlier post, <a href="https://7h3ram.github.io/posts/20130618_libnids-pynids.html">Network Stream Reassembly and Defragmentation</a>, I talked about how to leverage pynids API to create a TCP reassembly module. I would suggest you read that post before continuing further since I'll be skipping over reassembly basics. First let's understand the architecture of a very basic IPS:</p>
 <p class="nested"><img alt="image" src="/static/files/posts_libnids_python_ids/minips-arch.png.webp" /></p>
 <p class="nested">Since it is a prevention system, an IPS has to be placed inline between the firewall at the perimeter edge the default gateway of your network. For any sessions that match inspection rules, they will be either dropped or logged or both if required. This action is basically per session/match configurable and can be changed through system's policy files. An inspection system needs network traffic as input and this input can come from different sources but for the sake of simplicity, we'll only be focusing on packet capture files and direct network device access as sources of input. Once the input is available in the form of raw packets, the system will need to reassemble them and extract layer payload which an inspection engine can consume.</p>
@@ -96,9 +97,10 @@
 <p class="nested">The program correctly identified regex match over the TCP stream in the CTS (client-to-server) direction and dumped match statistics along with matching content. The regex might have matched on the STC payload as well but when the first match on this stream was found, the program stopped tracking it any further and since that match was on CTS direction, any payload following it was never seen. For UDP matches, note that for the same flow, there are two matches: one while the data is being sent from a client at UDP/3009 to server at <code>UDP/53</code> and again when the server replied to the client. Since, there are no flow details for a UDP session, any such program won't have an implicit knowledge of the direction towards which payload is forwarded. However, it is not trivial to implement such functionality in the UDP callback enabling it to identify the client and server sides of the connection and then taking appropriate action.</p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested">The <code>inspect</code> function currently only includes regex matches as the only source of inspection over TCP/UDP payload but this can be extended to add really interesting capabilities like <a href="https://7h3ram.github.io/posts/20130306_libemu-shellcode-detection.html">shellcode detection</a>, <a href="http://code.google.com/p/yara-project/">Yara</a> rule matching, <a href="https://github.com/seatgeek/fuzzywuzzy">Fuzzy String</a> matching, file identification, file type based inspection, hash matching, javascript extraction, deobfuscation, emulation and analysis, etc. I've been working on a project which implements a few of these capabilities in addition to various other nifty features desirable from such inspection tools. Check it out @ <a href="https://github.com/7h3rAm/flowinspect">flowinspect</a>. The <code>minips.py</code> program can also be extended to read input regex from a flat file and match them in sequence over input packets. This will allow the user to inspect network flows using multiple regexes, enabling true IPS-like matching functionality.</p>
-        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a>)</p>
-                  <p style="text-align:center;">« <a href="/posts/20130829_malsoftware-reverse-challenge.html">reverse Challenge from Courser...</a> « | » <a href="/posts/20131127_regex-to-dotgraph.html">Visualizing (non-POSIX) Regula...</a> »</p>
-            </div>
+    <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a>)</p>
+          <p style="float:left;">« <a href="/posts/20130829_malsoftware-reverse-challenge.html">reverse Challenge from Courser...</a> «</p>
+      <p style="float:right;">» <a href="/posts/20131127_regex-to-dotgraph.html">Visualizing (non-POSIX) Regula...</a> »</p>
+        </div>
     <div class="footer footercenter">
       <span>
         <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>

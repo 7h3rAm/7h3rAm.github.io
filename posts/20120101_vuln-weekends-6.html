@@ -21,19 +21,20 @@
    </head>
   <body>
     <div class="header">
-      <table>
+      <span class="menu_left"><a class="menu_home" href="/index.html">मंथन</a></span>
+      <span class="menu_right"><table>
         <tr>
-          <td><a href="/index.html" class="menu_home">मंथन</a></td><td> | </td>
-          <td><a href="/archive.html" class="menu_archive">Archive</a></td><td> | </td>
-          <td><a href="/tags.html" class="menu_tags">Tags</a></td><td> | </td>
-          <td><a href="/stats.html" class="menu_stats">Stats</a></td>
+          <td><a class="menu_archive" href="/archive.html">Archive</a></td><td>|</td>
+          <td><a class="menu_tags" href="/tags.html">Tags</a></td><td>|</td>
+          <td><a class="menu_stats" href="/stats.html">Stats</a></td>
         </tr>
-      </table>
+      </table></span>
+      <br/><br/>
     </div>
     <div class="body">
-          <h1 class="h1 collapsible" onclick="toggle(this);">Vulnerable Weekends #6: WPS Bruteforce and CoCSoft Stream Down</h1>
-                  <p><a href="/posts/20111224_vuln-weekends-5.html"> « </a>📅 published on <code>01/Jan/2012</code><a href="/posts/20120107_vuln-weekends-7.html"> » </a></p>
-                <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+      <h1 class="h1 collapsible" onclick="toggle(this);">Vulnerable Weekends #6: WPS Bruteforce and CoCSoft Stream Down</h1>
+          <p><a href="/posts/20111224_vuln-weekends-5.html"> « </a>📅 published on <code>01/Jan/2012</code><a href="/posts/20120107_vuln-weekends-7.html"> » </a></p>
+        <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested">Report #6A analyzes the WPS implementation flaw that allows brute force guessing of the 8 digit PIN used to restrict wireless access to authenticated users.</p>
 <p class="nested">Report #6B analyzes the memory corruption vulnerability in the CoCSoft Stream Down that could allow execution of arbitrary code on the targeted system.</p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Vulnerability Report #6A: Multiple WPS Implementations Brute Force Authentication Bypass Vulnerability</h2>
@@ -84,9 +85,10 @@
 <p class="nested"><a href="http://cve.mitre.org">cve.mitre.org</a><br />
 <a href="http://www.first.org/cvss/cvss-guide.html">cvss-guide</a><br />
 <a href="http://nvd.nist.gov/cvss.cfm?calculator&amp;adv&amp;version=2">cvss-calculator</a>  </p>
-        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnweekends>vulnweekends</a>)</p>
-                  <p style="text-align:center;">« <a href="/posts/20111224_vuln-weekends-5.html">Vulnerable Weekends #5: MIT Ke...</a> « | » <a href="/posts/20120107_vuln-weekends-7.html">Vulnerable Weekends #7: Iptool...</a> »</p>
-            </div>
+    <p style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnweekends>vulnweekends</a>)</p>
+          <p style="float:left;">« <a href="/posts/20111224_vuln-weekends-5.html">Vulnerable Weekends #5: MIT Ke...</a> «</p>
+      <p style="float:right;">» <a href="/posts/20120107_vuln-weekends-7.html">Vulnerable Weekends #7: Iptool...</a> »</p>
+        </div>
     <div class="footer footercenter">
       <span>
         <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>

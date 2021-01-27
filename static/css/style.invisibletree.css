@@ -29,10 +29,12 @@ strong, b { font-weight:bold; }
 #cloud { margin:0px; padding:2px; line-height:2em; text-align:center; }
 #cloud li::before { border-top:0px solid #FFFFFF; }
 #cloud li::after { border-left:0px solid #FFFFFF; }
+.menu_archive { color:#20b2aa; font-size:16pt; } .menu_archive:hover { color:#20b2aa; }
 .menu_home { color:#fc580c; font-size:22pt; } .menu_home:hover { color:#fc580c; }
-.menu_archive { color:#20b2aa; font-size:18pt; } .menu_archive:hover { color:#20b2aa; }
-.menu_tags { color:#fe4164; font-size:18pt; } .menu_tags:hover { color:#fe4164; }
-.menu_stats { color:#69359c; font-size:18pt; } .menu_stats:hover { color:#69359c; }
+.menu_left { float:left; }
+.menu_right { float:right; }
+.menu_stats { color:#69359c; font-size:16pt; } .menu_stats:hover { color:#69359c; }
+.menu_tags { color:#fe4164; font-size:16pt; } .menu_tags:hover { color:#fe4164; }
 .hljs-ln-numbers { color:#909090; text-align:right; vertical-align:middle; border-right:0px solid #909090; }
 .rectimages { width:540px; height:270px; max-width:540px; max-height:270px; }
 .sqimages { width:540px; height:540px; max-width:540px; max-height:540px; }

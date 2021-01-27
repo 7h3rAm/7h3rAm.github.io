@@ -21,19 +21,20 @@
    </head>
   <body>
     <div class="header">
-      <table>
+      <span class="menu_left"><a class="menu_home" href="/index.html">मंथन</a></span>
+      <span class="menu_right"><table>
         <tr>
-          <td><a href="/index.html" class="menu_home">मंथन</a></td><td> | </td>
-          <td><a href="/archive.html" class="menu_archive">Archive</a></td><td> | </td>
-          <td><a href="/tags.html" class="menu_tags">Tags</a></td><td> | </td>
-          <td><a href="/stats.html" class="menu_stats">Stats</a></td>
+          <td><a class="menu_archive" href="/archive.html">Archive</a></td><td>|</td>
+          <td><a class="menu_tags" href="/tags.html">Tags</a></td><td>|</td>
+          <td><a class="menu_stats" href="/stats.html">Stats</a></td>
         </tr>
-      </table>
+      </table></span>
+      <br/><br/>
     </div>
     <div class="body">
-          <h1 class="h1 collapsible" onclick="toggle(this);">buf0 - A Buffer Overflow Challenge</h1>
-                  <p><a href="/posts/20131127_regex-to-dotgraph.html"> « </a>📅 published on <code>06/Jan/2014</code><a href="/posts/20140224_buf1-challenge.html"> » </a></p>
-                <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+      <h1 class="h1 collapsible" onclick="toggle(this);">buf0 - A Buffer Overflow Challenge</h1>
+          <p><a href="/posts/20131127_regex-to-dotgraph.html"> « </a>📅 published on <code>06/Jan/2014</code><a href="/posts/20140224_buf1-challenge.html"> » </a></p>
+        <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested">The binary can be obtained from here: <a href="/static/files/posts_buf0_challenge/buf0.bin">buf0</a>. Let's see what <code>file</code> command has to tell us about this challenge file:</p>
 <pre class="nested"><code>$ file buf0.bin
 buf0.bin: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[sha1]=0x3a0cbf6e6af7d4a5d1294f2ce18e80ad3e778d48, not stripped
@@ -94,9 +95,10 @@ W00T!
 </code></pre>
 <h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested">Awesome! We get the required string printed, thus completing this challenge. Stay tuned for a post on a similar challenge.</p>
-        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#ctf>ctf</a>)</p>
-                  <p style="text-align:center;">« <a href="/posts/20131127_regex-to-dotgraph.html">Visualizing (non-POSIX) Regula...</a> « | » <a href="/posts/20140224_buf1-challenge.html">buf1 - Another Buffer Overflow...</a> »</p>
-            </div>
+    <p style="text-align:center;">(🔖 tagged <a href=/tags.html#ctf>ctf</a>)</p>
+          <p style="float:left;">« <a href="/posts/20131127_regex-to-dotgraph.html">Visualizing (non-POSIX) Regula...</a> «</p>
+      <p style="float:right;">» <a href="/posts/20140224_buf1-challenge.html">buf1 - Another Buffer Overflow...</a> »</p>
+        </div>
     <div class="footer footercenter">
       <span>
         <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>

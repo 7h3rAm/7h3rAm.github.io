@@ -21,19 +21,20 @@
    </head>
   <body>
     <div class="header">
-      <table>
+      <span class="menu_left"><a class="menu_home" href="/index.html">मंथन</a></span>
+      <span class="menu_right"><table>
         <tr>
-          <td><a href="/index.html" class="menu_home">मंथन</a></td><td> | </td>
-          <td><a href="/archive.html" class="menu_archive">Archive</a></td><td> | </td>
-          <td><a href="/tags.html" class="menu_tags">Tags</a></td><td> | </td>
-          <td><a href="/stats.html" class="menu_stats">Stats</a></td>
+          <td><a class="menu_archive" href="/archive.html">Archive</a></td><td>|</td>
+          <td><a class="menu_tags" href="/tags.html">Tags</a></td><td>|</td>
+          <td><a class="menu_stats" href="/stats.html">Stats</a></td>
         </tr>
-      </table>
+      </table></span>
+      <br/><br/>
     </div>
     <div class="body">
-          <h1 class="h1 collapsible" onclick="toggle(this);">Northrop's Online Challenge</h1>
-                  <p><a href="/posts/20140318_shellcode-pipeline.html"> « </a>📅 published on <code>27/Mar/2014</code><a href="/posts/20140506_confidence-ds-ctf-stego50.html"> » </a></p>
-                <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+      <h1 class="h1 collapsible" onclick="toggle(this);">Northrop's Online Challenge</h1>
+          <p><a href="/posts/20140318_shellcode-pipeline.html"> « </a>📅 published on <code>27/Mar/2014</code><a href="/posts/20140506_confidence-ds-ctf-stego50.html"> » </a></p>
+        <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested">A while back I was checking out the <a href="http://www.reddit.com/r/netsec/comments/1ubzv9/rnetsecs_q1_2014_information_security_hiring/">/r/netsec's Q1 2014 Information Security Hiring Thread</a> at Reddit and there I found an interesting challenge posted by someone from Northrop Grumman Cyber Intelligence Division. They were looking for people with interesting skills (IDS/IPS, Big Data, web app development, etc.) and mentioned that candidates solving their <a href="https://googledrive.com/host/0B7WgiVv_ihnhX1VRWHVXZmZmMW8/challengeWebpage.html">online challenge</a> will be preferred. I find such challenges really interesting and immediately got on top of it. A few hours later I solved it and decided to write about the process. This post details steps I took and lessons learned.</p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Research and Testing</h2>
 <p class="nested">The online challenge page looks something like this:</p>
@@ -59,9 +60,10 @@
 <p class="nested"><img alt="decoded.png" src="/static/files/posts_northrop_challenge/decoded.png.webp" /></p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested">This indeed was an interesting challenge and a one that proved to be good source of learning. Stay tuned for more writeups on similar topics.</p>
-        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a> and <a href=/tags.html#ctf>ctf</a>)</p>
-                  <p style="text-align:center;">« <a href="/posts/20140318_shellcode-pipeline.html">Shellcode Analysis Pipleine...</a> « | » <a href="/posts/20140506_confidence-ds-ctf-stego50.html">CONFidence DS CTF Teaser: Steg...</a> »</p>
-            </div>
+    <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a> and <a href=/tags.html#ctf>ctf</a>)</p>
+          <p style="float:left;">« <a href="/posts/20140318_shellcode-pipeline.html">Shellcode Analysis Pipleine</a> «</p>
+      <p style="float:right;">» <a href="/posts/20140506_confidence-ds-ctf-stego50.html">CONFidence DS CTF Teaser: Steg...</a> »</p>
+        </div>
     <div class="footer footercenter">
       <span>
         <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>

@@ -21,19 +21,20 @@
    </head>
   <body>
     <div class="header">
-      <table>
+      <span class="menu_left"><a class="menu_home" href="/index.html">मंथन</a></span>
+      <span class="menu_right"><table>
         <tr>
-          <td><a href="/index.html" class="menu_home">मंथन</a></td><td> | </td>
-          <td><a href="/archive.html" class="menu_archive">Archive</a></td><td> | </td>
-          <td><a href="/tags.html" class="menu_tags">Tags</a></td><td> | </td>
-          <td><a href="/stats.html" class="menu_stats">Stats</a></td>
+          <td><a class="menu_archive" href="/archive.html">Archive</a></td><td>|</td>
+          <td><a class="menu_tags" href="/tags.html">Tags</a></td><td>|</td>
+          <td><a class="menu_stats" href="/stats.html">Stats</a></td>
         </tr>
-      </table>
+      </table></span>
+      <br/><br/>
     </div>
     <div class="body">
-          <h1 class="h1 collapsible" onclick="toggle(this);">reverse-ex Challenge from Coursera's Malicious Software Course</h1>
-                  <p><a href="/posts/20130618_libnids-pynids.html"> « </a>📅 published on <code>24/Aug/2013</code><a href="/posts/20130829_malsoftware-reverse-challenge.html"> » </a></p>
-                <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+      <h1 class="h1 collapsible" onclick="toggle(this);">reverse-ex Challenge from Coursera's Malicious Software Course</h1>
+          <p><a href="/posts/20130618_libnids-pynids.html"> « </a>📅 published on <code>24/Aug/2013</code><a href="/posts/20130829_malsoftware-reverse-challenge.html"> » </a></p>
+        <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested">The recently concluded <a href="https://class.coursera.org/malsoftware-001/">Malicious Software and its Undergound Economy</a> course on <a href="https://www.coursera.org/">Coursera</a> had an interesting reverse engineering challenge as part of its coursework: <a href="/static/files/posts_malsoftware_reverse_ex/reverse-ex">reverse-ex</a>. I found it interesting since it will be equally entertaining for someone who has never tried such challenges or one who has mastered many of them. This post details the steps I took to complete this challenge.</p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Program Analysis and Testing</h2>
 <p class="nested">The first thing I normally do after obtaining such challenges is to test them with <code>file</code> command. This provides some insight about various file attributes like its type (ELF, PE, etc.), processor architecture compatibility, symbol table inclusion, etc:</p>
@@ -348,9 +349,10 @@ Quit anyway? (y or n) y
 </code></pre>
 <h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested">We add a breakpoint at <code>checkkey</code> function and manually inspect the content of the 0x8048770 address (it might change on our system) and it indeed turns out to be <code>KFFSE_XHKYOKXOHOFEDM^E_Y</code>. This concludes this writeup and in an <a href="https://7h3ram.github.io/posts/20130829_malsoftware-reverse-challenge.html">upcoming post</a> I'll write about the second challenge from this course.</p>
-        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#ctf>ctf</a> and <a href=/tags.html#reversing>reversing</a>)</p>
-                  <p style="text-align:center;">« <a href="/posts/20130618_libnids-pynids.html">Network Stream Reassembly and ...</a> « | » <a href="/posts/20130829_malsoftware-reverse-challenge.html">reverse Challenge from Courser...</a> »</p>
-            </div>
+    <p style="text-align:center;">(🔖 tagged <a href=/tags.html#ctf>ctf</a> and <a href=/tags.html#reversing>reversing</a>)</p>
+          <p style="float:left;">« <a href="/posts/20130618_libnids-pynids.html">Network Stream Reassembly and ...</a> «</p>
+      <p style="float:right;">» <a href="/posts/20130829_malsoftware-reverse-challenge.html">reverse Challenge from Courser...</a> »</p>
+        </div>
     <div class="footer footercenter">
       <span>
         <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>

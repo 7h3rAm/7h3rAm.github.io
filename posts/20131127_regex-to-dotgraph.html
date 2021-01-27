@@ -21,19 +21,20 @@
    </head>
   <body>
     <div class="header">
-      <table>
+      <span class="menu_left"><a class="menu_home" href="/index.html">मंथन</a></span>
+      <span class="menu_right"><table>
         <tr>
-          <td><a href="/index.html" class="menu_home">मंथन</a></td><td> | </td>
-          <td><a href="/archive.html" class="menu_archive">Archive</a></td><td> | </td>
-          <td><a href="/tags.html" class="menu_tags">Tags</a></td><td> | </td>
-          <td><a href="/stats.html" class="menu_stats">Stats</a></td>
+          <td><a class="menu_archive" href="/archive.html">Archive</a></td><td>|</td>
+          <td><a class="menu_tags" href="/tags.html">Tags</a></td><td>|</td>
+          <td><a class="menu_stats" href="/stats.html">Stats</a></td>
         </tr>
-      </table>
+      </table></span>
+      <br/><br/>
     </div>
     <div class="body">
-          <h1 class="h1 collapsible" onclick="toggle(this);">Visualizing (non-POSIX) Regular Expressions</h1>
-                  <p><a href="/posts/20130915_libnids-python-ids.html"> « </a>📅 published on <code>27/Nov/2013</code><a href="/posts/20140106_buf0-challenge.html"> » </a></p>
-                <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+      <h1 class="h1 collapsible" onclick="toggle(this);">Visualizing (non-POSIX) Regular Expressions</h1>
+          <p><a href="/posts/20130915_libnids-python-ids.html"> « </a>📅 published on <code>27/Nov/2013</code><a href="/posts/20140106_buf0-challenge.html"> » </a></p>
+        <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested">I recently came across the <a href="http://www.osteele.com/software/python/fsa/">pyFSA</a> project and played with it for sometime. It includes a built-in API to render finite state machines as <a href="http://www.graphviz.org/doc/info/lang.html">dotstring</a>. Regular expressions can be represented as FSMs and then be rendered to a dot-string for visual introspection. I quickly wrote a proof-of-concept tool to implement this idea and hence <a href="https://github.com/7h3rAm/re2dotgraph">re2dotgraph</a> was born.</p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Installation and Testing</h2>
 <p class="nested">First, the pyFSA module has to be installed. Download the package, unzip it and follow the standard Python module installation steps:</p>
@@ -113,9 +114,10 @@ error: can't copy 'LICENSE.txt': doesn't exist or not a regular file
 <h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested">As is evident from the above image, the <code>\d</code> escape sequence was not identified and the graph as such is incorrect. However, this still is an interesting project and a really easy way of visualizing regular expressions. For POSIX compliant solutions, refer these projects: <a href="http://regexvisualizer.apphb.com/">RegExVis</a>, <a href="https://www.debuggex.com/">Debuggex</a> and <a href="http://www.regexper.com/">Regexper</a></p>
 <p class="nested">You can get the source files through the project repository on <a href="https://github.com/7h3rAm/re2dotgraph">GitHub</a>.</p>
-        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a>)</p>
-                  <p style="text-align:center;">« <a href="/posts/20130915_libnids-python-ids.html">Developing a Minimal IPS from ...</a> « | » <a href="/posts/20140106_buf0-challenge.html">buf0 - A Buffer Overflow Chall...</a> »</p>
-            </div>
+    <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a>)</p>
+          <p style="float:left;">« <a href="/posts/20130915_libnids-python-ids.html">Developing a Minimal IPS from ...</a> «</p>
+      <p style="float:right;">» <a href="/posts/20140106_buf0-challenge.html">buf0 - A Buffer Overflow Chall...</a> »</p>
+        </div>
     <div class="footer footercenter">
       <span>
         <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>

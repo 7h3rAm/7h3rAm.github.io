@@ -21,19 +21,20 @@
    </head>
   <body>
     <div class="header">
-      <table>
+      <span class="menu_left"><a class="menu_home" href="/index.html">मंथन</a></span>
+      <span class="menu_right"><table>
         <tr>
-          <td><a href="/index.html" class="menu_home">मंथन</a></td><td> | </td>
-          <td><a href="/archive.html" class="menu_archive">Archive</a></td><td> | </td>
-          <td><a href="/tags.html" class="menu_tags">Tags</a></td><td> | </td>
-          <td><a href="/stats.html" class="menu_stats">Stats</a></td>
+          <td><a class="menu_archive" href="/archive.html">Archive</a></td><td>|</td>
+          <td><a class="menu_tags" href="/tags.html">Tags</a></td><td>|</td>
+          <td><a class="menu_stats" href="/stats.html">Stats</a></td>
         </tr>
-      </table>
+      </table></span>
+      <br/><br/>
     </div>
     <div class="body">
-          <h1 class="h1 collapsible" onclick="toggle(this);">Vulnerable Weekends #2: GNU GDB and Intel VT-d</h1>
-                  <p><a href="/posts/20111120_vuln-weekends-1.html"> « </a>📅 published on <code>03/Dec/2011</code><a href="/posts/20111210_vuln-weekends-3.html"> » </a></p>
-                <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+      <h1 class="h1 collapsible" onclick="toggle(this);">Vulnerable Weekends #2: GNU GDB and Intel VT-d</h1>
+          <p><a href="/posts/20111120_vuln-weekends-1.html"> « </a>📅 published on <code>03/Dec/2011</code><a href="/posts/20111210_vuln-weekends-3.html"> » </a></p>
+        <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested">Report #2A analyzes the GNU GDB code execution vulnerability. Although online reports indicate that various vendors were aware of this vulnerability as early as April 2011 and are still involved in its resolution, there has been no official confirmation.</p>
 <p class="nested">Report #2B provides an analysis for the acclaimed Intel VT-d chipsets privilege escalation vulnerability. Xen has confirmed this vulnerability and has released two patches that either disallow the virtual machine to boot if its using the vulnerable configuration or narrows down the scope of this vulnerability to a denial of service.</p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Vulnerability Report #2A: GNU GDB Insecure Scripts Processing Arbitrary Code Execution Vulnerability</h2>
@@ -89,9 +90,10 @@
 <p class="nested"><a href="http://cve.mitre.org">cve.mitre.org</a><br />
 <a href="http://www.first.org/cvss/cvss-guide.html">cvss-guide</a><br />
 <a href="http://nvd.nist.gov/cvss.cfm?calculator&amp;adv&amp;version=2">cvss-calculator</a>  </p>
-        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnweekends>vulnweekends</a>)</p>
-                  <p style="text-align:center;">« <a href="/posts/20111120_vuln-weekends-1.html">Vulnerable Weekends #1: Mozill...</a> « | » <a href="/posts/20111210_vuln-weekends-3.html">Vulnerable Weekends #3: Cisco ...</a> »</p>
-            </div>
+    <p style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnweekends>vulnweekends</a>)</p>
+          <p style="float:left;">« <a href="/posts/20111120_vuln-weekends-1.html">Vulnerable Weekends #1: Mozill...</a> «</p>
+      <p style="float:right;">» <a href="/posts/20111210_vuln-weekends-3.html">Vulnerable Weekends #3: Cisco ...</a> »</p>
+        </div>
     <div class="footer footercenter">
       <span>
         <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>

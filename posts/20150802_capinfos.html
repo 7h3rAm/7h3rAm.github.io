@@ -21,19 +21,20 @@
    </head>
   <body>
     <div class="header">
-      <table>
+      <span class="menu_left"><a class="menu_home" href="/index.html">मंथन</a></span>
+      <span class="menu_right"><table>
         <tr>
-          <td><a href="/index.html" class="menu_home">मंथन</a></td><td> | </td>
-          <td><a href="/archive.html" class="menu_archive">Archive</a></td><td> | </td>
-          <td><a href="/tags.html" class="menu_tags">Tags</a></td><td> | </td>
-          <td><a href="/stats.html" class="menu_stats">Stats</a></td>
+          <td><a class="menu_archive" href="/archive.html">Archive</a></td><td>|</td>
+          <td><a class="menu_tags" href="/tags.html">Tags</a></td><td>|</td>
+          <td><a class="menu_stats" href="/stats.html">Stats</a></td>
         </tr>
-      </table>
+      </table></span>
+      <br/><br/>
     </div>
     <div class="body">
-          <h1 class="h1 collapsible" onclick="toggle(this);">capinfos.py: Pure Python Pcap Statistics Tool</h1>
-                  <p><a href="/posts/20150527_ebctf-bin100.html"> « </a>📅 published on <code>02/Aug/2015</code><a href="/posts/20151122_cigma.html"> » </a></p>
-                <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+      <h1 class="h1 collapsible" onclick="toggle(this);">capinfos.py: Pure Python Pcap Statistics Tool</h1>
+          <p><a href="/posts/20150527_ebctf-bin100.html"> « </a>📅 published on <code>02/Aug/2015</code><a href="/posts/20151122_cigma.html"> » </a></p>
+        <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested">The <a href="https://www.wireshark.org/docs/man-pages/capinfos.html">capinfos</a> tool from Wireshark parses a pcap file and displays useful statistics like packet count, bitrate, byterate, capture duration, etc. I needed a pure-Python parser to obtain these details and ended up with the following code:</p>
 <pre class="nested"><code class="language-python">from pprint import pprint
 import datetime
@@ -155,9 +156,10 @@ if __name__ == &quot;__main__&quot;:
 </code></pre>
 <h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested">The script accepts a pcap file as input and natively parse its structure to calculate required values. As can be seen in the output file, it shows a quick summary of statistics which could be quite useful for scripting and automation or to have a quick overview of input file. You can get this script <a href="https://gist.github.com/7h3rAm/225e36ad59729000e00e7814e9644622">here</a>.</p>
-        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a>)</p>
-                  <p style="text-align:center;">« <a href="/posts/20150527_ebctf-bin100.html">Eindbazen CTF Challenge: bin10...</a> « | » <a href="/posts/20151122_cigma.html">cigma: A Pure Python Filetype ...</a> »</p>
-            </div>
+    <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a>)</p>
+          <p style="float:left;">« <a href="/posts/20150527_ebctf-bin100.html">Eindbazen CTF Challenge: bin10...</a> «</p>
+      <p style="float:right;">» <a href="/posts/20151122_cigma.html">cigma: A Pure Python Filetype ...</a> »</p>
+        </div>
     <div class="footer footercenter">
       <span>
         <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>

@@ -21,19 +21,20 @@
    </head>
   <body>
     <div class="header">
-      <table>
+      <span class="menu_left"><a class="menu_home" href="/index.html">मंथन</a></span>
+      <span class="menu_right"><table>
         <tr>
-          <td><a href="/index.html" class="menu_home">मंथन</a></td><td> | </td>
-          <td><a href="/archive.html" class="menu_archive">Archive</a></td><td> | </td>
-          <td><a href="/tags.html" class="menu_tags">Tags</a></td><td> | </td>
-          <td><a href="/stats.html" class="menu_stats">Stats</a></td>
+          <td><a class="menu_archive" href="/archive.html">Archive</a></td><td>|</td>
+          <td><a class="menu_tags" href="/tags.html">Tags</a></td><td>|</td>
+          <td><a class="menu_stats" href="/stats.html">Stats</a></td>
         </tr>
-      </table>
+      </table></span>
+      <br/><br/>
     </div>
     <div class="body">
-          <h1 class="h1 collapsible" onclick="toggle(this);">FireEye FLARE On 2014 Challenges (1-5)</h1>
-                  <p><a href="/posts/20151122_cigma.html"> « </a>📅 published on <code>18/Feb/2016</code><a href="/posts/20160312_circllu.html"> » </a></p>
-                <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+      <h1 class="h1 collapsible" onclick="toggle(this);">FireEye FLARE On 2014 Challenges (1-5)</h1>
+          <p><a href="/posts/20151122_cigma.html"> « </a>📅 published on <code>18/Feb/2016</code><a href="/posts/20160312_circllu.html"> » </a></p>
+        <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested">FireEye has been putting up CTF styled malware and forensics challenges for last two years, named <a href="http://www.flare-on.com/">FLARE On</a>. I recently attempted few of those challenges from the 2014 set and will document steps to complete them.</p>
 <p class="nested">The challenge files are available under the <a href="http://www.flare-on.com/PastResults/2014/Downloads">PastResults/2014/Downloads</a> directory on the site. If you are into malware analysis and have worked with publicly available samples earlier, you can easily guess the password. If not consider this archive to be a challenge and try breaking the password scheme for it :)</p>
 <p class="nested">Once you get hold of the challenge files, you will find that there are total seven of them. This writeup documents the steps involved in solving challenges 1-5 and 6-7 have been left out for another post. Let's get started with the writeup now.</p>
@@ -606,9 +607,10 @@ $
 <p class="nested">This is a DLL that has interesting strings referring some keyboard and registry keys. Also referenced is a Windows API, <code>GetAsyncKeyState</code> that is commonly used within keyloggers to know whether a key is pressed or not. I tried analyzing this file through IDA and it proved quite useful. Upon loading the file you will find that there are references to a large number of variables that check if a certain key is pressed or not. I traced through the cross-references of all these variable and eventually found the flag:</p>
 <p class="nested"><img alt="image" src="/static/files/posts_flareon2014_15/flareon2014-c5-1.png.webp" /></p>
 <p class="nested">As can be seen from the screenshot above, all these variable check if certain keys are pressed in sequence. The keys to be pressed and the order they have to be pressed is the flag: <code>l0gging.ur.5tr0ke5@flare-on.com</code></p>
-        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#ctf>ctf</a>)</p>
-                  <p style="text-align:center;">« <a href="/posts/20151122_cigma.html">cigma: A Pure Python Filetype ...</a> « | » <a href="/posts/20160312_circllu.html">circllu.py: Querying circl.lu ...</a> »</p>
-            </div>
+    <p style="text-align:center;">(🔖 tagged <a href=/tags.html#ctf>ctf</a>)</p>
+          <p style="float:left;">« <a href="/posts/20151122_cigma.html">cigma: A Pure Python Filetype ...</a> «</p>
+      <p style="float:right;">» <a href="/posts/20160312_circllu.html">circllu.py: Querying circl.lu ...</a> »</p>
+        </div>
     <div class="footer footercenter">
       <span>
         <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>

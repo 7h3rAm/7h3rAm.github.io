@@ -21,19 +21,20 @@
    </head>
   <body>
     <div class="header">
-      <table>
+      <span class="menu_left"><a class="menu_home" href="/index.html">मंथन</a></span>
+      <span class="menu_right"><table>
         <tr>
-          <td><a href="/index.html" class="menu_home">मंथन</a></td><td> | </td>
-          <td><a href="/archive.html" class="menu_archive">Archive</a></td><td> | </td>
-          <td><a href="/tags.html" class="menu_tags">Tags</a></td><td> | </td>
-          <td><a href="/stats.html" class="menu_stats">Stats</a></td>
+          <td><a class="menu_archive" href="/archive.html">Archive</a></td><td>|</td>
+          <td><a class="menu_tags" href="/tags.html">Tags</a></td><td>|</td>
+          <td><a class="menu_stats" href="/stats.html">Stats</a></td>
         </tr>
-      </table>
+      </table></span>
+      <br/><br/>
     </div>
     <div class="body">
-          <h1 class="h1 collapsible" onclick="toggle(this);">cigma: A Pure Python Filetype Identification Library</h1>
-                  <p><a href="/posts/20150802_capinfos.html"> « </a>📅 published on <code>22/Nov/2015</code><a href="/posts/20160218_flareon2014-15.html"> » </a></p>
-                <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+      <h1 class="h1 collapsible" onclick="toggle(this);">cigma: A Pure Python Filetype Identification Library</h1>
+          <p><a href="/posts/20150802_capinfos.html"> « </a>📅 published on <code>22/Nov/2015</code><a href="/posts/20160218_flareon2014-15.html"> » </a></p>
+        <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested">Filetype identification is the process of scanning <a href="https://en.wikipedia.org/wiki/Magic_number_%28programming%29">respective</a> <a href="https://en.wikipedia.org/wiki/List_of_file_signatures">magicbytes</a> for each filetype within input streams. The mapping for various filetypes and their magicbytes are stored in different formats which is then queried by the identification library. If a match is found, input stream is classified to be of that type. In case of match collisions, a signature preference logic prioritizes matches. Tools like <a href="http://mark0.net/soft-trid-e.html">TrID</a> and <a href="http://www.forensicswiki.org/wiki/File_Format_Identification">others</a> use similar logic.</p>
 <p class="nested"><a href="https://github.com/7h3rAm/cigma">cigma</a> is a Python library to identify filetypes. It provides <a href="https://github.com/threatstack/libmagic">libmagic</a> like mimetype identification of a file or data buffer. This is similar to what the <code>file</code> command on *nix systems will provide:</p>
 <pre class="nested"><code>$ file cigma.py
@@ -164,9 +165,10 @@ Cigma(data=filedata).cigma()
 </code></pre>
 <h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested">The primary purpose of <code>cigma</code> is to be able to identify mundane files at lightning speeds. It doesn't aim to provide exhaustive insight into each file by parsing and decoding it. Currently, there are 70+ signatures and identification for more filetypes will be available as the project grows.</p>
-        <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a>)</p>
-                  <p style="text-align:center;">« <a href="/posts/20150802_capinfos.html">capinfos.py: Pure Python Pcap ...</a> « | » <a href="/posts/20160218_flareon2014-15.html">FireEye FLARE On 2014 Challeng...</a> »</p>
-            </div>
+    <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a>)</p>
+          <p style="float:left;">« <a href="/posts/20150802_capinfos.html">capinfos.py: Pure Python Pcap ...</a> «</p>
+      <p style="float:right;">» <a href="/posts/20160218_flareon2014-15.html">FireEye FLARE On 2014 Challeng...</a> »</p>
+        </div>
     <div class="footer footercenter">
       <span>
         <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
