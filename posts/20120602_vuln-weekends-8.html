@@ -31,34 +31,34 @@
       </table>
     </div>
     <div class="body">
-          <h1>Vulnerable Weekends #8: HP LoadRunner RCE</h1>
+          <h1 class="h1 collapsible" onclick="toggle(this);">Vulnerable Weekends #8: HP LoadRunner RCE</h1>
                   <p><a href="/posts/20120107_vuln-weekends-7.html"> « </a>📅 published on <code>02/Jun/2012</code><a href="/posts/20120710_exploit-mitigation-techniques-on-linux.html"> » </a></p>
-                <h2>Vulnerability Report #8: HP LoadRunner magentservice.exe Component Remote Code Execution Vulnerability</h2>
-<p><strong>Vulnerable Product</strong>: Installations of HP LoadRunner prior to version 11 patch 4</p>
-<p><strong>CVE ID</strong>: <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-4789">CVE-2011-4789</a></p>
-<p><strong>CVSS v2 Score</strong>:<br />
+                <h2 class="h2 collapsible" onclick="toggle(this);">Vulnerability Report #8: HP LoadRunner magentservice.exe Component Remote Code Execution Vulnerability</h2>
+<p class="nested"><strong>Vulnerable Product</strong>: Installations of HP LoadRunner prior to version 11 patch 4</p>
+<p class="nested"><strong>CVE ID</strong>: <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-4789">CVE-2011-4789</a></p>
+<p class="nested"><strong>CVSS v2 Score</strong>:<br />
 <strong>Access Vector</strong>: REMOTE<br />
 <strong>Access Complexity</strong>: LOW<br />
 <strong>Authentication</strong>: NONE  </p>
-<p><strong>Confidentiality Impact</strong>: COMPLETE<br />
+<p class="nested"><strong>Confidentiality Impact</strong>: COMPLETE<br />
 <strong>Integrity Impact</strong>: COMPLETE<br />
 <strong>Availability Impact</strong>: COMPLETE<br />
 <strong>Base Score</strong>: 10  </p>
-<p><strong>Exploitability</strong>: FUNCTIONAL<br />
+<p class="nested"><strong>Exploitability</strong>: FUNCTIONAL<br />
 <strong>Remediation Level</strong>: OFFICIAL FIX<br />
 <strong>Report Confidence</strong>: CONFIRMED<br />
 <strong>Temporal Score</strong>: 8.3  </p>
-<h3>Details</h3>
-<p>HP LoadRunner is vulnerable to a remote code execution vulnerability due to insufficient boundary checks performed on user-supplied input received via its <code>magentservice.exe</code> component.</p>
-<p>The vulnerability exists due to an implementation flaw within the affected software. The vulnerable component listens for incoming requests on <code>23472/tcp</code> and it expects a size value within the first 32bits of user-supplied input. This value is used as-is, without any sanitization, for internal calculations that involve deriving the number of bytes to be copied in to a destination buffer. Due to the insufficient checks, a 32bit value of 0x00000000 could cause an error within the internal calculation logic and trigger a stack-based buffer overflow during a later copy operation. This action could allow a remote attacker to execute arbitrary code with <code>SYSTEM</code> privileges on the targeted system.</p>
-<p>HP has confirmed this vulnerability and released a security patch for registered users.</p>
-<h3>Vulnerability Sources</h3>
-<p><a href="http://www.securityfocus.com/bid/51398/">bid:51398</a><br />
+<h3 class="h3 collapsible" onclick="toggle(this);">Details</h3>
+<p class="nested">HP LoadRunner is vulnerable to a remote code execution vulnerability due to insufficient boundary checks performed on user-supplied input received via its <code>magentservice.exe</code> component.</p>
+<p class="nested">The vulnerability exists due to an implementation flaw within the affected software. The vulnerable component listens for incoming requests on <code>23472/tcp</code> and it expects a size value within the first 32bits of user-supplied input. This value is used as-is, without any sanitization, for internal calculations that involve deriving the number of bytes to be copied in to a destination buffer. Due to the insufficient checks, a 32bit value of 0x00000000 could cause an error within the internal calculation logic and trigger a stack-based buffer overflow during a later copy operation. This action could allow a remote attacker to execute arbitrary code with <code>SYSTEM</code> privileges on the targeted system.</p>
+<p class="nested">HP has confirmed this vulnerability and released a security patch for registered users.</p>
+<h3 class="h3 collapsible" onclick="toggle(this);">Vulnerability Sources</h3>
+<p class="nested"><a href="http://www.securityfocus.com/bid/51398/">bid:51398</a><br />
 <a href="https://h20565.www2.hp.com/portal/site/hpsc/public/kb/docDisplay?docId=emr_na-c03216705&amp;ac.admitted=1338640006393.876444892.492883150">hpsb:HPSBMU02785</a><br />
 <a href="http://www.metasploit.com/modules/exploit/windows/misc/hp_magentservice">metasploit</a><br />
 <a href="http://www.zerodayinitiative.com/advisories/ZDI-12-016/">zdi:12-016</a>  </p>
-<h3>Generic Sources</h3>
-<p><a href="http://cve.mitre.org">cve.mitre.org</a><br />
+<h3 class="h3 collapsible" onclick="toggle(this);">Generic Sources</h3>
+<p class="nested"><a href="http://cve.mitre.org">cve.mitre.org</a><br />
 <a href="http://www.first.org/cvss/cvss-guide.html">cvss-guide</a><br />
 <a href="http://nvd.nist.gov/cvss.cfm?calculator&amp;adv&amp;version=2">cvss-calculator</a>  </p>
         <p style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnweekends>vulnweekends</a>)</p>
@@ -66,19 +66,12 @@
             </div>
     <div class="footer footercenter">
       <span>
-        <a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a>
+        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
       </span>
     </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
-    <script>
-      function toggle(s){
-        s.classList.toggle("expanded");
-        for(var l=s.nextElementSibling;l;){
-          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-        }
-      }
-    </script>
+    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
     <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
   </body>
 </html>

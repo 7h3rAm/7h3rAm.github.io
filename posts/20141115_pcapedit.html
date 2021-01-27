@@ -31,12 +31,12 @@
       </table>
     </div>
     <div class="body">
-          <h1>pcapedit: An Interactive Scapy-based Pcap Editor</h1>
+          <h1 class="h1 collapsible" onclick="toggle(this);">pcapedit: An Interactive Scapy-based Pcap Editor</h1>
                   <p><a href="/posts/20140918_little-pdf.html"> « </a>📅 published on <code>15/Nov/2014</code><a href="/posts/20141127_flowinspect.html"> » </a></p>
-                <h2>Introduction</h2>
-<p>While working with pcap files, I occasionally come across situations where I need to edit them for some weird usecases. When in such a situation, I had to write a loop that iterates over packets, check if the current packet needs modification, apply changes if so and save these changes to a new pcap. As I repeated these steps a few times, need for automation became obvious. I sat together with my colleague and good friend <a href="http://x00itachi.blogspot.in/">Natraj</a> and discussed about how we can automate this process so that it helps with our IPS signature development efforts. Eventually, a draft for an interactive tool was formulated and <a href="https://github.com/7h3rAm/pcapedit">pcapedit</a> was born.</p>
-<p><code>pcapedit</code> is a Python-based tool that allows users to enter commands to edit and save pcaps. It has a hard dependency on <code>Scapy</code> and <code>cmd2</code> modules so make sure these are installed. Here is a snippet from test run:</p>
-<pre><code>$ ./pcapedit.py
+                <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+<p class="nested">While working with pcap files, I occasionally come across situations where I need to edit them for some weird usecases. When in such a situation, I had to write a loop that iterates over packets, check if the current packet needs modification, apply changes if so and save these changes to a new pcap. As I repeated these steps a few times, need for automation became obvious. I sat together with my colleague and good friend <a href="http://x00itachi.blogspot.in/">Natraj</a> and discussed about how we can automate this process so that it helps with our IPS signature development efforts. Eventually, a draft for an interactive tool was formulated and <a href="https://github.com/7h3rAm/pcapedit">pcapedit</a> was born.</p>
+<p class="nested"><code>pcapedit</code> is a Python-based tool that allows users to enter commands to edit and save pcaps. It has a hard dependency on <code>Scapy</code> and <code>cmd2</code> modules so make sure these are installed. Here is a snippet from test run:</p>
+<pre class="nested"><code>$ ./pcapedit.py
 PcapEdit - An Interactive Pcap Editor
 
 &gt;&gt;&gt;
@@ -71,9 +71,9 @@ EOF  eof  exit  help  q  quit
 
 &gt;&gt;&gt; q
 </code></pre>
-<h2>Usecases</h2>
-<p>So we have a few commands to try out. Let's assume that you have a <code>http.pcap</code> file that needs editing. Let's see how pcapedit can be useful in this case:</p>
-<pre><code>$ ./pcapedit.py
+<h2 class="h2 collapsible" onclick="toggle(this);">Usecases</h2>
+<p class="nested">So we have a few commands to try out. Let's assume that you have a <code>http.pcap</code> file that needs editing. Let's see how pcapedit can be useful in this case:</p>
+<pre class="nested"><code>$ ./pcapedit.py
 PcapEdit - An Interactive Pcap Editor
 
 &gt;&gt;&gt; analyze http.cap
@@ -127,8 +127,8 @@ Read 43 packets from http.cap
      6: 2004/05/13 15:47:09    145.254.160.237:3372 -&gt; 65.208.228.223:80       TCP A
 (http.cap) &gt;&gt;&gt;
 </code></pre>
-<p>The <code>summary</code> command displays a listing of all packets and their most common attributes. When provided an integer argument, it considers that to be the packet index and shows a one-line description for the packet itself. Let's now assume you need to edit packet #6:</p>
-<pre><code>(http.cap) &gt;&gt;&gt; edit 6
+<p class="nested">The <code>summary</code> command displays a listing of all packets and their most common attributes. When provided an integer argument, it considers that to be the packet index and shows a one-line description for the packet itself. Let's now assume you need to edit packet #6:</p>
+<pre class="nested"><code>(http.cap) &gt;&gt;&gt; edit 6
 Editing packet id: 6
      6: 2004/05/13 15:47:09    145.254.160.237:3372 -&gt; 65.208.228.223:80       TCP A
 (http.cap|#6) &gt;&gt;&gt;
@@ -180,8 +180,8 @@ options    : TCPOptionsField      = {}              ({})
 None
 (http.cap|#6) &gt;&gt;&gt;
 </code></pre>
-<p>So we selected the packet id, provided the respective protocol field names, new values and used the <code>ls</code> command to glance over changes. Since all looks good, we can now request <code>pcapedit</code> to save these changes, which it will then write to a <code>filename.mod.pcap</code> named file (you can override the default name and provide new name via the <code>outpcap</code> command):</p>
-<pre><code>(http.cap|#6) &gt;&gt;&gt; save
+<p class="nested">So we selected the packet id, provided the respective protocol field names, new values and used the <code>ls</code> command to glance over changes. Since all looks good, we can now request <code>pcapedit</code> to save these changes, which it will then write to a <code>filename.mod.pcap</code> named file (you can override the default name and provide new name via the <code>outpcap</code> command):</p>
+<pre class="nested"><code>(http.cap|#6) &gt;&gt;&gt; save
 Wrote 1 packet(s) to http.mod.cap
 (http.cap|#6) &gt;&gt;&gt;
 (http.cap|#6) &gt;&gt;&gt; q
@@ -190,8 +190,8 @@ $ ls -l *.cap
 -rwxrwxr-x 1 shiv shiv 25803 Nov 15 12:22 http.cap
 -rw-rw-r-- 1 shiv shiv    94 Nov 15 14:31 http.mod.cap
 </code></pre>
-<p>One thing to note here is that the <code>save</code> command only write one packet (#6) to the file and skip the rest. This is because <code>pcapedit</code> is a context-sensitive tool, ie. <code>it takes current context into consideration while executing commands</code>. Since at the time of issuing <code>save</code> command, the user was in per-packet editing mode (for packet #6), it intentionally skipped other packets. This is an immensely powerful feature as packets can now be edited individually and extracted from source pcap file to a new pcap file. However, if one wishes to save all packets, all they have to do is issue the <code>back</code> command to exit per-packet editing mode and then issue <code>save</code> command which will now honor the context and work as expected:</p>
-<pre><code>(http.cap|#6) &gt;&gt;&gt; back
+<p class="nested">One thing to note here is that the <code>save</code> command only write one packet (#6) to the file and skip the rest. This is because <code>pcapedit</code> is a context-sensitive tool, ie. <code>it takes current context into consideration while executing commands</code>. Since at the time of issuing <code>save</code> command, the user was in per-packet editing mode (for packet #6), it intentionally skipped other packets. This is an immensely powerful feature as packets can now be edited individually and extracted from source pcap file to a new pcap file. However, if one wishes to save all packets, all they have to do is issue the <code>back</code> command to exit per-packet editing mode and then issue <code>save</code> command which will now honor the context and work as expected:</p>
+<pre class="nested"><code>(http.cap|#6) &gt;&gt;&gt; back
 (http.cap) &gt;&gt;&gt;
 (http.cap) &gt;&gt;&gt; save
 Wrote 43 packet(s) to http.mod.cap
@@ -201,10 +201,10 @@ $ ls -l *.cap
 -rw-rw-r-- 1 shiv shiv 25803 Nov 15 12:22 http.cap
 -rw-rw-r-- 1 shiv shiv 25901 Nov 15 14:09 http.mod.cap
 </code></pre>
-<p>Here's a screenshot of Wireshark parsing and decoding the edited packet:</p>
-<p><img alt="pcapedit-wireshark.png" src="/static/files/posts_pcapedit/pcapedit-wireshark.png.webp" /></p>
-<p>So at this point we know how to edit individual packets and save them to a new file, but doing this for hundreds or thousands of packets would still remain a daunting task and something that needs automation. That's where the <em>scriptfile</em> feature comes handy. You can save commands to a file and pass them as input to <code>pcapedit</code> and it will happily do as instructed:</p>
-<pre><code>$ ./pcapedit.py &lt;tcpcmdstest.txt
+<p class="nested">Here's a screenshot of Wireshark parsing and decoding the edited packet:</p>
+<p class="nested"><img alt="pcapedit-wireshark.png" src="/static/files/posts_pcapedit/pcapedit-wireshark.png.webp" /></p>
+<p class="nested">So at this point we know how to edit individual packets and save them to a new file, but doing this for hundreds or thousands of packets would still remain a daunting task and something that needs automation. That's where the <em>scriptfile</em> feature comes handy. You can save commands to a file and pass them as input to <code>pcapedit</code> and it will happily do as instructed:</p>
+<pre class="nested"><code>$ ./pcapedit.py &lt;tcpcmdstest.txt
 PcapEdit - An Interactive Pcap Editor
 
 &gt;&gt;&gt; Read 43 packets from http.cap
@@ -253,26 +253,19 @@ $ ls -l *.cap
 -rw-rw-r-- 1 shiv shiv  6805 Nov 15 14:44 http.mod.cap
 $
 </code></pre>
-<h2>Conclusion</h2>
-<p>There are a few other nifty commands that will be useful and I strongly recommend you to give <code>pcapedit</code> a try.</p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
+<p class="nested">There are a few other nifty commands that will be useful and I strongly recommend you to give <code>pcapedit</code> a try.</p>
         <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a>)</p>
                   <p style="text-align:center;">« <a href="/posts/20140918_little-pdf.html">Little PDF Puzzle from Didier ...</a> « | » <a href="/posts/20141127_flowinspect.html">Flowinspect: A Network Inspect...</a> »</p>
             </div>
     <div class="footer footercenter">
       <span>
-        <a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a>
+        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
       </span>
     </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
-    <script>
-      function toggle(s){
-        s.classList.toggle("expanded");
-        for(var l=s.nextElementSibling;l;){
-          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-        }
-      }
-    </script>
+    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
     <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
   </body>
 </html>

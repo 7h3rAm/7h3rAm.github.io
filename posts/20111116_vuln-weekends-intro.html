@@ -31,30 +31,25 @@
       </table>
     </div>
     <div class="body">
-          <h1>Vulnerable Weekends: Introduction</h1>
+          <h1 class="h1 collapsible" onclick="toggle(this);">Vulnerable Weekends: Introduction</h1>
                   <p>📅 published on <code>16/Nov/2011</code><a href="/posts/20111120_vuln-weekends-1.html"> » </a></p>
-                <p>Starting this week onwards, I will be posting regular updates related to the latest vulnerability reports submitted in the wild. Using this blog, I will try to analyse and post updates for around 1 to 2 vulnerability reports each weekend, prioritizing on the ones that involve highest security risks.</p>
-<p>Vulnerability analysis and reporting includes multiple facets, most of which are very well documented online. As such, I mostly aim to cover the extremely important information in the vulnerability reports published here. I will include necessary references wherever applicable.</p>
-<p>Readers are kindly requested to leave behind their comments. Whether you like/dislike the analysis, want me to make any changes in the report format or require additional details, just let your concerns known via the comments section or reach out via mails.</p>
-<p>Have a secure weekend!</p>
+                <h2 class="h2 collapsible" onclick="toggle(this);">Plan</h2>
+<p class="nested">Starting this week onwards, I will be posting regular updates related to the latest vulnerability reports submitted in the wild. Using this blog, I will try to analyse and post updates for around 1 to 2 vulnerability reports each weekend, prioritizing on the ones that involve highest security risks.</p>
+<p class="nested">Vulnerability analysis and reporting includes multiple facets, most of which are very well documented online. As such, I mostly aim to cover the extremely important information in the vulnerability reports published here. I will include necessary references wherever applicable.</p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
+<p class="nested">Readers are kindly requested to leave behind their comments. Whether you like/dislike the analysis, want me to make any changes in the report format or require additional details, just let your concerns known via the comments section or reach out via mails.</p>
+<p class="nested">Have a secure weekend!</p>
         <p style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnweekends>vulnweekends</a>)</p>
                   <p style="text-align:center;">» <a href="/posts/20111120_vuln-weekends-1.html">Vulnerable Weekends #1: Mozilla and ProFTPd</a> »</p>
             </div>
     <div class="footer footercenter">
       <span>
-        <a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a>
+        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
       </span>
     </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
-    <script>
-      function toggle(s){
-        s.classList.toggle("expanded");
-        for(var l=s.nextElementSibling;l;){
-          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-        }
-      }
-    </script>
+    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
     <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
   </body>
 </html>

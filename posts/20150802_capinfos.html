@@ -31,11 +31,11 @@
       </table>
     </div>
     <div class="body">
-          <h1>capinfos.py: Pure Python Pcap Statistics Tool</h1>
+          <h1 class="h1 collapsible" onclick="toggle(this);">capinfos.py: Pure Python Pcap Statistics Tool</h1>
                   <p><a href="/posts/20150527_ebctf-bin100.html"> « </a>📅 published on <code>02/Aug/2015</code><a href="/posts/20151122_cigma.html"> » </a></p>
-                <h2>Introduction</h2>
-<p>The <a href="https://www.wireshark.org/docs/man-pages/capinfos.html">capinfos</a> tool from Wireshark parses a pcap file and displays useful statistics like packet count, bitrate, byterate, capture duration, etc. I needed a pure-Python parser to obtain these details and ended up with the following code:</p>
-<pre><code class="language-python">from pprint import pprint
+                <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+<p class="nested">The <a href="https://www.wireshark.org/docs/man-pages/capinfos.html">capinfos</a> tool from Wireshark parses a pcap file and displays useful statistics like packet count, bitrate, byterate, capture duration, etc. I needed a pure-Python parser to obtain these details and ended up with the following code:</p>
+<pre class="nested"><code class="language-python">from pprint import pprint
 import datetime
 import struct
 import sys
@@ -132,9 +132,9 @@ if __name__ == &quot;__main__&quot;:
 
   pprint(capinfos(sys.argv[1]))
 </code></pre>
-<h2>Usage</h2>
-<p>Let's try this script on a HTTP pcap:</p>
-<pre><code>$ python capinfos.py /media/shiv/red_third/stoolbox/testfiles/pcaps/layer7/http_espn.pcap
+<h2 class="h2 collapsible" onclick="toggle(this);">Usage</h2>
+<p class="nested">Let's try this script on a HTTP pcap:</p>
+<pre class="nested"><code>$ python capinfos.py /media/shiv/red_third/stoolbox/testfiles/pcaps/layer7/http_espn.pcap
 {
  'avgpacketrate': 478,
  'avgpacketsize': 682,
@@ -153,26 +153,19 @@ if __name__ == &quot;__main__&quot;:
  'version_minor': 4
 }
 </code></pre>
-<h2>Conclusion</h2>
-<p>The script accepts a pcap file as input and natively parse its structure to calculate required values. As can be seen in the output file, it shows a quick summary of statistics which could be quite useful for scripting and automation or to have a quick overview of input file. You can get this script <a href="https://gist.github.com/7h3rAm/225e36ad59729000e00e7814e9644622">here</a>.</p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
+<p class="nested">The script accepts a pcap file as input and natively parse its structure to calculate required values. As can be seen in the output file, it shows a quick summary of statistics which could be quite useful for scripting and automation or to have a quick overview of input file. You can get this script <a href="https://gist.github.com/7h3rAm/225e36ad59729000e00e7814e9644622">here</a>.</p>
         <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a>)</p>
                   <p style="text-align:center;">« <a href="/posts/20150527_ebctf-bin100.html">Eindbazen CTF Challenge: bin10...</a> « | » <a href="/posts/20151122_cigma.html">cigma: A Pure Python Filetype ...</a> »</p>
             </div>
     <div class="footer footercenter">
       <span>
-        <a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a>
+        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
       </span>
     </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
-    <script>
-      function toggle(s){
-        s.classList.toggle("expanded");
-        for(var l=s.nextElementSibling;l;){
-          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-        }
-      }
-    </script>
+    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
     <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
   </body>
 </html>

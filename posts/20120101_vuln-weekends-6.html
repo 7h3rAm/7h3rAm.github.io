@@ -31,57 +31,57 @@
       </table>
     </div>
     <div class="body">
-          <h1>Vulnerable Weekends #6: WPS Bruteforce and CoCSoft Stream Down</h1>
+          <h1 class="h1 collapsible" onclick="toggle(this);">Vulnerable Weekends #6: WPS Bruteforce and CoCSoft Stream Down</h1>
                   <p><a href="/posts/20111224_vuln-weekends-5.html"> « </a>📅 published on <code>01/Jan/2012</code><a href="/posts/20120107_vuln-weekends-7.html"> » </a></p>
-                <h2>Introduction</h2>
-<p>Report #6A analyzes the WPS implementation flaw that allows brute force guessing of the 8 digit PIN used to restrict wireless access to authenticated users.</p>
-<p>Report #6B analyzes the memory corruption vulnerability in the CoCSoft Stream Down that could allow execution of arbitrary code on the targeted system.</p>
-<h2>Vulnerability Report #6A: Multiple WPS Implementations Brute Force Authentication Bypass Vulnerability</h2>
-<p><strong>Vulnerable Product</strong>: Installations of WPS enabled wireless devices</p>
-<p><strong>CVE ID</strong>: <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-5053">CVE-2011-5053</a></p>
-<p><strong>CVSS v2 Score</strong>:<br />
+                <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+<p class="nested">Report #6A analyzes the WPS implementation flaw that allows brute force guessing of the 8 digit PIN used to restrict wireless access to authenticated users.</p>
+<p class="nested">Report #6B analyzes the memory corruption vulnerability in the CoCSoft Stream Down that could allow execution of arbitrary code on the targeted system.</p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Vulnerability Report #6A: Multiple WPS Implementations Brute Force Authentication Bypass Vulnerability</h2>
+<p class="nested"><strong>Vulnerable Product</strong>: Installations of WPS enabled wireless devices</p>
+<p class="nested"><strong>CVE ID</strong>: <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-5053">CVE-2011-5053</a></p>
+<p class="nested"><strong>CVSS v2 Score</strong>:<br />
 <strong>Access Vector</strong>: NETWORK<br />
 <strong>Access Complexity</strong>: MEDIUM<br />
 <strong>Authentication</strong>: NONE  </p>
-<p><strong>Confidentiality Impact</strong>: COMPLETE<br />
+<p class="nested"><strong>Confidentiality Impact</strong>: COMPLETE<br />
 <strong>Integrity Impact</strong>: COMPLETE<br />
 <strong>Availability Impact</strong>: COMPLETE<br />
 <strong>Base Score</strong>: 9.3  </p>
-<p><strong>Exploitability</strong>: FUNCTIONAL<br />
+<p class="nested"><strong>Exploitability</strong>: FUNCTIONAL<br />
 <strong>Remediation Level</strong>: WORKAROUND<br />
 <strong>Report Confidence</strong>: CONFIRMED<br />
 <strong>Temporal Score</strong>: 8.4  </p>
-<h3>Details</h3>
-<p>Multiple WiFi Protected Setup (WPS) implementations were reported to contain a vulnerability that could be leveraged to bypass authentication checks and gain privileged access to the targeted wireless devices. The vulnerability has been identified within the WPS specification and it enables brute force detection of the PIN used to authenticate a remote wireless user.</p>
-<p>The vulnerability exists because the WPS specification allows a remote attacker to guess the 8 digit PIN being used to authenticate remote wireless users. The first 4 digits of this PIN could be guessed by attempting multiple connections to the wireless AP with incorrect PIN values and analyzing the received <code>EAP-NACK</code> responses.</p>
-<p>The <code>EAP-NACK</code> messages provide information that could be leveraged to successfully calculate the first and second halves of the 8 digit PIN being used. The number of brute force attempts to guess the PIN is also reduced because the 8th digit of this PIN is always a checksum which can be easily derived. This analysis brings the total number of brute force attempts to be 104 + 103; i.e 11,000 attempts to successfully calculate the WPS PIN for the targeted AP.</p>
-<p>Since most vendors, except for Netgear, do not implement a lock down functionality for blocking such brute force attempts, the time complexity to successfully execute this attack is reduced significantly. On some implementation the overhead of processing such rapid surge of authentication requests leads to an internal state corruption, which could only be recovered via a device reboot. This makes it possible to launch denial of service (DoS) attacks on the targeted AP.</p>
-<h3>Vulnerability Sources</h3>
-<p><a href="http://www.securityfocus.com/bid/51187">bid:51187</a><br />
+<h3 class="h3 collapsible" onclick="toggle(this);">Details</h3>
+<p class="nested">Multiple WiFi Protected Setup (WPS) implementations were reported to contain a vulnerability that could be leveraged to bypass authentication checks and gain privileged access to the targeted wireless devices. The vulnerability has been identified within the WPS specification and it enables brute force detection of the PIN used to authenticate a remote wireless user.</p>
+<p class="nested">The vulnerability exists because the WPS specification allows a remote attacker to guess the 8 digit PIN being used to authenticate remote wireless users. The first 4 digits of this PIN could be guessed by attempting multiple connections to the wireless AP with incorrect PIN values and analyzing the received <code>EAP-NACK</code> responses.</p>
+<p class="nested">The <code>EAP-NACK</code> messages provide information that could be leveraged to successfully calculate the first and second halves of the 8 digit PIN being used. The number of brute force attempts to guess the PIN is also reduced because the 8th digit of this PIN is always a checksum which can be easily derived. This analysis brings the total number of brute force attempts to be 104 + 103; i.e 11,000 attempts to successfully calculate the WPS PIN for the targeted AP.</p>
+<p class="nested">Since most vendors, except for Netgear, do not implement a lock down functionality for blocking such brute force attempts, the time complexity to successfully execute this attack is reduced significantly. On some implementation the overhead of processing such rapid surge of authentication requests leads to an internal state corruption, which could only be recovered via a device reboot. This makes it possible to launch denial of service (DoS) attacks on the targeted AP.</p>
+<h3 class="h3 collapsible" onclick="toggle(this);">Vulnerability Sources</h3>
+<p class="nested"><a href="http://www.securityfocus.com/bid/51187">bid:51187</a><br />
 <a href="http://sviehb.wordpress.com/2011/12/27/wi-fi-protected-setup-pin-brute-force-vulnerability/">sviehb.wordpress.com</a>  </p>
-<h2>Vulnerability Report #6B: CoCSoft Sream Down Insufficient Boundary Checks Buffer Overflow Vulnerability</h2>
-<p><strong>Vulnerable Product</strong>: Installations of CoCSoft Stream Down with versions 6.8 and prior</p>
-<p><strong>CVE ID</strong>: <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-5052">CVE-2011-5052</a></p>
-<p><strong>CVSS v2 Score</strong>:<br />
+<h2 class="h2 collapsible" onclick="toggle(this);">Vulnerability Report #6B: CoCSoft Sream Down Insufficient Boundary Checks Buffer Overflow Vulnerability</h2>
+<p class="nested"><strong>Vulnerable Product</strong>: Installations of CoCSoft Stream Down with versions 6.8 and prior</p>
+<p class="nested"><strong>CVE ID</strong>: <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-5052">CVE-2011-5052</a></p>
+<p class="nested"><strong>CVSS v2 Score</strong>:<br />
 <strong>Access Vector</strong>: NETWORK<br />
 <strong>Access Complexity</strong>: LOW<br />
 <strong>Authentication</strong>: NONE  </p>
-<p><strong>Confidentiality Impact</strong>: PARTIAL<br />
+<p class="nested"><strong>Confidentiality Impact</strong>: PARTIAL<br />
 <strong>Integrity Impact</strong>: PARTIAL<br />
 <strong>Availability Impact</strong>: PARTIAL<br />
 <strong>Base Score</strong>: 7.5  </p>
-<p><strong>Exploitability</strong>: FUNCTIONAL<br />
+<p class="nested"><strong>Exploitability</strong>: FUNCTIONAL<br />
 <strong>Remediation Level</strong>: UNAVAILABLE<br />
 <strong>Report Confidence</strong>: UNCORROBORATED<br />
 <strong>Temporal Score</strong>: 6.8  </p>
-<h3>Details</h3>
-<p>CoCSoft Stream Down media download application is prone to a buffer overflow vulnerability that could be leveraged to execute remote code or to cause a denial of service condition on the targeted system.</p>
-<p>The vulnerable application fails to impose sufficient size limits on user-supplied input before copying it to a fixed length destination buffer. This implementation flaw could allow injection of arbitrary shellcode into the targeted system's memory space, leading to a memory corruption error. Later execution of this shellcode could allow the attacker to launch additional attacks on the targeted system.</p>
-<p>CoCSoft has not yet confirmed this vulnerability. Users are advised to immediately stop using the vulnerable application.</p>
-<h3>Vulnerability Sources</h3>
-<p><a href="http://www.securityfocus.com/bid/51190/">bid:51190</a>  </p>
-<h3>Generic Sources</h3>
-<p><a href="http://cve.mitre.org">cve.mitre.org</a><br />
+<h3 class="h3 collapsible" onclick="toggle(this);">Details</h3>
+<p class="nested">CoCSoft Stream Down media download application is prone to a buffer overflow vulnerability that could be leveraged to execute remote code or to cause a denial of service condition on the targeted system.</p>
+<p class="nested">The vulnerable application fails to impose sufficient size limits on user-supplied input before copying it to a fixed length destination buffer. This implementation flaw could allow injection of arbitrary shellcode into the targeted system's memory space, leading to a memory corruption error. Later execution of this shellcode could allow the attacker to launch additional attacks on the targeted system.</p>
+<p class="nested">CoCSoft has not yet confirmed this vulnerability. Users are advised to immediately stop using the vulnerable application.</p>
+<h3 class="h3 collapsible" onclick="toggle(this);">Vulnerability Sources</h3>
+<p class="nested"><a href="http://www.securityfocus.com/bid/51190/">bid:51190</a>  </p>
+<h3 class="h3 collapsible" onclick="toggle(this);">Generic Sources</h3>
+<p class="nested"><a href="http://cve.mitre.org">cve.mitre.org</a><br />
 <a href="http://www.first.org/cvss/cvss-guide.html">cvss-guide</a><br />
 <a href="http://nvd.nist.gov/cvss.cfm?calculator&amp;adv&amp;version=2">cvss-calculator</a>  </p>
         <p style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnweekends>vulnweekends</a>)</p>
@@ -89,19 +89,12 @@
             </div>
     <div class="footer footercenter">
       <span>
-        <a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a>
+        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
       </span>
     </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
-    <script>
-      function toggle(s){
-        s.classList.toggle("expanded");
-        for(var l=s.nextElementSibling;l;){
-          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-        }
-      }
-    </script>
+    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
     <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
   </body>
 </html>

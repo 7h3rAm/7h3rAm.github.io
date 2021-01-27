@@ -31,31 +31,31 @@
       </table>
     </div>
     <div class="body">
-          <h1>Vulnerable Weekends #5: MIT Kerberos and VLC TiVo</h1>
+          <h1 class="h1 collapsible" onclick="toggle(this);">Vulnerable Weekends #5: MIT Kerberos and VLC TiVo</h1>
                   <p><a href="/posts/20111218_vuln-weekends-4.html"> « </a>📅 published on <code>24/Dec/2011</code><a href="/posts/20120101_vuln-weekends-6.html"> » </a></p>
-                <h2>Introduction</h2>
-<p>Report #5A analyzes the MIT Kerberos Telnet remote, privileged code execution vulnerability. This vulnerability has been identified within the MIT Kerberos based Telnet installations that are provided with FreeBSD, GNU inetutils, etc.</p>
-<p>Report #5B analyzes the VLC TiVo file parser arbitrary code execution vulnerability.</p>
-<h2>Vulnerability Report #5A: MIT <code>krb5-appl</code> Telnet Client and Server <code>encrypt_keyid()</code> Remote Code Execution Vulnerability</h2>
-<p><strong>Vulnerable Product</strong>: Installations of MIT krb5-appl derived telnet utilities prior to krb5-1.8</p>
-<p><strong>CVE ID</strong>: <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-4862">CVE-2011-4862</a></p>
-<p><strong>CVSS v2 Score</strong>:<br />
+                <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+<p class="nested">Report #5A analyzes the MIT Kerberos Telnet remote, privileged code execution vulnerability. This vulnerability has been identified within the MIT Kerberos based Telnet installations that are provided with FreeBSD, GNU inetutils, etc.</p>
+<p class="nested">Report #5B analyzes the VLC TiVo file parser arbitrary code execution vulnerability.</p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Vulnerability Report #5A: MIT <code>krb5-appl</code> Telnet Client and Server <code>encrypt_keyid()</code> Remote Code Execution Vulnerability</h2>
+<p class="nested"><strong>Vulnerable Product</strong>: Installations of MIT krb5-appl derived telnet utilities prior to krb5-1.8</p>
+<p class="nested"><strong>CVE ID</strong>: <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-4862">CVE-2011-4862</a></p>
+<p class="nested"><strong>CVSS v2 Score</strong>:<br />
 <strong>Access Vector</strong>: NETWORK<br />
 <strong>Access Complexity</strong>: LOW<br />
 <strong>Authentication</strong>: NONE  </p>
-<p><strong>Confidentiality Impact</strong>: COMPLETE<br />
+<p class="nested"><strong>Confidentiality Impact</strong>: COMPLETE<br />
 <strong>Integrity Impact</strong>: COMPLETE<br />
 <strong>Availability Impact</strong>: COMPLETE<br />
 <strong>Base Score</strong>: 10.0  </p>
-<p><strong>Exploitability</strong>: FUNCTIONAL<br />
+<p class="nested"><strong>Exploitability</strong>: FUNCTIONAL<br />
 <strong>Remediation Level</strong>: OFFICIAL FIX<br />
 <strong>Report Confidence</strong>: CONFIRMED<br />
 <strong>Temporal Score</strong>: 8.3  </p>
-<h3>Details</h3>
-<p>MIT <code>krb5-appl</code> has been reported to contain a vulnerability that could be leveraged by a remote attacker to execute arbitrary code on the targeted system. The vulnerability has been reported in the code responsible for handling Kerberos based authentication mechanism.</p>
-<p>The vulnerability was introduced when BSD telnet daemon and client utilities included support for cryptographic security via MIT Kerberos based authentication mechanism. This code was further included within FreeBSD and GNU inetutils making these vulnerable as well.</p>
-<p>The vulnerability allows a pre-authentication memory corruption error that could be triggered remotely by submitting an arbitrarily long encryption key to the target system. Specifically, the vulnerability exists within the <code>encrypt_keyid()</code> function of the <code>encrypt.c</code> source file of the affected software:</p>
-<pre><code class="language-c">static void
+<h3 class="h3 collapsible" onclick="toggle(this);">Details</h3>
+<p class="nested">MIT <code>krb5-appl</code> has been reported to contain a vulnerability that could be leveraged by a remote attacker to execute arbitrary code on the targeted system. The vulnerability has been reported in the code responsible for handling Kerberos based authentication mechanism.</p>
+<p class="nested">The vulnerability was introduced when BSD telnet daemon and client utilities included support for cryptographic security via MIT Kerberos based authentication mechanism. This code was further included within FreeBSD and GNU inetutils making these vulnerable as well.</p>
+<p class="nested">The vulnerability allows a pre-authentication memory corruption error that could be triggered remotely by submitting an arbitrarily long encryption key to the target system. Specifically, the vulnerability exists within the <code>encrypt_keyid()</code> function of the <code>encrypt.c</code> source file of the affected software:</p>
+<pre class="nested"><code class="language-c">static void
 encrypt_keyid(struct key_info *kp, unsigned char *keyid, int len)
 {
    ...
@@ -70,8 +70,8 @@ encrypt_keyid(struct key_info *kp, unsigned char *keyid, int len)
     ...
 }
 </code></pre>
-<p>The vulnerable source file defines the following structure to keep record of the encryption state:</p>
-<pre><code class="language-c">#define   MAXKEYLEN 64
+<p class="nested">The vulnerable source file defines the following structure to keep record of the encryption state:</p>
+<pre class="nested"><code class="language-c">#define   MAXKEYLEN 64
 
 static struct key_info {
     unsigned char keyid[MAXKEYLEN];
@@ -84,32 +84,32 @@ static struct key_info {
     { { 0 }, 0, DIR_DECRYPT, &amp;decrypt_mode, finddecryption },
 };
 </code></pre>
-<p>However, the vulnerable function fails to impose sufficient boundary restrictions on user-supplied encryption keys and copies those into <code>keyinfo</code> structure without honoring the <code>MAXKEYLEN</code> constant via a <code>memcpy</code> operation. This could cause a heap-based buffer overflow error, leading to the memory corruption error.</p>
-<p>Successful exploitation could allow the attacker to leverage the memory corruption error to execute arbitrary code on the targeted system with the privileges of the affected software. Failed exploit attempts could result in a denial of service condition on the targeted system.</p>
-<h3>Vulnerability Sources</h3>
-<p><a href="http://www.securityfocus.com/bid/51182">bid:51182</a><br />
+<p class="nested">However, the vulnerable function fails to impose sufficient boundary restrictions on user-supplied encryption keys and copies those into <code>keyinfo</code> structure without honoring the <code>MAXKEYLEN</code> constant via a <code>memcpy</code> operation. This could cause a heap-based buffer overflow error, leading to the memory corruption error.</p>
+<p class="nested">Successful exploitation could allow the attacker to leverage the memory corruption error to execute arbitrary code on the targeted system with the privileges of the affected software. Failed exploit attempts could result in a denial of service condition on the targeted system.</p>
+<h3 class="h3 collapsible" onclick="toggle(this);">Vulnerability Sources</h3>
+<p class="nested"><a href="http://www.securityfocus.com/bid/51182">bid:51182</a><br />
 <a href="http://web.mit.edu/kerberos/advisories/MITKRB5-SA-2011-008.txt">kerberos:2011-008</a><br />
 <a href="http://security.freebsd.org/advisories/FreeBSD-SA-11:08.telnetd.asc">freebsd:11-08</a><br />
 <a href="https://bugzilla.redhat.com/show_bug.cgi?id=770325">redhat:770325</a><br />
 <a href="http://osvdb.org/78020">osvdb:78020</a>  </p>
-<h2>Vulnerability Report #5B: VLC <code>.TY (TiVo)</code> File Parser Arbitrary Code Execution Vulnerability</h2>
-<p><strong>Vulnerable Product</strong>: Installations of VLC Media Player with versions 0.9.0 through 1.1.12</p>
-<p><strong>CVE ID</strong>: NA</p>
-<p><strong>CVSS v2 Score</strong>:<br />
+<h2 class="h2 collapsible" onclick="toggle(this);">Vulnerability Report #5B: VLC <code>.TY (TiVo)</code> File Parser Arbitrary Code Execution Vulnerability</h2>
+<p class="nested"><strong>Vulnerable Product</strong>: Installations of VLC Media Player with versions 0.9.0 through 1.1.12</p>
+<p class="nested"><strong>CVE ID</strong>: NA</p>
+<p class="nested"><strong>CVSS v2 Score</strong>:<br />
 <strong>Access Vector</strong>: NETWORK<br />
 <strong>Access Complexity</strong>: MEDIUM<br />
 <strong>Authentication</strong>: NONE  </p>
-<p><strong>Confidentiality Impact</strong>: COMPLETE<br />
+<p class="nested"><strong>Confidentiality Impact</strong>: COMPLETE<br />
 <strong>Integrity Impact</strong>: COMPLETE<br />
 <strong>Availability Impact</strong>: COMPLETE<br />
 <strong>Base Score</strong>: 9.3  </p>
-<p><strong>Exploitability</strong>: UNPROVEN<br />
+<p class="nested"><strong>Exploitability</strong>: UNPROVEN<br />
 <strong>Remediation Level</strong>: OFFICIAL FIX<br />
 <strong>Report Confidence</strong>: CONFIRMED<br />
 <strong>Temporal Score</strong>:6.9  </p>
-<h3>Details</h3>
-<p>VLC Media Player has been reported to contain a vulnerability that could allow a remote attacker to execute arbitrary code on the targeted system. The vulnerability is introduced by the <code>libty_plugin</code> that helps parsing of <code>.ty</code> files.</p>
-<pre><code class="language-c">struct demux_sys_t
+<h3 class="h3 collapsible" onclick="toggle(this);">Details</h3>
+<p class="nested">VLC Media Player has been reported to contain a vulnerability that could allow a remote attacker to execute arbitrary code on the targeted system. The vulnerability is introduced by the <code>libty_plugin</code> that helps parsing of <code>.ty</code> files.</p>
+<pre class="nested"><code class="language-c">struct demux_sys_t
 {
 ...
 ty_rec_hdr_t    *rec_hdrs;          /* record headers array */
@@ -118,8 +118,8 @@ int             i_num_recs;         /* number of recs in this chunk */
 ...
 };
 </code></pre>
-<p>The vulnerability exists due to an implementation flaw within the <code>get_chunk_header()</code> function of the <code>ty.c</code> source file of the vulnerable plugin. The vulnerable plugin improperly handles the record headers array, <code>rec_hdrs</code>, corrupting heap structures in the memory.</p>
-<pre><code class="language-c">diff --git a/modules/demux/ty.c b/modules/demux/ty.c
+<p class="nested">The vulnerability exists due to an implementation flaw within the <code>get_chunk_header()</code> function of the <code>ty.c</code> source file of the vulnerable plugin. The vulnerable plugin improperly handles the record headers array, <code>rec_hdrs</code>, corrupting heap structures in the memory.</p>
+<pre class="nested"><code class="language-c">diff --git a/modules/demux/ty.c b/modules/demux/ty.c
 index e916b41..b181a6a 100644 (file)
 
 --- a/modules/demux/ty.c
@@ -132,13 +132,13 @@ index e916b41..b181a6a 100644 (file)
      /* skip past the 4 bytes we &quot;peeked&quot; earlier */
      stream_Read( p_demux-&gt;s, NULL, 4 );
 </code></pre>
-<p>Successful exploitation could allow the attacker to leverage the memory corruption error further and execute arbitrary code on the targeted system within the security context of the affected software.</p>
-<h3>Vulnerability Sources</h3>
-<p><a href="http://www.securityfocus.com/bid/51147">bid:51147</a><br />
+<p class="nested">Successful exploitation could allow the attacker to leverage the memory corruption error further and execute arbitrary code on the targeted system within the security context of the affected software.</p>
+<h3 class="h3 collapsible" onclick="toggle(this);">Vulnerability Sources</h3>
+<p class="nested"><a href="http://www.securityfocus.com/bid/51147">bid:51147</a><br />
 <a href="http://www.videolan.org/security/sa1108.html">vlc:sa1108</a><br />
 <a href="http://git.videolan.org/?p=vlc.git;a=blobdiff;f=modules/demux/">git.videolan.org</a>  </p>
-<h3>Generic Sources</h3>
-<p><a href="http://cve.mitre.org">cve.mitre.org</a><br />
+<h3 class="h3 collapsible" onclick="toggle(this);">Generic Sources</h3>
+<p class="nested"><a href="http://cve.mitre.org">cve.mitre.org</a><br />
 <a href="http://www.first.org/cvss/cvss-guide.html">cvss-guide</a><br />
 <a href="http://nvd.nist.gov/cvss.cfm?calculator&amp;adv&amp;version=2">cvss-calculator</a>  </p>
         <p style="text-align:center;">(🔖 tagged <a href=/tags.html#vulnweekends>vulnweekends</a>)</p>
@@ -146,19 +146,12 @@ index e916b41..b181a6a 100644 (file)
             </div>
     <div class="footer footercenter">
       <span>
-        <a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a>
+        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
       </span>
     </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
-    <script>
-      function toggle(s){
-        s.classList.toggle("expanded");
-        for(var l=s.nextElementSibling;l;){
-          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-        }
-      }
-    </script>
+    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
     <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
   </body>
 </html>

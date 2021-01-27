@@ -31,12 +31,12 @@
       </table>
     </div>
     <div class="body">
-          <h1>cigma: A Pure Python Filetype Identification Library</h1>
+          <h1 class="h1 collapsible" onclick="toggle(this);">cigma: A Pure Python Filetype Identification Library</h1>
                   <p><a href="/posts/20150802_capinfos.html"> « </a>📅 published on <code>22/Nov/2015</code><a href="/posts/20160218_flareon2014-15.html"> » </a></p>
-                <h2>Introduction</h2>
-<p>Filetype identification is the process of scanning <a href="https://en.wikipedia.org/wiki/Magic_number_%28programming%29">respective</a> <a href="https://en.wikipedia.org/wiki/List_of_file_signatures">magicbytes</a> for each filetype within input streams. The mapping for various filetypes and their magicbytes are stored in different formats which is then queried by the identification library. If a match is found, input stream is classified to be of that type. In case of match collisions, a signature preference logic prioritizes matches. Tools like <a href="http://mark0.net/soft-trid-e.html">TrID</a> and <a href="http://www.forensicswiki.org/wiki/File_Format_Identification">others</a> use similar logic.</p>
-<p><a href="https://github.com/7h3rAm/cigma">cigma</a> is a Python library to identify filetypes. It provides <a href="https://github.com/threatstack/libmagic">libmagic</a> like mimetype identification of a file or data buffer. This is similar to what the <code>file</code> command on *nix systems will provide:</p>
-<pre><code>$ file cigma.py
+                <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+<p class="nested">Filetype identification is the process of scanning <a href="https://en.wikipedia.org/wiki/Magic_number_%28programming%29">respective</a> <a href="https://en.wikipedia.org/wiki/List_of_file_signatures">magicbytes</a> for each filetype within input streams. The mapping for various filetypes and their magicbytes are stored in different formats which is then queried by the identification library. If a match is found, input stream is classified to be of that type. In case of match collisions, a signature preference logic prioritizes matches. Tools like <a href="http://mark0.net/soft-trid-e.html">TrID</a> and <a href="http://www.forensicswiki.org/wiki/File_Format_Identification">others</a> use similar logic.</p>
+<p class="nested"><a href="https://github.com/7h3rAm/cigma">cigma</a> is a Python library to identify filetypes. It provides <a href="https://github.com/threatstack/libmagic">libmagic</a> like mimetype identification of a file or data buffer. This is similar to what the <code>file</code> command on *nix systems will provide:</p>
+<pre class="nested"><code>$ file cigma.py
 cigma.py: Python script, ASCII text executable
 $
 $ file readme.md
@@ -51,9 +51,9 @@ $
 $ file /dev/sda
 /dev/sda: block special
 </code></pre>
-<h2>Usage and Usecases</h2>
-<p><code>cigma</code> uses a custom JSON formatted signature file to stores filetype mappings. Let's try identifying a few files:</p>
-<pre><code>$ python cigma.py /bin/ls
+<h2 class="h2 collapsible" onclick="toggle(this);">Usage and Usecases</h2>
+<p class="nested"><code>cigma</code> uses a custom JSON formatted signature file to stores filetype mappings. Let's try identifying a few files:</p>
+<pre class="nested"><code>$ python cigma.py /bin/ls
 ('/bin/ls',
  {'id': 29,
   'longname': 'Executable and Linkable Format (ELF)',
@@ -77,8 +77,8 @@ $ python cigma.py ~/toolbox/testfiles/pcaps/exploitkits/2015-04-03-Nuclear-EK-tr
   'patterns': [{'offset': 0, 'regex': '\\xD4\\xC3\\xB2\\xA1', 'size': 4}],
   'shortname': 'PCAP'})
 </code></pre>
-<p>If a match is found, <code>cigma</code> returns a <code>(source, resultdict)</code> tuple. Here is a snippet of few signatures from the current set:</p>
-<pre><code>{
+<p class="nested">If a match is found, <code>cigma</code> returns a <code>(source, resultdict)</code> tuple. Here is a snippet of few signatures from the current set:</p>
+<pre class="nested"><code>{
   &quot;meta&quot;: {
     &quot;rulescount&quot;: 72,
     &quot;version&quot;: 0.1
@@ -139,12 +139,12 @@ $ python cigma.py ~/toolbox/testfiles/pcaps/exploitkits/2015-04-03-Nuclear-EK-tr
   ]
 }
 </code></pre>
-<p>Adding a new signature is really easy. Just edit the included <code>magicbytes.json</code> file and add a new node with an unique <code>id</code>. Each node should have a <code>patterns</code> list which should contain the <code>offset</code>, <code>regex</code> and <code>size</code> keys with respective values.</p>
-<p>Using <code>cigma</code> as a library is really easy:</p>
-<pre><code class="language-python">from cigma import Cigma
+<p class="nested">Adding a new signature is really easy. Just edit the included <code>magicbytes.json</code> file and add a new node with an unique <code>id</code>. Each node should have a <code>patterns</code> list which should contain the <code>offset</code>, <code>regex</code> and <code>size</code> keys with respective values.</p>
+<p class="nested">Using <code>cigma</code> as a library is really easy:</p>
+<pre class="nested"><code class="language-python">from cigma import Cigma
 </code></pre>
-<p>One this is done, you can identify a file buffer:</p>
-<pre><code class="language-python">with open(&quot;/home/shiv/toolbox/testfiles/binary/crafted_corkami/gui.exe&quot;) as fo:
+<p class="nested">One this is done, you can identify a file buffer:</p>
+<pre class="nested"><code class="language-python">with open(&quot;/home/shiv/toolbox/testfiles/binary/crafted_corkami/gui.exe&quot;) as fo:
   filedata = fo.read()
 
 Cigma(data=filedata).cigma()
@@ -154,34 +154,27 @@ Cigma(data=filedata).cigma()
   'patterns': [{'offset': 0, 'regex': '\\x4D\\x5A', 'size': 2}],
   'shortname': 'EXE'})
 </code></pre>
-<p>Or else you can also identify a file itself:</p>
-<pre><code class="language-python">Cigma(filename=&quot;/home/shiv/toolbox/testfiles/binary/crafted_corkami/gui.exe&quot;).cigma()
+<p class="nested">Or else you can also identify a file itself:</p>
+<pre class="nested"><code class="language-python">Cigma(filename=&quot;/home/shiv/toolbox/testfiles/binary/crafted_corkami/gui.exe&quot;).cigma()
 ('/home/shiv/toolbox/testfiles/binary/crafted_corkami/gui.exe',
  {'longname': 'Windows Executable',
   'mimetype': 'application/x-dosexec',
   'patterns': [{'offset': 0, 'regex': '\\x4D\\x5A', 'size': 2}],
   'shortname': 'EXE'})
 </code></pre>
-<h2>Conclusion</h2>
-<p>The primary purpose of <code>cigma</code> is to be able to identify mundane files at lightning speeds. It doesn't aim to provide exhaustive insight into each file by parsing and decoding it. Currently, there are 70+ signatures and identification for more filetypes will be available as the project grows.</p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
+<p class="nested">The primary purpose of <code>cigma</code> is to be able to identify mundane files at lightning speeds. It doesn't aim to provide exhaustive insight into each file by parsing and decoding it. Currently, there are 70+ signatures and identification for more filetypes will be available as the project grows.</p>
         <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a>)</p>
                   <p style="text-align:center;">« <a href="/posts/20150802_capinfos.html">capinfos.py: Pure Python Pcap ...</a> « | » <a href="/posts/20160218_flareon2014-15.html">FireEye FLARE On 2014 Challeng...</a> »</p>
             </div>
     <div class="footer footercenter">
       <span>
-        <a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a>
+        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
       </span>
     </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
-    <script>
-      function toggle(s){
-        s.classList.toggle("expanded");
-        for(var l=s.nextElementSibling;l;){
-          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-        }
-      }
-    </script>
+    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
     <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
   </body>
 </html>

@@ -31,11 +31,11 @@
       </table>
     </div>
     <div class="body">
-          <h1>CONFidence DS CTF Teaser: Stegano50</h1>
+          <h1 class="h1 collapsible" onclick="toggle(this);">CONFidence DS CTF Teaser: Stegano50</h1>
                   <p><a href="/posts/20140327_northrop-challenge.html"> « </a>📅 published on <code>06/May/2014</code><a href="/posts/20140618_pcapgentools-contentype-patch.html"> » </a></p>
-                <h2>Challenge Analysis</h2>
-<p>The challenge consists a <a href="/static/files/posts_confidence_ds_ctf_stego50/stegano50.pdf">pdf</a> file. Let's see what <code>exiftool</code> tells us about it:</p>
-<pre><code>$ exiftool stegano50.pdf
+                <h2 class="h2 collapsible" onclick="toggle(this);">Challenge Analysis</h2>
+<p class="nested">The challenge consists a <a href="/static/files/posts_confidence_ds_ctf_stego50/stegano50.pdf">pdf</a> file. Let's see what <code>exiftool</code> tells us about it:</p>
+<pre class="nested"><code>$ exiftool stegano50.pdf
 ExifTool Version Number         : 9.46
 File Name                       : stegano50.pdf
 Directory                       : .
@@ -61,19 +61,19 @@ Modify Date                     : 2014:03:13 22:33:50+01:00
 Trapped                         : False
 PTEX Fullbanner                 : This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) kpathsea version 6.1.1
 </code></pre>
-<p>All attributes seem standard except for <code>Subject</code>, <code>Producer</code> and <code>Keywords</code>. Since the <code>Keywords</code> obviously hints at a flag like string which seems to be base64 encoded, the first thing I tried was to decode it:</p>
-<pre><code>$ echo -n &quot;Tm9wZSAsIG5vdCBoZXJlIDspCg==&quot; | base64 -d - 
+<p class="nested">All attributes seem standard except for <code>Subject</code>, <code>Producer</code> and <code>Keywords</code>. Since the <code>Keywords</code> obviously hints at a flag like string which seems to be base64 encoded, the first thing I tried was to decode it:</p>
+<pre class="nested"><code>$ echo -n &quot;Tm9wZSAsIG5vdCBoZXJlIDspCg==&quot; | base64 -d - 
 Nope , not here ;)
 </code></pre>
-<p>Well, that explains. Let's focus on <code>Subject</code> and <code>Producer</code> once again. These definitely hint towards a blob of text that might need Morse code decoding. The <code>Subject</code> hints towards translating A and B to dot and dash and it obviously points to the fact that the blob of text has to be all As and Bs. Let's view the pdf in Firefox via its <a href="https://mozilla.github.io/pdf.js/">pdf.js</a> renderer:</p>
-<p><img alt="stego50_pdfjs.png" src="/static/files/posts_confidence_ds_ctf_stego50/stego50_pdfjs.png.webp" /></p>
-<p>There it is! A <code>div</code> element has the text blob we need. Let's extract and translate it as per the hint:</p>
-<pre><code>$ echo -n &quot;BABA BBB BA BBA ABA AB B AAB ABAA AB B AA BBB BA AAA BBAABB AABA ABAA AB BBA BBBAAA ABBBB BA AAAB ABBBB AAAAA ABBBB BAAA ABAA AAABB BB AAABB AAAAA AAAAA AAAAB BBA AAABB&quot; | tr AB .-
+<p class="nested">Well, that explains. Let's focus on <code>Subject</code> and <code>Producer</code> once again. These definitely hint towards a blob of text that might need Morse code decoding. The <code>Subject</code> hints towards translating A and B to dot and dash and it obviously points to the fact that the blob of text has to be all As and Bs. Let's view the pdf in Firefox via its <a href="https://mozilla.github.io/pdf.js/">pdf.js</a> renderer:</p>
+<p class="nested"><img alt="stego50_pdfjs.png" src="/static/files/posts_confidence_ds_ctf_stego50/stego50_pdfjs.png.webp" /></p>
+<p class="nested">There it is! A <code>div</code> element has the text blob we need. Let's extract and translate it as per the hint:</p>
+<pre class="nested"><code>$ echo -n &quot;BABA BBB BA BBA ABA AB B AAB ABAA AB B AA BBB BA AAA BBAABB AABA ABAA AB BBA BBBAAA ABBBB BA AAAB ABBBB AAAAA ABBBB BAAA ABAA AAABB BB AAABB AAAAA AAAAA AAAAB BBA AAABB&quot; | tr AB .-
 -.-. --- -. --. .-. .- - ..- .-.. .- - .. --- -. ... --..-- ..-. .-.. .- --. ---... .---- -. ...- .---- ..... .---- -... .-.. ...-- -- ...-- ..... ..... ....- --. ...--
 </code></pre>
-<h2>Automation and Testing</h2>
-<p>Alright, we now have some Morse code that has to be decoded. There are <a href="http://mattfedder.com/cgi-bin/morse.pl">several</a> <a href="http://morsecode.scphillips.com/translator.html">online</a> <a href="http://www.onlineconversion.com/morse_code.htm">decoders</a> <a href="http://www.unit-conversion.info/texttools/morse-code/">available</a>, however, I tend to use Python for such tasks. Here is a snippet of Python code to help us with encode and decode tasks:</p>
-<pre><code class="language-python">#!/usr/bin/env python
+<h2 class="h2 collapsible" onclick="toggle(this);">Automation and Testing</h2>
+<p class="nested">Alright, we now have some Morse code that has to be decoded. There are <a href="http://mattfedder.com/cgi-bin/morse.pl">several</a> <a href="http://morsecode.scphillips.com/translator.html">online</a> <a href="http://www.onlineconversion.com/morse_code.htm">decoders</a> <a href="http://www.unit-conversion.info/texttools/morse-code/">available</a>, however, I tend to use Python for such tasks. Here is a snippet of Python code to help us with encode and decode tasks:</p>
+<pre class="nested"><code class="language-python">#!/usr/bin/env python
 
 class morse:
   def __init__(self):
@@ -153,8 +153,8 @@ class morse:
         i.append(self.fromcode[c])
     return &quot;&quot;.join(i)
 </code></pre>
-<p>Let's quickly use this script from within <code>iPython</code> and decode the Morse encoded message:</p>
-<pre><code class="language-python">$ ipython --no-banner
+<p class="nested">Let's quickly use this script from within <code>iPython</code> and decode the Morse encoded message:</p>
+<pre class="nested"><code class="language-python">$ ipython --no-banner
 
 &gt;&gt;&gt; import morse
 &gt;&gt;&gt; morse = morse.morse()
@@ -165,25 +165,18 @@ class morse:
 'CONGRATULATIONS,FLAG:1NV151BL3M3554G3'
 &gt;&gt;&gt;
 </code></pre>
-<p>There we go!</p>
+<p class="nested">There we go!</p>
         <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a> and <a href=/tags.html#ctf>ctf</a>)</p>
                   <p style="text-align:center;">« <a href="/posts/20140327_northrop-challenge.html">Northrop's Online Challenge...</a> « | » <a href="/posts/20140618_pcapgentools-contentype-patch.html">PCAP-GenerationTools and Conte...</a> »</p>
             </div>
     <div class="footer footercenter">
       <span>
-        <a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a>
+        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
       </span>
     </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
-    <script>
-      function toggle(s){
-        s.classList.toggle("expanded");
-        for(var l=s.nextElementSibling;l;){
-          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-        }
-      }
-    </script>
+    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
     <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
   </body>
 </html>

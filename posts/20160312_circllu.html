@@ -31,11 +31,11 @@
       </table>
     </div>
     <div class="body">
-          <h1>circllu.py: Querying circl.lu API for CVE Information</h1>
+          <h1 class="h1 collapsible" onclick="toggle(this);">circllu.py: Querying circl.lu API for CVE Information</h1>
                   <p><a href="/posts/20160218_flareon2014-15.html"> « </a>📅 published on <code>12/Mar/2016</code><a href="/posts/20190831_vulnhub-brainpan.html"> » </a></p>
-                <h2>Introduction</h2>
-<p>The <a href="https://www.circl.lu/services/cve-search/#public-web-api-of-cve-search">circl.lu</a> API is really useful for querying CVE information. I wrote a few methods to query the API and get this information:</p>
-<pre><code class="language-python">from pprint import pprint
+                <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+<p class="nested">The <a href="https://www.circl.lu/services/cve-search/#public-web-api-of-cve-search">circl.lu</a> API is really useful for querying CVE information. I wrote a few methods to query the API and get this information:</p>
+<pre class="nested"><code class="language-python">from pprint import pprint
 import requests
 import json
 
@@ -134,9 +134,9 @@ if __name__ == &quot;__main__&quot;:
   pprint(circllu_cverecent())
   pprint(circllu_cvesearch())
 </code></pre>
-<h2>Testing</h2>
-<p>Let's give this script a test run:</p>
-<pre><code>{
+<h2 class="h2 collapsible" onclick="toggle(this);">Testing</h2>
+<p class="nested">Let's give this script a test run:</p>
+<pre class="nested"><code>{
  'cve': 'CVE-2015-1234',
  'references': [u'https://codereview.chromium.org/1016193003',
                 u'https://code.google.com/p/chromium/issues/detail?id=468936',
@@ -214,26 +214,19 @@ if __name__ == &quot;__main__&quot;:
  'vendorproduct': 'Adobe/Reader'
 }
 </code></pre>
-<h2>Conclusion</h2>
-<p>The <code>circllu_cveinfo</code> method allows querying the API for a specific CVE while returning a summary and references if the CVE is found in the database. The <code>circllu_cverecent</code> returns a list of recently requested CVEs. And finally, the <code>circllu_cvesearch</code> method allows you to search for a product or vendor and get listing of all reported vulnerabilities for the same. You can get this script <a href="https://gist.github.com/7h3rAm/812eff486865f30c0da5c4a9d41ff73e">here</a>.</p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
+<p class="nested">The <code>circllu_cveinfo</code> method allows querying the API for a specific CVE while returning a summary and references if the CVE is found in the database. The <code>circllu_cverecent</code> returns a list of recently requested CVEs. And finally, the <code>circllu_cvesearch</code> method allows you to search for a product or vendor and get listing of all reported vulnerabilities for the same. You can get this script <a href="https://gist.github.com/7h3rAm/812eff486865f30c0da5c4a9d41ff73e">here</a>.</p>
         <p style="text-align:center;">(🔖 tagged <a href=/tags.html#code>code</a>)</p>
                   <p style="text-align:center;">« <a href="/posts/20160218_flareon2014-15.html">FireEye FLARE On 2014 Challeng...</a> « | » <a href="/posts/20190831_vulnhub-brainpan.html">[VulnHub] Brainpan: 1...</a> »</p>
             </div>
     <div class="footer footercenter">
       <span>
-        <a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a>
+        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
       </span>
     </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
-    <script>
-      function toggle(s){
-        s.classList.toggle("expanded");
-        for(var l=s.nextElementSibling;l;){
-          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-        }
-      }
-    </script>
+    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
     <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
   </body>
 </html>

@@ -31,19 +31,19 @@
       </table>
     </div>
     <div class="body">
-          <h1>[VulnHub] hackfest2016: Quaoar</h1>
+          <h1 class="h1 collapsible" onclick="toggle(this);">[VulnHub] hackfest2016: Quaoar</h1>
                   <p><a href="/posts/20190917_vulnhub-escalatelinux.html"> « </a>📅 published on <code>18/Sep/2019</code><a href="/posts/20190919_vulnhub-sedna.html"> » </a></p>
-                <h2>Overview</h2>
-<p>This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/hackfest2016-quaoar,180/">hackfest2016: Quaoar</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
-<p><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_quaoar/machinescli.png.webp" /></p>
-<h3>Killchain</h3>
-<p>Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
-<p><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_quaoar/killchain.png.webp" /></p>
-<h3>TTPs</h3>
-<p>1. <code>80/tcp/http/Apache httpd 2.2.22 ((Ubuntu))</code>: <a href="https://github.com/7h3rAm/writeups#enumerate_app_wordpress">enumerate_app_wordpress</a>, <a href="https://github.com/7h3rAm/writeups#exploit_wordpress_defaultcreds">exploit_wordpress_defaultcreds</a>, <a href="https://github.com/7h3rAm/writeups#exploit_wordpress_plugin_hellodolly">exploit_wordpress_plugin_hellodolly</a>, <a href="https://github.com/7h3rAm/writeups#exploit_php_reverseshell">exploit_php_reverseshell</a>, <a href="https://github.com/7h3rAm/writeups#privesc_mysql_creds">privesc_mysql_creds</a>, <a href="https://github.com/7h3rAm/writeups#privesc_credsreuse">privesc_credsreuse</a>  </p>
-<h2>Phase #1: Enumeration</h2>
-<p>1. Here's the Nmap scan result:  </p>
-<pre><code># Nmap 7.70 scan initiated Wed Sep 18 14:14:44 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.quaoar/results/192.168.92.175/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.quaoar/results/192.168.92.175/scans/xml/_quick_tcp_nmap.xml 192.168.92.175
+                <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+<p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/hackfest2016-quaoar,180/">hackfest2016: Quaoar</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
+<p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_quaoar/machinescli.png.webp" /></p>
+<h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
+<p class="nested">Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
+<p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_quaoar/killchain.png.webp" /></p>
+<h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
+<p class="nested">1. <code>80/tcp/http/Apache httpd 2.2.22 ((Ubuntu))</code>: <a href="https://github.com/7h3rAm/writeups#enumerate_app_wordpress">enumerate_app_wordpress</a>, <a href="https://github.com/7h3rAm/writeups#exploit_wordpress_defaultcreds">exploit_wordpress_defaultcreds</a>, <a href="https://github.com/7h3rAm/writeups#exploit_wordpress_plugin_hellodolly">exploit_wordpress_plugin_hellodolly</a>, <a href="https://github.com/7h3rAm/writeups#exploit_php_reverseshell">exploit_php_reverseshell</a>, <a href="https://github.com/7h3rAm/writeups#privesc_mysql_creds">privesc_mysql_creds</a>, <a href="https://github.com/7h3rAm/writeups#privesc_credsreuse">privesc_credsreuse</a>  </p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<p class="nested">1. Here's the Nmap scan result:  </p>
+<pre class="nested"><code># Nmap 7.70 scan initiated Wed Sep 18 14:14:44 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.quaoar/results/192.168.92.175/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.quaoar/results/192.168.92.175/scans/xml/_quick_tcp_nmap.xml 192.168.92.175
 Nmap scan report for 192.168.92.175
 Host is up, received arp-response (0.0084s latency).
 Scanned at 2019-09-18 14:14:45 PDT for 23s
@@ -244,10 +244,10 @@ Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Wed Sep 18 14:15:08 2019 -- 1 IP address (1 host up) scanned in 23.69 seconds
 </code></pre>
-<p>2. Here a summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:</p>
-<p><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_quaoar/openports.png.webp" />  </p>
-<p>3. Upon checking <code>robots.txt</code> file we find a <code>wordpress</code> entry:  </p>
-<pre><code>HTTP/1.1 200 OK
+<p class="nested">2. Here a summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:</p>
+<p class="nested"><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_quaoar/openports.png.webp" />  </p>
+<p class="nested">3. Upon checking <code>robots.txt</code> file we find a <code>wordpress</code> entry:  </p>
+<pre class="nested"><code>HTTP/1.1 200 OK
 Date: Wed, 18 Sep 2019 21:24:15 GMT
 Server: Apache/2.2.22 (Ubuntu)
 Last-Modified: Mon, 24 Oct 2016 06:56:49 GMT
@@ -266,15 +266,15 @@ Allow: /wordpress/
 #/ \_/ /| |_| | (_| | (_) | (_| | |   
 #\___,_\ \__,_|\__,_|\___/ \__,_|_|   
 </code></pre>
-<p><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_vulnhub_quaoar/screenshot01.png.webp" />  </p>
-<p>4. We run <code>wpscan</code> to enumerate users and find 2 hits:  </p>
-<pre><code>admin
+<p class="nested"><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_vulnhub_quaoar/screenshot01.png.webp" />  </p>
+<p class="nested">4. We run <code>wpscan</code> to enumerate users and find 2 hits:  </p>
+<pre class="nested"><code>admin
 wpuser
 </code></pre>
-<p><img alt="writeup.enumeration.steps.4.1" src="/static/files/posts_vulnhub_quaoar/screenshot02.png.webp" />  </p>
-<h3>Findings</h3>
-<h4>Open Ports</h4>
-<pre><code>22/tcp   |  ssh          |  OpenSSH 5.9p1 Debian 5ubuntu1 (Ubuntu Linux; protocol 2.0)
+<p class="nested"><img alt="writeup.enumeration.steps.4.1" src="/static/files/posts_vulnhub_quaoar/screenshot02.png.webp" />  </p>
+<h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
+<h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
+<pre class="nested"><code>22/tcp   |  ssh          |  OpenSSH 5.9p1 Debian 5ubuntu1 (Ubuntu Linux; protocol 2.0)
 53/tcp   |  domain       |  ISC BIND 9.8.1-P1
 80/tcp   |  http         |  Apache httpd 2.2.22 ((Ubuntu))
 110/tcp  |  pop3         |  Dovecot pop3d
@@ -285,22 +285,22 @@ wpuser
 993/tcp  |  ssl/imap     |  Dovecot imapd
 995/tcp  |  ssl/pop3     |  Dovecot pop3d
 </code></pre>
-<h4>Files</h4>
-<pre><code>http://192.168.92.175/robots.txt
+<h4 class="h4 collapsible" onclick="toggle(this);">Files</h4>
+<pre class="nested"><code>http://192.168.92.175/robots.txt
 </code></pre>
-<h4>Users</h4>
-<pre><code>wordpress: admin, wpuser
+<h4 class="h4 collapsible" onclick="toggle(this);">Users</h4>
+<pre class="nested"><code>wordpress: admin, wpuser
 </code></pre>
-<h2>Phase #2: Exploitation</h2>
-<p>1. We tried the default credentials <code>admin/admin</code> and got administrative access to the Wordpress installation:  </p>
-<p><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_quaoar/screenshot03.png.webp" />  </p>
-<p>2. We then edit the <code>Hello Dolly</code> plugin file <code>hello.php</code>, add a PHP reverse shell to it and activate the plugin while running a <code>netcat</code> listener to catch incoming shell:  </p>
-<pre><code>nc -nlvp 9999
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<p class="nested">1. We tried the default credentials <code>admin/admin</code> and got administrative access to the Wordpress installation:  </p>
+<p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_quaoar/screenshot03.png.webp" />  </p>
+<p class="nested">2. We then edit the <code>Hello Dolly</code> plugin file <code>hello.php</code>, add a PHP reverse shell to it and activate the plugin while running a <code>netcat</code> listener to catch incoming shell:  </p>
+<pre class="nested"><code>nc -nlvp 9999
 </code></pre>
-<p><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_quaoar/screenshot05.png.webp" />  </p>
-<p><img alt="writeup.exploitation.steps.2.2" src="/static/files/posts_vulnhub_quaoar/screenshot04.png.webp" />  </p>
-<h2>Phase #2.5: Post Exploitation</h2>
-<pre><code>www-data@Quaoar&gt; id
+<p class="nested"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_quaoar/screenshot05.png.webp" />  </p>
+<p class="nested"><img alt="writeup.exploitation.steps.2.2" src="/static/files/posts_vulnhub_quaoar/screenshot04.png.webp" />  </p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<pre class="nested"><code>www-data@Quaoar&gt; id
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
 www-data@Quaoar&gt;  
 www-data@Quaoar&gt; uname
@@ -316,38 +316,38 @@ www-data@Quaoar&gt;
 www-data@Quaoar&gt; users
 wpadmin
 </code></pre>
-<h2>Phase #3: Privilege Escalation</h2>
-<p>1. While exploring <code>home</code> directory for user <code>wpadmin</code> we find a <code>flag.txt</code> file:  </p>
-<pre><code>cat /home/wpadmin/flag.txt
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<p class="nested">1. While exploring <code>home</code> directory for user <code>wpadmin</code> we find a <code>flag.txt</code> file:  </p>
+<pre class="nested"><code>cat /home/wpadmin/flag.txt
 </code></pre>
-<p><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_quaoar/screenshot06.png.webp" />  </p>
-<p>2. While exploring the <code>/var/www/wordpress</code> directory we find <code>wp-config.php</code> file with MySQL credentials in it:  </p>
-<pre><code>cat /var/www/wordpress/wp-config.php → root/rootpassword!
+<p class="nested"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_quaoar/screenshot06.png.webp" />  </p>
+<p class="nested">2. While exploring the <code>/var/www/wordpress</code> directory we find <code>wp-config.php</code> file with MySQL credentials in it:  </p>
+<pre class="nested"><code>cat /var/www/wordpress/wp-config.php → root/rootpassword!
 </code></pre>
-<p><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_quaoar/screenshot08.png.webp" />  </p>
-<p>3. We test these credentials to gain <code>root</code> privleges and are successfully given access:  </p>
-<pre><code>su
+<p class="nested"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_quaoar/screenshot08.png.webp" />  </p>
+<p class="nested">3. We test these credentials to gain <code>root</code> privleges and are successfully given access:  </p>
+<pre class="nested"><code>su
 </code></pre>
-<p><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_quaoar/screenshot07.png.webp" />  </p>
-<p>4. We then read the <code>/root/flag.txt</code> file to complete the challenge:  </p>
-<pre><code>cat /root/flag.txt
+<p class="nested"><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_quaoar/screenshot07.png.webp" />  </p>
+<p class="nested">4. We then read the <code>/root/flag.txt</code> file to complete the challenge:  </p>
+<pre class="nested"><code>cat /root/flag.txt
 </code></pre>
-<p><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_vulnhub_quaoar/screenshot10.png.webp" />  </p>
-<h2>Loot</h2>
-<h3>Hashes</h3>
-<pre><code>root:$6$CM3c1cdI$HbQWZlQdGEWV8yo3j7M84i1/RFK4G7fafTUIUYLWk52zm9O8KRLhqZenF8KbqsUjHlZQk4VmNEeEbBCRj........................
+<p class="nested"><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_vulnhub_quaoar/screenshot10.png.webp" />  </p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
+<pre class="nested"><code>root:$6$CM3c1cdI$HbQWZlQdGEWV8yo3j7M84i1/RFK4G7fafTUIUYLWk52zm9O8KRLhqZenF8KbqsUjHlZQk4VmNEeEbBCRj........................
 wpadmin:$6$FtTN/YPC$iidNFmRVpQ1p2kkfoOZ6OzNPqR95DQ/7G10aze2CA2W3ik/sHHyEPaNNY57tMvRDU0/Rs62FEimiKXD2V........................
 </code></pre>
-<h3>Credentials</h3>
-<pre><code>ssh: wpadmin/wpad..., root/rootpassw....
+<h3 class="h3 collapsible" onclick="toggle(this);">Credentials</h3>
+<pre class="nested"><code>ssh: wpadmin/wpad..., root/rootpassw....
 wordpress: admin/ad...
 </code></pre>
-<h3>Flags</h3>
-<pre><code>2bafe61f03117ac66a73c3c51.......
+<h3 class="h3 collapsible" onclick="toggle(this);">Flags</h3>
+<pre class="nested"><code>2bafe61f03117ac66a73c3c51.......
 8e3f9ec016e3598c5eec11fd3.......
 </code></pre>
-<h2>References</h2>
-<ul>
+<h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<ul class="nested">
 <li><a href="https://www.vulnhub.com/entry/hackfest2016-quaoar,180/">https://www.vulnhub.com/entry/hackfest2016-quaoar,180/</a>  </li>
 <li><a href="https://www.blackroomsec.com/quaoar-write-up/">https://www.blackroomsec.com/quaoar-write-up/</a>  </li>
 </ul>
@@ -356,19 +356,12 @@ wordpress: admin/ad...
             </div>
     <div class="footer footercenter">
       <span>
-        <a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a>
+        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
       </span>
     </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
-    <script>
-      function toggle(s){
-        s.classList.toggle("expanded");
-        for(var l=s.nextElementSibling;l;){
-          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-        }
-      }
-    </script>
+    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
     <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
   </body>
 </html>

