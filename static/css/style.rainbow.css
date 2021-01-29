@@ -1,4 +1,4 @@
-* { border:0; color: #333; font-family:"FiraCode Nerd Font","Inconsolata",monospace; font-size:12pt; font-weight:normal; list-style:none; margin:auto; max-width:90ch; padding:.2ch; }
+* { border:0; font-family:"FiraCode Nerd Font","Inconsolata",monospace; font-size:12pt; font-weight:normal; list-style:none; margin:auto; max-width:90ch; padding:.2ch; }
 @font-face { font-family:"FiraCode Nerd Font"; src:url("/static/fonts/firacode/firacode-nerdfont/Fira Code Regular Nerd Font Complete.ttf"); font-display:swap; }
 @media print { a { color:#00f!important; } body { width:auto; font-size:12pt; } }
 a { color:#367bf0; text-decoration:none; } a, a:active, a:focus{ outline:none; } a:hover { color:#fc580c; }
