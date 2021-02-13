@@ -71,3 +71,14 @@ li::after {
 li:last-child::after {
   height: 10px;
 }
+
+#bgclipart{
+  background-image:url(/static/images/clipart/036.png);
+  width:130px;
+  height:210px;
+  position:fixed;
+  right:0;
+  bottom:0;
+  background-size:cover;
+  background-repeat:no-repeat;
+}

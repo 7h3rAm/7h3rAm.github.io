@@ -5,13 +5,13 @@ categories:
     - name: NodeRed
       url: http://172.16.1.46:1880/#flow/c5b3168d.36ab6
     - name: Mail
-      url: https://mail.google.com/mail/u/0/#inbox
+      url: https://mail.google.com/mail/
     - name: Calendar
-      url: https://calendar.google.com/calendar/u/0/r/month/2021/1/1
+      url: https://calendar.google.com/calendar
     - name: Drive
-      url: https://drive.google.com/drive/u/0/my-drive
+      url: https://drive.google.com/drive/
     - name: Sheets
-      url: https://docs.google.com/spreadsheets/u/0/
+      url: https://docs.google.com/spreadsheets/
   Social:
     - name: Discord
       url: https://discord.com/channels/354052889364267008/617042541468057610

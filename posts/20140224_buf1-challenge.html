@@ -33,8 +33,10 @@
     </div>
     <div class="body">
       <h1 class="h1 collapsible" onclick="toggle(this);">buf1 - Another Buffer Overflow Challenge</h1>
-          <p><a href="/posts/20140106_buf0-challenge.html"> « </a>📅 published on <code>24/Feb/2014</code><a href="/posts/20140318_shellcode-pipeline.html"> » </a></p>
-        <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+          <p style="float:left;"><a href="/posts/20140106_buf0-challenge.html"> « </a>📅 published on <code>24/Feb/2014</code><a href="/posts/20140318_shellcode-pipeline.html"> » </a></p>
+        <p style="float:right;">🔖 tagged <a href=/tags.html#ctf>ctf</a></p>
+    <div style="clear:both;"></div>
+    <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested">The binary can be obtained from here: <a href="/static/files/posts_buf1_challenge/buf1.bin">buf1</a>. Let's see what <code>file</code> command has to tell us about this challenge file:</p>
 <pre class="nested"><code>$ file buf1.bin
 buf1.bin: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[sha1]=0x746bc251bceb3d50b635362140ec851bf6f85317, not stripped
@@ -82,10 +84,10 @@ Segmentation fault (core dumped)
 </code></pre>
 <h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested">Done. But this time the program didn't exit cleanly. However, the challenge was to get the <code>returnToMe</code> function called and it was done successfully. But it's not always about completing challenges. Let's take it as a learning opportunity and understand why, being so similar, both challenges exited in different manner. To understand this and other such minute intricacies of buffer overflows read my previous posts starting with: <a href="https://7h3ram.github.io/posts/20120827_geras-wuos-stack1-solutions.html">Gera's Warming Up on Stack #1 - Solutions</a>.</p>
-    <p style="text-align:center;">(🔖 tagged <a href=/tags.html#ctf>ctf</a>)</p>
           <p style="float:left;">« <a href="/posts/20140106_buf0-challenge.html">buf0 - A Buffer Overflow Chall...</a> «</p>
       <p style="float:right;">» <a href="/posts/20140318_shellcode-pipeline.html">Shellcode Analysis Pipleine</a> »</p>
         </div>
+    <div class="bgclipart_sq" style="background-image: url(/static/images/clipart/3.png);"></div>
     <div class="footer footercenter">
       <span>
         <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>

@@ -33,8 +33,10 @@
     </div>
     <div class="body">
       <h1 class="h1 collapsible" onclick="toggle(this);">Little PDF Puzzle from Didier Stevens</h1>
-          <p><a href="/posts/20140618_pcapgentools-contentype-patch.html"> « </a>📅 published on <code>18/Sep/2014</code><a href="/posts/20141115_pcapedit.html"> » </a></p>
-        <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+          <p style="float:left;"><a href="/posts/20140618_pcapgentools-contentype-patch.html"> « </a>📅 published on <code>18/Sep/2014</code><a href="/posts/20141115_pcapedit.html"> » </a></p>
+        <p style="float:right;">🔖 tagged <a href=/tags.html#ctf>ctf</a> and <a href=/tags.html#reversing>reversing</a></p>
+    <div style="clear:both;"></div>
+    <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested">While reading an article about <a href="http://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/">Physical and Logical Structure of PDF Files</a> on Didier Stevens's blog, I came across an interesting <a href="http://blog.didierstevens.com/2008/05/06/a-little-pdf-puzzle/">puzzle</a>. You can download the <a href="/static/files/posts_little_pdf/pdf-puzzle.pdf">file</a> to follow along or read the <a href="http://blog.didierstevens.com/2008/05/07/solving-a-little-pdf-puzzle/">writeup</a> from the author itself.</p>
 <h2 class="h2 collapsible" onclick="toggle(this);">Challenge Analysis and Testing</h2>
 <p class="nested">Still here, great! Let's get started. First thing is to check what <code>exiftool</code> has to tell us about this file:</p>
@@ -71,10 +73,10 @@ Page Count                      : 1
 </code></pre>
 <h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested">Awesome! The older object stream, when decoded (I'm using the ascii85 decoder from <a href="https://github.com/euske/pdfminer/blob/master/pdfminer/ascii85.py">pdfminer</a>), shows the passphrase. As suggested by Didier Stevens in his <a href="http://blog.didierstevens.com/2008/05/07/solving-a-little-pdf-puzzle/">writeup</a>, you could also remove the updated object content and xref table from the file to view the passphrase.</p>
-    <p style="text-align:center;">(🔖 tagged <a href=/tags.html#ctf>ctf</a> and <a href=/tags.html#reversing>reversing</a>)</p>
           <p style="float:left;">« <a href="/posts/20140618_pcapgentools-contentype-patch.html">PCAP-GenerationTools and Conte...</a> «</p>
       <p style="float:right;">» <a href="/posts/20141115_pcapedit.html">pcapedit: An Interactive Scapy...</a> »</p>
         </div>
+    <div class="bgclipart_sq" style="background-image: url(/static/images/clipart/3.png);"></div>
     <div class="footer footercenter">
       <span>
         <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
