@@ -15,19 +15,6 @@
           </ul></li>
         {% endfor %}
       </ul></li>
-      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Goals</h2><ul class="active nested">
-        {% for goal in datadict.fitness.goals %}
-          {% if goal.url %}
-            <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>{{ goal.name|md2html|removepara }} <a href={{ goal.url }}>[🔗]</a></h3><ul class="active nested">
-          {% else %}
-            <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>{{ goal.name|md2html|removepara }}</h3><ul class="active nested">
-          {% endif %}
-            {% for listing in goal.listing %}
-            <li>{{ listing|md2html|removepara }}</li>
-            {% endfor %}
-          </ul></li>
-        {% endfor %}
-      </ul></li>
       <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Stacks</h2><ul class="active nested">
         {% for stack in datadict.fitness.stacks %}
           {% if stack.url %}
