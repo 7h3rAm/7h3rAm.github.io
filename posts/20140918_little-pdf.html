@@ -7,7 +7,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <title>मंथन | Manthan</title>
     <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.rainbow.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.invisibletree.css"/>
     <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
     <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
     <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
@@ -20,25 +20,15 @@
     <script charset="UTF-8" src="/static/js/go.min.js"></script>
    </head>
   <body>
-    <div class="header">
-      <span class="menu_left"><a class="menu_home" href="/index.html">मंथन</a></span>
-      <span class="menu_right"><table>
-        <tr>
-          <td><a class="menu_archive" href="/archive.html">Archive</a></td><td>|</td>
-          <td><a class="menu_tags" href="/tags.html">Tags</a></td><td>|</td>
-          <td><a class="menu_stats" href="/stats.html">Stats</a></td>
-        </tr>
-      </table></span>
-      <br/><br/>
-    </div>
     <div class="body">
-      <h1 class="h1 collapsible" onclick="toggle(this);">Little PDF Puzzle from Didier Stevens</h1>
+      <div class="content">
+          <h1 class="h1 collapsible" onclick="toggle(this);">Little PDF Puzzle from Didier Stevens</h1>
           <p style="float:left;"><a href="/posts/20140618_pcapgentools-contentype-patch.html"> « </a>📅 published on <code>18/Sep/2014</code><a href="/posts/20141115_pcapedit.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#ctf>ctf</a> and <a href=/tags.html#reversing>reversing</a></p>
     <div style="clear:both;"></div>
-    <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested">While reading an article about <a href="http://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/">Physical and Logical Structure of PDF Files</a> on Didier Stevens's blog, I came across an interesting <a href="http://blog.didierstevens.com/2008/05/06/a-little-pdf-puzzle/">puzzle</a>. You can download the <a href="/static/files/posts_little_pdf/pdf-puzzle.pdf">file</a> to follow along or read the <a href="http://blog.didierstevens.com/2008/05/07/solving-a-little-pdf-puzzle/">writeup</a> from the author itself.</p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Challenge Analysis and Testing</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Challenge Analysis and Testing</h2>
 <p class="nested">Still here, great! Let's get started. First thing is to check what <code>exiftool</code> has to tell us about this file:</p>
 <pre class="nested"><code>$ exiftool pdf-puzzle.pdf
 ExifTool Version Number         : 9.46
@@ -71,19 +61,62 @@ Page Count                      : 1
 '\x14h\xd5&quot;4 Tf 100 700 Td (The passphrase is Incremental Updates) Tj ET'
 &gt;&gt;&gt;
 </code></pre>
-<h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested">Awesome! The older object stream, when decoded (I'm using the ascii85 decoder from <a href="https://github.com/euske/pdfminer/blob/master/pdfminer/ascii85.py">pdfminer</a>), shows the passphrase. As suggested by Didier Stevens in his <a href="http://blog.didierstevens.com/2008/05/07/solving-a-little-pdf-puzzle/">writeup</a>, you could also remove the updated object content and xref table from the file to view the passphrase.</p>
+    <hr>
           <p style="float:left;">« <a href="/posts/20140618_pcapgentools-contentype-patch.html">PCAP-GenerationTools and Conte...</a> «</p>
       <p style="float:right;">» <a href="/posts/20141115_pcapedit.html">pcapedit: An Interactive Scapy...</a> »</p>
-        </div>
-    <div BG_CLIPART_STYLE_HERE></div>
-    <div class="footer footercenter">
-      <span>
-        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
-      </span>
+          </div>
+      <div class="menu">
+        <h1 class="h1"><a class="menu_home" href="/index.html">मंथन</a></h1>
+          <ul class="active nested">
+            <li><a class="menu_archive" href="/archive.html">💾 Archive</a><ul class="active nested">
+              <li><a href=/pages/research.html>🔬 Research</a></li>
+              <li><a href=/pages/cv.html>📄 Curriculum Vitae</a></li>
+              <li><a href=/pages/satview.html>🛰️ Satellite Views</a></li>
+              <li><a href=/pages/fitness.html>🏋️ Fitness</a></li>
+              <li><a href=/pages/life.html>🧘 Life</a></li>
+            </ul></li>
+            <li><a class="menu_tags" href="/tags.html">🔖 Tags</a><ul class="active nested">
+                            <li><a href="/tags.html#code">code</a></li>
+                            <li><a href="/tags.html#ctf">ctf</a></li>
+                            <li><a href="/tags.html#exploit">exploit</a></li>
+                            <li><a href="/tags.html#hackthebox">hackthebox</a></li>
+                            <li><a href="/tags.html#reversing">reversing</a></li>
+                            <li><a href="/tags.html#tryhackme">tryhackme</a></li>
+                            <li><a href="/tags.html#vulnhub">vulnhub</a></li>
+                            <li><a href="/tags.html#vulnweekends">vulnweekends</a></li>
+                            <li><a href="/tags.html#writeup">writeup</a></li>
+                          </ul></li>
+            <li><a class="menu_stats" href="/stats.html">📊 Stats</a></li>
+          </ul>
+      </div>
+      <div class="footer footercenter"><span><a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a></span></div>
+      <script>hljs.initHighlightingOnLoad();</script>
+      <script>hljs.initLineNumbersOnLoad();</script>
+      <script>
+        function toggle(s){
+          s.classList.toggle("expanded");
+          var t=!1,i=!1,a=!1;
+          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);
+          for(var l=s.nextElementSibling;l;){
+            if(t&&l.classList.contains("h2")){
+              l.classList.toggle("active");
+              break
+            }
+            if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){
+              l.classList.toggle("active");
+              break
+            }
+            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){
+              l.classList.toggle("active");
+              break
+            }
+            l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
+          }
+        }
+      </script>
     </div>
-    <script>hljs.initHighlightingOnLoad();</script>
-    <script>hljs.initLineNumbersOnLoad();</script>
-    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
+    <div id="bgclipart"></div>
   </body>
 </html>

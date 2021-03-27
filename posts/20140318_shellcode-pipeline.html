@@ -7,7 +7,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <title>मंथन | Manthan</title>
     <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.rainbow.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.invisibletree.css"/>
     <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
     <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
     <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
@@ -20,25 +20,15 @@
     <script charset="UTF-8" src="/static/js/go.min.js"></script>
    </head>
   <body>
-    <div class="header">
-      <span class="menu_left"><a class="menu_home" href="/index.html">मंथन</a></span>
-      <span class="menu_right"><table>
-        <tr>
-          <td><a class="menu_archive" href="/archive.html">Archive</a></td><td>|</td>
-          <td><a class="menu_tags" href="/tags.html">Tags</a></td><td>|</td>
-          <td><a class="menu_stats" href="/stats.html">Stats</a></td>
-        </tr>
-      </table></span>
-      <br/><br/>
-    </div>
     <div class="body">
-      <h1 class="h1 collapsible" onclick="toggle(this);">Shellcode Analysis Pipleine</h1>
+      <div class="content">
+          <h1 class="h1 collapsible" onclick="toggle(this);">Shellcode Analysis Pipleine</h1>
           <p style="float:left;"><a href="/posts/20140224_buf1-challenge.html"> « </a>📅 published on <code>18/Mar/2014</code><a href="/posts/20140327_northrop-challenge.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#code>code</a> and <a href=/tags.html#reversing>reversing</a></p>
     <div style="clear:both;"></div>
-    <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested">I recently required an automated way of analyzing shellcode and verifying if it is detected by <a href="http://libemu.carnivore.it/">Libemu</a>, <a href="http://www.snort.org/">Snort</a>, <a href="http://suricata-ids.org/">Suricata</a>, <a href="https://www.bro.org/">Bro</a>, etc. Shellcode had to come from public sources like <a href="http://repo.shell-storm.org/shellcode/">ShellStorm</a>, <a href="http://www.exploit-db.com/shellcode/">ExploitDB</a> and <a href="https://github.com/rapid7/metasploit-framework/tree/master/modules/payloads">Metasploit</a>. I needed an automated way of sourcing shellcode from these projects and pass it on to the analysis engines in a pipeline-like mechanism. This posts documents the method I used to complete this task and the overall progress of the project.</p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Design Considerations</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Design Considerations</h2>
 <p class="nested">I basically divided the project into three independent tasks:</p>
 <ol class="nested">
 <li>source shellcode from shell-storm, exploit-db and metasploit</li>
@@ -46,7 +36,7 @@
 <li>test shellcode with Libemu and pcaps with Snort/Suricata/Bro</li>
 </ol>
 <p class="nested">These are independent since any of them can be used individually, as a unit, and developed outside of the system. The first task itself was divided into smaller sub-tasks and I started with sourcing shellcode from shell-storm. The shell-storm shellcode page documents steps needed to access shell-storm database and there is an example script that provides an easy to use cli to search for and download individual shellcode files from shell-storm. I used this script in my project and added a wrapper over it to search, download and generate pcaps all with just one cli invocation. The script currently is in beta and satisfies only a few of the above requirements. Shell-storm sourcing is implemented, pcap generation is working and shellcode testing currently happens with Libemu only. Additional sources and analysis engines would be added shortly.</p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Implementation and Testing</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Implementation and Testing</h2>
 <p class="nested">Please visit the following link to get the complete source listing: <a href="https://gist.github.com/7h3rAm/11087025">sap</a></p>
 <p class="nested">It will read configuration file to populate internal variables and then move on to its core. First, the <code>doshellstorm()</code> method is called to source shellcode samples from shell-storm. The API example script is used to search shellcode that satisfies certain search criteria and then matching shell-storm shellcode ids are downloaded, extracted and saved to a <code>&lt;shellcode-id&gt;.bin</code> named file. For all shellcode ids for which we successfully extracted shellcode bytes, they are then passed onto the <code>bin2pcap()</code> method which uses an updated version of <a href="https://github.com/7h3rAm/PCAP-Generation-Tools">PCAPGGenerationTTools</a> and creates pcap files with HTTP GET/POST requests and <a href="https://github.com/7h3rAm/PCAP-Generation-Tools/commit/fc7418eefc9febef936d4646c61bad67e26935b7">TCP CTS/STC</a> sessions. These pcaps can then be tested with intrusion detection engines in the pipeline. Once the pcap generation module completes, the Libemu engine is invoked and run over all <code>.bin</code> shellcode files. Later versions will add support for Snort/Suricata/Bro based shellcode pcap testing.</p>
 <p class="nested">Let's have a look at the help message from the tool:</p>
@@ -200,19 +190,62 @@ ScId    Size Title
 [146]   n/a  Windows - XP download and exec source
 [159]   n/a  Windows - Download and Execute Shellcode Generator
 </code></pre>
-<h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested">Currently Libemu is the only analysis engine but soon I'll be adding support for additional engines. Sourcing from other projects will also be added in subsequent versions. Feel free to try it out and let me know what you think of it.</p>
+    <hr>
           <p style="float:left;">« <a href="/posts/20140224_buf1-challenge.html">buf1 - Another Buffer Overflow...</a> «</p>
       <p style="float:right;">» <a href="/posts/20140327_northrop-challenge.html">Northrop's Online Challenge</a> »</p>
-        </div>
-    <div BG_CLIPART_STYLE_HERE></div>
-    <div class="footer footercenter">
-      <span>
-        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
-      </span>
+          </div>
+      <div class="menu">
+        <h1 class="h1"><a class="menu_home" href="/index.html">मंथन</a></h1>
+          <ul class="active nested">
+            <li><a class="menu_archive" href="/archive.html">💾 Archive</a><ul class="active nested">
+              <li><a href=/pages/research.html>🔬 Research</a></li>
+              <li><a href=/pages/cv.html>📄 Curriculum Vitae</a></li>
+              <li><a href=/pages/satview.html>🛰️ Satellite Views</a></li>
+              <li><a href=/pages/fitness.html>🏋️ Fitness</a></li>
+              <li><a href=/pages/life.html>🧘 Life</a></li>
+            </ul></li>
+            <li><a class="menu_tags" href="/tags.html">🔖 Tags</a><ul class="active nested">
+                            <li><a href="/tags.html#code">code</a></li>
+                            <li><a href="/tags.html#ctf">ctf</a></li>
+                            <li><a href="/tags.html#exploit">exploit</a></li>
+                            <li><a href="/tags.html#hackthebox">hackthebox</a></li>
+                            <li><a href="/tags.html#reversing">reversing</a></li>
+                            <li><a href="/tags.html#tryhackme">tryhackme</a></li>
+                            <li><a href="/tags.html#vulnhub">vulnhub</a></li>
+                            <li><a href="/tags.html#vulnweekends">vulnweekends</a></li>
+                            <li><a href="/tags.html#writeup">writeup</a></li>
+                          </ul></li>
+            <li><a class="menu_stats" href="/stats.html">📊 Stats</a></li>
+          </ul>
+      </div>
+      <div class="footer footercenter"><span><a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a></span></div>
+      <script>hljs.initHighlightingOnLoad();</script>
+      <script>hljs.initLineNumbersOnLoad();</script>
+      <script>
+        function toggle(s){
+          s.classList.toggle("expanded");
+          var t=!1,i=!1,a=!1;
+          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);
+          for(var l=s.nextElementSibling;l;){
+            if(t&&l.classList.contains("h2")){
+              l.classList.toggle("active");
+              break
+            }
+            if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){
+              l.classList.toggle("active");
+              break
+            }
+            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){
+              l.classList.toggle("active");
+              break
+            }
+            l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
+          }
+        }
+      </script>
     </div>
-    <script>hljs.initHighlightingOnLoad();</script>
-    <script>hljs.initLineNumbersOnLoad();</script>
-    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
+    <div id="bgclipart"></div>
   </body>
 </html>

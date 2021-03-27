@@ -7,7 +7,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <title>मंथन | Manthan</title>
     <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.rainbow.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.invisibletree.css"/>
     <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
     <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
     <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
@@ -20,26 +20,16 @@
     <script charset="UTF-8" src="/static/js/go.min.js"></script>
    </head>
   <body>
-    <div class="header">
-      <span class="menu_left"><a class="menu_home" href="/index.html">मंथन</a></span>
-      <span class="menu_right"><table>
-        <tr>
-          <td><a class="menu_archive" href="/archive.html">Archive</a></td><td>|</td>
-          <td><a class="menu_tags" href="/tags.html">Tags</a></td><td>|</td>
-          <td><a class="menu_stats" href="/stats.html">Stats</a></td>
-        </tr>
-      </table></span>
-      <br/><br/>
-    </div>
     <div class="body">
-      <h1 class="h1 collapsible" onclick="toggle(this);">Vulnerable Weekends #1: Mozilla and ProFTPd</h1>
+      <div class="content">
+          <h1 class="h1 collapsible" onclick="toggle(this);">Vulnerable Weekends #1: Mozilla and ProFTPd</h1>
           <p style="float:left;"><a href="/posts/20111116_vuln-weekends-intro.html"> « </a>📅 published on <code>20/Nov/2011</code><a href="/posts/20111203_vuln-weekends-2.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#vulnweekends>vulnweekends</a></p>
     <div style="clear:both;"></div>
-    <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested">Last week Mozilla revised the major version number for its popular web browsing application, Firefox, taking it to version 8.0. Its been hardly a few days since Firefox 8.0 has been available publicly, reports about a denial of service (DoS) vulnerability within the latest and prior releases started to make news. I have tried to analyze this vulnerability and #1A is a report for the same.</p>
 <p class="nested">The #1B report provides yet another interesting update related to a remote code execution (RCE) vulnerability confirmed within ProFTPd.</p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Vulnerability Report #1A: Mozilla Firefox <code>OnStartRequest()</code> Function XPCOM Object Processing Denial of Service Vulnerability</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Vulnerability Report #1A: Mozilla Firefox <code>OnStartRequest()</code> Function XPCOM Object Processing Denial of Service Vulnerability</h2>
 <p class="nested"><strong>Vulnerable Product</strong>: Installations of Mozilla Firefox with versions 8.0 and prior.</p>
 <p class="nested"><strong>CVE ID</strong>: Not available</p>
 <p class="nested"><strong>CVSS v2 Score</strong>:<br />
@@ -64,7 +54,7 @@
 <h3 class="h3 collapsible" onclick="toggle(this);">Vulnerability Sources</h3>
 <p class="nested"><a href="http://xforce.iss.net/xforce/xfdb/71288">xfdb:71288</a><br />
 <a href="http://www.securityfocus.com/bid/50667">bid:50667</a>  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Vulnerability Report #1B: ProFTPd <code>pr_cmd_dispatch_phase()</code> Function Response Code Handling Arbitrary Code Execution Vulnerability</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Vulnerability Report #1B: ProFTPd <code>pr_cmd_dispatch_phase()</code> Function Response Code Handling Arbitrary Code Execution Vulnerability</h2>
 <p class="nested"><strong>Vulnerable Product</strong>: Installations of ProFTPd versions with 1.3.3 and prior.</p>
 <p class="nested"><strong>CVE ID</strong>: <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-4130">CVE-2011-4130</a></p>
 <p class="nested"><strong>CVSS v2 Score</strong>:<br />
@@ -92,17 +82,60 @@
 <p class="nested"><a href="http://cve.mitre.org">cve.mitre.org</a><br />
 <a href="http://www.first.org/cvss/cvss-guide.html">cvss-guide</a><br />
 <a href="http://nvd.nist.gov/cvss.cfm?calculator&amp;adv&amp;version=2">cvss-calculator</a>  </p>
+    <hr>
           <p style="float:left;">« <a href="/posts/20111116_vuln-weekends-intro.html">Vulnerable Weekends: Introduct...</a> «</p>
       <p style="float:right;">» <a href="/posts/20111203_vuln-weekends-2.html">Vulnerable Weekends #2: GNU GD...</a> »</p>
-        </div>
-    <div BG_CLIPART_STYLE_HERE></div>
-    <div class="footer footercenter">
-      <span>
-        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
-      </span>
+          </div>
+      <div class="menu">
+        <h1 class="h1"><a class="menu_home" href="/index.html">मंथन</a></h1>
+          <ul class="active nested">
+            <li><a class="menu_archive" href="/archive.html">💾 Archive</a><ul class="active nested">
+              <li><a href=/pages/research.html>🔬 Research</a></li>
+              <li><a href=/pages/cv.html>📄 Curriculum Vitae</a></li>
+              <li><a href=/pages/satview.html>🛰️ Satellite Views</a></li>
+              <li><a href=/pages/fitness.html>🏋️ Fitness</a></li>
+              <li><a href=/pages/life.html>🧘 Life</a></li>
+            </ul></li>
+            <li><a class="menu_tags" href="/tags.html">🔖 Tags</a><ul class="active nested">
+                            <li><a href="/tags.html#code">code</a></li>
+                            <li><a href="/tags.html#ctf">ctf</a></li>
+                            <li><a href="/tags.html#exploit">exploit</a></li>
+                            <li><a href="/tags.html#hackthebox">hackthebox</a></li>
+                            <li><a href="/tags.html#reversing">reversing</a></li>
+                            <li><a href="/tags.html#tryhackme">tryhackme</a></li>
+                            <li><a href="/tags.html#vulnhub">vulnhub</a></li>
+                            <li><a href="/tags.html#vulnweekends">vulnweekends</a></li>
+                            <li><a href="/tags.html#writeup">writeup</a></li>
+                          </ul></li>
+            <li><a class="menu_stats" href="/stats.html">📊 Stats</a></li>
+          </ul>
+      </div>
+      <div class="footer footercenter"><span><a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a></span></div>
+      <script>hljs.initHighlightingOnLoad();</script>
+      <script>hljs.initLineNumbersOnLoad();</script>
+      <script>
+        function toggle(s){
+          s.classList.toggle("expanded");
+          var t=!1,i=!1,a=!1;
+          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);
+          for(var l=s.nextElementSibling;l;){
+            if(t&&l.classList.contains("h2")){
+              l.classList.toggle("active");
+              break
+            }
+            if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){
+              l.classList.toggle("active");
+              break
+            }
+            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){
+              l.classList.toggle("active");
+              break
+            }
+            l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
+          }
+        }
+      </script>
     </div>
-    <script>hljs.initHighlightingOnLoad();</script>
-    <script>hljs.initLineNumbersOnLoad();</script>
-    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
+    <div id="bgclipart"></div>
   </body>
 </html>

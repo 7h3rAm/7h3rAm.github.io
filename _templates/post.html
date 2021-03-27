@@ -1,5 +1,5 @@
-{% extends "basepost.html" %}
-{% block body %}
+{% extends "base.html" %}
+{% block content %}
   <h1>{{ datadict.post.title }}</h1>
     {% if datadict.post.previous and datadict.post.next %}
       <p style="float:left;"><a href="{{ datadict.post.previous.url }}"> « </a>📅 published on <code>{{ datadict.post.pretty_date }}</code><a href="{{ datadict.post.next.url }}"> » </a></p>
@@ -11,6 +11,7 @@
     <p style="float:right;">🔖 tagged {{ datadict.post.tags|joinlistand("/tags.html#") }}</p>
     <div style="clear:both;"></div>
     {{ datadict.post.content }}
+    <hr>
     {% if datadict.post.previous and datadict.post.next %}
       <p style="float:left;">« <a href="{{ datadict.post.previous.url }}">{{ datadict.post.previous.title|trimlength }}</a> «</p>
       <p style="float:right;">» <a href="{{ datadict.post.next.url }}">{{ datadict.post.next.title|trimlength }}</a> »</p>

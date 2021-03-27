@@ -7,7 +7,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <title>मंथन | Manthan</title>
     <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.rainbow.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.invisibletree.css"/>
     <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
     <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
     <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
@@ -20,23 +20,13 @@
     <script charset="UTF-8" src="/static/js/go.min.js"></script>
    </head>
   <body>
-    <div class="header">
-      <span class="menu_left"><a class="menu_home" href="/index.html">मंथन</a></span>
-      <span class="menu_right"><table>
-        <tr>
-          <td><a class="menu_archive" href="/archive.html">Archive</a></td><td>|</td>
-          <td><a class="menu_tags" href="/tags.html">Tags</a></td><td>|</td>
-          <td><a class="menu_stats" href="/stats.html">Stats</a></td>
-        </tr>
-      </table></span>
-      <br/><br/>
-    </div>
     <div class="body">
-      <h1 class="h1 collapsible" onclick="toggle(this);">pcapedit: An Interactive Scapy-based Pcap Editor</h1>
+      <div class="content">
+          <h1 class="h1 collapsible" onclick="toggle(this);">pcapedit: An Interactive Scapy-based Pcap Editor</h1>
           <p style="float:left;"><a href="/posts/20140918_little-pdf.html"> « </a>📅 published on <code>15/Nov/2014</code><a href="/posts/20141127_flowinspect.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#code>code</a></p>
     <div style="clear:both;"></div>
-    <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested">While working with pcap files, I occasionally come across situations where I need to edit them for some weird usecases. When in such a situation, I had to write a loop that iterates over packets, check if the current packet needs modification, apply changes if so and save these changes to a new pcap. As I repeated these steps a few times, need for automation became obvious. I sat together with my colleague and good friend <a href="http://x00itachi.blogspot.in/">Natraj</a> and discussed about how we can automate this process so that it helps with our IPS signature development efforts. Eventually, a draft for an interactive tool was formulated and <a href="https://github.com/7h3rAm/pcapedit">pcapedit</a> was born.</p>
 <p class="nested"><code>pcapedit</code> is a Python-based tool that allows users to enter commands to edit and save pcaps. It has a hard dependency on <code>Scapy</code> and <code>cmd2</code> modules so make sure these are installed. Here is a snippet from test run:</p>
 <pre class="nested"><code>$ ./pcapedit.py
@@ -74,7 +64,7 @@ EOF  eof  exit  help  q  quit
 
 &gt;&gt;&gt; q
 </code></pre>
-<h2 class="h2 collapsible" onclick="toggle(this);">Usecases</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Usecases</h2>
 <p class="nested">So we have a few commands to try out. Let's assume that you have a <code>http.pcap</code> file that needs editing. Let's see how pcapedit can be useful in this case:</p>
 <pre class="nested"><code>$ ./pcapedit.py
 PcapEdit - An Interactive Pcap Editor
@@ -256,19 +246,62 @@ $ ls -l *.cap
 -rw-rw-r-- 1 shiv shiv  6805 Nov 15 14:44 http.mod.cap
 $
 </code></pre>
-<h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested">There are a few other nifty commands that will be useful and I strongly recommend you to give <code>pcapedit</code> a try.</p>
+    <hr>
           <p style="float:left;">« <a href="/posts/20140918_little-pdf.html">Little PDF Puzzle from Didier ...</a> «</p>
       <p style="float:right;">» <a href="/posts/20141127_flowinspect.html">Flowinspect: A Network Inspect...</a> »</p>
-        </div>
-    <div BG_CLIPART_STYLE_HERE></div>
-    <div class="footer footercenter">
-      <span>
-        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
-      </span>
+          </div>
+      <div class="menu">
+        <h1 class="h1"><a class="menu_home" href="/index.html">मंथन</a></h1>
+          <ul class="active nested">
+            <li><a class="menu_archive" href="/archive.html">💾 Archive</a><ul class="active nested">
+              <li><a href=/pages/research.html>🔬 Research</a></li>
+              <li><a href=/pages/cv.html>📄 Curriculum Vitae</a></li>
+              <li><a href=/pages/satview.html>🛰️ Satellite Views</a></li>
+              <li><a href=/pages/fitness.html>🏋️ Fitness</a></li>
+              <li><a href=/pages/life.html>🧘 Life</a></li>
+            </ul></li>
+            <li><a class="menu_tags" href="/tags.html">🔖 Tags</a><ul class="active nested">
+                            <li><a href="/tags.html#code">code</a></li>
+                            <li><a href="/tags.html#ctf">ctf</a></li>
+                            <li><a href="/tags.html#exploit">exploit</a></li>
+                            <li><a href="/tags.html#hackthebox">hackthebox</a></li>
+                            <li><a href="/tags.html#reversing">reversing</a></li>
+                            <li><a href="/tags.html#tryhackme">tryhackme</a></li>
+                            <li><a href="/tags.html#vulnhub">vulnhub</a></li>
+                            <li><a href="/tags.html#vulnweekends">vulnweekends</a></li>
+                            <li><a href="/tags.html#writeup">writeup</a></li>
+                          </ul></li>
+            <li><a class="menu_stats" href="/stats.html">📊 Stats</a></li>
+          </ul>
+      </div>
+      <div class="footer footercenter"><span><a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a></span></div>
+      <script>hljs.initHighlightingOnLoad();</script>
+      <script>hljs.initLineNumbersOnLoad();</script>
+      <script>
+        function toggle(s){
+          s.classList.toggle("expanded");
+          var t=!1,i=!1,a=!1;
+          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);
+          for(var l=s.nextElementSibling;l;){
+            if(t&&l.classList.contains("h2")){
+              l.classList.toggle("active");
+              break
+            }
+            if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){
+              l.classList.toggle("active");
+              break
+            }
+            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){
+              l.classList.toggle("active");
+              break
+            }
+            l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
+          }
+        }
+      </script>
     </div>
-    <script>hljs.initHighlightingOnLoad();</script>
-    <script>hljs.initLineNumbersOnLoad();</script>
-    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
+    <div id="bgclipart"></div>
   </body>
 </html>

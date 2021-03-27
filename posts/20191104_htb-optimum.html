@@ -7,7 +7,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <title>मंथन | Manthan</title>
     <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.rainbow.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.invisibletree.css"/>
     <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
     <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
     <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
@@ -20,23 +20,13 @@
     <script charset="UTF-8" src="/static/js/go.min.js"></script>
    </head>
   <body>
-    <div class="header">
-      <span class="menu_left"><a class="menu_home" href="/index.html">मंथन</a></span>
-      <span class="menu_right"><table>
-        <tr>
-          <td><a class="menu_archive" href="/archive.html">Archive</a></td><td>|</td>
-          <td><a class="menu_tags" href="/tags.html">Tags</a></td><td>|</td>
-          <td><a class="menu_stats" href="/stats.html">Stats</a></td>
-        </tr>
-      </table></span>
-      <br/><br/>
-    </div>
     <div class="body">
-      <h1 class="h1 collapsible" onclick="toggle(this);">[HackTheBox] Optimum</h1>
+      <div class="content">
+          <h1 class="h1 collapsible" onclick="toggle(this);">[HackTheBox] Optimum</h1>
           <p style="float:left;"><a href="/posts/20191104_htb-granny.html"> « </a>📅 published on <code>04/Nov/2019</code><a href="/posts/20191105_htb-devel.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
-    <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for HTB VM <a href="https://www.hackthebox.eu/home/machines/profile/6">Optimum</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_htb_optimum/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -44,7 +34,7 @@
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_htb_optimum/killchain.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
 <p class="nested">1. <code>80/tcp/http/HttpFileServer httpd 2.3</code>: <a href="https://github.com/7h3rAm/writeups#exploit_hfs_cmd_exec">exploit_hfs_cmd_exec</a>, <a href="https://github.com/7h3rAm/writeups#privesc_windows_ms16_098">privesc_windows_ms16_098</a>  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
 <pre class="nested"><code># Nmap 7.70 scan initiated Mon Nov  4 17:34:56 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.optimum/results/10.10.10.8/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.optimum/results/10.10.10.8/scans/xml/_quick_tcp_nmap.xml 10.10.10.8
 Nmap scan report for 10.10.10.8
@@ -73,12 +63,12 @@ Service detection performed. Please report any incorrect results at https://nmap
 <h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
 <pre class="nested"><code>80/tcp  |  http  |  HttpFileServer httpd 2.3
 </code></pre>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. We use the command execution exploit, slightly modify it to print debug information and get interactive access on the target system:  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_htb_optimum/screenshot02.png.webp" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_htb_optimum/screenshot03.png.webp" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.1.3" src="/static/files/posts_htb_optimum/screenshot04.png.webp" />  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested"><code>kostas@OPTIMUM&gt; id
 optimum\kostas
 kostas@OPTIMUM&gt;  
@@ -101,7 +91,7 @@ kostas@OPTIMUM&gt; users
 Administrator
 kostas
 </code></pre>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. We can now view the contents of the <code>user.txt.txt</code> file to get the first flag:  </p>
 <p class="nested"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_htb_optimum/screenshot05.png.webp" />  </p>
 <p class="nested">2. We now use the <code>windows-exploit-suggester.py</code> script to get list of possible privesc vectors. To do this, we first had to download <code>netcat</code> onto target system via Powershell and transfer the text output of <code>systeminfo</code> command to our local system:  </p>
@@ -115,27 +105,70 @@ kostas
 <p class="nested"><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_htb_optimum/screenshot11.png.webp" />  </p>
 <p class="nested">5. We can now view the contents of the <code>root.txt</code> file to complete the challenge:  </p>
 <p class="nested"><img alt="writeup.privesc.steps.5.1" src="/static/files/posts_htb_optimum/screenshot12.png.webp" />  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Flags</h3>
 <pre class="nested"><code>C:\Users\kostas\Desktop\user.txt.txt: d0c39409d7b994a9a1..............
 C:\Users\Administrator\Desktop\root.txt: 51ed1b36553c8461f4..............
 </code></pre>
-<h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested">
 <li><a href="https://www.hackthebox.eu/home/machines/profile/6">https://www.hackthebox.eu/home/machines/profile/6</a>  </li>
 <li><a href="https://reboare.github.io/hackthebox/htb-optimum.html">https://reboare.github.io/hackthebox/htb-optimum.html</a>  </li>
 </ul>
+    <hr>
           <p style="float:left;">« <a href="/posts/20191104_htb-granny.html">[HackTheBox] Granny</a> «</p>
       <p style="float:right;">» <a href="/posts/20191105_htb-devel.html">[HackTheBox] Devel</a> »</p>
-        </div>
-    <div BG_CLIPART_STYLE_HERE></div>
-    <div class="footer footercenter">
-      <span>
-        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
-      </span>
+          </div>
+      <div class="menu">
+        <h1 class="h1"><a class="menu_home" href="/index.html">मंथन</a></h1>
+          <ul class="active nested">
+            <li><a class="menu_archive" href="/archive.html">💾 Archive</a><ul class="active nested">
+              <li><a href=/pages/research.html>🔬 Research</a></li>
+              <li><a href=/pages/cv.html>📄 Curriculum Vitae</a></li>
+              <li><a href=/pages/satview.html>🛰️ Satellite Views</a></li>
+              <li><a href=/pages/fitness.html>🏋️ Fitness</a></li>
+              <li><a href=/pages/life.html>🧘 Life</a></li>
+            </ul></li>
+            <li><a class="menu_tags" href="/tags.html">🔖 Tags</a><ul class="active nested">
+                            <li><a href="/tags.html#code">code</a></li>
+                            <li><a href="/tags.html#ctf">ctf</a></li>
+                            <li><a href="/tags.html#exploit">exploit</a></li>
+                            <li><a href="/tags.html#hackthebox">hackthebox</a></li>
+                            <li><a href="/tags.html#reversing">reversing</a></li>
+                            <li><a href="/tags.html#tryhackme">tryhackme</a></li>
+                            <li><a href="/tags.html#vulnhub">vulnhub</a></li>
+                            <li><a href="/tags.html#vulnweekends">vulnweekends</a></li>
+                            <li><a href="/tags.html#writeup">writeup</a></li>
+                          </ul></li>
+            <li><a class="menu_stats" href="/stats.html">📊 Stats</a></li>
+          </ul>
+      </div>
+      <div class="footer footercenter"><span><a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a></span></div>
+      <script>hljs.initHighlightingOnLoad();</script>
+      <script>hljs.initLineNumbersOnLoad();</script>
+      <script>
+        function toggle(s){
+          s.classList.toggle("expanded");
+          var t=!1,i=!1,a=!1;
+          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);
+          for(var l=s.nextElementSibling;l;){
+            if(t&&l.classList.contains("h2")){
+              l.classList.toggle("active");
+              break
+            }
+            if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){
+              l.classList.toggle("active");
+              break
+            }
+            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){
+              l.classList.toggle("active");
+              break
+            }
+            l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
+          }
+        }
+      </script>
     </div>
-    <script>hljs.initHighlightingOnLoad();</script>
-    <script>hljs.initLineNumbersOnLoad();</script>
-    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
+    <div id="bgclipart"></div>
   </body>
 </html>

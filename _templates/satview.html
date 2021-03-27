@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block body %}
+{% block content %}
   <h1 class="h1">🛰️ Satellite Views</h1>
     <ul class="active">
       <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Current Time</h2><ul class="active nested">
@@ -21,7 +21,7 @@
         <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Himawari (Natural Color) <a href="https://twitter.com/search?q=%23Himawari">[🔗]</a></h3><p class="active nested"><a id="himawari_naturalcolorhref"><img class="sqimages" id="himawari_naturalcolor"></a></p></li>
         <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>GOES17 <a href="https://twitter.com/search?q=%23GOES17">[🔗]</a></h3><p class="active nested"><a id="goes17westfdhref"><img class="sqimages" id="goes17westfd"></a></p></li>
         <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>GOES16 <a href="https://twitter.com/search?q=%23GOES16">[🔗]</a></h3><p class="active nested"><a id="goes16eastfdhref"><img class="sqimages" id="goes16eastfd"></a></p></li>
-      </ul></li>ID
+      </ul></li>
     </ul>
     <script>
       function doTime() {
@@ -50,14 +50,6 @@
         setInterval(() => {doTime();},1000); // every .5s
         doImages();
         //setInterval(() => {doImages();},1000*60*10); // every 10m
-      }
-    </script>
-    <script>
-      function toggle(s){
-        s.classList.toggle("expanded");
-        for(var l=s.nextElementSibling;l;){
-          l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-        }
       }
     </script>
 {% endblock %}

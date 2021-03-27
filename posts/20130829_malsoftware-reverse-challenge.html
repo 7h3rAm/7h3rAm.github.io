@@ -7,7 +7,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <title>मंथन | Manthan</title>
     <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.rainbow.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.invisibletree.css"/>
     <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
     <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
     <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
@@ -20,25 +20,15 @@
     <script charset="UTF-8" src="/static/js/go.min.js"></script>
    </head>
   <body>
-    <div class="header">
-      <span class="menu_left"><a class="menu_home" href="/index.html">मंथन</a></span>
-      <span class="menu_right"><table>
-        <tr>
-          <td><a class="menu_archive" href="/archive.html">Archive</a></td><td>|</td>
-          <td><a class="menu_tags" href="/tags.html">Tags</a></td><td>|</td>
-          <td><a class="menu_stats" href="/stats.html">Stats</a></td>
-        </tr>
-      </table></span>
-      <br/><br/>
-    </div>
     <div class="body">
-      <h1 class="h1 collapsible" onclick="toggle(this);">reverse Challenge from Coursera's Malicious Software Course</h1>
+      <div class="content">
+          <h1 class="h1 collapsible" onclick="toggle(this);">reverse Challenge from Coursera's Malicious Software Course</h1>
           <p style="float:left;"><a href="/posts/20130824_malsoftware-reverse-ex.html"> « </a>📅 published on <code>29/Aug/2013</code><a href="/posts/20130915_libnids-python-ids.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#ctf>ctf</a> and <a href=/tags.html#reversing>reversing</a></p>
     <div style="clear:both;"></div>
-    <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested">This post follows an earlier one: <a href="https://7h3ram.github.io/posts/20130824_malsoftware-reverse-ex.html">reverse-ex Challenge from Coursera's Malicious Software Course</a>. If you've not already read it, I would suggest you do so since both these challenges share a few common concepts and I'll be skipping detail if it has been mentioned before.</p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Program Analysis and Testing</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Program Analysis and Testing</h2>
 <p class="nested">The challenge file is hosted here: <a href="/static/files/posts_malsoftware_reverse_challenge/reverse-challenge">reverse-challenge</a>. The first thing to do is to test it with <code>file</code> command:</p>
 <pre class="nested"><code>$ file reverse-challenge
 reverse-challenge: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[  sha1]=0x2fe5f1647532449ffeef36a7fa31ae8319c8818d, stripped
@@ -93,19 +83,62 @@ write(1, &quot;Dude, no debugging ;-)\n&quot;, 23Dude, no debugging ;-)
 exit_group(1)                           = ?
 </code></pre>
 <p class="nested">The program stopped since the <code>ptrace</code> system call returned <code>EPERM</code> error code which indicates that the <code>PTRACE_TRACEME</code> operation is not permitted. This is a very commonly used anti-debugging method and it works since such program already invoke <code>ptrace</code> over them before executing any other functions and as such when a user manually tries to debug it (via <code>ptrace</code> calls), it fails since a trace session is already active on the program and another cannot be initialized.</p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested">Anyways, like the previous challenge, this was also completed without actually debugging the program. However, there are still ways in which we can bypass the anti-debugging mechanisms and analyze the program via dynamic analysis only. Rest on this in a future post. Stay tuned.</p>
+    <hr>
           <p style="float:left;">« <a href="/posts/20130824_malsoftware-reverse-ex.html">reverse-ex Challenge from Cour...</a> «</p>
       <p style="float:right;">» <a href="/posts/20130915_libnids-python-ids.html">Developing a Minimal IPS from ...</a> »</p>
-        </div>
-    <div BG_CLIPART_STYLE_HERE></div>
-    <div class="footer footercenter">
-      <span>
-        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
-      </span>
+          </div>
+      <div class="menu">
+        <h1 class="h1"><a class="menu_home" href="/index.html">मंथन</a></h1>
+          <ul class="active nested">
+            <li><a class="menu_archive" href="/archive.html">💾 Archive</a><ul class="active nested">
+              <li><a href=/pages/research.html>🔬 Research</a></li>
+              <li><a href=/pages/cv.html>📄 Curriculum Vitae</a></li>
+              <li><a href=/pages/satview.html>🛰️ Satellite Views</a></li>
+              <li><a href=/pages/fitness.html>🏋️ Fitness</a></li>
+              <li><a href=/pages/life.html>🧘 Life</a></li>
+            </ul></li>
+            <li><a class="menu_tags" href="/tags.html">🔖 Tags</a><ul class="active nested">
+                            <li><a href="/tags.html#code">code</a></li>
+                            <li><a href="/tags.html#ctf">ctf</a></li>
+                            <li><a href="/tags.html#exploit">exploit</a></li>
+                            <li><a href="/tags.html#hackthebox">hackthebox</a></li>
+                            <li><a href="/tags.html#reversing">reversing</a></li>
+                            <li><a href="/tags.html#tryhackme">tryhackme</a></li>
+                            <li><a href="/tags.html#vulnhub">vulnhub</a></li>
+                            <li><a href="/tags.html#vulnweekends">vulnweekends</a></li>
+                            <li><a href="/tags.html#writeup">writeup</a></li>
+                          </ul></li>
+            <li><a class="menu_stats" href="/stats.html">📊 Stats</a></li>
+          </ul>
+      </div>
+      <div class="footer footercenter"><span><a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a></span></div>
+      <script>hljs.initHighlightingOnLoad();</script>
+      <script>hljs.initLineNumbersOnLoad();</script>
+      <script>
+        function toggle(s){
+          s.classList.toggle("expanded");
+          var t=!1,i=!1,a=!1;
+          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);
+          for(var l=s.nextElementSibling;l;){
+            if(t&&l.classList.contains("h2")){
+              l.classList.toggle("active");
+              break
+            }
+            if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){
+              l.classList.toggle("active");
+              break
+            }
+            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){
+              l.classList.toggle("active");
+              break
+            }
+            l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
+          }
+        }
+      </script>
     </div>
-    <script>hljs.initHighlightingOnLoad();</script>
-    <script>hljs.initLineNumbersOnLoad();</script>
-    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
+    <div id="bgclipart"></div>
   </body>
 </html>

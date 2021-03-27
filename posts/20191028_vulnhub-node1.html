@@ -7,7 +7,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <title>मंथन | Manthan</title>
     <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.rainbow.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.invisibletree.css"/>
     <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
     <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
     <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
@@ -20,23 +20,13 @@
     <script charset="UTF-8" src="/static/js/go.min.js"></script>
    </head>
   <body>
-    <div class="header">
-      <span class="menu_left"><a class="menu_home" href="/index.html">मंथन</a></span>
-      <span class="menu_right"><table>
-        <tr>
-          <td><a class="menu_archive" href="/archive.html">Archive</a></td><td>|</td>
-          <td><a class="menu_tags" href="/tags.html">Tags</a></td><td>|</td>
-          <td><a class="menu_stats" href="/stats.html">Stats</a></td>
-        </tr>
-      </table></span>
-      <br/><br/>
-    </div>
     <div class="body">
-      <h1 class="h1 collapsible" onclick="toggle(this);">[VulnHub] Node: 1</h1>
+      <div class="content">
+          <h1 class="h1 collapsible" onclick="toggle(this);">[VulnHub] Node: 1</h1>
           <p style="float:left;"><a href="/posts/20191021_vulnhub-mrrobot1.html"> « </a>📅 published on <code>28/Oct/2019</code><a href="/posts/20191029_vulnhub-lazysysadmin1.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
-    <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/node-1,252/#">Node: 1</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_node1/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -44,7 +34,7 @@
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_node1/killchain.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
 <p class="nested">1. <code>3000/tcp/http/Node.js Express framework</code>: <a href="https://github.com/7h3rAm/writeups#exploit_nodejs">exploit_nodejs</a>, <a href="https://github.com/7h3rAm/writeups#exploit_credsreuse">exploit_credsreuse</a>, <a href="https://github.com/7h3rAm/writeups#exploit_mongodb">exploit_mongodb</a>, <a href="https://github.com/7h3rAm/writeups#privesc_setuid">privesc_setuid</a>  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
 <pre class="nested"><code># Nmap 7.70 scan initiated Tue Oct 22 14:20:26 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.node1/results/192.168.92.189/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.node1/results/192.168.92.189/scans/xml/_quick_tcp_nmap.xml 192.168.92.189
 Nmap scan report for 192.168.92.189
@@ -109,7 +99,7 @@ http://192.168.92.189:3000/api/users/
 <pre class="nested"><code>ssh: mark
 webapp: tom, mark, rastating
 </code></pre>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. We authenticate as user <code>myP14ceAdm1nAcc0uNT</code> as from the username it seems to be an administrative account. Upon successful login, we get a page to download backup. We proceed and get a plaintext file named <code>myplace.backup</code>. This file has text that looks to be Base64 encoded. Once decoded, we get a zip archive which is password encrypted. We bruteforce the password for the archive and sucessfully extract its contents:  </p>
 <pre class="nested"><code>file myplace.backup
 b64d $(cat myplace.backup) &gt;unknown
@@ -144,7 +134,7 @@ cat /home/tom/user.txt
 <p class="nested"><img alt="writeup.exploitation.steps.4.2" src="/static/files/posts_vulnhub_node1/screenshot14.png.webp" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.4.3" src="/static/files/posts_vulnhub_node1/screenshot15.png.webp" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.4.4" src="/static/files/posts_vulnhub_node1/screenshot16.png.webp" />  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested"><code>mark@node&gt; id
 uid=1001(mark) gid=1001(mark) groups=1001(mark)
 mark@node&gt;  
@@ -166,7 +156,7 @@ root
 tom
 mark
 </code></pre>
-<h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. We find an interesting <code>setuid</code> file <code>/usr/local/bin/backup</code>. This file is also referenced within the <code>app.js</code> file and we get a hint at how to execute it. We need a backup key which is also conviniently present in the <code>app.js</code> file. Alongwith this, we need to pass a filepath to backup as the third argument. We try to backup the <code>/root</code> directory but get a troll face instead. We then symlink the dircetory and successfully obtain the backup:  </p>
 <pre class="nested"><code>find / -type f -perm -04000 2&gt;/dev/null
 /usr/local/bin/backup -q '45fac180e9eee72f4fd2d9386ea7033e52b7c740afc3d98a8d0230167104d474' /root
@@ -184,7 +174,7 @@ cat tmp/test/root/root.txt
 
 </code></pre>
 <p class="nested"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_node1/screenshot22.png.webp" />  </p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
 <pre class="nested"><code>root:$6$n.BA4A59$WeIF0ZbaB3VGgAxUZqGHnw01.GhL9oVYYFioh07RpPtBl49YdMahhtbYhxUjanXf/NJXiCHBvrNhdC53P........................
 tom:$6$ptD/.gN.$n.B/5dODEQFteBwg75Ip9leeaaXSMesGbfZzoVHpZihMHfbWu45UpVZTc6razK1JLZ6817ckZhAJF776Dg.......................
@@ -198,22 +188,65 @@ webapp: myP14ceAdm1nAcc0uNT/manc......, tom/sponge..., mark/snowfl...
 <pre class="nested"><code>user.txt: e1156acc3574e04b06908ecf........
 root.txt: 1722e99ca5f353b362556a62........
 </code></pre>
-<h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested">
 <li><a href="https://www.vulnhub.com/entry/node-1,252/">https://www.vulnhub.com/entry/node-1,252/</a>  </li>
 <li><a href="https://hkh4cks.com/blog/2018/06/15/htb-node-walkthrough/">https://hkh4cks.com/blog/2018/06/15/htb-node-walkthrough/</a>  </li>
 </ul>
+    <hr>
           <p style="float:left;">« <a href="/posts/20191021_vulnhub-mrrobot1.html">[VulnHub] Mr-Robot: 1</a> «</p>
       <p style="float:right;">» <a href="/posts/20191029_vulnhub-lazysysadmin1.html">[VulnHub] LazySysAdmin: 1</a> »</p>
-        </div>
-    <div BG_CLIPART_STYLE_HERE></div>
-    <div class="footer footercenter">
-      <span>
-        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
-      </span>
+          </div>
+      <div class="menu">
+        <h1 class="h1"><a class="menu_home" href="/index.html">मंथन</a></h1>
+          <ul class="active nested">
+            <li><a class="menu_archive" href="/archive.html">💾 Archive</a><ul class="active nested">
+              <li><a href=/pages/research.html>🔬 Research</a></li>
+              <li><a href=/pages/cv.html>📄 Curriculum Vitae</a></li>
+              <li><a href=/pages/satview.html>🛰️ Satellite Views</a></li>
+              <li><a href=/pages/fitness.html>🏋️ Fitness</a></li>
+              <li><a href=/pages/life.html>🧘 Life</a></li>
+            </ul></li>
+            <li><a class="menu_tags" href="/tags.html">🔖 Tags</a><ul class="active nested">
+                            <li><a href="/tags.html#code">code</a></li>
+                            <li><a href="/tags.html#ctf">ctf</a></li>
+                            <li><a href="/tags.html#exploit">exploit</a></li>
+                            <li><a href="/tags.html#hackthebox">hackthebox</a></li>
+                            <li><a href="/tags.html#reversing">reversing</a></li>
+                            <li><a href="/tags.html#tryhackme">tryhackme</a></li>
+                            <li><a href="/tags.html#vulnhub">vulnhub</a></li>
+                            <li><a href="/tags.html#vulnweekends">vulnweekends</a></li>
+                            <li><a href="/tags.html#writeup">writeup</a></li>
+                          </ul></li>
+            <li><a class="menu_stats" href="/stats.html">📊 Stats</a></li>
+          </ul>
+      </div>
+      <div class="footer footercenter"><span><a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a></span></div>
+      <script>hljs.initHighlightingOnLoad();</script>
+      <script>hljs.initLineNumbersOnLoad();</script>
+      <script>
+        function toggle(s){
+          s.classList.toggle("expanded");
+          var t=!1,i=!1,a=!1;
+          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);
+          for(var l=s.nextElementSibling;l;){
+            if(t&&l.classList.contains("h2")){
+              l.classList.toggle("active");
+              break
+            }
+            if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){
+              l.classList.toggle("active");
+              break
+            }
+            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){
+              l.classList.toggle("active");
+              break
+            }
+            l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
+          }
+        }
+      </script>
     </div>
-    <script>hljs.initHighlightingOnLoad();</script>
-    <script>hljs.initLineNumbersOnLoad();</script>
-    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
+    <div id="bgclipart"></div>
   </body>
 </html>

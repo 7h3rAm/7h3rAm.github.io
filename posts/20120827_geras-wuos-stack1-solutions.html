@@ -7,7 +7,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <title>मंथन | Manthan</title>
     <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.rainbow.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.invisibletree.css"/>
     <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
     <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
     <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
@@ -20,23 +20,13 @@
     <script charset="UTF-8" src="/static/js/go.min.js"></script>
    </head>
   <body>
-    <div class="header">
-      <span class="menu_left"><a class="menu_home" href="/index.html">मंथन</a></span>
-      <span class="menu_right"><table>
-        <tr>
-          <td><a class="menu_archive" href="/archive.html">Archive</a></td><td>|</td>
-          <td><a class="menu_tags" href="/tags.html">Tags</a></td><td>|</td>
-          <td><a class="menu_stats" href="/stats.html">Stats</a></td>
-        </tr>
-      </table></span>
-      <br/><br/>
-    </div>
     <div class="body">
-      <h1 class="h1 collapsible" onclick="toggle(this);">Gera's Warming Up on Stack #1 - Solutions</h1>
+      <div class="content">
+          <h1 class="h1 collapsible" onclick="toggle(this);">Gera's Warming Up on Stack #1 - Solutions</h1>
           <p style="float:left;"><a href="/posts/20120710_exploit-mitigation-techniques-on-linux.html"> « </a>📅 published on <code>27/Aug/2012</code><a href="/posts/20120902_soritong-m3u-seh-overflow.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#ctf>ctf</a> and <a href=/tags.html#exploit>exploit</a></p>
     <div style="clear:both;"></div>
-    <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested">This is the part 1 in a series of posts that aim to provide an analysis and possible solutions for the vulnerable programs provided by Gerardo 'gera' Richarte at the <a href="http://pages.cs.wisc.edu/~riccardo/sec/">Insecure Programming by example</a> page.</p>
 <p class="nested">Familiarity with exploit mitigation techniques is expected to gain a proper understanding of the concepts we talk about here. If terms like <code>ASLR</code>, <code>NX</code>, <code>SSP</code>, <code>RELRO</code>, etc. seem unfamiliar, I would suggest reading the <a href="https://7h3ram.github.io/posts/20120710_exploit-mitigation-techniques-on-linux.html">Exploit Mitigation Techniques on Linux Systems</a> post that talks about these.</p>
 <p class="nested">We will start with a scenario in which most of the exploit mitigation techniques will be enabled through the default GCC compilation command-line. Since, these techniques prevent successful exploit attempts, we will incrementally turn them off until successful exploitation is achieved. This setup will allow us to witness how these individual techniques succeed in restricting exploit attempts and how their absence affects exploitation reliability.</p>
@@ -293,7 +283,7 @@ buf: bfbb8bf4 cookie: bfbb8c44
  8048467: 90                    nop
 </code></pre>
 <p class="nested">From here we can proceed to the exploitation phase.</p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Solutions</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Solutions</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Solution #1: Overflow the <code>4B</code> past buf, where the cookie is stored, with the desired value (<code>0x41424344</code> in this case)</h3>
 <p class="nested">For this solution we first need to calculate the offset between <code>buf</code> and <code>cookie</code>:</p>
 <pre class="nested"><code># ./stack1
@@ -544,19 +534,62 @@ buf: bffff4d4 cookie: bffff524
 you win!
 </code></pre>
 <p class="nested">This time just the <code>0x0a</code> was echoed back and it, as expected, corrects the exploit output. However, I could not understand this strange behavior. If you have any ideas please get back. So, we have now successfully exploited the <code>stack1</code> program through a shellcode injected into an environment variable. Please note that the use of environment variables is only possible for local exploits and as such it is not much used in common exploits that you see in the wild. However, as you have already seen, it is one of the most reliable methods of exploitation.</p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested">All these solutions are however not practical since they require disabling of recent mitigation features. They serve the purpose of understanding how exploits worked before mitigation features were introduced.</p>
+    <hr>
           <p style="float:left;">« <a href="/posts/20120710_exploit-mitigation-techniques-on-linux.html">Exploit Mitigation Techniques ...</a> «</p>
       <p style="float:right;">» <a href="/posts/20120902_soritong-m3u-seh-overflow.html">SoriTong MP3 Player .m3u File ...</a> »</p>
-        </div>
-    <div BG_CLIPART_STYLE_HERE></div>
-    <div class="footer footercenter">
-      <span>
-        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
-      </span>
+          </div>
+      <div class="menu">
+        <h1 class="h1"><a class="menu_home" href="/index.html">मंथन</a></h1>
+          <ul class="active nested">
+            <li><a class="menu_archive" href="/archive.html">💾 Archive</a><ul class="active nested">
+              <li><a href=/pages/research.html>🔬 Research</a></li>
+              <li><a href=/pages/cv.html>📄 Curriculum Vitae</a></li>
+              <li><a href=/pages/satview.html>🛰️ Satellite Views</a></li>
+              <li><a href=/pages/fitness.html>🏋️ Fitness</a></li>
+              <li><a href=/pages/life.html>🧘 Life</a></li>
+            </ul></li>
+            <li><a class="menu_tags" href="/tags.html">🔖 Tags</a><ul class="active nested">
+                            <li><a href="/tags.html#code">code</a></li>
+                            <li><a href="/tags.html#ctf">ctf</a></li>
+                            <li><a href="/tags.html#exploit">exploit</a></li>
+                            <li><a href="/tags.html#hackthebox">hackthebox</a></li>
+                            <li><a href="/tags.html#reversing">reversing</a></li>
+                            <li><a href="/tags.html#tryhackme">tryhackme</a></li>
+                            <li><a href="/tags.html#vulnhub">vulnhub</a></li>
+                            <li><a href="/tags.html#vulnweekends">vulnweekends</a></li>
+                            <li><a href="/tags.html#writeup">writeup</a></li>
+                          </ul></li>
+            <li><a class="menu_stats" href="/stats.html">📊 Stats</a></li>
+          </ul>
+      </div>
+      <div class="footer footercenter"><span><a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a></span></div>
+      <script>hljs.initHighlightingOnLoad();</script>
+      <script>hljs.initLineNumbersOnLoad();</script>
+      <script>
+        function toggle(s){
+          s.classList.toggle("expanded");
+          var t=!1,i=!1,a=!1;
+          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);
+          for(var l=s.nextElementSibling;l;){
+            if(t&&l.classList.contains("h2")){
+              l.classList.toggle("active");
+              break
+            }
+            if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){
+              l.classList.toggle("active");
+              break
+            }
+            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){
+              l.classList.toggle("active");
+              break
+            }
+            l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
+          }
+        }
+      </script>
     </div>
-    <script>hljs.initHighlightingOnLoad();</script>
-    <script>hljs.initLineNumbersOnLoad();</script>
-    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
+    <div id="bgclipart"></div>
   </body>
 </html>

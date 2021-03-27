@@ -7,7 +7,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <title>मंथन | Manthan</title>
     <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.rainbow.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.invisibletree.css"/>
     <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
     <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
     <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
@@ -20,27 +20,17 @@
     <script charset="UTF-8" src="/static/js/go.min.js"></script>
    </head>
   <body>
-    <div class="header">
-      <span class="menu_left"><a class="menu_home" href="/index.html">मंथन</a></span>
-      <span class="menu_right"><table>
-        <tr>
-          <td><a class="menu_archive" href="/archive.html">Archive</a></td><td>|</td>
-          <td><a class="menu_tags" href="/tags.html">Tags</a></td><td>|</td>
-          <td><a class="menu_stats" href="/stats.html">Stats</a></td>
-        </tr>
-      </table></span>
-      <br/><br/>
-    </div>
     <div class="body">
-      <h1 class="h1 collapsible" onclick="toggle(this);">Shellcode Detection Module in ChopShop</h1>
+      <div class="content">
+          <h1 class="h1 collapsible" onclick="toggle(this);">Shellcode Detection Module in ChopShop</h1>
           <p style="float:left;"><a href="/posts/20141127_flowinspect.html"> « </a>📅 published on <code>12/Mar/2015</code><a href="/posts/20150527_ebctf-bin100.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#code>code</a></p>
     <div style="clear:both;"></div>
-    <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested">Around an year ago I submitted a pull request to the <a href="https://github.com/MITRECND/chopshop">ChopShop</a> project from <a href="https://github.com/MITRECND">MITRECND</a>. This request included a module that enabled shellcode detection for TCP streams and UDP packets. In this post I'll show how to use this module to identify shellcode within network streams. Here's the project description:</p>
 <p class="nested"><code>ChopShop is a MITRE developed framework to aid analysts in the creation and execution of pynids based decoders and detectors of APT tradecraft.</code></p>
 <p class="nested">It provides reliable network stream reassembly via libnids and provides an API to write plugins/modules that can operate upon the reassembled network data. The project is in active development since September 2012 and numerous interesting modules have been added to it recently.</p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Patch Contribution</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Patch Contribution</h2>
 <p class="nested">Last year I submitted a <a href="https://github.com/MITRECND/chopshop/pull/29">shellcode detection module</a> that was merged in the project with few changes. This module leverages ChopShop APIs to obtain network data and inspects it using <a href="http://7h3ram.github.io/posts/20130306_libemu-shellcode-detection.html">Libemu to check if it contains shellcode</a>. I got this idea while working on one of my projects, <a href="https://7h3ram.github.io/posts/20141127_flowinspect.html">Flowinspect</a>, which includes shellcode detection and other interesting ways of identifying suspicious network traffic.</p>
 <p class="nested">To invoke ChopShop you need to provide a pcapfile as input and then a list of modules to be invoked. Each module can be provided respective arguments as well. Let's have a look at the command line invocation and usage of the shellcode module:</p>
 <pre class="nested"><code>$ ./chopshop -f ~/toolbox/testfiles/pcaps/shellcode/shellcode-winexec-calc.pcap &quot;shellcode_detector -xp&quot;
@@ -79,19 +69,62 @@ Module Shutdown Complete ...
 ChopShop Complete
 </code></pre>
 <p class="nested">In the above example, ChopShop was invoked to execute the <code>shellcode_detector</code> module with its <code>-p</code> and <code>-x</code> arguments. The output confirms that shellcode was found in the STC stream of input pcap at offset 107. The module then display a hexdump of shellcode bytes as well as a profiled output highlighting the Windows API calls, arguments and their return types. This output is extremely useful as it tells that the shellcode will spawn a <code>calc.exe</code> process if it is successfully deployed on the victim system.</p>
-<h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
+<br/><h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested">You can also have a look at the module <a href="https://github.com/MITRECND/chopshop/blob/master/modules/shellcode_detector.py">sourcecode</a>. I would strongly recommend reading the <a href="https://github.com/MITRECND/chopshop/tree/master/docs/chopshop_docs">project documentation</a> to familiarize yourself with architecture and terminology. Also checkout the <a href="https://github.com/MITRECND/chopshop/blob/master/docs/chopshop_docs/module_authoring.md">module authoring documentation</a> and <a href="http://www.mitre.org/capabilities/cybersecurity/overview/cybersecurity-blog/how-chopshop-modules-work">this</a> amazing post by <a href="https://github.com/wxsBSD">Wesley Shields</a>, who is one of the project authors, if you wish to write your own modules.</p>
+    <hr>
           <p style="float:left;">« <a href="/posts/20141127_flowinspect.html">Flowinspect: A Network Inspect...</a> «</p>
       <p style="float:right;">» <a href="/posts/20150527_ebctf-bin100.html">Eindbazen CTF Challenge: bin10...</a> »</p>
-        </div>
-    <div BG_CLIPART_STYLE_HERE></div>
-    <div class="footer footercenter">
-      <span>
-        <a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a>
-      </span>
+          </div>
+      <div class="menu">
+        <h1 class="h1"><a class="menu_home" href="/index.html">मंथन</a></h1>
+          <ul class="active nested">
+            <li><a class="menu_archive" href="/archive.html">💾 Archive</a><ul class="active nested">
+              <li><a href=/pages/research.html>🔬 Research</a></li>
+              <li><a href=/pages/cv.html>📄 Curriculum Vitae</a></li>
+              <li><a href=/pages/satview.html>🛰️ Satellite Views</a></li>
+              <li><a href=/pages/fitness.html>🏋️ Fitness</a></li>
+              <li><a href=/pages/life.html>🧘 Life</a></li>
+            </ul></li>
+            <li><a class="menu_tags" href="/tags.html">🔖 Tags</a><ul class="active nested">
+                            <li><a href="/tags.html#code">code</a></li>
+                            <li><a href="/tags.html#ctf">ctf</a></li>
+                            <li><a href="/tags.html#exploit">exploit</a></li>
+                            <li><a href="/tags.html#hackthebox">hackthebox</a></li>
+                            <li><a href="/tags.html#reversing">reversing</a></li>
+                            <li><a href="/tags.html#tryhackme">tryhackme</a></li>
+                            <li><a href="/tags.html#vulnhub">vulnhub</a></li>
+                            <li><a href="/tags.html#vulnweekends">vulnweekends</a></li>
+                            <li><a href="/tags.html#writeup">writeup</a></li>
+                          </ul></li>
+            <li><a class="menu_stats" href="/stats.html">📊 Stats</a></li>
+          </ul>
+      </div>
+      <div class="footer footercenter"><span><a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a></span></div>
+      <script>hljs.initHighlightingOnLoad();</script>
+      <script>hljs.initLineNumbersOnLoad();</script>
+      <script>
+        function toggle(s){
+          s.classList.toggle("expanded");
+          var t=!1,i=!1,a=!1;
+          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);
+          for(var l=s.nextElementSibling;l;){
+            if(t&&l.classList.contains("h2")){
+              l.classList.toggle("active");
+              break
+            }
+            if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){
+              l.classList.toggle("active");
+              break
+            }
+            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){
+              l.classList.toggle("active");
+              break
+            }
+            l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
+          }
+        }
+      </script>
     </div>
-    <script>hljs.initHighlightingOnLoad();</script>
-    <script>hljs.initLineNumbersOnLoad();</script>
-    <script>function toggle(s){s.classList.toggle("expanded");var t=!1,i=!1,a=!1;s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);for(var l=s.nextElementSibling;l;){if(t&&l.classList.contains("h2")){l.classList.toggle("active");break}if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){l.classList.toggle("active");break}if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){l.classList.toggle("active");break}l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling}}</script>
+    <div id="bgclipart"></div>
   </body>
 </html>

@@ -15,7 +15,7 @@ Here's the killchain (`enumeration` → `exploitation` → `privilege escalation
 ![writeup.overview.killchain](/static/files/posts_vulnhub_infosecpreposcp/killchain.png.webp)
 
 ### TTPs
-1\. `80/tcp/http/Apache httpd 2.4.41 ((Ubuntu))`: [enumerate_proto_http](https://github.com/7h3rAm/writeups#enumerate_proto_http), [exploit_ssh_privatekeys](https://github.com/7h3rAm/writeups#exploit_ssh_privatekeys), [privesc_lxc_bash](https://github.com/7h3rAm/writeups#privesc_lxc_bash)  
+* `80/tcp/http/Apache httpd 2.4.41 ((Ubuntu))`: [enumerate_proto_http](https://github.com/7h3rAm/writeups#enumerate_proto_http), [exploit_ssh_privatekeys](https://github.com/7h3rAm/writeups#exploit_ssh_privatekeys), [privesc_lxc_bash](https://github.com/7h3rAm/writeups#privesc_lxc_bash)
 
 ## Phase #1: Enumeration
 1\. Here's the Nmap scan result:  
@@ -67,21 +67,17 @@ curl http://192.168.119.198/secret.txt | base64 -d -
 
 ### Findings
 #### Open Ports
-```
-22/tcp      ssh        OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 (Ubuntu Linux protocol 2.0)
-80/tcp      http       Apache httpd 2.4.41 ((Ubuntu))
-33060/tcp   socks5
-```
+* `22/tcp      ssh        OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 (Ubuntu Linux protocol 2.0)`
+* `80/tcp      http       Apache httpd 2.4.41 ((Ubuntu))`
+* `33060/tcp   socks5`
+
 #### Files
-```
-http://192.168.119.198/secret.txt
-http://192.168.119.198/license.txt
-```
+* `http://192.168.119.198/secret.txt`
+* `http://192.168.119.198/license.txt`
+
 #### Users
-```
-ssh: oscp
-wordpress: admin
-```
+* `ssh: oscp`
+* `wordpress: admin`
 
 ## Phase #2: Exploitation
 1\. We can try to SSH into the machine as user `oscp` using the SSH private key file. First, we need to set right permissions to the key file and then use it for login:  
@@ -162,19 +158,15 @@ lxc init ubuntu:16.04 test -c security.privileged=true
 
 ## Loot
 ### Hashes
-```
-oscp:$6$k8OEgwaFdUqpVETQ$sKlBojI3IYunw8wEDAyoFdHgVtOPzkDPqksql7IWzpfZXpd3UqP569BokTZ52mDroq/rmJY9zgfeQVmB.........................
-root:$6$.wvqHr9ixq/hDW8t$a/dHKimULfr5rJTDlS7uoUanuJB2YUUkh.LWSKF7kTNp4aL8UTlOk2wT8IkAgJ.vDF/ThSIOegsuclEg.........................
-```
+* `oscp:$6$k8OEgwaFdUqpVETQ$sKlBojI3IYunw8wEDAyoFdHgVtOPzkDPqksql7IWzpfZXpd3UqP569BokTZ52mDroq/rmJY9zgfeQVmB.........................`
+* `root:$6$.wvqHr9ixq/hDW8t$a/dHKimULfr5rJTDlS7uoUanuJB2YUUkh.LWSKF7kTNp4aL8UTlOk2wT8IkAgJ.vDF/ThSIOegsuclEg.........................`
+
 ### Credentials
-```
-mysql: wordpress/Oscp12....
-wordpress: admin:$P$Bx9ohXoCVR5lkKtuQbuWuh2........
-```
+* `mysql: wordpress/Oscp12....`
+* `wordpress: admin:$P$Bx9ohXoCVR5lkKtuQbuWuh2........`
+
 ### Flags
-```
-/mnt/root/root/flag.txt: d73b04b0e696b0945283d...........
-```
+* `/mnt/root/root/flag.txt: d73b04b0e696b0945283d...........`
 
 ## References
 * <https://www.vulnhub.com/entry/infosec-prep-oscp,508/>  
