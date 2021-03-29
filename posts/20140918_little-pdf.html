@@ -27,10 +27,10 @@
         <p style="float:right;">🔖 tagged <a href=/tags.html#ctf>ctf</a> and <a href=/tags.html#reversing>reversing</a></p>
     <div style="clear:both;"></div>
     <hr><h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
-<p class="nested">While reading an article about <a href="http://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/">Physical and Logical Structure of PDF Files</a> on Didier Stevens's blog, I came across an interesting <a href="http://blog.didierstevens.com/2008/05/06/a-little-pdf-puzzle/">puzzle</a>. You can download the <a href="/static/files/posts_little_pdf/pdf-puzzle.pdf">file</a> to follow along or read the <a href="http://blog.didierstevens.com/2008/05/07/solving-a-little-pdf-puzzle/">writeup</a> from the author itself.</p>
+<p class="nested active">While reading an article about <a href="http://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/">Physical and Logical Structure of PDF Files</a> on Didier Stevens's blog, I came across an interesting <a href="http://blog.didierstevens.com/2008/05/06/a-little-pdf-puzzle/">puzzle</a>. You can download the <a href="/static/files/posts_little_pdf/pdf-puzzle.pdf">file</a> to follow along or read the <a href="http://blog.didierstevens.com/2008/05/07/solving-a-little-pdf-puzzle/">writeup</a> from the author itself.</p>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">Challenge Analysis and Testing</h2>
-<p class="nested">Still here, great! Let's get started. First thing is to check what <code>exiftool</code> has to tell us about this file:</p>
-<pre class="nested"><code>$ exiftool pdf-puzzle.pdf
+<p class="nested active">Still here, great! Let's get started. First thing is to check what <code>exiftool</code> has to tell us about this file:</p>
+<pre class="nested active"><code>$ exiftool pdf-puzzle.pdf
 ExifTool Version Number         : 9.46
 File Name                       : pdf-puzzle.pdf
 Directory                       : .
@@ -45,12 +45,12 @@ PDF Version                     : 1.1
 Linearized                      : No
 Page Count                      : 1
 </code></pre>
-<p class="nested">All these attributes look standard and nothing suspicious pops out in the output. The author, Didier Stevens, hints that it is a simple challenge and can be solved using just Notepad or a standard PDF reader. Let's view contents of this file in a text editor:</p>
-<p class="nested"><img alt="littlepdf-texteditor" src="/static/files/posts_little_pdf/littlepdf-texteditor.png.webp" /></p>
-<p class="nested">If you have not read Didier Stevens's <a href="http://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/">Physical and Logical Structure of PDF Files</a> post I strongly recommend reading it before reading further. It will help you identify something out of the ordinary in above output. There are two copies of xref table and trailer in this file hinting that it is probably a PDF with <a href="https://en.wikipedia.org/wiki/Portable_Document_Format#File_structure">Incremental Updates</a>. The new content (after the first <code>%%EOF</code>) has redefined object 5 and updated the xref table to help renders know its new offset. If you open this file in a PDF viewer, you will see something like this:</p>
-<p class="nested"><img alt="littlepdf-pdfjs" src="/static/files/posts_little_pdf/littlepdf-pdfjs.png.webp" /></p>
-<p class="nested">The reader is using updated object and renders its content, thus overriding the older object definition. Since both object definitions contain <code>ASCII85Decode</code> encoded streams, we can manually decode and look at the raw content:</p>
-<pre class="nested"><code class="language-python">$ ipython --no-banner
+<p class="nested active">All these attributes look standard and nothing suspicious pops out in the output. The author, Didier Stevens, hints that it is a simple challenge and can be solved using just Notepad or a standard PDF reader. Let's view contents of this file in a text editor:</p>
+<p class="nested active"><img alt="littlepdf-texteditor" src="/static/files/posts_little_pdf/littlepdf-texteditor.png.webp" /></p>
+<p class="nested active">If you have not read Didier Stevens's <a href="http://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/">Physical and Logical Structure of PDF Files</a> post I strongly recommend reading it before reading further. It will help you identify something out of the ordinary in above output. There are two copies of xref table and trailer in this file hinting that it is probably a PDF with <a href="https://en.wikipedia.org/wiki/Portable_Document_Format#File_structure">Incremental Updates</a>. The new content (after the first <code>%%EOF</code>) has redefined object 5 and updated the xref table to help renders know its new offset. If you open this file in a PDF viewer, you will see something like this:</p>
+<p class="nested active"><img alt="littlepdf-pdfjs" src="/static/files/posts_little_pdf/littlepdf-pdfjs.png.webp" /></p>
+<p class="nested active">The reader is using updated object and renders its content, thus overriding the older object definition. Since both object definitions contain <code>ASCII85Decode</code> encoded streams, we can manually decode and look at the raw content:</p>
+<pre class="nested active"><code class="language-python">$ ipython --no-banner
 
 &gt;&gt;&gt; import ascii85
 &gt;&gt;&gt;
@@ -62,7 +62,7 @@ Page Count                      : 1
 &gt;&gt;&gt;
 </code></pre>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
-<p class="nested">Awesome! The older object stream, when decoded (I'm using the ascii85 decoder from <a href="https://github.com/euske/pdfminer/blob/master/pdfminer/ascii85.py">pdfminer</a>), shows the passphrase. As suggested by Didier Stevens in his <a href="http://blog.didierstevens.com/2008/05/07/solving-a-little-pdf-puzzle/">writeup</a>, you could also remove the updated object content and xref table from the file to view the passphrase.</p>
+<p class="nested active">Awesome! The older object stream, when decoded (I'm using the ascii85 decoder from <a href="https://github.com/euske/pdfminer/blob/master/pdfminer/ascii85.py">pdfminer</a>), shows the passphrase. As suggested by Didier Stevens in his <a href="http://blog.didierstevens.com/2008/05/07/solving-a-little-pdf-puzzle/">writeup</a>, you could also remove the updated object content and xref table from the file to view the passphrase.</p>
     <hr>
           <p style="float:left;">« <a href="/posts/20140618_pcapgentools-contentype-patch.html">PCAP-GenerationTools and Conte...</a> «</p>
       <p style="float:right;">» <a href="/posts/20141115_pcapedit.html">pcapedit: An Interactive Scapy...</a> »</p>

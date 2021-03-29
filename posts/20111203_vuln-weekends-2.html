@@ -27,59 +27,59 @@
         <p style="float:right;">🔖 tagged <a href=/tags.html#vulnweekends>vulnweekends</a></p>
     <div style="clear:both;"></div>
     <hr><h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
-<p class="nested">Report #2A analyzes the GNU GDB code execution vulnerability. Although online reports indicate that various vendors were aware of this vulnerability as early as April 2011 and are still involved in its resolution, there has been no official confirmation.</p>
-<p class="nested">Report #2B provides an analysis for the acclaimed Intel VT-d chipsets privilege escalation vulnerability. Xen has confirmed this vulnerability and has released two patches that either disallow the virtual machine to boot if its using the vulnerable configuration or narrows down the scope of this vulnerability to a denial of service.</p>
+<p class="nested active">Report #2A analyzes the GNU GDB code execution vulnerability. Although online reports indicate that various vendors were aware of this vulnerability as early as April 2011 and are still involved in its resolution, there has been no official confirmation.</p>
+<p class="nested active">Report #2B provides an analysis for the acclaimed Intel VT-d chipsets privilege escalation vulnerability. Xen has confirmed this vulnerability and has released two patches that either disallow the virtual machine to boot if its using the vulnerable configuration or narrows down the scope of this vulnerability to a denial of service.</p>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">Vulnerability Report #2A: GNU GDB Insecure Scripts Processing Arbitrary Code Execution Vulnerability</h2>
-<p class="nested"><strong>Vulnerable Product</strong>: Installations of GDB with versions 7.3.1 and prior.</p>
-<p class="nested"><strong>CVE ID</strong>: <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-4355">CVE-2011-4355</a></p>
-<p class="nested"><strong>CVSS V2 Score</strong>:<br />
+<p class="nested active"><strong>Vulnerable Product</strong>: Installations of GDB with versions 7.3.1 and prior.</p>
+<p class="nested active"><strong>CVE ID</strong>: <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-4355">CVE-2011-4355</a></p>
+<p class="nested active"><strong>CVSS V2 Score</strong>:<br />
 <strong>Access Vector</strong>: LOCAL<br />
 <strong>Access Complexity</strong>: MEDIUM<br />
 <strong>Authentication</strong>: SINGLE  </p>
-<p class="nested"><strong>Confidentiality Impact</strong>: PARTIAL<br />
+<p class="nested active"><strong>Confidentiality Impact</strong>: PARTIAL<br />
 <strong>Integrity Impact</strong>: PARTIAL<br />
 <strong>Availability Impact</strong>: PARTIAL<br />
 <strong>Base Score</strong>: 4.1  </p>
-<p class="nested"><strong>Exploitability</strong>: UNPROVEN<br />
+<p class="nested active"><strong>Exploitability</strong>: UNPROVEN<br />
 <strong>Remediation Level</strong>: UNAVAILABLE<br />
 <strong>Report Confidence</strong>: UNCORROBORATED<br />
 <strong>Temporal Score</strong>: 3.3  </p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Details</h3>
-<p class="nested">GDB, the GNU Project debugger, is one of the most valuable tools available for understanding the internals of a program. The debugger provides a wide array of options for its users to explore. One such option, however, could allow an authenticated attacker to execute arbitrary code on the targeted system.</p>
-<p class="nested">The vulnerable debugger fails to perform sufficient sanitization on user-supplied input received via malicious Executable and Linkable Format (ELF) or Common Object File Format (COFF) files.</p>
-<p class="nested">The vulnerable debugger looks for a special <code>.debug_gdb_scripts</code> section within such object files to obtain a list of scripts that are to be executed. The standard local file lookup procedure, which includes searching for the specified filename within the current directory and then through each of the file locations specified within the system path, is used to search for the specified script.</p>
-<p class="nested">Since, the validity of such user-specified scripts is not taken into account before executing them, this feature could allow an attacker who has obtained privileged access to an enterprise system to execute arbitrary code. The attacker could install malicious scripts within the current directory or within one of the standard file search paths and then reference them using the vulnerable option from a crafted object file. When the vulnerable debugger initiates a debug operation on such object files, it could encounter the option and execute the requested scripts with the privileges of the user.</p>
-<p class="nested">The vendor, GNU, has not yet confirmed this vulnerability and as such there are no official patches or updates available for this vulnerability. Users are requested to get in touch with the vendor to obtain patches/updates for their installations.</p>
+<p class="nested active">GDB, the GNU Project debugger, is one of the most valuable tools available for understanding the internals of a program. The debugger provides a wide array of options for its users to explore. One such option, however, could allow an authenticated attacker to execute arbitrary code on the targeted system.</p>
+<p class="nested active">The vulnerable debugger fails to perform sufficient sanitization on user-supplied input received via malicious Executable and Linkable Format (ELF) or Common Object File Format (COFF) files.</p>
+<p class="nested active">The vulnerable debugger looks for a special <code>.debug_gdb_scripts</code> section within such object files to obtain a list of scripts that are to be executed. The standard local file lookup procedure, which includes searching for the specified filename within the current directory and then through each of the file locations specified within the system path, is used to search for the specified script.</p>
+<p class="nested active">Since, the validity of such user-specified scripts is not taken into account before executing them, this feature could allow an attacker who has obtained privileged access to an enterprise system to execute arbitrary code. The attacker could install malicious scripts within the current directory or within one of the standard file search paths and then reference them using the vulnerable option from a crafted object file. When the vulnerable debugger initiates a debug operation on such object files, it could encounter the option and execute the requested scripts with the privileges of the user.</p>
+<p class="nested active">The vendor, GNU, has not yet confirmed this vulnerability and as such there are no official patches or updates available for this vulnerability. Users are requested to get in touch with the vendor to obtain patches/updates for their installations.</p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Vulnerability Sources</h3>
-<p class="nested"><a href="http://www.securityfocus.com/bid/50829">bid:50829</a><br />
+<p class="nested active"><a href="http://www.securityfocus.com/bid/50829">bid:50829</a><br />
 <a href="https://bugzilla.redhat.com/show_bug.cgi?id=703238">redhat:703238</a>  </p>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">Vulnerability Report #2B: Intel VT-d MSI Traps Injection Using PCI Passthrough Privilege Escalation Vulnerability</h2>
-<p class="nested"><strong>Vulnerable Product</strong>: Installations of Xen with versions 4.1.2 and prior.</p>
-<p class="nested"><strong>CVE ID</strong>: <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-1898">CVE-2011-1898</a></p>
-<p class="nested"><strong>CVSS V2 Score</strong>:<br />
+<p class="nested active"><strong>Vulnerable Product</strong>: Installations of Xen with versions 4.1.2 and prior.</p>
+<p class="nested active"><strong>CVE ID</strong>: <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-1898">CVE-2011-1898</a></p>
+<p class="nested active"><strong>CVSS V2 Score</strong>:<br />
 <strong>Access Vector</strong>: LOCAL<br />
 <strong>Access Complexity</strong>: MEDIUM<br />
 <strong>Authentication</strong>: SINGLE  </p>
-<p class="nested"><strong>Confidentiality Impact</strong>: COMPLETE<br />
+<p class="nested active"><strong>Confidentiality Impact</strong>: COMPLETE<br />
 <strong>Integrity Impact</strong>: COMPLETE<br />
 <strong>Availability Impact</strong>: COMPLETE<br />
 <strong>Base Score</strong>: 6.6  </p>
-<p class="nested"><strong>Exploitability</strong>: UNPROVEN<br />
+<p class="nested active"><strong>Exploitability</strong>: UNPROVEN<br />
 <strong>Remediation Level</strong>: OFFICIAL FIX<br />
 <strong>Report Confidence</strong>: CONFIRMED<br />
 <strong>Temporal Score</strong>: 4.9  </p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Details</h3>
-<p class="nested">Xen, a Virtual Machine Monitor (VMM), contains a vulnerability which an authenticated attacker could leverage to gain elevated privileges on the targeted system.</p>
-<p class="nested">The vulnerable hypervisor fails to restrict a guest virtual machine, that has ownership of a PCI device, to edit the interrupt injection registers via Direct Memory Access (DMA) and trigger abrupt Message Signaled Interrupts (MSIs). This flaw could allow the attacker to inject arbitrary traps and gain privileged access on the host system.</p>
-<p class="nested">Target platforms that support PCI passthrough to make certain PCI devices accessible within guest virtual machines and have the Interrupt Remapping feature either disabled or unsupported are exposed to this vulnerability.</p>
-<p class="nested">An authenticated attacker who has sufficient privileges to execute a virtual machine, that has access to certain PCI devices, could exploit this vulnerability on the vulnerable platforms. Newer Intel chipsets include support for Interrupt Remapping and as such are immune to this vulnerability. However there is still a huge userbase for older, vulnerable hardware that makes this vulnerability critical.</p>
-<p class="nested">The vendor, Xen, has confirmed this vulnerability and provided official patches to mitigate this vulnerability. Users are however informed that though official patches mitigate this vulnerability, the attacker could still cause a denial of service condition on the targeted system. The only available solution would be to either enable the <code>Interrupt Remapping</code> feature or upgrade to a hardware platform that supports it.</p>
+<p class="nested active">Xen, a Virtual Machine Monitor (VMM), contains a vulnerability which an authenticated attacker could leverage to gain elevated privileges on the targeted system.</p>
+<p class="nested active">The vulnerable hypervisor fails to restrict a guest virtual machine, that has ownership of a PCI device, to edit the interrupt injection registers via Direct Memory Access (DMA) and trigger abrupt Message Signaled Interrupts (MSIs). This flaw could allow the attacker to inject arbitrary traps and gain privileged access on the host system.</p>
+<p class="nested active">Target platforms that support PCI passthrough to make certain PCI devices accessible within guest virtual machines and have the Interrupt Remapping feature either disabled or unsupported are exposed to this vulnerability.</p>
+<p class="nested active">An authenticated attacker who has sufficient privileges to execute a virtual machine, that has access to certain PCI devices, could exploit this vulnerability on the vulnerable platforms. Newer Intel chipsets include support for Interrupt Remapping and as such are immune to this vulnerability. However there is still a huge userbase for older, vulnerable hardware that makes this vulnerability critical.</p>
+<p class="nested active">The vendor, Xen, has confirmed this vulnerability and provided official patches to mitigate this vulnerability. Users are however informed that though official patches mitigate this vulnerability, the attacker could still cause a denial of service condition on the targeted system. The only available solution would be to either enable the <code>Interrupt Remapping</code> feature or upgrade to a hardware platform that supports it.</p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Vulnerability Sources</h3>
-<p class="nested"><a href="http://old-list-archives.xen.org/archives/html/xen-devel/2011-05/msg00687.html">xen:00687</a><br />
+<p class="nested active"><a href="http://old-list-archives.xen.org/archives/html/xen-devel/2011-05/msg00687.html">xen:00687</a><br />
 <a href="https://bugzilla.redhat.com/show_bug.cgi?id=715555">redhat:715555</a><br />
 <a href="http://www.securityfocus.com/bid/48515">bid:48515</a>  </p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Generic Sources</h3>
-<p class="nested"><a href="http://cve.mitre.org">cve.mitre.org</a><br />
+<p class="nested active"><a href="http://cve.mitre.org">cve.mitre.org</a><br />
 <a href="http://www.first.org/cvss/cvss-guide.html">cvss-guide</a><br />
 <a href="http://nvd.nist.gov/cvss.cfm?calculator&amp;adv&amp;version=2">cvss-calculator</a>  </p>
     <hr>

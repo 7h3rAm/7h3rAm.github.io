@@ -27,10 +27,10 @@
         <p style="float:right;">🔖 tagged <a href=/tags.html#code>code</a> and <a href=/tags.html#exploit>exploit</a></p>
     <div style="clear:both;"></div>
     <hr><h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
-<p class="nested">SoriTong MP3 Player version 1.0 is prone to a SEH overflow vulnerability. Processing specially-crafted <code>.m3u</code> file could trigger a SEH overwrite that could be leveraged further to gain arbitrary code execution. The exploit for this vulnerability has been documented at <a href="http://www.exploit-db.com/exploits/8624/">EDB: 8624</a></p>
+<p class="nested active">SoriTong MP3 Player version 1.0 is prone to a SEH overflow vulnerability. Processing specially-crafted <code>.m3u</code> file could trigger a SEH overwrite that could be leveraged further to gain arbitrary code execution. The exploit for this vulnerability has been documented at <a href="http://www.exploit-db.com/exploits/8624/">EDB: 8624</a></p>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">Exploit Code</h2>
-<p class="nested">Here is a complete rewrite of this exploit:</p>
-<pre class="nested"><code class="language-python">from struct import *
+<p class="nested active">Here is a complete rewrite of this exploit:</p>
+<pre class="nested active"><code class="language-python">from struct import *
 
 file = &quot;edb8624.m3u&quot;
 

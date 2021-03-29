@@ -27,28 +27,28 @@
         <p style="float:right;">🔖 tagged <a href=/tags.html#vulnweekends>vulnweekends</a></p>
     <div style="clear:both;"></div>
     <hr><h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
-<p class="nested">Report #5A analyzes the MIT Kerberos Telnet remote, privileged code execution vulnerability. This vulnerability has been identified within the MIT Kerberos based Telnet installations that are provided with FreeBSD, GNU inetutils, etc.</p>
-<p class="nested">Report #5B analyzes the VLC TiVo file parser arbitrary code execution vulnerability.</p>
+<p class="nested active">Report #5A analyzes the MIT Kerberos Telnet remote, privileged code execution vulnerability. This vulnerability has been identified within the MIT Kerberos based Telnet installations that are provided with FreeBSD, GNU inetutils, etc.</p>
+<p class="nested active">Report #5B analyzes the VLC TiVo file parser arbitrary code execution vulnerability.</p>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">Vulnerability Report #5A: MIT <code>krb5-appl</code> Telnet Client and Server <code>encrypt_keyid()</code> Remote Code Execution Vulnerability</h2>
-<p class="nested"><strong>Vulnerable Product</strong>: Installations of MIT krb5-appl derived telnet utilities prior to krb5-1.8</p>
-<p class="nested"><strong>CVE ID</strong>: <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-4862">CVE-2011-4862</a></p>
-<p class="nested"><strong>CVSS v2 Score</strong>:<br />
+<p class="nested active"><strong>Vulnerable Product</strong>: Installations of MIT krb5-appl derived telnet utilities prior to krb5-1.8</p>
+<p class="nested active"><strong>CVE ID</strong>: <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-4862">CVE-2011-4862</a></p>
+<p class="nested active"><strong>CVSS v2 Score</strong>:<br />
 <strong>Access Vector</strong>: NETWORK<br />
 <strong>Access Complexity</strong>: LOW<br />
 <strong>Authentication</strong>: NONE  </p>
-<p class="nested"><strong>Confidentiality Impact</strong>: COMPLETE<br />
+<p class="nested active"><strong>Confidentiality Impact</strong>: COMPLETE<br />
 <strong>Integrity Impact</strong>: COMPLETE<br />
 <strong>Availability Impact</strong>: COMPLETE<br />
 <strong>Base Score</strong>: 10.0  </p>
-<p class="nested"><strong>Exploitability</strong>: FUNCTIONAL<br />
+<p class="nested active"><strong>Exploitability</strong>: FUNCTIONAL<br />
 <strong>Remediation Level</strong>: OFFICIAL FIX<br />
 <strong>Report Confidence</strong>: CONFIRMED<br />
 <strong>Temporal Score</strong>: 8.3  </p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Details</h3>
-<p class="nested">MIT <code>krb5-appl</code> has been reported to contain a vulnerability that could be leveraged by a remote attacker to execute arbitrary code on the targeted system. The vulnerability has been reported in the code responsible for handling Kerberos based authentication mechanism.</p>
-<p class="nested">The vulnerability was introduced when BSD telnet daemon and client utilities included support for cryptographic security via MIT Kerberos based authentication mechanism. This code was further included within FreeBSD and GNU inetutils making these vulnerable as well.</p>
-<p class="nested">The vulnerability allows a pre-authentication memory corruption error that could be triggered remotely by submitting an arbitrarily long encryption key to the target system. Specifically, the vulnerability exists within the <code>encrypt_keyid()</code> function of the <code>encrypt.c</code> source file of the affected software:</p>
-<pre class="nested"><code class="language-c">static void
+<p class="nested active">MIT <code>krb5-appl</code> has been reported to contain a vulnerability that could be leveraged by a remote attacker to execute arbitrary code on the targeted system. The vulnerability has been reported in the code responsible for handling Kerberos based authentication mechanism.</p>
+<p class="nested active">The vulnerability was introduced when BSD telnet daemon and client utilities included support for cryptographic security via MIT Kerberos based authentication mechanism. This code was further included within FreeBSD and GNU inetutils making these vulnerable as well.</p>
+<p class="nested active">The vulnerability allows a pre-authentication memory corruption error that could be triggered remotely by submitting an arbitrarily long encryption key to the target system. Specifically, the vulnerability exists within the <code>encrypt_keyid()</code> function of the <code>encrypt.c</code> source file of the affected software:</p>
+<pre class="nested active"><code class="language-c">static void
 encrypt_keyid(struct key_info *kp, unsigned char *keyid, int len)
 {
    ...
@@ -63,8 +63,8 @@ encrypt_keyid(struct key_info *kp, unsigned char *keyid, int len)
     ...
 }
 </code></pre>
-<p class="nested">The vulnerable source file defines the following structure to keep record of the encryption state:</p>
-<pre class="nested"><code class="language-c">#define   MAXKEYLEN 64
+<p class="nested active">The vulnerable source file defines the following structure to keep record of the encryption state:</p>
+<pre class="nested active"><code class="language-c">#define   MAXKEYLEN 64
 
 static struct key_info {
     unsigned char keyid[MAXKEYLEN];
@@ -77,32 +77,32 @@ static struct key_info {
     { { 0 }, 0, DIR_DECRYPT, &amp;decrypt_mode, finddecryption },
 };
 </code></pre>
-<p class="nested">However, the vulnerable function fails to impose sufficient boundary restrictions on user-supplied encryption keys and copies those into <code>keyinfo</code> structure without honoring the <code>MAXKEYLEN</code> constant via a <code>memcpy</code> operation. This could cause a heap-based buffer overflow error, leading to the memory corruption error.</p>
-<p class="nested">Successful exploitation could allow the attacker to leverage the memory corruption error to execute arbitrary code on the targeted system with the privileges of the affected software. Failed exploit attempts could result in a denial of service condition on the targeted system.</p>
+<p class="nested active">However, the vulnerable function fails to impose sufficient boundary restrictions on user-supplied encryption keys and copies those into <code>keyinfo</code> structure without honoring the <code>MAXKEYLEN</code> constant via a <code>memcpy</code> operation. This could cause a heap-based buffer overflow error, leading to the memory corruption error.</p>
+<p class="nested active">Successful exploitation could allow the attacker to leverage the memory corruption error to execute arbitrary code on the targeted system with the privileges of the affected software. Failed exploit attempts could result in a denial of service condition on the targeted system.</p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Vulnerability Sources</h3>
-<p class="nested"><a href="http://www.securityfocus.com/bid/51182">bid:51182</a><br />
+<p class="nested active"><a href="http://www.securityfocus.com/bid/51182">bid:51182</a><br />
 <a href="http://web.mit.edu/kerberos/advisories/MITKRB5-SA-2011-008.txt">kerberos:2011-008</a><br />
 <a href="http://security.freebsd.org/advisories/FreeBSD-SA-11:08.telnetd.asc">freebsd:11-08</a><br />
 <a href="https://bugzilla.redhat.com/show_bug.cgi?id=770325">redhat:770325</a><br />
 <a href="http://osvdb.org/78020">osvdb:78020</a>  </p>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">Vulnerability Report #5B: VLC <code>.TY (TiVo)</code> File Parser Arbitrary Code Execution Vulnerability</h2>
-<p class="nested"><strong>Vulnerable Product</strong>: Installations of VLC Media Player with versions 0.9.0 through 1.1.12</p>
-<p class="nested"><strong>CVE ID</strong>: NA</p>
-<p class="nested"><strong>CVSS v2 Score</strong>:<br />
+<p class="nested active"><strong>Vulnerable Product</strong>: Installations of VLC Media Player with versions 0.9.0 through 1.1.12</p>
+<p class="nested active"><strong>CVE ID</strong>: NA</p>
+<p class="nested active"><strong>CVSS v2 Score</strong>:<br />
 <strong>Access Vector</strong>: NETWORK<br />
 <strong>Access Complexity</strong>: MEDIUM<br />
 <strong>Authentication</strong>: NONE  </p>
-<p class="nested"><strong>Confidentiality Impact</strong>: COMPLETE<br />
+<p class="nested active"><strong>Confidentiality Impact</strong>: COMPLETE<br />
 <strong>Integrity Impact</strong>: COMPLETE<br />
 <strong>Availability Impact</strong>: COMPLETE<br />
 <strong>Base Score</strong>: 9.3  </p>
-<p class="nested"><strong>Exploitability</strong>: UNPROVEN<br />
+<p class="nested active"><strong>Exploitability</strong>: UNPROVEN<br />
 <strong>Remediation Level</strong>: OFFICIAL FIX<br />
 <strong>Report Confidence</strong>: CONFIRMED<br />
 <strong>Temporal Score</strong>:6.9  </p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Details</h3>
-<p class="nested">VLC Media Player has been reported to contain a vulnerability that could allow a remote attacker to execute arbitrary code on the targeted system. The vulnerability is introduced by the <code>libty_plugin</code> that helps parsing of <code>.ty</code> files.</p>
-<pre class="nested"><code class="language-c">struct demux_sys_t
+<p class="nested active">VLC Media Player has been reported to contain a vulnerability that could allow a remote attacker to execute arbitrary code on the targeted system. The vulnerability is introduced by the <code>libty_plugin</code> that helps parsing of <code>.ty</code> files.</p>
+<pre class="nested active"><code class="language-c">struct demux_sys_t
 {
 ...
 ty_rec_hdr_t    *rec_hdrs;          /* record headers array */
@@ -111,8 +111,8 @@ int             i_num_recs;         /* number of recs in this chunk */
 ...
 };
 </code></pre>
-<p class="nested">The vulnerability exists due to an implementation flaw within the <code>get_chunk_header()</code> function of the <code>ty.c</code> source file of the vulnerable plugin. The vulnerable plugin improperly handles the record headers array, <code>rec_hdrs</code>, corrupting heap structures in the memory.</p>
-<pre class="nested"><code class="language-c">diff --git a/modules/demux/ty.c b/modules/demux/ty.c
+<p class="nested active">The vulnerability exists due to an implementation flaw within the <code>get_chunk_header()</code> function of the <code>ty.c</code> source file of the vulnerable plugin. The vulnerable plugin improperly handles the record headers array, <code>rec_hdrs</code>, corrupting heap structures in the memory.</p>
+<pre class="nested active"><code class="language-c">diff --git a/modules/demux/ty.c b/modules/demux/ty.c
 index e916b41..b181a6a 100644 (file)
 
 --- a/modules/demux/ty.c
@@ -125,13 +125,13 @@ index e916b41..b181a6a 100644 (file)
      /* skip past the 4 bytes we &quot;peeked&quot; earlier */
      stream_Read( p_demux-&gt;s, NULL, 4 );
 </code></pre>
-<p class="nested">Successful exploitation could allow the attacker to leverage the memory corruption error further and execute arbitrary code on the targeted system within the security context of the affected software.</p>
+<p class="nested active">Successful exploitation could allow the attacker to leverage the memory corruption error further and execute arbitrary code on the targeted system within the security context of the affected software.</p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Vulnerability Sources</h3>
-<p class="nested"><a href="http://www.securityfocus.com/bid/51147">bid:51147</a><br />
+<p class="nested active"><a href="http://www.securityfocus.com/bid/51147">bid:51147</a><br />
 <a href="http://www.videolan.org/security/sa1108.html">vlc:sa1108</a><br />
 <a href="http://git.videolan.org/?p=vlc.git;a=blobdiff;f=modules/demux/">git.videolan.org</a>  </p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Generic Sources</h3>
-<p class="nested"><a href="http://cve.mitre.org">cve.mitre.org</a><br />
+<p class="nested active"><a href="http://cve.mitre.org">cve.mitre.org</a><br />
 <a href="http://www.first.org/cvss/cvss-guide.html">cvss-guide</a><br />
 <a href="http://nvd.nist.gov/cvss.cfm?calculator&amp;adv&amp;version=2">cvss-calculator</a>  </p>
     <hr>

