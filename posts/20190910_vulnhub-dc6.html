@@ -26,7 +26,7 @@
           <p style="float:left;"><a href="/posts/20190909_vulnhub-bsidesvancouver2018workshop.html"> « </a>📅 published on <code>10/Sep/2019</code><a href="/posts/20190911_vulnhub-fristikeals1dot3.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/dc-6,315/">DC: 6</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_dc6/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -34,7 +34,7 @@
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_dc6/killchain.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
 <p class="nested">1. <code>80/tcp/http/Apache httpd 2.4.25 ((Debian))</code>: <a href="https://github.com/7h3rAm/writeups#enumerate_app_wordpress">enumerate_app_wordpress</a>, <a href="https://github.com/7h3rAm/writeups#exploit_wordpress_plugin_activitymonitor">exploit_wordpress_plugin_activitymonitor</a>, <a href="https://github.com/7h3rAm/writeups#privesc_mysql_creds">privesc_mysql_creds</a>, <a href="https://github.com/7h3rAm/writeups#privesc_sudo">privesc_sudo</a>, <a href="https://github.com/7h3rAm/writeups#privesc_nmap">privesc_nmap</a>  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
 <pre class="nested"><code># Nmap 7.70 scan initiated Tue Sep 10 18:09:50 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/vulnhub/dc6/results/wordy/scans/_quick_tcp_nmap.txt -oX /root/toolbox/vulnhub/dc6/results/wordy/scans/xml/_quick_tcp_nmap.xml wordy
 Nmap scan report for wordy (192.168.92.170)
@@ -79,7 +79,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 <pre class="nested"><code>ssh: graham, mark, sarah, jens
 wordpress: admin, graham, mark, sarah, jens
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. The VulnHub page for this VM gave a clue to create a custom wordlist from <code>rockyou.txt</code> to save time on bruteforce. This was a good starting point:  </p>
 <pre class="nested"><code>cat /usr/share/wordlists/rockyou.txt | grep k01 &gt; passwords.txt
 </code></pre>
@@ -99,7 +99,7 @@ wordpress: admin, graham, mark, sarah, jens
 <p class="nested"><img alt="writeup.exploitation.steps.6.1" src="/static/files/posts_vulnhub_dc6/screenshot08.png.webp" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.6.2" src="/static/files/posts_vulnhub_dc6/screenshot09.png.webp" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.6.3" src="/static/files/posts_vulnhub_dc6/screenshot05.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested"><code>www-data@dc-6&gt; id
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
 www-data@dc-6&gt;  
@@ -120,7 +120,7 @@ mark
 sarah
 jens
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. Exploring the filesystem, we come across <code>/var/www/html/wp-config.php</code> file that has MySQL credentials in it:  </p>
 <pre class="nested"><code>wpdbuser/meErKatZ
 </code></pre>
@@ -138,7 +138,7 @@ jens
 <p class="nested">6. User <code>jens</code> can execute <code>/usr/bin/nmap</code> as <code>root</code>. We use this to gain elevated privileges and read the flag:  </p>
 <p class="nested"><img alt="writeup.privesc.steps.6.1" src="/static/files/posts_vulnhub_dc6/screenshot14.png.webp" />  </p>
 <p class="nested"><img alt="writeup.privesc.steps.6.2" src="/static/files/posts_vulnhub_dc6/screenshot15.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
 <pre class="nested"><code>root:$6$kdMFceEg$pk9h93tdD7IomhE7L0Y396HO6fxSM.XDh9dgeBhKpdZlM/WYxCZe7yPRNHfZ5FvNRuILVp2NOsqNmgjoS........................
 graham:$6$WF7GkVxM$MOL.cXLpG6UTO0M4exCUFwOEiUhW6bwQa.Frg9CerQbTp.EW4QTzEAuio26Aylv.YP0JPAan10tsUFv6k........................
@@ -151,7 +151,7 @@ jens:$6$JWiFWXb8$cGQi07IUqln/uLLVmmrU9VLg7apOH9IlxoyndELCGjLenxfAaVec5Gjaw2DA0QH
 ssh: graham/GSo7isU....
 wordpress: mark/helpdes...
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested">
 <li><a href="https://www.vulnhub.com/entry/dc-6,315/">https://www.vulnhub.com/entry/dc-6,315/</a>  </li>
 <li><a href="https://diaryof0x41.wordpress.com/2019/05/29/vulnhub-dc-6-walkthrough/">https://diaryof0x41.wordpress.com/2019/05/29/vulnhub-dc-6-walkthrough/</a>  </li>

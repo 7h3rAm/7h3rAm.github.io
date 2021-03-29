@@ -26,9 +26,9 @@
           <p style="float:left;"><a href="/posts/20130824_malsoftware-reverse-ex.html"> « </a>📅 published on <code>29/Aug/2013</code><a href="/posts/20130915_libnids-python-ids.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#ctf>ctf</a> and <a href=/tags.html#reversing>reversing</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested">This post follows an earlier one: <a href="https://7h3ram.github.io/posts/20130824_malsoftware-reverse-ex.html">reverse-ex Challenge from Coursera's Malicious Software Course</a>. If you've not already read it, I would suggest you do so since both these challenges share a few common concepts and I'll be skipping detail if it has been mentioned before.</p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Program Analysis and Testing</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Program Analysis and Testing</h2>
 <p class="nested">The challenge file is hosted here: <a href="/static/files/posts_malsoftware_reverse_challenge/reverse-challenge">reverse-challenge</a>. The first thing to do is to test it with <code>file</code> command:</p>
 <pre class="nested"><code>$ file reverse-challenge
 reverse-challenge: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[  sha1]=0x2fe5f1647532449ffeef36a7fa31ae8319c8818d, stripped
@@ -83,7 +83,7 @@ write(1, &quot;Dude, no debugging ;-)\n&quot;, 23Dude, no debugging ;-)
 exit_group(1)                           = ?
 </code></pre>
 <p class="nested">The program stopped since the <code>ptrace</code> system call returned <code>EPERM</code> error code which indicates that the <code>PTRACE_TRACEME</code> operation is not permitted. This is a very commonly used anti-debugging method and it works since such program already invoke <code>ptrace</code> over them before executing any other functions and as such when a user manually tries to debug it (via <code>ptrace</code> calls), it fails since a trace session is already active on the program and another cannot be initialized.</p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested">Anyways, like the previous challenge, this was also completed without actually debugging the program. However, there are still ways in which we can bypass the anti-debugging mechanisms and analyze the program via dynamic analysis only. Rest on this in a future post. Stay tuned.</p>
     <hr>
           <p style="float:left;">« <a href="/posts/20130824_malsoftware-reverse-ex.html">reverse-ex Challenge from Cour...</a> «</p>

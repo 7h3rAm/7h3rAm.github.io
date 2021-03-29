@@ -26,7 +26,7 @@
           <p style="float:left;"><a href="/posts/20191104_htb-grandpa.html"> « </a>📅 published on <code>04/Nov/2019</code><a href="/posts/20191104_htb-optimum.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for HTB VM <a href="https://www.hackthebox.eu/home/machines/profile/14">Granny</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_htb_granny/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -34,7 +34,7 @@
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_htb_granny/killchain.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
 <p class="nested">1. <code>80/tcp/http/Microsoft IIS httpd 6.0</code>: <a href="https://github.com/7h3rAm/writeups#exploit_iis_webdav">exploit_iis_webdav</a>, <a href="https://github.com/7h3rAm/writeups#privesc_windows_ms15_051">privesc_windows_ms15_051</a>  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
 <pre class="nested"><code># Nmap 7.70 scan initiated Mon Nov  4 13:35:36 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.granny/results/10.10.10.15/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.granny/results/10.10.10.15/scans/xml/_quick_tcp_nmap.xml 10.10.10.15
 Nmap scan report for 10.10.10.15
@@ -69,11 +69,11 @@ Service detection performed. Please report any incorrect results at https://nmap
 <h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
 <pre class="nested"><code>80/tcp  |  http  |  Microsoft IIS httpd 6.0
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. We decide to use the Metasploit <code>windows/iis/iis_webdav_upload_asp</code> exploit and it successully gives us a Meterpreter shell:  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_htb_granny/screenshot02.png.webp" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_htb_granny/screenshot03.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested"><code>ntauth/network@GRANNY&gt; id
 NT AUTHORITY\NETWORK SERVICE
 ntauth/network@GRANNY&gt;  
@@ -97,7 +97,7 @@ ntauth/network@GRANNY&gt; users
 Administrator
 Lakis
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. Since we have certain restrictions that stop us from running commands like <code>getuid</code>, we have to migrate to a different process. We find the PID for process <code>davcdata.exe</code> and migrate to it:  </p>
 <p class="nested"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_htb_granny/screenshot04.png.webp" />  </p>
 <p class="nested">2. We can now use the Metasploit <code>multi/recon/local_exploit_suggester</code> module to look for privesc options:  </p>
@@ -110,7 +110,7 @@ Lakis
 cat &quot;C:\Documents and Settings\Administrator\Desktop\root.txt&quot;
 </code></pre>
 <p class="nested"><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_htb_granny/screenshot08.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
 <pre class="nested"><code>Administrator:500:c74761604a24f0dfd0a9ba2c30e462cf:d6908f022af0373e9e.................
 ASPNET:1007:3f71d62ec68a06a39721cb3f54f04a3b:edc0d5506804653f589................
@@ -124,7 +124,7 @@ SUPPORT_388945a0:1001:aad3b435b51404eeaad3b435b51404ee:8ed3993efb4e6476e........
 <pre class="nested"><code>C:\Documents and Settings\Lakis\Desktop\user.txt: 700c5dc163014e22................
 C:\Documents and Settings\Administrator\Desktop\root.txt: aa4beed1c05844..................
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested">
 <li><a href="https://www.hackthebox.eu/home/machines/profile/14">https://www.hackthebox.eu/home/machines/profile/14</a>  </li>
 <li><a href="https://marcelowoloszyn.cl/hackthebox/hack-the-box-write-up-granny/">https://marcelowoloszyn.cl/hackthebox/hack-the-box-write-up-granny/</a>  </li>

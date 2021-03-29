@@ -26,13 +26,13 @@
           <p style="float:left;"><a href="/posts/20191011_vulnhub-misdirection1.html"> « </a>📅 published on <code>17/Oct/2019</code><a href="/posts/20191021_vulnhub-mrrobot1.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/moria-1,187/">Moria: 1.1</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_moria11/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
 <p class="nested">Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_moria11/killchain.png.webp" /></p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
 <pre class="nested"><code># Nmap 7.70 scan initiated Fri Oct 11 15:31:50 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.moria11/results/192.168.92.188/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.moria11/results/192.168.92.188/scans/xml/_quick_tcp_nmap.xml 192.168.92.188
 Nmap scan report for 192.168.92.188
@@ -114,14 +114,14 @@ python -c 'print &quot;&quot;.join([chr(x) for x in [77, 101, 108, 108, 111, 110
 <h4 class="h4 collapsible" onclick="toggle(this);">Users</h4>
 <pre class="nested"><code>ftp: Balrog
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. We are able to successfully crack hashes for all users from this list and can now use <code>hydra</code> to check which username/password combo actually works. We find that the <code>Ori/spanky</code> credentials allow us SSH access to the target system:  </p>
 <pre class="nested"><code>hydra -C creds 192.168.92.188 -t 4 ssh
 ssh Ori@192.168.92.188
 </code></pre>
 <p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_moria11/screenshot11.png.webp" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_vulnhub_moria11/screenshot12.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested"><code>Ori@Moria&gt; id
 uid=1002(Ori) gid=1003(notBalrog) groups=1003(notBalrog)
 Ori@Moria&gt;  
@@ -143,7 +143,7 @@ abatchy
 Balrog
 Ori
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. We find that the user <code>Ori</code> has an entry for <code>localhost</code> within the <code>.ssh/known_hosts</code> file. This means, if local SSH configuration allows <code>root</code> user login and user <code>Ori</code>'s public key is in the <code>authorized_keys</code> of <code>root</code> user, we can SSH as <code>root</code> to localhost using <code>Ori</code>'s public key:  </p>
 <pre class="nested"><code>ssh -i id_rsa root@192.168.92.188
 </code></pre>
@@ -153,7 +153,7 @@ Ori
 <pre class="nested"><code>cat /root/flag.txt
 </code></pre>
 <p class="nested"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_moria11/screenshot15.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
 <pre class="nested"><code>root:$6$P7ElNgGp$fNzyy4OgqSR1ANJXTgbpzp4U42JXG1qJ55iNV10NVJoX5UWjtckWD0oHmcTOj0lqObyWhFu2y3udHVpHa........................
 abatchy:$6$xEq/159Q$ScuKnynbwTBdFA4B9w6OqKxQpWPGpofi59McVuP6T1SADKhNy4n33Ovkk0hwZQkx72XriPSIrc2ubr16O........................
@@ -164,7 +164,7 @@ Ori:$6$1zYgjEIM$VQ0gvU7JjenS9WuiVjSeva8pbWnEXjqTmEdFnQRXKmTmXPXmt55/oyup40NiXD8J
 <pre class="nested"><code>ftp: Balrog/Mel...
 ssh: Ori/span..
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested">
 <li><a href="https://www.vulnhub.com/entry/moria-11,187/">https://www.vulnhub.com/entry/moria-11,187/</a>  </li>
 <li><a href="https://phackt.com/moria-vulnhub">https://phackt.com/moria-vulnhub</a>  </li>

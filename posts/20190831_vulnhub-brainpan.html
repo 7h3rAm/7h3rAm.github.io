@@ -26,7 +26,7 @@
           <p style="float:left;"><a href="/posts/20160312_circllu.html"> « </a>📅 published on <code>31/Aug/2019</code><a href="/posts/20190905_vulnhub-billymadison1dot1.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/brainpan-1,51/">Brainpan: 1</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_brainpan/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -35,7 +35,7 @@
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
 <p class="nested">1. <code>9999/tcp/abyss?</code>: <a href="https://github.com/7h3rAm/writeups#privesc_anansi">privesc_anansi</a>, <a href="https://github.com/7h3rAm/writeups#privesc_sudo">privesc_sudo</a><br />
 2. <code>10000/tcp/http/SimpleHTTPServer 0.6 (Python 2.7.3)</code>: <a href="https://github.com/7h3rAm/writeups#exploit_bof">exploit_bof</a>  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
 <pre class="nested"><code># Nmap 7.70 scan initiated Wed Jul 31 15:33:35 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/vulnhub/brainpan/results/192.168.92.141/scans/_quick_tcp_nmap.txt -oX /root/toolbox/vulnhub/brainpan/results/192.168.92.141/scans/xml/_quick_tcp_nmap.xml 192.168.92.141
 Nmap scan report for 192.168.92.141
@@ -106,10 +106,10 @@ Service detection performed. Please report any incorrect results at https://nmap
 <h4 class="h4 collapsible" onclick="toggle(this);">Files</h4>
 <pre class="nested"><code>http://192.168.92.141:10000/bin/brainpan.exe
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. There's a buffer overflow vulnerability in the service running on <code>9999/tcp</code>. We have access to the vulnerable service file via a HTTP server running on <code>10000/tcp</code>. Analyze the service, create exploit and gain remote access to VM.  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_brainpan/writeup.exploitation.screenshot.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested"><code>puck@brainpan&gt; id
 uid=1002(puck) gid=1002(puck) groups=1002(puck)
 puck@brainpan&gt;  
@@ -130,17 +130,17 @@ reynard
 anansi
 puck
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. There's a binary, <code>anansi_util</code> that allows <code>sudo</code> access. Running the service, we see that it has 3 options, one of which is to view <code>man</code> page for any command. We use this option to escape to shell.  </p>
 <p class="nested"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_brainpan/writeup.privesc.screenshot.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
 <pre class="nested"><code>root:$6$m20VT7lw$172.XYFP3mb9Fbp/IgxPQJJKDgdOhg34jZD5sxVMIx3dKq.DBwv.mw3HgCmRd0QcN4TCzaUtmx4C5DvZa........................
 reynard:$6$h54J.qxd$yL5md3J4dONwNl.36iA.mkcabQqRMmeZ0VFKxIVpXeNpfK.mvmYpYsx8W0Xq02zH8bqo2K.mkQzz55U2H........................
 anansi:$6$hblZftkV$vmZoctRs1nmcdQCk5gjlmcLUb18xvJa3efaU6cpw9hoOXC/kHupYqQ2qz5O.ekVE.SwMfvRnf.QcB1lyD........................
 puck:$6$A/mZxJX0$Zmgb3T6SAq.FxO1gEmbIcBF9Oi7q2eAi0TMMqOhg0pjdgDjBr0p2NBpIRqs4OIEZB4op6ueK888lhO7gc........................
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested">
 <li><a href="https://www.vulnhub.com/entry/brainpan-1,51/">https://www.vulnhub.com/entry/brainpan-1,51/</a>  </li>
 <li><a href="https://isroot.nl/2019/05/12/vulnhub-write-up-brainpan-1/">https://isroot.nl/2019/05/12/vulnhub-write-up-brainpan-1/</a>  </li>

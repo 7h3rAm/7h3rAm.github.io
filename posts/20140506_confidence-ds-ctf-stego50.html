@@ -26,7 +26,7 @@
           <p style="float:left;"><a href="/posts/20140327_northrop-challenge.html"> « </a>📅 published on <code>06/May/2014</code><a href="/posts/20140618_pcapgentools-contentype-patch.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#code>code</a> and <a href=/tags.html#ctf>ctf</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Challenge Analysis</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Challenge Analysis</h2>
 <p class="nested">The challenge consists a <a href="/static/files/posts_confidence_ds_ctf_stego50/stegano50.pdf">pdf</a> file. Let's see what <code>exiftool</code> tells us about it:</p>
 <pre class="nested"><code>$ exiftool stegano50.pdf
 ExifTool Version Number         : 9.46
@@ -64,7 +64,7 @@ Nope , not here ;)
 <pre class="nested"><code>$ echo -n &quot;BABA BBB BA BBA ABA AB B AAB ABAA AB B AA BBB BA AAA BBAABB AABA ABAA AB BBA BBBAAA ABBBB BA AAAB ABBBB AAAAA ABBBB BAAA ABAA AAABB BB AAABB AAAAA AAAAA AAAAB BBA AAABB&quot; | tr AB .-
 -.-. --- -. --. .-. .- - ..- .-.. .- - .. --- -. ... --..-- ..-. .-.. .- --. ---... .---- -. ...- .---- ..... .---- -... .-.. ...-- -- ...-- ..... ..... ....- --. ...--
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Automation and Testing</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Automation and Testing</h2>
 <p class="nested">Alright, we now have some Morse code that has to be decoded. There are <a href="http://mattfedder.com/cgi-bin/morse.pl">several</a> <a href="http://morsecode.scphillips.com/translator.html">online</a> <a href="http://www.onlineconversion.com/morse_code.htm">decoders</a> <a href="http://www.unit-conversion.info/texttools/morse-code/">available</a>, however, I tend to use Python for such tasks. Here is a snippet of Python code to help us with encode and decode tasks:</p>
 <pre class="nested"><code class="language-python">#!/usr/bin/env python
 

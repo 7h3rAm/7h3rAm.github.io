@@ -26,7 +26,7 @@
           <p style="float:left;"><a href="/posts/20130102_geras-wuos-stack2-solutions.html"> « </a>📅 published on <code>03/Jan/2013</code><a href="/posts/20130104_geras-wuos-stack4-solutions.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#ctf>ctf</a> and <a href=/tags.html#exploit>exploit</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested">Following is the part 3 in the series of posts I started back in August 2012 with an aim to provide an analysis and possible solutions for the vulnerable programs provided by Gerardo 'gera' Richarte at the <a href="http://pages.cs.wisc.edu/~riccardo/sec/">Insecure Programming by example</a> page.</p>
 <p class="nested">This post follows the <a href="/posts/20130102_geras-wuos-stack2-solutions.html">Gera's Warming Up on Stack #2 - Solutions</a> post and if you have not read it, I request you to please do so. Most of the concepts are very similar and since they have been already talked about, I'll not be reiterating them here.</p>
 <p class="nested">Let's get started. Below is the source for the vulnerable <a href="http://pages.cs.wisc.edu/~riccardo/sec/stack3.html">stack3.c</a> program:</p>
@@ -70,7 +70,7 @@ model       : 37
 model name  : Intel(R) Core(TM) i3 CPU       M 350  @ 2.27GHz
 flags       : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 syscall nx lm constant_tsc up pni monitor ssse3 lahf_l
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Solutions</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Solutions</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Solution #1: Overflow the internal <code>buf</code> array to overwrite cookie with <code>0x01020005</code></h3>
 <p class="nested">Here's the GCC commandline to prepare <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack3.html">stack3.c</a> for this solution:</p>
 <pre class="nested"><code># gcc -mpreferred-stack-boundary=2 -fno-stack-protector -o stack3 stack3.c
@@ -152,7 +152,7 @@ buf: bffff4c4 cookie: bffff514
 you win!
 </code></pre>
 <p class="nested">So, we have now successfully exploited the <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack3.html">stack3.c</a> program through four different techniques. Depending on the motive of your exploitation attempt, other techniques could be devised and some, mentioned here, be rejected.</p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested">Like I said, earlier, these solutions are not practical anymore. They just serve the purpose of understanding how exploits used to work before mitigation features were introduced in modern systems. But, as with everything else, understanding basics is really important. As mitigation features mature, exploitation techniques become increasingly complex. And to understand those, we need to build upon the solid foundation of basic concepts, like those discussed on this and other blogs.</p>
     <hr>
           <p style="float:left;">« <a href="/posts/20130102_geras-wuos-stack2-solutions.html">Gera's Warming Up on Stack #2 ...</a> «</p>

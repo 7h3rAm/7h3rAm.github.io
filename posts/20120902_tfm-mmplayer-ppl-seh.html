@@ -26,9 +26,9 @@
           <p style="float:left;"><a href="/posts/20120902_millenium-mpf-seh.html"> « </a>📅 published on <code>02/Sep/2012</code><a href="/posts/20120902_shadow-stream-recorder-asx-jmpesp.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#code>code</a> and <a href=/tags.html#exploit>exploit</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested">The TFM MMPlayer version 2.0 has a SEH overflow vulnerability. Processing specially-crafted <code>.ppl</code> file triggers SEH overwrite that could be leveraged further to gain arbitrary code execution. The exploit for this vulnerability has been documeneted at <a href="http://www.exploit-db.com/exploits/19176/">EDB: 19176</a></p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Exploit Code</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Exploit Code</h2>
 <p class="nested">Here is a complete rewrite of this exploit:</p>
 <pre class="nested"><code class="language-python">from struct import *
 

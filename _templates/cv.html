@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1 class="h1">📄 Ankur Tyagi</h1>
+  <h1 class="h1 collapsible" onclick="toggle(this);">📄 Ankur Tyagi</h1>
     <code>{{ datadict.metadata.cv.contact|md2html|removepara }}</code>
     <ul class="active">
       <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Introduction</h2><ul class="active nested">

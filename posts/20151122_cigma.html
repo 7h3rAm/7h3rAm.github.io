@@ -26,7 +26,7 @@
           <p style="float:left;"><a href="/posts/20150802_capinfos.html"> « </a>📅 published on <code>22/Nov/2015</code><a href="/posts/20160218_flareon2014-15.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#code>code</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested">Filetype identification is the process of scanning <a href="https://en.wikipedia.org/wiki/Magic_number_%28programming%29">respective</a> <a href="https://en.wikipedia.org/wiki/List_of_file_signatures">magicbytes</a> for each filetype within input streams. The mapping for various filetypes and their magicbytes are stored in different formats which is then queried by the identification library. If a match is found, input stream is classified to be of that type. In case of match collisions, a signature preference logic prioritizes matches. Tools like <a href="http://mark0.net/soft-trid-e.html">TrID</a> and <a href="http://www.forensicswiki.org/wiki/File_Format_Identification">others</a> use similar logic.</p>
 <p class="nested"><a href="https://github.com/7h3rAm/cigma">cigma</a> is a Python library to identify filetypes. It provides <a href="https://github.com/threatstack/libmagic">libmagic</a> like mimetype identification of a file or data buffer. This is similar to what the <code>file</code> command on *nix systems will provide:</p>
 <pre class="nested"><code>$ file cigma.py
@@ -44,7 +44,7 @@ $
 $ file /dev/sda
 /dev/sda: block special
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Usage and Usecases</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Usage and Usecases</h2>
 <p class="nested"><code>cigma</code> uses a custom JSON formatted signature file to stores filetype mappings. Let's try identifying a few files:</p>
 <pre class="nested"><code>$ python cigma.py /bin/ls
 ('/bin/ls',
@@ -155,7 +155,7 @@ Cigma(data=filedata).cigma()
   'patterns': [{'offset': 0, 'regex': '\\x4D\\x5A', 'size': 2}],
   'shortname': 'EXE'})
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested">The primary purpose of <code>cigma</code> is to be able to identify mundane files at lightning speeds. It doesn't aim to provide exhaustive insight into each file by parsing and decoding it. Currently, there are 70+ signatures and identification for more filetypes will be available as the project grows.</p>
     <hr>
           <p style="float:left;">« <a href="/posts/20150802_capinfos.html">capinfos.py: Pure Python Pcap ...</a> «</p>

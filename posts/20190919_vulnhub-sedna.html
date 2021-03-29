@@ -26,7 +26,7 @@
           <p style="float:left;"><a href="/posts/20190918_vulnhub-quaoar.html"> « </a>📅 published on <code>19/Sep/2019</code><a href="/posts/20190920_vulnhub-vulnix.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/hackfest2016-sedna,181/">hackfest2016: Sedna</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_sedna/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -34,7 +34,7 @@
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_sedna/killchain.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
 <p class="nested">1. <code>80/tcp/http/Apache httpd 2.4.7 ((Ubuntu))</code>: <a href="https://github.com/7h3rAm/writeups#exploit_php_fileupload">exploit_php_fileupload</a>, <a href="https://github.com/7h3rAm/writeups#exploit_php_reverseshell">exploit_php_reverseshell</a>, <a href="https://github.com/7h3rAm/writeups#privesc_chkrootkit">privesc_chkrootkit</a>, <a href="https://github.com/7h3rAm/writeups#privesc_cron">privesc_cron</a>, <a href="https://github.com/7h3rAm/writeups#privesc_bash_reverseshell">privesc_bash_reverseshell</a>  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
 <pre class="nested"><code># Nmap 7.70 scan initiated Wed Sep 18 18:02:06 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.sedna/results/192.168.92.176/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.sedna/results/192.168.92.176/scans/xml/_quick_tcp_nmap.xml 192.168.92.176
 Nmap scan report for 192.168.92.176
@@ -309,7 +309,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 <h4 class="h4 collapsible" onclick="toggle(this);">Files</h4>
 <pre class="nested"><code>http://192.168.92.176/license.txt
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. There's an arbitrary file upload <a href="https://www.exploit-db.com/exploits/40390">exploit</a> for <code>BuilderEngine</code> that we can use:  </p>
 <pre class="nested"><code>searchsploit builderengine
 </code></pre>
@@ -322,7 +322,7 @@ http://192.168.92.176/files/php-reverse-shell.php
 <p class="nested"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_sedna/screenshot01.png.webp" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.2.2" src="/static/files/posts_vulnhub_sedna/screenshot03.png.webp" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.2.3" src="/static/files/posts_vulnhub_sedna/screenshot04.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested"><code>www-data@Sedna&gt; id
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
 www-data@Sedna&gt;  
@@ -343,7 +343,7 @@ www-data@Sedna&gt;
 www-data@Sedna&gt; users
 crackmeforpoints
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. While exploring <code>/var/www</code> directory we find the first flag:  </p>
 <pre class="nested"><code>cat /var/www/flag.txt
 </code></pre>
@@ -386,7 +386,7 @@ john --rules --wordlist=/usr/share/wordlists/rockyou.txt unshadowed
 </code></pre>
 <p class="nested"><img alt="writeup.privesc.steps.8.1" src="/static/files/posts_vulnhub_sedna/screenshot09.png.webp" />  </p>
 <p class="nested"><img alt="writeup.privesc.steps.8.2" src="/static/files/posts_vulnhub_sedna/screenshot10.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
 <pre class="nested"><code>root:$6$sZyJlUny$OcHP9bd8dO9rAKAlryxUjnUbH0dxgZc2uCePZMUUKSeIdALUulXLQ1iDjoEQpvZI.HTHOHUkCR.m39Xrt........................
 crackmeforpoints:$6$p22wX4fD$RRAamkeGIA56pj4MpM7CbrKPhShVkZnNH2NjZ8JMUP6Y/1upG.54kSph/HSP1LFcn4.2C11cF0R7Qmo..........................
@@ -398,7 +398,7 @@ crackmeforpoints:$6$p22wX4fD$RRAamkeGIA56pj4MpM7CbrKPhShVkZnNH2NjZ8JMUP6Y/1upG.5
 <pre class="nested"><code>bfbb7e6e6e88d9ae66848b9ae.......
 a10828bee17db751de4b93661.......
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested">
 <li><a href="https://www.vulnhub.com/entry/hackfest2016-sedna,181/">https://www.vulnhub.com/entry/hackfest2016-sedna,181/</a>  </li>
 <li><a href="https://www.n00py.io/2017/03/vulnhub-walkthrough-hackfest2016-sedna/">https://www.n00py.io/2017/03/vulnhub-walkthrough-hackfest2016-sedna/</a>  </li>

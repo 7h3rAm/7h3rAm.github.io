@@ -26,9 +26,9 @@
           <p style="float:left;"><a href="/posts/20130618_libnids-pynids.html"> « </a>📅 published on <code>24/Aug/2013</code><a href="/posts/20130829_malsoftware-reverse-challenge.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#ctf>ctf</a> and <a href=/tags.html#reversing>reversing</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested">The recently concluded <a href="https://class.coursera.org/malsoftware-001/">Malicious Software and its Undergound Economy</a> course on <a href="https://www.coursera.org/">Coursera</a> had an interesting reverse engineering challenge as part of its coursework: <a href="/static/files/posts_malsoftware_reverse_ex/reverse-ex">reverse-ex</a>. I found it interesting since it will be equally entertaining for someone who has never tried such challenges or one who has mastered many of them. This post details the steps I took to complete this challenge.</p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Program Analysis and Testing</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Program Analysis and Testing</h2>
 <p class="nested">The first thing I normally do after obtaining such challenges is to test them with <code>file</code> command. This provides some insight about various file attributes like its type (ELF, PE, etc.), processor architecture compatibility, symbol table inclusion, etc:</p>
 <pre class="nested"><code>$ file reverse-ex
 reverse-ex: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[ sha1]=0x8dac70a14b40f115fc4a27041a3ae29227a55afb, not stripped
@@ -339,7 +339,7 @@ A debugging session is active.
 
 Quit anyway? (y or n) y
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested">We add a breakpoint at <code>checkkey</code> function and manually inspect the content of the 0x8048770 address (it might change on our system) and it indeed turns out to be <code>KFFSE_XHKYOKXOHOFEDM^E_Y</code>. This concludes this writeup and in an <a href="https://7h3ram.github.io/posts/20130829_malsoftware-reverse-challenge.html">upcoming post</a> I'll write about the second challenge from this course.</p>
     <hr>
           <p style="float:left;">« <a href="/posts/20130618_libnids-pynids.html">Network Stream Reassembly and ...</a> «</p>

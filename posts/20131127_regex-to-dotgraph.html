@@ -26,9 +26,9 @@
           <p style="float:left;"><a href="/posts/20130915_libnids-python-ids.html"> « </a>📅 published on <code>27/Nov/2013</code><a href="/posts/20140106_buf0-challenge.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#code>code</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested">I recently came across the <a href="http://www.osteele.com/software/python/fsa/">pyFSA</a> project and played with it for sometime. It includes a built-in API to render finite state machines as <a href="http://www.graphviz.org/doc/info/lang.html">dotstring</a>. Regular expressions can be represented as FSMs and then be rendered to a dot-string for visual introspection. I quickly wrote a proof-of-concept tool to implement this idea and hence <a href="https://github.com/7h3rAm/re2dotgraph">re2dotgraph</a> was born.</p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Installation and Testing</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Installation and Testing</h2>
 <p class="nested">First, the pyFSA module has to be installed. Download the package, unzip it and follow the standard Python module installation steps:</p>
 <pre class="nested"><code>$ python setup.py build
 running build
@@ -103,7 +103,7 @@ error: can't copy 'LICENSE.txt': doesn't exist or not a regular file
 </code></pre>
 <p class="nested">And here's the generated image:</p>
 <p class="nested"><img alt="image" src="/static/files/posts_regex_to_dotgraph/regex2.png.webp" /></p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested">As is evident from the above image, the <code>\d</code> escape sequence was not identified and the graph as such is incorrect. However, this still is an interesting project and a really easy way of visualizing regular expressions. For POSIX compliant solutions, refer these projects: <a href="http://regexvisualizer.apphb.com/">RegExVis</a>, <a href="https://www.debuggex.com/">Debuggex</a> and <a href="http://www.regexper.com/">Regexper</a></p>
 <p class="nested">You can get the source files through the project repository on <a href="https://github.com/7h3rAm/re2dotgraph">GitHub</a>.</p>
     <hr>

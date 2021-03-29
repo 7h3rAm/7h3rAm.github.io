@@ -26,7 +26,7 @@
           <p style="float:left;"><a href="/posts/20190905_vulnhub-billymadison1dot1.html"> « </a>📅 published on <code>09/Sep/2019</code><a href="/posts/20190910_vulnhub-dc6.html"> » </a></p>
         <p style="float:right;">🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a></p>
     <div style="clear:both;"></div>
-    <br/><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/bsides-vancouver-2018-workshop,231/">BSides Vancouver: 2018 (Workshop)</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_bsidesvancouver2018workshop/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -36,7 +36,7 @@
 <p class="nested">1. <code>21/tcp/ftp/vsftpd 2.3.5</code>: <a href="https://github.com/7h3rAm/writeups#enumerate_proto_ftp">enumerate_proto_ftp</a><br />
 2. <code>22/tcp/ssh/OpenSSH 5.9p1 Debian 5ubuntu1.10 (Ubuntu Linux; protocol 2.0)</code>: <a href="https://github.com/7h3rAm/writeups#enumerate_proto_ssh">enumerate_proto_ssh</a>, <a href="https://github.com/7h3rAm/writeups#exploit_ssh_bruteforce">exploit_ssh_bruteforce</a><br />
 3. <code>80/tcp/http/Apache httpd 2.2.22 ((Ubuntu))</code>: <a href="https://github.com/7h3rAm/writeups#enumerate_proto_http">enumerate_proto_http</a>, <a href="https://github.com/7h3rAm/writeups#enumerate_app_wordpress">enumerate_app_wordpress</a>, <a href="https://github.com/7h3rAm/writeups#exploit_wordpress_plugin_hellodolly">exploit_wordpress_plugin_hellodolly</a>, <a href="https://github.com/7h3rAm/writeups#exploit_php_reverseshell">exploit_php_reverseshell</a>, <a href="https://github.com/7h3rAm/writeups#privesc_cron">privesc_cron</a>, <a href="https://github.com/7h3rAm/writeups#privesc_sudoers">privesc_sudoers</a>  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested">1. Here's the Nmap scan result:  </p>
 <pre class="nested"><code># Nmap 7.70 scan initiated Mon Sep  9 18:30:02 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/vulnhub/bsidesvancouver2018workshop/results/192.168.92.169/scans/_quick_tcp_nmap.txt -oX /root/toolbox/vulnhub/bsidesvancouver2018workshop/results/192.168.92.169/scans/xml/_quick_tcp_nmap.xml 192.168.92.169
 Nmap scan report for 192.168.92.169
@@ -107,7 +107,7 @@ http://192.168.92.169/robots.txt
 <pre class="nested"><code>ftp: abatchy, john, mai, anne, doomguy
 wordpress: admin, john
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested">1. (method #1) We find a Wordpress installation @ <code>http://192.168.92.169/backup_wordpress</code> and run <code>wpscan</code> to enumerate users:  </p>
 <pre class="nested"><code>wpscan --url http://192.168.92.167:69/ -e vp,vt,tt,cb,dbe,u,m --no-color → admin, john
 </code></pre>
@@ -132,7 +132,7 @@ wordpress: admin, john
 <p class="nested"><img alt="writeup.exploitation.steps.8.1" src="/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot12.png.webp" />  </p>
 <p class="nested">9. (method #2) We can ssh as user <code>anne</code> and gain interactive access:  </p>
 <p class="nested"><img alt="writeup.exploitation.steps.9.1" src="/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot13.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested"><code>www-data|anne@bsides2018&gt; id
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
 uid=1003(anne) gid=1003(anne) groups=1003(anne),27(sudo)
@@ -154,7 +154,7 @@ mai
 anne
 doomguy
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested">1. (method #1) Continuing as user <code>www-data</code>, we explore the <code>/var/www/backup_wordpress/</code> directory and find <code>wp-config.php</code> file with MySQL credentials in it:  </p>
 <p class="nested"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot15.png.webp" />  </p>
 <p class="nested">2. (method #1) These credentials do not work for MySQL login. Changing user to <code>john</code> with these credentials also failed.  </p>
@@ -169,7 +169,7 @@ doomguy
 <pre class="nested"><code>sudo su
 </code></pre>
 <p class="nested"><img alt="writeup.privesc.steps.6.1" src="/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot14.png.webp" />  </p>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
 <pre class="nested"><code>john:$6$aoN7zaDl$e6RsRZndFekSS4bgqz0y5dgzO1dTQsMAWck6dFGogkxrrZf1ZyGbjy/oCpqJniIkasXP05iFZHs.XZVIQ........................
 mai:$6$Mp.mBBi7$BCAKb75xSAy8PM6IhjdSOIlcmHvA9V4KnEDSTZAN2QdMUwCwGiwZtwGPXalF15xT097Q6zaXrY6nD/7Rsd.......................
@@ -181,7 +181,7 @@ doomguy:$6$DWqgg./v$NxqnujIjE8RI.y1u/xiFBPC0K/essEGOfxSF7ovfHG46K6pnetHZNON3sp19
 ssh: anne/princ...
 wordpress: john/eni...
 </code></pre>
-<br/><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested">
 <li><a href="https://www.vulnhub.com/entry/bsides-vancouver-2018-workshop,231/">https://www.vulnhub.com/entry/bsides-vancouver-2018-workshop,231/</a>  </li>
 <li><a href="https://pentester.land/challenge/2018/06/27/vulnhub-Bsides-Vancouver-2018-walkthrough.html">https://pentester.land/challenge/2018/06/27/vulnhub-Bsides-Vancouver-2018-walkthrough.html</a>  </li>
