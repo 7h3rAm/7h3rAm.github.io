@@ -21,6 +21,18 @@
    </head>
   <body>
     <div class="body">
+      <div class="topmenu">
+        <table>
+          <tr>
+            <td colspan="3"><a class="menu_home" href="/index.html">मंथन</a></td>
+          </tr>
+          <tr>
+            <td><a class="menu_archive" href="/archive.html">💾 Archive</a></td>
+            <td><a class="menu_tags" href="/tags.html">🔖 Tags</a></td>
+            <td><a class="menu_stats" href="/stats.html">📊 Stats</a></td>
+          </tr>
+        </table>
+      </div>
       <div class="content">
           <h1 class="h1 collapsible" onclick="toggle(this);">Shellcode Analysis Pipleine</h1>
           <p style="float:left;"><a href="/posts/20140224_buf1-challenge.html"> « </a>📅 published on <code>18/Mar/2014</code><a href="/posts/20140327_northrop-challenge.html"> » </a></p>
@@ -196,31 +208,7 @@ ScId    Size Title
           <p style="float:left;">« <a href="/posts/20140224_buf1-challenge.html">buf1 - Another Buffer Overflow...</a> «</p>
       <p style="float:right;">» <a href="/posts/20140327_northrop-challenge.html">Northrop's Online Challenge</a> »</p>
           </div>
-      <div class="menu">
-        <h1 class="h1"><a class="menu_home" href="/index.html">मंथन</a></h1>
-          <ul class="active nested">
-            <li><a class="menu_archive" href="/archive.html">💾 Archive</a><ul class="active nested">
-              <li><a href=/pages/research.html>🔬 Research</a></li>
-              <li><a href=/pages/cv.html>📄 Curriculum Vitae</a></li>
-              <li><a href=/pages/satview.html>🛰️ Satellite Views</a></li>
-              <li><a href=/pages/fitness.html>🏋️ Fitness</a></li>
-              <li><a href=/pages/life.html>🧘 Life</a></li>
-            </ul></li>
-            <li><a class="menu_tags" href="/tags.html">🔖 Tags</a><ul class="active nested">
-                            <li><a href="/tags.html#code">code</a></li>
-                            <li><a href="/tags.html#ctf">ctf</a></li>
-                            <li><a href="/tags.html#exploit">exploit</a></li>
-                            <li><a href="/tags.html#hackthebox">hackthebox</a></li>
-                            <li><a href="/tags.html#reversing">reversing</a></li>
-                            <li><a href="/tags.html#tryhackme">tryhackme</a></li>
-                            <li><a href="/tags.html#vulnhub">vulnhub</a></li>
-                            <li><a href="/tags.html#vulnweekends">vulnweekends</a></li>
-                            <li><a href="/tags.html#writeup">writeup</a></li>
-                          </ul></li>
-            <li><a class="menu_stats" href="/stats.html">📊 Stats</a></li>
-          </ul>
-      </div>
-      <div class="footer footercenter"><span><a href="https://github.com/7h3rAm/7h3rAm.github.io" class="footspan">  </a></span></div>
+      <div><a class="footer" href="https://github.com/7h3rAm/7h3rAm.github.io">  </a></div>
       <script>hljs.initHighlightingOnLoad();</script>
       <script>hljs.initLineNumbersOnLoad();</script>
       <script>
@@ -246,6 +234,5 @@ ScId    Size Title
         }
       </script>
     </div>
-    <div id="bgclipart"></div>
   </body>
 </html>

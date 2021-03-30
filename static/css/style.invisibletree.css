@@ -9,6 +9,7 @@ blockquote :first-child { margin-top: 0; }
 blockquote :last-child { margin-bottom: 0; }
 blockquote { background-color:transparent; border-left:medium solid #dcdcdc; margin:1em 0; padding:0.5em; }
 
+p { margin-bottom:0.5em; }
 em, i { font-style:italic; }
 hr { margin-top:0.5em; margin-bottom:0.5em; border-top:1px solid #fff; }
 figcaption { font-size:small; }
@@ -39,7 +40,7 @@ img { display:block; margin:0 auto; vertical-align:middle; -webkit-border-radius
 strong, b { font-weight:bold; }
 pre > code > table { margin-left:0px; }
 pre > code { -webkit-border-radius:6px; max-width:100% !important; }
-pre, code { color:#766e6b; background-color:#f6f6f6; -webkit-border-radius:6px; }
+pre, code { color:#766e6b; background-color:#f6f6f6; -webkit-border-radius:6px; margin-bottom:0.5em; }
 pre::before, pre::after { display:block; }
 
 ul {
@@ -83,8 +84,7 @@ li:last-child::after {
 .active { display:block; }
 .collapsible { cursor:pointer; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; }
 
-.footer { display:inline-block; text-align:center; width:100%; text-decoration: none !important; border-bottom:none; }
-.footspan { color:#dcdcdc; font-size:11pt; } .footspan:hover { color:#5595bc; }
+.footer { display:inline-block; text-align:center; width:100%; text-decoration: none !important; border-bottom:none; color:#dcdcdc; font-size:11pt; } .footer:hover { color:#5595bc; }
 
 #cloud a { padding:0px; text-decoration:none; }
 #cloud li { display:inline-block; }
@@ -93,41 +93,20 @@ li:last-child::after {
 #cloud { margin:0px; padding:2px; line-height:2em; text-align:center; }
 #cloud li::after { border-left:0px solid #ffffff; }
 
-.content {
+.body {
   width: 45%;
   max-width: calc(100% - 170px);
-
   overflow: hidden;
-  border: 2px dashed #fff;
 }
 
-.menu {
-  position:fixed;
-  width:15%;
-  top:0px;
-  right:0px;
-  z-index:100;
-  float:right;
+.topmenu {
   border:2px dashed #fff;
+  display:inline-block;
+  text-align:center;
+  width:100%;
+  border-bottom:none;
 }
 
-.menu1{
-  width:auto;
-  height:50px;
-  position:fixed;
-  right:15%;
-  bottom:93%;
-  background-size:cover;
-  background-repeat:no-repeat;
-}
-
-#bgclipart{
-  background-image:url(/static/images/manthan-32x32.png.webp);
-  width:20px;
-  height:20px;
-  position:fixed;
-  right:0;
-  bottom:0;
-  background-size:cover;
-  background-repeat:no-repeat;
+.content {
+  border: 2px dashed #fff;
 }
