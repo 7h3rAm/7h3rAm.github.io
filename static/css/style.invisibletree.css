@@ -2,7 +2,7 @@
 @font-face { font-family:"FiraCode Nerd Font"; src:url("/static/fonts/firacode/firacode-nerdfont/Fira Code Regular Nerd Font Complete.ttf"); font-display:swap; }
 @media print { a { color:#00f!important; } body { width:auto; font-size:12pt; } }
 
-a { color:#5595bc; text-decoration:none; } a, a:active, a:focus{ outline:none; } a:hover { color:#fc580c; }
+a { color:#5595bc; text-decoration:none; } a, a:active, a:focus{ outline:none; }
 
 body { margin: 0px; }
 blockquote :first-child { margin-top: 0; }
@@ -21,18 +21,6 @@ h3 { font-size:14pt; margin:0; margin-top:0; margin-bottom:0; }
 h4 { font-size:12pt; margin:0; margin-top:0; margin-bottom:0; }
 h5 { font-size:11pt; margin:0; margin-top:0; margin-bottom:0; }
 h6 { font-size:10pt; margin:0; margin-top:0; margin-bottom:0; }
-
-h2:hover { color:#fc580c; }
-h3:hover { color:#fc580c; }
-h4:hover { color:#fc580c; }
-h5:hover { color:#fc580c; }
-h6:hover { color:#fc580c; }
-
-h2:hover::before { content:""; color:#dcdcdc; } h2:hover::after { content:""; color:#dcdcdc; }
-h3:hover::before { content:""; color:#dcdcdc; } h3:hover::after { content:""; color:#dcdcdc; }
-h4:hover::before { content:""; color:#dcdcdc; } h4:hover::after { content:""; color:#dcdcdc; }
-h5:hover::before { content:""; color:#dcdcdc; } h5:hover::after { content:""; color:#dcdcdc; }
-h6:hover::before { content:""; color:#dcdcdc; } h6:hover::after { content:""; color:#dcdcdc; }
 
 img { display:block; margin:0 auto; vertical-align:middle; -webkit-border-radius:6px; max-width:99% !important; width:auto; height:auto; }
 
@@ -71,10 +59,10 @@ li:last-child::after {
   height: 10px;
 }
 
-.menu_home { color:#fc580c; font-size:28pt; } .menu_home:hover { color:#fc580c; border-bottom-color:#fc580c; }
-.menu_archive { color:#b69014; font-size:16pt; } .menu_archive:hover { color:#b69014; border-bottom-color:#b69014; }
-.menu_tags { color:#693f92; font-size:16pt; } .menu_tags:hover { color:#693f92; }
-.menu_stats { color:#d9745f; font-size:16pt; } .menu_stats:hover { color:#d9745f; }
+.menu_home { color:#fc580c; font-size:28pt; }
+.menu_archive { color:#b69014; font-size:16pt; }
+.menu_tags { color:#693f92; font-size:16pt; }
+.menu_stats { color:#d9745f; font-size:16pt; }
 
 .hljs-ln-numbers { color:#909090; text-align:right; vertical-align:middle; border-right:0px solid #909090; }
 .rectimages { width:540px; height:270px; max-width:540px; max-height:270px; }
@@ -84,7 +72,7 @@ li:last-child::after {
 .active { display:block; }
 .collapsible { cursor:pointer; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; }
 
-.footer { display:inline-block; text-align:center; width:100%; text-decoration: none !important; border-bottom:none; color:#dcdcdc; font-size:11pt; } .footer:hover { color:#5595bc; }
+.footer { display:inline-block; text-align:center; width:100%; text-decoration: none !important; border-bottom:none; color:#dcdcdc; font-size:11pt; }
 
 #cloud a { padding:0px; text-decoration:none; }
 #cloud li { display:inline-block; }
