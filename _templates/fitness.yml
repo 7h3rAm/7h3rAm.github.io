@@ -116,14 +116,12 @@ training:
 
   - name: Desi
     listing:
-      - Deekli
-      - Lunges
-      - Jump Dips
-      - Dips Forward
-      - One-side Pushup Forward
-      - Uth Baith Sapate
+      - Dand (Hindu Pushups)
+      - Baithak (Hindu Squats)
       - Daddu Kuud (Squat Jump)
       - Langdi (Single Leg Jump Run)
+      - Deekli
+      - Uth Baith Sapate
 
   - name: Jacked
     url: https://www.youtube.com/watch?v=yy2nG18TfRQ

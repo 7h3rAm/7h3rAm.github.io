@@ -2,7 +2,7 @@
 @font-face { font-family:"FiraCode Nerd Font"; src:url("/static/fonts/firacode/firacode-nerdfont/Fira Code Regular Nerd Font Complete.ttf"); font-display:swap; }
 @media print { a { color:#00f!important; } body { width:auto; font-size:12pt; } }
 
-a { color:#5595bc; text-decoration:none; } a, a:active, a:focus{ outline:none; }
+a { color:#3b7dfa; text-decoration:none; } a, a:active, a:focus{ outline:none; }
 
 body { margin: 0px; }
 blockquote :first-child { margin-top: 0; }
@@ -62,7 +62,7 @@ li:last-child::after {
 .menu_home { color:#fc580c; font-size:28pt; }
 .menu_archive { color:#b69014; font-size:16pt; }
 .menu_tags { color:#693f92; font-size:16pt; }
-.menu_stats { color:#d9745f; font-size:16pt; }
+.menu_stats { color:#6eaa7e; font-size:16pt; }
 
 .hljs-ln-numbers { color:#909090; text-align:right; vertical-align:middle; border-right:0px solid #909090; }
 .rectimages { width:540px; height:270px; max-width:540px; max-height:270px; }
