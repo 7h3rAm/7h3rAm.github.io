@@ -6,7 +6,7 @@ tags: code
 
 ## Introduction
 
-In this post I'll try to explain how [pynids](https://jon.oberheide.org/pynids/) can be combined with Python's `re` module to develop a minimal IPS-like tool. In an earlier post, [Network Stream Reassembly and Defragmentation](https://7h3ram.github.io/posts/20130618_libnids-pynids.html), I talked about how to leverage pynids API to create a TCP reassembly module. I would suggest you read that post before continuing further since I'll be skipping over reassembly basics. First let's understand the architecture of a very basic IPS:
+In this post I'll try to explain how [pynids](https://jon.oberheide.org/pynids/) can be combined with Python's `re` module to develop a minimal IPS-like tool. In an earlier post, [Network Stream Reassembly and Defragmentation](/posts/20130618_libnids-pynids.html), I talked about how to leverage pynids API to create a TCP reassembly module. I would suggest you read that post before continuing further since I'll be skipping over reassembly basics. First let's understand the architecture of a very basic IPS:
 
 ![image](/static/files/posts_libnids_python_ids/minips-arch.png.webp)
 

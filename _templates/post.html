@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>{{ datadict.post.title }}</h1>
+  <hr>
+  <h1 class="h1 title collapsible" onclick="toggle(this);">{{ datadict.post.title }}</h1>
+    <div class="title"><code>{{ datadict.post.sparklinelong }}</code></div>
+    <hr>
     {% if datadict.post.previous and datadict.post.next %}
       <p style="float:left;"><a href="{{ datadict.post.previous.url }}"> « </a>📅 published on <code>{{ datadict.post.pretty_date }}</code><a href="{{ datadict.post.next.url }}"> » </a></p>
     {% elif datadict.post.previous %}
