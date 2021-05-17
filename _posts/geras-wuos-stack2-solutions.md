@@ -8,7 +8,7 @@ tags: exploit, ctf
 
 Following is the part 2 in the series of posts I started back in August 2012 with an aim to provide an analysis and possible solutions for the vulnerable programs provided by Gerardo 'gera' Richarte at the [Insecure Programming by example](http://pages.cs.wisc.edu/~riccardo/sec/) page.
 
-This post follows the [Gera's Warming Up on Stack #1 - Solutions](https://7h3ram.github.io/posts/20120827_geras-wuos-stack1-solutions.html) post and if you have not read it, I request you to please do so. Most of the concepts are very similar and since they have been already talked about, I'll not be reiterating them here.
+This post follows the [Gera's Warming Up on Stack #1 - Solutions](/posts/20120827_geras-wuos-stack1-solutions.html) post and if you have not read it, I request you to please do so. Most of the concepts are very similar and since they have been already talked about, I'll not be reiterating them here.
 
 Let's get started. Below is the source for the vulnerable [stack2.c](http://pages.cs.wisc.edu/~riccardo/sec/stack2.html) program:
 
@@ -32,18 +32,18 @@ Like its counterpart [stack1.c](http://community.corest.com/%7Egera/InsecureProg
 
 Here are a few observations that could be made by looking at the source of the program:
 
-1. Since it is defined prior to `buf`, the `cookie` would be placed at a higher memory address on the program stack, just below the saved registers from the function prologue
-2. The `buf` character array would be at an offset of at least 80B from `cookie`
-3. The `gets` call would accept unbounded user-input within `buf` array and hence it provides a mechanism to alter the call stack contents
+- Since it is defined prior to `buf`, the `cookie` would be placed at a higher memory address on the program stack, just below the saved registers from the function prologue
+- The `buf` character array would be at an offset of at least 80B from `cookie`
+- The `gets` call would accept unbounded user-input within `buf` array and hence it provides a mechanism to alter the call stack contents
 
-Stack layout for [stack2.c](http://community.corest.com/%7Egera/InsecureProgramming/stack2.html) is identical to [stack1.c](http://community.corest.com/%7Egera/InsecureProgramming/stack1.html) as already outlined in the [Gera's Warming Up on Stack #1 - Solutions](https://7h3ram.github.io/posts/20120827_geras-wuos-stack1-solutions.html) post.
+Stack layout for [stack2.c](http://community.corest.com/%7Egera/InsecureProgramming/stack2.html) is identical to [stack1.c](http://community.corest.com/%7Egera/InsecureProgramming/stack1.html) as already outlined in the [Gera's Warming Up on Stack #1 - Solutions](/posts/20120827_geras-wuos-stack1-solutions.html) post.
 
 Here are solutions I could think of to get the `you win!` message printed:
 
-- Solution #1: Overflow the internal `buf` array to overwrite `cookie` with `0x01020305`
-- Solution #2: Overflow the internal `buf` array to overwrite EIP with the address of `printf(you win!)`
-- Solution #3: Inject a NOP-prefixed `printf(you win!)` shellcode and overwrite EIP with its address
-- Solution #4: Inject a NOP-prefixed `printf(you win!)` shellcode through an environment var and overwrite EIP with its address
+- [Solution #1: Overflow the internal `buf` array to overwrite `cookie` with `0x01020305`](#solution1)
+- [Solution #2: Overflow the internal `buf` array to overwrite EIP with the address of `printf(you win!)`](#solution2)
+- [Solution #3: Inject a NOP-prefixed `printf(you win!)` shellcode and overwrite EIP with its address](#solution3)
+- [Solution #4: Inject a NOP-prefixed `printf(you win!)` shellcode through an environment var and overwrite EIP with its address](#solution4)
 
 Here's a brief description of the test system:
 
@@ -59,6 +59,7 @@ flags       : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat 
 ```
 
 ## Solutions
+<a name="solution1"></a>
 ### Solution #1: Overflow the internal `buf` array to overwrite cookie with `0x01020305`
 
 Here's the GCC commandline to prepare [stack2.c](http://community.corest.com/%7Egera/InsecureProgramming/stack2.html) for this solution:
@@ -81,11 +82,12 @@ buf: bffff4c4 cookie: bffff514
 you win!
 ```
 
+<a name="solution2"></a>
 ### Solution #2: Overflow the internal `buf` array to overwrite EIP with the address of `printf(you win!)`
 
 We need to have a look at the assembly of [stack2.c](http://community.corest.com/%7Egera/InsecureProgramming/stack2.html) and find out the location of the `printf` function which displays the `you win!` message:
 
-```c-objdump
+```c
 # objdump -d -M intel stack2 | grep -A20 main.:
 08048444 <main>:
  8048444:   55                      push   ebp
@@ -119,6 +121,7 @@ you win!
 Segmentation fault
 ```
 
+<a name="solution3"></a>
 ### Solution #3: Inject a NOP-prefixed `printf(you win!)` shellcode and overwrite EIP with its address
 
 Let's first recompile [stack2.c](http://community.corest.com/%7Egera/InsecureProgramming/stack2.html) and request GCC to mark program stack as executable. Additionally, we also need to turn ASLR off so that we can have a static return address to overwrite EIP with:
@@ -131,7 +134,7 @@ Let's first recompile [stack2.c](http://community.corest.com/%7Egera/InsecurePro
 0
 ```
 
-Now lets go ahead with exploitation. The Null-free, NOP-prefixed `printf(you win!)` shellcode we used to exploit [stack1.c](http://community.corest.com/%7Egera/InsecureProgramming/stack1.html) in the [Gera's Warming Up on Stack #1 - Solutions](https://7h3ram.github.io/posts/20120827_geras-wuos-stack1-solutions.html) post could be reused here:
+Now lets go ahead with exploitation. The Null-free, NOP-prefixed `printf(you win!)` shellcode we used to exploit [stack1.c](http://community.corest.com/%7Egera/InsecureProgramming/stack1.html) in the [Gera's Warming Up on Stack #1 - Solutions](/posts/20120827_geras-wuos-stack1-solutions.html) post could be reused here:
 
 ```
 # ./stack2
@@ -145,6 +148,7 @@ buf: bffff4c4 cookie: bffff514
 you win!#
 ```
 
+<a name="solution4"></a>
 ### Solution #4: Inject a NOP-prefixed `printf(you win!)` shellcode through an environment var and overwrite EIP with its address
 
 Lets get straight to exploitation:

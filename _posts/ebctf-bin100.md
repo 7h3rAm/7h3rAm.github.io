@@ -8,7 +8,7 @@ tags: code, ctf
 
 From the [challenges page](http://ebctf.nl/challenges/), download the [bin100](/static/files/posts_ebctf_bin100/bin100) binary and start following along. The challenge title is "Dice Revenge" and the description talks about Linux debugging skills. Let's see what `file` commands tells us about this file:
 
-```
+```c
 $ file bin100
 bin100: ELF 32-bit LSB  executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.26, BuildID[sha1]=b07165d860e4c153770483d43e42a54f92f5ac93, not stripped
 ```
@@ -17,7 +17,7 @@ bin100: ELF 32-bit LSB  executable, Intel 80386, version 1 (SYSV), dynamically l
 
 Alright, an ELF file. Let's issue a customary `strings` command on the challenge file:
 
-```
+```c
 $ strings bin100
 /lib/ld-linux.so.2
 CyIk
@@ -237,7 +237,7 @@ _init
 
 Quite a few interesting strings here. The title makes sense now. This looks like a dice game that requires us to throw certain number sequences to win. Let's give it a test run:
 
-```
+```c
 $ ./bin100
 
 [*] ebCTF 2013 - BIN100 - Dice Game
@@ -299,7 +299,7 @@ $ ./bin100
 
 Alright, looks like the first two numbers are `3` and `1` respectively. We might need multiple invocations to know further numbers in the expected sequence. Let's debug the file using GDB:
 
-```
+```c
 $ gdb -q ./bin100
 Reading symbols from ./bin100...(no debugging symbols found)...done.
 gdb-peda$ break *main
@@ -309,7 +309,7 @@ gdb-peda$
 
 Alright, now let's run the binary and when the breakpoint is hit, we can disassemble the `main` function:
 
-```asm
+```c
 gdb-peda$ r
 Starting program: /media/shiv/red_third/stoolbox/challenges/ebctf/bin100/bin100
 [----------------------------------registers-----------------------------------]
@@ -513,7 +513,7 @@ End of assembler dump.
 
 Analyzing this function is quite easy if you note the following block being repeated five times:
 
-```asm
+```c
    0x08048ee1 <+661>:   mov    DWORD PTR [esp+0x50],eax
    0x08048ee5 <+665>:   cmp    DWORD PTR [esp+0x50],0x1
    0x08048eea <+670>:   jne    0x8048f00 <main+692>
@@ -662,7 +662,7 @@ e.save('bin100.patched')
 
 We create a mapping of expected values and addresses where these need to be written. Executing this script will create a new patched file that should then give us the flag:
 
-```
+```c
 $ ./bin100.patched
 
 [*] ebCTF 2013 - BIN100 - Dice Game

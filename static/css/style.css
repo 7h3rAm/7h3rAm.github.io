@@ -1,0 +1,99 @@
+* { border:0; font-family:"FiraCode Nerd Font","Inconsolata",monospace; font-size:12pt; font-weight:normal; list-style:none; padding-left:2%; padding-right:2%; margin:0 auto; padding:.2ch; max-width:900px; }
+@media (max-width:500px) { * { font-size:10pt; } }
+@font-face { font-family:"FiraCode Nerd Font"; src:url("/static/fonts/firacode/firacode-nerdfont/Fira Code Regular Nerd Font Complete.ttf"); font-display:swap; }
+
+a { color:#3b7dfa; text-decoration:none; } a, a:active, a:focus{ outline:none; }
+
+body { margin:0px; background-color:#f6f6f6; }
+blockquote :first-child { margin-top:0; }
+blockquote :last-child { margin-bottom:0; }
+blockquote { background-color:transparent; border-left:medium solid #dcdcdc; margin:1em 0; padding:0.5em; }
+
+p { margin-bottom:0.5em; }
+em, i { font-style:italic; }
+hr { margin-top:0.5em; margin-bottom:0.5em; }
+figcaption { font-size:small; }
+figure { margin:1em 0; text-align:center; }
+
+h1 { font-weight:bold; font-size:18pt; margin:0; margin-top:0; margin-bottom:0; color:#5cb25e; }
+h2 { font-weight:bold; font-size:16pt; margin:0; margin-top:0; margin-bottom:0; }
+h3 { font-weight:bold; font-size:14pt; margin:0; margin-top:0; margin-bottom:0; }
+h4 { font-weight:bold; font-size:12pt; margin:0; margin-top:0; margin-bottom:0; }
+h5 { font-weight:bold; font-size:11pt; margin:0; margin-top:0; margin-bottom:0; }
+h6 { font-weight:bold; font-size:10pt; margin:0; margin-top:0; margin-bottom:0; }
+
+img { display:block; margin:0 auto; vertical-align:middle; -webkit-border-radius:0px; max-width:100% !important; width:auto; height:auto; border:1px solid #766e6b; }
+
+/*p { text-align:justify; }*/
+strong, b { font-weight:bold; }
+pre > code > table { margin-left:0px; }
+pre > code { -webkit-border-radius:0px; max-width:100% !important; border:1px solid #766e6b; }
+pre, code { color:#766e6b; -webkit-border-radius:0px; margin-bottom:0.5em; font-weight:bold; }
+pre::before, pre::after { display:block; }
+
+ul {
+  list-style:none;
+  padding-left:20px;
+  margin:0;
+}
+li {
+  position:relative;
+  margin:0;
+}
+li::before, li::after {
+  content:"";
+  position:absolute;
+  left:-12px;
+}
+li::before {
+  border-top:2px solid #766e6b;
+  top:12px;
+  width:8px;
+}
+li::after {
+  border-left:2px solid #766e6b;
+  height:100%;
+  top:4px;
+}
+li:last-child::after {
+  height:10px;
+}
+
+.menu_home { color:#fc580c; font-size:28pt; font-weight:bold; text-transform:capitalize; }
+.menu_archive { color:#5e5cb2; font-size:16pt; font-weight:bold; text-transform:capitalize; }
+.menu_tags { color:#5e5cb2; font-size:16pt; font-weight:bold; text-transform:capitalize; }
+.menu_stats { color:#5e5cb2; font-size:16pt; font-weight:bold; text-transform:capitalize; }
+
+.hljs-ln-numbers { color:#909090; text-align:right; vertical-align:middle; border-right:0px solid #909090; }
+.rectimages { width:540px; height:270px; max-width:540px; max-height:270px; }
+.sqimages { width:540px; height:540px; max-width:540px; max-height:540px; }
+
+.nested { display:none; }
+.active { display:block; }
+.collapsible { cursor:pointer; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; }
+
+.title { display:inline-block; text-align:center; width:100%; text-decoration:none !important; border-bottom:none; font-size:18pt; }
+.footer { display:inline-block; text-align:center; width:100%; text-decoration:none !important; border-bottom:none; color:#766e6b; font-size:11pt; }
+
+#cloud a { padding:0px; text-decoration:none; }
+#cloud li { display:inline-block; }
+#cloud li::before { content:""; }
+#cloud li::before { border-top:0px solid #766e6b; }
+#cloud { margin:0px; padding:2px; line-height:2em; text-align:center; }
+#cloud li::after { border-left:0px solid #766e6b; }
+
+.topmenu {
+  border:1px dashed #f6f6f6;
+  display:inline-block;
+  text-align:center;
+  width:100%;
+  border-bottom:none;
+}
+
+.content {
+  border:1px dashed #f6f6f6;
+}
+
+.sparklines {
+  letter-spacing:-3px;
+}

@@ -29,17 +29,17 @@ The above program too accepts user-input through the gets function and then look
 
 Here are a few observations that could be made by looking at the source of the program:
 
-1. Since it is defined prior to `buf`, the `cookie` would be placed at a higher memory address on the program stack, just below the saved registers from the function prologue
-2. The `buf` character array would be at an offset of at least 80B from `cookie`
-3. The `gets` call would accept unbounded user-input within `buf` array and hence it provides a mechanism to alter the call stack contents
-4. Interestingly, the `you win!` statement is missing from this example. As such, gaining control over `cookie` or EIP alone won't help with the completion of this example.
+- Since it is defined prior to `buf`, the `cookie` would be placed at a higher memory address on the program stack, just below the saved registers from the function prologue
+- The `buf` character array would be at an offset of at least 80B from `cookie`
+- The `gets` call would accept unbounded user-input within `buf` array and hence it provides a mechanism to alter the call stack contents
+- Interestingly, the `you win!` statement is missing from this example. As such, gaining control over `cookie` or EIP alone won't help with the completion of this example.
 
 Stack layout for [stack5.c](http://community.corest.com/%7Egera/InsecureProgramming/stack5.html) is identical to [stack1.c](http://community.corest.com/%7Egera/InsecureProgramming/stack1.html) as already outlined in the [Gera's Warming Up on Stack #1 - Solutions](https://7h3ram.github.io/posts/20120827_geras-wuos-stack1-solutions.html) post.
 
 Here are a few solutions I could think of to get the `you win!` message printed:
 
-- Solution #1: Inject a NOP-prefixed `printf(you win!)` shellcode and overwrite EIP with its address
-- Solution #2: Inject a NOP-prefixed `printf(you win!)` shellcode through an environment var and overwrite EIP with its address
+- [Solution #1: Inject a NOP-prefixed `printf(you win!)` shellcode and overwrite EIP with its address](#solution1)
+- [Solution #2: Inject a NOP-prefixed `printf(you win!)` shellcode through an environment var and overwrite EIP with its address](#solution2)
 
 Here's a brief description of the test system:
 
@@ -55,6 +55,7 @@ flags       : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat 
 ```
 
 ## Solutions
+<a name="solution1"></a>
 ### Solution #1: Inject a NOP-prefixed `printf(you win!)` shellcode and overwrite EIP with its address
 
 Here's the GCC commandline to prepare [stack4.c](http://community.corest.com/%7Egera/InsecureProgramming/stack4.html) for Solution #1:
@@ -83,6 +84,7 @@ buf: bffff4c4 ``cookie``: bffff514
 you win!#
 ```
 
+<a name="solution2"></a>
 ### Solution #2: Inject a NOP-prefixed `printf(you win!)` shellcode through an environment var and overwrite EIP with its address
 
 Lets get straight to the exploitation:
