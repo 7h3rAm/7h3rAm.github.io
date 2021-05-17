@@ -1,7 +1,7 @@
 [VulnHub] FristiLeaks: 1.3
 ===============
 date: 11/Sep/2019
-summary: This is the summary for an awesome post.
+summary: This is a writeup for VulnHub machine FristiLeaks: 1.3.
 tags: vulnhub, writeup
 
 ## Overview

@@ -1,7 +1,7 @@
 [VulnHub] Node: 1
 ===============
 date: 28/Oct/2019
-summary: This is the summary for an awesome post.
+summary: This is a writeup for VulnHub machine Node: 1.
 tags: vulnhub, writeup
 
 ## Overview

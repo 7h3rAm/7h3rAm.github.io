@@ -1,7 +1,7 @@
 [VulnHub] Kioptrix: 2014 (#5)
 ===============
 date: 09/Oct/2019
-summary: This is the summary for an awesome post.
+summary: This is a writeup for VulnHub machine Kioptrix: 2014 (#5).
 tags: vulnhub, writeup
 
 ## Overview

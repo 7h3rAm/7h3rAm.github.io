@@ -1,7 +1,7 @@
 Vulnerable Weekends #6: WPS Bruteforce and CoCSoft Stream Down
 ==============================================================
 date: 01/Jan/2012
-summary:
+summary: This is a report on recent security advisories published for WPS Bruteforce and CoCSoft Stream Down.
 tags: vulnweekends
 
 ## Introduction

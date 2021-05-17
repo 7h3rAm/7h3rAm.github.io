@@ -1,7 +1,7 @@
 [HackTheBox] Buff
 ===============
 date: 24/Nov/2020
-summary: This is the summary for an awesome post.
+summary: This is a writeup for HackTheBox machine Buff.
 tags: hackthebox, writeup
 
 ## Overview

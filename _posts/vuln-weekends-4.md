@@ -1,7 +1,7 @@
 Vulnerable Weekends #4: Windows True-Type Fonts and Windows DVR-MS
 ==================================================================
 date: 18/Dec/2011
-summary:
+summary: This is a report on recent security advisories published for Windows True-Type Fonts and Windows DVR-MS.
 tags: vulnweekends
 
 ## Introduction

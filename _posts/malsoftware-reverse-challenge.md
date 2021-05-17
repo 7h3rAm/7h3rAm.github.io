@@ -1,7 +1,7 @@
 reverse Challenge from Coursera's Malicious Software Course
 ===========================================================
 date: 29/Aug/2013
-summary: This post is a writeup on the reverse-challenge from recently concluded Malicious Software course on Coursera.
+summary: This is a writeup on the reverse-challenge from recently concluded Malicious Software course on Coursera.
 tags: ctf, reversing
 
 ## Introduction

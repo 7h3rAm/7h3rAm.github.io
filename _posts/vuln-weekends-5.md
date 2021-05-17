@@ -1,7 +1,7 @@
 Vulnerable Weekends #5: MIT Kerberos and VLC TiVo
 =================================================
 date: 24/Dec/2011
-summary:
+summary: This is a report on recent security advisories published for MIT Kerberos and VLC TiVo.
 tags: vulnweekends
 
 ## Introduction

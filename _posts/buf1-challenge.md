@@ -1,7 +1,7 @@
 buf1 - Another Buffer Overflow Challenge
 ========================================
 date: 24/Feb/2014
-summary: This is another buffer overflow challenge I found online. I posted a writeup on a similar challenge buf0 earlier and one for this challenge was long due. Finally today I got some time to document the solution.
+summary: This is a writeup for an easy buffer overflow challenge, similar to one I posted earlier.
 tags: ctf
 
 ## Introduction

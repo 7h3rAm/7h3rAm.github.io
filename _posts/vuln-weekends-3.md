@@ -1,7 +1,7 @@
 Vulnerable Weekends #3: Cisco WebEx Player and ISC DHCP
 =======================================================
 date: 10/Dec/2011
-summary:
+summary: This is a report on recent security advisories published for Cisco Webex and ISC DHCP.
 tags: vulnweekends
 
 ## Introduction

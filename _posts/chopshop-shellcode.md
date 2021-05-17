@@ -1,7 +1,7 @@
 Shellcode Detection Module in ChopShop
 ======================================
 date: 12/Mar/2015
-summary: This post shows a shellcode detection module that I submitted to MITRECND's ChopShop Protocol Analysis/Decoder Framework.
+summary: This post shows a shellcode detection module that was added to MITRECND's ChopShop Protocol Analysis/Decoder Framework.
 tags: code
 
 ## Introduction

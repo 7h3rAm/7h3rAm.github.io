@@ -1,7 +1,7 @@
 Vulnerable Weekends #8: HP LoadRunner RCE
 =========================================
 date: 02/Jun/2012
-summary:
+summary: This is a report on recent security advisory published for HP LoadRunner RCE.
 tags: vulnweekends
 
 ## Vulnerability Report #8: HP LoadRunner magentservice.exe Component Remote Code Execution Vulnerability

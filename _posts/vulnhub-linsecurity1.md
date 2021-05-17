@@ -1,7 +1,7 @@
 [VulnHub] Lin.Security: 1
 ===============
 date: 10/Oct/2019
-summary: This is the summary for an awesome post.
+summary: This is a writeup for VulnHub machine Lin.Security: 1.
 tags: vulnhub, writeup
 
 ## Overview

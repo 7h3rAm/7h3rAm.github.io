@@ -1,5 +1,5 @@
 notes:
-  - name: Goals
+  - name: Goal
     listing:
       - 10 pull ups
       - 20 dips
@@ -7,39 +7,24 @@ notes:
       - 8 minute mile
       - 5+5 skater squats
 
-  - name: Pillars of Fitness
-    url: https://www.youtube.com/watch?v=mUlj3agnE84
+  - name: Health
     listing:
-      - Agility
-      - Cognitive function
-      - Endurance
-      - Speed
-      - Strength
+      - "Sunlight & Cold Shower"
+      - "Almonds, Milk, Ghee, Ashwagandh, Haldi (Turmeric), Neem & Honey"
+      - "[Dand](https://en.wikipedia.org/wiki/Push-up#Hindu_push-up) & [Baithak](https://en.wikipedia.org/wiki/Squat_(exercise))"
+      - "[Mudgar/Club](https://www.onnit.com/onnit-steel-clubs/) & [Gada/Mace](https://www.onnit.com/onnit-steel-mace/)"
+      - "[Jump Ropes](https://www.roguefitness.com/conditioning/jump-ropes), [Resistance Band](https://www.roguefitness.com/mobility-rehab/mobility-tools/bands), [Kettlebell](https://www.kettlebellkings.com/powder-coat-kettlebell-in-lb/) & [Fatbell](https://www.roguefitness.com/rogue-thompson-fatbells)"
+      - "[Sandbag](https://www.onnit.com/onnit-sandbags/), [Weighted Vest](https://www.roguefitness.com/bodyweight-gymnastics/body-weight/weight-vests) & [Stones](https://www.roguefitness.com/rogue-rubber-atlas-stones)"
 
-  - name: What Matters for Muscle Growth?
-    url: https://www.youtube.com/watch?v=rl51CJlWhQY
+  - name: Supplements
     listing:
-      - Hard work
-      - Progressive Overload
-      - Going close to failure
-      - Rep ranges
-      - Use the best exercises
-      - Get enough volume
-      - Frequency
-      - Recovery
-      - Avoiding injury
-      - Eating enough
-
-  - name: Equipment
-    listing:
-      - "[Dumbbell](https://www.roguefitness.com/rogue-dumbbells)"
-      - "[Fat Gripz](https://smile.amazon.com/dp/B07QKML1SL/)"
-      - "[Jump Ropes](https://www.roguefitness.com/conditioning/jump-ropes)"
-      - "[Kettlebell](https://www.roguefitness.com/rogue-kettlebells)"
-      - "[Resistance Band](https://www.roguefitness.com/mobility-rehab/mobility-tools/bands)"
-      - "[Sandbag](https://www.roguefitness.com/rogue-sandbags)"
-      - "[Stones](https://www.roguefitness.com/rogue-rubber-atlas-stones)"
-      - "[Weighted Vest](https://www.roguefitness.com/bodyweight-gymnastics/body-weight/weight-vests)"
+      - "[Ashwagandha Root Powder](https://smile.amazon.com/dp/B081B9KN7F/)"
+      - "[Creatine (Monohydrate)](https://smile.amazon.com/dp/B002DYIZEO/)"
+      - "[Omega 3](https://smile.amazon.com/dp/B002CQU564/)"
+      - "[Vitamin B Complex](https://smile.amazon.com/dp/B07414752B/) or [B3](https://smile.amazon.com/gp/product/B0041SFOY4/)+[B12](https://smile.amazon.com/dp/B0013OQGO6/)"
+      - "[Vitamin D3+K2](https://smile.amazon.com/dp/B07255MPRN/)"
+      - "[Whey Protein (Isolate)](https://smile.amazon.com/dp/B00E7IODXQ/)"
+      - "[Zinc+Magnesium](https://smile.amazon.com/dp/B000GIQS02/)"
 
   - name: "Follow/Watch"
     listing:
@@ -49,6 +34,7 @@ notes:
       - "[Dimitry Klokov](https://www.instagram.com/klokovd/)"
       - "[Geoffrey Verity Schofield](https://www.youtube.com/channel/UCObA5o3mcc1felIMAv6cukw)"
       - "[George Hackenschmidt](https://en.wikipedia.org/wiki/George_Hackenschmidt)"
+      - "[Mark Wildman](https://www.youtube.com/channel/UCVYbUVLrZ6pEBfYV_UyvItA)"
       - "[Oleksiy Torokhtiy](https://www.instagram.com/torokhtiy/)"
       - "[Ross Enamait](https://twitter.com/rosstraining)"
       - "[Sol Brah](https://twitter.com/solbrah)"
@@ -74,75 +60,51 @@ notes:
       - "[The Virility Paradox: The Vast Influence of Testosterone on Our Bodies, Minds, and the World We Live In - Charles J. Ryan MD](https://smile.amazon.com/dp/B01N9XZCEJ/)"
       - "[The Way of the Superior Man: A Spiritual Guide to Mastering the Challenges of Women, Work, and Sexual Desire - David Deida](https://smile.amazon.com/dp/1622038320/)"
 
-stacks:
-  - name: Health
-    listing:
-      - "[Collagen Protein](https://smile.amazon.com/dp/B07GY22VLW/)"
-      - "[Creatine (Monohydrate)](https://smile.amazon.com/dp/B002DYIZEO/)"
-      - "[Gycline](https://smile.amazon.com/dp/B0013OVZJW/)"
-      - "[Omega 3](https://smile.amazon.com/dp/B002CQU564/)"
-      - "[Vitamin B Complex](https://smile.amazon.com/dp/B07414752B/) or [B3](https://smile.amazon.com/gp/product/B0041SFOY4/)+[B12](https://smile.amazon.com/dp/B0013OQGO6/)"
-      - "[Vitamin D3+K2](https://smile.amazon.com/dp/B07255MPRN/)"
-
-  - name: Hypertrophy
-    listing:
-      - "[Magnesium Chloride Oil](https://www.amazon.com/gp/product/B01CKEBFSE/)"
-      - "[Taurine](https://smile.amazon.com/gp/product/B00663G4ZK/)"
-      - "[Whey Protein (Isolate)](https://smile.amazon.com/dp/B00E7IODXQ/)"
-
-  - name: Testosterone
-    listing:
-      - "Sunlight"
-      - "Cold Shower"
-      - "Meditation"
-      - "Sleep + Whole Milk + Ghee + Paneer"
-      - "[DHEA](https://smile.amazon.com/dp/B004R68K14/)"
-      - "[Boron](https://smile.amazon.com/dp/B000LLYDEM/)"
-      - "[Zinc+Magnesium](https://smile.amazon.com/dp/B000GIQS02/)"
-      - "[Ubiquinol (CoQ10)](https://smile.amazon.com/dp/B00KHQJDWS/)"
-      - "[Ashwagandha Root Powder](https://smile.amazon.com/dp/B081B9KN7F/)"
-
 training:
-  - name: Compound
+  - name: Kettlebell
     listing:
-      - Dips
-      - Pullups
-      - Face Pulls
-      - Bench press
-      - Clean + Press
-      - Rows
-      - Squats
-      - Deadlifts
+      - Swing
+      - Snatch
+      - Clean & Jerk
+      - Press
+      - Squat
+      - Lunge
+      - Deadlift
+      - Farmer's Walk
 
   - name: Desi
     listing:
       - Dand (Hindu Pushups)
       - Baithak (Hindu Squats)
+      - Sapate (Dand+Baithak)
       - Daddu Kuud (Squat Jump)
       - Langdi (Single Leg Jump Run)
       - Deekli
       - Uth Baith Sapate
+      - Mudgar/Gada Swing
+
+  - name: Compound
+    listing:
+      - Dips
+      - Pullup
+      - Bench Press
+      - Clean & Jerk
+      - Snatch
+      - Row
+      - Squat
+      - Deadlift
 
   - name: Jacked
     url: https://www.youtube.com/watch?v=yy2nG18TfRQ
     listing:
       - "Focus: Neck/Traps/Delts/UpperChest/Lats/NarrowWaist"
       - Inclined DB Bench Press
-      - Neutral Grip Pull-downs
-      - Lateral Raises
-      - Yates Rows
+      - Neutral Grip Pull-down
+      - Lateral Raise
+      - Yates Row
       - Lying DB Neck Flexion
 
-  - name: Kettlebell
-    listing:
-      - Swing
-      - Clean
-      - Press
-      - Snatch
-      - Squat
-      - Lunge
-
-  - name: Warmup
+  - name: Generic
     listing:
       - "[Jump Rope](https://www.youtube.com/watch?v=wwzkJOKEHNA)"
       - "[Resistance Band](https://www.youtube.com/watch?v=hXS5di58qf0)"
@@ -150,22 +112,12 @@ training:
 grooming:
   - name: Hair Care
     listing:
-      - Multani Mitti (Fuller's Earth) + Gulab Jal (Rose Water) + Dahi (Curd)
       - Coconut Oil
       - Collagen Supplement
+      - Multani Mitti (Fuller's Earth) + Gulab Jal (Rose Water) + Dahi (Curd)
 
   - name: Body Wash
     listing:
       - Multani Mitti + Gulab Jal
       - Chandan (Sandalwood) + Gulab Jal
       - Neem Powder + Gulab Jal
-
-  - name: Body Care
-    listing:
-      - Almond Oil Massage
-      - Almonds, Ghee, Dahi, Raw Veggies
-      - Haldi Doodh (Tumeric Milk)
-      - Neem Powder + Honey
-      - D3+K2, Boron, ZMA, Omega 3, VitB Complex
-      - Glycine
-      - Creatine

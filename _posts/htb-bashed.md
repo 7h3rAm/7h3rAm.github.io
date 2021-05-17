@@ -1,7 +1,7 @@
 [HackTheBox] Bashed
 ===============
 date: 25/Jun/2020
-summary: This is the summary for an awesome post.
+summary: This is a writeup for HackTheBox machine Bashed.
 tags: hackthebox, writeup
 
 ## Overview

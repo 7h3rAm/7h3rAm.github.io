@@ -1,7 +1,7 @@
 [VulnHub] Lord Of The Root: 1.0.1
 ===============
 date: 10/Oct/2019
-summary: This is the summary for an awesome post.
+summary: This is a writeup for VulnHub machine Lord Of The Root: 1.0.1.
 tags: vulnhub, writeup
 
 ## Overview

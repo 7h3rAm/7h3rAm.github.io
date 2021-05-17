@@ -1,7 +1,7 @@
 [VulnHub] Escalate_Linux: 1
 ===============
 date: 17/Sep/2019
-summary: This is the summary for an awesome post.
+summary: This is a writeup for VulnHub machine Escalate_Linux: 1.
 tags: vulnhub, writeup
 
 ## Overview

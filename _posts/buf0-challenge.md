@@ -1,7 +1,7 @@
 buf0 - A Buffer Overflow Challenge
 ==================================
 date: 06/Jan/2014
-summary: This is a buffer overflow challenge I found online. Although some people might find this to be a pretty easy exploit target, I thought of posting a writeup since it will still be someone's starting point into the jouney of exploitation.
+summary: This is a writeup for an easy buffer overflow challenge file I found online.
 tags: ctf
 
 ## Introduction

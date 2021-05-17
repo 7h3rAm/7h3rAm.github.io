@@ -1,7 +1,7 @@
 [TryHackMe] Year of the Fox
 ===============
 date: 30/Jul/2020
-summary: This is the summary for an awesome post.
+summary: This is a writeup for TryHackMe machine Year of the Fox.
 tags: tryhackme, writeup
 
 ## Overview

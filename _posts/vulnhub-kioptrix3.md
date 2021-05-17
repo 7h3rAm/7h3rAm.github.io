@@ -1,7 +1,7 @@
 [VulnHub] Kioptrix: Level 1.2 (#3)
 ===============
 date: 29/Sep/2019
-summary: This is the summary for an awesome post.
+summary: This is a writeup for VulnHub machine Kioptrix: Level 1.2 (#3).
 tags: vulnhub, writeup
 
 ## Overview

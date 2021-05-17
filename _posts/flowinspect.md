@@ -1,7 +1,7 @@
 Flowinspect: A Network Inspection Tool
 ======================================
 date: 27/Nov/2014
-summary: This post introduces a network inspection tool that I've developed, called Flowinspect. It aims to reassemble network data and scan it via different inspection engines. Results of these scan can be viewed as a HTML report or consumed as a JSON via external applications.
+summary: This post introduces a network inspection tool, called Flowinspect. It aims to reassemble network data and scan it via different inspection engines. Results of these scan can be viewed as a HTML report or consumed as a JSON via external applications.
 tags: code
 
 ## Introduction

@@ -1,7 +1,7 @@
 [VulnHub] Mr-Robot: 1
 ===============
 date: 21/Oct/2019
-summary: This is the summary for an awesome post.
+summary: This is a writeup for VulnHub machine Mr-Robot: 1.
 tags: vulnhub, writeup
 
 ## Overview

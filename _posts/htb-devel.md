@@ -1,7 +1,7 @@
 [HackTheBox] Devel
 ===============
 date: 05/Nov/2019
-summary: This is the summary for an awesome post.
+summary: This is a writeup for HackTheBox machine Devel.
 tags: hackthebox, writeup
 
 ## Overview

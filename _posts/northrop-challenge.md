@@ -1,7 +1,7 @@
 Northrop's Online Challenge
 ===========================
 date: 27/Mar/2014
-summary: I came across an interesting challenge posted by someone from Northrop Grumman Cyber Intelligence Division at /reddit/netsec's Q1 2014 Information Security Hiring Thread. This post documents the steps I took to solve it.
+summary: This is a writeup for the /reddit/netsec's Q1 2014 Information Security Hiring Thread challenge posted by Northrop Grumman Cyber Intelligence Division.
 tags: code, ctf
 
 ## Introduction

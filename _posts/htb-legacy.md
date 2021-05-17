@@ -1,7 +1,7 @@
 [HackTheBox] Legacy
 ===============
 date: 01/Nov/2019
-summary: This is the summary for an awesome post.
+summary: This is a writeup for HackTheBox machine Legacy.
 tags: hackthebox, writeup
 
 ## Overview

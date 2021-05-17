@@ -1,7 +1,7 @@
 [VulnHub] LazySysAdmin: 1
 ===============
 date: 29/Oct/2019
-summary: This is the summary for an awesome post.
+summary: This is a writeup for VulnHub machine LazySysAdmin: 1.
 tags: vulnhub, writeup
 
 ## Overview

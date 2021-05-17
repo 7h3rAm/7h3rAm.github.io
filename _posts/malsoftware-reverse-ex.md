@@ -1,7 +1,7 @@
 reverse-ex Challenge from Coursera's Malicious Software Course
 ==============================================================
 date: 24/Aug/2013
-summary: The recently concluded Malicious Software course on Coursera had an interesting reversing challenge: reverse-ex. This is a writeup on how to complete it.
+summary: This is a writeup for an interesting challenge from recently concluded Malicious Software course on Coursera.
 tags: ctf, reversing
 
 ## Introduction

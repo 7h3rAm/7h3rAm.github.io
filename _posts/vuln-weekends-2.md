@@ -1,7 +1,7 @@
 Vulnerable Weekends #2: GNU GDB and Intel VT-d
 ==============================================
 date: 03/Dec/2011
-summary:
+summary: This is a report on recent security advisories published for GNU GDB and Intel VT-d.
 tags: vulnweekends
 
 ## Introduction

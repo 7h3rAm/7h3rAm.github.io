@@ -1,7 +1,7 @@
 [VulnHub] InfoSec Prep: OSCP
 ===============
 date: 10/Aug/2020
-summary: This is the summary for an awesome post.
+summary: This is a writeup for VulnHub machine Infosec Prep: OSCP.
 tags: vulnhub, writeup
 
 ## Overview

@@ -1,7 +1,7 @@
 [VulnHub] Brainpan: 1
 ===============
 date: 31/Aug/2019
-summary: This is the summary for an awesome post.
+summary: This is a writeup for VulnHub machine Brainpan: 1.
 tags: vulnhub, writeup
 
 ## Overview

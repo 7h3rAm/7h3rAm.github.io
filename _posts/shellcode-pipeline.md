@@ -1,7 +1,7 @@
 Shellcode Analysis Pipleine
 ===========================
 date: 18/Mar/2014
-summary: This post talks about creating an automated shellcode analysis pipeline where in the shellcode is sourced from public portals and tested via multiple analysis engines. It provides an automated way of testing the accuracy of detection engines like Libemu/Snort/Suricata/Bro against publicly available shellcode.
+summary: This post shows how to create an automated shellcode analysis pipeline where shellcode is sourced from public portals and tested using multiple analysis engines. It provides an automated way of testing the accuracy of detection engines like Libemu/Snort/Suricata/Bro against publicly available shellcode.
 tags: code, reversing
 
 ## Introduction

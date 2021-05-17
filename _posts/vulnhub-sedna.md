@@ -1,7 +1,7 @@
 [VulnHub] hackfest2016: Sedna
 ===============
 date: 19/Sep/2019
-summary: This is the summary for an awesome post.
+summary: This is a writeup for VulnHub machine hackfest2016: Sedna.
 tags: vulnhub, writeup
 
 ## Overview

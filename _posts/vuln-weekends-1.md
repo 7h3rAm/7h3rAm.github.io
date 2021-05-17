@@ -1,7 +1,7 @@
 Vulnerable Weekends #1: Mozilla and ProFTPd
 ===========================================
 date: 20/Nov/2011
-summary:
+summary: This is a report on recent security advisories published for Mozilla and ProFTPd.
 tags: vulnweekends
 
 ## Introduction

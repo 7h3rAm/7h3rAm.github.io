@@ -1,7 +1,7 @@
 [VulnHub] BSides Vancouver: 2018 (Workshop)
 ===============
 date: 09/Sep/2019
-summary: This is the summary for an awesome post.
+summary: This is a writeup for VulnHub machine BSides Vancouver: 2018 (Workshop).
 tags: vulnhub, writeup
 
 ## Overview

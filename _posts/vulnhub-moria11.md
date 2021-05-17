@@ -1,7 +1,7 @@
 [VulnHub] Moria: 1.1
 ===============
 date: 17/Oct/2019
-summary: This is the summary for an awesome post.
+summary: This is a writeup for VulnHub machine Moria: 1.1.
 tags: vulnhub, writeup
 
 ## Overview

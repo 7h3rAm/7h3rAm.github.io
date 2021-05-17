@@ -1,7 +1,7 @@
 FireEye FLARE On 2014 Challenges (1-5)
 ======================================
 date: 18/Feb/2016
-summary: The following post is a writeup for FireEye's FLARE On 2014 challenges that I recently attempted.
+summary: This is a writeup for FireEye's FLARE On 2014 challenges that I recently attempted.
 tags: ctf
 
 ## Introduction

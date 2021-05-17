@@ -1,7 +1,7 @@
 [VulnHub] hackfest2016: Quaoar
 ===============
 date: 18/Sep/2019
-summary: This is the summary for an awesome post.
+summary: This is a writeup for VulnHub machine hackfest2016: Quaoar.
 tags: vulnhub, writeup
 
 ## Overview

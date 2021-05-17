@@ -1,7 +1,7 @@
 Vulnerable Weekends #7: Iptools rcmd DoS
 ========================================
 date: 07/Jan/2012
-summary:
+summary: This is a report on recent security advisory published for Iptools rcmd DoS.
 tags: vulnweekends
 
 ## Vulnerability Report #7: Iptools rcmd Denial of Service Vulnerability

@@ -1,7 +1,7 @@
 capinfos.py: Pure Python Pcap Statistics Tool
 =============================================
-date: 2/Aug/2015
-summary: This post introduces a pure-Python way of parsing a pcap file and generating statistics like capinfos tool from Wireshark.
+date: 02/Aug/2015
+summary: This post introduces a pure-Python way of parsing a pcap file and generating statistics like the capinfos tool from Wireshark.
 tags: code
 
 ## Introduction

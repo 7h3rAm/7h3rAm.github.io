@@ -1,7 +1,7 @@
 [HackTheBox] Blocky
 ===============
 date: 13/Nov/2019
-summary: This is the summary for an awesome post.
+summary: This is a writeup for HackTheBox machine Blocky.
 tags: hackthebox, writeup
 
 ## Overview

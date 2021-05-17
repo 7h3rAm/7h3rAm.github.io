@@ -1,7 +1,7 @@
 circllu.py: Querying circl.lu API for CVE Information
 =====================================================
 date: 12/Mar/2016
-summary: This post demos a few nifty API endpoints from circl.lu that provide information on CVE and the vulnerabilities
+summary: This post shows API endpoints from circl.lu that provide CVE information.
 tags: code
 
 ## Introduction

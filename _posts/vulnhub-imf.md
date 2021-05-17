@@ -1,7 +1,7 @@
 [VulnHub] IMF: 1
 ===============
 date: 26/Sep/2019
-summary: This is the summary for an awesome post.
+summary: This is a writeup for VulnHub machine IMF: 1.
 tags: vulnhub, writeup
 
 ## Overview

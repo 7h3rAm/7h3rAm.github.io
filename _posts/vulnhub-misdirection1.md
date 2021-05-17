@@ -1,7 +1,7 @@
 [VulnHub] Misdirection: 1
 ===============
 date: 11/Oct/2019
-summary: This is the summary for an awesome post.
+summary: This is a writeup for VulnHub machine Misdirection: 1.
 tags: vulnhub, writeup
 
 ## Overview

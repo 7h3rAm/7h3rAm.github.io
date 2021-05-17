@@ -1,7 +1,7 @@
 [VulnHub] Billy Madison: 1.1
 ===============
 date: 05/Sep/2019
-summary: This is the summary for an awesome post.
+summary: This is a writeup for VulnHub machine Billy Madison 1.1.
 tags: vulnhub, writeup
 
 ## Overview

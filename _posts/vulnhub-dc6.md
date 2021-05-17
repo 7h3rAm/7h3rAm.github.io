@@ -1,7 +1,7 @@
 [VulnHub] DC: 6
 ===============
 date: 10/Sep/2019
-summary: This is the summary for an awesome post.
+summary: This is a writeup for VulnHub machine DC: 6.
 tags: vulnhub, writeup
 
 ## Overview

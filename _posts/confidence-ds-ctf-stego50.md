@@ -1,7 +1,7 @@
 CONFidence DS CTF Teaser: Stegano50
 ===================================
-date: 6/May/2014
-summary: This post discusses how I completed the stego50 challenge from Dragon Sector CTF team. It is a simplistic challenge but a good source for learning about PDF internals.
+date: 06/May/2014
+summary: This post discusses how I completed the stego50 challenge from Dragon Sector CTF team. It is a simplistic challenge but a good source for learning PDF file format internals.
 tags: code, ctf
 
 ## Challenge Analysis
