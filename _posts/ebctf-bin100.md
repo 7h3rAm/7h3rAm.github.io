@@ -6,7 +6,7 @@ tags: code, ctf
 
 ## Introduction
 
-From the [challenges page](http://ebctf.nl/challenges/), download the [bin100](/static/files/posts_ebctf_bin100/bin100) binary and start following along. The challenge title is "Dice Revenge" and the description talks about Linux debugging skills. Let's see what `file` commands tells us about this file:
+From the [challenges page](http://ebctf.nl/challenges/), download the [bin100](/static/files/posts_ebctf_bin100/bin100) binary and start following along. The challenge title is "Dice Revenge" and the description talks about Linux debugging skills. Let's see what `file` commands tells us about this binary:
 
 ```c
 $ file bin100
