@@ -30,15 +30,21 @@
         {% endfor %}
       </ul></li>
       <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Research</h2><ul class="active nested">
+
         <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Patents</h3><ul class="active nested">
         {% for patent in datadict.metadata.research.patents %}
           {% if patent.url is not none %}
-            <li><code>{{ patent.date }}</code>: {{ patent.name }} (<a href={{ patent.url }}>{{ patent.id }}</a>)</li>
-          {% else %}
-            <li><code>{{ patent.date }}</code>: {{ patent.name }} (<code>{{ patent.id }}</code>)</li>
+            <li>
+              <table style="margin-left:0;"><tr>
+                <td style="vertical-align:top;"><code>{{ patent.date }}</code></td>
+                <td style="vertical-align:top;">:</td>
+                <td><a href={{ patent.url }}>{{ patent.name }}</a></td>
+              </tr></table>
+            </li>
           {% endif %}
         {% endfor %}
         </ul></li>
+
         <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Talks/Papers/Demos</h3><ul class="active nested">
         {% for talk in datadict.metadata.research.talks %}
         <li><h4 class="h4 collapsible expanded" onclick=toggle(this);>{{ talk.name }}</h4><ul class="active nested">
