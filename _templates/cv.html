@@ -17,7 +17,7 @@
       </ul></li>
       <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Experience</h2><ul class="active nested">
         {% for job in datadict.metadata.jobs %}
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>{{ job.title }} @ {{ job.employer }}</h3><ul class="active nested">
+        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>{{ job.title }} @ <a href={{ job.url }}>{{ job.employer }}</a></h3><ul class="active nested">
           <li>
             <code>{{ job.years }} ({{ job.duration }})</code>
             <ul>{% for desc in job.description %}
@@ -64,12 +64,12 @@
       <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Academics</h2><ul class="active nested">
         <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>University</h3><ul class="active nested">
           {% for acad in datadict.metadata.academics %}
-            <li><code>{{ acad.date }}</code>: {{ acad.course }} @ {{ acad.institute }}</li>
+            <li><code>{{ acad.date }}</code>: <a href={{ acad.corurl }}>{{ acad.course }}</a> @ <a href={{ acad.insturl }}>{{ acad.institute }}</a></li>
           {% endfor %}
         </ul></li>
         <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Certification</h3><ul class="active nested">
           {% for cert in datadict.metadata.certifications %}
-            <li><code>{{ cert.date }}</code>: {{ cert.name }} @ {{ cert.institute }} (<code>ID: {{ cert.id }}</code>)</li>
+            <li><code>{{ cert.date }}</code>: <a href={{ cert.certurl }}>{{ cert.name }}</a> @ <a href={{ cert.insturl }}>{{ cert.institute }}</a> (<code>ID: {{ cert.id }}</code>)</li>
           {% endfor %}
         </ul></li>
       </ul></li>

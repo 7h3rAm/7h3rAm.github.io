@@ -1,11 +1,17 @@
 notes:
-  - name: Goal
+  - name: Goals
     listing:
       - 10 pull ups
       - 20 dips
       - 30 push ups
       - 8 minute mile
       - 5+5 skater squats
+
+  - name: Quotes
+    listing:
+      - "[दिमाग ठंडा - बदन गरम](https://twitter.com/BeATopPredator/status/1376889299900063750)"
+      - "[He who is only an athlete is too crude, too vulgar, too much of a savage. He who is a scholar only is too soft, too effeminate. The ideal citizen is the scholar athlete, the man of thought and the man of action. - Plato](https://twitter.com/PathToManliness/status/1216797157350674433)"
+      - "[The society that separates its scholars from its warriors will have its thinking done by cowards and its fighting by fools. - Thucydides](https://medium.com/sunnya97/quote-of-the-month-december-2018-982f7225eeda)"
 
   - name: Health
     listing:
@@ -26,7 +32,7 @@ notes:
       - "[Whey Protein (Isolate)](https://smile.amazon.com/dp/B00E7IODXQ/)"
       - "[Zinc+Magnesium](https://smile.amazon.com/dp/B000GIQS02/)"
 
-  - name: "Follow/Watch"
+  - name: Follow
     listing:
       - "[Adam Sinicki](https://twitter.com/thebioneer)"
       - "[Clarence Kennedy](https://www.instagram.com/clarencekennedy_/)"
@@ -60,8 +66,7 @@ notes:
       - "[The Virility Paradox: The Vast Influence of Testosterone on Our Bodies, Minds, and the World We Live In - Charles J. Ryan MD](https://smile.amazon.com/dp/B01N9XZCEJ/)"
       - "[The Way of the Superior Man: A Spiritual Guide to Mastering the Challenges of Women, Work, and Sexual Desire - David Deida](https://smile.amazon.com/dp/1622038320/)"
 
-training:
-  - name: Kettlebell
+  - name: "[Training] Kettlebell"
     listing:
       - Swing
       - Snatch
@@ -72,7 +77,7 @@ training:
       - Deadlift
       - Farmer's Walk
 
-  - name: Desi
+  - name: "[Training] Desi"
     listing:
       - Dand (Hindu Pushups)
       - Baithak (Hindu Squats)
@@ -83,7 +88,7 @@ training:
       - Uth Baith Sapate
       - Mudgar/Gada Swing
 
-  - name: Compound
+  - name: "[Training] Compound"
     listing:
       - Dips
       - Pullup
@@ -94,7 +99,7 @@ training:
       - Squat
       - Deadlift
 
-  - name: Jacked
+  - name: "[Training] Jacked"
     url: https://www.youtube.com/watch?v=yy2nG18TfRQ
     listing:
       - "Focus: Neck/Traps/Delts/UpperChest/Lats/NarrowWaist"
@@ -104,19 +109,18 @@ training:
       - Yates Row
       - Lying DB Neck Flexion
 
-  - name: Generic
+  - name: "[Training] Generic"
     listing:
       - "[Jump Rope](https://www.youtube.com/watch?v=wwzkJOKEHNA)"
       - "[Resistance Band](https://www.youtube.com/watch?v=hXS5di58qf0)"
 
-grooming:
-  - name: Hair Care
+  - name: "[Grooming] Hair Care"
     listing:
       - Coconut Oil
       - Collagen Supplement
       - Multani Mitti (Fuller's Earth) + Gulab Jal (Rose Water) + Dahi (Curd)
 
-  - name: Body Wash
+  - name: "[Grooming] Body Wash"
     listing:
       - Multani Mitti + Gulab Jal
       - Chandan (Sandalwood) + Gulab Jal
