@@ -1,32 +1,4 @@
 notes:
-  - name: Wisdom
-    listing:
-      - "[12 Rules for Life: An Antidote to Chaos - Jordan B. Peterson](https://smile.amazon.com/dp/0345816021/)"
-      - "[A Mind at Play: How Claude Shannon Invented the Information Age - Jimmy Soni, Rob Goodman](https://smile.amazon.com/dp/147676669X/)"
-      - "[Atomic Habits: An Easy & Proven Way to Build Good Habits & Break Bad Ones - James Clear](https://smile.amazon.com/dp/0735211299/)"
-      - "[Freakonomics: A Rogue Economist Explores the Hidden Side of Everything (P.S.) - Steven D. Levitt, Stephen J. Dubner](https://smile.amazon.com/dp/0060731338/)"
-      - "[Incerto: Fooled by Randomness, The Black Swan, The Bed of Procrustes, Antifragile - Nassim Nicholas Taleb](https://smile.amazon.com/dp/0399590455/)"
-      - "[Inner Engineering: A Yogi's Guide to Joy - Sadhguru](https://smile.amazon.com/dp/0143428845/)"
-      - "[Mikey and the Dragons - Jocko Willink, Di Angelo Publications](https://smile.amazon.com/dp/1942549431/)"
-      - "[Mystic's Musings - Jaggi Vasudev](https://smile.amazon.com/dp/8186685596/)"
-      - "[Range: How Generalists Triumph in a Specialized World - David Epstein](https://smile.amazon.com/dp/B08158D8LP/)"
-      - "[Sapiens: A Brief History of Humankind - Yuval Noah Harari](https://smile.amazon.com/dp/0062316117/)"
-      - "[Skin in the Game: Hidden Asymmetries in Daily Life - Nassim Nicholas Taleb](https://smile.amazon.com/dp/042528462X/)"
-      - "[The Almanack of Naval Ravikant: A Guide to Wealth and Happiness Paperback - Eric Jorgenson (Author), Jack Butcher (Illustrator), Tim Ferriss (Foreword)](https://smile.amazon.com/dp/1544514212/)"
-      - "[The Atlas Obscura Explorer’s Guide for the World’s Most Adventurous Kid - Dylan Thuras, Rosemary Mosco](https://smile.amazon.com/dp/1523503548/)"
-      - "[The Automatic Millionaire, Expanded and Updated: A Powerful One-Step Plan to Live and Finish Rich - David Bach](https://smile.amazon.com/dp/B01G0GD0PE/)"
-      - "[The Bitcoin Standard: The Decentralized Alternative to Central Banking - Saifedean Ammous](https://smile.amazon.com/dp/1119473861/)"
-      - "[The Elements of Style: Classic Edition (2018): With Editor's Notes, New Chapters & Study Guide - William Strunk Jr., Richard De A'Morelli](https://smile.amazon.com/dp/1643990004/)"
-      - "[The Global Economy as You've Never Seen It: 99 Ingenious Infographics That Put It All Together - Thomas Ramge, Jan Schwochow](https://smile.amazon.com/dp/1615195173/)"
-      - "[The Intelligent Investor: The Definitive Book on Value Investing - Benjamin Graham, Jason Zweig, Warren E. Buffett](https://smile.amazon.com/dp/0060555661/)"
-      - "[The Price of Tomorrow: Why Deflation is the Key to an Abundant Future - Jeff Booth](https://smile.amazon.com/dp/1999257405/)"
-      - "[The Richest Man in Babylon: 9789387669369 - George S. Clason, GP Editors](https://smile.amazon.com/dp/B07BB5N17S/)"
-      - "[The Richest Man in Babylon: Original 1926 Edition - George S. Clason, Charles Conrad](https://smile.amazon.com/dp/1508524351/)"
-      - "[The Shock Doctrine: The Rise of Disaster Capitalism - Naomi Klein](https://smile.amazon.com/dp/0312427999/)"
-      - "[The Sovereign Individual: Mastering the Transition to the Information Age - James Dale Davidson, William Rees-Mogg](https://smile.amazon.com/dp/0684832720/)"
-      - "[Visualizing Change: A data-driven snapshot of our world - Jeffrey Desjardins](https://smile.amazon.com/dp/B0792KSRRS/)"
-      - "[Way of the Warrior Kid: From Wimpy to Warrior the Navy SEAL Way: A Novel - Jocko Willink, Jon Bozak](https://smile.amazon.com/dp/1250151074/)"
-
   - name: CyberSec
     listing:
       - "[@War: The Rise of the Military-Internet Complex - Shane Harris](https://smile.amazon.com/dp/0544251792/)"
@@ -50,6 +22,27 @@ notes:
       - "[Red Team Development and Operations: A practical guide - Joe Vest, James Tubberville](https://smile.amazon.com/dp/B083XVG633/)"
       - "[Targeted Cyber Attacks: Multi-staged Attacks Driven by Exploits and Malware - Aditya Sood, Richard Enbody](https://smile.amazon.com/dp/0128006048)"
       - "[The Art of Memory Forensics: Detecting Malware and Threats in Windows, Linux, and Mac Memory - Michael Hale Ligh, Andrew Case](https://smile.amazon.com/dp/1118825098/)"
+
+  - name: Fitness
+    listing:
+      - "[Bronze Age Mindset - Bronze Age Pervert](https://smile.amazon.com/dp/1983090441/)"
+      - "[Can't Hurt Me: Master Your Mind and Defy the Odds - David Goggins](https://smile.amazon.com/dp/B07H453KGH/)"
+      - "[Deep Nutrition: Why Your Genes Need Traditional Food - Catherine Shanahan M.D.](https://smile.amazon.com/dp/1250113822/)"
+      - "[Endurance - Earle E Liederman](https://smile.amazon.com/dp/1466433876/)"
+      - "[Enter The Kettlebell!: Strength Secret of the Soviet Supermen - Pavel Tsatsouline](https://smile.amazon.com/dp/1942812132/)"
+      - "[Functional Training and Beyond: Building the Ultimate Superfunctional Body and Mind - Adam Sinicki](https://smile.amazon.com/dp/164250503X/)"
+      - "[Gorilla Mindset - Mike Cernovich](https://smile.amazon.com/dp/1514672111/)"
+      - "[Kettlebell Simple & Sinister - Pavel Tsatsouline](https://smile.amazon.com/dp/0989892433/)"
+      - "[King, Warrior, Magician, Lover: Rediscovering the Archetypes of the Mature Masculine - Robert Moore, Douglas Gillette](https://smile.amazon.com/dp/0062506064/)"
+      - "[Masculinity Amidst Madness - Ryan Landry, Bronze Age Pervert](https://smile.amazon.com/dp/1951897145/)"
+      - "[Practical Programming for Strength Training - Mark Rippetoe, Andy Baker](https://smile.amazon.com/dp/0982522754/)"
+      - "[Reclaim Your Manhood - Ryan Felman](https://smile.amazon.com/dp/1731044836/)"
+      - "[Starting Strength: Basic Barbell Training - Mark Rippetoe, Jason Kelly](https://smile.amazon.com/dp/0982522738/)"
+      - "[SWEAT: Special Workouts, Exercises and Advanced Techniques: Everything you'll need to know on your fitness journey - Geoffrey Verity Schofield](https://smile.amazon.com/dp/1652537988/)"
+      - "[The Illustrated Art of Manliness: The Essential How-To Guide: Survival, Chivalry, Self-Defense, Style, Car Repair, And More! - Brett McKay, Ted Slampyak](https://smile.amazon.com/dp/0316362654/)"
+      - "[The Quick and the Dead: Total Training for the Advanced Minimalist - Pavel Tsatsouline](https://smile.amazon.com/dp/0989892425/)"
+      - "[The Virility Paradox: The Vast Influence of Testosterone on Our Bodies, Minds, and the World We Live In - Charles J. Ryan MD](https://smile.amazon.com/dp/B01N9XZCEJ/)"
+      - "[The Way of the Superior Man: A Spiritual Guide to Mastering the Challenges of Women, Work, and Sexual Desire - David Deida](https://smile.amazon.com/dp/1622038320/)"
 
   - name: "Science/Tech"
     listing:
@@ -81,6 +74,34 @@ notes:
       - "[Trojan Horse (Jeff Aiken Series) - Mark Russinovich](https://smile.amazon.com/dp/1250042542/)"
       - "[Write Great Code: Volume 1: Understanding the Machine - Randall Hyde](https://smile.amazon.com/dp/1593270038/)"
       - "[Write Great Code: Volume 2: Thinking Low-Level, Writing High-Level - Randall Hyde](https://smile.amazon.com/dp/1593270658/)"
+
+  - name: Wisdom
+    listing:
+      - "[12 Rules for Life: An Antidote to Chaos - Jordan B. Peterson](https://smile.amazon.com/dp/0345816021/)"
+      - "[A Mind at Play: How Claude Shannon Invented the Information Age - Jimmy Soni, Rob Goodman](https://smile.amazon.com/dp/147676669X/)"
+      - "[Atomic Habits: An Easy & Proven Way to Build Good Habits & Break Bad Ones - James Clear](https://smile.amazon.com/dp/0735211299/)"
+      - "[Freakonomics: A Rogue Economist Explores the Hidden Side of Everything (P.S.) - Steven D. Levitt, Stephen J. Dubner](https://smile.amazon.com/dp/0060731338/)"
+      - "[Incerto: Fooled by Randomness, The Black Swan, The Bed of Procrustes, Antifragile - Nassim Nicholas Taleb](https://smile.amazon.com/dp/0399590455/)"
+      - "[Inner Engineering: A Yogi's Guide to Joy - Sadhguru](https://smile.amazon.com/dp/0143428845/)"
+      - "[Mikey and the Dragons - Jocko Willink, Di Angelo Publications](https://smile.amazon.com/dp/1942549431/)"
+      - "[Mystic's Musings - Jaggi Vasudev](https://smile.amazon.com/dp/8186685596/)"
+      - "[Range: How Generalists Triumph in a Specialized World - David Epstein](https://smile.amazon.com/dp/B08158D8LP/)"
+      - "[Sapiens: A Brief History of Humankind - Yuval Noah Harari](https://smile.amazon.com/dp/0062316117/)"
+      - "[Skin in the Game: Hidden Asymmetries in Daily Life - Nassim Nicholas Taleb](https://smile.amazon.com/dp/042528462X/)"
+      - "[The Almanack of Naval Ravikant: A Guide to Wealth and Happiness Paperback - Eric Jorgenson (Author), Jack Butcher (Illustrator), Tim Ferriss (Foreword)](https://smile.amazon.com/dp/1544514212/)"
+      - "[The Atlas Obscura Explorer’s Guide for the World’s Most Adventurous Kid - Dylan Thuras, Rosemary Mosco](https://smile.amazon.com/dp/1523503548/)"
+      - "[The Automatic Millionaire, Expanded and Updated: A Powerful One-Step Plan to Live and Finish Rich - David Bach](https://smile.amazon.com/dp/B01G0GD0PE/)"
+      - "[The Bitcoin Standard: The Decentralized Alternative to Central Banking - Saifedean Ammous](https://smile.amazon.com/dp/1119473861/)"
+      - "[The Elements of Style: Classic Edition (2018): With Editor's Notes, New Chapters & Study Guide - William Strunk Jr., Richard De A'Morelli](https://smile.amazon.com/dp/1643990004/)"
+      - "[The Global Economy as You've Never Seen It: 99 Ingenious Infographics That Put It All Together - Thomas Ramge, Jan Schwochow](https://smile.amazon.com/dp/1615195173/)"
+      - "[The Intelligent Investor: The Definitive Book on Value Investing - Benjamin Graham, Jason Zweig, Warren E. Buffett](https://smile.amazon.com/dp/0060555661/)"
+      - "[The Price of Tomorrow: Why Deflation is the Key to an Abundant Future - Jeff Booth](https://smile.amazon.com/dp/1999257405/)"
+      - "[The Richest Man in Babylon: 9789387669369 - George S. Clason, GP Editors](https://smile.amazon.com/dp/B07BB5N17S/)"
+      - "[The Richest Man in Babylon: Original 1926 Edition - George S. Clason, Charles Conrad](https://smile.amazon.com/dp/1508524351/)"
+      - "[The Shock Doctrine: The Rise of Disaster Capitalism - Naomi Klein](https://smile.amazon.com/dp/0312427999/)"
+      - "[The Sovereign Individual: Mastering the Transition to the Information Age - James Dale Davidson, William Rees-Mogg](https://smile.amazon.com/dp/0684832720/)"
+      - "[Visualizing Change: A data-driven snapshot of our world - Jeffrey Desjardins](https://smile.amazon.com/dp/B0792KSRRS/)"
+      - "[Way of the Warrior Kid: From Wimpy to Warrior the Navy SEAL Way: A Novel - Jocko Willink, Jon Bozak](https://smile.amazon.com/dp/1250151074/)"
 
   - name: Misc
     listing:

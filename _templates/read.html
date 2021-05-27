@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1 class="h1">🧘 Life</h1>
+  <h1 class="h1">📚 Read</h1>
     <ul class="active">
-      {% for note in datadict.life.notes %}
+      {% for note in datadict.read.notes %}
         {% if note.url %}
           <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>{{ note.name|md2html|removepara }} <a href={{ note.url }}>[🔗]</a></h3><ul class="active nested">
         {% else %}

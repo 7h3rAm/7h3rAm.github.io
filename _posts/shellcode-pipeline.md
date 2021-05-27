@@ -12,9 +12,9 @@ I recently required an automated way of analyzing shellcode and verifying if it 
 
 I basically divided the project into three independent tasks:
 
-1. source shellcode from shell-storm, exploit-db and metasploit
-2. generate pcaps for obtained shellcode
-3. test shellcode with Libemu and pcaps with Snort/Suricata/Bro
+- source shellcode from shell-storm, exploit-db and metasploit
+- generate pcaps for obtained shellcode
+- test shellcode with Libemu and pcaps with Snort/Suricata/Bro
 
 These are independent since any of them can be used individually, as a unit, and developed outside of the system. The first task itself was divided into smaller sub-tasks and I started with sourcing shellcode from shell-storm. The shell-storm shellcode page documents steps needed to access shell-storm database and there is an example script that provides an easy to use cli to search for and download individual shellcode files from shell-storm. I used this script in my project and added a wrapper over it to search, download and generate pcaps all with just one cli invocation. The script currently is in beta and satisfies only a few of the above requirements. Shell-storm sourcing is implemented, pcap generation is working and shellcode testing currently happens with Libemu only. Additional sources and analysis engines would be added shortly.
 
