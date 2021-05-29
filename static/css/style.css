@@ -97,3 +97,8 @@ li:last-child::after {
 .sparklines {
   letter-spacing:-3px;
 }
+
+.neoclass {
+  width:100%;
+  text-align:center;
+}
