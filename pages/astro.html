@@ -41,14 +41,7 @@
               <li><p id=currenttime_local></p></li>
             </ul></li>
 
-            <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>🚀 SpaceX Stats</h2><ul class="active nested">
-            </ul></li>
-
-            <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>🔔 Earth Observatory Natural Event Tracker</h2><ul class="active nested">
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this); id="eonettitle"></h3><p class="active nested"><small>Stats for natural events provided courtesy of <a href="https://eonet.sci.gsfc.nasa.gov/">EONET</a> team. <a href="https://eonet.sci.gsfc.nasa.gov/what-is-eonet">[🔗]</a></small></p><table id="eonettable" class="active nested eonetclass"></table></li>
-            </ul></li>
-
-            <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>🪐 Astronomy Picture of the Day</h2><ul class="active nested">
+            <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>🪐 Astronomy Picture of the Day (APOD)</h2><ul class="active nested">
               <li>
                 <h3 class="h3 collapsible expanded" onclick=toggle(this); id="apodtitle"></h3>
                 <p class="active nested"><small>Courtesy of <a href="https://astrophysics.gsfc.nasa.gov/">ASD</a> at <a href="https://www.nasa.gov/">NASA</a>/<a href="https://www.nasa.gov/centers/goddard/">GSFC</a> and <a href="https://www.mtu.edu/">Michigan Tech. U</a>. Visit <a href="https://apod.nasa.gov/apod/astropix.html">[🔗]</a> for more details or <a href="https://apod.nasa.gov/apod/archivepix.html">[🔗]</a> for archived images.</small></p>
@@ -56,8 +49,12 @@
               </li>
             </ul></li>
 
+            <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>🔔 Earth Observatory Natural Event Tracker (EONET)</h2><ul class="active nested">
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this); id="eonettitle"></h3><p class="active nested"><small>Stats provided courtesy of <a href="https://eonet.sci.gsfc.nasa.gov/">EONET</a> team. <a href="https://eonet.sci.gsfc.nasa.gov/what-is-eonet">[🔗]</a></small></p><table id="eonettable" class="active nested astrotabclass"></table></li>
+            </ul></li>
+
             <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>🌠 Near-Earth Objects (NEOs)</h2><ul class="active nested">
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this); id="neotitle"></h3><p class="active nested"><small>Stats provided courtesy of <a href="http://neo.jpl.nasa.gov/">NASA JPL NEO</a> team.</small></p><table id="neotable" class="active nested neoclass"></table></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this); id="neotitle"></h3><p class="active nested"><small>Stats provided courtesy of <a href="http://neo.jpl.nasa.gov/">NASA JPL NEO</a> team.</small></p><table id="neotable" class="active nested astrotabclass"></table></li>
             </ul></li>
 
             <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>🛰️ Satellite Images</h2><ul class="active nested">
@@ -74,11 +71,6 @@
                 <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>INSAT3D Global (VIS)</h4><p class="active nested"><small>Courtesy of <a href="https://mausam.imd.gov.in/">India Meteorological Department, Ministry of Earth Sciences, Government of India</a>.</small></p><p class="active nested"><a id="insat3dglobalvishref"><img class="sqimages" id="insat3dglobalvis"></a></p></li>
                 <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>INSAT3D Global (IR)</h4><p class="active nested"><small>Courtesy of <a href="https://mausam.imd.gov.in/">India Meteorological Department, Ministry of Earth Sciences, Government of India</a>.</small></p><p class="active nested"><a id="insat3dglobalir1href"><img class="sqimages" id="insat3dglobalir1"></a></p></li>
               </ul></li>
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🌍 Europe/Africa</h3><ul class="active nested">
-                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>METEOSAT 0</h4><p class="active nested"><small>Courtesy of <a href="https://www.eumetsat.int/">European Organisation for the Exploitation of Meteorological Satellites (EUMETSAT)</a>.</small></p><p class="active nested"><a id="meteosat0href"><img class="sqimages" id="meteosat0"></a></p></li>
-                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>METEOSAT 41.5</h4><p class="active nested"><small>Courtesy of <a href="https://www.eumetsat.int/">European Organisation for the Exploitation of Meteorological Satellites (EUMETSAT)</a>.</small></p><p class="active nested"><a id="meteosat415href"><img class="sqimages" id="meteosat415"></a></p></li>
-                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>Elektro-L</h4><p class="active nested"><small>Courtesy of <a href="http://electro.ntsomz.ru/en/">Elektro-L</a>, a Russian second-generation series of geostationary weather satellites.</small></p><p class="active nested"><a id="elektrolhref"><img class="sqimages" id="elektrol"></a></p></li>
-              </ul></li>
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🌏 Asia-Pacific</h3><ul class="active nested">
                 <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>Himawari (True Color)</h4><p class="active nested"><small>Courtesy of <a href="https://rammb2.cira.colostate.edu/">Regional and Mesoscale Meteorology Branch (RAMMB), Cooperative Institute for Research in the Atmosphere (CIRA)</a>.</small></p><p class="active nested"><a id="himawari_truecolorhref"><img class="sqimages" id="himawari_truecolor"></a></p></li>
                 <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>Himawari (Natural Color)</h4><p class="active nested"><small>Courtesy of <a href="https://rammb2.cira.colostate.edu/">Regional and Mesoscale Meteorology Branch (RAMMB), Cooperative Institute for Research in the Atmosphere (CIRA)</a>.</small></p><p class="active nested"><a id="himawari_naturalcolorhref"><img class="sqimages" id="himawari_naturalcolor"></a></p></li>
@@ -87,6 +79,14 @@
                 <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>GOES17</h4><p class="active nested"><small>Courtesy of <a href="https://www.star.nesdis.noaa.gov/star/index.php">Center for Satellite Applications and Research (STAR), National Environmental Satellite, Data, and Information Service (NESDIS), National Oceanic and Atmospheric Administration (NOAA)</a>.</small></p><p class="active nested"><a id="goes17westfdhref"><img class="sqimages" id="goes17westfd"></a></p></li>
                 <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>GOES16</h4><p class="active nested"><small>Courtesy of <a href="https://www.star.nesdis.noaa.gov/star/index.php">Center for Satellite Applications and Research (STAR), National Environmental Satellite, Data, and Information Service (NESDIS), National Oceanic and Atmospheric Administration (NOAA)</a>.</small></p><p class="active nested"><a id="goes16eastfdhref"><img class="sqimages" id="goes16eastfd"></a></p></li>
               </ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🌍 Europe/Africa</h3><ul class="active nested">
+                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>METEOSAT 0</h4><p class="active nested"><small>Courtesy of <a href="https://www.eumetsat.int/">European Organisation for the Exploitation of Meteorological Satellites (EUMETSAT)</a>.</small></p><p class="active nested"><a id="meteosat0href"><img class="sqimages" id="meteosat0"></a></p></li>
+                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>METEOSAT 41.5</h4><p class="active nested"><small>Courtesy of <a href="https://www.eumetsat.int/">European Organisation for the Exploitation of Meteorological Satellites (EUMETSAT)</a>.</small></p><p class="active nested"><a id="meteosat415href"><img class="sqimages" id="meteosat415"></a></p></li>
+                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>Elektro-L</h4><p class="active nested"><small>Courtesy of <a href="http://electro.ntsomz.ru/en/">Elektro-L</a>, a Russian second-generation series of geostationary weather satellites.</small></p><p class="active nested"><a id="elektrolhref"><img class="sqimages" id="elektrol"></a></p></li>
+              </ul></li>
+            </ul></li>
+
+            <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>🚀 SpaceX Stats</h2><ul class="active nested">
             </ul></li>
 
           </ul>
@@ -111,58 +111,102 @@
           document.getElementById("currenttime_local").innerHTML = "<code>Local</code>: " + localdatetime.toString();
         }
         function doImages() {
-          loadJson("https://raw.githubusercontent.com/7h3rAm/datastore/master/astro.json", function(response) {
+          //loadJson("https://raw.githubusercontent.com/7h3rAm/datastore/master/astro.json", function(response) {
+          loadJson("/pages/astro.json", function(response) {
             astro = JSON.parse(response);
             console.log(astro);
 
             // astronomy picture of the day stats
-            document.getElementById("apodtitle").innerText = astro["apod"]["title"] + " (" + astro["apod"]["date"] + ")"; document.getElementById("apodimage").src = astro["apod"]["datastore"]; document.getElementById("apodurl").href = astro["apod"]["datastore"];
+            document.getElementById("apodtitle").innerText = astro["apod"]["title"];
+            document.getElementById("apodimage").src = astro["apod"]["datastore"];
+            document.getElementById("apodurl").href = astro["apod"]["datastore"];
 
-            // near-earth objects stats
-            document.getElementById("neotitle").innerText = astro["neo"]["element_count"] + " objects making close approach as of " + astro["neo"]["last_update_date"];
-            var neotable = document.getElementById("neotable");
-            if (astro["neo"]["element_count"]) {
+            // earth observatory natural event tracker stats
+            document.getElementById("eonettitle").innerText = astro["eonet"]["title"];
+            var eonettable = document.getElementById("eonettable");
+            if (astro["eonet"]["events"].length) {
               var tr = document.createElement("tr");
               var td1 = document.createElement("td"); var text1 = document.createTextNode("#"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
-              var td2 = document.createElement("td"); var text2 = document.createTextNode("Date"); td2.appendChild(text2); td2.style.fontWeight = "bold"; tr.appendChild(td2);
+              var td3 = document.createElement("td"); var text3 = document.createTextNode("Description"); td3.appendChild(text3); td3.style.fontWeight = "bold"; tr.appendChild(td3);
+              var td2 = document.createElement("td"); var text2 = document.createTextNode("Category"); td2.appendChild(text2); td2.style.fontWeight = "bold"; tr.appendChild(td2);
+              var td4 = document.createElement("td"); var text4 = document.createTextNode("Location"); td4.appendChild(text4); td4.style.fontWeight = "bold"; tr.appendChild(td4);
+              var td5 = document.createElement("td"); var text5 = document.createTextNode("Source"); td5.appendChild(text5); td5.style.fontWeight = "bold"; tr.appendChild(td5);
+              eonettable.appendChild(tr);
+              for (var i = 0; i < astro["eonet"]["events"].length; i++){
+                var tr = document.createElement("tr");
+
+                var idtd = document.createElement("td"); var idtext = document.createTextNode(i+1 + "."); idtd.appendChild(idtext); tr.appendChild(idtd);
+                var nametd = document.createElement("td"); var namelink = document.createElement("a"); var nametext = document.createTextNode(astro["eonet"]["events"][i]["name"]); namelink.appendChild(nametext); namelink.title = astro["eonet"]["events"][i]["name"]; namelink.href = astro["eonet"]["events"][i]["url"]; nametd.appendChild(namelink); tr.appendChild(nametd);
+
+                var categorytd = document.createElement("td");
+                var categorylink = document.createElement("a");
+                var categorytext = document.createTextNode(astro["eonet"]["events"][i]["category"][0]["emoji"]);
+                categorylink.appendChild(categorytext);
+                categorylink.title = astro["eonet"]["events"][i]["category"][0]["emoji"];
+                categorylink.href = astro["eonet"]["events"][i]["category"][0]["url"];
+                categorytd.appendChild(categorylink);
+                tr.appendChild(categorytd);
+
+                var loctd = document.createElement("td"); var loclink = document.createElement("a"); var loctext = document.createTextNode("Map"); loclink.appendChild(loctext); loclink.title = "Map"; loclink.href = astro["eonet"]["events"][i]["location"]; loctd.appendChild(loclink); tr.appendChild(loctd);
+
+                var sourcetd = document.createElement("td");
+                var sourcelink = document.createElement("a");
+                var sourcetext = document.createTextNode(astro["eonet"]["events"][i]["source"][0]["sid"]);
+                sourcelink.appendChild(sourcetext);
+                sourcelink.title = astro["eonet"]["events"][i]["source"][0]["sid"];
+                sourcelink.href = astro["eonet"]["events"][i]["source"][0]["url"];
+                sourcetd.appendChild(sourcelink);
+                tr.appendChild(sourcetd);
+
+                eonettable.appendChild(tr);
+              }
+            }
+
+            // near-earth objects stats
+            document.getElementById("neotitle").innerText = astro["neo"]["title"];
+            var neotable = document.getElementById("neotable");
+            if (astro["neo"]["objects"].length) {
+              var tr = document.createElement("tr");
+              var td1 = document.createElement("td"); var text1 = document.createTextNode("#"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
+              //var td2 = document.createElement("td"); var text2 = document.createTextNode("Date"); td2.appendChild(text2); td2.style.fontWeight = "bold"; tr.appendChild(td2);
               var td3 = document.createElement("td"); var text3 = document.createTextNode("Name"); td3.appendChild(text3); td3.style.fontWeight = "bold"; tr.appendChild(td3);
               var td4 = document.createElement("td"); var text4 = document.createTextNode("Velocity"); td4.appendChild(text4); td4.style.fontWeight = "bold"; tr.appendChild(td4);
               var td5 = document.createElement("td"); var text5 = document.createTextNode("Diameter"); td5.appendChild(text5); td5.style.fontWeight = "bold"; tr.appendChild(td5);
               var td6 = document.createElement("td"); var text6 = document.createTextNode("Miss Distance"); td6.appendChild(text6); td6.style.fontWeight = "bold"; tr.appendChild(td6);
               var td7 = document.createElement("td"); var text7 = document.createTextNode("Hazardous?"); td7.appendChild(text7); td7.style.fontWeight = "bold"; tr.appendChild(td7);
               neotable.appendChild(tr);
-              for (var i = 0; i < astro["neo"]["element_count"]; i++){
+              for (var i = 0; i < astro["neo"]["objects"].length; i++){
                 var tr = document.createElement("tr");
                 var idtd = document.createElement("td");
                 var idtext = document.createTextNode(i+1 + ".");
                 idtd.appendChild(idtext);
                 tr.appendChild(idtd);
-                var datetd = document.createElement("td");
-                var datetext = document.createTextNode(astro["neo"]["objects"][i]["close_approach_data"][0]["close_approach_date_full"]);
-                datetd.appendChild(datetext);
-                tr.appendChild(datetd);
+                //var datetd = document.createElement("td");
+                //var datetext = document.createTextNode(astro["neo"]["objects"][i]["cat"]);
+                //datetd.appendChild(datetext);
+                //tr.appendChild(datetd);
                 var nametd = document.createElement("td");
                 var namelink = document.createElement("a");
-                var nametext = document.createTextNode("Asteroid " + astro["neo"]["objects"][i]["name"]);
+                var nametext = document.createTextNode(astro["neo"]["objects"][i]["name"]);
                 namelink.appendChild(nametext);
-                namelink.title = "Asteroid " + astro["neo"]["objects"][i]["name"];
-                namelink.href = astro["neo"]["objects"][i]["nasa_jpl_url"];
+                namelink.title = astro["neo"]["objects"][i]["name"];
+                namelink.href = astro["neo"]["objects"][i]["url"];
                 nametd.appendChild(namelink);
                 tr.appendChild(nametd);
                 var velocitytd = document.createElement("td");
-                var velocitytext = document.createTextNode(parseFloat(astro["neo"]["objects"][i]["close_approach_data"][0]["relative_velocity"]["kilometers_per_hour"]).toFixed(0) + " kmph");
+                var velocitytext = document.createTextNode(astro["neo"]["objects"][i]["velocity"]);
                 velocitytd.appendChild(velocitytext);
                 tr.appendChild(velocitytd);
                 var diametertd = document.createElement("td");
-                var diametertext = document.createTextNode(parseFloat(astro["neo"]["objects"][i]["estimated_diameter"]["kilometers"]["estimated_diameter_min"]).toFixed(2) + "-" + parseFloat(astro["neo"]["objects"][i]["estimated_diameter"]["kilometers"]["estimated_diameter_max"]).toFixed(2) + " kms");
+                var diametertext = document.createTextNode(astro["neo"]["objects"][i]["diameter"]);
                 diametertd.appendChild(diametertext);
                 tr.appendChild(diametertd);
                 var missdistancetd = document.createElement("td");
-                var missdistancetext = document.createTextNode(parseFloat(astro["neo"]["objects"][i]["close_approach_data"][0]["miss_distance"]["kilometers"]).toFixed(0) + " kms");
+                var missdistancetext = document.createTextNode(astro["neo"]["objects"][i]["distance"]);
                 missdistancetd.appendChild(missdistancetext);
                 tr.appendChild(missdistancetd);
                 var hazardoustd = document.createElement("td");
-                if (astro["neo"]["objects"][i]["is_potentially_hazardous_asteroid"]) {
+                if (astro["neo"]["objects"][i]["hazardous"]) {
                   var hazardoustext = document.createTextNode("🔴");
                 } else {
                   var hazardoustext = document.createTextNode("🟢");
@@ -173,77 +217,22 @@
               }
             }
 
-            // earth observatory natural event tracker stats
-            document.getElementById("eonettitle").innerText = astro["eonet"]["element_count"] + " events for " + astro["eonet"]["last_update_date"];
-            var eonettable = document.getElementById("eonettable");
-            if (astro["eonet"]["element_count"]) {
-              var tr = document.createElement("tr");
-              var td1 = document.createElement("td"); var text1 = document.createTextNode("#"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
-              var td2 = document.createElement("td"); var text2 = document.createTextNode("Date"); td2.appendChild(text2); td2.style.fontWeight = "bold"; tr.appendChild(td2);
-              var td3 = document.createElement("td"); var text3 = document.createTextNode("Name"); td3.appendChild(text3); td3.style.fontWeight = "bold"; tr.appendChild(td3);
-              var td4 = document.createElement("td"); var text4 = document.createTextNode("Velocity"); td4.appendChild(text4); td4.style.fontWeight = "bold"; tr.appendChild(td4);
-              var td5 = document.createElement("td"); var text5 = document.createTextNode("Diameter"); td5.appendChild(text5); td5.style.fontWeight = "bold"; tr.appendChild(td5);
-              var td6 = document.createElement("td"); var text6 = document.createTextNode("Miss Distance"); td6.appendChild(text6); td6.style.fontWeight = "bold"; tr.appendChild(td6);
-              var td7 = document.createElement("td"); var text7 = document.createTextNode("Hazardous?"); td7.appendChild(text7); td7.style.fontWeight = "bold"; tr.appendChild(td7);
-              eonettable.appendChild(tr);
-              for (var i = 0; i < astro["eonet"]["element_count"]; i++){
-                var tr = document.createElement("tr");
-                var idtd = document.createElement("td");
-                var idtext = document.createTextNode(i+1 + ".");
-                idtd.appendChild(idtext);
-                tr.appendChild(idtd);
-                var datetd = document.createElement("td");
-                var datetext = document.createTextNode(astro["eonet"]["objects"][i]["close_approach_data"][0]["close_approach_date_full"]);
-                datetd.appendChild(datetext);
-                tr.appendChild(datetd);
-                var nametd = document.createElement("td");
-                var namelink = document.createElement("a");
-                var nametext = document.createTextNode("Asteroid " + astro["eonet"]["objects"][i]["name"]);
-                namelink.appendChild(nametext);
-                namelink.title = "Asteroid " + astro["eonet"]["objects"][i]["name"];
-                namelink.href = astro["eonet"]["objects"][i]["nasa_jpl_url"];
-                nametd.appendChild(namelink);
-                tr.appendChild(nametd);
-                var velocitytd = document.createElement("td");
-                var velocitytext = document.createTextNode(parseFloat(astro["eonet"]["objects"][i]["close_approach_data"][0]["relative_velocity"]["kilometers_per_hour"]).toFixed(0) + " kmph");
-                velocitytd.appendChild(velocitytext);
-                tr.appendChild(velocitytd);
-                var diametertd = document.createElement("td");
-                var diametertext = document.createTextNode(parseFloat(astro["eonet"]["objects"][i]["estimated_diameter"]["kilometers"]["estimated_diameter_min"]).toFixed(2) + "-" + parseFloat(astro["eonet"]["objects"][i]["estimated_diameter"]["kilometers"]["estimated_diameter_max"]).toFixed(2) + " kms");
-                diametertd.appendChild(diametertext);
-                tr.appendChild(diametertd);
-                var missdistancetd = document.createElement("td");
-                var missdistancetext = document.createTextNode(parseFloat(astro["eonet"]["objects"][i]["close_approach_data"][0]["miss_distance"]["kilometers"]).toFixed(0) + " kms");
-                missdistancetd.appendChild(missdistancetext);
-                tr.appendChild(missdistancetd);
-                var hazardoustd = document.createElement("td");
-                if (astro["eonet"]["objects"][i]["is_potentially_hazardous_asteroid"]) {
-                  var hazardoustext = document.createTextNode("🔴");
-                } else {
-                  var hazardoustext = document.createTextNode("🟢");
-                }
-                hazardoustd.appendChild(hazardoustext);
-                tr.appendChild(hazardoustd);
-                eonettable.appendChild(tr);
-              }
-            }
-
             // satellite images
-            document.getElementById("sdohmid").src = astro["satellite_images"]["sdo_HMID"]["datastore"]; document.getElementById("sdohmidhref").href = astro["satellite_images"]["sdo_HMID"]["datastore"];
-            document.getElementById("sdohmiic").src = astro["satellite_images"]["sdo_HMIIC"]["datastore"]; document.getElementById("sdohmiichref").href = astro["satellite_images"]["sdo_HMIIC"]["datastore"];
-            document.getElementById("sdo0171").src = astro["satellite_images"]["sdo_0171"]["datastore"]; document.getElementById("sdo0171href").href = astro["satellite_images"]["sdo_0171"]["datastore"];
-            document.getElementById("sdo0304").src = astro["satellite_images"]["sdo_0304"]["datastore"]; document.getElementById("sdo0304href").href = astro["satellite_images"]["sdo_0304"]["datastore"];
-            document.getElementById("dscovrepicnat").src = astro["satellite_images"]["dscovr_epic"]["datastore"]; document.getElementById("dscovrepicnathref").href = astro["satellite_images"]["dscovr_epic"]["datastore"];
-            document.getElementById("dscovrepicnatinfo").innerText = astro["satellite_images"]["dscovr_epic"]["message"];
-            document.getElementById("insat3dglobalvis").src = astro["satellite_images"]["insat_fd_ir"]["datastore"]; document.getElementById("insat3dglobalvishref").href = astro["satellite_images"]["insat_fd_ir"]["datastore"];
-            document.getElementById("insat3dglobalir1").src = astro["satellite_images"]["insat_fd_vis"]["datastore"]; document.getElementById("insat3dglobalir1href").href = astro["satellite_images"]["insat_fd_vis"]["datastore"];
-            document.getElementById("meteosat0").src = astro["satellite_images"]["meteosat0_naturalcolor"]["datastore"]; document.getElementById("meteosat0href").href = astro["satellite_images"]["meteosat0_naturalcolor"]["datastore"];
-            document.getElementById("meteosat415").src = astro["satellite_images"]["meteosat415_naturalcolor"]["datastore"]; document.getElementById("meteosat415href").href = astro["satellite_images"]["meteosat415_naturalcolor"]["datastore"];
-            document.getElementById("elektrol").src = astro["satellite_images"]["elektrol"]["datastore"]; document.getElementById("elektrolhref").href = astro["satellite_images"]["elektrol"]["datastore"];
-            document.getElementById("himawari_truecolor").src = astro["satellite_images"]["himawari8_truecolor"]["datastore"]; document.getElementById("himawari_truecolorhref").href = astro["satellite_images"]["himawari8_truecolor"]["datastore"];
-            document.getElementById("himawari_naturalcolor").src = astro["satellite_images"]["himawari8_naturalcolor"]["datastore"]; document.getElementById("himawari_naturalcolorhref").href = astro["satellite_images"]["himawari8_naturalcolor"]["datastore"];
-            document.getElementById("goes16eastfd").src = astro["satellite_images"]["goes16_geocolor"]["datastore"]; document.getElementById("goes16eastfdhref").href = astro["satellite_images"]["goes16_geocolor"]["datastore"];
-            document.getElementById("goes17westfd").src = astro["satellite_images"]["goes17_geocolor"]["datastore"]; document.getElementById("goes17westfdhref").href = astro["satellite_images"]["goes17_geocolor"]["datastore"];
+            document.getElementById("sdohmid").src = astro["satview"]["sdo_HMID"]["datastore"]; document.getElementById("sdohmidhref").href = astro["satview"]["sdo_HMID"]["datastore"];
+            document.getElementById("sdohmiic").src = astro["satview"]["sdo_HMIIC"]["datastore"]; document.getElementById("sdohmiichref").href = astro["satview"]["sdo_HMIIC"]["datastore"];
+            document.getElementById("sdo0171").src = astro["satview"]["sdo_0171"]["datastore"]; document.getElementById("sdo0171href").href = astro["satview"]["sdo_0171"]["datastore"];
+            document.getElementById("sdo0304").src = astro["satview"]["sdo_0304"]["datastore"]; document.getElementById("sdo0304href").href = astro["satview"]["sdo_0304"]["datastore"];
+            document.getElementById("dscovrepicnat").src = astro["satview"]["dscovr_epic"]["datastore"]; document.getElementById("dscovrepicnathref").href = astro["satview"]["dscovr_epic"]["datastore"];
+            document.getElementById("dscovrepicnatinfo").innerText = astro["satview"]["dscovr_epic"]["message"];
+            document.getElementById("insat3dglobalvis").src = astro["satview"]["insat_fd_ir"]["datastore"]; document.getElementById("insat3dglobalvishref").href = astro["satview"]["insat_fd_ir"]["datastore"];
+            document.getElementById("insat3dglobalir1").src = astro["satview"]["insat_fd_vis"]["datastore"]; document.getElementById("insat3dglobalir1href").href = astro["satview"]["insat_fd_vis"]["datastore"];
+            document.getElementById("meteosat0").src = astro["satview"]["meteosat0_naturalcolor"]["datastore"]; document.getElementById("meteosat0href").href = astro["satview"]["meteosat0_naturalcolor"]["datastore"];
+            document.getElementById("meteosat415").src = astro["satview"]["meteosat415_naturalcolor"]["datastore"]; document.getElementById("meteosat415href").href = astro["satview"]["meteosat415_naturalcolor"]["datastore"];
+            document.getElementById("elektrol").src = astro["satview"]["elektrol"]["datastore"]; document.getElementById("elektrolhref").href = astro["satview"]["elektrol"]["datastore"];
+            document.getElementById("himawari_truecolor").src = astro["satview"]["himawari8_truecolor"]["datastore"]; document.getElementById("himawari_truecolorhref").href = astro["satview"]["himawari8_truecolor"]["datastore"];
+            document.getElementById("himawari_naturalcolor").src = astro["satview"]["himawari8_naturalcolor"]["datastore"]; document.getElementById("himawari_naturalcolorhref").href = astro["satview"]["himawari8_naturalcolor"]["datastore"];
+            document.getElementById("goes16eastfd").src = astro["satview"]["goes16_geocolor"]["datastore"]; document.getElementById("goes16eastfdhref").href = astro["satview"]["goes16_geocolor"]["datastore"];
+            document.getElementById("goes17westfd").src = astro["satview"]["goes17_geocolor"]["datastore"]; document.getElementById("goes17westfdhref").href = astro["satview"]["goes17_geocolor"]["datastore"];
 
             // last updated timestamp
             document.getElementById("lastupdate").innerText = "Last Update: " + astro["last_update"];
