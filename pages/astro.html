@@ -87,6 +87,24 @@
             </ul></li>
 
             <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>🚀 SpaceX Stats</h2><ul class="active nested">
+              <li><p class="active nested"><small>Stats provided courtesy of <a href="https://github.com/r-spacex/SpaceX-API">r/SpaceX API</a> team.</small></p></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Capsules</h3><ul class="active nested">
+                <table id="spacexcaptable" class="active nested astrotabclass"></table>
+              </ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Company</h3><ul class="active nested"></ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Cores</h3><ul class="active nested"></ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Crew</h3><ul class="active nested"></ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Dragons</h3><ul class="active nested"></ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Fairings</h3><ul class="active nested"></ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Landpads</h3><ul class="active nested"></ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Launches</h3><ul class="active nested"></ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Launchpads</h3><ul class="active nested"></ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Payloads</h3><ul class="active nested"></ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Roadster</h3><ul class="active nested"></ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Rockets</h3><ul class="active nested"></ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Ships</h3><ul class="active nested"></ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Starlink</h3><ul class="active nested"></ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>History</h3><ul class="active nested"></ul></li>
             </ul></li>
 
           </ul>
@@ -134,10 +152,8 @@
               eonettable.appendChild(tr);
               for (var i = 0; i < astro["eonet"]["events"].length; i++){
                 var tr = document.createElement("tr");
-
                 var idtd = document.createElement("td"); var idtext = document.createTextNode(i+1 + "."); idtd.appendChild(idtext); tr.appendChild(idtd);
                 var nametd = document.createElement("td"); var namelink = document.createElement("a"); var nametext = document.createTextNode(astro["eonet"]["events"][i]["name"]); namelink.appendChild(nametext); namelink.title = astro["eonet"]["events"][i]["name"]; namelink.href = astro["eonet"]["events"][i]["url"]; nametd.appendChild(namelink); tr.appendChild(nametd);
-
                 var categorytd = document.createElement("td");
                 var categorylink = document.createElement("a");
                 var categorytext = document.createTextNode(astro["eonet"]["events"][i]["category"][0]["emoji"]);
@@ -146,9 +162,7 @@
                 categorylink.href = astro["eonet"]["events"][i]["category"][0]["url"];
                 categorytd.appendChild(categorylink);
                 tr.appendChild(categorytd);
-
                 var loctd = document.createElement("td"); var loclink = document.createElement("a"); var loctext = document.createTextNode("Map"); loclink.appendChild(loctext); loclink.title = "Map"; loclink.href = astro["eonet"]["events"][i]["location"]; loctd.appendChild(loclink); tr.appendChild(loctd);
-
                 var sourcetd = document.createElement("td");
                 var sourcelink = document.createElement("a");
                 var sourcetext = document.createTextNode(astro["eonet"]["events"][i]["source"][0]["sid"]);
@@ -157,7 +171,6 @@
                 sourcelink.href = astro["eonet"]["events"][i]["source"][0]["url"];
                 sourcetd.appendChild(sourcelink);
                 tr.appendChild(sourcetd);
-
                 eonettable.appendChild(tr);
               }
             }
@@ -214,6 +227,41 @@
                 hazardoustd.appendChild(hazardoustext);
                 tr.appendChild(hazardoustd);
                 neotable.appendChild(tr);
+              }
+            }
+
+            // <table id="spacexcaptable" class="active nested astrotabclass"></table>
+            var spacexcaptable = document.getElementById("spacexcaptable");
+            if (astro["spacex"]["capsules"].length) {
+              var tr = document.createElement("tr");
+              var td1 = document.createElement("td"); var text1 = document.createTextNode("#"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
+              var td3 = document.createElement("td"); var text3 = document.createTextNode("Name"); td3.appendChild(text3); td3.style.fontWeight = "bold"; tr.appendChild(td3);
+              var td2 = document.createElement("td"); var text2 = document.createTextNode("Status"); td2.appendChild(text2); td2.style.fontWeight = "bold"; tr.appendChild(td2);
+              var td4 = document.createElement("td"); var text4 = document.createTextNode("Location"); td4.appendChild(text4); td4.style.fontWeight = "bold"; tr.appendChild(td4);
+              var td5 = document.createElement("td"); var text5 = document.createTextNode("Source"); td5.appendChild(text5); td5.style.fontWeight = "bold"; tr.appendChild(td5);
+              spacexcaptable.appendChild(tr);
+              for (var i = 0; i < astro["spacex"]["events"].length; i++){
+                var tr = document.createElement("tr");
+                var idtd = document.createElement("td"); var idtext = document.createTextNode(i+1 + "."); idtd.appendChild(idtext); tr.appendChild(idtd);
+                var nametd = document.createElement("td"); var namelink = document.createElement("a"); var nametext = document.createTextNode(astro["spacex"]["events"][i]["name"]); namelink.appendChild(nametext); namelink.title = astro["spacex"]["events"][i]["name"]; namelink.href = astro["spacex"]["events"][i]["url"]; nametd.appendChild(namelink); tr.appendChild(nametd);
+                var categorytd = document.createElement("td");
+                var categorylink = document.createElement("a");
+                var categorytext = document.createTextNode(astro["spacex"]["events"][i]["category"][0]["emoji"]);
+                categorylink.appendChild(categorytext);
+                categorylink.title = astro["spacex"]["events"][i]["category"][0]["emoji"];
+                categorylink.href = astro["spacex"]["events"][i]["category"][0]["url"];
+                categorytd.appendChild(categorylink);
+                tr.appendChild(categorytd);
+                var loctd = document.createElement("td"); var loclink = document.createElement("a"); var loctext = document.createTextNode("Map"); loclink.appendChild(loctext); loclink.title = "Map"; loclink.href = astro["spacex"]["events"][i]["location"]; loctd.appendChild(loclink); tr.appendChild(loctd);
+                var sourcetd = document.createElement("td");
+                var sourcelink = document.createElement("a");
+                var sourcetext = document.createTextNode(astro["spacex"]["events"][i]["source"][0]["sid"]);
+                sourcelink.appendChild(sourcetext);
+                sourcelink.title = astro["spacex"]["events"][i]["source"][0]["sid"];
+                sourcelink.href = astro["spacex"]["events"][i]["source"][0]["url"];
+                sourcetd.appendChild(sourcelink);
+                tr.appendChild(sourcetd);
+                spacexcaptable.appendChild(tr);
               }
             }
 
