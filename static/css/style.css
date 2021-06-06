@@ -99,6 +99,11 @@ li:last-child::after {
 }
 
 .astrotabclass {
+  border-collapse:collapse;
   width:100%;
   text-align:center;
+  vertical-align:top;
+}
+.astrotabclass tr:nth-child(odd) {
+  background-color:#eeeeee;
 }
