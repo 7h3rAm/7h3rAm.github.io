@@ -103,9 +103,13 @@ li:last-child::after {
   max-width:100vw;
   overflow:auto;
   display:block;
+  table-layout:fixed;
 }
-.astrotabclass table td {
-  word-break:break-all;
+.astrotabclass td {
+  border-spacing:3px;
+  border-collapse:separate;
+  padding-left:9px;
+  padding-right:9px;
 }
 .astrotabclass tr:nth-child(odd) {
   background-color:#eeeeee;

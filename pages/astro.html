@@ -66,6 +66,8 @@
               </ul></li>
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🌎 Earth</h3><ul class="active nested">
                 <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>DSCOVR EPIC (Natural)</h4><p class="active nested"><small>Courtesy of <a href="https://en.wikipedia.org/wiki/Deep_Space_Climate_Observatory">Deep Space Climate Observatory (DSCOVR)</a>, <a href="https://epic.gsfc.nasa.gov/">Earth Polychromatic Imaging Camera (EPIC)</a>, <a href="https://www.noaa.gov/">National Oceanic and Atmospheric Administration (NOAA)</a>. <a href="https://epic.gsfc.nasa.gov/api/natural">[📄]</a></small></p> <p class="active nested"><small id="dscovrepicnatinfo"></small></p> <p class="active nested"><a id="dscovrepicnathref"><img class="sqimages" id="dscovrepicnat"></a></p></li>
+                <li><h4 class="h3 collapsible expanded" onclick=toggle(this); id="fulldaytitlehstack"></h4><p class="active nested"><img id="fulldayhstack"></p></h4></li>
+                <li><h4 class="h3 collapsible expanded" onclick=toggle(this); id="fulldaytitlevstack"></h4><p class="active nested"><img id="fulldayvstack"></p></h4></li>
               </ul></li>
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🌏 India/Asia</h3><ul class="active nested">
                 <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>INSAT3D Global (VIS)</h4><p class="active nested"><small>Courtesy of <a href="https://mausam.imd.gov.in/">India Meteorological Department, Ministry of Earth Sciences, Government of India</a>.</small></p><p class="active nested"><a id="insat3dglobalvishref"><img class="sqimages" id="insat3dglobalvis"></a></p></li>
@@ -225,6 +227,12 @@
                 neotable.appendChild(tr);
               }
             }
+
+            // fullday pics
+            document.getElementById("fulldaytitlehstack").innerText = astro["satview"]["fullday"]["title_hstack"];
+            document.getElementById("fulldayhstack").src = astro["satview"]["fullday"]["datastore_hstack"]; document.getElementById("fulldayhstack").href = astro["satview"]["fullday"]["datastore_hstack"];
+            document.getElementById("fulldaytitlevstack").innerText = astro["satview"]["fullday"]["title_vstack"];
+            document.getElementById("fulldayvstack").src = astro["satview"]["fullday"]["datastore_vstack"]; document.getElementById("fulldayvstack").href = astro["satview"]["fullday"]["datastore_vstack"];
 
             // spacexcompanytable
             var spacexcompanytable = document.getElementById("spacexcompanytable");
