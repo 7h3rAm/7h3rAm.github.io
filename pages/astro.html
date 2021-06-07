@@ -89,6 +89,8 @@
             <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>🚀 SpaceX Stats</h2><ul class="active nested">
               <li><p class="active nested"><small>Stats provided courtesy of <a href="https://github.com/r-spacex/SpaceX-API">r/SpaceX API</a> team.</small></p></li>
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Company</h3><ul class="active nested"><table id="spacexcompanytable" class="active nested astrotabclass"></table></ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Roadster</h3><ul class="active nested"><table id="spacexroadstertable" class="active nested astrotabclass"></table></ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>History</h3><ul class="active nested"><table id="spacexhistorytable" class="active nested astrotabclass"></table></ul></li>
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Capsules</h3><ul class="active nested"><table id="spacexcapsulestable" class="active nested astrotabclass"></table></ul></li>
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Cores</h3><ul class="active nested"><table id="spacexcorestable" class="active nested astrotabclass"></table></ul></li>
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Crew</h3><ul class="active nested"><table id="spacexcrewtable" class="active nested astrotabclass"></table></ul></li>
@@ -97,11 +99,9 @@
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Launches</h3><ul class="active nested"><table id="spacexlaunchestable" class="active nested astrotabclass"></table></ul></li>
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Launchpads</h3><ul class="active nested"><table id="spacexlaunchpadstable" class="active nested astrotabclass"></table></ul></li>
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Payloads</h3><ul class="active nested"><table id="spacexpayloadstable" class="active nested astrotabclass"></table></ul></li>
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Roadster</h3><ul class="active nested"><table id="spacexroadstertable" class="active nested astrotabclass"></table></ul></li>
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Rockets</h3><ul class="active nested"><table id="spacexrocketstable" class="active nested astrotabclass"></table></ul></li>
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Ships</h3><ul class="active nested"><table id="spacexshipstable" class="active nested astrotabclass"></table></ul></li>
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Starlink</h3><ul class="active nested"><table id="spacexstarlinktable" class="active nested astrotabclass"></table></ul></li>
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>History</h3><ul class="active nested"><table id="spacexhistorytable" class="active nested astrotabclass"></table></ul></li>
             </ul></li>
 
           </ul>
@@ -126,8 +126,7 @@
           document.getElementById("currenttime_local").innerHTML = "<code>Local</code>: " + localdatetime.toString();
         }
         function doImages() {
-          //loadJson("https://raw.githubusercontent.com/7h3rAm/datastore/master/astro.json", function(response) {
-          loadJson("/pages/astro.json", function(response) {
+          loadJson("https://raw.githubusercontent.com/7h3rAm/datastore/master/astro.json", function(response) {
             astro = JSON.parse(response);
             console.log(astro);
 
@@ -322,18 +321,18 @@
               var tr = document.createElement("tr");
               var td = document.createElement("td"); var text = document.createTextNode("#"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
               var td = document.createElement("td"); var text = document.createTextNode("Name"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              var td = document.createElement("td"); var text = document.createTextNode("First Flight"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
               var td = document.createElement("td"); var text = document.createTextNode("Status"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
               var td = document.createElement("td"); var text = document.createTextNode("Description"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("First Flight"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
               var td = document.createElement("td"); var text = document.createTextNode("Crew Capacity"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
               spacexdragonstable.appendChild(tr);
               for (var i = 0; i < astro["spacex"]["dragons"].length; i++){
                 var tr = document.createElement("tr");
                 var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
                 var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["dragons"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["dragons"][i]["name"]; coltdlink.href = astro["spacex"]["dragons"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexcompanytable.appendChild(tr);
+                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["dragons"][i]["first_flight"]); coltd.appendChild(coltext); tr.appendChild(coltd);
                 var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["dragons"][i]["status_emoji"]); coltd.appendChild(coltext); tr.appendChild(coltd);
                 var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["dragons"][i]["description"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["dragons"][i]["first_flight"]); coltd.appendChild(coltext); tr.appendChild(coltd);
                 var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["dragons"][i]["crew_capacity"]); coltd.appendChild(coltext); tr.appendChild(coltd);
                 spacexdragonstable.appendChild(tr);
               }
@@ -429,6 +428,155 @@
                 var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["payloads"][i]["customer"]); coltd.appendChild(coltext); tr.appendChild(coltd);
                 var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["payloads"][i]["nationality"]); coltd.appendChild(coltext); tr.appendChild(coltd);
                 spacexpayloadstable.appendChild(tr);
+              }
+            }
+
+            // spacexroadstertable
+            var spacexroadstertable = document.getElementById("spacexroadstertable");
+            var tr = document.createElement("tr");
+            var td1 = document.createElement("td"); var text1 = document.createTextNode("Name"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
+            var td1 = document.createElement("td"); var td1link = document.createElement("a"); var td1text = document.createTextNode(astro["spacex"]["roadster"]["name"]); td1link.appendChild(td1text); td1link.title = astro["spacex"]["roadster"]["name"]; td1link.href = astro["spacex"]["roadster"]["url"]; td1.appendChild(td1link); tr.appendChild(td1); spacexroadstertable.appendChild(tr);
+            var tr = document.createElement("tr");
+            var td1 = document.createElement("td"); var text1 = document.createTextNode("Launch Date"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
+            var td1 = document.createElement("td"); var text1 = document.createTextNode(astro["spacex"]["roadster"]["date"]); td1.appendChild(text1); tr.appendChild(td1);
+            spacexroadstertable.appendChild(tr);
+            var tr = document.createElement("tr");
+            var td1 = document.createElement("td"); var text1 = document.createTextNode("Description"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
+            var td1 = document.createElement("td"); var text1 = document.createTextNode(astro["spacex"]["roadster"]["description"]); td1.appendChild(text1); tr.appendChild(td1);
+            spacexroadstertable.appendChild(tr);
+            var tr = document.createElement("tr");
+            var td1 = document.createElement("td"); var text1 = document.createTextNode("Launch Mass"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
+            var td1 = document.createElement("td"); var text1 = document.createTextNode(astro["spacex"]["roadster"]["launch_mass"]); td1.appendChild(text1); tr.appendChild(td1);
+            spacexroadstertable.appendChild(tr);
+            var tr = document.createElement("tr");
+            var td1 = document.createElement("td"); var text1 = document.createTextNode("Orbit"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
+            var td1 = document.createElement("td"); var text1 = document.createTextNode(astro["spacex"]["roadster"]["orbit"]); td1.appendChild(text1); tr.appendChild(td1);
+            spacexroadstertable.appendChild(tr);
+            var tr = document.createElement("tr");
+            var td1 = document.createElement("td"); var text1 = document.createTextNode("Speed"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
+            var td1 = document.createElement("td"); var text1 = document.createTextNode(astro["spacex"]["roadster"]["speed"]); td1.appendChild(text1); tr.appendChild(td1);
+            spacexroadstertable.appendChild(tr);
+            var tr = document.createElement("tr");
+            var td1 = document.createElement("td"); var text1 = document.createTextNode("Distance from Earth 🔵"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
+            var td1 = document.createElement("td"); var text1 = document.createTextNode(astro["spacex"]["roadster"]["earth_distance"]); td1.appendChild(text1); tr.appendChild(td1);
+            spacexroadstertable.appendChild(tr);
+            var tr = document.createElement("tr");
+            var td1 = document.createElement("td"); var text1 = document.createTextNode("Distance from Mars 🔴"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
+            var td1 = document.createElement("td"); var text1 = document.createTextNode(astro["spacex"]["roadster"]["mars_distance"]); td1.appendChild(text1); tr.appendChild(td1);
+            spacexroadstertable.appendChild(tr);
+
+            // spacexrocketstable
+            var spacexrocketstable = document.getElementById("spacexrocketstable");
+            if (astro["spacex"]["rockets"].length) {
+              var tr = document.createElement("tr");
+              var td = document.createElement("td"); var text = document.createTextNode("#"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              var td = document.createElement("td"); var text = document.createTextNode("Name"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              var td = document.createElement("td"); var text = document.createTextNode("First Flight"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              var td = document.createElement("td"); var text = document.createTextNode("Success Rate"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              var td = document.createElement("td"); var text = document.createTextNode("Stage Reusable?"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              var td = document.createElement("td"); var text = document.createTextNode("Engine"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              var td = document.createElement("td"); var text = document.createTextNode("Launch Cost"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              //var td = document.createElement("td"); var text = document.createTextNode("Type (Stages Boosters Legs Height Diameter Mass)"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              //var td = document.createElement("td"); var text = document.createTextNode("Payload (LEO GTO Moon Mars)"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              spacexrocketstable.appendChild(tr);
+              for (var i = 0; i < astro["spacex"]["rockets"].length; i++){
+                var tr = document.createElement("tr");
+                var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
+                var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["rockets"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["rockets"][i]["name"]; coltdlink.href = astro["spacex"]["rockets"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexcompanytable.appendChild(tr);
+                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["rockets"][i]["first_flight"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["rockets"][i]["success_rate"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["rockets"][i]["first_stage_reusable_emoji"] + " " + astro["spacex"]["rockets"][i]["second_stage_reusable_emoji"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["rockets"][i]["engine"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["rockets"][i]["launch_cost"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+                //var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["rockets"][i]["type"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+                //var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["rockets"][i]["payload"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+                spacexrocketstable.appendChild(tr);
+              }
+            }
+
+            // spacexshipstable
+            var spacexshipstable = document.getElementById("spacexshipstable");
+            if (astro["spacex"]["ships"].length) {
+              var tr = document.createElement("tr");
+              var td = document.createElement("td"); var text = document.createTextNode("#"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              var td = document.createElement("td"); var text = document.createTextNode("Name"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              var td = document.createElement("td"); var text = document.createTextNode("Port"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              var td = document.createElement("td"); var text = document.createTextNode("Type"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              var td = document.createElement("td"); var text = document.createTextNode("Utility"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              var td = document.createElement("td"); var text = document.createTextNode("Launches"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              var td = document.createElement("td"); var text = document.createTextNode("Status"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              spacexshipstable.appendChild(tr);
+              for (var i = 0; i < astro["spacex"]["ships"].length; i++){
+                var tr = document.createElement("tr");
+                var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
+
+                if (astro["spacex"]["ships"][i]["url"]) {
+                  var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["ships"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["ships"][i]["name"]; coltdlink.href = astro["spacex"]["ships"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexcompanytable.appendChild(tr);
+                } else {
+                  var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["ships"][i]["name"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+                }
+
+                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["ships"][i]["port"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["ships"][i]["type"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["ships"][i]["roles"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["ships"][i]["launches"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["ships"][i]["status_emoji"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+                spacexshipstable.appendChild(tr);
+              }
+            }
+
+            // spacexstarlinktable
+            var spacexstarlinktable = document.getElementById("spacexstarlinktable");
+            if (astro["spacex"]["starlink"].length) {
+              var tr = document.createElement("tr");
+              var td = document.createElement("td"); var text = document.createTextNode("#"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              var td = document.createElement("td"); var text = document.createTextNode("Launch"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              var td = document.createElement("td"); var text = document.createTextNode("Name"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              var td = document.createElement("td"); var text = document.createTextNode("Height"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              var td = document.createElement("td"); var text = document.createTextNode("Velocity"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              spacexstarlinktable.appendChild(tr);
+              for (var i = 0; i < astro["spacex"]["starlink"].length; i++){
+                var tr = document.createElement("tr");
+                var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
+                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["starlink"][i]["launch"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+
+                if (astro["spacex"]["starlink"][i]["location"]) {
+                  var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["starlink"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["starlink"][i]["name"]; coltdlink.href = astro["spacex"]["starlink"][i]["location"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexcompanytable.appendChild(tr);
+                } else {
+                  var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["starlink"][i]["name"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+                }
+
+                if (astro["spacex"]["starlink"][i]["height"]) {
+                  var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["starlink"][i]["height"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+                } else {
+                  var coltd = document.createElement("td"); var coltext = document.createTextNode(""); coltd.appendChild(coltext); tr.appendChild(coltd);
+                }
+
+                if (astro["spacex"]["starlink"][i]["velocity"]) {
+                  var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["starlink"][i]["velocity"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+                } else {
+                  var coltd = document.createElement("td"); var coltext = document.createTextNode(""); coltd.appendChild(coltext); tr.appendChild(coltd);
+                }
+                spacexstarlinktable.appendChild(tr);
+              }
+            }
+
+            // spacexhistorytable
+            var spacexhistorytable = document.getElementById("spacexhistorytable");
+            if (astro["spacex"]["history"].length) {
+              var tr = document.createElement("tr");
+              var td = document.createElement("td"); var text = document.createTextNode("#"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              var td = document.createElement("td"); var text = document.createTextNode("Date"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              var td = document.createElement("td"); var text = document.createTextNode("Title"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              var td = document.createElement("td"); var text = document.createTextNode("Description"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              spacexhistorytable.appendChild(tr);
+              for (var i = 0; i < astro["spacex"]["history"].length; i++){
+                var tr = document.createElement("tr");
+                var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
+                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["history"][i]["date"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+                var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["history"][i]["title"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["history"][i]["title"]; coltdlink.href = astro["spacex"]["history"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexcompanytable.appendChild(tr);
+                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["history"][i]["description"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+                spacexhistorytable.appendChild(tr);
               }
             }
 
