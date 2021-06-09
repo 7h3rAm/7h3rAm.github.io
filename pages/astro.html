@@ -15,11 +15,9 @@
     <!-- <link rel="stylesheet" href="/static/css/github-gist.min.css"> -->
     <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
     <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
-    <script charset="UTF-8" src="/static/js/highlight.min.js"></script>
-    <script charset="UTF-8" src="/static/js/highlightjs-line-numbers.min.js"></script>
-    <script charset="UTF-8" src="/static/js/go.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css"/>
    </head>
-  <body>
+  <body onload="initialize()">
     <div class="body">
       <div class="topmenu">
         <table>
@@ -34,13 +32,8 @@
         </table>
       </div>
       <div class="content">
-                <h1 class="h1">🌌 Astro</h1>
+        <h1 class="h1">🌌 Astro</h1>
           <ul class="active">
-            <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>🕰️ Current Time</h2><ul class="active nested">
-              <li><p id=currenttime_utc></p></li>
-              <li><p id=currenttime_local></p></li>
-            </ul></li>
-
             <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>🪐 Astronomy Picture of the Day (APOD)</h2><ul class="active nested">
               <li>
                 <h3 class="h3 collapsible expanded" onclick=toggle(this); id="apodtitle"></h3>
@@ -52,8 +45,35 @@
             <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>🔔 Earth Observatory Natural Event Tracker (EONET)</h2><ul class="active nested">
               <li>
                 <h3 class="h3 collapsible expanded" onclick=toggle(this); id="eonettitle"></h3><ul class="active nested">
-                  <li><p class="active nested"><small>Stats provided courtesy of <a href="https://eonet.sci.gsfc.nasa.gov/">EONET</a> team. <a href="https://eonet.sci.gsfc.nasa.gov/what-is-eonet">[🔗]</a></small></p></li>
-                  <li><table id="eonettable" class="active nested astrotabclass"></table></li>
+                  <li><p class="active nested"><small>Data provided courtesy of <a href="https://eonet.sci.gsfc.nasa.gov/">EONET</a> team. <a href="https://eonet.sci.gsfc.nasa.gov/what-is-eonet">[🔗]</a></small></p></li>
+                  <li><div id="eonetmap" style="width:100%; height:450px; border:1px solid #766e6b;" class="mapclass"></div></li>
+                </ul>
+              </li>
+            </ul></li>
+
+            <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>🛰️ International Space Station (ISS)</h2><ul class="active nested">
+              <li>
+                <h3 class="h3 collapsible expanded" onclick=toggle(this); id="isstitle"></h3><ul class="active nested">
+                  <li><p class="active nested"><small>Data provided courtesy of <a href="https://wheretheiss.at/w/about">Where The ISS At?</a> API by <a href="https://twitter.com/shupp">Bill Shupp</a> and <a href="http://open-notify.org/">Open Notify</a> API by <a href="https://twitter.com/natronics">Nathan Bergey</a>.</small></p></li>
+                  <li>
+                    <table class="active nested astrotabclass">
+                      <tr>
+                        <td><b>Latitude</b></td>
+                        <td><b>Longitude</b></td>
+                        <td><b>Altitude</b></td>
+                        <td><b>Velocity</b></td>
+                        <td><b>Visibility</b></td>
+                      </tr>
+                      <tr>
+                        <td id="isslatcell"></td>
+                        <td id="issloncell"></td>
+                        <td id="issaltcell"></td>
+                        <td id="issvelcell"></td>
+                        <td id="issviscell" style="text-transform:capitalize;"></td>
+                      </tr>
+                    </table>
+                  </li>
+                  <li><div id="issmap" style="width:100%; height:450px; border:1px solid #766e6b;" class="mapclass"></div></li>
                 </ul>
               </li>
             </ul></li>
@@ -61,8 +81,17 @@
             <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>🌠 Near-Earth Objects (NEOs)</h2><ul class="active nested">
               <li>
                 <h3 class="h3 collapsible expanded" onclick=toggle(this); id="neotitle"></h3><ul class="active nested">
-                  <li><p class="active nested"><small>Stats provided courtesy of <a href="http://neo.jpl.nasa.gov/">NASA JPL NEO</a> team.</small></p></li>
+                  <li><p class="active nested"><small>Data provided courtesy of <a href="http://neo.jpl.nasa.gov/">NASA JPL NEO</a> team.</small></p></li>
                   <li><table id="neotable" class="active nested astrotabclass"></table></li>
+                </ul>
+              </li>
+            </ul></li>
+
+            <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>🧑‍🚀 People in Space</h2><ul class="active nested">
+              <li>
+                <h3 class="h3 collapsible expanded" onclick=toggle(this); id="spaceppltitle"></h3><ul class="active nested">
+                  <li><p class="active nested"><small>Data provided courtesy of <a href="http://open-notify.org/">Open Notify</a> API by <a href="https://twitter.com/natronics">Nathan Bergey</a>.</small></p></li>
+                  <li><table id="spaceppltable" class="active nested astrotabclass"></table></li>
                 </ul>
               </li>
             </ul></li>
@@ -99,27 +128,34 @@
             </ul></li>
 
             <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>🚀 SpaceX Stats</h2><ul class="active nested">
-              <li><p class="active nested"><small>Stats provided courtesy of <a href="https://github.com/r-spacex/SpaceX-API">r/SpaceX API</a> team.</small></p></li>
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Company</h3><ul class="active nested"><table id="spacexcompanytable" class="active nested astrotabclass"></table></ul></li>
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Roadster</h3><ul class="active nested"><table id="spacexroadstertable" class="active nested astrotabclass"></table></ul></li>
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>History</h3><ul class="active nested"><table id="spacexhistorytable" class="active nested astrotabclass"></table></ul></li>
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Capsules</h3><ul class="active nested"><table id="spacexcapsulestable" class="active nested astrotabclass"></table></ul></li>
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Cores</h3><ul class="active nested"><table id="spacexcorestable" class="active nested astrotabclass"></table></ul></li>
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Crew</h3><ul class="active nested"><table id="spacexcrewtable" class="active nested astrotabclass"></table></ul></li>
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Dragons</h3><ul class="active nested"><table id="spacexdragonstable" class="active nested astrotabclass"></table></ul></li>
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Landpads</h3><ul class="active nested"><table id="spacexlandpadstable" class="active nested astrotabclass"></table></ul></li>
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Launches</h3><ul class="active nested"><table id="spacexlaunchestable" class="active nested astrotabclass"></table></ul></li>
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Launchpads</h3><ul class="active nested"><table id="spacexlaunchpadstable" class="active nested astrotabclass"></table></ul></li>
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Payloads</h3><ul class="active nested"><table id="spacexpayloadstable" class="active nested astrotabclass"></table></ul></li>
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Rockets</h3><ul class="active nested"><table id="spacexrocketstable" class="active nested astrotabclass"></table></ul></li>
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Ships</h3><ul class="active nested"><table id="spacexshipstable" class="active nested astrotabclass"></table></ul></li>
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Starlink</h3><ul class="active nested"><table id="spacexstarlinktable" class="active nested astrotabclass"></table></ul></li>
+              <li>
+                <p class="active nested"><small>Data provided courtesy of <a href="https://github.com/r-spacex/SpaceX-API">r/SpaceX API</a> team.</small></p>
+                <ul class="active nested">
+                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Company</h3><ul class="active nested"><li><table id="spacexcompanytable" class="active nested astrotabclass"></table></li></ul></li>
+                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Starlink</h3><ul class="active nested"><li><div id="starlinkmap" style="width:100%; height:450px; border:1px solid #766e6b;" class="mapclass"></div></li></ul></li>
+                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Roadster</h3><ul class="active nested"><li><table id="spacexroadstertable" class="active nested astrotabclass"></table></li></ul></li>
+                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>History</h3><ul class="active nested"><li><table id="spacexhistorytable" class="active nested astrotabclass"></table></li></ul></li>
+                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Capsules</h3><ul class="active nested"><li><table id="spacexcapsulestable" class="active nested astrotabclass"></table></li></ul></li>
+                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Cores</h3><ul class="active nested"><li><table id="spacexcorestable" class="active nested astrotabclass"></table></li></ul></li>
+                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Crew</h3><ul class="active nested"><li><table id="spacexcrewtable" class="active nested astrotabclass"></table></li></ul></li>
+                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Dragons</h3><ul class="active nested"><li><table id="spacexdragonstable" class="active nested astrotabclass"></table></li></ul></li>
+                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Landpads</h3><ul class="active nested"><li><table id="spacexlandpadstable" class="active nested astrotabclass"></table></li></ul></li>
+                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Launches</h3><ul class="active nested"><li><table id="spacexlaunchestable" class="active nested astrotabclass"></table></li></ul></li>
+                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Launchpads</h3><ul class="active nested"><li><table id="spacexlaunchpadstable" class="active nested astrotabclass"></table></li></ul></li>
+                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Payloads</h3><ul class="active nested"><li><table id="spacexpayloadstable" class="active nested astrotabclass"></table></li></ul></li>
+                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Rockets</h3><ul class="active nested"><li><table id="spacexrocketstable" class="active nested astrotabclass"></table></li></ul></li>
+                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Ships</h3><ul class="active nested"><li><table id="spacexshipstable" class="active nested astrotabclass"></table></li></ul></li>
+                </ul>
+              </li>
             </ul></li>
 
           </ul>
 
       <p style="float:right;"><code id="lastupdate"></code></p>
 
+      <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+      <script src="https://unpkg.com/@joergdietrich/leaflet.terminator"></script>
+      <script src="http://code.jquery.com/jquery-2.0.3.min.js"> </script>
       <script>
         function loadJson(url, callback) {
           var XmlHttpRequest = new XMLHttpRequest();
@@ -132,10 +168,74 @@
           }
           XmlHttpRequest.send(null);
         }
-        function doTime() {
-          var localdatetime = new Date();
-          document.getElementById("currenttime_utc").innerHTML = "<code>GMT</code>: " + localdatetime.toUTCString();
-          document.getElementById("currenttime_local").innerHTML = "<code>Local</code>: " + localdatetime.toString();
+        function doMaps() {
+          function updateISS () {
+            //$.getJSON('http://api.open-notify.org/iss-now.json?callback=?', function(data) {
+            //  var lat = data['iss_position']['latitude'];
+            //  var lon = data['iss_position']['longitude'];
+            //  iss.setLatLng([lat, lon]);
+            //  issarea.setLatLng([lat, lon]);
+            //  issmap.panTo([lat, lon], animate=true);
+            //});
+            $.getJSON('https://api.wheretheiss.at/v1/satellites/25544?units=miles', function(data) {
+              var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+              var now = new Date();
+              var yyy = now.getFullYear();
+              var mon = months[now.getMonth()];
+              var day = now.getDate();
+              var hrs = now.getHours();
+              var min = now.getMinutes();
+              var sec = now.getSeconds();
+              var tzn = new Intl.DateTimeFormat('en-US', { dateStyle: 'full', timeStyle: 'long' }).format(now).split(/[\s,]+/).pop();
+              if (mon < 10) { mon = '0' + mon; }
+              if (day < 10) { day = '0' + day; }
+              if (hrs < 10) { hrs = '0' + hrs; }
+              if (min < 10) { min = '0' + min; }
+              if (sec < 10) { sec = '0' + sec; }
+              document.getElementById("isstitle").innerText = "ISS Stats (" + day + "/" + mon + "/" + yyy + " " + hrs + ":" + min + ":" + sec + " " + tzn + ")";
+              document.getElementById("isslatcell").innerText = data['latitude'].toFixed(2);
+              document.getElementById("issloncell").innerText = data['longitude'].toFixed(2);
+              document.getElementById("issaltcell").innerText = data['altitude'].toFixed(2) + " miles";
+              document.getElementById("issvelcell").innerText = data['velocity'].toFixed(2) + " mph";
+              document.getElementById("issviscell").innerText = data['visibility'].toLowerCase();
+              iss.setLatLng([data['latitude'], data['longitude']]);
+              issarea.setLatLng([data['latitude'], data['longitude']]);
+              issmap.panTo([data['latitude'], data['longitude']], animate=true);
+              var text = '<a href="https://www.nasa.gov/mission_pages/station/main/index.html"><b>International Space Station</b></a><br/>Location: ' + data['latitude'].toFixed(2) + "," + data['longitude'].toFixed(2) + "<br/>Altitude: " + data["altitude"].toFixed(2) + " miles<br/>Velocity: " + data["velocity"].toFixed(2) + " mph<br/>Visibility: " + data["visibility"];
+              iss._popup.setContent(text);
+            });
+            setTimeout(updateISS, 5000);
+          }
+          var issmap = L.map('issmap').setView([0,0], 2);
+          var osmlayer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+          L.tileLayer(osmlayer, {
+            attribution: '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          }).addTo(issmap);
+          var ISSIcon = L.icon({
+            //iconUrl: "http://open-notify.org/Open-Notify-API/map/ISSIcon.png",
+            //iconUrl: "https://raw.githubusercontent.com/7h3rAm/datastore/master/International_Space_Station.png",
+            iconUrl: "https://raw.githubusercontent.com/7h3rAm/datastore/master/ISS-6491621.png",
+            iconSize: [50, 30],
+            iconAnchor: [25, 15],
+            popupAnchor: [50, 25],
+          });
+          var iss = L.marker([0, 0], {icon: ISSIcon}).bindPopup("").addTo(issmap);
+          var issarea = L.circle([0,0], 2200e3, {color:"#766e6b", opacity:0.9, weight:0.6, fillColor:"#dedede", fillOpacity:0.3}).addTo(issmap);
+          const opt = {
+            color: '#000',
+            opacity: 0.5,
+            fillColor: '#000',
+            fillOpacity: 0.5,
+            resolution: 2
+          };
+          const t = L.terminator(opt);
+          t.addTo(issmap);
+          const updateTerminator = function(t) {
+            let t2 = L.terminator(opt);
+            t.setLatLngs(t2.getLatLngs());
+            t.redraw();
+          };
+          updateISS();
         }
         function doImages() {
           loadJson("https://raw.githubusercontent.com/7h3rAm/datastore/master/astro.json", function(response) {
@@ -149,38 +249,223 @@
 
             // earth observatory natural event tracker stats
             document.getElementById("eonettitle").innerText = astro["eonet"]["title"];
-            var eonettable = document.getElementById("eonettable");
             if (astro["eonet"]["events"].length) {
-              var tr = document.createElement("tr");
-              var td1 = document.createElement("td"); var text1 = document.createTextNode("#"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
-              var td3 = document.createElement("td"); var text3 = document.createTextNode("Description"); td3.appendChild(text3); td3.style.fontWeight = "bold"; tr.appendChild(td3);
-              var td2 = document.createElement("td"); var text2 = document.createTextNode("Category"); td2.appendChild(text2); td2.style.fontWeight = "bold"; tr.appendChild(td2);
-              var td4 = document.createElement("td"); var text4 = document.createTextNode("Location"); td4.appendChild(text4); td4.style.fontWeight = "bold"; tr.appendChild(td4);
-              var td5 = document.createElement("td"); var text5 = document.createTextNode("Source"); td5.appendChild(text5); td5.style.fontWeight = "bold"; tr.appendChild(td5);
-              eonettable.appendChild(tr);
-              for (var i = 0; i < astro["eonet"]["events"].length; i++){
-                var tr = document.createElement("tr");
-                var idtd = document.createElement("td"); var idtext = document.createTextNode(i+1 + "."); idtd.appendChild(idtext); tr.appendChild(idtd);
-                var nametd = document.createElement("td"); var namelink = document.createElement("a"); var nametext = document.createTextNode(astro["eonet"]["events"][i]["name"]); namelink.appendChild(nametext); namelink.title = astro["eonet"]["events"][i]["name"]; namelink.href = astro["eonet"]["events"][i]["url"]; nametd.appendChild(namelink); tr.appendChild(nametd);
-                var categorytd = document.createElement("td");
-                var categorylink = document.createElement("a");
-                var categorytext = document.createTextNode(astro["eonet"]["events"][i]["category"][0]["emoji"]);
-                categorylink.appendChild(categorytext);
-                categorylink.title = astro["eonet"]["events"][i]["category"][0]["emoji"];
-                categorylink.href = astro["eonet"]["events"][i]["category"][0]["url"];
-                categorytd.appendChild(categorylink);
-                tr.appendChild(categorytd);
-                var loctd = document.createElement("td"); var loclink = document.createElement("a"); var loctext = document.createTextNode("Map"); loclink.appendChild(loctext); loclink.title = "Map"; loclink.href = astro["eonet"]["events"][i]["location"]; loctd.appendChild(loclink); tr.appendChild(loctd);
-                var sourcetd = document.createElement("td");
-                var sourcelink = document.createElement("a");
-                var sourcetext = document.createTextNode(astro["eonet"]["events"][i]["source"][0]["sid"]);
-                sourcelink.appendChild(sourcetext);
-                sourcelink.title = astro["eonet"]["events"][i]["source"][0]["sid"];
-                sourcelink.href = astro["eonet"]["events"][i]["source"][0]["url"];
-                sourcetd.appendChild(sourcelink);
-                tr.appendChild(sourcetd);
-                eonettable.appendChild(tr);
+              var eonetmap = L.map('eonetmap').setView([0, 0], 1);
+              var osmlayer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+              L.tileLayer(osmlayer, {
+                attribution: '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+              }).addTo(eonetmap);
+              const size = 5;
+
+              if (astro["eonet"]["mapdata"]["Drought"].length) {
+                const iconOptions = {
+                  iconSize  : [size, size],
+                  iconAnchor: [size/2, size + 9], 
+                  className : "mymarker",
+                  html: "💧"
+                }
+                const markerOptions = {
+                  draggable: true,
+                  icon: L.divIcon(iconOptions)
+                }
+                for (var i = 0; i < astro["eonet"]["mapdata"]["Drought"].length; i++) {
+                  marker = new L.marker([locations[i][1], locations[i][2]], markerOptions).bindPopup(locations[i][0]).addTo(eonetmap);
+                }
               }
+              if (astro["eonet"]["mapdata"]["Dust and Haze"].length) {
+                const iconOptions = {
+                  iconSize  : [size, size],
+                  iconAnchor: [size/2, size + 9], 
+                  className : "mymarker",
+                  html: "🌫️"
+                }
+                const markerOptions = {
+                  draggable: true,
+                  icon: L.divIcon(iconOptions)
+                }
+                for (var i = 0; i < astro["eonet"]["mapdata"]["Dust and Haze"].length; i++) {
+                  marker = new L.marker([locations[i][1], locations[i][2]], markerOptions).bindPopup(locations[i][0]).addTo(eonetmap);
+                }
+              }
+              if (astro["eonet"]["mapdata"]["Earthquakes"].length) {
+                const iconOptions = {
+                  iconSize  : [size, size],
+                  iconAnchor: [size/2, size + 9], 
+                  className : "mymarker",
+                  html: "🌐"
+                }
+                const markerOptions = {
+                  draggable: true,
+                  icon: L.divIcon(iconOptions)
+                }
+                for (var i = 0; i < astro["eonet"]["mapdata"]["Earthquakes"].length; i++) {
+                  marker = new L.marker([locations[i][1], locations[i][2]], markerOptions).bindPopup(locations[i][0]).addTo(eonetmap);
+                }
+              }
+              if (astro["eonet"]["mapdata"]["Floods"].length) {
+                const iconOptions = {
+                  iconSize  : [size, size],
+                  iconAnchor: [size/2, size + 9], 
+                  className : "mymarker",
+                  html: "🌊"
+                }
+                const markerOptions = {
+                  draggable: true,
+                  icon: L.divIcon(iconOptions)
+                }
+                for (var i = 0; i < astro["eonet"]["mapdata"]["Floods"].length; i++) {
+                  marker = new L.marker([locations[i][1], locations[i][2]], markerOptions).bindPopup(locations[i][0]).addTo(eonetmap);
+                }
+              }
+              if (astro["eonet"]["mapdata"]["Landslides"].length) {
+                const iconOptions = {
+                  iconSize  : [size, size],
+                  iconAnchor: [size/2, size + 9], 
+                  className : "mymarker",
+                  html: "⛰️"
+                }
+                const markerOptions = {
+                  draggable: true,
+                  icon: L.divIcon(iconOptions)
+                }
+                for (var i = 0; i < astro["eonet"]["mapdata"]["Landslides"].length; i++) {
+                  marker = new L.marker([locations[i][1], locations[i][2]], markerOptions).bindPopup(locations[i][0]).addTo(eonetmap);
+                }
+              }
+              if (astro["eonet"]["mapdata"]["Manmade"].length) {
+                const iconOptions = {
+                  iconSize  : [size, size],
+                  iconAnchor: [size/2, size + 9], 
+                  className : "mymarker",
+                  html: "🧍"
+                }
+                const markerOptions = {
+                  draggable: true,
+                  icon: L.divIcon(iconOptions)
+                }
+                for (var i = 0; i < astro["eonet"]["mapdata"]["Manmade"].length; i++) {
+                  marker = new L.marker([locations[i][1], locations[i][2]], markerOptions).bindPopup(locations[i][0]).addTo(eonetmap);
+                }
+              }
+              if (astro["eonet"]["mapdata"]["Sea and Lake Ice"].length) {
+                const iconOptions = {
+                  iconSize  : [size, size],
+                  iconAnchor: [size/2, size + 9], 
+                  className : "mymarker",
+                  html: "🧊"
+                }
+                const markerOptions = {
+                  draggable: true,
+                  icon: L.divIcon(iconOptions)
+                }
+                for (var i = 0; i < astro["eonet"]["mapdata"]["Sea and Lake Ice"].length; i++) {
+                  marker = new L.marker([astro["eonet"]["mapdata"]["Sea and Lake Ice"][i][1], astro["eonet"]["mapdata"]["Sea and Lake Ice"][i][2]], markerOptions).bindPopup(astro["eonet"]["mapdata"]["Sea and Lake Ice"][i][0]).addTo(eonetmap);
+                }
+              }
+              if (astro["eonet"]["mapdata"]["Severe Storms"].length) {
+                const iconOptions = {
+                  iconSize  : [size, size],
+                  iconAnchor: [size/2, size + 9], 
+                  className : "mymarker",
+                  html: "🌀"
+                }
+                const markerOptions = {
+                  draggable: true,
+                  icon: L.divIcon(iconOptions)
+                }
+                for (var i = 0; i < astro["eonet"]["mapdata"]["Severe Storms"].length; i++) {
+                  marker = new L.marker([astro["eonet"]["mapdata"]["Severe Storms"][i][1], astro["eonet"]["mapdata"]["Severe Storms"][i][2]], markerOptions).bindPopup(astro["eonet"]["mapdata"]["Severe Storms"][i][0]).addTo(eonetmap);
+                }
+              }
+              if (astro["eonet"]["mapdata"]["Snow"].length) {
+                const iconOptions = {
+                  iconSize  : [size, size],
+                  iconAnchor: [size/2, size + 9], 
+                  className : "mymarker",
+                  html: "🌨️"
+                }
+                const markerOptions = {
+                  draggable: true,
+                  icon: L.divIcon(iconOptions)
+                }
+                for (var i = 0; i < astro["eonet"]["mapdata"]["Snow"].length; i++) {
+                  marker = new L.marker([locations[i][1], locations[i][2]], markerOptions).bindPopup(locations[i][0]).addTo(eonetmap);
+                }
+              }
+              if (astro["eonet"]["mapdata"]["Temperature Extremes"].length) {
+                const iconOptions = {
+                  iconSize  : [size, size],
+                  iconAnchor: [size/2, size + 9], 
+                  className : "mymarker",
+                  html: "🌡️"
+                }
+                const markerOptions = {
+                  draggable: true,
+                  icon: L.divIcon(iconOptions)
+                }
+                for (var i = 0; i < astro["eonet"]["mapdata"]["Temperature Extremes"].length; i++) {
+                  marker = new L.marker([locations[i][1], locations[i][2]], markerOptions).bindPopup(locations[i][0]).addTo(eonetmap);
+                }
+              }
+              if (astro["eonet"]["mapdata"]["Volcanoes"].length) {
+                const iconOptions = {
+                  iconSize  : [size, size],
+                  iconAnchor: [size/2, size + 9], 
+                  className : "mymarker",
+                  html: "🌋"
+                }
+                const markerOptions = {
+                  draggable: true,
+                  icon: L.divIcon(iconOptions)
+                }
+                for (var i = 0; i < astro["eonet"]["mapdata"]["Volcanoes"].length; i++) {
+                  marker = new L.marker([astro["eonet"]["mapdata"]["Volcanoes"][i][1], astro["eonet"]["mapdata"]["Volcanoes"][i][2]], markerOptions).bindPopup(astro["eonet"]["mapdata"]["Volcanoes"][i][0]).addTo(eonetmap);
+                }
+              }
+              if (astro["eonet"]["mapdata"]["Water Color"].length) {
+                const iconOptions = {
+                  iconSize  : [size, size],
+                  iconAnchor: [size/2, size + 9], 
+                  className : "mymarker",
+                  html: "⛲"
+                }
+                const markerOptions = {
+                  draggable: true,
+                  icon: L.divIcon(iconOptions)
+                }
+                for (var i = 0; i < astro["eonet"]["mapdata"]["Water Color"].length; i++) {
+                  marker = new L.marker([locations[i][1], locations[i][2]], markerOptions).bindPopup(locations[i][0]).addTo(eonetmap);
+                }
+              }
+              if (astro["eonet"]["mapdata"]["Wildfires"].length) {
+                const iconOptions = {
+                  iconSize  : [size, size],
+                  iconAnchor: [size/2, size + 9], 
+                  className : "mymarker",
+                  html: "🔥"
+                }
+                const markerOptions = {
+                  draggable: true,
+                  icon: L.divIcon(iconOptions)
+                }
+                for (var i = 0; i < astro["eonet"]["mapdata"]["Wildfires"].length; i++) {
+                  marker = new L.marker([astro["eonet"]["mapdata"]["Wildfires"][i][1], astro["eonet"]["mapdata"]["Wildfires"][i][2]], markerOptions).bindPopup(astro["eonet"]["mapdata"]["Wildfires"][i][0]).addTo(eonetmap);
+                }
+              }
+              const opt = {
+                color: '#000',
+                opacity: 0.5,
+                fillColor: '#000',
+                fillOpacity: 0.5,
+                resolution: 2
+              };
+              const t = L.terminator(opt);
+              t.addTo(eonetmap);
+              const updateTerminator = function(t) {
+                let t2 = L.terminator(opt);
+                t.setLatLngs(t2.getLatLngs());
+                t.redraw();
+              };
             }
 
             // near-earth objects stats
@@ -243,6 +528,24 @@
             document.getElementById("fulldayhstack").src = astro["satview"]["fullday"]["datastore_hstack"]; document.getElementById("fulldayhstack").href = astro["satview"]["fullday"]["datastore_hstack"];
             document.getElementById("fulldaytitlevstack").innerText = astro["satview"]["fullday"]["title_vstack"];
             document.getElementById("fulldayvstack").src = astro["satview"]["fullday"]["datastore_vstack"]; document.getElementById("fulldayvstack").href = astro["satview"]["fullday"]["datastore_vstack"];
+
+            // people in space - spaceppl
+            document.getElementById("spaceppltitle").innerText = astro["spaceppl"]["title"];
+            var spaceppltable = document.getElementById("spaceppltable");
+            if (astro["spaceppl"]["people"].length) {
+              var tr = document.createElement("tr");
+              var td1 = document.createElement("td"); var text1 = document.createTextNode("#"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
+              var td3 = document.createElement("td"); var text3 = document.createTextNode("Name"); td3.appendChild(text3); td3.style.fontWeight = "bold"; tr.appendChild(td3);
+              var td2 = document.createElement("td"); var text2 = document.createTextNode("Spacecraft"); td2.appendChild(text2); td2.style.fontWeight = "bold"; tr.appendChild(td2);
+              spaceppltable.appendChild(tr);
+              for (var i = 0; i < astro["spaceppl"]["people"].length; i++){
+                var tr = document.createElement("tr");
+                var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
+                var td1 = document.createElement("td"); var td1link = document.createElement("a"); var td1text = document.createTextNode(astro["spaceppl"]["people"][i]["name"]); td1link.appendChild(td1text); td1link.title = astro["spaceppl"]["people"][i]["name"]; td1link.href = astro["spaceppl"]["people"][i]["url"]; td1.appendChild(td1link); tr.appendChild(td1);
+                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spaceppl"]["people"][i]["spacecraft"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+                spaceppltable.appendChild(tr);
+              }
+            }
 
             // spacexcompanytable
             var spacexcompanytable = document.getElementById("spacexcompanytable");
@@ -543,40 +846,42 @@
               }
             }
 
-            // spacexstarlinktable
-            var spacexstarlinktable = document.getElementById("spacexstarlinktable");
+            // spacexstarlinkmap
             if (astro["spacex"]["starlink"].length) {
-              var tr = document.createElement("tr");
-              var td = document.createElement("td"); var text = document.createTextNode("#"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Launch"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Name"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Height"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Velocity"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              spacexstarlinktable.appendChild(tr);
-              for (var i = 0; i < astro["spacex"]["starlink"].length; i++){
-                var tr = document.createElement("tr");
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["starlink"][i]["launch"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-
-                if (astro["spacex"]["starlink"][i]["location"]) {
-                  var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["starlink"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["starlink"][i]["name"]; coltdlink.href = astro["spacex"]["starlink"][i]["location"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexcompanytable.appendChild(tr);
-                } else {
-                  var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["starlink"][i]["name"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                }
-
-                if (astro["spacex"]["starlink"][i]["height"]) {
-                  var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["starlink"][i]["height"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                } else {
-                  var coltd = document.createElement("td"); var coltext = document.createTextNode(""); coltd.appendChild(coltext); tr.appendChild(coltd);
-                }
-
-                if (astro["spacex"]["starlink"][i]["velocity"]) {
-                  var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["starlink"][i]["velocity"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                } else {
-                  var coltd = document.createElement("td"); var coltext = document.createTextNode(""); coltd.appendChild(coltext); tr.appendChild(coltd);
-                }
-                spacexstarlinktable.appendChild(tr);
+              var locations = astro["spacex"]["mapdata"];
+              var starlinkmap = L.map('starlinkmap').setView([0, 0], 2);
+              var osmlayer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+              L.tileLayer(osmlayer, {
+                attribution: '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+              }).addTo(starlinkmap);
+              const size = 5;
+              const iconOptions = {
+                iconSize  : [size, size],
+                iconAnchor: [size/2, size + 9], 
+                className : "mymarker",
+                html: "🛰️"
               }
+              const markerOptions = {
+                draggable: true,
+                icon: L.divIcon(iconOptions)
+              }
+              for (var i = 0; i < locations.length; i++) {
+                marker = new L.marker([locations[i][1], locations[i][2]], markerOptions).bindPopup(locations[i][0]).addTo(starlinkmap);
+              }
+              const opt = {
+                color: '#000',
+                opacity: 0.5,
+                fillColor: '#000',
+                fillOpacity: 0.5,
+                resolution: 2
+              };
+              const t = L.terminator(opt);
+              t.addTo(starlinkmap);
+              const updateTerminator = function(t) {
+                let t2 = L.terminator(opt);
+                t.setLatLngs(t2.getLatLngs());
+                t.redraw();
+              };
             }
 
             // spacexhistorytable
@@ -599,8 +904,8 @@
             }
 
             // satellite images
-            document.getElementById("sdohmid").src = astro["satview"]["sdo_HMID"]["datastore"]; document.getElementById("sdohmidhref").href = astro["satview"]["sdo_HMID"]["datastore"];
-            document.getElementById("sdohmiic").src = astro["satview"]["sdo_HMIIC"]["datastore"]; document.getElementById("sdohmiichref").href = astro["satview"]["sdo_HMIIC"]["datastore"];
+            document.getElementById("sdohmid").src = astro["satview"]["sdo_hmid"]["datastore"]; document.getElementById("sdohmidhref").href = astro["satview"]["sdo_hmid"]["datastore"];
+            document.getElementById("sdohmiic").src = astro["satview"]["sdo_hmiic"]["datastore"]; document.getElementById("sdohmiichref").href = astro["satview"]["sdo_hmiic"]["datastore"];
             document.getElementById("sdo0171").src = astro["satview"]["sdo_0171"]["datastore"]; document.getElementById("sdo0171href").href = astro["satview"]["sdo_0171"]["datastore"];
             document.getElementById("sdo0304").src = astro["satview"]["sdo_0304"]["datastore"]; document.getElementById("sdo0304href").href = astro["satview"]["sdo_0304"]["datastore"];
             document.getElementById("dscovrepicnat").src = astro["satview"]["dscovr_epic"]["datastore"]; document.getElementById("dscovrepicnathref").href = astro["satview"]["dscovr_epic"]["datastore"];
@@ -621,16 +926,12 @@
           });
         }
         window.onload = () => {
-          doTime();
-          setInterval(() => {doTime();},1000); // every .5s
+          //setInterval(() => {doTime();},1000); // every .5s
+          doMaps();
           doImages();
-          //setInterval(() => {doImages();},1000*60*10); // every 10m
         }
       </script>
       </div>
-      <div><a class="footer" href="https://github.com/7h3rAm/7h3rAm.github.io">  </a></div>
-      <script>hljs.initHighlightingOnLoad();</script>
-      <script>hljs.initLineNumbersOnLoad();</script>
       <script>
         function toggle(s){
           s.classList.toggle("expanded");
@@ -655,30 +956,6 @@
       </script>
       </div>
       <div><a class="footer" href="https://github.com/7h3rAm/7h3rAm.github.io">  </a></div>
-      <script>hljs.initHighlightingOnLoad();</script>
-      <script>hljs.initLineNumbersOnLoad();</script>
-      <script>
-        function toggle(s){
-          s.classList.toggle("expanded");
-          var t=!1,i=!1,a=!1;
-          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);
-          for(var l=s.nextElementSibling;l;){
-            if(t&&l.classList.contains("h2")){
-              l.classList.toggle("active");
-              break
-            }
-            if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){
-              l.classList.toggle("active");
-              break
-            }
-            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){
-              l.classList.toggle("active");
-              break
-            }
-            l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-          }
-        }
-      </script>
     </div>
   </body>
 </html>

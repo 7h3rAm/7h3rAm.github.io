@@ -33,6 +33,15 @@
               </li>
             </ul></li>
 
+            <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>🧑‍🚀 People in Space</h2><ul class="active nested">
+              <li>
+                <h3 class="h3 collapsible expanded" onclick=toggle(this); id="spaceppltitle"></h3><ul class="active nested">
+                  <li><p class="active nested"><small>Stats provided courtesy of <a href="http://open-notify.org/">Open Notify</a> API by <a href="https://twitter.com/natronics">Nathan Bergey</a>.</small></p></li>
+                  <li><table id="spaceppltable" class="active nested astrotabclass"></table></li>
+                </ul>
+              </li>
+            </ul></li>
+
             <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>🛰️ Satellite Images</h2><ul class="active nested">
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🔆 Sun</h3><ul class="active nested">
                 <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>SDO HMI Dopplergram</h4><p class="active nested"><small>Courtesy of <a href="https://sdo.gsfc.nasa.gov/">NASA Solar Dynamics Observatory (SDO) and the Atmospheric Imaging Assembly (AIA), Extreme Ultraviolet Variability Experiment (EVE), and Helioseismic Magnetic Imager (HMI) science</a> teams.</small> <a href="https://www.nasa.gov/content/goddard/sdo-hmi-doppergram/">[🔗]</a></p><p class="active nested"><a id="sdohmidhref"><img class="sqimages" id=sdohmid></a></p></li>
@@ -209,6 +218,30 @@
             document.getElementById("fulldayhstack").src = astro["satview"]["fullday"]["datastore_hstack"]; document.getElementById("fulldayhstack").href = astro["satview"]["fullday"]["datastore_hstack"];
             document.getElementById("fulldaytitlevstack").innerText = astro["satview"]["fullday"]["title_vstack"];
             document.getElementById("fulldayvstack").src = astro["satview"]["fullday"]["datastore_vstack"]; document.getElementById("fulldayvstack").href = astro["satview"]["fullday"]["datastore_vstack"];
+
+            // people in space - spaceppl
+            document.getElementById("spaceppltitle").innerText = astro["spaceppl"]["title"];
+            var spaceppltable = document.getElementById("spaceppltable");
+            if (astro["spaceppl"]["people"].length) {
+              var tr = document.createElement("tr");
+              var td1 = document.createElement("td"); var text1 = document.createTextNode("#"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
+              var td3 = document.createElement("td"); var text3 = document.createTextNode("Name"); td3.appendChild(text3); td3.style.fontWeight = "bold"; tr.appendChild(td3);
+              var td2 = document.createElement("td"); var text2 = document.createTextNode("Spacecraft"); td2.appendChild(text2); td2.style.fontWeight = "bold"; tr.appendChild(td2);
+              spaceppltable.appendChild(tr);
+              for (var i = 0; i < astro["spaceppl"]["people"].length; i++){
+                var tr = document.createElement("tr");
+                var col1td = document.createElement("td"); var col1text = document.createTextNode(i+1 + "."); col1td.appendChild(col1text); tr.appendChild(col1td);
+                var coltd = document.createElement("td");
+                var coltext = document.createTextNode(astro["spaceppl"]["people"][i]["name"]);
+                coltd.appendChild(coltext);
+                tr.appendChild(coltd);
+                var coltd = document.createElement("td");
+                var coltext = document.createTextNode(astro["spaceppl"]["people"][i]["spacecraft"]);
+                coltd.appendChild(coltext);
+                tr.appendChild(coltd);
+                spaceppltable.appendChild(tr);
+              }
+            }
 
             // spacexcompanytable
             var spacexcompanytable = document.getElementById("spacexcompanytable");
@@ -594,7 +627,6 @@
         }
       </script>
       </div>
-      <div><a class="footer" href="https://github.com/7h3rAm/7h3rAm.github.io">  </a></div>
       <script>hljs.initHighlightingOnLoad();</script>
       <script>hljs.initLineNumbersOnLoad();</script>
       <script>
