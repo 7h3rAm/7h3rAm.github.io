@@ -34,10 +34,114 @@
       <div class="content">
         <h1 class="h1">🌌 Astro</h1>
           <ul class="active">
+
+            <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>🔭 Solar System</h2><ul class="active nested">
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Sun</h3><ul class="active nested">
+                <li>
+                  <table>
+                    <tr>
+                      <td><div id="globesun" class="globebg"></div></td>
+                      <td></td>
+                    </tr>
+                  </table>
+                </li>
+              </ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Mercury</h3><ul class="active nested">
+                <li>
+                  <table>
+                    <tr>
+                      <td><div id="globemercury" class="globebg"></div></td>
+                      <td></td>
+                    </tr>
+                  </table>
+                </li>
+              </ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Venus</h3><ul class="active nested">
+                <li>
+                  <table>
+                    <tr>
+                      <td><div id="globevenus" class="globebg"></div></td>
+                      <td></td>
+                    </tr>
+                  </table>
+                </li>
+              </ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Earth</h3><ul class="active nested">
+                <li>
+                  <table>
+                    <tr>
+                      <td><div id="globeearth" class="globebg"></div></td>
+                      <td></td>
+                    </tr>
+                  </table>
+                </li>
+              </ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Mars</h3><ul class="active nested">
+                <li>
+                  <table>
+                    <tr>
+                      <td><div id="globemars" class="globebg"></div></td>
+                      <td></td>
+                    </tr>
+                  </table>
+                </li>
+              </ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Jupiter</h3><ul class="active nested">
+                <li>
+                  <table>
+                    <tr>
+                      <td><div id="globejupiter" class="globebg"></div></td>
+                      <td></td>
+                    </tr>
+                  </table>
+                </li>
+              </ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Saturn</h3><ul class="active nested">
+                <li>
+                  <table>
+                    <tr>
+                      <td><div id="globesaturn" class="globebg"></div></td>
+                      <td></td>
+                    </tr>
+                  </table>
+                </li>
+              </ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Uranus</h3><ul class="active nested">
+                <li>
+                  <table>
+                    <tr>
+                      <td><div id="globeuranus" class="globebg"></div></td>
+                      <td></td>
+                    </tr>
+                  </table>
+                </li>
+              </ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Neptune</h3><ul class="active nested">
+                <li>
+                  <table>
+                    <tr>
+                      <td><div id="globeneptune" class="globebg"></div></td>
+                      <td></td>
+                    </tr>
+                  </table>
+                </li>
+              </ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Pluto</h3><ul class="active nested">
+                <li>
+                  <table>
+                    <tr>
+                      <td><div id="globepluto" class="globebg"></div></td>
+                      <td></td>
+                    </tr>
+                  </table>
+                </li>
+              </ul></li>
+            </ul></li>
+
             <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>🪐 Astronomy Picture of the Day (APOD)</h2><ul class="active nested">
               <li>
                 <h3 class="h3 collapsible expanded" onclick=toggle(this); id="apodtitle"></h3>
-                <p class="active nested"><small>Courtesy of <a href="https://astrophysics.gsfc.nasa.gov/">ASD</a> at <a href="https://www.nasa.gov/">NASA</a>/<a href="https://www.nasa.gov/centers/goddard/">GSFC</a> and <a href="https://www.mtu.edu/">Michigan Tech. U</a>. Visit <a href="https://apod.nasa.gov/apod/astropix.html">[🔗]</a> for more details or <a href="https://apod.nasa.gov/apod/archivepix.html">[🔗]</a> for archived images.</small></p>
+                <p class="active nested"><small>Images provided courtesy of <a href="https://astrophysics.gsfc.nasa.gov/">ASD</a> at <a href="https://www.nasa.gov/">NASA</a>/<a href="https://www.nasa.gov/centers/goddard/">GSFC</a> and <a href="https://www.mtu.edu/">Michigan Tech. U</a>. Visit <a href="https://apod.nasa.gov/apod/astropix.html">[🔗]</a> for more details or <a href="https://apod.nasa.gov/apod/archivepix.html">[🔗]</a> for archived images.</small></p>
                 <p class="active nested"><a id="apodurl"><img class="sqimages" id="apodimage"></a></p>
               </li>
             </ul></li>
@@ -98,32 +202,38 @@
 
             <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>🛰️ Satellite Images</h2><ul class="active nested">
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🔆 Sun</h3><ul class="active nested">
-                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>SDO HMI Dopplergram</h4><p class="active nested"><small>Courtesy of <a href="https://sdo.gsfc.nasa.gov/">NASA Solar Dynamics Observatory (SDO) and the Atmospheric Imaging Assembly (AIA), Extreme Ultraviolet Variability Experiment (EVE), and Helioseismic Magnetic Imager (HMI) science</a> teams.</small> <a href="https://www.nasa.gov/content/goddard/sdo-hmi-doppergram/">[🔗]</a></p><p class="active nested"><a id="sdohmidhref"><img class="sqimages" id=sdohmid></a></p></li>
-                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>SDO HMI Intensitygram</h4><p class="active nested"><small>Courtesy of <a href="https://sdo.gsfc.nasa.gov/">NASA Solar Dynamics Observatory (SDO) and the Atmospheric Imaging Assembly (AIA), Extreme Ultraviolet Variability Experiment (EVE), and Helioseismic Magnetic Imager (HMI) science</a> teams.</small> <a href="https://svs.gsfc.nasa.gov/3988">[🔗]</a></p><p class="active nested"><a id="sdohmiichref"><img class="sqimages" id=sdohmiic></a></p></li>
-                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>SDO AIA 171 A</h4><p class="active nested"><small>Courtesy of <a href="https://sdo.gsfc.nasa.gov/">NASA Solar Dynamics Observatory (SDO) and the Atmospheric Imaging Assembly (AIA), Extreme Ultraviolet Variability Experiment (EVE), and Helioseismic Magnetic Imager (HMI) science</a> teams.</small> <a href="https://svs.gsfc.nasa.gov/3980">[🔗]</a></p><p class="active nested"><a id="sdo0171href"><img class="sqimages" id=sdo0171></a></p></li>
-                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>SDO AIA 304 A</h4><p class="active nested"><small>Courtesy of <a href="https://sdo.gsfc.nasa.gov/">NASA Solar Dynamics Observatory (SDO) and the Atmospheric Imaging Assembly (AIA), Extreme Ultraviolet Variability Experiment (EVE), and Helioseismic Magnetic Imager (HMI) science</a> teams.</small> <a href="https://svs.gsfc.nasa.gov/3983">[🔗]</a></p><p class="active nested"><a id="sdo0304href"><img class="sqimages" id=sdo0304></a></p></li>
+                <li><p class="active nested"><small>Images provided courtesy of <a href="https://sdo.gsfc.nasa.gov/">NASA Solar Dynamics Observatory (SDO) and the Atmospheric Imaging Assembly (AIA), Extreme Ultraviolet Variability Experiment (EVE), and Helioseismic Magnetic Imager (HMI) science</a> teams.</small> <a href="https://svs.gsfc.nasa.gov/3988">[🔗]</a></p></li>
+                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>SDO HMI Dopplergram</h4><p class="active nested"><a id="sdohmidhref"><img class="sqimages" id=sdohmid></a></p></li>
+                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>SDO HMI Intensitygram</h4><p class="active nested"><a id="sdohmiichref"><img class="sqimages" id=sdohmiic></a></p></li>
+                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>SDO AIA 171 A</h4><p class="active nested"><a id="sdo0171href"><img class="sqimages" id=sdo0171></a></p></li>
+                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>SDO AIA 304 A</h4><p class="active nested"><a id="sdo0304href"><img class="sqimages" id=sdo0304></a></p></li>
               </ul></li>
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🌎 Earth</h3><ul class="active nested">
-                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>DSCOVR EPIC (Natural)</h4><p class="active nested"><small>Courtesy of <a href="https://en.wikipedia.org/wiki/Deep_Space_Climate_Observatory">Deep Space Climate Observatory (DSCOVR)</a>, <a href="https://epic.gsfc.nasa.gov/">Earth Polychromatic Imaging Camera (EPIC)</a>, <a href="https://www.noaa.gov/">National Oceanic and Atmospheric Administration (NOAA)</a>. <a href="https://epic.gsfc.nasa.gov/api/natural">[📄]</a></small></p> <p class="active nested"><small id="dscovrepicnatinfo"></small></p> <p class="active nested"><a id="dscovrepicnathref"><img class="sqimages" id="dscovrepicnat"></a></p></li>
-                <li><h4 class="h3 collapsible expanded" onclick=toggle(this); id="fulldaytitlehstack"></h4><p class="active nested"><img id="fulldayhstack"></p></h4></li>
-                <li><h4 class="h3 collapsible expanded" onclick=toggle(this); id="fulldaytitlevstack"></h4><p class="active nested"><img id="fulldayvstack"></p></h4></li>
+                <li><p class="active nested"><small>Images provided courtesy of <a href="https://en.wikipedia.org/wiki/Deep_Space_Climate_Observatory">Deep Space Climate Observatory (DSCOVR)</a>, <a href="https://epic.gsfc.nasa.gov/">Earth Polychromatic Imaging Camera (EPIC)</a>, <a href="https://www.noaa.gov/">National Oceanic and Atmospheric Administration (NOAA)</a>. <a href="https://epic.gsfc.nasa.gov/api/natural">[📄]</a></small></p></li>
+                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>DSCOVR EPIC (Natural)</h4><p class="active nested"><small id="dscovrepicnatinfo"></small></p><p class="active nested"><a id="dscovrepicnathref"><img class="sqimages" id="dscovrepicnat"></a></p></li>
+                <!--<li><h4 class="h3 collapsible expanded" onclick=toggle(this); id="fulldaytitlehstack"></h4><p class="active nested"><img id="fulldayhstack"></p></h4></li>-->
+                <!--<li><h4 class="h3 collapsible expanded" onclick=toggle(this); id="fulldaytitlevstack"></h4><p class="active nested"><img id="fulldayvstack"></p></h4></li>-->
               </ul></li>
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🌏 India/Asia</h3><ul class="active nested">
-                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>INSAT3D Global (VIS)</h4><p class="active nested"><small>Courtesy of <a href="https://mausam.imd.gov.in/">India Meteorological Department, Ministry of Earth Sciences, Government of India</a>.</small></p><p class="active nested"><a id="insat3dglobalvishref"><img class="sqimages" id="insat3dglobalvis"></a></p></li>
-                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>INSAT3D Global (IR)</h4><p class="active nested"><small>Courtesy of <a href="https://mausam.imd.gov.in/">India Meteorological Department, Ministry of Earth Sciences, Government of India</a>.</small></p><p class="active nested"><a id="insat3dglobalir1href"><img class="sqimages" id="insat3dglobalir1"></a></p></li>
+                <li><p class="active nested"><small>Images provided courtesy of <a href="https://mausam.imd.gov.in/">India Meteorological Department, Ministry of Earth Sciences, Government of India</a>.</small></p></li>
+                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>INSAT3D Global (VIS)</h4><p class="active nested"><a id="insat3dglobalvishref"><img class="sqimages" id="insat3dglobalvis"></a></p></li>
+                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>INSAT3D Global (IR)</h4><p class="active nested"><a id="insat3dglobalir1href"><img class="sqimages" id="insat3dglobalir1"></a></p></li>
               </ul></li>
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🌏 Asia-Pacific</h3><ul class="active nested">
-                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>Himawari (True Color)</h4><p class="active nested"><small>Courtesy of <a href="https://rammb2.cira.colostate.edu/">Regional and Mesoscale Meteorology Branch (RAMMB), Cooperative Institute for Research in the Atmosphere (CIRA)</a>.</small></p><p class="active nested"><a id="himawari_truecolorhref"><img class="sqimages" id="himawari_truecolor"></a></p></li>
-                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>Himawari (Natural Color)</h4><p class="active nested"><small>Courtesy of <a href="https://rammb2.cira.colostate.edu/">Regional and Mesoscale Meteorology Branch (RAMMB), Cooperative Institute for Research in the Atmosphere (CIRA)</a>.</small></p><p class="active nested"><a id="himawari_naturalcolorhref"><img class="sqimages" id="himawari_naturalcolor"></a></p></li>
+                <li><p class="active nested"><small>Images provided courtesy of <a href="https://rammb2.cira.colostate.edu/">Regional and Mesoscale Meteorology Branch (RAMMB), Cooperative Institute for Research in the Atmosphere (CIRA)</a>.</small></p></li>
+                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>Himawari (Natural Color)</h4><p class="active nested"><a id="himawari_naturalcolorhref"><img class="sqimages" id="himawari_naturalcolor"></a></p></li>
+                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>Himawari (True Color)</h4><p class="active nested"><a id="himawari_truecolorhref"><img class="sqimages" id="himawari_truecolor"></a></p></li>
               </ul></li>
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🌎 America-Pacific</h3><ul class="active nested">
-                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>GOES17</h4><p class="active nested"><small>Courtesy of <a href="https://www.star.nesdis.noaa.gov/star/index.php">Center for Satellite Applications and Research (STAR), National Environmental Satellite, Data, and Information Service (NESDIS), National Oceanic and Atmospheric Administration (NOAA)</a>.</small></p><p class="active nested"><a id="goes17westfdhref"><img class="sqimages" id="goes17westfd"></a></p></li>
-                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>GOES16</h4><p class="active nested"><small>Courtesy of <a href="https://www.star.nesdis.noaa.gov/star/index.php">Center for Satellite Applications and Research (STAR), National Environmental Satellite, Data, and Information Service (NESDIS), National Oceanic and Atmospheric Administration (NOAA)</a>.</small></p><p class="active nested"><a id="goes16eastfdhref"><img class="sqimages" id="goes16eastfd"></a></p></li>
+                <li><p class="active nested"><small>Images provided courtesy of <a href="https://www.star.nesdis.noaa.gov/star/index.php">Center for Satellite Applications and Research (STAR), National Environmental Satellite, Data, and Information Service (NESDIS), National Oceanic and Atmospheric Administration (NOAA)</a>.</small></p></li>
+                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>GOES17</h4><p class="active nested"><a id="goes17westfdhref"><img class="sqimages" id="goes17westfd"></a></p></li>
+                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>GOES16</h4><p class="active nested"><a id="goes16eastfdhref"><img class="sqimages" id="goes16eastfd"></a></p></li>
               </ul></li>
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🌍 Europe/Africa</h3><ul class="active nested">
-                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>METEOSAT 0</h4><p class="active nested"><small>Courtesy of <a href="https://www.eumetsat.int/">European Organisation for the Exploitation of Meteorological Satellites (EUMETSAT)</a>.</small></p><p class="active nested"><a id="meteosat0href"><img class="sqimages" id="meteosat0"></a></p></li>
-                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>METEOSAT 41.5</h4><p class="active nested"><small>Courtesy of <a href="https://www.eumetsat.int/">European Organisation for the Exploitation of Meteorological Satellites (EUMETSAT)</a>.</small></p><p class="active nested"><a id="meteosat415href"><img class="sqimages" id="meteosat415"></a></p></li>
-                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>Elektro-L</h4><p class="active nested"><small>Courtesy of <a href="http://electro.ntsomz.ru/en/">Elektro-L</a>, a Russian second-generation series of geostationary weather satellites.</small></p><p class="active nested"><a id="elektrolhref"><img class="sqimages" id="elektrol"></a></p></li>
+                <li><p class="active nested"><small>Images provided courtesy of <a href="https://www.eumetsat.int/">European Organisation for the Exploitation of Meteorological Satellites (EUMETSAT)</a>.</small></p></li>
+                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>METEOSAT 0</h4><p class="active nested"><a id="meteosat0href"><img class="sqimages" id="meteosat0"></a></p></li>
+                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>METEOSAT 41.5</h4><p class="active nested"><a id="meteosat415href"><img class="sqimages" id="meteosat415"></a></p></li>
+                <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>Elektro-L</h4><p class="active nested"><a id="elektrolhref"><img class="sqimages" id="elektrol"></a></p></li>
               </ul></li>
             </ul></li>
 
@@ -131,20 +241,40 @@
               <li>
                 <p class="active nested"><small>Data provided courtesy of <a href="https://github.com/r-spacex/SpaceX-API">r/SpaceX API</a> team.</small></p>
                 <ul class="active nested">
-                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Company</h3><ul class="active nested"><li><table id="spacexcompanytable" class="active nested astrotabclass"></table></li></ul></li>
-                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Starlink</h3><ul class="active nested"><li><div id="starlinkmap" style="width:100%; height:450px; border:1px solid #766e6b;" class="mapclass"></div></li></ul></li>
                   <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Roadster</h3><ul class="active nested"><li><table id="spacexroadstertable" class="active nested astrotabclass"></table></li></ul></li>
-                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>History</h3><ul class="active nested"><li><table id="spacexhistorytable" class="active nested astrotabclass"></table></li></ul></li>
-                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Capsules</h3><ul class="active nested"><li><table id="spacexcapsulestable" class="active nested astrotabclass"></table></li></ul></li>
-                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Cores</h3><ul class="active nested"><li><table id="spacexcorestable" class="active nested astrotabclass"></table></li></ul></li>
-                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Crew</h3><ul class="active nested"><li><table id="spacexcrewtable" class="active nested astrotabclass"></table></li></ul></li>
-                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Dragons</h3><ul class="active nested"><li><table id="spacexdragonstable" class="active nested astrotabclass"></table></li></ul></li>
-                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Landpads</h3><ul class="active nested"><li><table id="spacexlandpadstable" class="active nested astrotabclass"></table></li></ul></li>
-                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Launches</h3><ul class="active nested"><li><table id="spacexlaunchestable" class="active nested astrotabclass"></table></li></ul></li>
-                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Launchpads</h3><ul class="active nested"><li><table id="spacexlaunchpadstable" class="active nested astrotabclass"></table></li></ul></li>
-                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Payloads</h3><ul class="active nested"><li><table id="spacexpayloadstable" class="active nested astrotabclass"></table></li></ul></li>
-                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Rockets</h3><ul class="active nested"><li><table id="spacexrocketstable" class="active nested astrotabclass"></table></li></ul></li>
-                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Ships</h3><ul class="active nested"><li><table id="spacexshipstable" class="active nested astrotabclass"></table></li></ul></li>
+                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Starlink</h3><ul class="active nested">
+                    <li>
+                      <table class="active nested astrotabclass">
+                        <tr>
+                          <td><b>First Launch</b></td>
+                          <td><b>Latest Launch</b></td>
+                          <td><b>In Orbit</b></td>
+                          <td><b>Decayed</b></td>
+                          <td><b>Total</b></td>
+                        </tr>
+                          <td id="starlinkfirstlaunchcell"></td>
+                          <td id="starlinklatestlaunchcell"></td>
+                          <td id="starlinkinorbitcell"></td>
+                          <td id="starlinkdecayedcell"></td>
+                          <td id="starlinktotalcell"></td>
+                      </table>
+                    </li>
+                    <li>
+                      <div id="starlinkmap" style="width:100%; height:450px; border:1px solid #766e6b;" class="mapclass"></div>
+                    </li>
+                  </ul></li>
+                  <!--<li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Company</h3><ul class="active nested"><li><table id="spacexcompanytable" class="active nested astrotabclass"></table></li></ul></li>-->
+                  <!--<li><h3 class="h3 collapsible expanded" onclick=toggle(this);>History</h3><ul class="active nested"><li><table id="spacexhistorytable" class="active nested astrotabclass"></table></li></ul></li>-->
+                  <!--<li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Capsules</h3><ul class="active nested"><li><table id="spacexcapsulestable" class="active nested astrotabclass"></table></li></ul></li>-->
+                  <!--<li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Cores</h3><ul class="active nested"><li><table id="spacexcorestable" class="active nested astrotabclass"></table></li></ul></li>-->
+                  <!--<li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Crew</h3><ul class="active nested"><li><table id="spacexcrewtable" class="active nested astrotabclass"></table></li></ul></li>-->
+                  <!--<li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Dragons</h3><ul class="active nested"><li><table id="spacexdragonstable" class="active nested astrotabclass"></table></li></ul></li>-->
+                  <!--<li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Landpads</h3><ul class="active nested"><li><table id="spacexlandpadstable" class="active nested astrotabclass"></table></li></ul></li>-->
+                  <!--<li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Launches</h3><ul class="active nested"><li><table id="spacexlaunchestable" class="active nested astrotabclass"></table></li></ul></li>-->
+                  <!--<li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Launchpads</h3><ul class="active nested"><li><table id="spacexlaunchpadstable" class="active nested astrotabclass"></table></li></ul></li>-->
+                  <!--<li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Payloads</h3><ul class="active nested"><li><table id="spacexpayloadstable" class="active nested astrotabclass"></table></li></ul></li>-->
+                  <!--<li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Rockets</h3><ul class="active nested"><li><table id="spacexrocketstable" class="active nested astrotabclass"></table></li></ul></li>-->
+                  <!--<li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Ships</h3><ul class="active nested"><li><table id="spacexshipstable" class="active nested astrotabclass"></table></li></ul></li>-->
                 </ul>
               </li>
             </ul></li>
@@ -152,7 +282,7 @@
           </ul>
 
       <p style="float:right;"><code id="lastupdate"></code></p>
-
+      <script type="text/javascript" src="/static/js/three.js"></script>
       <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
       <script src="https://unpkg.com/@joergdietrich/leaflet.terminator"></script>
       <script src="https://code.jquery.com/jquery-2.0.3.min.js"> </script>
@@ -168,7 +298,85 @@
           }
           XmlHttpRequest.send(null);
         }
-        function doMaps() {
+        function doGlobes() {
+          // adapted from https://www.smartjava.org/content/html5-render-open-data-3d-world-globe-threejs/
+          // texture maps sourced from https://www.solarsystemscope.com/textures/
+          var POS_X = 900;
+          var POS_Y = 250;
+          var POS_Z = 900;
+          var WIDTH = 270;
+          var HEIGHT = 270;
+          var FOV = 45;
+          var NEAR = 1;
+          var FAR = 4000;
+
+          function addGlobe(globediv, surfacelayer, showclouds=false) {
+            var renderer = new THREE.WebGLRenderer({antialias:false, alpha:true});
+            renderer.setSize(WIDTH, HEIGHT);
+            renderer.setClearColorHex(0x111111, 0);
+
+            var mapDiv = document.getElementById(globediv);
+            mapDiv.appendChild(renderer.domElement);
+            var camera = new THREE.PerspectiveCamera(FOV, WIDTH/HEIGHT, NEAR, FAR);
+            camera.position.set(POS_X, POS_Y, POS_Z);
+            camera.lookAt(new THREE.Vector3(0, 0, 0));
+            var scene = new THREE.Scene();
+            scene.add(camera);
+
+            // add lighting
+            light = new THREE.DirectionalLight(0xffffff, 1);
+            scene.add(light);
+            light.position.set(POS_X, POS_Y, POS_Z);
+
+            // add surface map
+            var spGeo = new THREE.SphereGeometry(600, 50, 50);
+            var planetTexture = THREE.ImageUtils.loadTexture(surfacelayer);
+            var mat2 = new THREE.MeshPhongMaterial({
+              map: planetTexture,
+              perPixel: false,
+              shininess: 0.2
+            });
+            sp = new THREE.Mesh(spGeo,mat2);
+            scene.add(sp);
+
+            // add clouds
+            if (showclouds) {
+              var spGeo = new THREE.SphereGeometry(600, 50, 50);
+              var cloudsTexture = THREE.ImageUtils.loadTexture("https://raw.githubusercontent.com/7h3rAm/datastore/master/maps/3_earth_clouds.jpg");
+              var materialClouds = new THREE.MeshPhongMaterial({color:0x111111, map:cloudsTexture, transparent:true, opacity:0.2});
+              meshClouds = new THREE.Mesh(spGeo, materialClouds);
+              meshClouds.scale.set(1.015, 1.015, 1.015);
+              scene.add(meshClouds);
+            }
+
+            // render globe
+            function render() {
+              var timer = Date.now()*0.0001;
+              camera.position.x = (Math.cos(timer)*1800);
+              camera.position.z = (Math.sin(timer)*1800);
+              camera.lookAt(scene.position);
+              light.position = camera.position;
+              light.lookAt(scene.position);
+              renderer.render(scene, camera);
+              requestAnimationFrame(render);
+            }
+            render();
+          }
+
+          addGlobe("globesun", "https://raw.githubusercontent.com/7h3rAm/datastore/master/maps/0_sun_highres.jpg");
+          addGlobe("globemercury", "https://raw.githubusercontent.com/7h3rAm/datastore/master/maps/1_mercury_color.jpg");
+          addGlobe("globevenus", "https://raw.githubusercontent.com/7h3rAm/datastore/master/maps/2_venus.jpg");
+          addGlobe("globevenus", "https://raw.githubusercontent.com/7h3rAm/datastore/master/maps/2_venus_atmosphere_highres.jpg");
+          addGlobe("globeearth", "https://raw.githubusercontent.com/7h3rAm/datastore/master/maps/3_earth_daymap_highres.jpg");
+          addGlobe("globeearth", "https://raw.githubusercontent.com/7h3rAm/datastore/master/maps/3_moon_highres.jpg");
+          addGlobe("globemars", "https://raw.githubusercontent.com/7h3rAm/datastore/master/maps/4_mars_highres.jpg");
+          addGlobe("globejupiter", "https://raw.githubusercontent.com/7h3rAm/datastore/master/maps/5_jupiter_highres.jpg");
+          addGlobe("globesaturn", "https://raw.githubusercontent.com/7h3rAm/datastore/master/maps/6_saturn_highres.jpg");
+          addGlobe("globeuranus", "https://raw.githubusercontent.com/7h3rAm/datastore/master/maps/7_uranus.jpg");
+          addGlobe("globeneptune", "https://raw.githubusercontent.com/7h3rAm/datastore/master/maps/8_neptune.jpg");
+          addGlobe("globepluto", "https://raw.githubusercontent.com/7h3rAm/datastore/master/maps/9_pluto_highres.png");
+        }
+        function doISS() {
           function updateISS () {
             //$.getJSON('http://api.open-notify.org/iss-now.json?callback=?', function(data) {
             //  var lat = data['iss_position']['latitude'];
@@ -213,8 +421,8 @@
           }).addTo(issmap);
           var ISSIcon = L.icon({
             //iconUrl: "http://open-notify.org/Open-Notify-API/map/ISSIcon.png",
-            //iconUrl: "https://raw.githubusercontent.com/7h3rAm/datastore/master/International_Space_Station.png",
-            iconUrl: "https://raw.githubusercontent.com/7h3rAm/datastore/master/ISS-6491621.png",
+            //iconUrl: "https://raw.githubusercontent.com/7h3rAm/datastore/master/iss_dark.png",
+            iconUrl: "https://raw.githubusercontent.com/7h3rAm/datastore/master/iss_light.png",
             iconSize: [50, 30],
             iconAnchor: [25, 15],
             popupAnchor: [50, 25],
@@ -223,9 +431,9 @@
           var issarea = L.circle([0,0], 2200e3, {color:"#766e6b", opacity:0.9, weight:0.6, fillColor:"#dedede", fillOpacity:0.3}).addTo(issmap);
           const opt = {
             color: '#000',
-            opacity: 0.5,
+            opacity: 0.1,
             fillColor: '#000',
-            fillOpacity: 0.5,
+            fillOpacity: 0.3,
             resolution: 2
           };
           const t = L.terminator(opt);
@@ -237,7 +445,7 @@
           };
           updateISS();
         }
-        function doImages() {
+        function doAstro() {
           loadJson("https://raw.githubusercontent.com/7h3rAm/datastore/master/astro.json", function(response) {
             astro = JSON.parse(response);
             console.log(astro);
@@ -454,9 +662,9 @@
               }
               const opt = {
                 color: '#000',
-                opacity: 0.5,
+                opacity: 0.1,
                 fillColor: '#000',
-                fillOpacity: 0.5,
+                fillOpacity: 0.3,
                 resolution: 2
               };
               const t = L.terminator(opt);
@@ -523,11 +731,25 @@
               }
             }
 
-            // fullday pics
-            document.getElementById("fulldaytitlehstack").innerText = astro["satview"]["fullday"]["title_hstack"];
-            document.getElementById("fulldayhstack").src = astro["satview"]["fullday"]["datastore_hstack"]; document.getElementById("fulldayhstack").href = astro["satview"]["fullday"]["datastore_hstack"];
-            document.getElementById("fulldaytitlevstack").innerText = astro["satview"]["fullday"]["title_vstack"];
-            document.getElementById("fulldayvstack").src = astro["satview"]["fullday"]["datastore_vstack"]; document.getElementById("fulldayvstack").href = astro["satview"]["fullday"]["datastore_vstack"];
+            // satellite images
+            document.getElementById("sdohmid").src = astro["satview"]["sdo_hmid"]["datastore"]; document.getElementById("sdohmidhref").href = astro["satview"]["sdo_hmid"]["datastore"];
+            document.getElementById("sdohmiic").src = astro["satview"]["sdo_hmiic"]["datastore"]; document.getElementById("sdohmiichref").href = astro["satview"]["sdo_hmiic"]["datastore"];
+            document.getElementById("sdo0171").src = astro["satview"]["sdo_0171"]["datastore"]; document.getElementById("sdo0171href").href = astro["satview"]["sdo_0171"]["datastore"];
+            document.getElementById("sdo0304").src = astro["satview"]["sdo_0304"]["datastore"]; document.getElementById("sdo0304href").href = astro["satview"]["sdo_0304"]["datastore"];
+            document.getElementById("dscovrepicnat").src = astro["satview"]["dscovr_epic"]["datastore"]; document.getElementById("dscovrepicnathref").href = astro["satview"]["dscovr_epic"]["datastore"]; document.getElementById("dscovrepicnatinfo").innerText = astro["satview"]["dscovr_epic"]["message"];
+            //document.getElementById("fulldaytitlehstack").innerText = astro["satview"]["fullday"]["title_hstack"];
+            //document.getElementById("fulldayhstack").src = astro["satview"]["fullday"]["datastore_hstack"]; document.getElementById("fulldayhstack").href = astro["satview"]["fullday"]["datastore_hstack"];
+            //document.getElementById("fulldaytitlevstack").innerText = astro["satview"]["fullday"]["title_vstack"];
+            //document.getElementById("fulldayvstack").src = astro["satview"]["fullday"]["datastore_vstack"]; document.getElementById("fulldayvstack").href = astro["satview"]["fullday"]["datastore_vstack"];
+            document.getElementById("insat3dglobalvis").src = astro["satview"]["insat_fd_ir"]["datastore"]; document.getElementById("insat3dglobalvishref").href = astro["satview"]["insat_fd_ir"]["datastore"];
+            document.getElementById("insat3dglobalir1").src = astro["satview"]["insat_fd_vis"]["datastore"]; document.getElementById("insat3dglobalir1href").href = astro["satview"]["insat_fd_vis"]["datastore"];
+            document.getElementById("meteosat0").src = astro["satview"]["meteosat0_naturalcolor"]["datastore"]; document.getElementById("meteosat0href").href = astro["satview"]["meteosat0_naturalcolor"]["datastore"];
+            document.getElementById("meteosat415").src = astro["satview"]["meteosat415_naturalcolor"]["datastore"]; document.getElementById("meteosat415href").href = astro["satview"]["meteosat415_naturalcolor"]["datastore"];
+            document.getElementById("elektrol").src = astro["satview"]["elektrol"]["datastore"]; document.getElementById("elektrolhref").href = astro["satview"]["elektrol"]["datastore"];
+            document.getElementById("himawari_truecolor").src = astro["satview"]["himawari8_truecolor"]["datastore"]; document.getElementById("himawari_truecolorhref").href = astro["satview"]["himawari8_truecolor"]["datastore"];
+            document.getElementById("himawari_naturalcolor").src = astro["satview"]["himawari8_naturalcolor"]["datastore"]; document.getElementById("himawari_naturalcolorhref").href = astro["satview"]["himawari8_naturalcolor"]["datastore"];
+            document.getElementById("goes16eastfd").src = astro["satview"]["goes16_geocolor"]["datastore"]; document.getElementById("goes16eastfdhref").href = astro["satview"]["goes16_geocolor"]["datastore"];
+            document.getElementById("goes17westfd").src = astro["satview"]["goes17_geocolor"]["datastore"]; document.getElementById("goes17westfdhref").href = astro["satview"]["goes17_geocolor"]["datastore"];
 
             // people in space - spaceppl
             document.getElementById("spaceppltitle").innerText = astro["spaceppl"]["title"];
@@ -547,212 +769,6 @@
               }
             }
 
-            // spacexcompanytable
-            var spacexcompanytable = document.getElementById("spacexcompanytable");
-            var tr = document.createElement("tr");
-            var td1 = document.createElement("td"); var text1 = document.createTextNode("Name"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
-            var td1 = document.createElement("td"); var td1link = document.createElement("a"); var td1text = document.createTextNode(astro["spacex"]["company"]["name"]); td1link.appendChild(td1text); td1link.title = astro["spacex"]["company"]["name"]; td1link.href = astro["spacex"]["company"]["url"]; td1.appendChild(td1link); tr.appendChild(td1); spacexcompanytable.appendChild(tr);
-            var tr = document.createElement("tr");
-            var td1 = document.createElement("td"); var text1 = document.createTextNode("Summary"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
-            var td1 = document.createElement("td"); var text1 = document.createTextNode(astro["spacex"]["company"]["summary"]); td1.appendChild(text1); tr.appendChild(td1);
-            spacexcompanytable.appendChild(tr);
-            var tr = document.createElement("tr");
-            var td1 = document.createElement("td"); var text1 = document.createTextNode("Employees"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
-            var td1 = document.createElement("td"); var text1 = document.createTextNode(astro["spacex"]["company"]["employees"]); td1.appendChild(text1); tr.appendChild(td1);
-            spacexcompanytable.appendChild(tr);
-            var tr = document.createElement("tr");
-            var td1 = document.createElement("td"); var text1 = document.createTextNode("Valuation"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
-            var td1 = document.createElement("td"); var text1 = document.createTextNode(astro["spacex"]["company"]["valuation_human"]); td1.appendChild(text1); tr.appendChild(td1);
-            spacexcompanytable.appendChild(tr);
-
-            // spacexcapsulestable
-            var spacexcapsulestable = document.getElementById("spacexcapsulestable");
-            if (astro["spacex"]["capsules"].length) {
-              var tr = document.createElement("tr");
-              var td1 = document.createElement("td"); var text1 = document.createTextNode("#"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
-              var td3 = document.createElement("td"); var text3 = document.createTextNode("Name"); td3.appendChild(text3); td3.style.fontWeight = "bold"; tr.appendChild(td3);
-              var td2 = document.createElement("td"); var text2 = document.createTextNode("Status"); td2.appendChild(text2); td2.style.fontWeight = "bold"; tr.appendChild(td2);
-              var td4 = document.createElement("td"); var text4 = document.createTextNode("Last Update"); td4.appendChild(text4); td4.style.fontWeight = "bold"; tr.appendChild(td4);
-              var td5 = document.createElement("td"); var text5 = document.createTextNode("Landings # (Land/Water)"); td5.appendChild(text5); td5.style.fontWeight = "bold"; tr.appendChild(td5);
-              var td6 = document.createElement("td"); var text6 = document.createTextNode("Reuse #"); td6.appendChild(text6); td6.style.fontWeight = "bold"; tr.appendChild(td6);
-              spacexcapsulestable.appendChild(tr);
-              for (var i = 0; i < astro["spacex"]["capsules"].length; i++){
-                var tr = document.createElement("tr");
-                var col1td = document.createElement("td"); var col1text = document.createTextNode(i+1 + "."); col1td.appendChild(col1text); tr.appendChild(col1td);
-                var col2td = document.createElement("td"); var col2text = document.createTextNode(astro["spacex"]["capsules"][i]["name"]); col2td.appendChild(col2text); tr.appendChild(col2td);
-                var col3td = document.createElement("td"); var col3text = document.createTextNode(astro["spacex"]["capsules"][i]["status_emoji"]); col3td.appendChild(col3text); tr.appendChild(col3td);
-                var col4td = document.createElement("td"); var col4text = document.createTextNode(astro["spacex"]["capsules"][i]["last_update"]); col4td.appendChild(col4text); tr.appendChild(col4td);
-                var col5td = document.createElement("td"); var col5text = document.createTextNode(astro["spacex"]["capsules"][i]["land_landings"] + "/" + astro["spacex"]["capsules"][i]["water_landings"]); col5td.appendChild(col5text); tr.appendChild(col5td);
-                var col6td = document.createElement("td"); var col6text = document.createTextNode(astro["spacex"]["capsules"][i]["reuse_count"]); col6td.appendChild(col6text); tr.appendChild(col6td);
-                spacexcapsulestable.appendChild(tr);
-              }
-            }
-
-            // spacexcorestable
-            var spacexcorestable = document.getElementById("spacexcorestable");
-            if (astro["spacex"]["cores"].length) {
-              var tr = document.createElement("tr");
-              var td1 = document.createElement("td"); var text1 = document.createTextNode("#"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
-              var td3 = document.createElement("td"); var text3 = document.createTextNode("Name"); td3.appendChild(text3); td3.style.fontWeight = "bold"; tr.appendChild(td3);
-              var td2 = document.createElement("td"); var text2 = document.createTextNode("Status"); td2.appendChild(text2); td2.style.fontWeight = "bold"; tr.appendChild(td2);
-              var td4 = document.createElement("td"); var text4 = document.createTextNode("Last Update"); td4.appendChild(text4); td4.style.fontWeight = "bold"; tr.appendChild(td4);
-              var td4 = document.createElement("td"); var text4 = document.createTextNode("Launches"); td4.appendChild(text4); td4.style.fontWeight = "bold"; tr.appendChild(td4);
-              //var td5 = document.createElement("td"); var text5 = document.createTextNode("ASDS # (Attempts/Landings)"); td5.appendChild(text5); td5.style.fontWeight = "bold"; tr.appendChild(td5);
-              //var td6 = document.createElement("td"); var text6 = document.createTextNode("RTLS # (Attempts/Landings)"); td6.appendChild(text6); td6.style.fontWeight = "bold"; tr.appendChild(td6);
-              var td4 = document.createElement("td"); var text4 = document.createTextNode("Reuse #"); td4.appendChild(text4); td4.style.fontWeight = "bold"; tr.appendChild(td4);
-              spacexcorestable.appendChild(tr);
-              for (var i = 0; i < astro["spacex"]["cores"].length; i++){
-                var tr = document.createElement("tr");
-                var col1td = document.createElement("td"); var col1text = document.createTextNode(i+1 + "."); col1td.appendChild(col1text); tr.appendChild(col1td);
-                var col2td = document.createElement("td"); var col2text = document.createTextNode(astro["spacex"]["cores"][i]["name"]); col2td.appendChild(col2text); tr.appendChild(col2td);
-                var col3td = document.createElement("td"); var col3text = document.createTextNode(astro["spacex"]["cores"][i]["status_emoji"]); col3td.appendChild(col3text); tr.appendChild(col3td);
-                var col4td = document.createElement("td"); var col4text = document.createTextNode(astro["spacex"]["cores"][i]["last_update"]); col4td.appendChild(col4text); tr.appendChild(col4td);
-                var col3td = document.createElement("td"); var col3text = document.createTextNode(astro["spacex"]["cores"][i]["launches"]); col3td.appendChild(col3text); tr.appendChild(col3td);
-                //var col5td = document.createElement("td"); var col5text = document.createTextNode(astro["spacex"]["cores"][i]["asds_attempts"] + "/" + astro["spacex"]["cores"][i]["asds_landings"]); col5td.appendChild(col5text); tr.appendChild(col5td);
-                //var col5td = document.createElement("td"); var col5text = document.createTextNode(astro["spacex"]["cores"][i]["rtls_attempts"] + "/" + astro["spacex"]["cores"][i]["rtls_landings"]); col5td.appendChild(col5text); tr.appendChild(col5td);
-                var col6td = document.createElement("td"); var col6text = document.createTextNode(astro["spacex"]["cores"][i]["reuse_count"]); col6td.appendChild(col6text); tr.appendChild(col6td);
-                spacexcorestable.appendChild(tr);
-              }
-            }
-
-            // spacexcrewtable
-            var spacexcrewtable = document.getElementById("spacexcrewtable");
-            if (astro["spacex"]["crew"].length) {
-              var tr = document.createElement("tr");
-              var td1 = document.createElement("td"); var text1 = document.createTextNode("#"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
-              var td2 = document.createElement("td"); var text2 = document.createTextNode("Name"); td2.appendChild(text2); td2.style.fontWeight = "bold"; tr.appendChild(td2);
-              var td4 = document.createElement("td"); var text4 = document.createTextNode("Status"); td4.appendChild(text4); td4.style.fontWeight = "bold"; tr.appendChild(td4);
-              var td3 = document.createElement("td"); var text3 = document.createTextNode("Agency"); td3.appendChild(text3); td3.style.fontWeight = "bold"; tr.appendChild(td3);
-              var td4 = document.createElement("td"); var text4 = document.createTextNode("Launches"); td4.appendChild(text4); td4.style.fontWeight = "bold"; tr.appendChild(td4);
-              spacexcrewtable.appendChild(tr);
-              for (var i = 0; i < astro["spacex"]["crew"].length; i++){
-                var tr = document.createElement("tr");
-                var col1td = document.createElement("td"); var col1text = document.createTextNode(i+1 + "."); col1td.appendChild(col1text); tr.appendChild(col1td);
-                var td1 = document.createElement("td"); var td1link = document.createElement("a"); var td1text = document.createTextNode(astro["spacex"]["crew"][i]["name"]); td1link.appendChild(td1text); td1link.title = astro["spacex"]["crew"][i]["name"]; td1link.href = astro["spacex"]["crew"][i]["url"]; td1.appendChild(td1link); tr.appendChild(td1); spacexcompanytable.appendChild(tr);
-                var col4td = document.createElement("td"); var col4text = document.createTextNode(astro["spacex"]["crew"][i]["status_emoji"]); col4td.appendChild(col4text); tr.appendChild(col4td);
-                var col3td = document.createElement("td"); var col3text = document.createTextNode(astro["spacex"]["crew"][i]["agency"]); col3td.appendChild(col3text); tr.appendChild(col3td);
-                var col3td = document.createElement("td"); var col3text = document.createTextNode(astro["spacex"]["crew"][i]["launches"]); col3td.appendChild(col3text); tr.appendChild(col3td);
-                spacexcrewtable.appendChild(tr);
-              }
-            }
-
-            // spacexdragonstable
-            var spacexdragonstable = document.getElementById("spacexdragonstable");
-            if (astro["spacex"]["dragons"].length) {
-              var tr = document.createElement("tr");
-              var td = document.createElement("td"); var text = document.createTextNode("#"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Name"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("First Flight"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Status"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Description"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Crew Capacity"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              spacexdragonstable.appendChild(tr);
-              for (var i = 0; i < astro["spacex"]["dragons"].length; i++){
-                var tr = document.createElement("tr");
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["dragons"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["dragons"][i]["name"]; coltdlink.href = astro["spacex"]["dragons"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexcompanytable.appendChild(tr);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["dragons"][i]["first_flight"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["dragons"][i]["status_emoji"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["dragons"][i]["description"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["dragons"][i]["crew_capacity"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                spacexdragonstable.appendChild(tr);
-              }
-            }
-
-            // spacexlandpadstable
-            var spacexlandpadstable = document.getElementById("spacexlandpadstable");
-            if (astro["spacex"]["landpads"].length) {
-              var tr = document.createElement("tr");
-              var td = document.createElement("td"); var text = document.createTextNode("#"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Name"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Status"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Type"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              //var td = document.createElement("td"); var text = document.createTextNode("Description"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Launches"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Landings (Attempts/Successes)"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              spacexlandpadstable.appendChild(tr);
-              for (var i = 0; i < astro["spacex"]["landpads"].length; i++){
-                var tr = document.createElement("tr");
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["landpads"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["landpads"][i]["name"]; coltdlink.href = astro["spacex"]["landpads"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexcompanytable.appendChild(tr);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["landpads"][i]["status_emoji"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["landpads"][i]["type"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                //var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["landpads"][i]["description"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["landpads"][i]["launches"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["landpads"][i]["landing_attempts"] + "/" + astro["spacex"]["landpads"][i]["landing_successes"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                spacexlandpadstable.appendChild(tr);
-              }
-            }
-
-            // spacexlaunchestable
-            var spacexlaunchestable = document.getElementById("spacexlaunchestable");
-            if (astro["spacex"]["launches"].length) {
-              var tr = document.createElement("tr");
-              var td = document.createElement("td"); var text = document.createTextNode("#"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Date"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Name"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              spacexlaunchestable.appendChild(tr);
-              for (var i = 0; i < astro["spacex"]["launches"].length; i++){
-                var tr = document.createElement("tr");
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["launches"][i]["launch"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                if (astro["spacex"]["launches"][i]["upcoming"]) {
-                  var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["launches"][i]["name"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                }
-                else {
-                  var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["launches"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["launches"][i]["name"]; coltdlink.href = astro["spacex"]["launches"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexcompanytable.appendChild(tr);
-                }
-                spacexlaunchestable.appendChild(tr);
-              }
-            }
-
-            // spacexlaunchpadstable
-            var spacexlaunchpadstable = document.getElementById("spacexlaunchpadstable");
-            if (astro["spacex"]["launchpads"].length) {
-              var tr = document.createElement("tr");
-              var td = document.createElement("td"); var text = document.createTextNode("#"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Name"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Status"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              //var td = document.createElement("td"); var text = document.createTextNode("Description"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Launches (Attempts/Successes)"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              spacexlaunchpadstable.appendChild(tr);
-              for (var i = 0; i < astro["spacex"]["launchpads"].length; i++){
-                var tr = document.createElement("tr");
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["launchpads"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["launchpads"][i]["name"]; coltdlink.href = astro["spacex"]["launchpads"][i]["location_url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexcompanytable.appendChild(tr);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["launchpads"][i]["status_emoji"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                //var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["launchpads"][i]["description"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["launchpads"][i]["launch_attempts"] + "/" + astro["spacex"]["launchpads"][i]["launch_successes"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                spacexlaunchpadstable.appendChild(tr);
-              }
-            }
-
-            // spacexpayloadstable
-            var spacexpayloadstable = document.getElementById("spacexpayloadstable");
-            if (astro["spacex"]["payloads"].length) {
-              var tr = document.createElement("tr");
-              var td = document.createElement("td"); var text = document.createTextNode("#"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Name"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Type"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Orbit"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Manufacturers"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Customers"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Nationalities"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              spacexpayloadstable.appendChild(tr);
-              for (var i = 0; i < astro["spacex"]["payloads"].length; i++){
-                var tr = document.createElement("tr");
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["payloads"][i]["name"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["payloads"][i]["type_emoji"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["payloads"][i]["orbit"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["payloads"][i]["manufacturer"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["payloads"][i]["customer"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["payloads"][i]["nationality"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                spacexpayloadstable.appendChild(tr);
-              }
-            }
-
-            // spacexroadstertable
             var spacexroadstertable = document.getElementById("spacexroadstertable");
             var tr = document.createElement("tr");
             var td1 = document.createElement("td"); var text1 = document.createTextNode("Name"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
@@ -786,69 +802,14 @@
             var td1 = document.createElement("td"); var text1 = document.createTextNode(astro["spacex"]["roadster"]["mars_distance"]); td1.appendChild(text1); tr.appendChild(td1);
             spacexroadstertable.appendChild(tr);
 
-            // spacexrocketstable
-            var spacexrocketstable = document.getElementById("spacexrocketstable");
-            if (astro["spacex"]["rockets"].length) {
-              var tr = document.createElement("tr");
-              var td = document.createElement("td"); var text = document.createTextNode("#"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Name"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("First Flight"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Success Rate"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Stage Reusable?"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Engine"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Launch Cost"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              //var td = document.createElement("td"); var text = document.createTextNode("Type (Stages Boosters Legs Height Diameter Mass)"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              //var td = document.createElement("td"); var text = document.createTextNode("Payload (LEO GTO Moon Mars)"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              spacexrocketstable.appendChild(tr);
-              for (var i = 0; i < astro["spacex"]["rockets"].length; i++){
-                var tr = document.createElement("tr");
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["rockets"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["rockets"][i]["name"]; coltdlink.href = astro["spacex"]["rockets"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexcompanytable.appendChild(tr);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["rockets"][i]["first_flight"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["rockets"][i]["success_rate"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["rockets"][i]["first_stage_reusable_emoji"] + " " + astro["spacex"]["rockets"][i]["second_stage_reusable_emoji"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["rockets"][i]["engine"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["rockets"][i]["launch_cost"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                //var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["rockets"][i]["type"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                //var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["rockets"][i]["payload"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                spacexrocketstable.appendChild(tr);
-              }
-            }
+            document.getElementById("starlinkdecayedcell").innerText = astro["spacex"]["starlink"]["stats"]["decayed"];
+            document.getElementById("starlinkfirstlaunchcell").innerText = astro["spacex"]["starlink"]["stats"]["firstlaunch"];
+            document.getElementById("starlinkinorbitcell").innerText = astro["spacex"]["starlink"]["stats"]["inorbit"];
+            document.getElementById("starlinklatestlaunchcell").innerText = astro["spacex"]["starlink"]["stats"]["latestlaunch"];
+            document.getElementById("starlinktotalcell").innerText = astro["spacex"]["starlink"]["stats"]["total"];
 
-            // spacexshipstable
-            var spacexshipstable = document.getElementById("spacexshipstable");
-            if (astro["spacex"]["ships"].length) {
-              var tr = document.createElement("tr");
-              var td = document.createElement("td"); var text = document.createTextNode("#"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Name"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Port"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Type"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Utility"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Launches"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Status"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              spacexshipstable.appendChild(tr);
-              for (var i = 0; i < astro["spacex"]["ships"].length; i++){
-                var tr = document.createElement("tr");
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
-
-                if (astro["spacex"]["ships"][i]["url"]) {
-                  var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["ships"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["ships"][i]["name"]; coltdlink.href = astro["spacex"]["ships"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexcompanytable.appendChild(tr);
-                } else {
-                  var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["ships"][i]["name"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                }
-
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["ships"][i]["port"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["ships"][i]["type"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["ships"][i]["roles"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["ships"][i]["launches"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["ships"][i]["status_emoji"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                spacexshipstable.appendChild(tr);
-              }
-            }
-
-            // spacexstarlinkmap
-            if (astro["spacex"]["starlink"].length) {
-              var locations = astro["spacex"]["mapdata"];
+            if (astro["spacex"]["starlink"]["satellites"].length) {
+              var locations = astro["spacex"]["starlink"]["mapdata"];
               var starlinkmap = L.map('starlinkmap').setView([0, 0], 2);
               var osmlayer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
               L.tileLayer(osmlayer, {
@@ -870,9 +831,9 @@
               }
               const opt = {
                 color: '#000',
-                opacity: 0.5,
+                opacity: 0.1,
                 fillColor: '#000',
-                fillOpacity: 0.5,
+                fillOpacity: 0.3,
                 resolution: 2
               };
               const t = L.terminator(opt);
@@ -884,51 +845,274 @@
               };
             }
 
-            // spacexhistorytable
-            var spacexhistorytable = document.getElementById("spacexhistorytable");
-            if (astro["spacex"]["history"].length) {
-              var tr = document.createElement("tr");
-              var td = document.createElement("td"); var text = document.createTextNode("#"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Date"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Title"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Description"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              spacexhistorytable.appendChild(tr);
-              for (var i = 0; i < astro["spacex"]["history"].length; i++){
-                var tr = document.createElement("tr");
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["history"][i]["date"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["history"][i]["title"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["history"][i]["title"]; coltdlink.href = astro["spacex"]["history"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexcompanytable.appendChild(tr);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["history"][i]["description"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                spacexhistorytable.appendChild(tr);
-              }
-            }
-
-            // satellite images
-            document.getElementById("sdohmid").src = astro["satview"]["sdo_hmid"]["datastore"]; document.getElementById("sdohmidhref").href = astro["satview"]["sdo_hmid"]["datastore"];
-            document.getElementById("sdohmiic").src = astro["satview"]["sdo_hmiic"]["datastore"]; document.getElementById("sdohmiichref").href = astro["satview"]["sdo_hmiic"]["datastore"];
-            document.getElementById("sdo0171").src = astro["satview"]["sdo_0171"]["datastore"]; document.getElementById("sdo0171href").href = astro["satview"]["sdo_0171"]["datastore"];
-            document.getElementById("sdo0304").src = astro["satview"]["sdo_0304"]["datastore"]; document.getElementById("sdo0304href").href = astro["satview"]["sdo_0304"]["datastore"];
-            document.getElementById("dscovrepicnat").src = astro["satview"]["dscovr_epic"]["datastore"]; document.getElementById("dscovrepicnathref").href = astro["satview"]["dscovr_epic"]["datastore"];
-            document.getElementById("dscovrepicnatinfo").innerText = astro["satview"]["dscovr_epic"]["message"];
-            document.getElementById("insat3dglobalvis").src = astro["satview"]["insat_fd_ir"]["datastore"]; document.getElementById("insat3dglobalvishref").href = astro["satview"]["insat_fd_ir"]["datastore"];
-            document.getElementById("insat3dglobalir1").src = astro["satview"]["insat_fd_vis"]["datastore"]; document.getElementById("insat3dglobalir1href").href = astro["satview"]["insat_fd_vis"]["datastore"];
-            document.getElementById("meteosat0").src = astro["satview"]["meteosat0_naturalcolor"]["datastore"]; document.getElementById("meteosat0href").href = astro["satview"]["meteosat0_naturalcolor"]["datastore"];
-            document.getElementById("meteosat415").src = astro["satview"]["meteosat415_naturalcolor"]["datastore"]; document.getElementById("meteosat415href").href = astro["satview"]["meteosat415_naturalcolor"]["datastore"];
-            document.getElementById("elektrol").src = astro["satview"]["elektrol"]["datastore"]; document.getElementById("elektrolhref").href = astro["satview"]["elektrol"]["datastore"];
-            document.getElementById("himawari_truecolor").src = astro["satview"]["himawari8_truecolor"]["datastore"]; document.getElementById("himawari_truecolorhref").href = astro["satview"]["himawari8_truecolor"]["datastore"];
-            document.getElementById("himawari_naturalcolor").src = astro["satview"]["himawari8_naturalcolor"]["datastore"]; document.getElementById("himawari_naturalcolorhref").href = astro["satview"]["himawari8_naturalcolor"]["datastore"];
-            document.getElementById("goes16eastfd").src = astro["satview"]["goes16_geocolor"]["datastore"]; document.getElementById("goes16eastfdhref").href = astro["satview"]["goes16_geocolor"]["datastore"];
-            document.getElementById("goes17westfd").src = astro["satview"]["goes17_geocolor"]["datastore"]; document.getElementById("goes17westfdhref").href = astro["satview"]["goes17_geocolor"]["datastore"];
+            //var spacexcompanytable = document.getElementById("spacexcompanytable");
+            //var tr = document.createElement("tr");
+            //var td1 = document.createElement("td"); var text1 = document.createTextNode("Name"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
+            //var td1 = document.createElement("td"); var td1link = document.createElement("a"); var td1text = document.createTextNode(astro["spacex"]["company"]["name"]); td1link.appendChild(td1text); td1link.title = astro["spacex"]["company"]["name"]; td1link.href = astro["spacex"]["company"]["url"]; td1.appendChild(td1link); tr.appendChild(td1); spacexcompanytable.appendChild(tr);
+            //var tr = document.createElement("tr");
+            //var td1 = document.createElement("td"); var text1 = document.createTextNode("Summary"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
+            //var td1 = document.createElement("td"); var text1 = document.createTextNode(astro["spacex"]["company"]["summary"]); td1.appendChild(text1); tr.appendChild(td1);
+            //spacexcompanytable.appendChild(tr);
+            //var tr = document.createElement("tr");
+            //var td1 = document.createElement("td"); var text1 = document.createTextNode("Employees"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
+            //var td1 = document.createElement("td"); var text1 = document.createTextNode(astro["spacex"]["company"]["employees"]); td1.appendChild(text1); tr.appendChild(td1);
+            //spacexcompanytable.appendChild(tr);
+            //var tr = document.createElement("tr");
+            //var td1 = document.createElement("td"); var text1 = document.createTextNode("Valuation"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
+            //var td1 = document.createElement("td"); var text1 = document.createTextNode(astro["spacex"]["company"]["valuation_human"]); td1.appendChild(text1); tr.appendChild(td1);
+            //spacexcompanytable.appendChild(tr);
+            //var spacexcapsulestable = document.getElementById("spacexcapsulestable");
+            //if (astro["spacex"]["capsules"].length) {
+            //  var tr = document.createElement("tr");
+            //  var td1 = document.createElement("td"); var text1 = document.createTextNode("#"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
+            //  var td3 = document.createElement("td"); var text3 = document.createTextNode("Name"); td3.appendChild(text3); td3.style.fontWeight = "bold"; tr.appendChild(td3);
+            //  var td2 = document.createElement("td"); var text2 = document.createTextNode("Status"); td2.appendChild(text2); td2.style.fontWeight = "bold"; tr.appendChild(td2);
+            //  var td4 = document.createElement("td"); var text4 = document.createTextNode("Last Update"); td4.appendChild(text4); td4.style.fontWeight = "bold"; tr.appendChild(td4);
+            //  var td5 = document.createElement("td"); var text5 = document.createTextNode("Landings # (Land/Water)"); td5.appendChild(text5); td5.style.fontWeight = "bold"; tr.appendChild(td5);
+            //  var td6 = document.createElement("td"); var text6 = document.createTextNode("Reuse #"); td6.appendChild(text6); td6.style.fontWeight = "bold"; tr.appendChild(td6);
+            //  spacexcapsulestable.appendChild(tr);
+            //  for (var i = 0; i < astro["spacex"]["capsules"].length; i++){
+            //    var tr = document.createElement("tr");
+            //    var col1td = document.createElement("td"); var col1text = document.createTextNode(i+1 + "."); col1td.appendChild(col1text); tr.appendChild(col1td);
+            //    var col2td = document.createElement("td"); var col2text = document.createTextNode(astro["spacex"]["capsules"][i]["name"]); col2td.appendChild(col2text); tr.appendChild(col2td);
+            //    var col3td = document.createElement("td"); var col3text = document.createTextNode(astro["spacex"]["capsules"][i]["status_emoji"]); col3td.appendChild(col3text); tr.appendChild(col3td);
+            //    var col4td = document.createElement("td"); var col4text = document.createTextNode(astro["spacex"]["capsules"][i]["last_update"]); col4td.appendChild(col4text); tr.appendChild(col4td);
+            //    var col5td = document.createElement("td"); var col5text = document.createTextNode(astro["spacex"]["capsules"][i]["land_landings"] + "/" + astro["spacex"]["capsules"][i]["water_landings"]); col5td.appendChild(col5text); tr.appendChild(col5td);
+            //    var col6td = document.createElement("td"); var col6text = document.createTextNode(astro["spacex"]["capsules"][i]["reuse_count"]); col6td.appendChild(col6text); tr.appendChild(col6td);
+            //    spacexcapsulestable.appendChild(tr);
+            //  }
+            //}
+            //var spacexcorestable = document.getElementById("spacexcorestable");
+            //if (astro["spacex"]["cores"].length) {
+            //  var tr = document.createElement("tr");
+            //  var td1 = document.createElement("td"); var text1 = document.createTextNode("#"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
+            //  var td3 = document.createElement("td"); var text3 = document.createTextNode("Name"); td3.appendChild(text3); td3.style.fontWeight = "bold"; tr.appendChild(td3);
+            //  var td2 = document.createElement("td"); var text2 = document.createTextNode("Status"); td2.appendChild(text2); td2.style.fontWeight = "bold"; tr.appendChild(td2);
+            //  var td4 = document.createElement("td"); var text4 = document.createTextNode("Last Update"); td4.appendChild(text4); td4.style.fontWeight = "bold"; tr.appendChild(td4);
+            //  var td4 = document.createElement("td"); var text4 = document.createTextNode("Launches"); td4.appendChild(text4); td4.style.fontWeight = "bold"; tr.appendChild(td4);
+            //  //var td5 = document.createElement("td"); var text5 = document.createTextNode("ASDS # (Attempts/Landings)"); td5.appendChild(text5); td5.style.fontWeight = "bold"; tr.appendChild(td5);
+            //  //var td6 = document.createElement("td"); var text6 = document.createTextNode("RTLS # (Attempts/Landings)"); td6.appendChild(text6); td6.style.fontWeight = "bold"; tr.appendChild(td6);
+            //  var td4 = document.createElement("td"); var text4 = document.createTextNode("Reuse #"); td4.appendChild(text4); td4.style.fontWeight = "bold"; tr.appendChild(td4);
+            //  spacexcorestable.appendChild(tr);
+            //  for (var i = 0; i < astro["spacex"]["cores"].length; i++){
+            //    var tr = document.createElement("tr");
+            //    var col1td = document.createElement("td"); var col1text = document.createTextNode(i+1 + "."); col1td.appendChild(col1text); tr.appendChild(col1td);
+            //    var col2td = document.createElement("td"); var col2text = document.createTextNode(astro["spacex"]["cores"][i]["name"]); col2td.appendChild(col2text); tr.appendChild(col2td);
+            //    var col3td = document.createElement("td"); var col3text = document.createTextNode(astro["spacex"]["cores"][i]["status_emoji"]); col3td.appendChild(col3text); tr.appendChild(col3td);
+            //    var col4td = document.createElement("td"); var col4text = document.createTextNode(astro["spacex"]["cores"][i]["last_update"]); col4td.appendChild(col4text); tr.appendChild(col4td);
+            //    var col3td = document.createElement("td"); var col3text = document.createTextNode(astro["spacex"]["cores"][i]["launches"]); col3td.appendChild(col3text); tr.appendChild(col3td);
+            //    //var col5td = document.createElement("td"); var col5text = document.createTextNode(astro["spacex"]["cores"][i]["asds_attempts"] + "/" + astro["spacex"]["cores"][i]["asds_landings"]); col5td.appendChild(col5text); tr.appendChild(col5td);
+            //    //var col5td = document.createElement("td"); var col5text = document.createTextNode(astro["spacex"]["cores"][i]["rtls_attempts"] + "/" + astro["spacex"]["cores"][i]["rtls_landings"]); col5td.appendChild(col5text); tr.appendChild(col5td);
+            //    var col6td = document.createElement("td"); var col6text = document.createTextNode(astro["spacex"]["cores"][i]["reuse_count"]); col6td.appendChild(col6text); tr.appendChild(col6td);
+            //    spacexcorestable.appendChild(tr);
+            //  }
+            //}
+            //var spacexcrewtable = document.getElementById("spacexcrewtable");
+            //if (astro["spacex"]["crew"].length) {
+            //  var tr = document.createElement("tr");
+            //  var td1 = document.createElement("td"); var text1 = document.createTextNode("#"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
+            //  var td2 = document.createElement("td"); var text2 = document.createTextNode("Name"); td2.appendChild(text2); td2.style.fontWeight = "bold"; tr.appendChild(td2);
+            //  var td4 = document.createElement("td"); var text4 = document.createTextNode("Status"); td4.appendChild(text4); td4.style.fontWeight = "bold"; tr.appendChild(td4);
+            //  var td3 = document.createElement("td"); var text3 = document.createTextNode("Agency"); td3.appendChild(text3); td3.style.fontWeight = "bold"; tr.appendChild(td3);
+            //  var td4 = document.createElement("td"); var text4 = document.createTextNode("Launches"); td4.appendChild(text4); td4.style.fontWeight = "bold"; tr.appendChild(td4);
+            //  spacexcrewtable.appendChild(tr);
+            //  for (var i = 0; i < astro["spacex"]["crew"].length; i++){
+            //    var tr = document.createElement("tr");
+            //    var col1td = document.createElement("td"); var col1text = document.createTextNode(i+1 + "."); col1td.appendChild(col1text); tr.appendChild(col1td);
+            //    var td1 = document.createElement("td"); var td1link = document.createElement("a"); var td1text = document.createTextNode(astro["spacex"]["crew"][i]["name"]); td1link.appendChild(td1text); td1link.title = astro["spacex"]["crew"][i]["name"]; td1link.href = astro["spacex"]["crew"][i]["url"]; td1.appendChild(td1link); tr.appendChild(td1); spacexcompanytable.appendChild(tr);
+            //    var col4td = document.createElement("td"); var col4text = document.createTextNode(astro["spacex"]["crew"][i]["status_emoji"]); col4td.appendChild(col4text); tr.appendChild(col4td);
+            //    var col3td = document.createElement("td"); var col3text = document.createTextNode(astro["spacex"]["crew"][i]["agency"]); col3td.appendChild(col3text); tr.appendChild(col3td);
+            //    var col3td = document.createElement("td"); var col3text = document.createTextNode(astro["spacex"]["crew"][i]["launches"]); col3td.appendChild(col3text); tr.appendChild(col3td);
+            //    spacexcrewtable.appendChild(tr);
+            //  }
+            //}
+            //var spacexdragonstable = document.getElementById("spacexdragonstable");
+            //if (astro["spacex"]["dragons"].length) {
+            //  var tr = document.createElement("tr");
+            //  var td = document.createElement("td"); var text = document.createTextNode("#"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Name"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("First Flight"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Status"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Description"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Crew Capacity"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  spacexdragonstable.appendChild(tr);
+            //  for (var i = 0; i < astro["spacex"]["dragons"].length; i++){
+            //    var tr = document.createElement("tr");
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["dragons"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["dragons"][i]["name"]; coltdlink.href = astro["spacex"]["dragons"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexcompanytable.appendChild(tr);
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["dragons"][i]["first_flight"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["dragons"][i]["status_emoji"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["dragons"][i]["description"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["dragons"][i]["crew_capacity"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    spacexdragonstable.appendChild(tr);
+            //  }
+            //}
+            //var spacexlandpadstable = document.getElementById("spacexlandpadstable");
+            //if (astro["spacex"]["landpads"].length) {
+            //  var tr = document.createElement("tr");
+            //  var td = document.createElement("td"); var text = document.createTextNode("#"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Name"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Status"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Type"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  //var td = document.createElement("td"); var text = document.createTextNode("Description"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Launches"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Landings (Attempts/Successes)"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  spacexlandpadstable.appendChild(tr);
+            //  for (var i = 0; i < astro["spacex"]["landpads"].length; i++){
+            //    var tr = document.createElement("tr");
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["landpads"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["landpads"][i]["name"]; coltdlink.href = astro["spacex"]["landpads"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexcompanytable.appendChild(tr);
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["landpads"][i]["status_emoji"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["landpads"][i]["type"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    //var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["landpads"][i]["description"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["landpads"][i]["launches"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["landpads"][i]["landing_attempts"] + "/" + astro["spacex"]["landpads"][i]["landing_successes"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    spacexlandpadstable.appendChild(tr);
+            //  }
+            //}
+           //var spacexlaunchestable = document.getElementById("spacexlaunchestable");
+            //if (astro["spacex"]["launches"].length) {
+            //  var tr = document.createElement("tr");
+            //  var td = document.createElement("td"); var text = document.createTextNode("#"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Date"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Name"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  spacexlaunchestable.appendChild(tr);
+            //  for (var i = 0; i < astro["spacex"]["launches"].length; i++){
+            //    var tr = document.createElement("tr");
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["launches"][i]["launch"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    if (astro["spacex"]["launches"][i]["upcoming"]) {
+            //      var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["launches"][i]["name"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    }
+            //    else {
+            //      var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["launches"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["launches"][i]["name"]; coltdlink.href = astro["spacex"]["launches"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexcompanytable.appendChild(tr);
+            //    }
+            //    spacexlaunchestable.appendChild(tr);
+            //  }
+            //}
+            //var spacexlaunchpadstable = document.getElementById("spacexlaunchpadstable");
+            //if (astro["spacex"]["launchpads"].length) {
+            //  var tr = document.createElement("tr");
+            //  var td = document.createElement("td"); var text = document.createTextNode("#"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Name"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Status"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  //var td = document.createElement("td"); var text = document.createTextNode("Description"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Launches (Attempts/Successes)"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  spacexlaunchpadstable.appendChild(tr);
+            //  for (var i = 0; i < astro["spacex"]["launchpads"].length; i++){
+            //    var tr = document.createElement("tr");
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["launchpads"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["launchpads"][i]["name"]; coltdlink.href = astro["spacex"]["launchpads"][i]["location_url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexcompanytable.appendChild(tr);
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["launchpads"][i]["status_emoji"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    //var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["launchpads"][i]["description"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["launchpads"][i]["launch_attempts"] + "/" + astro["spacex"]["launchpads"][i]["launch_successes"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    spacexlaunchpadstable.appendChild(tr);
+            //  }
+            //}
+            //var spacexpayloadstable = document.getElementById("spacexpayloadstable");
+            //if (astro["spacex"]["payloads"].length) {
+            //  var tr = document.createElement("tr");
+            //  var td = document.createElement("td"); var text = document.createTextNode("#"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Name"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Type"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Orbit"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Manufacturers"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Customers"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Nationalities"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  spacexpayloadstable.appendChild(tr);
+            //  for (var i = 0; i < astro["spacex"]["payloads"].length; i++){
+            //    var tr = document.createElement("tr");
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["payloads"][i]["name"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["payloads"][i]["type_emoji"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["payloads"][i]["orbit"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["payloads"][i]["manufacturer"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["payloads"][i]["customer"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["payloads"][i]["nationality"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    spacexpayloadstable.appendChild(tr);
+            //  }
+            //}
+            //var spacexrocketstable = document.getElementById("spacexrocketstable");
+            //if (astro["spacex"]["rockets"].length) {
+            //  var tr = document.createElement("tr");
+            //  var td = document.createElement("td"); var text = document.createTextNode("#"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Name"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("First Flight"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Success Rate"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Stage Reusable?"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Engine"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Launch Cost"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  //var td = document.createElement("td"); var text = document.createTextNode("Type (Stages Boosters Legs Height Diameter Mass)"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  //var td = document.createElement("td"); var text = document.createTextNode("Payload (LEO GTO Moon Mars)"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  spacexrocketstable.appendChild(tr);
+            //  for (var i = 0; i < astro["spacex"]["rockets"].length; i++){
+            //    var tr = document.createElement("tr");
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["rockets"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["rockets"][i]["name"]; coltdlink.href = astro["spacex"]["rockets"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexcompanytable.appendChild(tr);
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["rockets"][i]["first_flight"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["rockets"][i]["success_rate"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["rockets"][i]["first_stage_reusable_emoji"] + " " + astro["spacex"]["rockets"][i]["second_stage_reusable_emoji"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["rockets"][i]["engine"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["rockets"][i]["launch_cost"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    //var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["rockets"][i]["type"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    //var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["rockets"][i]["payload"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    spacexrocketstable.appendChild(tr);
+            //  }
+            //}
+            //var spacexshipstable = document.getElementById("spacexshipstable");
+            //if (astro["spacex"]["ships"].length) {
+            //  var tr = document.createElement("tr");
+            //  var td = document.createElement("td"); var text = document.createTextNode("#"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Name"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Port"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Type"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Utility"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Launches"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Status"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  spacexshipstable.appendChild(tr);
+            //  for (var i = 0; i < astro["spacex"]["ships"].length; i++){
+            //    var tr = document.createElement("tr");
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    if (astro["spacex"]["ships"][i]["url"]) {
+            //      var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["ships"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["ships"][i]["name"]; coltdlink.href = astro["spacex"]["ships"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexcompanytable.appendChild(tr);
+            //    } else {
+            //      var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["ships"][i]["name"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    }
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["ships"][i]["port"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["ships"][i]["type"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["ships"][i]["roles"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["ships"][i]["launches"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["ships"][i]["status_emoji"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    spacexshipstable.appendChild(tr);
+            //  }
+            //}
+            //var spacexhistorytable = document.getElementById("spacexhistorytable");
+            //if (astro["spacex"]["history"].length) {
+            //  var tr = document.createElement("tr");
+            //  var td = document.createElement("td"); var text = document.createTextNode("#"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Date"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Title"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  var td = document.createElement("td"); var text = document.createTextNode("Description"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+            //  spacexhistorytable.appendChild(tr);
+            //  for (var i = 0; i < astro["spacex"]["history"].length; i++){
+            //    var tr = document.createElement("tr");
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["history"][i]["date"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["history"][i]["title"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["history"][i]["title"]; coltdlink.href = astro["spacex"]["history"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexcompanytable.appendChild(tr);
+            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["history"][i]["description"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+            //    spacexhistorytable.appendChild(tr);
+            //  }
+            //}
 
             // last updated timestamp
             document.getElementById("lastupdate").innerText = "Last Update: " + astro["last_update"];
-
           });
         }
         window.onload = () => {
           //setInterval(() => {doTime();},1000); // every .5s
-          doMaps();
-          doImages();
+          doGlobes();
+          doISS();
+          doAstro();
         }
       </script>
       </div>

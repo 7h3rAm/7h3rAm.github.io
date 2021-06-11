@@ -66,7 +66,7 @@ li:last-child::after {
 
 .hljs-ln-numbers { color:#909090; text-align:right; vertical-align:middle; border-right:0px solid #909090; }
 .rectimages { width:540px; height:270px; max-width:540px; max-height:270px; }
-.sqimages { width:540px; height:540px; max-width:540px; max-height:540px; }
+.sqimages { width:270px; height:270px; max-width:270px; max-height:270px; }
 
 .nested { display:none; }
 .active { display:block; }
@@ -117,4 +117,8 @@ li:last-child::after {
 
 .mapclass img {
   display:block; margin:0 auto; vertical-align:middle; -webkit-border-radius:0px; max-width:100% !important; width:100%; height:450px; border:0px solid #766e6b; }
+}
+
+.globebg {
+  background-image:url("https://raw.githubusercontent.com/7h3rAm/datastore/master/maps/night-sky.png");
 }
