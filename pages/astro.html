@@ -15,7 +15,7 @@
     <!-- <link rel="stylesheet" href="/static/css/github-gist.min.css"> -->
     <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
     <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css"/>
+    <link rel="stylesheet" href="/static/css/leaflet.css"/>
    </head>
   <body onload="initialize()">
     <div class="body">
@@ -43,11 +43,11 @@
               </li>
             </ul></li>
 
-            <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>🔔 Earth Observatory Natural Event Tracker (EONET)</h2><ul class="active nested">
+            <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>🔔 Earth Events</h2><ul class="active nested">
               <li>
-                <h3 class="h3 collapsible expanded" onclick=toggle(this); id="eonettitle"></h3><ul class="active nested">
-                  <li><p class="active nested"><small>Data provided courtesy of <a href="https://eonet.sci.gsfc.nasa.gov/">EONET</a> team. <a href="https://eonet.sci.gsfc.nasa.gov/what-is-eonet">[🔗]</a></small></p></li>
-                  <li><div id="eonetmap" style="width:100%; height:450px; border:1px solid #766e6b;" class="mapclass"></div></li>
+                <h3 class="h3 collapsible expanded" onclick=toggle(this); id="eartheventstitle"></h3><ul class="active nested">
+                  <li><p class="active nested"><small>Data provided courtesy of <a href="https://eonet.sci.gsfc.nasa.gov/">EONET</a> <a href="https://eonet.sci.gsfc.nasa.gov/what-is-eonet">[🔗]</a> and <a href="https://www.usgs.gov/natural-hazards/earthquake-hazards/earthquakes">USGS Earthquake Hazards Program</a> <a href="https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php">[🔗]</a> teams.</small></p></li>
+                  <li><div id="eartheventsmap" style="width:100%; height:450px; border:1px solid #766e6b;" class="mapclass"></div></li>
                 </ul>
               </li>
             </ul></li>
@@ -241,6 +241,7 @@
               <li>
                 <p class="active nested"><small>Data provided courtesy of <a href="https://github.com/r-spacex/SpaceX-API">r/SpaceX API</a> team.</small></p>
                 <ul class="active nested">
+                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Launches</h3><ul class="active nested"><li><table id="spacexlaunchestable" class="active nested astrotabclass"></table></li></ul></li>
                   <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Roadster</h3><ul class="active nested"><li><table id="spacexroadstertable" class="active nested astrotabclass"></table></li></ul></li>
                   <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Starlink</h3><ul class="active nested">
                     <li>
@@ -270,7 +271,6 @@
                   <!--<li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Crew</h3><ul class="active nested"><li><table id="spacexcrewtable" class="active nested astrotabclass"></table></li></ul></li>-->
                   <!--<li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Dragons</h3><ul class="active nested"><li><table id="spacexdragonstable" class="active nested astrotabclass"></table></li></ul></li>-->
                   <!--<li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Landpads</h3><ul class="active nested"><li><table id="spacexlandpadstable" class="active nested astrotabclass"></table></li></ul></li>-->
-                  <!--<li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Launches</h3><ul class="active nested"><li><table id="spacexlaunchestable" class="active nested astrotabclass"></table></li></ul></li>-->
                   <!--<li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Launchpads</h3><ul class="active nested"><li><table id="spacexlaunchpadstable" class="active nested astrotabclass"></table></li></ul></li>-->
                   <!--<li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Payloads</h3><ul class="active nested"><li><table id="spacexpayloadstable" class="active nested astrotabclass"></table></li></ul></li>-->
                   <!--<li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Rockets</h3><ul class="active nested"><li><table id="spacexrocketstable" class="active nested astrotabclass"></table></li></ul></li>-->
@@ -283,9 +283,9 @@
 
       <p style="float:right;"><code id="lastupdate"></code></p>
       <script type="text/javascript" src="/static/js/three.js"></script>
-      <script src="/static/js/leaflet.js"></script>
-      <script src="/static/js/leaflet.terminator.js"></script>
-      <script src="/static/js/jquery-2.0.3.min.js"> </script>
+      <script type="text/javascript" src="/static/js/leaflet.js"></script>
+      <script type="text/javascript" src="/static/js/leaflet.terminator.js"></script>
+      <script type="text/javascript" src="/static/js/jquery-2.0.3.min.js"> </script>
       <script>
         function loadJson(url, callback) {
           var XmlHttpRequest = new XMLHttpRequest();
@@ -456,16 +456,17 @@
             document.getElementById("apodurl").href = astro["apod"]["datastore"];
 
             // earth observatory natural event tracker stats
-            document.getElementById("eonettitle").innerText = astro["eonet"]["title"];
-            if (astro["eonet"]["events"].length) {
-              var eonetmap = L.map('eonetmap').setView([0, 0], 1);
+            console.log(astro["earthevents"]["title"]);
+            document.getElementById("eartheventstitle").innerText = astro["earthevents"]["title"];
+            if (astro["earthevents"]["events"].length) {
+              var eartheventsmap = L.map('eartheventsmap').setView([0, 0], 1);
               var osmlayer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
               L.tileLayer(osmlayer, {
                 attribution: '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-              }).addTo(eonetmap);
+              }).addTo(eartheventsmap);
               const size = 5;
 
-              if (astro["eonet"]["mapdata"]["Drought"].length) {
+              if (astro["earthevents"]["mapdata"]["Drought"].length) {
                 const iconOptions = {
                   iconSize  : [size, size],
                   iconAnchor: [size/2, size + 9], 
@@ -476,11 +477,11 @@
                   draggable: true,
                   icon: L.divIcon(iconOptions)
                 }
-                for (var i = 0; i < astro["eonet"]["mapdata"]["Drought"].length; i++) {
-                  marker = new L.marker([locations[i][1], locations[i][2]], markerOptions).bindPopup(locations[i][0]).addTo(eonetmap);
-                }
+                for (var i = 0; i < astro["earthevents"]["mapdata"]["Drought"].length; i++) {
+                  marker = new L.marker([astro["earthevents"]["mapdata"]["Drought"][i][1], astro["earthevents"]["mapdata"]["Drought"][i][2]], markerOptions).bindPopup(astro["earthevents"]["mapdata"]["Drought"][i][0]).addTo(eartheventsmap);
+                 }
               }
-              if (astro["eonet"]["mapdata"]["Dust and Haze"].length) {
+              if (astro["earthevents"]["mapdata"]["Dust and Haze"].length) {
                 const iconOptions = {
                   iconSize  : [size, size],
                   iconAnchor: [size/2, size + 9], 
@@ -491,26 +492,26 @@
                   draggable: true,
                   icon: L.divIcon(iconOptions)
                 }
-                for (var i = 0; i < astro["eonet"]["mapdata"]["Dust and Haze"].length; i++) {
-                  marker = new L.marker([locations[i][1], locations[i][2]], markerOptions).bindPopup(locations[i][0]).addTo(eonetmap);
+                for (var i = 0; i < astro["earthevents"]["mapdata"]["Dust and Haze"].length; i++) {
+                  marker = new L.marker([astro["earthevents"]["mapdata"]["Dust and Haze"][i][1], astro["earthevents"]["mapdata"]["Dust and Haze"][i][2]], markerOptions).bindPopup(astro["earthevents"]["mapdata"]["Dust and Haze"][i][0]).addTo(eartheventsmap);
                 }
               }
-              if (astro["eonet"]["mapdata"]["Earthquakes"].length) {
+              if (astro["earthevents"]["mapdata"]["Earthquakes"].length) {
                 const iconOptions = {
                   iconSize  : [size, size],
                   iconAnchor: [size/2, size + 9], 
                   className : "mymarker",
-                  html: "🌐"
+                  html: "⚠️"
                 }
                 const markerOptions = {
                   draggable: true,
                   icon: L.divIcon(iconOptions)
                 }
-                for (var i = 0; i < astro["eonet"]["mapdata"]["Earthquakes"].length; i++) {
-                  marker = new L.marker([locations[i][1], locations[i][2]], markerOptions).bindPopup(locations[i][0]).addTo(eonetmap);
+                for (var i = 0; i < astro["earthevents"]["mapdata"]["Earthquakes"].length; i++) {
+                  marker = new L.marker([astro["earthevents"]["mapdata"]["Earthquakes"][i][1], astro["earthevents"]["mapdata"]["Earthquakes"][i][2]], markerOptions).bindPopup(astro["earthevents"]["mapdata"]["Earthquakes"][i][0]).addTo(eartheventsmap);
                 }
               }
-              if (astro["eonet"]["mapdata"]["Floods"].length) {
+              if (astro["earthevents"]["mapdata"]["Floods"].length) {
                 const iconOptions = {
                   iconSize  : [size, size],
                   iconAnchor: [size/2, size + 9], 
@@ -521,11 +522,11 @@
                   draggable: true,
                   icon: L.divIcon(iconOptions)
                 }
-                for (var i = 0; i < astro["eonet"]["mapdata"]["Floods"].length; i++) {
-                  marker = new L.marker([locations[i][1], locations[i][2]], markerOptions).bindPopup(locations[i][0]).addTo(eonetmap);
+                for (var i = 0; i < astro["earthevents"]["mapdata"]["Floods"].length; i++) {
+                  marker = new L.marker([astro["earthevents"]["mapdata"]["Floods"][i][1], astro["earthevents"]["mapdata"]["Floods"][i][2]], markerOptions).bindPopup(astro["earthevents"]["mapdata"]["Floods"][i][0]).addTo(eartheventsmap);
                 }
               }
-              if (astro["eonet"]["mapdata"]["Landslides"].length) {
+              if (astro["earthevents"]["mapdata"]["Landslides"].length) {
                 const iconOptions = {
                   iconSize  : [size, size],
                   iconAnchor: [size/2, size + 9], 
@@ -536,11 +537,11 @@
                   draggable: true,
                   icon: L.divIcon(iconOptions)
                 }
-                for (var i = 0; i < astro["eonet"]["mapdata"]["Landslides"].length; i++) {
-                  marker = new L.marker([locations[i][1], locations[i][2]], markerOptions).bindPopup(locations[i][0]).addTo(eonetmap);
+                for (var i = 0; i < astro["earthevents"]["mapdata"]["Landslides"].length; i++) {
+                  marker = new L.marker([astro["earthevents"]["mapdata"]["Landslides"][i][1], astro["earthevents"]["mapdata"]["Landslides"][i][2]], markerOptions).bindPopup(astro["earthevents"]["mapdata"]["Landslides"][i][0]).addTo(eartheventsmap);
                 }
               }
-              if (astro["eonet"]["mapdata"]["Manmade"].length) {
+              if (astro["earthevents"]["mapdata"]["Manmade"].length) {
                 const iconOptions = {
                   iconSize  : [size, size],
                   iconAnchor: [size/2, size + 9], 
@@ -551,11 +552,11 @@
                   draggable: true,
                   icon: L.divIcon(iconOptions)
                 }
-                for (var i = 0; i < astro["eonet"]["mapdata"]["Manmade"].length; i++) {
-                  marker = new L.marker([locations[i][1], locations[i][2]], markerOptions).bindPopup(locations[i][0]).addTo(eonetmap);
+                for (var i = 0; i < astro["earthevents"]["mapdata"]["Manmade"].length; i++) {
+                  marker = new L.marker([astro["earthevents"]["mapdata"]["Manmade"][i][1], astro["earthevents"]["mapdata"]["Manmade"][i][2]], markerOptions).bindPopup(astro["earthevents"]["mapdata"]["Manmade"][i][0]).addTo(eartheventsmap);
                 }
               }
-              if (astro["eonet"]["mapdata"]["Sea and Lake Ice"].length) {
+              if (astro["earthevents"]["mapdata"]["Sea and Lake Ice"].length) {
                 const iconOptions = {
                   iconSize  : [size, size],
                   iconAnchor: [size/2, size + 9], 
@@ -566,11 +567,11 @@
                   draggable: true,
                   icon: L.divIcon(iconOptions)
                 }
-                for (var i = 0; i < astro["eonet"]["mapdata"]["Sea and Lake Ice"].length; i++) {
-                  marker = new L.marker([astro["eonet"]["mapdata"]["Sea and Lake Ice"][i][1], astro["eonet"]["mapdata"]["Sea and Lake Ice"][i][2]], markerOptions).bindPopup(astro["eonet"]["mapdata"]["Sea and Lake Ice"][i][0]).addTo(eonetmap);
+                for (var i = 0; i < astro["earthevents"]["mapdata"]["Sea and Lake Ice"].length; i++) {
+                  marker = new L.marker([astro["earthevents"]["mapdata"]["Sea and Lake Ice"][i][1], astro["earthevents"]["mapdata"]["Sea and Lake Ice"][i][2]], markerOptions).bindPopup(astro["earthevents"]["mapdata"]["Sea and Lake Ice"][i][0]).addTo(eartheventsmap);
                 }
               }
-              if (astro["eonet"]["mapdata"]["Severe Storms"].length) {
+              if (astro["earthevents"]["mapdata"]["Severe Storms"].length) {
                 const iconOptions = {
                   iconSize  : [size, size],
                   iconAnchor: [size/2, size + 9], 
@@ -581,11 +582,11 @@
                   draggable: true,
                   icon: L.divIcon(iconOptions)
                 }
-                for (var i = 0; i < astro["eonet"]["mapdata"]["Severe Storms"].length; i++) {
-                  marker = new L.marker([astro["eonet"]["mapdata"]["Severe Storms"][i][1], astro["eonet"]["mapdata"]["Severe Storms"][i][2]], markerOptions).bindPopup(astro["eonet"]["mapdata"]["Severe Storms"][i][0]).addTo(eonetmap);
+                for (var i = 0; i < astro["earthevents"]["mapdata"]["Severe Storms"].length; i++) {
+                  marker = new L.marker([astro["earthevents"]["mapdata"]["Severe Storms"][i][1], astro["earthevents"]["mapdata"]["Severe Storms"][i][2]], markerOptions).bindPopup(astro["earthevents"]["mapdata"]["Severe Storms"][i][0]).addTo(eartheventsmap);
                 }
               }
-              if (astro["eonet"]["mapdata"]["Snow"].length) {
+              if (astro["earthevents"]["mapdata"]["Snow"].length) {
                 const iconOptions = {
                   iconSize  : [size, size],
                   iconAnchor: [size/2, size + 9], 
@@ -596,11 +597,11 @@
                   draggable: true,
                   icon: L.divIcon(iconOptions)
                 }
-                for (var i = 0; i < astro["eonet"]["mapdata"]["Snow"].length; i++) {
-                  marker = new L.marker([locations[i][1], locations[i][2]], markerOptions).bindPopup(locations[i][0]).addTo(eonetmap);
+                for (var i = 0; i < astro["earthevents"]["mapdata"]["Snow"].length; i++) {
+                  marker = new L.marker([astro["earthevents"]["mapdata"]["Snow"][i][1], astro["earthevents"]["mapdata"]["Snow"][i][2]], markerOptions).bindPopup(astro["earthevents"]["mapdata"]["Snow"][i][0]).addTo(eartheventsmap);
                 }
               }
-              if (astro["eonet"]["mapdata"]["Temperature Extremes"].length) {
+              if (astro["earthevents"]["mapdata"]["Temperature Extremes"].length) {
                 const iconOptions = {
                   iconSize  : [size, size],
                   iconAnchor: [size/2, size + 9], 
@@ -611,11 +612,11 @@
                   draggable: true,
                   icon: L.divIcon(iconOptions)
                 }
-                for (var i = 0; i < astro["eonet"]["mapdata"]["Temperature Extremes"].length; i++) {
-                  marker = new L.marker([locations[i][1], locations[i][2]], markerOptions).bindPopup(locations[i][0]).addTo(eonetmap);
+                for (var i = 0; i < astro["earthevents"]["mapdata"]["Temperature Extremes"].length; i++) {
+                  marker = new L.marker([astro["earthevents"]["mapdata"]["Temperature Extremes"][i][1], astro["earthevents"]["mapdata"]["Temperature Extremes"][i][2]], markerOptions).bindPopup(astro["earthevents"]["mapdata"]["Temperature Extremes"][i][0]).addTo(eartheventsmap);
                 }
               }
-              if (astro["eonet"]["mapdata"]["Volcanoes"].length) {
+              if (astro["earthevents"]["mapdata"]["Volcanoes"].length) {
                 const iconOptions = {
                   iconSize  : [size, size],
                   iconAnchor: [size/2, size + 9], 
@@ -626,11 +627,11 @@
                   draggable: true,
                   icon: L.divIcon(iconOptions)
                 }
-                for (var i = 0; i < astro["eonet"]["mapdata"]["Volcanoes"].length; i++) {
-                  marker = new L.marker([astro["eonet"]["mapdata"]["Volcanoes"][i][1], astro["eonet"]["mapdata"]["Volcanoes"][i][2]], markerOptions).bindPopup(astro["eonet"]["mapdata"]["Volcanoes"][i][0]).addTo(eonetmap);
+                for (var i = 0; i < astro["earthevents"]["mapdata"]["Volcanoes"].length; i++) {
+                  marker = new L.marker([astro["earthevents"]["mapdata"]["Volcanoes"][i][1], astro["earthevents"]["mapdata"]["Volcanoes"][i][2]], markerOptions).bindPopup(astro["earthevents"]["mapdata"]["Volcanoes"][i][0]).addTo(eartheventsmap);
                 }
               }
-              if (astro["eonet"]["mapdata"]["Water Color"].length) {
+              if (astro["earthevents"]["mapdata"]["Water Color"].length) {
                 const iconOptions = {
                   iconSize  : [size, size],
                   iconAnchor: [size/2, size + 9], 
@@ -641,11 +642,11 @@
                   draggable: true,
                   icon: L.divIcon(iconOptions)
                 }
-                for (var i = 0; i < astro["eonet"]["mapdata"]["Water Color"].length; i++) {
-                  marker = new L.marker([locations[i][1], locations[i][2]], markerOptions).bindPopup(locations[i][0]).addTo(eonetmap);
+                for (var i = 0; i < astro["earthevents"]["mapdata"]["Water Color"].length; i++) {
+                  marker = new L.marker([astro["earthevents"]["mapdata"]["Water Color"][i][1], astro["earthevents"]["mapdata"]["Water Color"][i][2]], markerOptions).bindPopup(astro["earthevents"]["mapdata"]["Water Color"][i][0]).addTo(eartheventsmap);
                 }
               }
-              if (astro["eonet"]["mapdata"]["Wildfires"].length) {
+              if (astro["earthevents"]["mapdata"]["Wildfires"].length) {
                 const iconOptions = {
                   iconSize  : [size, size],
                   iconAnchor: [size/2, size + 9], 
@@ -656,8 +657,8 @@
                   draggable: true,
                   icon: L.divIcon(iconOptions)
                 }
-                for (var i = 0; i < astro["eonet"]["mapdata"]["Wildfires"].length; i++) {
-                  marker = new L.marker([astro["eonet"]["mapdata"]["Wildfires"][i][1], astro["eonet"]["mapdata"]["Wildfires"][i][2]], markerOptions).bindPopup(astro["eonet"]["mapdata"]["Wildfires"][i][0]).addTo(eonetmap);
+                for (var i = 0; i < astro["earthevents"]["mapdata"]["Wildfires"].length; i++) {
+                  marker = new L.marker([astro["earthevents"]["mapdata"]["Wildfires"][i][1], astro["earthevents"]["mapdata"]["Wildfires"][i][2]], markerOptions).bindPopup(astro["earthevents"]["mapdata"]["Wildfires"][i][0]).addTo(eartheventsmap);
                 }
               }
               const opt = {
@@ -668,7 +669,7 @@
                 resolution: 2
               };
               const t = L.terminator(opt);
-              t.addTo(eonetmap);
+              t.addTo(eartheventsmap);
               const updateTerminator = function(t) {
                 let t2 = L.terminator(opt);
                 t.setLatLngs(t2.getLatLngs());
@@ -919,7 +920,7 @@
             //  for (var i = 0; i < astro["spacex"]["crew"].length; i++){
             //    var tr = document.createElement("tr");
             //    var col1td = document.createElement("td"); var col1text = document.createTextNode(i+1 + "."); col1td.appendChild(col1text); tr.appendChild(col1td);
-            //    var td1 = document.createElement("td"); var td1link = document.createElement("a"); var td1text = document.createTextNode(astro["spacex"]["crew"][i]["name"]); td1link.appendChild(td1text); td1link.title = astro["spacex"]["crew"][i]["name"]; td1link.href = astro["spacex"]["crew"][i]["url"]; td1.appendChild(td1link); tr.appendChild(td1); spacexcompanytable.appendChild(tr);
+            //    var td1 = document.createElement("td"); var td1link = document.createElement("a"); var td1text = document.createTextNode(astro["spacex"]["crew"][i]["name"]); td1link.appendChild(td1text); td1link.title = astro["spacex"]["crew"][i]["name"]; td1link.href = astro["spacex"]["crew"][i]["url"]; td1.appendChild(td1link); tr.appendChild(td1); spacexcrewtable.appendChild(tr);
             //    var col4td = document.createElement("td"); var col4text = document.createTextNode(astro["spacex"]["crew"][i]["status_emoji"]); col4td.appendChild(col4text); tr.appendChild(col4td);
             //    var col3td = document.createElement("td"); var col3text = document.createTextNode(astro["spacex"]["crew"][i]["agency"]); col3td.appendChild(col3text); tr.appendChild(col3td);
             //    var col3td = document.createElement("td"); var col3text = document.createTextNode(astro["spacex"]["crew"][i]["launches"]); col3td.appendChild(col3text); tr.appendChild(col3td);
@@ -939,7 +940,7 @@
             //  for (var i = 0; i < astro["spacex"]["dragons"].length; i++){
             //    var tr = document.createElement("tr");
             //    var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
-            //    var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["dragons"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["dragons"][i]["name"]; coltdlink.href = astro["spacex"]["dragons"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexcompanytable.appendChild(tr);
+            //    var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["dragons"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["dragons"][i]["name"]; coltdlink.href = astro["spacex"]["dragons"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexdragonstable.appendChild(tr);
             //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["dragons"][i]["first_flight"]); coltd.appendChild(coltext); tr.appendChild(coltd);
             //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["dragons"][i]["status_emoji"]); coltd.appendChild(coltext); tr.appendChild(coltd);
             //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["dragons"][i]["description"]); coltd.appendChild(coltext); tr.appendChild(coltd);
@@ -961,7 +962,7 @@
             //  for (var i = 0; i < astro["spacex"]["landpads"].length; i++){
             //    var tr = document.createElement("tr");
             //    var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
-            //    var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["landpads"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["landpads"][i]["name"]; coltdlink.href = astro["spacex"]["landpads"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexcompanytable.appendChild(tr);
+            //    var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["landpads"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["landpads"][i]["name"]; coltdlink.href = astro["spacex"]["landpads"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexlandpadstable.appendChild(tr);
             //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["landpads"][i]["status_emoji"]); coltd.appendChild(coltext); tr.appendChild(coltd);
             //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["landpads"][i]["type"]); coltd.appendChild(coltext); tr.appendChild(coltd);
             //    //var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["landpads"][i]["description"]); coltd.appendChild(coltext); tr.appendChild(coltd);
@@ -970,26 +971,26 @@
             //    spacexlandpadstable.appendChild(tr);
             //  }
             //}
-           //var spacexlaunchestable = document.getElementById("spacexlaunchestable");
-            //if (astro["spacex"]["launches"].length) {
-            //  var tr = document.createElement("tr");
-            //  var td = document.createElement("td"); var text = document.createTextNode("#"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-            //  var td = document.createElement("td"); var text = document.createTextNode("Date"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-            //  var td = document.createElement("td"); var text = document.createTextNode("Name"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-            //  spacexlaunchestable.appendChild(tr);
-            //  for (var i = 0; i < astro["spacex"]["launches"].length; i++){
-            //    var tr = document.createElement("tr");
-            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
-            //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["launches"][i]["launch"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-            //    if (astro["spacex"]["launches"][i]["upcoming"]) {
-            //      var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["launches"][i]["name"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-            //    }
-            //    else {
-            //      var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["launches"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["launches"][i]["name"]; coltdlink.href = astro["spacex"]["launches"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexcompanytable.appendChild(tr);
-            //    }
-            //    spacexlaunchestable.appendChild(tr);
-            //  }
-            //}
+            var spacexlaunchestable = document.getElementById("spacexlaunchestable");
+            if (astro["spacex"]["launches"].length) {
+              var tr = document.createElement("tr");
+              var td = document.createElement("td"); var text = document.createTextNode("#"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              var td = document.createElement("td"); var text = document.createTextNode("Date"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              var td = document.createElement("td"); var text = document.createTextNode("Name"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              spacexlaunchestable.appendChild(tr);
+              for (var i = 0; i < astro["spacex"]["launches"].length; i++){
+                var tr = document.createElement("tr");
+                var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
+                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["launches"][i]["launch"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+                if (astro["spacex"]["launches"][i]["upcoming"]) {
+                  var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["launches"][i]["name"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+                }
+                else {
+                  var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["launches"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["launches"][i]["name"]; coltdlink.href = astro["spacex"]["launches"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexlaunchestable.appendChild(tr);
+                }
+                spacexlaunchestable.appendChild(tr);
+              }
+            }
             //var spacexlaunchpadstable = document.getElementById("spacexlaunchpadstable");
             //if (astro["spacex"]["launchpads"].length) {
             //  var tr = document.createElement("tr");
@@ -1002,7 +1003,7 @@
             //  for (var i = 0; i < astro["spacex"]["launchpads"].length; i++){
             //    var tr = document.createElement("tr");
             //    var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
-            //    var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["launchpads"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["launchpads"][i]["name"]; coltdlink.href = astro["spacex"]["launchpads"][i]["location_url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexcompanytable.appendChild(tr);
+            //    var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["launchpads"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["launchpads"][i]["name"]; coltdlink.href = astro["spacex"]["launchpads"][i]["location_url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexlaunchpadstable.appendChild(tr);
             //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["launchpads"][i]["status_emoji"]); coltd.appendChild(coltext); tr.appendChild(coltd);
             //    //var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["launchpads"][i]["description"]); coltd.appendChild(coltext); tr.appendChild(coltd);
             //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["launchpads"][i]["launch_attempts"] + "/" + astro["spacex"]["launchpads"][i]["launch_successes"]); coltd.appendChild(coltext); tr.appendChild(coltd);
@@ -1048,7 +1049,7 @@
             //  for (var i = 0; i < astro["spacex"]["rockets"].length; i++){
             //    var tr = document.createElement("tr");
             //    var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
-            //    var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["rockets"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["rockets"][i]["name"]; coltdlink.href = astro["spacex"]["rockets"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexcompanytable.appendChild(tr);
+            //    var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["rockets"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["rockets"][i]["name"]; coltdlink.href = astro["spacex"]["rockets"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexrocketstable.appendChild(tr);
             //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["rockets"][i]["first_flight"]); coltd.appendChild(coltext); tr.appendChild(coltd);
             //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["rockets"][i]["success_rate"]); coltd.appendChild(coltext); tr.appendChild(coltd);
             //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["rockets"][i]["first_stage_reusable_emoji"] + " " + astro["spacex"]["rockets"][i]["second_stage_reusable_emoji"]); coltd.appendChild(coltext); tr.appendChild(coltd);
@@ -1074,7 +1075,7 @@
             //    var tr = document.createElement("tr");
             //    var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
             //    if (astro["spacex"]["ships"][i]["url"]) {
-            //      var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["ships"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["ships"][i]["name"]; coltdlink.href = astro["spacex"]["ships"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexcompanytable.appendChild(tr);
+            //      var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["ships"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["ships"][i]["name"]; coltdlink.href = astro["spacex"]["ships"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexshipstable.appendChild(tr);
             //    } else {
             //      var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["ships"][i]["name"]); coltd.appendChild(coltext); tr.appendChild(coltd);
             //    }
@@ -1098,7 +1099,7 @@
             //    var tr = document.createElement("tr");
             //    var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
             //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["history"][i]["date"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-            //    var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["history"][i]["title"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["history"][i]["title"]; coltdlink.href = astro["spacex"]["history"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexcompanytable.appendChild(tr);
+            //    var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["history"][i]["title"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["history"][i]["title"]; coltdlink.href = astro["spacex"]["history"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexhistorytable.appendChild(tr);
             //    var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["history"][i]["description"]); coltd.appendChild(coltext); tr.appendChild(coltd);
             //    spacexhistorytable.appendChild(tr);
             //  }
