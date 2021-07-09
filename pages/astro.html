@@ -241,7 +241,10 @@
               <li>
                 <p class="active nested"><small>Data provided courtesy of <a href="https://github.com/r-spacex/SpaceX-API">r/SpaceX API</a> team.</small></p>
                 <ul class="active nested">
-                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Launches</h3><ul class="active nested"><li><table id="spacexlaunchestable" class="active nested astrotabclass"></table></li></ul></li>
+                  <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Launches</h3><ul class="active nested">
+                    <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>Past</h4><ul class="active nested"><li><table id="spacexpastlaunchestable" class="active nested astrotabclass"></table></li></ul></li>
+                    <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>Future</h4><ul class="active nested"><li><table id="spacexfuturelaunchestable" class="active nested astrotabclass"></table></li></ul></li>
+                  </ul></li>
                   <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Roadster</h3><ul class="active nested"><li><table id="spacexroadstertable" class="active nested astrotabclass"></table></li></ul></li>
                   <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Starlink</h3><ul class="active nested">
                     <li>
@@ -971,24 +974,34 @@
             //    spacexlandpadstable.appendChild(tr);
             //  }
             //}
-            var spacexlaunchestable = document.getElementById("spacexlaunchestable");
-            if (astro["spacex"]["launches"].length) {
+            var spacexpastlaunchestable = document.getElementById("spacexpastlaunchestable");
+            if (astro["spacex"]["launches"]["past"].length) {
               var tr = document.createElement("tr");
               var td = document.createElement("td"); var text = document.createTextNode("#"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
               var td = document.createElement("td"); var text = document.createTextNode("Date"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
               var td = document.createElement("td"); var text = document.createTextNode("Name"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              spacexlaunchestable.appendChild(tr);
-              for (var i = 0; i < astro["spacex"]["launches"].length; i++){
+              spacexpastlaunchestable.appendChild(tr);
+              for (var i = 0; i < astro["spacex"]["launches"]["past"].length; i++){
                 var tr = document.createElement("tr");
                 var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["launches"][i]["launch"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                if (astro["spacex"]["launches"][i]["upcoming"]) {
-                  var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["launches"][i]["name"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                }
-                else {
-                  var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["launches"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["launches"][i]["name"]; coltdlink.href = astro["spacex"]["launches"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexlaunchestable.appendChild(tr);
-                }
-                spacexlaunchestable.appendChild(tr);
+                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["launches"]["past"][i]["launch"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+                var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["launches"]["past"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["launches"]["past"][i]["name"]; coltdlink.href = astro["spacex"]["launches"]["past"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexpastlaunchestable.appendChild(tr);
+                spacexpastlaunchestable.appendChild(tr);
+              }
+            }
+            var spacexfuturelaunchestable = document.getElementById("spacexfuturelaunchestable");
+            if (astro["spacex"]["launches"]["future"].length) {
+              var tr = document.createElement("tr");
+              var td = document.createElement("td"); var text = document.createTextNode("#"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              var td = document.createElement("td"); var text = document.createTextNode("Date"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              var td = document.createElement("td"); var text = document.createTextNode("Name"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
+              spacexfuturelaunchestable.appendChild(tr);
+              for (var i = 0; i < astro["spacex"]["launches"]["future"].length; i++){
+                var tr = document.createElement("tr");
+                var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
+                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["launches"]["future"][i]["launch"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["launches"]["future"][i]["name"]); coltd.appendChild(coltext); tr.appendChild(coltd);
+                spacexfuturelaunchestable.appendChild(tr);
               }
             }
             //var spacexlaunchpadstable = document.getElementById("spacexlaunchpadstable");
