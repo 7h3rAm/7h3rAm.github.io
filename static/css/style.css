@@ -1,6 +1,6 @@
 @font-face { font-family:"FiraCode Nerd Font"; src:url("/static/fonts/firacode/firacode-nerdfont/Fira Code Regular Nerd Font Complete.ttf"); font-display:swap; }
 @media (max-width:500px) { * { font-size:10pt; } }
-* { border:0; font-family:"FiraCode Nerd Font","Inconsolata",monospace; font-size:12pt; font-weight:normal; list-style:none; padding-left:2%; padding-right:2%; margin:0 auto; padding:.2ch; max-width:900px; }
+* { border:0; font-family:"FiraCode Nerd Font","Inconsolata",monospace; font-size:12pt; font-weight:normal; list-style:none; padding-left:2%; padding-right:2%; margin:0 auto; padding:.2ch; max-width:1000px; }
 
 a { color:#3b7dfa; text-decoration:none; } a, a:active, a:focus{ outline:none; }
 
@@ -121,4 +121,12 @@ li:last-child::after {
 
 .globebg {
   background-image:url("https://raw.githubusercontent.com/7h3rAm/datastore/master/maps/night-sky.png");
+}
+
+.btcicon {
+  width: 1.3em;
+  height: 1.3em;
+  border: 0px;
+  display: inline;
+  vertical-align: top;
 }
