@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
+    <meta name="description" content="Personal Weblog"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>मंथन | Manthan</title>
+    <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.css"/>
+    <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
+    <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github-gist.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
+    <link rel="stylesheet" href="/static/css/tablesort.css"/>
+   </head>
+  <body>
+    <div class="body">
+      <div class="topmenu">
+        <table>
+          <tr>
+            <td colspan="3"><a class="menu_home" href="/index.html">मंथन</a></td>
+          </tr>
+          <tr>
+            <td><a class="menu_archive" href="/archive.html">💾 Archive</a></td>
+            <td><a class="menu_tags" href="/tags.html">🔖 Tags</a></td>
+            <td><a class="menu_stats" href="/stats.html">📊 Stats</a></td>
+          </tr>
+        </table>
+      </div>
+      <div class="content">
+        <h1 class="h1"><img class="btcicon" alt="₿" src="https://raw.githubusercontent.com/7h3rAm/datastore/master/Bitcoin_evergreen.png"> Bitcoin</h1>
+          <ul class="active">
+
+            <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>📊 Stats</h2><ul class="active nested">
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>⛓️ Blockchain</h3><ul class="active nested">
+                <li><table id="bcstatstable" class="active nested astrotabclass"></table></li>
+              </ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🗃️ Mempool</h3><ul class="active nested">
+                <li><table id="mpstatstable" class="active nested astrotabclass"></table></li>
+              </ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>💳 Transactions</h3><ul class="active nested">
+                <li><table id="txstatstable" class="active nested astrotabclass"></table></li>
+              </ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>⌛ Halvening</h3><ul class="active nested">
+                <li><table id="hlvstatstable" class="active nested astrotabclass"></table></li>
+              </ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🎭 Market</h3><ul class="active nested">
+                <li><table id="mkstatstable" class="active nested astrotabclass"></table></li>
+              </ul></li>
+
+              <!--<li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🧮 Nodes</h3><ul class="active nested">-->
+              <!--  <li><table id="nodestatstable" class="active nested astrotabclass"></table></li>-->
+              <!--</ul></li>-->
+
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>💼 Wallets</h3><ul class="active nested">
+                <li><p class="active nested">Tracking <code id="count_wallet"></code> Bitcoin wallets (<code id="count_address"></code> addresses) with a current balance of <code id="count_balance"></code> BTC</p></li>
+                <li><table id="statstable" class="active nested astrotabclass">
+                  <thead><tr>
+                    <th><b>Category</b></th>
+                    <th><b>Wallets</b></th>
+                    <th><b>Addresses</b></th>
+                    <th><b>Received</b></th>
+                    <th><b>Sent</b></th>
+                    <th><b>Balance</b></th>
+                  </tr></thead>
+                  <tbody><tr>
+                    <td><a href="#donation">🙏 Donation</a></td>
+                    <td id="count_wallet_donation"></td>
+                    <td id="count_address_donation"></td>
+                    <td id="count_received_donation"></td>
+                    <td id="count_sent_donation"></td>
+                    <td id="count_balance_donation"></td>
+                  </tr>
+                  <tr>
+                    <td><a href="#popular">🔥 Popular</td>
+                    <td id="count_wallet_popular"></td>
+                    <td id="count_address_popular"></td>
+                    <td id="count_received_popular"></td>
+                    <td id="count_sent_popular"></td>
+                    <td id="count_balance_popular"></td>
+                  </tr>
+                  <tr>
+                    <td><a href="#ransom">👾 Ransom</td>
+                    <td id="count_wallet_ransom"></td>
+                    <td id="count_address_ransom"></td>
+                    <td id="count_received_ransom"></td>
+                    <td id="count_sent_ransom"></td>
+                    <td id="count_balance_ransom"></td>
+                  </tr></tbody>
+                </table></li>
+              </ul></li>
+            </ul></li>
+
+            <li><h2 class="h2 collapsible expanded" onclick=toggle(this);><a id="wallets"></a>💼 Wallets</h2><ul class="active nested">
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);><a id="donation"></a>🙏 Donation</h3><ul class="active nested">
+                <li><table id="donationtable" class="active nested astrotabclass"></table></li>
+              </ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);><a id="popular"></a>🔥 Popular</h3><ul class="active nested">
+                <li><table id="populartable" class="active nested astrotabclass"></table></li>
+              </ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);><a id="ransom"></a>👾 Ransom</h3><ul class="active nested">
+                <li><table id="ransomtable" class="active nested astrotabclass"></table></li>
+              </ul></li>
+            </ul></li>
+
+          </ul>
+
+      <p style="float:right;"><code id="lastupdate"></code></p>
+      <script type="text/javascript" src="/static/js/timeago.min.js"></script>
+      <script type="text/javascript" src="/static/js/tablesort.min.js"></script>
+      <script type="text/javascript" src="/static/js/tablesort.monthname.js"></script>
+      <script type="text/javascript" src="/static/js/tablesort.number.js"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+
+      <script>
+        numeral.zeroFormat('0');
+        numeral.nullFormat('0');
+
+        // https://stackoverflow.com/a/17177423/1079836
+        function truncateWithEllipses(text, max) {return text.substr(0,max-1)+(text.length>max?'...':''); }
+        function loadJson(url, callback) {
+          var XmlHttpRequest = new XMLHttpRequest();
+          XmlHttpRequest.overrideMimeType("application/json");
+          XmlHttpRequest.open('GET', url, true);
+          XmlHttpRequest.onreadystatechange = function () {
+            if (XmlHttpRequest.readyState == 4 && XmlHttpRequest.status == "200") {
+              callback(XmlHttpRequest.responseText);
+            }
+          }
+          XmlHttpRequest.send(null);
+        }
+
+        function doBlockchainStats() {
+          loadJson("https://api.blockchair.com/bitcoin/stats", function(response) {
+            statsapi = JSON.parse(response);
+
+            var bcstatstable = document.getElementById("bcstatstable");
+
+            var thead = document.createElement("thead");
+            var tr = document.createElement("tr");
+            var th = document.createElement("th"); var text = document.createTextNode("Name"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            var th = document.createElement("th"); var text = document.createTextNode("Value"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            thead.appendChild(tr);
+            bcstatstable.appendChild(thead);
+            var tbody = document.createElement("tbody");
+
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var text = document.createTextNode("Height");
+            td.appendChild(text);
+            tr.appendChild(td);
+            var td = document.createElement("td");
+            var text = document.createTextNode(numeral(statsapi["data"]["best_block_height"]).format('0,0'));
+            td.appendChild(text);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var text = document.createTextNode("Circulation");
+            td.appendChild(text);
+            tr.appendChild(td);
+            var td = document.createElement("td");
+            var text = document.createTextNode(numeral(statsapi["data"]["circulation"]/Math.pow(10, 8)).format('0,0.00000000a'));
+            td.appendChild(text);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var text = document.createTextNode("Outputs");
+            td.appendChild(text);
+            tr.appendChild(td);
+            var td = document.createElement("td");
+            var text = document.createTextNode(numeral(statsapi["data"]["outputs"]).format('0,0.00a'));
+            td.appendChild(text);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var text = document.createTextNode("Difficulty");
+            td.appendChild(text);
+            tr.appendChild(td);
+            var td = document.createElement("td");
+            var text = document.createTextNode(numeral(statsapi["data"]["difficulty"]).format('0,0'));
+            td.appendChild(text);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var text = document.createTextNode("Hashrate");
+            td.appendChild(text);
+            tr.appendChild(td);
+            var td = document.createElement("td");
+            var text = document.createTextNode(numeral(statsapi["data"]["hashrate_24h"]).format('0,0'));
+            td.appendChild(text);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var text = document.createTextNode("Size");
+            td.appendChild(text);
+            tr.appendChild(td);
+            var td = document.createElement("td");
+            var text = document.createTextNode(numeral(statsapi["data"]["blockchain_size"]).format('0,0b'));
+            td.appendChild(text);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var text = document.createTextNode("Blocks (24h)");
+            td.appendChild(text);
+            tr.appendChild(td);
+            var td = document.createElement("td");
+            var text = document.createTextNode(numeral(statsapi["data"]["blocks_24h"]).format('0,0a'));
+            td.appendChild(text);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var text = document.createTextNode("Transactions (24h)");
+            td.appendChild(text);
+            tr.appendChild(td);
+            var td = document.createElement("td");
+            var text = document.createTextNode(numeral(statsapi["data"]["transactions_24h"]).format('0,0a'));
+            td.appendChild(text);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var text = document.createTextNode("Inflation (24h)");
+            td.appendChild(text);
+            tr.appendChild(td);
+            var td = document.createElement("td");
+            var text = document.createTextNode(numeral(statsapi["data"]["inflation_24h"]/Math.pow(10, 8)).format('0,0a'));
+            td.appendChild(text);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var text = document.createTextNode("Volume (24h)");
+            td.appendChild(text);
+            tr.appendChild(td);
+            var td = document.createElement("td");
+            var text = document.createTextNode(numeral(statsapi["data"]["volume_24h"]/Math.pow(10, 8)).format('0,0a'));
+            td.appendChild(text);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+
+            bcstatstable.appendChild(tbody);
+
+
+            var mpstatstable = document.getElementById("mpstatstable");
+            var thead = document.createElement("thead");
+            var tr = document.createElement("tr");
+            var th = document.createElement("th"); var text = document.createTextNode("Name"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            var th = document.createElement("th"); var text = document.createTextNode("Value"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            thead.appendChild(tr);
+            mpstatstable.appendChild(thead);
+            var tbody = document.createElement("tbody");
+
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var text = document.createTextNode("Transactions");
+            td.appendChild(text);
+            tr.appendChild(td);
+            var td = document.createElement("td");
+            var text = document.createTextNode(numeral(statsapi["data"]["mempool_transactions"]).format('0,0a'));
+            td.appendChild(text);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var text = document.createTextNode("Size");
+            td.appendChild(text);
+            tr.appendChild(td);
+            var td = document.createElement("td");
+            var text = document.createTextNode(numeral(statsapi["data"]["mempool_size"]).format('0,0b'));
+            td.appendChild(text);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var text = document.createTextNode("Tps");
+            td.appendChild(text);
+            tr.appendChild(td);
+            var td = document.createElement("td");
+            var text = document.createTextNode(numeral(statsapi["data"]["mempool_tps"]).format('0,0.00a'));
+            td.appendChild(text);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var text = document.createTextNode("Fee");
+            td.appendChild(text);
+            tr.appendChild(td);
+            var td = document.createElement("td");
+            var text = document.createTextNode(numeral(statsapi["data"]["mempool_total_fee_usd"]).format('$0,0a'));
+            td.appendChild(text);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var text = document.createTextNode("Output");
+            td.appendChild(text);
+            tr.appendChild(td);
+            var td = document.createElement("td");
+            var text = document.createTextNode(numeral(statsapi["data"]["mempool_outputs"]).format('0,0a'));
+            td.appendChild(text);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+
+            mpstatstable.appendChild(tbody);
+
+
+            var txstatstable = document.getElementById("txstatstable");
+            var thead = document.createElement("thead");
+            var tr = document.createElement("tr");
+            var th = document.createElement("th"); var text = document.createTextNode("Name"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            var th = document.createElement("th"); var text = document.createTextNode("Value"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            thead.appendChild(tr);
+            txstatstable.appendChild(thead);
+            var tbody = document.createElement("tbody");
+
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var text = document.createTextNode("Transactions");
+            td.appendChild(text);
+            tr.appendChild(td);
+            var td = document.createElement("td");
+            var text = document.createTextNode(numeral(statsapi["data"]["transactions"]).format('0,0a'));
+            td.appendChild(text);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var text = document.createTextNode("Avg. Fee (24h)");
+            td.appendChild(text);
+            tr.appendChild(td);
+            var td = document.createElement("td");
+            var text = document.createTextNode(numeral(statsapi["data"]["average_transaction_fee_24h"]).format('0,0a'));
+            td.appendChild(text);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var text = document.createTextNode("Median Fee (24h)");
+            td.appendChild(text);
+            tr.appendChild(td);
+            var td = document.createElement("td");
+            var text = document.createTextNode(numeral(statsapi["data"]["median_transaction_fee_24h"]).format('0,0a'));
+            td.appendChild(text);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var text = document.createTextNode("Suggested Fee");
+            td.appendChild(text);
+            tr.appendChild(td);
+            var td = document.createElement("td");
+            var text = document.createTextNode(statsapi["data"]["suggested_transaction_fee_per_byte_sat"] + " sats/byte");
+            td.appendChild(text);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+
+            txstatstable.appendChild(tbody);
+
+
+            var mkstatstable = document.getElementById("mkstatstable");
+            var thead = document.createElement("thead");
+            var tr = document.createElement("tr");
+            var th = document.createElement("th"); var text = document.createTextNode("Name"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            var th = document.createElement("th"); var text = document.createTextNode("Value"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            thead.appendChild(tr);
+            mkstatstable.appendChild(thead);
+            var tbody = document.createElement("tbody");
+
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var text = document.createTextNode("Price");
+            td.appendChild(text);
+            tr.appendChild(td);
+            var td = document.createElement("td");
+            var text = document.createTextNode(numeral(statsapi["data"]["market_price_usd"]).format('$0.00a'));
+            td.appendChild(text);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var text = document.createTextNode("Change (24h)");
+            td.appendChild(text);
+            tr.appendChild(td);
+            var td = document.createElement("td");
+            var text = document.createTextNode(numeral(statsapi["data"]["market_price_usd_change_24h_percentage"]).format('0.00a') + "%");
+            if (statsapi["data"]["market_price_usd_change_24h_percentage"] > 0) {
+              td.style.color = "#5cb25e";
+            } else if (statsapi["data"]["market_price_usd_change_24h_percentage"] < 0) {
+              td.style.color = "#fc580c";
+            }
+            else {
+              td.style.color = "#5b92e5";
+            }
+
+            td.appendChild(text);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var text = document.createTextNode("Capitilization");
+            td.appendChild(text);
+            tr.appendChild(td);
+            var td = document.createElement("td");
+            var text = document.createTextNode(numeral(statsapi["data"]["market_cap_usd"]).format('0,0a'));
+            td.appendChild(text);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var text = document.createTextNode("Dominance");
+            td.appendChild(text);
+            tr.appendChild(td);
+            var td = document.createElement("td");
+            var text = document.createTextNode(numeral(statsapi["data"]["market_dominance_percentage"]).format('0a') + "%");
+            td.appendChild(text);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+
+            mkstatstable.appendChild(tbody);
+
+            var bcstatstable = document.getElementById("bcstatstable");
+            var bcstatssort = new Tablesort(bcstatstable);
+            bcstatssort.refresh();
+            var mpstatstable = document.getElementById("mpstatstable");
+            var mpstatsort = new Tablesort(mpstatstable);
+            mpstatsort.refresh();
+            var txstatstable = document.getElementById("txstatstable");
+            var txstatsort = new Tablesort(txstatstable);
+            txstatsort.refresh();
+            var mkstatstable = document.getElementById("mkstatstable");
+            var mkstatsort = new Tablesort(mkstatstable);
+            mkstatsort.refresh();
+
+          });
+
+          loadJson("https://api.blockchair.com/tools/halvening", function(response) {
+            hlvapi = JSON.parse(response);
+
+            var hlvstatstable = document.getElementById("hlvstatstable");
+
+            var thead = document.createElement("thead");
+            var tr = document.createElement("tr");
+            var th = document.createElement("th"); var text = document.createTextNode("Name"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            var th = document.createElement("th"); var text = document.createTextNode("Value"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            thead.appendChild(tr);
+            hlvstatstable.appendChild(thead);
+            var tbody = document.createElement("tbody");
+
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var text = document.createTextNode("Current Height");
+            td.appendChild(text);
+            tr.appendChild(td);
+            var td = document.createElement("td");
+            var text = document.createTextNode(numeral(hlvapi["data"]["bitcoin"]["current_block"]).format('0,0'));
+            td.appendChild(text);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var text = document.createTextNode("Current Reward");
+            td.appendChild(text);
+            tr.appendChild(td);
+            var td = document.createElement("td");
+            var text = document.createTextNode(numeral(hlvapi["data"]["bitcoin"]["current_reward"]/Math.pow(10, 8)).format('0.00000000'));
+            td.appendChild(text);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var text = document.createTextNode("Halvening Height");
+            td.appendChild(text);
+            tr.appendChild(td);
+            var td = document.createElement("td");
+            var text = document.createTextNode(numeral(hlvapi["data"]["bitcoin"]["halvening_block"]).format('0,0a') + " (" + numeral(hlvapi["data"]["bitcoin"]["blocks_left"]).format('0,0a') + " blocks left)");
+            td.appendChild(text);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var text = document.createTextNode("Halvening Reward");
+            td.appendChild(text);
+            tr.appendChild(td);
+            var td = document.createElement("td");
+            var text = document.createTextNode(numeral(hlvapi["data"]["bitcoin"]["halvening_reward"]/Math.pow(10, 8)).format('0.00000000'));
+            td.appendChild(text);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var text = document.createTextNode("Time Estimate");
+            td.appendChild(text);
+            tr.appendChild(td);
+            var td = document.createElement("td");
+            var text = document.createTextNode(timeago.format(Date.now()+hlvapi["data"]["bitcoin"]["seconds_left"]*1000));
+            td.appendChild(text);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+
+            hlvstatstable.appendChild(tbody);
+
+
+            var hlvstatstable = document.getElementById("hlvstatstable");
+            var hlvstatssort = new Tablesort(hlvstatstable);
+            hlvstatssort.refresh();
+
+          });
+
+        }
+
+        function doBitcoin() {
+          //document.getElementById("donationslastseencell").innerText = timeago.format(1473245023718);
+
+          loadJson("https://raw.githubusercontent.com/7h3rAm/datastore/master/btctxsmon.json", function(response) {
+            btctxsmon = JSON.parse(response);
+            console.log(btctxsmon);
+
+            document.getElementById("count_wallet").innerText = numeral(btctxsmon["stats"]["count_wallet"]).format('0,0a');
+            document.getElementById("count_address").innerText = numeral(btctxsmon["stats"]["count_address"]).format('0,0a');
+            document.getElementById("count_balance").innerText = numeral(btctxsmon["stats"]["count_balance"]).format('0,0a');
+
+            document.getElementById("count_wallet_donation").innerText = btctxsmon["stats"]["count_wallet_donation"];
+            document.getElementById("count_address_donation").innerText = btctxsmon["stats"]["count_address_donation"];
+            document.getElementById("count_received_donation").innerText = numeral(btctxsmon["stats"]["count_received_donation"]).format('0,0a');
+            document.getElementById("count_received_donation").style.color = "#5cb25e"
+            document.getElementById("count_sent_donation").innerText = numeral(btctxsmon["stats"]["count_sent_donation"]).format('0,0a');
+            document.getElementById("count_sent_donation").style.color = "#fc580c"
+            document.getElementById("count_balance_donation").innerText = numeral(btctxsmon["stats"]["count_balance_donation"]).format('0,0a');
+            document.getElementById("count_balance_donation").style.color = "#5b92e5"
+            document.getElementById("count_wallet_popular").innerText = btctxsmon["stats"]["count_wallet_popular"];
+            document.getElementById("count_address_popular").innerText = btctxsmon["stats"]["count_address_popular"];
+            document.getElementById("count_received_popular").innerText = numeral(btctxsmon["stats"]["count_received_popular"]).format('0,0a');
+            document.getElementById("count_received_popular").style.color = "#5cb25e"
+            document.getElementById("count_sent_popular").innerText = numeral(btctxsmon["stats"]["count_sent_popular"]).format('0,0a');
+            document.getElementById("count_sent_popular").style.color = "#fc580c"
+            document.getElementById("count_balance_popular").innerText = numeral(btctxsmon["stats"]["count_balance_popular"]).format('0,0a');
+            document.getElementById("count_balance_popular").style.color = "#5b92e5"
+            document.getElementById("count_wallet_ransom").innerText = btctxsmon["stats"]["count_wallet_ransom"];
+            document.getElementById("count_address_ransom").innerText = btctxsmon["stats"]["count_address_ransom"];
+            document.getElementById("count_received_ransom").innerText = numeral(btctxsmon["stats"]["count_received_ransom"]).format('0,0a');
+            document.getElementById("count_received_ransom").style.color = "#5cb25e"
+            document.getElementById("count_sent_ransom").innerText = numeral(btctxsmon["stats"]["count_sent_ransom"]).format('0,0a');
+            document.getElementById("count_sent_ransom").style.color = "#fc580c"
+            document.getElementById("count_balance_ransom").innerText = numeral(btctxsmon["stats"]["count_balance_ransom"]).format('0,0a');
+            document.getElementById("count_balance_ransom").style.color = "#5b92e5"
+
+            var donationtable = document.getElementById("donationtable");
+            var thead = document.createElement("thead");
+            var tr = document.createElement("tr");
+            //var th = document.createElement("th"); var text = document.createTextNode("#"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            var th = document.createElement("th"); var text = document.createTextNode("VisSum"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            var th = document.createElement("th"); var text = document.createTextNode("Wallet"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            var th = document.createElement("th"); var text = document.createTextNode("Received"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            var th = document.createElement("th"); var text = document.createTextNode("Sent"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            var th = document.createElement("th"); var text = document.createTextNode("Balance"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            var th = document.createElement("th"); var text = document.createTextNode("LastActivity"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            thead.appendChild(tr);
+            donationtable.appendChild(thead);
+            var tbody = document.createElement("tbody");
+            var i = 0;
+            Object.keys(btctxsmon["category"]["donation"]).forEach(function(wallet) {
+              if (btctxsmon["category"]["donation"][wallet]["transaction"] > 0) {
+                var tr = document.createElement("tr");
+                //var td = document.createElement("td");
+                //var text = document.createTextNode(i+1 + ".");
+                //td.appendChild(text);
+                //tr.appendChild(td);
+                var td = document.createElement("td");
+                var span = document.createElement("span")
+                span.setAttribute("class", "sparklines");
+                var text = document.createTextNode(btctxsmon["category"]["donation"][wallet]["sparkid"]);
+                span.appendChild(text);
+                colorspark(span);
+                td.appendChild(span);
+                tr.appendChild(td);
+                var td = document.createElement("td");
+                var link = document.createElement("a");
+                var text = document.createTextNode(truncateWithEllipses(wallet, 30));
+                link.appendChild(text);
+                var addr = btctxsmon["category"]["donation"][wallet]["address"] > 1 ? "addresses" : "address";
+                var txs = btctxsmon["category"]["donation"][wallet]["transaction"] > 1 ? "transactions" : "transaction";
+                link.title = "'" + wallet + "' wallet has " + btctxsmon["category"]["donation"][wallet]["address"] + " " + addr + " with " + numeral(btctxsmon["category"]["donation"][wallet]["transaction"]).format('0,0a') + " " + txs + ".";
+                link.style.color = "#000000";
+                td.appendChild(link);
+                tr.appendChild(td);
+                var td = document.createElement("td");
+                td.style.color = "#5cb25e"
+                var text = document.createTextNode(numeral(btctxsmon["category"]["donation"][wallet]["received"]).format('0,0a'));
+                td.appendChild(text);
+                tr.appendChild(td);
+                var td = document.createElement("td");
+                td.style.color = "#fc580c";
+                var text = document.createTextNode(numeral(btctxsmon["category"]["donation"][wallet]["sent"]).format('0,0a'));
+                td.appendChild(text);
+                tr.appendChild(td);
+                var td = document.createElement("td");
+                td.style.color = "#5b92e5";
+                var text = document.createTextNode(numeral(btctxsmon["category"]["donation"][wallet]["balance"]).format('0,0a'));
+                td.appendChild(text);
+                tr.appendChild(td);
+                var td = document.createElement("td");
+                if (btctxsmon["category"]["donation"][wallet]["lasttxepoch"]) {
+                  var link = document.createElement("a");
+                  var text = document.createTextNode(timeago.format(btctxsmon["category"]["donation"][wallet]["lasttxepoch"]*1000));
+                  link.appendChild(text);
+                  link.title = btctxsmon["category"]["donation"][wallet]["lastseen"];
+                  link.style.color = "#000000";
+                  td.appendChild(link);
+                } else {
+                  var text = document.createTextNode("");
+                  td.appendChild(text);
+                }
+                tr.appendChild(td);
+                tbody.appendChild(tr);
+                i = i+1;
+              }
+              donationtable.appendChild(tbody);
+            })
+
+            var populartable = document.getElementById("populartable");
+            var thead = document.createElement("thead");
+            var tr = document.createElement("tr");
+            //var th = document.createElement("th"); var text = document.createTextNode("#"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            var th = document.createElement("th"); var text = document.createTextNode("VisSum"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            var th = document.createElement("th"); var text = document.createTextNode("Wallet"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            var th = document.createElement("th"); var text = document.createTextNode("Received"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            var th = document.createElement("th"); var text = document.createTextNode("Sent"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            var th = document.createElement("th"); var text = document.createTextNode("Balance"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            var th = document.createElement("th"); var text = document.createTextNode("LastActivity"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            thead.appendChild(tr);
+            populartable.appendChild(thead);
+            var tbody = document.createElement("tbody");
+            var i = 0;
+            Object.keys(btctxsmon["category"]["popular"]).forEach(function(wallet) {
+              if (btctxsmon["category"]["popular"][wallet]["transaction"] > 0) {
+                var tr = document.createElement("tr");
+                //var td = document.createElement("td");
+                //var text = document.createTextNode(i+1 + ".");
+                //td.appendChild(text);
+                //tr.appendChild(td);
+                var td = document.createElement("td");
+                var span = document.createElement("span")
+                span.setAttribute("class", "sparklines");
+                var text = document.createTextNode(btctxsmon["category"]["popular"][wallet]["sparkid"]);
+                span.appendChild(text);
+                colorspark(span);
+                td.appendChild(span);
+                tr.appendChild(td);
+                var td = document.createElement("td");
+                var link = document.createElement("a");
+                var text = document.createTextNode(truncateWithEllipses(wallet, 30));
+                link.appendChild(text);
+                var addr = btctxsmon["category"]["popular"][wallet]["address"] > 1 ? "addresses" : "address";
+                var txs = btctxsmon["category"]["popular"][wallet]["transaction"] > 1 ? "transactions" : "transaction";
+                link.title = "'" + wallet + "' wallet has " + btctxsmon["category"]["popular"][wallet]["address"] + " " + addr + " with " + numeral(btctxsmon["category"]["popular"][wallet]["transaction"]).format('0,0a') + " " + txs + ".";
+                link.style.color = "#000000";
+                td.appendChild(link);
+                tr.appendChild(td);
+                var td = document.createElement("td");
+                td.style.color = "#5cb25e"
+                var text = document.createTextNode(numeral(btctxsmon["category"]["popular"][wallet]["received"]).format('0,0a'));
+                td.appendChild(text);
+                tr.appendChild(td);
+                var td = document.createElement("td");
+                td.style.color = "#fc580c";
+                var text = document.createTextNode(numeral(btctxsmon["category"]["popular"][wallet]["sent"]).format('0,0a'));
+                td.appendChild(text);
+                tr.appendChild(td);
+                var td = document.createElement("td");
+                td.style.color = "#5b92e5";
+                var text = document.createTextNode(numeral(btctxsmon["category"]["popular"][wallet]["balance"]).format('0,0a'));
+                td.appendChild(text);
+                tr.appendChild(td);
+                var td = document.createElement("td");
+                if (btctxsmon["category"]["popular"][wallet]["lasttxepoch"]) {
+                  var link = document.createElement("a");
+                  var text = document.createTextNode(timeago.format(btctxsmon["category"]["popular"][wallet]["lasttxepoch"]*1000));
+                  link.appendChild(text);
+                  link.title = btctxsmon["category"]["popular"][wallet]["lastseen"];
+                  link.style.color = "#000000";
+                  td.appendChild(link);
+                } else {
+                  var text = document.createTextNode("");
+                  td.appendChild(text);
+                }
+                tr.appendChild(td);
+                tbody.appendChild(tr);
+                i = i+1;
+              }
+              populartable.appendChild(tbody);
+            })
+
+            var ransomtable = document.getElementById("ransomtable");
+            var thead = document.createElement("thead");
+            var tr = document.createElement("tr");
+            //var th = document.createElement("th"); var text = document.createTextNode("#"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            var th = document.createElement("th"); var text = document.createTextNode("VisSum"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            var th = document.createElement("th"); var text = document.createTextNode("Wallet"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            var th = document.createElement("th"); var text = document.createTextNode("Received"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            var th = document.createElement("th"); var text = document.createTextNode("Sent"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            var th = document.createElement("th"); var text = document.createTextNode("Balance"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            var th = document.createElement("th"); var text = document.createTextNode("LastActivity"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+            thead.appendChild(tr);
+            ransomtable.appendChild(thead);
+            var tbody = document.createElement("tbody");
+            var i = 0;
+            Object.keys(btctxsmon["category"]["ransom"]).forEach(function(wallet) {
+              if (btctxsmon["category"]["ransom"][wallet]["transaction"] > 0) {
+                var tr = document.createElement("tr");
+                //var td = document.createElement("td");
+                //var text = document.createTextNode(i+1 + ".");
+                //td.appendChild(text);
+                //tr.appendChild(td);
+                var td = document.createElement("td");
+                var span = document.createElement("span")
+                span.setAttribute("class", "sparklines");
+                var text = document.createTextNode(btctxsmon["category"]["ransom"][wallet]["sparkid"]);
+                span.appendChild(text);
+                colorspark(span);
+                td.appendChild(span);
+                tr.appendChild(td);
+                var td = document.createElement("td");
+                var link = document.createElement("a");
+                var text = document.createTextNode(truncateWithEllipses(wallet, 30));
+                link.appendChild(text);
+                var addr = btctxsmon["category"]["ransom"][wallet]["address"] > 1 ? "addresses" : "address";
+                var txs = btctxsmon["category"]["ransom"][wallet]["transaction"] > 1 ? "transactions" : "transaction";
+                link.title = "'" + wallet + "' wallet has " + btctxsmon["category"]["ransom"][wallet]["address"] + " " + addr + " with " + numeral(btctxsmon["category"]["ransom"][wallet]["transaction"]).format('0,0a') + " " + txs + ".";
+                link.style.color = "#000000";
+                td.appendChild(link);
+                tr.appendChild(td);
+                var td = document.createElement("td");
+                td.style.color = "#5cb25e"
+                var text = document.createTextNode(numeral(btctxsmon["category"]["ransom"][wallet]["received"]).format('0,0a'));
+                td.appendChild(text);
+                tr.appendChild(td);
+                var td = document.createElement("td");
+                td.style.color = "#fc580c";
+                var text = document.createTextNode(numeral(btctxsmon["category"]["ransom"][wallet]["sent"]).format('0,0a'));
+                td.appendChild(text);
+                tr.appendChild(td);
+                var td = document.createElement("td");
+                td.style.color = "#5b92e5";
+                var text = document.createTextNode(numeral(btctxsmon["category"]["ransom"][wallet]["balance"]).format('0,0a'));
+                td.appendChild(text);
+                tr.appendChild(td);
+                var td = document.createElement("td");
+                if (btctxsmon["category"]["ransom"][wallet]["lasttxepoch"]) {
+                  var link = document.createElement("a");
+                  var text = document.createTextNode(timeago.format(btctxsmon["category"]["ransom"][wallet]["lasttxepoch"]*1000));
+                  link.appendChild(text);
+                  link.title = btctxsmon["category"]["ransom"][wallet]["lastseen"];
+                  link.style.color = "#000000";
+                  td.appendChild(link);
+                } else {
+                  var text = document.createTextNode("");
+                  td.appendChild(text);
+                }
+                tr.appendChild(td);
+                tbody.appendChild(tr);
+                i = i+1;
+              }
+              ransomtable.appendChild(tbody);
+            })
+
+            var statstable = document.getElementById("statstable");
+            var statssort = new Tablesort(statstable);
+            statssort.refresh();
+            var donationtable = document.getElementById("donationtable");
+            var donationsort = new Tablesort(donationtable);
+            donationsort.refresh();
+            var populartable = document.getElementById("populartable");
+            var popularsort = new Tablesort(populartable);
+            popularsort.refresh();
+            var ransomtable = document.getElementById("ransomtable");
+            var ransomsort = new Tablesort(ransomtable);
+            ransomsort.refresh();
+
+            //doBitnodesNodes();
+
+            // last updated timestamp
+            document.getElementById("lastupdate").innerText = "Last Update: " + btctxsmon["last_update"];
+
+          });
+        }
+
+        // https://stackoverflow.com/a/54248600/1079836
+        function colorspark(element) {
+          var colors = ["#007bff", "#00bcd4", "#17a2b8", "#20c997", "#2196f3", "#28a745", "#4caf50", "#6610f2", "#6c757d", "#6f42c1", "#8357ff", "#dc3545", "#e83e8c", "#f44336", "#fd7e14", "#ffc107", "#20b2aa", "#99cc99", "#0c9", "#5b92e5", "#ffcc66", "#00b7eb", "#69359c", "#fe4164", "#a50b5e"];
+          var text = element.innerText;
+          element.innerText = '';
+          var chars = text.split('');
+          for(var ch of chars) {
+             var charspan = document.createElement('span');
+             charspan.innerText = ch;
+             var index = Math.floor(Math.random()*colors.length);
+             charspan.style.color = colors[index]
+             element.appendChild(charspan);
+          }
+        }
+
+        window.onload = () => {
+          //setInterval(() => {doTime();},1000); // every .5s
+          doBitcoin();
+          doBlockchainStats();
+        }
+
+      </script>
+
+      </div>
+      <script>
+        function toggle(s){
+          s.classList.toggle("expanded");
+          var t=!1,i=!1,a=!1;
+          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);
+          for(var l=s.nextElementSibling;l;){
+            if(t&&l.classList.contains("h2")){
+              l.classList.toggle("active");
+              break
+            }
+            if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){
+              l.classList.toggle("active");
+              break
+            }
+            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){
+              l.classList.toggle("active");
+              break
+            }
+            l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
+          }
+        }
+      </script>
+      </div>
+      <div><a class="footer" href="https://github.com/7h3rAm/7h3rAm.github.io">  </a></div>
+    </div>
+  </body>
+</html>
