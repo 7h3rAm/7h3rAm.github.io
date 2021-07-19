@@ -16,6 +16,7 @@
     <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
     <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
     <link rel="stylesheet" href="/static/css/tablesort.css"/>
+    <link rel="stylesheet" href="/static/css/leaflet.css"/>
    </head>
   <body>
     <div class="body">
@@ -37,27 +38,122 @@
 
             <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>📊 Stats</h2><ul class="active nested">
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>⛓️ Blockchain</h3><ul class="active nested">
-                <li><table id="bcstatstable" class="active nested astrotabclass"></table></li>
-              </ul></li>
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🗃️ Mempool</h3><ul class="active nested">
-                <li><table id="mpstatstable" class="active nested astrotabclass"></table></li>
-              </ul></li>
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>💳 Transactions</h3><ul class="active nested">
-                <li><table id="txstatstable" class="active nested astrotabclass"></table></li>
-              </ul></li>
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>⌛ Halvening</h3><ul class="active nested">
-                <li><table id="hlvstatstable" class="active nested astrotabclass"></table></li>
-              </ul></li>
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🎭 Market</h3><ul class="active nested">
-                <li><table id="mkstatstable" class="active nested astrotabclass"></table></li>
+                <li><table class="active nested astrotabclass">
+                  <tr>
+                    <th>Height</th>
+                    <th>Issued</th>
+                    <th>Outputs</th>
+                    <th>Difficulty</th>
+                    <th>Hashrate</th>
+                    <th>Size</th>
+                  </tr>
+                  <tr>
+                    <td id="blockchain_height"></td>
+                    <td id="blockchain_circulation"></td>
+                    <td id="blockchain_outputs"></td>
+                    <td id="blockchain_difficulty"></td>
+                    <td id="blockchain_hashrate"></td>
+                    <td id="blockchain_size"></td>
+                  </tr>
+                </table></li>
+
+                <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>⌚ 24h Stats</h3><ul class="active nested">
+                  <li><table class="active nested astrotabclass">
+                    <tr>
+                      <th>Blocks</th>
+                      <th>Transactions</th>
+                      <th>Inflation</th>
+                      <th>Volume</th>
+                    </tr>
+                    <tr>
+                      <td id="blockchain_blocks"></td>
+                      <td id="blockchain_transactions"></td>
+                      <td id="blockchain_inflation"></td>
+                      <td id="blockchain_volume"></td>
+                    </tr>
+                  </table></li>
+                </ul></li>
+
+                <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🗃️ Mempool</h3><ul class="active nested">
+                  <li><table class="active nested astrotabclass">
+                    <tr>
+                      <th>Transactions</th>
+                      <th>Size</th>
+                      <th>Tps</th>
+                      <th>Fee</th>
+                      <th>Output</th>
+                    </tr>
+                    <tr>
+                      <td id="mempool_transactions"></td>
+                      <td id="mempool_size"></td>
+                      <td id="mempool_tps"></td>
+                      <td id="mempool_fee"></td>
+                      <td id="mempool_output"></td>
+                    </tr>
+                  </table></li>
+                </ul></li>
+                <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>💳 Transactions</h3><ul class="active nested">
+                  <li><table class="active nested astrotabclass">
+                    <tr>
+                      <th>Count</th>
+                      <th>Average Fee (24h)</th>
+                      <th>Median Fee (24h)</th>
+                      <th>Suggested Fee</th>
+                    </tr>
+                    <tr>
+                      <td id="txs_count"></td>
+                      <td id="txs_avgfee"></td>
+                      <td id="txs_medfee"></td>
+                      <td id="txs_sugfee"></td>
+                    </tr>
+                  </table></li>
+                </ul></li>
+                <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>⌛ Halvening</h3><ul class="active nested">
+                  <li><table class="active nested astrotabclass">
+                    <tr>
+                      <th>Current Height</th>
+                      <th>Current Reward</th>
+                      <th>Halvening Height</th>
+                      <th>Halvening Reward</th>
+                      <th>Time Estimate</th>
+                    </tr>
+                    <tr>
+                      <td id="hlvng_currheight"></td>
+                      <td id="hlvng_currreward"></td>
+                      <td id="hlvng_hlvheight"></td>
+                      <td id="hlvng_hlvreward"></td>
+                      <td id="hlvng_timeest"></td>
+                    </tr>
+                  </table></li>
+                </ul></li>
+                <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🎭 Market</h3><ul class="active nested">
+                  <li><table class="active nested astrotabclass">
+                    <tr>
+                      <th>Price</th>
+                      <th>Change (24h)</th>
+                      <th>Capitalization</th>
+                      <th>Dominance</th>
+                    </tr>
+                    <tr>
+                      <td id="market_price"></td>
+                      <td id="market_change"></td>
+                      <td id="market_cap"></td>
+                      <td id="market_dominance"></td>
+                    </tr>
+                  </table></li>
+                </ul></li>
               </ul></li>
 
-              <!--<li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🧮 Nodes</h3><ul class="active nested">-->
-              <!--  <li><table id="nodestatstable" class="active nested astrotabclass"></table></li>-->
-              <!--</ul></li>-->
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🧮 Nodes</h3><ul class="active nested">
+                <li><p class="active nested"><small>Data provided courtesy of <a href="https://bitnodes.io/">Bitnodes</a> team.</small></p></li>
+                <li><div id="nodesmap" style="width:100%; height:450px; border:1px solid #766e6b;" class="mapclass"></div></li>
+              </ul></li>
+            </ul></li>
 
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>💼 Wallets</h3><ul class="active nested">
-                <li><p class="active nested">Tracking <code id="count_wallet"></code> Bitcoin wallets (<code id="count_address"></code> addresses) with a current balance of <code id="count_balance"></code> BTC</p></li>
+            <li><h2 class="h2 collapsible expanded" onclick=toggle(this);><a id="wallets"></a>💼 Wallets</h2><ul class="active nested">
+
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>📄 Summary</h3><ul class="active nested">
+                <li><p class="active nested">Tracking <code id="count_wallet"></code> Bitcoin wallets (<code id="count_address"></code> addresses) with a current balance of <code id="count_balance"></code></p></li>
                 <li><table id="statstable" class="active nested astrotabclass">
                   <thead><tr>
                     <th><b>Category</b></th>
@@ -93,9 +189,7 @@
                   </tr></tbody>
                 </table></li>
               </ul></li>
-            </ul></li>
 
-            <li><h2 class="h2 collapsible expanded" onclick=toggle(this);><a id="wallets"></a>💼 Wallets</h2><ul class="active nested">
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);><a id="donation"></a>🙏 Donation</h3><ul class="active nested">
                 <li><table id="donationtable" class="active nested astrotabclass"></table></li>
               </ul></li>
@@ -114,7 +208,9 @@
       <script type="text/javascript" src="/static/js/tablesort.min.js"></script>
       <script type="text/javascript" src="/static/js/tablesort.monthname.js"></script>
       <script type="text/javascript" src="/static/js/tablesort.number.js"></script>
-      <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+      <script type="text/javascript" src="/static/js/numeral.min.js"></script>
+      <script type="text/javascript" src="/static/js/leaflet.js"></script>
+      <script type="text/javascript" src="/static/js/leaflet.terminator.js"></script>
 
       <script>
         numeral.zeroFormat('0');
@@ -134,449 +230,142 @@
           XmlHttpRequest.send(null);
         }
 
+        function addBTC2USDHover(priceusd, node, value, format="0,0a", color="#f7931a", isbtc=false) {
+          format = format? format : "0,0a";
+          color = color? color : "#f7931a";
+          var link = document.createElement("a");
+          if (isbtc) {
+            link.title = numeral(value*priceusd).format('$0,0a');
+            link.text = "₿" + numeral(value).format(format);
+          } else {
+            link.title = numeral((value/Math.pow(10, 8))*priceusd).format('$0,0a');
+            link.text = "₿" + numeral(value/Math.pow(10, 8)).format(format);
+          }
+          link.style.color = color;
+          if (typeof node === "string") {
+            document.getElementById(node).appendChild(link);
+          } else {
+            node.appendChild(link);
+          }
+        }
+
         function doBlockchainStats() {
           loadJson("https://api.blockchair.com/bitcoin/stats", function(response) {
             statsapi = JSON.parse(response);
+            priceusd = statsapi["data"]["market_price_usd"];
 
-            var bcstatstable = document.getElementById("bcstatstable");
+            document.getElementById("blockchain_height").innerText = numeral(statsapi["data"]["best_block_height"]).format('0,0');
+            document.getElementById("blockchain_circulation").innerText = numeral(statsapi["data"]["circulation"]/Math.pow(10, 8)).format('0,0.00000000a');
+            document.getElementById("blockchain_outputs").innerText = numeral(statsapi["data"]["outputs"]).format('0,0.00a');
+            document.getElementById("blockchain_difficulty").innerText = numeral(statsapi["data"]["difficulty"]).format('0,0a');
+            document.getElementById("blockchain_hashrate").innerText = numeral(statsapi["data"]["hashrate_24h"]).format('0,0a');
+            document.getElementById("blockchain_size").innerText = numeral(statsapi["data"]["blockchain_size"]).format('0,0b');
+            document.getElementById("blockchain_blocks").innerText = numeral(statsapi["data"]["blocks_24h"]).format('0,0a');
+            document.getElementById("blockchain_transactions").innerText = numeral(statsapi["data"]["transactions_24h"]).format('0,0a');
+            addBTC2USDHover(priceusd, "blockchain_inflation", statsapi["data"]["inflation_24h"]);
+            addBTC2USDHover(priceusd, "blockchain_volume", statsapi["data"]["volume_24h"]);
 
-            var thead = document.createElement("thead");
-            var tr = document.createElement("tr");
-            var th = document.createElement("th"); var text = document.createTextNode("Name"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            var th = document.createElement("th"); var text = document.createTextNode("Value"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            thead.appendChild(tr);
-            bcstatstable.appendChild(thead);
-            var tbody = document.createElement("tbody");
+            document.getElementById("mempool_transactions").innerText = numeral(statsapi["data"]["mempool_transactions"]).format('0,0a');
+            document.getElementById("mempool_size").innerText = numeral(statsapi["data"]["mempool_size"]).format('0,0b');
+            document.getElementById("mempool_tps").innerText = numeral(statsapi["data"]["mempool_tps"]).format('0,0.00a');
+            document.getElementById("mempool_fee").innerText = numeral(statsapi["data"]["mempool_total_fee_usd"]).format('$0,0a');
+            document.getElementById("mempool_output").innerText = numeral(statsapi["data"]["mempool_outputs"]).format('0,0a');
 
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var text = document.createTextNode("Height");
-            td.appendChild(text);
-            tr.appendChild(td);
-            var td = document.createElement("td");
-            var text = document.createTextNode(numeral(statsapi["data"]["best_block_height"]).format('0,0'));
-            td.appendChild(text);
-            tr.appendChild(td);
-            tbody.appendChild(tr);
+            document.getElementById("txs_count").innerText = numeral(statsapi["data"]["transactions"]).format('0,0a');
+            addBTC2USDHover(priceusd, "txs_avgfee", statsapi["data"]["average_transaction_fee_24h"], '0.00000000');
+            addBTC2USDHover(priceusd, "txs_medfee", statsapi["data"]["median_transaction_fee_24h"], '0.00000000');
 
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var text = document.createTextNode("Circulation");
-            td.appendChild(text);
-            tr.appendChild(td);
-            var td = document.createElement("td");
-            var text = document.createTextNode(numeral(statsapi["data"]["circulation"]/Math.pow(10, 8)).format('0,0.00000000a'));
-            td.appendChild(text);
-            tr.appendChild(td);
-            tbody.appendChild(tr);
+            document.getElementById("txs_sugfee").innerText = statsapi["data"]["suggested_transaction_fee_per_byte_sat"] + " sats/byte";
 
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var text = document.createTextNode("Outputs");
-            td.appendChild(text);
-            tr.appendChild(td);
-            var td = document.createElement("td");
-            var text = document.createTextNode(numeral(statsapi["data"]["outputs"]).format('0,0.00a'));
-            td.appendChild(text);
-            tr.appendChild(td);
-            tbody.appendChild(tr);
-
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var text = document.createTextNode("Difficulty");
-            td.appendChild(text);
-            tr.appendChild(td);
-            var td = document.createElement("td");
-            var text = document.createTextNode(numeral(statsapi["data"]["difficulty"]).format('0,0'));
-            td.appendChild(text);
-            tr.appendChild(td);
-            tbody.appendChild(tr);
-
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var text = document.createTextNode("Hashrate");
-            td.appendChild(text);
-            tr.appendChild(td);
-            var td = document.createElement("td");
-            var text = document.createTextNode(numeral(statsapi["data"]["hashrate_24h"]).format('0,0'));
-            td.appendChild(text);
-            tr.appendChild(td);
-            tbody.appendChild(tr);
-
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var text = document.createTextNode("Size");
-            td.appendChild(text);
-            tr.appendChild(td);
-            var td = document.createElement("td");
-            var text = document.createTextNode(numeral(statsapi["data"]["blockchain_size"]).format('0,0b'));
-            td.appendChild(text);
-            tr.appendChild(td);
-            tbody.appendChild(tr);
-
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var text = document.createTextNode("Blocks (24h)");
-            td.appendChild(text);
-            tr.appendChild(td);
-            var td = document.createElement("td");
-            var text = document.createTextNode(numeral(statsapi["data"]["blocks_24h"]).format('0,0a'));
-            td.appendChild(text);
-            tr.appendChild(td);
-            tbody.appendChild(tr);
-
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var text = document.createTextNode("Transactions (24h)");
-            td.appendChild(text);
-            tr.appendChild(td);
-            var td = document.createElement("td");
-            var text = document.createTextNode(numeral(statsapi["data"]["transactions_24h"]).format('0,0a'));
-            td.appendChild(text);
-            tr.appendChild(td);
-            tbody.appendChild(tr);
-
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var text = document.createTextNode("Inflation (24h)");
-            td.appendChild(text);
-            tr.appendChild(td);
-            var td = document.createElement("td");
-            var text = document.createTextNode(numeral(statsapi["data"]["inflation_24h"]/Math.pow(10, 8)).format('0,0a'));
-            td.appendChild(text);
-            tr.appendChild(td);
-            tbody.appendChild(tr);
-
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var text = document.createTextNode("Volume (24h)");
-            td.appendChild(text);
-            tr.appendChild(td);
-            var td = document.createElement("td");
-            var text = document.createTextNode(numeral(statsapi["data"]["volume_24h"]/Math.pow(10, 8)).format('0,0a'));
-            td.appendChild(text);
-            tr.appendChild(td);
-            tbody.appendChild(tr);
-
-            bcstatstable.appendChild(tbody);
-
-
-            var mpstatstable = document.getElementById("mpstatstable");
-            var thead = document.createElement("thead");
-            var tr = document.createElement("tr");
-            var th = document.createElement("th"); var text = document.createTextNode("Name"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            var th = document.createElement("th"); var text = document.createTextNode("Value"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            thead.appendChild(tr);
-            mpstatstable.appendChild(thead);
-            var tbody = document.createElement("tbody");
-
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var text = document.createTextNode("Transactions");
-            td.appendChild(text);
-            tr.appendChild(td);
-            var td = document.createElement("td");
-            var text = document.createTextNode(numeral(statsapi["data"]["mempool_transactions"]).format('0,0a'));
-            td.appendChild(text);
-            tr.appendChild(td);
-            tbody.appendChild(tr);
-
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var text = document.createTextNode("Size");
-            td.appendChild(text);
-            tr.appendChild(td);
-            var td = document.createElement("td");
-            var text = document.createTextNode(numeral(statsapi["data"]["mempool_size"]).format('0,0b'));
-            td.appendChild(text);
-            tr.appendChild(td);
-            tbody.appendChild(tr);
-
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var text = document.createTextNode("Tps");
-            td.appendChild(text);
-            tr.appendChild(td);
-            var td = document.createElement("td");
-            var text = document.createTextNode(numeral(statsapi["data"]["mempool_tps"]).format('0,0.00a'));
-            td.appendChild(text);
-            tr.appendChild(td);
-            tbody.appendChild(tr);
-
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var text = document.createTextNode("Fee");
-            td.appendChild(text);
-            tr.appendChild(td);
-            var td = document.createElement("td");
-            var text = document.createTextNode(numeral(statsapi["data"]["mempool_total_fee_usd"]).format('$0,0a'));
-            td.appendChild(text);
-            tr.appendChild(td);
-            tbody.appendChild(tr);
-
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var text = document.createTextNode("Output");
-            td.appendChild(text);
-            tr.appendChild(td);
-            var td = document.createElement("td");
-            var text = document.createTextNode(numeral(statsapi["data"]["mempool_outputs"]).format('0,0a'));
-            td.appendChild(text);
-            tr.appendChild(td);
-            tbody.appendChild(tr);
-
-            mpstatstable.appendChild(tbody);
-
-
-            var txstatstable = document.getElementById("txstatstable");
-            var thead = document.createElement("thead");
-            var tr = document.createElement("tr");
-            var th = document.createElement("th"); var text = document.createTextNode("Name"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            var th = document.createElement("th"); var text = document.createTextNode("Value"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            thead.appendChild(tr);
-            txstatstable.appendChild(thead);
-            var tbody = document.createElement("tbody");
-
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var text = document.createTextNode("Transactions");
-            td.appendChild(text);
-            tr.appendChild(td);
-            var td = document.createElement("td");
-            var text = document.createTextNode(numeral(statsapi["data"]["transactions"]).format('0,0a'));
-            td.appendChild(text);
-            tr.appendChild(td);
-            tbody.appendChild(tr);
-
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var text = document.createTextNode("Avg. Fee (24h)");
-            td.appendChild(text);
-            tr.appendChild(td);
-            var td = document.createElement("td");
-            var text = document.createTextNode(numeral(statsapi["data"]["average_transaction_fee_24h"]).format('0,0a'));
-            td.appendChild(text);
-            tr.appendChild(td);
-            tbody.appendChild(tr);
-
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var text = document.createTextNode("Median Fee (24h)");
-            td.appendChild(text);
-            tr.appendChild(td);
-            var td = document.createElement("td");
-            var text = document.createTextNode(numeral(statsapi["data"]["median_transaction_fee_24h"]).format('0,0a'));
-            td.appendChild(text);
-            tr.appendChild(td);
-            tbody.appendChild(tr);
-
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var text = document.createTextNode("Suggested Fee");
-            td.appendChild(text);
-            tr.appendChild(td);
-            var td = document.createElement("td");
-            var text = document.createTextNode(statsapi["data"]["suggested_transaction_fee_per_byte_sat"] + " sats/byte");
-            td.appendChild(text);
-            tr.appendChild(td);
-            tbody.appendChild(tr);
-
-            txstatstable.appendChild(tbody);
-
-
-            var mkstatstable = document.getElementById("mkstatstable");
-            var thead = document.createElement("thead");
-            var tr = document.createElement("tr");
-            var th = document.createElement("th"); var text = document.createTextNode("Name"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            var th = document.createElement("th"); var text = document.createTextNode("Value"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            thead.appendChild(tr);
-            mkstatstable.appendChild(thead);
-            var tbody = document.createElement("tbody");
-
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var text = document.createTextNode("Price");
-            td.appendChild(text);
-            tr.appendChild(td);
-            var td = document.createElement("td");
-            var text = document.createTextNode(numeral(statsapi["data"]["market_price_usd"]).format('$0.00a'));
-            td.appendChild(text);
-            tr.appendChild(td);
-            tbody.appendChild(tr);
-
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var text = document.createTextNode("Change (24h)");
-            td.appendChild(text);
-            tr.appendChild(td);
-            var td = document.createElement("td");
-            var text = document.createTextNode(numeral(statsapi["data"]["market_price_usd_change_24h_percentage"]).format('0.00a') + "%");
+            document.getElementById("market_price").innerText = numeral(statsapi["data"]["market_price_usd"]).format('$0.00a');
+            document.getElementById("market_change").innerText = numeral(statsapi["data"]["market_price_usd_change_24h_percentage"]).format('0.00a') + "%";
             if (statsapi["data"]["market_price_usd_change_24h_percentage"] > 0) {
-              td.style.color = "#5cb25e";
+              document.getElementById("market_change").style.color = "#5cb25e";
             } else if (statsapi["data"]["market_price_usd_change_24h_percentage"] < 0) {
-              td.style.color = "#fc580c";
+              document.getElementById("market_change").style.color = "#fc580c";
             }
             else {
-              td.style.color = "#5b92e5";
+              document.getElementById("market_change").style.color = "#5b92e5";
+            }
+            document.getElementById("market_cap").innerText = numeral(statsapi["data"]["market_cap_usd"]).format('$0,0a');
+            document.getElementById("market_dominance").innerText = numeral(statsapi["data"]["market_dominance_percentage"]).format('0a') + "%";
+
+            loadJson("https://api.blockchair.com/tools/halvening", function(response) {
+              hlvapi = JSON.parse(response);
+              document.getElementById("hlvng_currheight").innerText = numeral(hlvapi["data"]["bitcoin"]["current_block"]).format('0,0');
+              addBTC2USDHover(priceusd, "hlvng_currreward", hlvapi["data"]["bitcoin"]["current_reward"], '0.000');
+              document.getElementById("hlvng_hlvheight").innerText = numeral(hlvapi["data"]["bitcoin"]["halvening_block"]).format('0,0a') + " (" + numeral(hlvapi["data"]["bitcoin"]["blocks_left"]).format('0,0a') + " blocks left)";
+              addBTC2USDHover(priceusd, "hlvng_hlvreward", hlvapi["data"]["bitcoin"]["halvening_reward"], '0.000');
+              document.getElementById("hlvng_timeest").innerText = timeago.format(Date.now()+hlvapi["data"]["bitcoin"]["seconds_left"]*1000);
+            });
+
+          loadJson("https://raw.githubusercontent.com/7h3rAm/datastore/master/bitcoin.json", function(response) {
+            bitcoin = JSON.parse(response);
+            console.log(bitcoin);
+
+            maxi = 1000;
+            if (bitcoin["nodes"].length) {
+              var bounds = L.latLngBounds() // Instantiate LatLngBounds object
+              var nodesmap = L.map('nodesmap', {zoomSnap: 0, zoomDelta: 0.25,}).setView([0, 0], 2);
+              var osmlayer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+              L.tileLayer(osmlayer, {
+                attribution: '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+              }).addTo(nodesmap);
+              const size = 15;
+              const btcico = L.icon({iconUrl: "https://raw.githubusercontent.com/7h3rAm/datastore/master/Bitcoin_evergreen.png", iconSize: [size, size]})
+              const markerOptions = { draggable: true, icon: btcico }
+              var tor = 0; var clearnet = 0;
+              for (var i = 0; i < bitcoin["nodes"].length; i++) {
+                if (bitcoin["nodes"][i]["latitude"] === "Unknown" || bitcoin["nodes"][i]["longitude"] === "Unknown" || bitcoin["nodes"][i]["hostname"] === "Unknown") {
+                  continue;
+                } else {
+                  clearnet += 1;
+                  marker = new L.marker([bitcoin["nodes"][i]["latitude"], bitcoin["nodes"][i]["longitude"]], markerOptions);
+                  marker.bindPopup(bitcoin["nodes"][i]["hostname"]).addTo(nodesmap);
+                  bounds.extend([bitcoin["nodes"][i]["latitude"], bitcoin["nodes"][i]["longitude"]]);
+                }
+                if (clearnet >= maxi) { break; }
+              }
+              const opt = {
+                color: '#000',
+                opacity: 0.1,
+                fillColor: '#000',
+                fillOpacity: 0.3,
+                resolution: 2
+              };
+              const t = L.terminator(opt);
+              t.addTo(nodesmap);
+              const updateTerminator = function(t) {
+                let t2 = L.terminator(opt);
+                t.setLatLngs(t2.getLatLngs());
+                t.redraw();
+              };
+              L.control.scale().addTo(nodesmap);
+              nodesmap.fitBounds(bounds)
             }
 
-            td.appendChild(text);
-            tr.appendChild(td);
-            tbody.appendChild(tr);
+            document.getElementById("count_wallet").innerText = numeral(bitcoin["stats"]["count_wallet"]).format('0,0a');
+            document.getElementById("count_address").innerText = numeral(bitcoin["stats"]["count_address"]).format('0,0a');
+            addBTC2USDHover(priceusd, "count_balance", bitcoin["stats"]["count_balance"], '0,0a', color=null, isbtc=true);
 
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var text = document.createTextNode("Capitilization");
-            td.appendChild(text);
-            tr.appendChild(td);
-            var td = document.createElement("td");
-            var text = document.createTextNode(numeral(statsapi["data"]["market_cap_usd"]).format('0,0a'));
-            td.appendChild(text);
-            tr.appendChild(td);
-            tbody.appendChild(tr);
+            document.getElementById("count_wallet_donation").innerText = bitcoin["stats"]["count_wallet_donation"];
+            document.getElementById("count_address_donation").innerText = bitcoin["stats"]["count_address_donation"];
+            document.getElementById("count_wallet_popular").innerText = bitcoin["stats"]["count_wallet_popular"];
+            document.getElementById("count_address_popular").innerText = bitcoin["stats"]["count_address_popular"];
+            document.getElementById("count_wallet_ransom").innerText = bitcoin["stats"]["count_wallet_ransom"];
+            document.getElementById("count_address_ransom").innerText = bitcoin["stats"]["count_address_ransom"];
 
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var text = document.createTextNode("Dominance");
-            td.appendChild(text);
-            tr.appendChild(td);
-            var td = document.createElement("td");
-            var text = document.createTextNode(numeral(statsapi["data"]["market_dominance_percentage"]).format('0a') + "%");
-            td.appendChild(text);
-            tr.appendChild(td);
-            tbody.appendChild(tr);
+            addBTC2USDHover(priceusd, "count_received_donation", bitcoin["stats"]["count_received_donation"], '0,0a', "#5cb25e", isbtc=true);
+            addBTC2USDHover(priceusd, "count_received_popular", bitcoin["stats"]["count_received_popular"], '0,0a', "#5cb25e", isbtc=true);
+            addBTC2USDHover(priceusd, "count_received_ransom", bitcoin["stats"]["count_received_ransom"], '0,0a', "#5cb25e", isbtc=true);
 
-            mkstatstable.appendChild(tbody);
+            addBTC2USDHover(priceusd, "count_sent_donation", bitcoin["stats"]["count_sent_donation"], '0,0a', "#fc580c", isbtc=true);
+            addBTC2USDHover(priceusd, "count_sent_popular", bitcoin["stats"]["count_sent_popular"], '0,0a', "#fc580c", isbtc=true);
+            addBTC2USDHover(priceusd, "count_sent_ransom", bitcoin["stats"]["count_sent_ransom"], '0,0a', "#fc580c", isbtc=true);
 
-            var bcstatstable = document.getElementById("bcstatstable");
-            var bcstatssort = new Tablesort(bcstatstable);
-            bcstatssort.refresh();
-            var mpstatstable = document.getElementById("mpstatstable");
-            var mpstatsort = new Tablesort(mpstatstable);
-            mpstatsort.refresh();
-            var txstatstable = document.getElementById("txstatstable");
-            var txstatsort = new Tablesort(txstatstable);
-            txstatsort.refresh();
-            var mkstatstable = document.getElementById("mkstatstable");
-            var mkstatsort = new Tablesort(mkstatstable);
-            mkstatsort.refresh();
-
-          });
-
-          loadJson("https://api.blockchair.com/tools/halvening", function(response) {
-            hlvapi = JSON.parse(response);
-
-            var hlvstatstable = document.getElementById("hlvstatstable");
-
-            var thead = document.createElement("thead");
-            var tr = document.createElement("tr");
-            var th = document.createElement("th"); var text = document.createTextNode("Name"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            var th = document.createElement("th"); var text = document.createTextNode("Value"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            thead.appendChild(tr);
-            hlvstatstable.appendChild(thead);
-            var tbody = document.createElement("tbody");
-
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var text = document.createTextNode("Current Height");
-            td.appendChild(text);
-            tr.appendChild(td);
-            var td = document.createElement("td");
-            var text = document.createTextNode(numeral(hlvapi["data"]["bitcoin"]["current_block"]).format('0,0'));
-            td.appendChild(text);
-            tr.appendChild(td);
-            tbody.appendChild(tr);
-
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var text = document.createTextNode("Current Reward");
-            td.appendChild(text);
-            tr.appendChild(td);
-            var td = document.createElement("td");
-            var text = document.createTextNode(numeral(hlvapi["data"]["bitcoin"]["current_reward"]/Math.pow(10, 8)).format('0.00000000'));
-            td.appendChild(text);
-            tr.appendChild(td);
-            tbody.appendChild(tr);
-
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var text = document.createTextNode("Halvening Height");
-            td.appendChild(text);
-            tr.appendChild(td);
-            var td = document.createElement("td");
-            var text = document.createTextNode(numeral(hlvapi["data"]["bitcoin"]["halvening_block"]).format('0,0a') + " (" + numeral(hlvapi["data"]["bitcoin"]["blocks_left"]).format('0,0a') + " blocks left)");
-            td.appendChild(text);
-            tr.appendChild(td);
-            tbody.appendChild(tr);
-
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var text = document.createTextNode("Halvening Reward");
-            td.appendChild(text);
-            tr.appendChild(td);
-            var td = document.createElement("td");
-            var text = document.createTextNode(numeral(hlvapi["data"]["bitcoin"]["halvening_reward"]/Math.pow(10, 8)).format('0.00000000'));
-            td.appendChild(text);
-            tr.appendChild(td);
-            tbody.appendChild(tr);
-
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var text = document.createTextNode("Time Estimate");
-            td.appendChild(text);
-            tr.appendChild(td);
-            var td = document.createElement("td");
-            var text = document.createTextNode(timeago.format(Date.now()+hlvapi["data"]["bitcoin"]["seconds_left"]*1000));
-            td.appendChild(text);
-            tr.appendChild(td);
-            tbody.appendChild(tr);
-
-            hlvstatstable.appendChild(tbody);
-
-
-            var hlvstatstable = document.getElementById("hlvstatstable");
-            var hlvstatssort = new Tablesort(hlvstatstable);
-            hlvstatssort.refresh();
-
-          });
-
-        }
-
-        function doBitcoin() {
-          //document.getElementById("donationslastseencell").innerText = timeago.format(1473245023718);
-
-          loadJson("https://raw.githubusercontent.com/7h3rAm/datastore/master/btctxsmon.json", function(response) {
-            btctxsmon = JSON.parse(response);
-            console.log(btctxsmon);
-
-            document.getElementById("count_wallet").innerText = numeral(btctxsmon["stats"]["count_wallet"]).format('0,0a');
-            document.getElementById("count_address").innerText = numeral(btctxsmon["stats"]["count_address"]).format('0,0a');
-            document.getElementById("count_balance").innerText = numeral(btctxsmon["stats"]["count_balance"]).format('0,0a');
-
-            document.getElementById("count_wallet_donation").innerText = btctxsmon["stats"]["count_wallet_donation"];
-            document.getElementById("count_address_donation").innerText = btctxsmon["stats"]["count_address_donation"];
-            document.getElementById("count_received_donation").innerText = numeral(btctxsmon["stats"]["count_received_donation"]).format('0,0a');
-            document.getElementById("count_received_donation").style.color = "#5cb25e"
-            document.getElementById("count_sent_donation").innerText = numeral(btctxsmon["stats"]["count_sent_donation"]).format('0,0a');
-            document.getElementById("count_sent_donation").style.color = "#fc580c"
-            document.getElementById("count_balance_donation").innerText = numeral(btctxsmon["stats"]["count_balance_donation"]).format('0,0a');
-            document.getElementById("count_balance_donation").style.color = "#5b92e5"
-            document.getElementById("count_wallet_popular").innerText = btctxsmon["stats"]["count_wallet_popular"];
-            document.getElementById("count_address_popular").innerText = btctxsmon["stats"]["count_address_popular"];
-            document.getElementById("count_received_popular").innerText = numeral(btctxsmon["stats"]["count_received_popular"]).format('0,0a');
-            document.getElementById("count_received_popular").style.color = "#5cb25e"
-            document.getElementById("count_sent_popular").innerText = numeral(btctxsmon["stats"]["count_sent_popular"]).format('0,0a');
-            document.getElementById("count_sent_popular").style.color = "#fc580c"
-            document.getElementById("count_balance_popular").innerText = numeral(btctxsmon["stats"]["count_balance_popular"]).format('0,0a');
-            document.getElementById("count_balance_popular").style.color = "#5b92e5"
-            document.getElementById("count_wallet_ransom").innerText = btctxsmon["stats"]["count_wallet_ransom"];
-            document.getElementById("count_address_ransom").innerText = btctxsmon["stats"]["count_address_ransom"];
-            document.getElementById("count_received_ransom").innerText = numeral(btctxsmon["stats"]["count_received_ransom"]).format('0,0a');
-            document.getElementById("count_received_ransom").style.color = "#5cb25e"
-            document.getElementById("count_sent_ransom").innerText = numeral(btctxsmon["stats"]["count_sent_ransom"]).format('0,0a');
-            document.getElementById("count_sent_ransom").style.color = "#fc580c"
-            document.getElementById("count_balance_ransom").innerText = numeral(btctxsmon["stats"]["count_balance_ransom"]).format('0,0a');
-            document.getElementById("count_balance_ransom").style.color = "#5b92e5"
+            addBTC2USDHover(priceusd, "count_balance_donation", bitcoin["stats"]["count_balance_donation"], '0,0a', "#5b92e5", isbtc=true);
+            addBTC2USDHover(priceusd, "count_balance_popular", bitcoin["stats"]["count_balance_popular"], '0,0a', "#5b92e5", isbtc=true);
+            addBTC2USDHover(priceusd, "count_balance_ransom", bitcoin["stats"]["count_balance_ransom"], '0,0a', "#5b92e5", isbtc=true);
 
             var donationtable = document.getElementById("donationtable");
             var thead = document.createElement("thead");
@@ -592,8 +381,8 @@
             donationtable.appendChild(thead);
             var tbody = document.createElement("tbody");
             var i = 0;
-            Object.keys(btctxsmon["category"]["donation"]).forEach(function(wallet) {
-              if (btctxsmon["category"]["donation"][wallet]["transaction"] > 0) {
+            Object.keys(bitcoin["category"]["donation"]).forEach(function(wallet) {
+              if (bitcoin["category"]["donation"][wallet]["transaction"] > 0) {
                 var tr = document.createElement("tr");
                 //var td = document.createElement("td");
                 //var text = document.createTextNode(i+1 + ".");
@@ -602,7 +391,7 @@
                 var td = document.createElement("td");
                 var span = document.createElement("span")
                 span.setAttribute("class", "sparklines");
-                var text = document.createTextNode(btctxsmon["category"]["donation"][wallet]["sparkid"]);
+                var text = document.createTextNode(bitcoin["category"]["donation"][wallet]["sparkid"]);
                 span.appendChild(text);
                 colorspark(span);
                 td.appendChild(span);
@@ -611,37 +400,40 @@
                 var link = document.createElement("a");
                 var text = document.createTextNode(truncateWithEllipses(wallet, 30));
                 link.appendChild(text);
-                var addr = btctxsmon["category"]["donation"][wallet]["address"] > 1 ? "addresses" : "address";
-                var txs = btctxsmon["category"]["donation"][wallet]["transaction"] > 1 ? "transactions" : "transaction";
-                link.title = "'" + wallet + "' wallet has " + btctxsmon["category"]["donation"][wallet]["address"] + " " + addr + " with " + numeral(btctxsmon["category"]["donation"][wallet]["transaction"]).format('0,0a') + " " + txs + ".";
+                var addr = bitcoin["category"]["donation"][wallet]["address"] > 1 ? "addresses" : "address";
+                var txs = bitcoin["category"]["donation"][wallet]["transaction"] > 1 ? "transactions" : "transaction";
+                link.title = "'" + wallet + "' wallet has " + bitcoin["category"]["donation"][wallet]["address"] + " " + addr + " with " + numeral(bitcoin["category"]["donation"][wallet]["transaction"]).format('0,0a') + " " + txs + ".";
                 link.style.color = "#000000";
                 td.appendChild(link);
                 tr.appendChild(td);
+
                 var td = document.createElement("td");
-                td.style.color = "#5cb25e"
-                var text = document.createTextNode(numeral(btctxsmon["category"]["donation"][wallet]["received"]).format('0,0a'));
-                td.appendChild(text);
+                td.setAttribute("data-sort", bitcoin["category"]["donation"][wallet]["received"]);
+                addBTC2USDHover(priceusd, td, bitcoin["category"]["donation"][wallet]["received"], '0,0a', "#5cb25e", isbtc=true);
                 tr.appendChild(td);
+
                 var td = document.createElement("td");
-                td.style.color = "#fc580c";
-                var text = document.createTextNode(numeral(btctxsmon["category"]["donation"][wallet]["sent"]).format('0,0a'));
-                td.appendChild(text);
+                td.setAttribute("data-sort", bitcoin["category"]["donation"][wallet]["sent"]);
+                addBTC2USDHover(priceusd, td, bitcoin["category"]["donation"][wallet]["sent"], '0,0a', "#fc580c", isbtc=true);
                 tr.appendChild(td);
+
                 var td = document.createElement("td");
-                td.style.color = "#5b92e5";
-                var text = document.createTextNode(numeral(btctxsmon["category"]["donation"][wallet]["balance"]).format('0,0a'));
-                td.appendChild(text);
+                td.setAttribute("data-sort", bitcoin["category"]["donation"][wallet]["balance"]);
+                addBTC2USDHover(priceusd, td, isNaN(numeral(bitcoin["category"]["donation"][wallet]["balance"]).format('0'))? 0 : bitcoin["category"]["donation"][wallet]["balance"], '0,0a', "#5b92e5", isbtc=true);
                 tr.appendChild(td);
+
                 var td = document.createElement("td");
-                if (btctxsmon["category"]["donation"][wallet]["lasttxepoch"]) {
+                if (bitcoin["category"]["donation"][wallet]["lasttxepoch"]) {
                   var link = document.createElement("a");
-                  var text = document.createTextNode(timeago.format(btctxsmon["category"]["donation"][wallet]["lasttxepoch"]*1000));
+                  var text = document.createTextNode(timeago.format(bitcoin["category"]["donation"][wallet]["lasttxepoch"]*1000));
+                  td.setAttribute("data-sort", bitcoin["category"]["donation"][wallet]["lasttxepoch"]);
                   link.appendChild(text);
-                  link.title = btctxsmon["category"]["donation"][wallet]["lastseen"];
+                  link.title = bitcoin["category"]["donation"][wallet]["lastseen"];
                   link.style.color = "#000000";
                   td.appendChild(link);
                 } else {
                   var text = document.createTextNode("");
+                  td.setAttribute("data-sort", 0);
                   td.appendChild(text);
                 }
                 tr.appendChild(td);
@@ -665,8 +457,8 @@
             populartable.appendChild(thead);
             var tbody = document.createElement("tbody");
             var i = 0;
-            Object.keys(btctxsmon["category"]["popular"]).forEach(function(wallet) {
-              if (btctxsmon["category"]["popular"][wallet]["transaction"] > 0) {
+            Object.keys(bitcoin["category"]["popular"]).forEach(function(wallet) {
+              if (bitcoin["category"]["popular"][wallet]["transaction"] > 0) {
                 var tr = document.createElement("tr");
                 //var td = document.createElement("td");
                 //var text = document.createTextNode(i+1 + ".");
@@ -675,7 +467,7 @@
                 var td = document.createElement("td");
                 var span = document.createElement("span")
                 span.setAttribute("class", "sparklines");
-                var text = document.createTextNode(btctxsmon["category"]["popular"][wallet]["sparkid"]);
+                var text = document.createTextNode(bitcoin["category"]["popular"][wallet]["sparkid"]);
                 span.appendChild(text);
                 colorspark(span);
                 td.appendChild(span);
@@ -684,37 +476,40 @@
                 var link = document.createElement("a");
                 var text = document.createTextNode(truncateWithEllipses(wallet, 30));
                 link.appendChild(text);
-                var addr = btctxsmon["category"]["popular"][wallet]["address"] > 1 ? "addresses" : "address";
-                var txs = btctxsmon["category"]["popular"][wallet]["transaction"] > 1 ? "transactions" : "transaction";
-                link.title = "'" + wallet + "' wallet has " + btctxsmon["category"]["popular"][wallet]["address"] + " " + addr + " with " + numeral(btctxsmon["category"]["popular"][wallet]["transaction"]).format('0,0a') + " " + txs + ".";
+                var addr = bitcoin["category"]["popular"][wallet]["address"] > 1 ? "addresses" : "address";
+                var txs = bitcoin["category"]["popular"][wallet]["transaction"] > 1 ? "transactions" : "transaction";
+                link.title = "'" + wallet + "' wallet has " + bitcoin["category"]["popular"][wallet]["address"] + " " + addr + " with " + numeral(bitcoin["category"]["popular"][wallet]["transaction"]).format('0,0a') + " " + txs + ".";
                 link.style.color = "#000000";
                 td.appendChild(link);
                 tr.appendChild(td);
+
                 var td = document.createElement("td");
-                td.style.color = "#5cb25e"
-                var text = document.createTextNode(numeral(btctxsmon["category"]["popular"][wallet]["received"]).format('0,0a'));
-                td.appendChild(text);
+                td.setAttribute("data-sort", bitcoin["category"]["popular"][wallet]["received"]);
+                addBTC2USDHover(priceusd, td, bitcoin["category"]["popular"][wallet]["received"], '0,0a', "#5cb25e", isbtc=true);
                 tr.appendChild(td);
+
                 var td = document.createElement("td");
-                td.style.color = "#fc580c";
-                var text = document.createTextNode(numeral(btctxsmon["category"]["popular"][wallet]["sent"]).format('0,0a'));
-                td.appendChild(text);
+                td.setAttribute("data-sort", bitcoin["category"]["popular"][wallet]["sent"]);
+                addBTC2USDHover(priceusd, td, bitcoin["category"]["popular"][wallet]["sent"], '0,0a', "#fc580c", isbtc=true);
                 tr.appendChild(td);
+
                 var td = document.createElement("td");
-                td.style.color = "#5b92e5";
-                var text = document.createTextNode(numeral(btctxsmon["category"]["popular"][wallet]["balance"]).format('0,0a'));
-                td.appendChild(text);
+                td.setAttribute("data-sort", bitcoin["category"]["popular"][wallet]["balance"]);
+                addBTC2USDHover(priceusd, td, isNaN(numeral(bitcoin["category"]["popular"][wallet]["balance"]).format('0'))? 0 : bitcoin["category"]["popular"][wallet]["balance"], '0,0a', "#5b92e5", isbtc=true);
                 tr.appendChild(td);
+
                 var td = document.createElement("td");
-                if (btctxsmon["category"]["popular"][wallet]["lasttxepoch"]) {
+                if (bitcoin["category"]["popular"][wallet]["lasttxepoch"]) {
                   var link = document.createElement("a");
-                  var text = document.createTextNode(timeago.format(btctxsmon["category"]["popular"][wallet]["lasttxepoch"]*1000));
+                  var text = document.createTextNode(timeago.format(bitcoin["category"]["popular"][wallet]["lasttxepoch"]*1000));
+                  td.setAttribute("data-sort", bitcoin["category"]["popular"][wallet]["lasttxepoch"]);
                   link.appendChild(text);
-                  link.title = btctxsmon["category"]["popular"][wallet]["lastseen"];
+                  link.title = bitcoin["category"]["popular"][wallet]["lastseen"];
                   link.style.color = "#000000";
                   td.appendChild(link);
                 } else {
                   var text = document.createTextNode("");
+                  td.setAttribute("data-sort", 0);
                   td.appendChild(text);
                 }
                 tr.appendChild(td);
@@ -738,8 +533,8 @@
             ransomtable.appendChild(thead);
             var tbody = document.createElement("tbody");
             var i = 0;
-            Object.keys(btctxsmon["category"]["ransom"]).forEach(function(wallet) {
-              if (btctxsmon["category"]["ransom"][wallet]["transaction"] > 0) {
+            Object.keys(bitcoin["category"]["ransom"]).forEach(function(wallet) {
+              if (bitcoin["category"]["ransom"][wallet]["transaction"] > 0) {
                 var tr = document.createElement("tr");
                 //var td = document.createElement("td");
                 //var text = document.createTextNode(i+1 + ".");
@@ -748,7 +543,7 @@
                 var td = document.createElement("td");
                 var span = document.createElement("span")
                 span.setAttribute("class", "sparklines");
-                var text = document.createTextNode(btctxsmon["category"]["ransom"][wallet]["sparkid"]);
+                var text = document.createTextNode(bitcoin["category"]["ransom"][wallet]["sparkid"]);
                 span.appendChild(text);
                 colorspark(span);
                 td.appendChild(span);
@@ -757,37 +552,40 @@
                 var link = document.createElement("a");
                 var text = document.createTextNode(truncateWithEllipses(wallet, 30));
                 link.appendChild(text);
-                var addr = btctxsmon["category"]["ransom"][wallet]["address"] > 1 ? "addresses" : "address";
-                var txs = btctxsmon["category"]["ransom"][wallet]["transaction"] > 1 ? "transactions" : "transaction";
-                link.title = "'" + wallet + "' wallet has " + btctxsmon["category"]["ransom"][wallet]["address"] + " " + addr + " with " + numeral(btctxsmon["category"]["ransom"][wallet]["transaction"]).format('0,0a') + " " + txs + ".";
+                var addr = bitcoin["category"]["ransom"][wallet]["address"] > 1 ? "addresses" : "address";
+                var txs = bitcoin["category"]["ransom"][wallet]["transaction"] > 1 ? "transactions" : "transaction";
+                link.title = "'" + wallet + "' wallet has " + bitcoin["category"]["ransom"][wallet]["address"] + " " + addr + " with " + numeral(bitcoin["category"]["ransom"][wallet]["transaction"]).format('0,0a') + " " + txs + ".";
                 link.style.color = "#000000";
                 td.appendChild(link);
                 tr.appendChild(td);
+
                 var td = document.createElement("td");
-                td.style.color = "#5cb25e"
-                var text = document.createTextNode(numeral(btctxsmon["category"]["ransom"][wallet]["received"]).format('0,0a'));
-                td.appendChild(text);
+                td.setAttribute("data-sort", bitcoin["category"]["ransom"][wallet]["received"]);
+                addBTC2USDHover(priceusd, td, bitcoin["category"]["ransom"][wallet]["received"], '0,0a', "#5cb25e", isbtc=true);
                 tr.appendChild(td);
+
                 var td = document.createElement("td");
-                td.style.color = "#fc580c";
-                var text = document.createTextNode(numeral(btctxsmon["category"]["ransom"][wallet]["sent"]).format('0,0a'));
-                td.appendChild(text);
+                td.setAttribute("data-sort", bitcoin["category"]["ransom"][wallet]["sent"]);
+                addBTC2USDHover(priceusd, td, bitcoin["category"]["ransom"][wallet]["sent"], '0,0a', "#fc580c", isbtc=true);
                 tr.appendChild(td);
+
                 var td = document.createElement("td");
-                td.style.color = "#5b92e5";
-                var text = document.createTextNode(numeral(btctxsmon["category"]["ransom"][wallet]["balance"]).format('0,0a'));
-                td.appendChild(text);
+                td.setAttribute("data-sort", bitcoin["category"]["ransom"][wallet]["balance"]);
+                addBTC2USDHover(priceusd, td, isNaN(numeral(bitcoin["category"]["ransom"][wallet]["balance"]).format('0'))? 0 : bitcoin["category"]["ransom"][wallet]["balance"], '0,0a', "#5b92e5", isbtc=true);
                 tr.appendChild(td);
+
                 var td = document.createElement("td");
-                if (btctxsmon["category"]["ransom"][wallet]["lasttxepoch"]) {
+                if (bitcoin["category"]["ransom"][wallet]["lasttxepoch"]) {
                   var link = document.createElement("a");
-                  var text = document.createTextNode(timeago.format(btctxsmon["category"]["ransom"][wallet]["lasttxepoch"]*1000));
+                  var text = document.createTextNode(timeago.format(bitcoin["category"]["ransom"][wallet]["lasttxepoch"]*1000));
+                  td.setAttribute("data-sort", bitcoin["category"]["ransom"][wallet]["lasttxepoch"]);
                   link.appendChild(text);
-                  link.title = btctxsmon["category"]["ransom"][wallet]["lastseen"];
+                  link.title = bitcoin["category"]["ransom"][wallet]["lastseen"];
                   link.style.color = "#000000";
                   td.appendChild(link);
                 } else {
                   var text = document.createTextNode("");
+                  td.setAttribute("data-sort", 0);
                   td.appendChild(text);
                 }
                 tr.appendChild(td);
@@ -813,9 +611,12 @@
             //doBitnodesNodes();
 
             // last updated timestamp
-            document.getElementById("lastupdate").innerText = "Last Update: " + btctxsmon["last_update"];
+            document.getElementById("lastupdate").innerText = "Last Update: " + bitcoin["last_update"];
 
           });
+
+          });
+
         }
 
         // https://stackoverflow.com/a/54248600/1079836
@@ -835,7 +636,6 @@
 
         window.onload = () => {
           //setInterval(() => {doTime();},1000); // every .5s
-          doBitcoin();
           doBlockchainStats();
         }
 
@@ -846,17 +646,17 @@
         function toggle(s){
           s.classList.toggle("expanded");
           var t=!1,i=!1,a=!1;
-          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);
+          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h3")&&(a=!0);
           for(var l=s.nextElementSibling;l;){
-            if(t&&l.classList.contains("h2")){
+            if (t&&l.classList.contains("h2")){
               l.classList.toggle("active");
               break
             }
-            if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){
+            if (i&&(l.classList.contains("h2")||l.classList.contains("h3"))){
               l.classList.toggle("active");
               break
             }
-            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){
+            if (a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h3"))){
               l.classList.toggle("active");
               break
             }

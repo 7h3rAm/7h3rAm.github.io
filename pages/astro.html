@@ -196,8 +196,8 @@
                 <p class="active nested"><small>Data provided courtesy of <a href="https://github.com/r-spacex/SpaceX-API">r/SpaceX API</a> team.</small></p>
                 <ul class="active nested">
                   <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Launches</h3><ul class="active nested">
-                    <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>Past</h4><ul class="active nested"><li><table id="spacexpastlaunchestable" class="active nested astrotabclass"></table></li></ul></li>
-                    <li><h4 class="h3 collapsible expanded" onclick=toggle(this);>Future</h4><ul class="active nested"><li><table id="spacexfuturelaunchestable" class="active nested astrotabclass"></table></li></ul></li>
+                    <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Past</h3><ul class="active nested"><li><table id="spacexpastlaunchestable" class="active nested astrotabclass"></table></li></ul></li>
+                    <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Future</h3><ul class="active nested"><li><table id="spacexfuturelaunchestable" class="active nested astrotabclass"></table></li></ul></li>
                   </ul></li>
                   <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Roadster</h3><ul class="active nested"><li><table id="spacexroadstertable" class="active nested astrotabclass"></table></li></ul></li>
                   <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Starlink</h3><ul class="active nested">
@@ -754,7 +754,7 @@
         function toggle(s){
           s.classList.toggle("expanded");
           var t=!1,i=!1,a=!1;
-          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);
+          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h3")&&(a=!0);
           for(var l=s.nextElementSibling;l;){
             if(t&&l.classList.contains("h2")){
               l.classList.toggle("active");
@@ -764,7 +764,7 @@
               l.classList.toggle("active");
               break
             }
-            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){
+            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h3"))){
               l.classList.toggle("active");
               break
             }

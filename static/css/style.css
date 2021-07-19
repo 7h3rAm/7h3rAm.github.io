@@ -104,10 +104,10 @@ li:last-child::after {
   overflow:auto;
   display:block;
   table-layout:fixed;
+  border-spacing:6px;
+  border-collapse:separate;
 }
 .astrotabclass td {
-  border-spacing:3px;
-  border-collapse:separate;
   padding-left:9px;
   padding-right:9px;
 }
@@ -132,3 +132,5 @@ li:last-child::after {
 }
 
 .tdtitle { text-align:center; color:#766e6b; font-size:11pt; }
+
+th { font-weight:bold; }
