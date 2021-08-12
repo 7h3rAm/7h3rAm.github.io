@@ -130,7 +130,13 @@ li:last-child::after {
   display: inline;
   vertical-align: top;
 }
+.btciconsmall {
+  width: 0.9em;
+  height: 0.9em;
+  border: 0px;
+  display: inline;
+  vertical-align: top;
+}
 
 .tdtitle { text-align:center; color:#766e6b; font-size:11pt; }
-
-th { font-weight:bold; }
+/*th { font-weight:bold; }*/

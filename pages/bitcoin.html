@@ -145,13 +145,12 @@
               </ul></li>
 
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🧮 Nodes</h3><ul class="active nested">
-                <li><p class="active nested"><small>Data provided courtesy of <a href="https://bitnodes.io/">Bitnodes</a> team.</small></p></li>
+                <li><p class="active nested">Data provided courtesy of <a href="https://bitnodes.io/">Bitnodes</a> team.</p></li>
                 <li><div id="nodesmap" style="width:100%; height:450px; border:1px solid #766e6b;" class="mapclass"></div></li>
               </ul></li>
             </ul></li>
 
             <li><h2 class="h2 collapsible expanded" onclick=toggle(this);><a id="wallets"></a>💼 Wallets</h2><ul class="active nested">
-
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>📄 Summary</h3><ul class="active nested">
                 <li><p class="active nested">Tracking <code id="count_wallet"></code> Bitcoin wallets (<code id="count_address"></code> addresses) with a current balance of <code id="count_balance"></code></p></li>
                 <li><table id="statstable" class="active nested astrotabclass">
@@ -233,18 +232,29 @@
         function addBTC2USDHover(priceusd, node, value, format="0,0a", color="#f7931a", isbtc=false) {
           format = format? format : "0,0a";
           color = color? color : "#f7931a";
+          var btcicon = document.createElement("img");
+          btcicon.setAttribute("src", "https://raw.githubusercontent.com/7h3rAm/datastore/master/Bitcoin_evergreen.png");
+          btcicon.setAttribute("class", "btciconsmall");
+          btcicon.setAttribute("alt", "₿");
           var link = document.createElement("a");
           if (isbtc) {
             link.title = numeral(value*priceusd).format('$0,0a');
-            link.text = "₿" + numeral(value).format(format);
+            link.text = numeral(value).format(format);
           } else {
-            link.title = numeral((value/Math.pow(10, 8))*priceusd).format('$0,0a');
-            link.text = "₿" + numeral(value/Math.pow(10, 8)).format(format);
+            if (Math.abs(value) <= 9) {
+              link.title = numeral((value/Math.pow(10, 8))*priceusd).format('$0,0a');
+              link.text = (value/Math.pow(10, 8)).toFixed(8);
+            } else {
+              link.title = numeral((value/Math.pow(10, 8))*priceusd).format('$0,0a');
+              link.text = Math.abs(value) > 0 ? numeral(value/Math.pow(10, 8)).format(format) : "0.00000000";
+            }
           }
           link.style.color = color;
           if (typeof node === "string") {
+            document.getElementById(node).appendChild(btcicon);
             document.getElementById(node).appendChild(link);
           } else {
+            node.appendChild(btcicon);
             node.appendChild(link);
           }
         }
@@ -252,6 +262,7 @@
         function doBlockchainStats() {
           loadJson("https://api.blockchair.com/bitcoin/stats", function(response) {
             statsapi = JSON.parse(response);
+            console.log(statsapi);
             priceusd = statsapi["data"]["market_price_usd"];
 
             document.getElementById("blockchain_height").innerText = numeral(statsapi["data"]["best_block_height"]).format('0,0');
@@ -292,6 +303,7 @@
 
             loadJson("https://api.blockchair.com/tools/halvening", function(response) {
               hlvapi = JSON.parse(response);
+              console.log(hlvapi);
               document.getElementById("hlvng_currheight").innerText = numeral(hlvapi["data"]["bitcoin"]["current_block"]).format('0,0');
               addBTC2USDHover(priceusd, "hlvng_currreward", hlvapi["data"]["bitcoin"]["current_reward"], '0.000');
               document.getElementById("hlvng_hlvheight").innerText = numeral(hlvapi["data"]["bitcoin"]["halvening_block"]).format('0,0a') + " (" + numeral(hlvapi["data"]["bitcoin"]["blocks_left"]).format('0,0a') + " blocks left)";
@@ -305,8 +317,8 @@
 
             maxi = 1000;
             if (bitcoin["nodes"].length) {
-              var bounds = L.latLngBounds() // Instantiate LatLngBounds object
-              var nodesmap = L.map('nodesmap', {zoomSnap: 0, zoomDelta: 0.25,}).setView([0, 0], 2);
+              var bounds = L.latLngBounds()
+              var nodesmap = L.map('nodesmap').setView([0, 0], 1.5);
               var osmlayer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
               L.tileLayer(osmlayer, {
                 attribution: '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -321,7 +333,8 @@
                 } else {
                   clearnet += 1;
                   marker = new L.marker([bitcoin["nodes"][i]["latitude"], bitcoin["nodes"][i]["longitude"]], markerOptions);
-                  marker.bindPopup(bitcoin["nodes"][i]["hostname"]).addTo(nodesmap);
+                  var text = '<a href="https://bitnodes.io/nodes/"><b>' + bitcoin["nodes"][i]["ipurl"] + "</b></a><br/>UserAgent: " + bitcoin["nodes"][i]["useragent"] + " (" + bitcoin["nodes"][i]["protoversion"] + ")" + "<br/>Height: " + bitcoin["nodes"][i]["height"] + "<br/>Connected: " + bitcoin["nodes"][i]["connectedsincehuman"] + " (" + timeago.format(bitcoin["nodes"][i]["connectedsince"]*1000) + ")";
+                  marker.bindPopup(text).addTo(nodesmap);
                   bounds.extend([bitcoin["nodes"][i]["latitude"], bitcoin["nodes"][i]["longitude"]]);
                 }
                 if (clearnet >= maxi) { break; }
@@ -346,255 +359,103 @@
 
             document.getElementById("count_wallet").innerText = numeral(bitcoin["stats"]["count_wallet"]).format('0,0a');
             document.getElementById("count_address").innerText = numeral(bitcoin["stats"]["count_address"]).format('0,0a');
-            addBTC2USDHover(priceusd, "count_balance", bitcoin["stats"]["count_balance"], '0,0a', color=null, isbtc=true);
+            addBTC2USDHover(priceusd, "count_balance", bitcoin["stats"]["count_balance"], '0,0a', color=null, isbtc=false);
 
-            document.getElementById("count_wallet_donation").innerText = bitcoin["stats"]["count_wallet_donation"];
-            document.getElementById("count_address_donation").innerText = bitcoin["stats"]["count_address_donation"];
-            document.getElementById("count_wallet_popular").innerText = bitcoin["stats"]["count_wallet_popular"];
-            document.getElementById("count_address_popular").innerText = bitcoin["stats"]["count_address_popular"];
-            document.getElementById("count_wallet_ransom").innerText = bitcoin["stats"]["count_wallet_ransom"];
-            document.getElementById("count_address_ransom").innerText = bitcoin["stats"]["count_address_ransom"];
+            document.getElementById("count_wallet_donation").innerText = bitcoin["stats"]["donation"]["count_wallet"];
+            document.getElementById("count_address_donation").innerText = bitcoin["stats"]["donation"]["count_address"];
+            document.getElementById("count_wallet_popular").innerText = bitcoin["stats"]["popular"]["count_wallet"];
+            document.getElementById("count_address_popular").innerText = bitcoin["stats"]["popular"]["count_address"];
+            document.getElementById("count_wallet_ransom").innerText = bitcoin["stats"]["ransom"]["count_wallet"];
+            document.getElementById("count_address_ransom").innerText = bitcoin["stats"]["ransom"]["count_address"];
 
-            addBTC2USDHover(priceusd, "count_received_donation", bitcoin["stats"]["count_received_donation"], '0,0a', "#5cb25e", isbtc=true);
-            addBTC2USDHover(priceusd, "count_received_popular", bitcoin["stats"]["count_received_popular"], '0,0a', "#5cb25e", isbtc=true);
-            addBTC2USDHover(priceusd, "count_received_ransom", bitcoin["stats"]["count_received_ransom"], '0,0a', "#5cb25e", isbtc=true);
+            addBTC2USDHover(priceusd, "count_received_donation", bitcoin["stats"]["donation"]["count_received"], '0,0a', "#5cb25e", isbtc=false);
+            addBTC2USDHover(priceusd, "count_received_popular", bitcoin["stats"]["popular"]["count_received"], '0,0a', "#5cb25e", isbtc=false);
+            addBTC2USDHover(priceusd, "count_received_ransom", bitcoin["stats"]["ransom"]["count_received"], '0,0a', "#5cb25e", isbtc=false);
 
-            addBTC2USDHover(priceusd, "count_sent_donation", bitcoin["stats"]["count_sent_donation"], '0,0a', "#fc580c", isbtc=true);
-            addBTC2USDHover(priceusd, "count_sent_popular", bitcoin["stats"]["count_sent_popular"], '0,0a', "#fc580c", isbtc=true);
-            addBTC2USDHover(priceusd, "count_sent_ransom", bitcoin["stats"]["count_sent_ransom"], '0,0a', "#fc580c", isbtc=true);
+            addBTC2USDHover(priceusd, "count_sent_donation", bitcoin["stats"]["donation"]["count_sent"], '0,0a', "#fc580c", isbtc=false);
+            addBTC2USDHover(priceusd, "count_sent_popular", bitcoin["stats"]["popular"]["count_sent"], '0,0a', "#fc580c", isbtc=false);
+            addBTC2USDHover(priceusd, "count_sent_ransom", bitcoin["stats"]["ransom"]["count_sent"], '0,0a', "#fc580c", isbtc=false);
 
-            addBTC2USDHover(priceusd, "count_balance_donation", bitcoin["stats"]["count_balance_donation"], '0,0a', "#5b92e5", isbtc=true);
-            addBTC2USDHover(priceusd, "count_balance_popular", bitcoin["stats"]["count_balance_popular"], '0,0a', "#5b92e5", isbtc=true);
-            addBTC2USDHover(priceusd, "count_balance_ransom", bitcoin["stats"]["count_balance_ransom"], '0,0a', "#5b92e5", isbtc=true);
+            addBTC2USDHover(priceusd, "count_balance_donation", bitcoin["stats"]["donation"]["count_balance"], '0,0a', "#5b92e5", isbtc=false);
+            addBTC2USDHover(priceusd, "count_balance_popular", bitcoin["stats"]["popular"]["count_balance"], '0,0a', "#5b92e5", isbtc=false);
+            addBTC2USDHover(priceusd, "count_balance_ransom", bitcoin["stats"]["ransom"]["count_balance"], '0,0a', "#5b92e5", isbtc=false);
 
-            var donationtable = document.getElementById("donationtable");
-            var thead = document.createElement("thead");
-            var tr = document.createElement("tr");
-            //var th = document.createElement("th"); var text = document.createTextNode("#"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            var th = document.createElement("th"); var text = document.createTextNode("VisSum"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            var th = document.createElement("th"); var text = document.createTextNode("Wallet"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            var th = document.createElement("th"); var text = document.createTextNode("Received"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            var th = document.createElement("th"); var text = document.createTextNode("Sent"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            var th = document.createElement("th"); var text = document.createTextNode("Balance"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            var th = document.createElement("th"); var text = document.createTextNode("LastActivity"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            thead.appendChild(tr);
-            donationtable.appendChild(thead);
-            var tbody = document.createElement("tbody");
-            var i = 0;
-            Object.keys(bitcoin["category"]["donation"]).forEach(function(wallet) {
-              if (bitcoin["category"]["donation"][wallet]["transaction"] > 0) {
-                var tr = document.createElement("tr");
-                //var td = document.createElement("td");
-                //var text = document.createTextNode(i+1 + ".");
-                //td.appendChild(text);
-                //tr.appendChild(td);
-                var td = document.createElement("td");
-                var span = document.createElement("span")
-                span.setAttribute("class", "sparklines");
-                var text = document.createTextNode(bitcoin["category"]["donation"][wallet]["sparkid"]);
-                span.appendChild(text);
-                colorspark(span);
-                td.appendChild(span);
-                tr.appendChild(td);
-                var td = document.createElement("td");
-                var link = document.createElement("a");
-                var text = document.createTextNode(truncateWithEllipses(wallet, 30));
-                link.appendChild(text);
-                var addr = bitcoin["category"]["donation"][wallet]["address"] > 1 ? "addresses" : "address";
-                var txs = bitcoin["category"]["donation"][wallet]["transaction"] > 1 ? "transactions" : "transaction";
-                link.title = "'" + wallet + "' wallet has " + bitcoin["category"]["donation"][wallet]["address"] + " " + addr + " with " + numeral(bitcoin["category"]["donation"][wallet]["transaction"]).format('0,0a') + " " + txs + ".";
-                link.style.color = "#000000";
-                td.appendChild(link);
-                tr.appendChild(td);
-
-                var td = document.createElement("td");
-                td.setAttribute("data-sort", bitcoin["category"]["donation"][wallet]["received"]);
-                addBTC2USDHover(priceusd, td, bitcoin["category"]["donation"][wallet]["received"], '0,0a', "#5cb25e", isbtc=true);
-                tr.appendChild(td);
-
-                var td = document.createElement("td");
-                td.setAttribute("data-sort", bitcoin["category"]["donation"][wallet]["sent"]);
-                addBTC2USDHover(priceusd, td, bitcoin["category"]["donation"][wallet]["sent"], '0,0a', "#fc580c", isbtc=true);
-                tr.appendChild(td);
-
-                var td = document.createElement("td");
-                td.setAttribute("data-sort", bitcoin["category"]["donation"][wallet]["balance"]);
-                addBTC2USDHover(priceusd, td, isNaN(numeral(bitcoin["category"]["donation"][wallet]["balance"]).format('0'))? 0 : bitcoin["category"]["donation"][wallet]["balance"], '0,0a', "#5b92e5", isbtc=true);
-                tr.appendChild(td);
-
-                var td = document.createElement("td");
-                if (bitcoin["category"]["donation"][wallet]["lasttxepoch"]) {
+            function add_category_table(category, categorynode) {
+              var thead = document.createElement("thead");
+              var tr = document.createElement("tr");
+              //var th = document.createElement("th"); var text = document.createTextNode("#"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+              var th = document.createElement("th"); var text = document.createTextNode("VisSum"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+              var th = document.createElement("th"); var text = document.createTextNode("Wallet"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+              var th = document.createElement("th"); var text = document.createTextNode("Funds"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+              var th = document.createElement("th"); var text = document.createTextNode("LastActivity"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+              thead.appendChild(tr);
+              categorynode.appendChild(thead);
+              var tbody = document.createElement("tbody");
+              var i = 0;
+              Object.keys(bitcoin["category"][category]).forEach(function(wallet) {
+                if (bitcoin["category"][category][wallet]["txcount"] > 0) {
+                  var tr = document.createElement("tr");
+                  //var td = document.createElement("td");
+                  //var text = document.createTextNode(i+1 + ".");
+                  //td.appendChild(text);
+                  //tr.appendChild(td);
+                  var td = document.createElement("td");
+                  var span = document.createElement("span")
+                  span.setAttribute("class", "sparklines");
+                  var text = document.createTextNode(bitcoin["category"][category][wallet]["sparkid"]);
+                  span.appendChild(text);
+                  colorspark(span);
+                  td.appendChild(span);
+                  tr.appendChild(td);
+                  var td = document.createElement("td");
                   var link = document.createElement("a");
-                  var text = document.createTextNode(timeago.format(bitcoin["category"]["donation"][wallet]["lasttxepoch"]*1000));
-                  td.setAttribute("data-sort", bitcoin["category"]["donation"][wallet]["lasttxepoch"]);
+                  var text = document.createTextNode(truncateWithEllipses(wallet, 60));
                   link.appendChild(text);
-                  link.title = bitcoin["category"]["donation"][wallet]["lastseen"];
+                  var addr = bitcoin["category"][category][wallet]["addresses"].length > 1 ? "addresses" : "address";
+                  var txs = bitcoin["category"][category][wallet]["txcount"] > 1 ? "transactions" : "transaction";
+                  link.title = "'" + wallet + "' wallet has " + bitcoin["category"][category][wallet]["addresses"].length + " " + addr + " with " + numeral(bitcoin["category"][category][wallet]["txcount"]).format('0,0a') + " " + txs + ".";
                   link.style.color = "#000000";
                   td.appendChild(link);
-                } else {
-                  var text = document.createTextNode("");
-                  td.setAttribute("data-sort", 0);
-                  td.appendChild(text);
+                  tr.appendChild(td);
+                  var td = document.createElement("td");
+                  td.setAttribute("data-sort", bitcoin["category"][category][wallet]["balance"]);
+                  addBTC2USDHover(priceusd, td, bitcoin["category"][category][wallet]["received"], '0.00000000', "#5cb25e", isbtc=false); var para = document.createElement("p"); td.append(para);
+                  addBTC2USDHover(priceusd, td, bitcoin["category"][category][wallet]["sent"], '0.00000000', "#fc580c", isbtc=false); var para = document.createElement("p"); td.append(para);
+                  addBTC2USDHover(priceusd, td, isNaN(numeral(bitcoin["category"][category][wallet]["balance"]).format('0'))? 0 : bitcoin["category"][category][wallet]["balance"], '0.00000000', "#5b92e5", isbtc=false); var para = document.createElement("p"); td.append(para);
+                  tr.appendChild(td);
+                  var td = document.createElement("td");
+                  if (bitcoin["category"][category][wallet]["lasttx"]["epoch"]) {
+                    var summary = document.createElement("span");
+                    if (bitcoin["category"][category][wallet]["lasttx"]["summary"] > 0) {
+                      addBTC2USDHover(priceusd, summary, bitcoin["category"][category][wallet]["lasttx"]["summary"], '0.00000000', "#5cb25e", isbtc=false);
+                    } else if (bitcoin["category"][category][wallet]["lasttx"]["summary"] < 0) {
+                      addBTC2USDHover(priceusd, summary, bitcoin["category"][category][wallet]["lasttx"]["summary"], '0.00000000', "#fc580c", isbtc=false);
+                    } else {
+                      addBTC2USDHover(priceusd, summary, bitcoin["category"][category][wallet]["lasttx"]["summary"], '0.00000000', "#5b92e5", isbtc=false);
+                    }
+                    td.appendChild(summary);
+                    td.setAttribute("data-sort", bitcoin["category"][category][wallet]["lasttx"]["epoch"]);
+                    var para = document.createElement("p"); td.append(para);
+                    var link = document.createElement("a");
+                    link.title = bitcoin["category"][category][wallet]["lasttx"]["epochhuman"];
+                    link.text = "🔗 " + timeago.format(bitcoin["category"][category][wallet]["lasttx"]["epoch"]*1000);
+                    link.href = "https://mempool.space/tx/" + bitcoin["category"][category][wallet]["lasttx"]["hash"];
+                    td.appendChild(link);
+                  } else {
+                    var text = document.createTextNode("");
+                    td.setAttribute("data-sort", 0);
+                    td.appendChild(text);
+                  }
+                  tr.appendChild(td);
+                  tbody.appendChild(tr);
+                  i = i+1;
                 }
-                tr.appendChild(td);
-                tbody.appendChild(tr);
-                i = i+1;
-              }
-              donationtable.appendChild(tbody);
-            })
-
-            var populartable = document.getElementById("populartable");
-            var thead = document.createElement("thead");
-            var tr = document.createElement("tr");
-            //var th = document.createElement("th"); var text = document.createTextNode("#"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            var th = document.createElement("th"); var text = document.createTextNode("VisSum"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            var th = document.createElement("th"); var text = document.createTextNode("Wallet"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            var th = document.createElement("th"); var text = document.createTextNode("Received"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            var th = document.createElement("th"); var text = document.createTextNode("Sent"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            var th = document.createElement("th"); var text = document.createTextNode("Balance"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            var th = document.createElement("th"); var text = document.createTextNode("LastActivity"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            thead.appendChild(tr);
-            populartable.appendChild(thead);
-            var tbody = document.createElement("tbody");
-            var i = 0;
-            Object.keys(bitcoin["category"]["popular"]).forEach(function(wallet) {
-              if (bitcoin["category"]["popular"][wallet]["transaction"] > 0) {
-                var tr = document.createElement("tr");
-                //var td = document.createElement("td");
-                //var text = document.createTextNode(i+1 + ".");
-                //td.appendChild(text);
-                //tr.appendChild(td);
-                var td = document.createElement("td");
-                var span = document.createElement("span")
-                span.setAttribute("class", "sparklines");
-                var text = document.createTextNode(bitcoin["category"]["popular"][wallet]["sparkid"]);
-                span.appendChild(text);
-                colorspark(span);
-                td.appendChild(span);
-                tr.appendChild(td);
-                var td = document.createElement("td");
-                var link = document.createElement("a");
-                var text = document.createTextNode(truncateWithEllipses(wallet, 30));
-                link.appendChild(text);
-                var addr = bitcoin["category"]["popular"][wallet]["address"] > 1 ? "addresses" : "address";
-                var txs = bitcoin["category"]["popular"][wallet]["transaction"] > 1 ? "transactions" : "transaction";
-                link.title = "'" + wallet + "' wallet has " + bitcoin["category"]["popular"][wallet]["address"] + " " + addr + " with " + numeral(bitcoin["category"]["popular"][wallet]["transaction"]).format('0,0a') + " " + txs + ".";
-                link.style.color = "#000000";
-                td.appendChild(link);
-                tr.appendChild(td);
-
-                var td = document.createElement("td");
-                td.setAttribute("data-sort", bitcoin["category"]["popular"][wallet]["received"]);
-                addBTC2USDHover(priceusd, td, bitcoin["category"]["popular"][wallet]["received"], '0,0a', "#5cb25e", isbtc=true);
-                tr.appendChild(td);
-
-                var td = document.createElement("td");
-                td.setAttribute("data-sort", bitcoin["category"]["popular"][wallet]["sent"]);
-                addBTC2USDHover(priceusd, td, bitcoin["category"]["popular"][wallet]["sent"], '0,0a', "#fc580c", isbtc=true);
-                tr.appendChild(td);
-
-                var td = document.createElement("td");
-                td.setAttribute("data-sort", bitcoin["category"]["popular"][wallet]["balance"]);
-                addBTC2USDHover(priceusd, td, isNaN(numeral(bitcoin["category"]["popular"][wallet]["balance"]).format('0'))? 0 : bitcoin["category"]["popular"][wallet]["balance"], '0,0a', "#5b92e5", isbtc=true);
-                tr.appendChild(td);
-
-                var td = document.createElement("td");
-                if (bitcoin["category"]["popular"][wallet]["lasttxepoch"]) {
-                  var link = document.createElement("a");
-                  var text = document.createTextNode(timeago.format(bitcoin["category"]["popular"][wallet]["lasttxepoch"]*1000));
-                  td.setAttribute("data-sort", bitcoin["category"]["popular"][wallet]["lasttxepoch"]);
-                  link.appendChild(text);
-                  link.title = bitcoin["category"]["popular"][wallet]["lastseen"];
-                  link.style.color = "#000000";
-                  td.appendChild(link);
-                } else {
-                  var text = document.createTextNode("");
-                  td.setAttribute("data-sort", 0);
-                  td.appendChild(text);
-                }
-                tr.appendChild(td);
-                tbody.appendChild(tr);
-                i = i+1;
-              }
-              populartable.appendChild(tbody);
-            })
-
-            var ransomtable = document.getElementById("ransomtable");
-            var thead = document.createElement("thead");
-            var tr = document.createElement("tr");
-            //var th = document.createElement("th"); var text = document.createTextNode("#"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            var th = document.createElement("th"); var text = document.createTextNode("VisSum"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            var th = document.createElement("th"); var text = document.createTextNode("Wallet"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            var th = document.createElement("th"); var text = document.createTextNode("Received"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            var th = document.createElement("th"); var text = document.createTextNode("Sent"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            var th = document.createElement("th"); var text = document.createTextNode("Balance"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            var th = document.createElement("th"); var text = document.createTextNode("LastActivity"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-            thead.appendChild(tr);
-            ransomtable.appendChild(thead);
-            var tbody = document.createElement("tbody");
-            var i = 0;
-            Object.keys(bitcoin["category"]["ransom"]).forEach(function(wallet) {
-              if (bitcoin["category"]["ransom"][wallet]["transaction"] > 0) {
-                var tr = document.createElement("tr");
-                //var td = document.createElement("td");
-                //var text = document.createTextNode(i+1 + ".");
-                //td.appendChild(text);
-                //tr.appendChild(td);
-                var td = document.createElement("td");
-                var span = document.createElement("span")
-                span.setAttribute("class", "sparklines");
-                var text = document.createTextNode(bitcoin["category"]["ransom"][wallet]["sparkid"]);
-                span.appendChild(text);
-                colorspark(span);
-                td.appendChild(span);
-                tr.appendChild(td);
-                var td = document.createElement("td");
-                var link = document.createElement("a");
-                var text = document.createTextNode(truncateWithEllipses(wallet, 30));
-                link.appendChild(text);
-                var addr = bitcoin["category"]["ransom"][wallet]["address"] > 1 ? "addresses" : "address";
-                var txs = bitcoin["category"]["ransom"][wallet]["transaction"] > 1 ? "transactions" : "transaction";
-                link.title = "'" + wallet + "' wallet has " + bitcoin["category"]["ransom"][wallet]["address"] + " " + addr + " with " + numeral(bitcoin["category"]["ransom"][wallet]["transaction"]).format('0,0a') + " " + txs + ".";
-                link.style.color = "#000000";
-                td.appendChild(link);
-                tr.appendChild(td);
-
-                var td = document.createElement("td");
-                td.setAttribute("data-sort", bitcoin["category"]["ransom"][wallet]["received"]);
-                addBTC2USDHover(priceusd, td, bitcoin["category"]["ransom"][wallet]["received"], '0,0a', "#5cb25e", isbtc=true);
-                tr.appendChild(td);
-
-                var td = document.createElement("td");
-                td.setAttribute("data-sort", bitcoin["category"]["ransom"][wallet]["sent"]);
-                addBTC2USDHover(priceusd, td, bitcoin["category"]["ransom"][wallet]["sent"], '0,0a', "#fc580c", isbtc=true);
-                tr.appendChild(td);
-
-                var td = document.createElement("td");
-                td.setAttribute("data-sort", bitcoin["category"]["ransom"][wallet]["balance"]);
-                addBTC2USDHover(priceusd, td, isNaN(numeral(bitcoin["category"]["ransom"][wallet]["balance"]).format('0'))? 0 : bitcoin["category"]["ransom"][wallet]["balance"], '0,0a', "#5b92e5", isbtc=true);
-                tr.appendChild(td);
-
-                var td = document.createElement("td");
-                if (bitcoin["category"]["ransom"][wallet]["lasttxepoch"]) {
-                  var link = document.createElement("a");
-                  var text = document.createTextNode(timeago.format(bitcoin["category"]["ransom"][wallet]["lasttxepoch"]*1000));
-                  td.setAttribute("data-sort", bitcoin["category"]["ransom"][wallet]["lasttxepoch"]);
-                  link.appendChild(text);
-                  link.title = bitcoin["category"]["ransom"][wallet]["lastseen"];
-                  link.style.color = "#000000";
-                  td.appendChild(link);
-                } else {
-                  var text = document.createTextNode("");
-                  td.setAttribute("data-sort", 0);
-                  td.appendChild(text);
-                }
-                tr.appendChild(td);
-                tbody.appendChild(tr);
-                i = i+1;
-              }
-              ransomtable.appendChild(tbody);
-            })
-
+                categorynode.appendChild(tbody);
+              })
+            }
+            var donationtable = document.getElementById("donationtable"); add_category_table("donation", donationtable);
+            var populartable = document.getElementById("populartable"); add_category_table("popular", populartable);
+            var ransomtable = document.getElementById("ransomtable"); add_category_table("ransom", ransomtable);
             var statstable = document.getElementById("statstable");
             var statssort = new Tablesort(statstable);
             statssort.refresh();
@@ -607,8 +468,6 @@
             var ransomtable = document.getElementById("ransomtable");
             var ransomsort = new Tablesort(ransomtable);
             ransomsort.refresh();
-
-            //doBitnodesNodes();
 
             // last updated timestamp
             document.getElementById("lastupdate").innerText = "Last Update: " + bitcoin["last_update"];

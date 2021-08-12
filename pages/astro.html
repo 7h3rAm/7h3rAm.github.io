@@ -247,8 +247,7 @@
           function updateISS () {
             loadJson("https://api.wheretheiss.at/v1/satellites/25544?units=miles", function(response) {
               issapi = JSON.parse(response);
-              console.log(astro);
-
+              console.log(issapi);
               var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
               var now = new Date();
               var yyy = now.getFullYear();
