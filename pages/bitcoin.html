@@ -17,6 +17,26 @@
     <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
     <link rel="stylesheet" href="/static/css/tablesort.css"/>
     <link rel="stylesheet" href="/static/css/leaflet.css"/>
+    <style>
+      .svgcontainer {
+        font: 9pt FiraCode Nerd Font;
+        margin: 0 auto;
+        display: inline-block;
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+      }
+      .node circle {
+        fill: #e8e6d5;
+        stroke: #999999;
+        stroke-width: 2px;
+      }
+      .link {
+        fill: none;
+        stroke: #8897f4;
+        stroke-width: 2px;
+      }
+    </style>
    </head>
   <body>
     <div class="body">
@@ -35,17 +55,15 @@
       <div class="content">
         <h1 class="h1"><img class="btcicon" alt="₿" src="https://raw.githubusercontent.com/7h3rAm/datastore/master/Bitcoin_evergreen.png"> Bitcoin</h1>
           <ul class="active">
-
             <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>📊 Stats</h2><ul class="active nested">
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>⛓️ Blockchain</h3><ul class="active nested">
                 <li><table class="active nested astrotabclass">
                   <tr>
-                    <th>Height</th>
-                    <th>Issued</th>
-                    <th>Outputs</th>
-                    <th>Difficulty</th>
-                    <th>Hashrate</th>
-                    <th>Size</th>
+                    <th><b>Height</b></th>
+                    <th><b>Issued</b></th>
+                    <th><b>Outputs</b></th>
+                    <th><b>Difficulty</b></th>
+                    <th><b>Hashrate</b></th>
+                    <th><b>Size</b></th>
                   </tr>
                   <tr>
                     <td id="blockchain_height"></td>
@@ -56,66 +74,14 @@
                     <td id="blockchain_size"></td>
                   </tr>
                 </table></li>
-
-                <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>⌚ 24h Stats</h3><ul class="active nested">
-                  <li><table class="active nested astrotabclass">
-                    <tr>
-                      <th>Blocks</th>
-                      <th>Transactions</th>
-                      <th>Inflation</th>
-                      <th>Volume</th>
-                    </tr>
-                    <tr>
-                      <td id="blockchain_blocks"></td>
-                      <td id="blockchain_transactions"></td>
-                      <td id="blockchain_inflation"></td>
-                      <td id="blockchain_volume"></td>
-                    </tr>
-                  </table></li>
-                </ul></li>
-
-                <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🗃️ Mempool</h3><ul class="active nested">
-                  <li><table class="active nested astrotabclass">
-                    <tr>
-                      <th>Transactions</th>
-                      <th>Size</th>
-                      <th>Tps</th>
-                      <th>Fee</th>
-                      <th>Output</th>
-                    </tr>
-                    <tr>
-                      <td id="mempool_transactions"></td>
-                      <td id="mempool_size"></td>
-                      <td id="mempool_tps"></td>
-                      <td id="mempool_fee"></td>
-                      <td id="mempool_output"></td>
-                    </tr>
-                  </table></li>
-                </ul></li>
-                <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>💳 Transactions</h3><ul class="active nested">
-                  <li><table class="active nested astrotabclass">
-                    <tr>
-                      <th>Count</th>
-                      <th>Average Fee (24h)</th>
-                      <th>Median Fee (24h)</th>
-                      <th>Suggested Fee</th>
-                    </tr>
-                    <tr>
-                      <td id="txs_count"></td>
-                      <td id="txs_avgfee"></td>
-                      <td id="txs_medfee"></td>
-                      <td id="txs_sugfee"></td>
-                    </tr>
-                  </table></li>
-                </ul></li>
                 <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>⌛ Halvening</h3><ul class="active nested">
                   <li><table class="active nested astrotabclass">
                     <tr>
-                      <th>Current Height</th>
-                      <th>Current Reward</th>
-                      <th>Halvening Height</th>
-                      <th>Halvening Reward</th>
-                      <th>Time Estimate</th>
+                      <th><b>Current Height</b></th>
+                      <th><b>Current Reward</b></th>
+                      <th><b>Halvening Height</b></th>
+                      <th><b>Halvening Reward</b></th>
+                      <th><b>Time Estimate</b></th>
                     </tr>
                     <tr>
                       <td id="hlvng_currheight"></td>
@@ -129,10 +95,10 @@
                 <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🎭 Market</h3><ul class="active nested">
                   <li><table class="active nested astrotabclass">
                     <tr>
-                      <th>Price</th>
-                      <th>Change (24h)</th>
-                      <th>Capitalization</th>
-                      <th>Dominance</th>
+                      <th><b>Price</b></th>
+                      <th><b>Change (24h)</b></th>
+                      <th><b>Capitalization</b></th>
+                      <th><b>Dominance</b></th>
                     </tr>
                     <tr>
                       <td id="market_price"></td>
@@ -142,17 +108,63 @@
                     </tr>
                   </table></li>
                 </ul></li>
-              </ul></li>
-
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🧮 Nodes</h3><ul class="active nested">
-                <li><p class="active nested">Data provided courtesy of <a href="https://bitnodes.io/">Bitnodes</a> team.</p></li>
-                <li><div id="nodesmap" style="width:100%; height:450px; border:1px solid #766e6b;" class="mapclass"></div></li>
-              </ul></li>
+                <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>⌚ 24h Stats</h3><ul class="active nested">
+                  <li><table class="active nested astrotabclass">
+                    <tr>
+                      <th><b>Blocks</b></th>
+                      <th><b>Transactions</b></th>
+                      <th><b>Inflation</b></th>
+                      <th><b>Volume</b></th>
+                    </tr>
+                    <tr>
+                      <td id="blockchain_blocks"></td>
+                      <td id="blockchain_transactions"></td>
+                      <td id="blockchain_inflation"></td>
+                      <td id="blockchain_volume"></td>
+                    </tr>
+                  </table></li>
+                </ul></li>
+                <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🗃️ Mempool</h3><ul class="active nested">
+                  <li><table class="active nested astrotabclass">
+                    <tr>
+                      <th><b>Transactions</b></th>
+                      <th><b>Size</b></th>
+                      <th><b>Tps</b></th>
+                      <th><b>Fee</b></th>
+                      <th><b>Output</b></th>
+                    </tr>
+                    <tr>
+                      <td id="mempool_transactions"></td>
+                      <td id="mempool_size"></td>
+                      <td id="mempool_tps"></td>
+                      <td id="mempool_fee"></td>
+                      <td id="mempool_output"></td>
+                    </tr>
+                  </table></li>
+                </ul></li>
+                <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>💳 Transactions</h3><ul class="active nested">
+                  <li><table class="active nested astrotabclass">
+                    <tr>
+                      <th><b>Count</b></th>
+                      <th><b>Average Fee (24h)</b></th>
+                      <th><b>Median Fee (24h)</b></th>
+                      <th><b>Suggested Fee</b></th>
+                    </tr>
+                    <tr>
+                      <td id="txs_count"></td>
+                      <td id="txs_avgfee"></td>
+                      <td id="txs_medfee"></td>
+                      <td id="txs_sugfee"></td>
+                    </tr>
+                  </table></li>
+                </ul></li>
+                <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🧮 Nodes</h3><ul class="active nested">
+                  <li><p class="active nested">Data provided courtesy of <a href="https://bitnodes.io/">Bitnodes</a> team.</p></li>
+                  <li><div id="nodesmap" style="width:100%; height:450px; border:1px solid #766e6b;" class="mapclass"></div></li>
+                </ul></li>
             </ul></li>
-
             <li><h2 class="h2 collapsible expanded" onclick=toggle(this);><a id="wallets"></a>💼 Wallets</h2><ul class="active nested">
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>📄 Summary</h3><ul class="active nested">
-                <li><p class="active nested">Tracking <code id="count_wallet"></code> Bitcoin wallets (<code id="count_address"></code> addresses) with a current balance of <code id="count_balance"></code></p></li>
                 <li><table id="statstable" class="active nested astrotabclass">
                   <thead><tr>
                     <th><b>Category</b></th>
@@ -185,10 +197,20 @@
                     <td id="count_received_ransom"></td>
                     <td id="count_sent_ransom"></td>
                     <td id="count_balance_ransom"></td>
+                  </tr>
+                  <tr data-sort-method="none">
+                    <td><a href="#ransom"><b>💼 Total</b></td>
+                    <td id="count_wallet"></td>
+                    <td id="count_address"></td>
+                    <td id="count_received"></td>
+                    <td id="count_sent"></td>
+                    <td id="count_balance"></td>
                   </tr></tbody>
                 </table></li>
               </ul></li>
-
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🗿 Graph</h3><ul class="active nested">
+                <li><div id="walletgraph" class="svgcontainer"></div></li>
+              </ul></li>
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);><a id="donation"></a>🙏 Donation</h3><ul class="active nested">
                 <li><table id="donationtable" class="active nested astrotabclass"></table></li>
               </ul></li>
@@ -199,7 +221,6 @@
                 <li><table id="ransomtable" class="active nested astrotabclass"></table></li>
               </ul></li>
             </ul></li>
-
           </ul>
 
       <p style="float:right;"><code id="lastupdate"></code></p>
@@ -210,6 +231,183 @@
       <script type="text/javascript" src="/static/js/numeral.min.js"></script>
       <script type="text/javascript" src="/static/js/leaflet.js"></script>
       <script type="text/javascript" src="/static/js/leaflet.terminator.js"></script>
+
+      <script src="https://d3js.org/d3.v4.js"></script>
+      <script type="text/javascript">
+        function responsivefy(svg) {
+          // https://brendansudol.com/writing/responsive-d3
+          // get container + svg aspect ratio
+          var container = d3.select(svg.node().parentNode),
+            width = parseInt(svg.style("width")),
+            height = parseInt(svg.style("height")),
+            aspect = width / height;
+          // add viewBox and preserveAspectRatio properties,
+          // and call resize so that svg resizes on inital page load
+          svg.attr("viewBox", "0 0 " + width + " " + height)
+            .attr("perserveAspectRatio", "xMinYMid")
+            .call(resize);
+          // to register multiple listeners for same event type, 
+          // you need to add namespace, i.e., 'click.foo'
+          // necessary if you call invoke this function for multiple svgs
+          // api docs: https://github.com/mbostock/d3/wiki/Selections#on
+          d3.select(window).on("resize." + container.attr("id"), resize);
+          // get width of container and resize svg to fit it
+          function resize() {
+            var targetWidth = parseInt(container.style("width"));
+            svg.attr("width", targetWidth);
+            svg.attr("height", Math.round(targetWidth / aspect));
+          }
+        }
+
+        // Set the dimensions and margins of the diagram
+        var margin = {top: 30, right: 90, bottom: 30, left: 120},
+            width = 960 - margin.left - margin.right,
+            height = 720 - margin.top - margin.bottom;
+
+        var svg = d3.select("#walletgraph").append("svg")
+            .attr("width", width + margin.right + margin.left)
+            .attr("height", height + margin.top + margin.bottom)
+            .call(responsivefy)
+            .call(d3.zoom().on("zoom", function () {
+               svg.attr("transform", d3.event.transform)
+            }))
+          .append("g")
+            .attr("transform", "translate("
+                  + margin.left + "," + margin.top + ")");
+
+        var i = 0,
+            duration = 750,
+            root;
+
+        // declares a tree layout and assigns the size
+        var treemap = d3.tree().size([height, width]);
+
+        // Assigns parent, children, height, depth
+        var treeData, root;
+        function inittree(jsondata) {
+          treeData = jsondata.tree;
+          console.log(treeData);
+          root = d3.hierarchy(treeData, function(d) { return d.children; });
+          root.x0 = height / 2;
+          root.y0 = 0;
+          update(root);
+        }
+        d3.json("walletgraph2.json", inittree);
+
+        // Collapse the node and all it's children
+        function collapse(d) {
+          if(d.children) {
+            d._children = d.children
+            d._children.forEach(collapse)
+            d.children = null
+          }
+        }
+
+        function update(source) {
+          // Assigns the x and y position for the nodes
+          var treeData = treemap(root);
+
+          // Compute the new tree layout.
+          var nodes = treeData.descendants(),
+              links = treeData.descendants().slice(1);
+
+          // Normalize for fixed-depth.
+          nodes.forEach(function(d){ d.y = d.depth * 180});
+
+          // Update the nodes...
+          var node = svg.selectAll('g.node').data(nodes, function(d) {return d.id || (d.id = ++i); });
+
+          // Enter any new modes at the parent's previous position.
+          var nodeEnter = node.enter().append('g').attr('class', 'node').attr("transform", function(d) {
+            return "translate(" + source.y0 + "," + source.x0 + ")";
+          }).on('click', click);
+
+          // Add Circle for the nodes
+          nodeEnter.append("circle").attr("r", function(d) { return d.data.size; }).style("stroke", function(d) { return d.data.nodecolor; }).style("fill", function(d) { return d.data.fillcolor; }).append("svg:title").text(function(d, i) { return d.data.tooltip; });
+
+          // Add labels for the nodes
+          nodeEnter.append('text').attr("dy", ".35em").attr("x", function(d) {
+              return d.children || d._children ? d.data.size*-1-5 : d.data.size+5;
+          }).attr("text-anchor", function(d) {
+            return d.children || d._children ? "end" : "start";
+          }).text(function(d) { return d.data.outlabel; });
+          nodeEnter.append('text').attr("dy", ".35em").attr("x", function(d) {
+            return (-1*(d.data.size/2))-5;
+          }).attr("y", function(d) {
+              return d.data.size+10;
+          }).text(function(d) { return d.data.inlabel; });
+
+          // UPDATE
+          var nodeUpdate = nodeEnter.merge(node);
+
+          // Transition to the proper position for the node
+          nodeUpdate.transition().duration(duration).attr("transform", function(d) {
+            return "translate(" + d.y + "," + d.x + ")";
+          });
+
+          // Update the node attributes and style
+          nodeUpdate.select('circle.node').attr('r', 10).attr('cursor', 'pointer');
+
+          // Remove any exiting nodes
+          var nodeExit = node.exit().transition().duration(duration).attr("transform", function(d) {
+            return "translate(" + source.y + "," + source.x + ")";
+          }).remove();
+
+          // On exit reduce the node circles size to 0
+          nodeExit.select('circle').attr('r', 1e-6);
+
+          // On exit reduce the opacity of text labels
+          nodeExit.select('text').style('fill-opacity', 1e-6);
+
+          // Update the links...
+          var link = svg.selectAll('path.link').data(links, function(d) { return d.id; });
+
+          // Enter any new links at the parent's previous position.
+          var linkEnter = link.enter().insert('path', "g").attr("class", "link").style("stroke", function(d) { return d.data.edgecolor; }).attr('d', function(d) {
+            var o = { x: source.x0, y: source.y0 }
+            return diagonal(o, o)
+          });
+
+          // UPDATE
+          var linkUpdate = linkEnter.merge(link);
+
+          // Transition back to the parent element position
+          linkUpdate.transition().duration(duration).attr('d', function(d) { return diagonal(d, d.parent) });
+
+          // Remove any exiting links
+          var linkExit = link.exit().transition().duration(duration).attr('d', function(d) {
+            var o = { x: source.x, y: source.y }
+            return diagonal(o, o)
+          }).remove();
+
+          // Store the old positions for transition.
+          nodes.forEach(function(d) {
+            d.x0 = d.x;
+            d.y0 = d.y;
+          });
+
+          // Creates a curved (diagonal) path from parent to the child nodes
+          function diagonal(s, d) {
+            path = `M ${s.y} ${s.x}
+                    C ${(s.y + d.y) / 2} ${s.x},
+                      ${(s.y + d.y) / 2} ${d.x},
+                      ${d.y} ${d.x}`
+            return path
+          }
+
+          // Toggle children on click.
+          function click(d) {
+            if (d.children) {
+              d._children = d.children;
+              d.children = null;
+            } else {
+              d.children = d._children;
+              d._children = null;
+            }
+            update(d);
+          }
+        }
+      </script>
 
       <script>
         numeral.zeroFormat('0');
@@ -229,7 +427,7 @@
           XmlHttpRequest.send(null);
         }
 
-        function addBTC2USDHover(priceusd, node, value, format="0,0a", color="#f7931a", isbtc=false) {
+        function addBTC2USDHover(priceusd, node, value, format="0,0a", color="#f7931a", isbtc=false, fontbold=false) {
           format = format? format : "0,0a";
           color = color? color : "#f7931a";
           var btcicon = document.createElement("img");
@@ -256,6 +454,9 @@
           } else {
             node.appendChild(btcicon);
             node.appendChild(link);
+          }
+          if (fontbold) {
+            link.style.fontWeight = "bold";
           }
         }
 
@@ -333,7 +534,7 @@
                 } else {
                   clearnet += 1;
                   marker = new L.marker([bitcoin["nodes"][i]["latitude"], bitcoin["nodes"][i]["longitude"]], markerOptions);
-                  var text = '<a href="https://bitnodes.io/nodes/"><b>' + bitcoin["nodes"][i]["ipurl"] + "</b></a><br/>UserAgent: " + bitcoin["nodes"][i]["useragent"] + " (" + bitcoin["nodes"][i]["protoversion"] + ")" + "<br/>Height: " + bitcoin["nodes"][i]["height"] + "<br/>Connected: " + bitcoin["nodes"][i]["connectedsincehuman"] + " (" + timeago.format(bitcoin["nodes"][i]["connectedsince"]*1000) + ")";
+                  var text = '<a href="https://bitnodes.io/nodes/"><b>' + bitcoin["nodes"][i]["ipurl"] + "</b></a><br/><b>UserAgent</b>: " + bitcoin["nodes"][i]["useragent"] + " (" + bitcoin["nodes"][i]["protoversion"] + ")" + "<br/><b>Height</b>: " + bitcoin["nodes"][i]["height"] + "<br/><b>Connected</b>: " + bitcoin["nodes"][i]["connectedsincehuman"] + " (" + timeago.format(bitcoin["nodes"][i]["connectedsince"]*1000) + ")";
                   marker.bindPopup(text).addTo(nodesmap);
                   bounds.extend([bitcoin["nodes"][i]["latitude"], bitcoin["nodes"][i]["longitude"]]);
                 }
@@ -357,27 +558,31 @@
               nodesmap.fitBounds(bounds)
             }
 
-            document.getElementById("count_wallet").innerText = numeral(bitcoin["stats"]["count_wallet"]).format('0,0a');
-            document.getElementById("count_address").innerText = numeral(bitcoin["stats"]["count_address"]).format('0,0a');
-            addBTC2USDHover(priceusd, "count_balance", bitcoin["stats"]["count_balance"], '0,0a', color=null, isbtc=false);
+            document.getElementById("count_wallet").style.fontWeight = "bold";
+            document.getElementById("count_address").style.fontWeight = "bold";
+
+            document.getElementById("count_wallet").innerText = bitcoin["stats"]["count_wallet"];
+            document.getElementById("count_address").innerText = bitcoin["stats"]["count_address"];
+            addBTC2USDHover(priceusd, "count_received", bitcoin["stats"]["count_received"], '0,0a', "#5cb25e", isbtc=false, fontbold=true);
+            addBTC2USDHover(priceusd, "count_sent", bitcoin["stats"]["count_sent"], '0,0a', "#fc580c", isbtc=false, fontbold=true);
+            addBTC2USDHover(priceusd, "count_balance", bitcoin["stats"]["count_balance"], '0,0a', "#5b92e5", isbtc=false, fontbold=true);
 
             document.getElementById("count_wallet_donation").innerText = bitcoin["stats"]["donation"]["count_wallet"];
             document.getElementById("count_address_donation").innerText = bitcoin["stats"]["donation"]["count_address"];
+            addBTC2USDHover(priceusd, "count_received_donation", bitcoin["stats"]["donation"]["count_received"], '0,0a', "#5cb25e", isbtc=false);
+            addBTC2USDHover(priceusd, "count_sent_donation", bitcoin["stats"]["donation"]["count_sent"], '0,0a', "#fc580c", isbtc=false);
+            addBTC2USDHover(priceusd, "count_balance_donation", bitcoin["stats"]["donation"]["count_balance"], '0,0a', "#5b92e5", isbtc=false);
+
             document.getElementById("count_wallet_popular").innerText = bitcoin["stats"]["popular"]["count_wallet"];
             document.getElementById("count_address_popular").innerText = bitcoin["stats"]["popular"]["count_address"];
+            addBTC2USDHover(priceusd, "count_received_popular", bitcoin["stats"]["popular"]["count_received"], '0,0a', "#5cb25e", isbtc=false);
+            addBTC2USDHover(priceusd, "count_sent_popular", bitcoin["stats"]["popular"]["count_sent"], '0,0a', "#fc580c", isbtc=false);
+            addBTC2USDHover(priceusd, "count_balance_popular", bitcoin["stats"]["popular"]["count_balance"], '0,0a', "#5b92e5", isbtc=false);
+
             document.getElementById("count_wallet_ransom").innerText = bitcoin["stats"]["ransom"]["count_wallet"];
             document.getElementById("count_address_ransom").innerText = bitcoin["stats"]["ransom"]["count_address"];
-
-            addBTC2USDHover(priceusd, "count_received_donation", bitcoin["stats"]["donation"]["count_received"], '0,0a', "#5cb25e", isbtc=false);
-            addBTC2USDHover(priceusd, "count_received_popular", bitcoin["stats"]["popular"]["count_received"], '0,0a', "#5cb25e", isbtc=false);
             addBTC2USDHover(priceusd, "count_received_ransom", bitcoin["stats"]["ransom"]["count_received"], '0,0a', "#5cb25e", isbtc=false);
-
-            addBTC2USDHover(priceusd, "count_sent_donation", bitcoin["stats"]["donation"]["count_sent"], '0,0a', "#fc580c", isbtc=false);
-            addBTC2USDHover(priceusd, "count_sent_popular", bitcoin["stats"]["popular"]["count_sent"], '0,0a', "#fc580c", isbtc=false);
             addBTC2USDHover(priceusd, "count_sent_ransom", bitcoin["stats"]["ransom"]["count_sent"], '0,0a', "#fc580c", isbtc=false);
-
-            addBTC2USDHover(priceusd, "count_balance_donation", bitcoin["stats"]["donation"]["count_balance"], '0,0a', "#5b92e5", isbtc=false);
-            addBTC2USDHover(priceusd, "count_balance_popular", bitcoin["stats"]["popular"]["count_balance"], '0,0a', "#5b92e5", isbtc=false);
             addBTC2USDHover(priceusd, "count_balance_ransom", bitcoin["stats"]["ransom"]["count_balance"], '0,0a', "#5b92e5", isbtc=false);
 
             function add_category_table(category, categorynode) {
@@ -386,7 +591,10 @@
               //var th = document.createElement("th"); var text = document.createTextNode("#"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
               var th = document.createElement("th"); var text = document.createTextNode("VisSum"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
               var th = document.createElement("th"); var text = document.createTextNode("Wallet"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-              var th = document.createElement("th"); var text = document.createTextNode("Funds"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+              //var th = document.createElement("th"); var text = document.createTextNode("Funds"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+              var th = document.createElement("th"); var text = document.createTextNode("Received"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+              var th = document.createElement("th"); var text = document.createTextNode("Sent"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+              var th = document.createElement("th"); var text = document.createTextNode("Balance"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
               var th = document.createElement("th"); var text = document.createTextNode("LastActivity"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
               thead.appendChild(tr);
               categorynode.appendChild(thead);
@@ -417,12 +625,30 @@
                   link.style.color = "#000000";
                   td.appendChild(link);
                   tr.appendChild(td);
+
+                  //var td = document.createElement("td");
+                  //td.setAttribute("data-sort", bitcoin["category"][category][wallet]["balance"]);
+                  //addBTC2USDHover(priceusd, td, bitcoin["category"][category][wallet]["received"], '0.00000000', "#5cb25e", isbtc=false); var para = document.createElement("p"); td.append(para);
+                  //addBTC2USDHover(priceusd, td, bitcoin["category"][category][wallet]["sent"], '0.00000000', "#fc580c", isbtc=false); var para = document.createElement("p"); td.append(para);
+                  //addBTC2USDHover(priceusd, td, isNaN(numeral(bitcoin["category"][category][wallet]["balance"]).format('0'))? 0 : bitcoin["category"][category][wallet]["balance"], '0.00000000', "#5b92e5", isbtc=false); var para = document.createElement("p"); td.append(para);
+                  //tr.appendChild(td);
+
+                  var td = document.createElement("td");
+                  td.setAttribute("data-sort", bitcoin["category"][category][wallet]["received"]);
+                  addBTC2USDHover(priceusd, td, bitcoin["category"][category][wallet]["received"], '0.00000000', "#5cb25e", isbtc=false);
+                  tr.appendChild(td);
+
+                  var td = document.createElement("td");
+                  td.setAttribute("data-sort", bitcoin["category"][category][wallet]["sent"]);
+                  addBTC2USDHover(priceusd, td, bitcoin["category"][category][wallet]["sent"], '0.00000000', "#fc580c", isbtc=false);
+                  tr.appendChild(td);
+
                   var td = document.createElement("td");
                   td.setAttribute("data-sort", bitcoin["category"][category][wallet]["balance"]);
-                  addBTC2USDHover(priceusd, td, bitcoin["category"][category][wallet]["received"], '0.00000000', "#5cb25e", isbtc=false); var para = document.createElement("p"); td.append(para);
-                  addBTC2USDHover(priceusd, td, bitcoin["category"][category][wallet]["sent"], '0.00000000', "#fc580c", isbtc=false); var para = document.createElement("p"); td.append(para);
-                  addBTC2USDHover(priceusd, td, isNaN(numeral(bitcoin["category"][category][wallet]["balance"]).format('0'))? 0 : bitcoin["category"][category][wallet]["balance"], '0.00000000', "#5b92e5", isbtc=false); var para = document.createElement("p"); td.append(para);
+                  addBTC2USDHover(priceusd, td, isNaN(numeral(bitcoin["category"][category][wallet]["balance"]).format('0'))? 0 : bitcoin["category"][category][wallet]["balance"], '0.00000000', "#5b92e5", isbtc=false);
+
                   tr.appendChild(td);
+
                   var td = document.createElement("td");
                   if (bitcoin["category"][category][wallet]["lasttx"]["epoch"]) {
                     var summary = document.createElement("span");
@@ -471,11 +697,8 @@
 
             // last updated timestamp
             document.getElementById("lastupdate").innerText = "Last Update: " + bitcoin["last_update"];
-
           });
-
           });
-
         }
 
         // https://stackoverflow.com/a/54248600/1079836

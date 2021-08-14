@@ -1,0 +1,355 @@
+{
+  "expressions": {
+    "blacklist_customer_ctdb": 10,
+    "not blacklist_customer_ctdb and epp_bitdefender_yara": 9,
+    "not blacklist_customer_ctdb and not epp_bitdefender_yara and cti_rlabs and exploit_rootkit_ransomware": 9,
+    "not blacklist_customer_ctdb and not epp_bitdefender_yara and cti_rlabs and not exploit_rootkit_ransomware and hacktool_infector_worm_spyware": 8,
+    "not blacklist_customer_ctdb and not epp_bitdefender_yara and cti_rlabs and not exploit_rootkit_ransomware and not hacktool_infector_worm_spyware and trojan_virus_rat_keylogger": 7,
+    "not blacklist_customer_ctdb and not epp_bitdefender_yara and cti_rlabs and not exploit_rootkit_ransomware and not hacktool_infector_worm_spyware and not trojan_virus_rat_keylogger and pua_pup_adware": 6,
+    "not blacklist_customer_ctdb and not epp_bitdefender_yara and cti_rlabs and not exploit_rootkit_ransomware and not hacktool_infector_worm_spyware and not trojan_virus_rat_keylogger and not pua_pup_adware": 5,
+    "not blacklist_customer_ctdb and not epp_bitdefender_yara and not cti_rlabs and cti_cyren": 7,
+    "not blacklist_customer_ctdb and not epp_bitdefender_yara and not cti_rlabs and not cti_cyren and suspicious_analytics and active_threat": 3,
+    "not blacklist_customer_ctdb and not epp_bitdefender_yara and not cti_rlabs and not cti_cyren and suspicious_analytics and not active_threat and persistent_threat": 2,
+    "not blacklist_customer_ctdb and not epp_bitdefender_yara and not cti_rlabs and not cti_cyren and suspicious_analytics and not active_threat and not persistent_threat": 0,
+    "not blacklist_customer_ctdb and not epp_bitdefender_yara and not cti_rlabs and not cti_cyren and not suspicious_analytics": 0,
+    "rule_engine_siddhi": -1,
+    "not rule_engine_siddhi": 0
+  },
+  "tree": {
+    "outlabel": "START",
+    "size": 10,
+    "edgecolor": "#898989",
+    "nodecolor": "#595959",
+    "inlabel": "",
+    "score": -1,
+    "severity": "unknown",
+    "fillcolor": "#dedede",
+    "tooltip": "QEDR Threat Score (v0.1):\n\nTakes persistent_threat and runnning_process based correlated event-chains as input",
+    "children": [
+      {
+        "outlabel": "blacklist_customer_ctdb",
+        "size": 10,
+        "edgecolor": "#898989",
+        "nodecolor": "#595959",
+        "inlabel": "",
+        "score": -1,
+        "severity": "unknown",
+        "fillcolor": "#c3daf7",
+        "tooltip": "Blacklisted via Customer-defined list or Qualys Cloud Threat DB",
+        "children": [
+          {
+            "outlabel": "STOP",
+            "size": 10,
+            "edgecolor": "#48b2a4",
+            "nodecolor": "#595959",
+            "inlabel": 10,
+            "score": 10,
+            "severity": "critical",
+            "fillcolor": "#fbbfc5",
+            "tooltip": "blacklist_customer_ctdb",
+            "children": []
+          },
+          {
+            "outlabel": "epp_bitdefender_yara",
+            "size": 10,
+            "edgecolor": "#f37f97",
+            "nodecolor": "#595959",
+            "inlabel": "",
+            "score": -1,
+            "severity": "unknown",
+            "fillcolor": "#c3daf7",
+            "tooltip": "Detection via Bitdefender/Yara EPP Engine",
+            "children": [
+              {
+                "outlabel": "STOP",
+                "size": 10,
+                "edgecolor": "#48b2a4",
+                "nodecolor": "#595959",
+                "inlabel": 9,
+                "score": 9,
+                "severity": "high",
+                "fillcolor": "#fbbfc5",
+                "tooltip": "not blacklist_customer_ctdb and epp_bitdefender_yara",
+                "children": []
+              },
+              {
+                "outlabel": "cti_rlabs",
+                "size": 10,
+                "edgecolor": "#f37f97",
+                "nodecolor": "#595959",
+                "inlabel": "",
+                "score": -1,
+                "severity": "unknown",
+                "fillcolor": "#c3daf7",
+                "tooltip": "Detection via Reversing Labs",
+                "children": [
+                  {
+                    "outlabel": "exploit_rootkit_ransomware",
+                    "size": 10,
+                    "edgecolor": "#48b2a4",
+                    "nodecolor": "#595959",
+                    "inlabel": "",
+                    "score": -1,
+                    "severity": "unknown",
+                    "fillcolor": "#c3daf7",
+                    "tooltip": "Detection via Reversing Labs malware category:\n\nExploit\nRootkit/Bootkit\nWorm",
+                    "children": [
+                      {
+                        "outlabel": "STOP",
+                        "size": 10,
+                        "edgecolor": "#48b2a4",
+                        "nodecolor": "#595959",
+                        "inlabel": 9,
+                        "score": 9,
+                        "severity": "high",
+                        "fillcolor": "#fbbfc5",
+                        "tooltip": "not blacklist_customer_ctdb and not epp_bitdefender_yara and cti_rlabs and exploit_rootkit_ransomware",
+                        "children": []
+                      },
+                      {
+                        "outlabel": "hacktool_infector_worm_spyware",
+                        "size": 10,
+                        "edgecolor": "#f37f97",
+                        "nodecolor": "#595959",
+                        "inlabel": "",
+                        "score": -1,
+                        "severity": "unknown",
+                        "fillcolor": "#c3daf7",
+                        "tooltip": "Detection via Reversing Labs malware category:\n\nHacktool\nInfector\nRansomware",
+                        "children": [
+                          {
+                            "outlabel": "STOP",
+                            "size": 10,
+                            "edgecolor": "#48b2a4",
+                            "nodecolor": "#595959",
+                            "inlabel": 8,
+                            "score": 8,
+                            "severity": "high",
+                            "fillcolor": "#fbbfc5",
+                            "tooltip": "not blacklist_customer_ctdb and not epp_bitdefender_yara and cti_rlabs and not exploit_rootkit_ransomware and hacktool_infector_worm_spyware",
+                            "children": []
+                          },
+                          {
+                            "outlabel": "trojan_virus_rat_keylogger",
+                            "size": 10,
+                            "edgecolor": "#f37f97",
+                            "nodecolor": "#595959",
+                            "inlabel": "",
+                            "score": -1,
+                            "severity": "unknown",
+                            "fillcolor": "#c3daf7",
+                            "tooltip": "Detection via Reversing Labs malware category:\n\nTrojan\nVirus\nRemote Admin Tool\nKeylogger",
+                            "children": [
+                              {
+                                "outlabel": "STOP",
+                                "size": 10,
+                                "edgecolor": "#48b2a4",
+                                "nodecolor": "#595959",
+                                "inlabel": 7,
+                                "score": 7,
+                                "severity": "high",
+                                "fillcolor": "#fbbfc5",
+                                "tooltip": "not blacklist_customer_ctdb and not epp_bitdefender_yara and cti_rlabs and not exploit_rootkit_ransomware and not hacktool_infector_worm_spyware and trojan_virus_rat_keylogger",
+                                "children": []
+                              },
+                              {
+                                "outlabel": "pua_pup_adware",
+                                "size": 10,
+                                "edgecolor": "#f37f97",
+                                "nodecolor": "#595959",
+                                "inlabel": "",
+                                "score": -1,
+                                "severity": "unknown",
+                                "fillcolor": "#c3daf7",
+                                "tooltip": "Detection via Reversing Labs malware category:\n\nPUA/PUP\nAdware",
+                                "children": [
+                                  {
+                                    "outlabel": "STOP",
+                                    "size": 10,
+                                    "edgecolor": "#48b2a4",
+                                    "nodecolor": "#595959",
+                                    "inlabel": 6,
+                                    "score": 6,
+                                    "severity": "medium",
+                                    "fillcolor": "#fed9b5",
+                                    "tooltip": "not blacklist_customer_ctdb and not epp_bitdefender_yara and cti_rlabs and not exploit_rootkit_ransomware and not hacktool_infector_worm_spyware and not trojan_virus_rat_keylogger and pua_pup_adware",
+                                    "children": []
+                                  },
+                                  {
+                                    "outlabel": "STOP",
+                                    "size": 10,
+                                    "edgecolor": "#f37f97",
+                                    "nodecolor": "#595959",
+                                    "inlabel": 5,
+                                    "score": 5,
+                                    "severity": "medium",
+                                    "fillcolor": "#fed9b5",
+                                    "tooltip": "not blacklist_customer_ctdb and not epp_bitdefender_yara and cti_rlabs and not exploit_rootkit_ransomware and not hacktool_infector_worm_spyware and not trojan_virus_rat_keylogger and not pua_pup_adware",
+                                    "children": []
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "outlabel": "cti_cyren",
+                    "size": 10,
+                    "edgecolor": "#f37f97",
+                    "nodecolor": "#595959",
+                    "inlabel": "",
+                    "score": -1,
+                    "severity": "unknown",
+                    "fillcolor": "#c3daf7",
+                    "tooltip": "Detection via Cyren",
+                    "children": [
+                      {
+                        "outlabel": "STOP",
+                        "size": 10,
+                        "edgecolor": "#48b2a4",
+                        "nodecolor": "#595959",
+                        "inlabel": 7,
+                        "score": 7,
+                        "severity": "high",
+                        "fillcolor": "#fbbfc5",
+                        "tooltip": "not blacklist_customer_ctdb and not epp_bitdefender_yara and not cti_rlabs and cti_cyren",
+                        "children": []
+                      },
+                      {
+                        "outlabel": "suspicious_analytics",
+                        "size": 10,
+                        "edgecolor": "#f37f97",
+                        "nodecolor": "#595959",
+                        "inlabel": "",
+                        "score": -1,
+                        "severity": "unknown",
+                        "fillcolor": "#c3daf7",
+                        "tooltip": "Detection via platform apps:\n\nCheck for VMDR/PC/FIM events\nCorrelation based on ATT&CK TTPs",
+                        "children": [
+                          {
+                            "outlabel": "active_threat",
+                            "size": 10,
+                            "edgecolor": "#48b2a4",
+                            "nodecolor": "#595959",
+                            "inlabel": "",
+                            "score": -1,
+                            "severity": "unknown",
+                            "fillcolor": "#c3daf7",
+                            "tooltip": "Detection via process (mutex) or network (ip/domain/uri/certhash) events:\n\nThis is a scoring primitive, also used for correlation",
+                            "children": [
+                              {
+                                "outlabel": "STOP",
+                                "size": 10,
+                                "edgecolor": "#48b2a4",
+                                "nodecolor": "#595959",
+                                "inlabel": 3,
+                                "score": 3,
+                                "severity": "low",
+                                "fillcolor": "#fdfda9",
+                                "tooltip": "not blacklist_customer_ctdb and not epp_bitdefender_yara and not cti_rlabs and not cti_cyren and suspicious_analytics and active_threat",
+                                "children": []
+                              },
+                              {
+                                "outlabel": "persistent_threat",
+                                "size": 10,
+                                "edgecolor": "#f37f97",
+                                "nodecolor": "#595959",
+                                "inlabel": "",
+                                "score": -1,
+                                "severity": "unknown",
+                                "fillcolor": "#c3daf7",
+                                "tooltip": "Detection via on-disk activity (registry and file events):\n\nThis is a scoring primitive, also used for correlation",
+                                "children": [
+                                  {
+                                    "outlabel": "STOP",
+                                    "size": 10,
+                                    "edgecolor": "#48b2a4",
+                                    "nodecolor": "#595959",
+                                    "inlabel": 2,
+                                    "score": 2,
+                                    "severity": "low",
+                                    "fillcolor": "#fdfda9",
+                                    "tooltip": "not blacklist_customer_ctdb and not epp_bitdefender_yara and not cti_rlabs and not cti_cyren and suspicious_analytics and not active_threat and persistent_threat",
+                                    "children": []
+                                  },
+                                  {
+                                    "outlabel": "STOP",
+                                    "size": 10,
+                                    "edgecolor": "#f37f97",
+                                    "nodecolor": "#595959",
+                                    "inlabel": 0,
+                                    "score": 0,
+                                    "severity": "clean",
+                                    "fillcolor": "#d7ecc9",
+                                    "tooltip": "not blacklist_customer_ctdb and not epp_bitdefender_yara and not cti_rlabs and not cti_cyren and suspicious_analytics and not active_threat and not persistent_threat",
+                                    "children": []
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "outlabel": "STOP",
+                            "size": 10,
+                            "edgecolor": "#f37f97",
+                            "nodecolor": "#595959",
+                            "inlabel": 0,
+                            "score": 0,
+                            "severity": "clean",
+                            "fillcolor": "#d7ecc9",
+                            "tooltip": "not blacklist_customer_ctdb and not epp_bitdefender_yara and not cti_rlabs and not cti_cyren and not suspicious_analytics",
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "outlabel": "rule_engine_siddhi",
+        "size": 10,
+        "edgecolor": "#898989",
+        "nodecolor": "#595959",
+        "inlabel": "",
+        "score": -1,
+        "severity": "unknown",
+        "fillcolor": "#c3daf7",
+        "tooltip": "Detection via SIDDHI rules; score and severity inherited from rule metadata",
+        "children": [
+          {
+            "outlabel": "INHERIT",
+            "size": 10,
+            "edgecolor": "#48b2a4",
+            "nodecolor": "#595959",
+            "inlabel": "",
+            "score": -1,
+            "severity": "unknown",
+            "fillcolor": "#c3daf7",
+            "tooltip": "rule_engine_siddhi",
+            "children": []
+          },
+          {
+            "outlabel": "STOP",
+            "size": 10,
+            "edgecolor": "#f37f97",
+            "nodecolor": "#595959",
+            "inlabel": 0,
+            "score": 0,
+            "severity": "clean",
+            "fillcolor": "#d7ecc9",
+            "tooltip": "not rule_engine_siddhi",
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+}

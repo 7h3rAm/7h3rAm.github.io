@@ -271,7 +271,7 @@
               iss.setLatLng([issapi['latitude'], issapi['longitude']]);
               issarea.setLatLng([issapi['latitude'], issapi['longitude']]);
               issmap.panTo([issapi['latitude'], issapi['longitude']], animate=true);
-              var text = '<a href="https://www.nasa.gov/mission_pages/station/main/index.html"><b>International Space Station</b></a><br/>Location: ' + issapi['latitude'].toFixed(2) + "," + issapi['longitude'].toFixed(2) + "<br/>Altitude: " + issapi["altitude"].toFixed(2) + " miles<br/>Velocity: " + issapi["velocity"].toFixed(2) + " mph<br/>Visibility: " + issapi["visibility"];
+              var text = '<a href="https://www.nasa.gov/mission_pages/station/main/index.html"><b>International Space Station</b></a><br/><b>Location</b>: ' + issapi['latitude'].toFixed(2) + "," + issapi['longitude'].toFixed(2) + "<br/><b>Altitude</b>: " + issapi["altitude"].toFixed(2) + " miles<br/><b>Velocity</b>: " + issapi["velocity"].toFixed(2) + " mph<br/><b>Visibility</b>: " + issapi["visibility"];
               iss._popup.setContent(text);
             });
             setTimeout(updateISS, 5000);
