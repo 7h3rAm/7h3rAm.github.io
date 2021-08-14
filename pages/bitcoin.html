@@ -124,6 +124,22 @@
                     </tr>
                   </table></li>
                 </ul></li>
+                <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>💳 Transactions</h3><ul class="active nested">
+                  <li><table class="active nested astrotabclass">
+                    <tr>
+                      <th><b>Count</b></th>
+                      <th><b>Average Fee (24h)</b></th>
+                      <th><b>Median Fee (24h)</b></th>
+                      <th><b>Suggested Fee</b></th>
+                    </tr>
+                    <tr>
+                      <td id="txs_count"></td>
+                      <td id="txs_avgfee"></td>
+                      <td id="txs_medfee"></td>
+                      <td id="txs_sugfee"></td>
+                    </tr>
+                  </table></li>
+                </ul></li>
                 <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🗃️ Mempool</h3><ul class="active nested">
                   <li><table class="active nested astrotabclass">
                     <tr>
@@ -139,22 +155,6 @@
                       <td id="mempool_tps"></td>
                       <td id="mempool_fee"></td>
                       <td id="mempool_output"></td>
-                    </tr>
-                  </table></li>
-                </ul></li>
-                <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>💳 Transactions</h3><ul class="active nested">
-                  <li><table class="active nested astrotabclass">
-                    <tr>
-                      <th><b>Count</b></th>
-                      <th><b>Average Fee (24h)</b></th>
-                      <th><b>Median Fee (24h)</b></th>
-                      <th><b>Suggested Fee</b></th>
-                    </tr>
-                    <tr>
-                      <td id="txs_count"></td>
-                      <td id="txs_avgfee"></td>
-                      <td id="txs_medfee"></td>
-                      <td id="txs_sugfee"></td>
                     </tr>
                   </table></li>
                 </ul></li>
@@ -231,7 +231,6 @@
       <script type="text/javascript" src="/static/js/numeral.min.js"></script>
       <script type="text/javascript" src="/static/js/leaflet.js"></script>
       <script type="text/javascript" src="/static/js/leaflet.terminator.js"></script>
-
       <script src="https://d3js.org/d3.v4.js"></script>
       <script type="text/javascript">
         function responsivefy(svg) {
@@ -285,7 +284,7 @@
         // Assigns parent, children, height, depth
         var treeData, root;
         function inittree(jsondata) {
-          treeData = jsondata.tree;
+          treeData = jsondata.graph.grouped;
           console.log(treeData);
           root = d3.hierarchy(treeData, function(d) { return d.children; });
           root.x0 = height / 2;
@@ -408,8 +407,7 @@
           }
         }
       </script>
-
-      <script>
+      <script type="text/javascript">
         numeral.zeroFormat('0');
         numeral.nullFormat('0');
 
@@ -720,7 +718,6 @@
           //setInterval(() => {doTime();},1000); // every .5s
           doBlockchainStats();
         }
-
       </script>
 
       </div>
