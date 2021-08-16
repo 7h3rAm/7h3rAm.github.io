@@ -19,7 +19,6 @@
     <link rel="stylesheet" href="/static/css/leaflet.css"/>
     <style>
       .svgcontainer {
-        font: 9pt FiraCode Nerd Font;
         margin: 0 auto;
         display: inline-block;
         position: relative;
@@ -28,13 +27,12 @@
       }
       .node circle {
         fill: #e8e6d5;
-        stroke: #999999;
-        stroke-width: 2px;
       }
       .link {
         fill: none;
         stroke: #8897f4;
         stroke-width: 2px;
+        shape-rendering: crispEdges;
       }
     </style>
    </head>
@@ -159,7 +157,7 @@
                   </table></li>
                 </ul></li>
                 <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🧮 Nodes</h3><ul class="active nested">
-                  <li><p class="active nested">Data provided courtesy of <a href="https://bitnodes.io/">Bitnodes</a> team.</p></li>
+                  <li><p class="active nested"><span id="count_nodes">?</span> reachable nodes. Data provided courtesy of <a href="https://bitnodes.io/">Bitnodes</a> team.</p></li>
                   <li><div id="nodesmap" style="width:100%; height:450px; border:1px solid #766e6b;" class="mapclass"></div></li>
                 </ul></li>
             </ul></li>
@@ -209,7 +207,12 @@
                 </table></li>
               </ul></li>
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🗿 Graph</h3><ul class="active nested">
-                <li><div id="walletgraph" class="svgcontainer"></div></li>
+                <li><div id="walletgraph" class="svgcontainer">
+                  <div id="option">
+                    <input name="expandall" type="button" value="ExpandAll" onclick="expandAll()"/>
+                    <input name="collapseall" type="button" value="CollapseAll" onclick="collapseAll()"/>
+                  </div>
+                </div></li>
               </ul></li>
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);><a id="donation"></a>🙏 Donation</h3><ul class="active nested">
                 <li><table id="donationtable" class="active nested astrotabclass"></table></li>
@@ -233,186 +236,12 @@
       <script type="text/javascript" src="/static/js/leaflet.terminator.js"></script>
       <script src="https://d3js.org/d3.v4.js"></script>
       <script type="text/javascript">
-        function responsivefy(svg) {
-          // https://brendansudol.com/writing/responsive-d3
-          // get container + svg aspect ratio
-          var container = d3.select(svg.node().parentNode),
-            width = parseInt(svg.style("width")),
-            height = parseInt(svg.style("height")),
-            aspect = width / height;
-          // add viewBox and preserveAspectRatio properties,
-          // and call resize so that svg resizes on inital page load
-          svg.attr("viewBox", "0 0 " + width + " " + height)
-            .attr("perserveAspectRatio", "xMinYMid")
-            .call(resize);
-          // to register multiple listeners for same event type, 
-          // you need to add namespace, i.e., 'click.foo'
-          // necessary if you call invoke this function for multiple svgs
-          // api docs: https://github.com/mbostock/d3/wiki/Selections#on
-          d3.select(window).on("resize." + container.attr("id"), resize);
-          // get width of container and resize svg to fit it
-          function resize() {
-            var targetWidth = parseInt(container.style("width"));
-            svg.attr("width", targetWidth);
-            svg.attr("height", Math.round(targetWidth / aspect));
-          }
-        }
-
-        // Set the dimensions and margins of the diagram
-        var margin = {top: 30, right: 90, bottom: 30, left: 120},
-            width = 960 - margin.left - margin.right,
-            height = 720 - margin.top - margin.bottom;
-
-        var svg = d3.select("#walletgraph").append("svg")
-            .attr("width", width + margin.right + margin.left)
-            .attr("height", height + margin.top + margin.bottom)
-            .call(responsivefy)
-            .call(d3.zoom().on("zoom", function () {
-               svg.attr("transform", d3.event.transform)
-            }))
-          .append("g")
-            .attr("transform", "translate("
-                  + margin.left + "," + margin.top + ")");
-
-        var i = 0,
-            duration = 750,
-            root;
-
-        // declares a tree layout and assigns the size
-        var treemap = d3.tree().size([height, width]);
-
-        // Assigns parent, children, height, depth
-        var treeData, root;
-        function inittree(jsondata) {
-          treeData = jsondata.graph.grouped;
-          console.log(treeData);
-          root = d3.hierarchy(treeData, function(d) { return d.children; });
-          root.x0 = height / 2;
-          root.y0 = 0;
-          update(root);
-        }
-        d3.json("walletgraph2.json", inittree);
-
-        // Collapse the node and all it's children
-        function collapse(d) {
-          if(d.children) {
-            d._children = d.children
-            d._children.forEach(collapse)
-            d.children = null
-          }
-        }
-
-        function update(source) {
-          // Assigns the x and y position for the nodes
-          var treeData = treemap(root);
-
-          // Compute the new tree layout.
-          var nodes = treeData.descendants(),
-              links = treeData.descendants().slice(1);
-
-          // Normalize for fixed-depth.
-          nodes.forEach(function(d){ d.y = d.depth * 180});
-
-          // Update the nodes...
-          var node = svg.selectAll('g.node').data(nodes, function(d) {return d.id || (d.id = ++i); });
-
-          // Enter any new modes at the parent's previous position.
-          var nodeEnter = node.enter().append('g').attr('class', 'node').attr("transform", function(d) {
-            return "translate(" + source.y0 + "," + source.x0 + ")";
-          }).on('click', click);
-
-          // Add Circle for the nodes
-          nodeEnter.append("circle").attr("r", function(d) { return d.data.size; }).style("stroke", function(d) { return d.data.nodecolor; }).style("fill", function(d) { return d.data.fillcolor; }).append("svg:title").text(function(d, i) { return d.data.tooltip; });
-
-          // Add labels for the nodes
-          nodeEnter.append('text').attr("dy", ".35em").attr("x", function(d) {
-              return d.children || d._children ? d.data.size*-1-5 : d.data.size+5;
-          }).attr("text-anchor", function(d) {
-            return d.children || d._children ? "end" : "start";
-          }).text(function(d) { return d.data.outlabel; });
-          nodeEnter.append('text').attr("dy", ".35em").attr("x", function(d) {
-            return (-1*(d.data.size/2))-5;
-          }).attr("y", function(d) {
-              return d.data.size+10;
-          }).text(function(d) { return d.data.inlabel; });
-
-          // UPDATE
-          var nodeUpdate = nodeEnter.merge(node);
-
-          // Transition to the proper position for the node
-          nodeUpdate.transition().duration(duration).attr("transform", function(d) {
-            return "translate(" + d.y + "," + d.x + ")";
-          });
-
-          // Update the node attributes and style
-          nodeUpdate.select('circle.node').attr('r', 10).attr('cursor', 'pointer');
-
-          // Remove any exiting nodes
-          var nodeExit = node.exit().transition().duration(duration).attr("transform", function(d) {
-            return "translate(" + source.y + "," + source.x + ")";
-          }).remove();
-
-          // On exit reduce the node circles size to 0
-          nodeExit.select('circle').attr('r', 1e-6);
-
-          // On exit reduce the opacity of text labels
-          nodeExit.select('text').style('fill-opacity', 1e-6);
-
-          // Update the links...
-          var link = svg.selectAll('path.link').data(links, function(d) { return d.id; });
-
-          // Enter any new links at the parent's previous position.
-          var linkEnter = link.enter().insert('path', "g").attr("class", "link").style("stroke", function(d) { return d.data.edgecolor; }).attr('d', function(d) {
-            var o = { x: source.x0, y: source.y0 }
-            return diagonal(o, o)
-          });
-
-          // UPDATE
-          var linkUpdate = linkEnter.merge(link);
-
-          // Transition back to the parent element position
-          linkUpdate.transition().duration(duration).attr('d', function(d) { return diagonal(d, d.parent) });
-
-          // Remove any exiting links
-          var linkExit = link.exit().transition().duration(duration).attr('d', function(d) {
-            var o = { x: source.x, y: source.y }
-            return diagonal(o, o)
-          }).remove();
-
-          // Store the old positions for transition.
-          nodes.forEach(function(d) {
-            d.x0 = d.x;
-            d.y0 = d.y;
-          });
-
-          // Creates a curved (diagonal) path from parent to the child nodes
-          function diagonal(s, d) {
-            path = `M ${s.y} ${s.x}
-                    C ${(s.y + d.y) / 2} ${s.x},
-                      ${(s.y + d.y) / 2} ${d.x},
-                      ${d.y} ${d.x}`
-            return path
-          }
-
-          // Toggle children on click.
-          function click(d) {
-            if (d.children) {
-              d._children = d.children;
-              d.children = null;
-            } else {
-              d.children = d._children;
-              d._children = null;
-            }
-            update(d);
-          }
-        }
-      </script>
-      <script type="text/javascript">
         numeral.zeroFormat('0');
         numeral.nullFormat('0');
 
         // https://stackoverflow.com/a/17177423/1079836
         function truncateWithEllipses(text, max) {return text.substr(0,max-1)+(text.length>max?'...':''); }
+
         function loadJson(url, callback) {
           var XmlHttpRequest = new XMLHttpRequest();
           XmlHttpRequest.overrideMimeType("application/json");
@@ -458,9 +287,349 @@
           }
         }
 
+        var root,
+            margin,
+            width,
+            height,
+            svg;
+        var i = 0,
+            duration = 750,
+            nodeHeight = 20,
+            treeData,
+            treemap;
+        function responsivefy(svg) {
+          // https://brendansudol.com/writing/responsive-d3
+          var container = d3.select(svg.node().parentNode),
+            width = parseInt(svg.style("width")),
+            height = parseInt(svg.style("height")),
+            aspect = width / height;
+          svg.attr("viewBox", "0 0 " + width + " " + height)
+            .attr("perserveAspectRatio", "xMinYMid")
+            .call(resize);
+          d3.select(window).on("resize." + container.attr("id"), resize);
+          function resize() {
+            var targetWidth = parseInt(container.style("width"));
+            svg.attr("width", targetWidth);
+            svg.attr("height", Math.round(targetWidth / aspect));
+          }
+        }
+        function collapse(d) {
+          if(d.children) {
+            d._children = d.children
+            d._children.forEach(collapse)
+            d.children = null
+          }
+        }
+        function expand(d) {
+          if (d._children) {
+            d.children = d._children;
+            d._children = null;
+          }
+          var children = (d.children) ? d.children: d._children;
+          if (children) {
+            children.forEach(expand);
+          }
+        }
+        function countLeaves(obj) {
+          var leaves = 0;
+          recursiveCounter(obj);
+          function recursiveCounter(obj) {
+            if (obj.children) {
+              for (var i = 0; i < obj.children.length; i++) {
+                if (obj.children[i].children) {
+                  recursiveCounter(obj.children[i]);
+                } else {
+                  leaves++;
+                };
+              };
+            };
+          }
+          return leaves;
+        }
+        function expandAll() {
+          expand(root);
+          update(root);
+        }
+        function collapseAll() {
+          root.children.forEach(collapse);
+          update(root);
+        }
+        function walletgraph() {
+          margin = {top: 30, right: 90, bottom: 30, left: 90};
+          width = 960 - margin.left - margin.right;
+          height = 540 - margin.top - margin.bottom;
+          svg = d3.select("#walletgraph").append("svg")
+              .attr("width", width + margin.right + margin.left)
+              .attr("height", height + margin.top + margin.bottom)
+              .call(responsivefy)
+              .call(d3.zoom().on("zoom", function () {
+                svg.attr("transform", d3.event.transform)
+              }))
+              .append("g")
+              .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+          treeData = bitcoin.graph.grouped;
+          root = d3.hierarchy(treeData, function(d) { return d.children; });
+          var numberOfLeaves = countLeaves(root);
+          var oldHeight = height;
+          height = nodeHeight * numberOfLeaves;
+          console.log("for " + numberOfLeaves + " leaf nodes, changed height from " + oldHeight + " to " + height);
+          //root.children.forEach(collapse);
+          root.x0 = height / 2;
+          root.y0 = 0;
+          treemap = d3.tree().size([height, width]);
+          update(root, height, width, svg);
+        }
+
+        function update(source) {
+          treemap = d3.tree().size([height, width]);
+          var treeData = treemap(root);
+          var nodes = treeData.descendants(), links = treeData.descendants().slice(1);
+          nodes.forEach(function(d){ d.y = d.depth * 180});
+          var node = svg.selectAll('g.node').data(nodes, function(d) {return d.id || (d.id = ++i); });
+          var nodeEnter = node.enter().append('g').attr('class', 'node').attr("transform", function(d) {
+            return "translate(" + source.y0 + "," + source.x0 + ")";
+          }).on('click', click);
+          nodeEnter.append("circle").attr("r", function(d) { return d.data.size; }).style("stroke", function(d) { return d.data.nodecolor; }).style("fill", function(d) { return d.data.fillcolor; }).append("svg:title").text(function(d, i) { return d.data.tooltip; });
+
+          nodeEnter.append('text').attr("y", function(d) { return d.children || d._children ? 0 : -6; }).attr("dy", ".35em").attr("x", function(d) {
+            return d.children || d._children ? d.data.size*-1-5 : d.data.size+5;
+          }).attr("text-anchor", function(d) {
+            return d.children || d._children ? "end" : "start";
+          }).text(function(d) { return d.data.outlabel; });
+          //nodeEnter.append('text').attr("y", function(d) { return d.children || d._children ? 0 : 6; }).attr("dy", ".35em").attr("x", function(d) {
+          //  return d.children || d._children ? d.data.size*-1-5 : d.data.size+5;
+          //}).attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; }).text(function(d) {
+          //  return d.children || d._children ? "" : "LastActivity: " + d.data.lastactivity;
+          //}).style("font-size", "7pt");
+          nodeEnter.append('text').attr("y", function(d) { return d.children || d._children ? 0 : -6; }).attr("dy", ".35em").attr("x", function(d) {
+            return d.children || d._children ? d.data.size*-1-5-((d.data.outlabel.length+1)*9) : d.data.size+5+((d.data.outlabel.length+1)*9);
+          }).attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; }).text(function(d) {
+            return d.children || d._children ? "" : "(LastActivity: " + d.data.lastactivity + ")";
+          }).style("font-size", "7pt");
+
+          nodeEnter.append("text").attr("y", function(d) { return d.children || d._children ? 0 : 0; }).attr("dy", ".35em").attr("text-anchor", "middle").style("fill-opacity", 1).text(function(d) {     return d.data.inlabel; }).style("font-size", "9pt");
+          var nodeUpdate = nodeEnter.merge(node);
+          nodeUpdate.transition().duration(duration).attr("transform", function(d) {
+            return "translate(" + d.y + "," + d.x + ")";
+          });
+          nodeUpdate.select('circle.node').attr('r', 10).attr('cursor', 'pointer');
+          var nodeExit = node.exit().transition().duration(duration).attr("transform", function(d) {
+            return "translate(" + source.y + "," + source.x + ")";
+          }).remove();
+          nodeExit.select('circle').attr('r', 1e-6);
+          nodeExit.select('text').style('fill-opacity', 1e-6);
+          var link = svg.selectAll('path.link').data(links, function(d) { return d.id; });
+          var linkEnter = link.enter().insert('path', "g").attr("class", "link").style("stroke", function(d) { return d.data.edgecolor; }).attr('d', function(d) {
+            var o = { x: source.x0, y: source.y0 }
+            return diagonal(o, o)
+          });
+          var linkUpdate = linkEnter.merge(link);
+          linkUpdate.transition().duration(duration).attr('d', function(d) { return diagonal(d, d.parent) });
+          var linkExit = link.exit().transition().duration(duration).attr('d', function(d) {
+            var o = { x: source.x, y: source.y }
+            return diagonal(o, o)
+          }).remove();
+          nodes.forEach(function(d) {
+            d.x0 = d.x;
+            d.y0 = d.y;
+          });
+          function diagonal(s, d) {
+            path = `M ${s.y} ${s.x}
+                    C ${(s.y + d.y) / 2} ${s.x},
+                      ${(s.y + d.y) / 2} ${d.x},
+                      ${d.y} ${d.x}`
+            return path
+          }
+          function click(d) {
+            if (d.children) {
+              d._children = d.children;
+              d.children = null;
+            } else {
+              d.children = d._children;
+              d._children = null;
+            }
+            update(d);
+          }
+        }
+
+        function bitnodes() {
+          document.getElementById("count_nodes").innerText = bitcoin["stats"]["count_nodes"];
+          maxi = 1000;
+          if (bitcoin["nodes"].length) {
+            var bounds = L.latLngBounds()
+            var nodesmap = L.map('nodesmap').setView([0, 0], 1.5);
+            var osmlayer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+            L.tileLayer(osmlayer, {
+              attribution: '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(nodesmap);
+            const size = 15;
+            const btcico = L.icon({iconUrl: "https://raw.githubusercontent.com/7h3rAm/datastore/master/Bitcoin_evergreen.png", iconSize: [size, size]})
+            const markerOptions = { draggable: true, icon: btcico }
+            var tor = 0; var clearnet = 0;
+            for (var i = 0; i < bitcoin["nodes"].length; i++) {
+              if (bitcoin["nodes"][i]["latitude"] === "Unknown" || bitcoin["nodes"][i]["longitude"] === "Unknown" || bitcoin["nodes"][i]["hostname"] === "Unknown") {
+                continue;
+              } else {
+                clearnet += 1;
+                marker = new L.marker([bitcoin["nodes"][i]["latitude"], bitcoin["nodes"][i]["longitude"]], markerOptions);
+                var text = '<a href="https://bitnodes.io/nodes/"><b>' + bitcoin["nodes"][i]["ipurl"] + "</b></a><br/><b>UserAgent</b>: " + bitcoin["nodes"][i]["useragent"] + " (" + bitcoin["nodes"][i]["protoversion"] + ")" + "<br/><b>Height</b>: " + bitcoin["nodes"][i]["height"] + "<br/><b>Connected</b>: " + bitcoin["nodes"][i]["connectedsincehuman"] + " (" + timeago.format(bitcoin["nodes"][i]["connectedsince"]*1000) + ")";
+                marker.bindPopup(text).addTo(nodesmap);
+                bounds.extend([bitcoin["nodes"][i]["latitude"], bitcoin["nodes"][i]["longitude"]]);
+              }
+              if (clearnet >= maxi) { break; }
+            }
+            const opt = {
+              color: '#000',
+              opacity: 0.1,
+              fillColor: '#000',
+              fillOpacity: 0.3,
+              resolution: 2
+            };
+            const t = L.terminator(opt);
+            t.addTo(nodesmap);
+            const updateTerminator = function(t) {
+              let t2 = L.terminator(opt);
+              t.setLatLngs(t2.getLatLngs());
+              t.redraw();
+            };
+            L.control.scale().addTo(nodesmap);
+            nodesmap.fitBounds(bounds)
+          }
+        }
+
+        function add_category_table(category, categorynode) {
+          var thead = document.createElement("thead");
+          var tr = document.createElement("tr");
+          //var th = document.createElement("th"); var text = document.createTextNode("#"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+          var th = document.createElement("th"); var text = document.createTextNode("VisSum"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+          var th = document.createElement("th"); var text = document.createTextNode("Wallet"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+          //var th = document.createElement("th"); var text = document.createTextNode("Funds"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+          var th = document.createElement("th"); var text = document.createTextNode("Received"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+          var th = document.createElement("th"); var text = document.createTextNode("Sent"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+          var th = document.createElement("th"); var text = document.createTextNode("Balance"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+          var th = document.createElement("th"); var text = document.createTextNode("LastActivity"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+          thead.appendChild(tr);
+          categorynode.appendChild(thead);
+          var tbody = document.createElement("tbody");
+          var i = 0;
+          Object.keys(bitcoin["category"][category]).forEach(function(wallet) {
+            if (bitcoin["category"][category][wallet]["txcount"] > 0) {
+              var tr = document.createElement("tr");
+              //var td = document.createElement("td");
+              //var text = document.createTextNode(i+1 + ".");
+              //td.appendChild(text);
+              //tr.appendChild(td);
+              var td = document.createElement("td");
+              var span = document.createElement("span")
+              span.setAttribute("class", "sparklines");
+              var text = document.createTextNode(bitcoin["category"][category][wallet]["sparkid"]);
+              span.appendChild(text);
+              colorspark(span);
+              td.appendChild(span);
+              tr.appendChild(td);
+              var td = document.createElement("td");
+              var link = document.createElement("a");
+              var text = document.createTextNode(truncateWithEllipses(wallet, 60));
+              link.appendChild(text);
+              var addr = bitcoin["category"][category][wallet]["addresses"].length > 1 ? "addresses" : "address";
+              var txs = bitcoin["category"][category][wallet]["txcount"] > 1 ? "transactions" : "transaction";
+              link.title = "'" + wallet + "' wallet has " + bitcoin["category"][category][wallet]["addresses"].length + " " + addr + " with " + numeral(bitcoin["category"][category][wallet]["txcount"]).format('0,0a') + " " + txs + ".";
+              link.style.color = "#000000";
+              td.appendChild(link);
+              tr.appendChild(td);
+              //var td = document.createElement("td");
+              //td.setAttribute("data-sort", bitcoin["category"][category][wallet]["balance"]);
+              //addBTC2USDHover(priceusd, td, bitcoin["category"][category][wallet]["received"], '0.00000000', "#5cb25e", isbtc=false); var para = document.createElement("p"); td.append(para);
+              //addBTC2USDHover(priceusd, td, bitcoin["category"][category][wallet]["sent"], '0.00000000', "#fc580c", isbtc=false); var para = document.createElement("p"); td.append(para);
+              //addBTC2USDHover(priceusd, td, isNaN(numeral(bitcoin["category"][category][wallet]["balance"]).format('0'))? 0 : bitcoin["category"][category][wallet]["balance"], '0.00000000', "#5b92e5", isbtc=false); var para = document.createElement("p"); td.append(para);
+              //tr.appendChild(td);
+              var td = document.createElement("td");
+              td.setAttribute("data-sort", bitcoin["category"][category][wallet]["received"]);
+              addBTC2USDHover(priceusd, td, bitcoin["category"][category][wallet]["received"], '0.00000000', "#5cb25e", isbtc=false);
+              tr.appendChild(td);
+              var td = document.createElement("td");
+              td.setAttribute("data-sort", bitcoin["category"][category][wallet]["sent"]);
+              addBTC2USDHover(priceusd, td, bitcoin["category"][category][wallet]["sent"], '0.00000000', "#fc580c", isbtc=false);
+              tr.appendChild(td);
+              var td = document.createElement("td");
+              td.setAttribute("data-sort", bitcoin["category"][category][wallet]["balance"]);
+              addBTC2USDHover(priceusd, td, isNaN(numeral(bitcoin["category"][category][wallet]["balance"]).format('0'))? 0 : bitcoin["category"][category][wallet]["balance"], '0.00000000', "#5b92e5", isbtc=false);
+              tr.appendChild(td);
+              var td = document.createElement("td");
+              if (bitcoin["category"][category][wallet]["lasttx"]["epoch"]) {
+                var summary = document.createElement("span");
+                if (bitcoin["category"][category][wallet]["lasttx"]["summary"] > 0) {
+                  addBTC2USDHover(priceusd, summary, bitcoin["category"][category][wallet]["lasttx"]["summary"], '0.00000000', "#5cb25e", isbtc=false);
+                } else if (bitcoin["category"][category][wallet]["lasttx"]["summary"] < 0) {
+                  addBTC2USDHover(priceusd, summary, bitcoin["category"][category][wallet]["lasttx"]["summary"], '0.00000000', "#fc580c", isbtc=false);
+                } else {
+                  addBTC2USDHover(priceusd, summary, bitcoin["category"][category][wallet]["lasttx"]["summary"], '0.00000000', "#5b92e5", isbtc=false);
+                }
+                td.appendChild(summary);
+                td.setAttribute("data-sort", bitcoin["category"][category][wallet]["lasttx"]["epoch"]);
+                var para = document.createElement("p"); td.append(para);
+                var link = document.createElement("a");
+                link.title = bitcoin["category"][category][wallet]["lasttx"]["epochhuman"];
+                link.text = "🔗 " + timeago.format(bitcoin["category"][category][wallet]["lasttx"]["epoch"]*1000);
+                link.href = "https://mempool.space/tx/" + bitcoin["category"][category][wallet]["lasttx"]["hash"];
+                td.appendChild(link);
+              } else {
+                var text = document.createTextNode("");
+                td.setAttribute("data-sort", 0);
+                td.appendChild(text);
+              }
+              tr.appendChild(td);
+              tbody.appendChild(tr);
+              i = i+1;
+            }
+            categorynode.appendChild(tbody);
+          })
+        }
+        function wallets() {
+          document.getElementById("count_wallet").style.fontWeight = "bold";
+          document.getElementById("count_address").style.fontWeight = "bold";
+          document.getElementById("count_wallet").innerText = bitcoin["stats"]["count_wallet"];
+          document.getElementById("count_address").innerText = bitcoin["stats"]["count_address"];
+          addBTC2USDHover(priceusd, "count_received", bitcoin["stats"]["count_received"], '0,0a', "#5cb25e", isbtc=false, fontbold=true);
+          addBTC2USDHover(priceusd, "count_sent", bitcoin["stats"]["count_sent"], '0,0a', "#fc580c", isbtc=false, fontbold=true);
+          addBTC2USDHover(priceusd, "count_balance", bitcoin["stats"]["count_balance"], '0,0a', "#5b92e5", isbtc=false, fontbold=true);
+          document.getElementById("count_wallet_donation").innerText = bitcoin["stats"]["donation"]["count_wallet"];
+          document.getElementById("count_address_donation").innerText = bitcoin["stats"]["donation"]["count_address"];
+          addBTC2USDHover(priceusd, "count_received_donation", bitcoin["stats"]["donation"]["count_received"], '0,0a', "#5cb25e", isbtc=false);
+          addBTC2USDHover(priceusd, "count_sent_donation", bitcoin["stats"]["donation"]["count_sent"], '0,0a', "#fc580c", isbtc=false);
+          addBTC2USDHover(priceusd, "count_balance_donation", bitcoin["stats"]["donation"]["count_balance"], '0,0a', "#5b92e5", isbtc=false);
+          document.getElementById("count_wallet_popular").innerText = bitcoin["stats"]["popular"]["count_wallet"];
+          document.getElementById("count_address_popular").innerText = bitcoin["stats"]["popular"]["count_address"];
+          addBTC2USDHover(priceusd, "count_received_popular", bitcoin["stats"]["popular"]["count_received"], '0,0a', "#5cb25e", isbtc=false);
+          addBTC2USDHover(priceusd, "count_sent_popular", bitcoin["stats"]["popular"]["count_sent"], '0,0a', "#fc580c", isbtc=false);
+          addBTC2USDHover(priceusd, "count_balance_popular", bitcoin["stats"]["popular"]["count_balance"], '0,0a', "#5b92e5", isbtc=false);
+          document.getElementById("count_wallet_ransom").innerText = bitcoin["stats"]["ransom"]["count_wallet"];
+          document.getElementById("count_address_ransom").innerText = bitcoin["stats"]["ransom"]["count_address"];
+          addBTC2USDHover(priceusd, "count_received_ransom", bitcoin["stats"]["ransom"]["count_received"], '0,0a', "#5cb25e", isbtc=false);
+          addBTC2USDHover(priceusd, "count_sent_ransom", bitcoin["stats"]["ransom"]["count_sent"], '0,0a', "#fc580c", isbtc=false);
+          addBTC2USDHover(priceusd, "count_balance_ransom", bitcoin["stats"]["ransom"]["count_balance"], '0,0a', "#5b92e5", isbtc=false);
+
+          var donationtable = document.getElementById("donationtable"); add_category_table("donation", donationtable);
+          var populartable = document.getElementById("populartable"); add_category_table("popular", populartable);
+          var ransomtable = document.getElementById("ransomtable"); add_category_table("ransom", ransomtable);
+          var statstable = document.getElementById("statstable");
+          var statssort = new Tablesort(statstable);
+          statssort.refresh();
+          var donationtable = document.getElementById("donationtable");
+          var donationsort = new Tablesort(donationtable);
+          donationsort.refresh();
+          var populartable = document.getElementById("populartable");
+          var popularsort = new Tablesort(populartable);
+          popularsort.refresh();
+          var ransomtable = document.getElementById("ransomtable");
+          var ransomsort = new Tablesort(ransomtable);
+          ransomsort.refresh();
+        }
+
         function doBlockchainStats() {
           loadJson("https://api.blockchair.com/bitcoin/stats", function(response) {
             statsapi = JSON.parse(response);
+            console.log("https://api.blockchair.com/bitcoin/stats");
             console.log(statsapi);
             priceusd = statsapi["data"]["market_price_usd"];
 
@@ -502,6 +671,7 @@
 
             loadJson("https://api.blockchair.com/tools/halvening", function(response) {
               hlvapi = JSON.parse(response);
+              console.log("https://api.blockchair.com/tools/halvening");
               console.log(hlvapi);
               document.getElementById("hlvng_currheight").innerText = numeral(hlvapi["data"]["bitcoin"]["current_block"]).format('0,0');
               addBTC2USDHover(priceusd, "hlvng_currreward", hlvapi["data"]["bitcoin"]["current_reward"], '0.000');
@@ -510,192 +680,15 @@
               document.getElementById("hlvng_timeest").innerText = timeago.format(Date.now()+hlvapi["data"]["bitcoin"]["seconds_left"]*1000);
             });
 
-          loadJson("https://raw.githubusercontent.com/7h3rAm/datastore/master/bitcoin.json", function(response) {
-            bitcoin = JSON.parse(response);
-            console.log(bitcoin);
-
-            maxi = 1000;
-            if (bitcoin["nodes"].length) {
-              var bounds = L.latLngBounds()
-              var nodesmap = L.map('nodesmap').setView([0, 0], 1.5);
-              var osmlayer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-              L.tileLayer(osmlayer, {
-                attribution: '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-              }).addTo(nodesmap);
-              const size = 15;
-              const btcico = L.icon({iconUrl: "https://raw.githubusercontent.com/7h3rAm/datastore/master/Bitcoin_evergreen.png", iconSize: [size, size]})
-              const markerOptions = { draggable: true, icon: btcico }
-              var tor = 0; var clearnet = 0;
-              for (var i = 0; i < bitcoin["nodes"].length; i++) {
-                if (bitcoin["nodes"][i]["latitude"] === "Unknown" || bitcoin["nodes"][i]["longitude"] === "Unknown" || bitcoin["nodes"][i]["hostname"] === "Unknown") {
-                  continue;
-                } else {
-                  clearnet += 1;
-                  marker = new L.marker([bitcoin["nodes"][i]["latitude"], bitcoin["nodes"][i]["longitude"]], markerOptions);
-                  var text = '<a href="https://bitnodes.io/nodes/"><b>' + bitcoin["nodes"][i]["ipurl"] + "</b></a><br/><b>UserAgent</b>: " + bitcoin["nodes"][i]["useragent"] + " (" + bitcoin["nodes"][i]["protoversion"] + ")" + "<br/><b>Height</b>: " + bitcoin["nodes"][i]["height"] + "<br/><b>Connected</b>: " + bitcoin["nodes"][i]["connectedsincehuman"] + " (" + timeago.format(bitcoin["nodes"][i]["connectedsince"]*1000) + ")";
-                  marker.bindPopup(text).addTo(nodesmap);
-                  bounds.extend([bitcoin["nodes"][i]["latitude"], bitcoin["nodes"][i]["longitude"]]);
-                }
-                if (clearnet >= maxi) { break; }
-              }
-              const opt = {
-                color: '#000',
-                opacity: 0.1,
-                fillColor: '#000',
-                fillOpacity: 0.3,
-                resolution: 2
-              };
-              const t = L.terminator(opt);
-              t.addTo(nodesmap);
-              const updateTerminator = function(t) {
-                let t2 = L.terminator(opt);
-                t.setLatLngs(t2.getLatLngs());
-                t.redraw();
-              };
-              L.control.scale().addTo(nodesmap);
-              nodesmap.fitBounds(bounds)
-            }
-
-            document.getElementById("count_wallet").style.fontWeight = "bold";
-            document.getElementById("count_address").style.fontWeight = "bold";
-
-            document.getElementById("count_wallet").innerText = bitcoin["stats"]["count_wallet"];
-            document.getElementById("count_address").innerText = bitcoin["stats"]["count_address"];
-            addBTC2USDHover(priceusd, "count_received", bitcoin["stats"]["count_received"], '0,0a', "#5cb25e", isbtc=false, fontbold=true);
-            addBTC2USDHover(priceusd, "count_sent", bitcoin["stats"]["count_sent"], '0,0a', "#fc580c", isbtc=false, fontbold=true);
-            addBTC2USDHover(priceusd, "count_balance", bitcoin["stats"]["count_balance"], '0,0a', "#5b92e5", isbtc=false, fontbold=true);
-
-            document.getElementById("count_wallet_donation").innerText = bitcoin["stats"]["donation"]["count_wallet"];
-            document.getElementById("count_address_donation").innerText = bitcoin["stats"]["donation"]["count_address"];
-            addBTC2USDHover(priceusd, "count_received_donation", bitcoin["stats"]["donation"]["count_received"], '0,0a', "#5cb25e", isbtc=false);
-            addBTC2USDHover(priceusd, "count_sent_donation", bitcoin["stats"]["donation"]["count_sent"], '0,0a', "#fc580c", isbtc=false);
-            addBTC2USDHover(priceusd, "count_balance_donation", bitcoin["stats"]["donation"]["count_balance"], '0,0a', "#5b92e5", isbtc=false);
-
-            document.getElementById("count_wallet_popular").innerText = bitcoin["stats"]["popular"]["count_wallet"];
-            document.getElementById("count_address_popular").innerText = bitcoin["stats"]["popular"]["count_address"];
-            addBTC2USDHover(priceusd, "count_received_popular", bitcoin["stats"]["popular"]["count_received"], '0,0a', "#5cb25e", isbtc=false);
-            addBTC2USDHover(priceusd, "count_sent_popular", bitcoin["stats"]["popular"]["count_sent"], '0,0a', "#fc580c", isbtc=false);
-            addBTC2USDHover(priceusd, "count_balance_popular", bitcoin["stats"]["popular"]["count_balance"], '0,0a', "#5b92e5", isbtc=false);
-
-            document.getElementById("count_wallet_ransom").innerText = bitcoin["stats"]["ransom"]["count_wallet"];
-            document.getElementById("count_address_ransom").innerText = bitcoin["stats"]["ransom"]["count_address"];
-            addBTC2USDHover(priceusd, "count_received_ransom", bitcoin["stats"]["ransom"]["count_received"], '0,0a', "#5cb25e", isbtc=false);
-            addBTC2USDHover(priceusd, "count_sent_ransom", bitcoin["stats"]["ransom"]["count_sent"], '0,0a', "#fc580c", isbtc=false);
-            addBTC2USDHover(priceusd, "count_balance_ransom", bitcoin["stats"]["ransom"]["count_balance"], '0,0a', "#5b92e5", isbtc=false);
-
-            function add_category_table(category, categorynode) {
-              var thead = document.createElement("thead");
-              var tr = document.createElement("tr");
-              //var th = document.createElement("th"); var text = document.createTextNode("#"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-              var th = document.createElement("th"); var text = document.createTextNode("VisSum"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-              var th = document.createElement("th"); var text = document.createTextNode("Wallet"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-              //var th = document.createElement("th"); var text = document.createTextNode("Funds"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-              var th = document.createElement("th"); var text = document.createTextNode("Received"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-              var th = document.createElement("th"); var text = document.createTextNode("Sent"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-              var th = document.createElement("th"); var text = document.createTextNode("Balance"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-              var th = document.createElement("th"); var text = document.createTextNode("LastActivity"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
-              thead.appendChild(tr);
-              categorynode.appendChild(thead);
-              var tbody = document.createElement("tbody");
-              var i = 0;
-              Object.keys(bitcoin["category"][category]).forEach(function(wallet) {
-                if (bitcoin["category"][category][wallet]["txcount"] > 0) {
-                  var tr = document.createElement("tr");
-                  //var td = document.createElement("td");
-                  //var text = document.createTextNode(i+1 + ".");
-                  //td.appendChild(text);
-                  //tr.appendChild(td);
-                  var td = document.createElement("td");
-                  var span = document.createElement("span")
-                  span.setAttribute("class", "sparklines");
-                  var text = document.createTextNode(bitcoin["category"][category][wallet]["sparkid"]);
-                  span.appendChild(text);
-                  colorspark(span);
-                  td.appendChild(span);
-                  tr.appendChild(td);
-                  var td = document.createElement("td");
-                  var link = document.createElement("a");
-                  var text = document.createTextNode(truncateWithEllipses(wallet, 60));
-                  link.appendChild(text);
-                  var addr = bitcoin["category"][category][wallet]["addresses"].length > 1 ? "addresses" : "address";
-                  var txs = bitcoin["category"][category][wallet]["txcount"] > 1 ? "transactions" : "transaction";
-                  link.title = "'" + wallet + "' wallet has " + bitcoin["category"][category][wallet]["addresses"].length + " " + addr + " with " + numeral(bitcoin["category"][category][wallet]["txcount"]).format('0,0a') + " " + txs + ".";
-                  link.style.color = "#000000";
-                  td.appendChild(link);
-                  tr.appendChild(td);
-
-                  //var td = document.createElement("td");
-                  //td.setAttribute("data-sort", bitcoin["category"][category][wallet]["balance"]);
-                  //addBTC2USDHover(priceusd, td, bitcoin["category"][category][wallet]["received"], '0.00000000', "#5cb25e", isbtc=false); var para = document.createElement("p"); td.append(para);
-                  //addBTC2USDHover(priceusd, td, bitcoin["category"][category][wallet]["sent"], '0.00000000', "#fc580c", isbtc=false); var para = document.createElement("p"); td.append(para);
-                  //addBTC2USDHover(priceusd, td, isNaN(numeral(bitcoin["category"][category][wallet]["balance"]).format('0'))? 0 : bitcoin["category"][category][wallet]["balance"], '0.00000000', "#5b92e5", isbtc=false); var para = document.createElement("p"); td.append(para);
-                  //tr.appendChild(td);
-
-                  var td = document.createElement("td");
-                  td.setAttribute("data-sort", bitcoin["category"][category][wallet]["received"]);
-                  addBTC2USDHover(priceusd, td, bitcoin["category"][category][wallet]["received"], '0.00000000', "#5cb25e", isbtc=false);
-                  tr.appendChild(td);
-
-                  var td = document.createElement("td");
-                  td.setAttribute("data-sort", bitcoin["category"][category][wallet]["sent"]);
-                  addBTC2USDHover(priceusd, td, bitcoin["category"][category][wallet]["sent"], '0.00000000', "#fc580c", isbtc=false);
-                  tr.appendChild(td);
-
-                  var td = document.createElement("td");
-                  td.setAttribute("data-sort", bitcoin["category"][category][wallet]["balance"]);
-                  addBTC2USDHover(priceusd, td, isNaN(numeral(bitcoin["category"][category][wallet]["balance"]).format('0'))? 0 : bitcoin["category"][category][wallet]["balance"], '0.00000000', "#5b92e5", isbtc=false);
-
-                  tr.appendChild(td);
-
-                  var td = document.createElement("td");
-                  if (bitcoin["category"][category][wallet]["lasttx"]["epoch"]) {
-                    var summary = document.createElement("span");
-                    if (bitcoin["category"][category][wallet]["lasttx"]["summary"] > 0) {
-                      addBTC2USDHover(priceusd, summary, bitcoin["category"][category][wallet]["lasttx"]["summary"], '0.00000000', "#5cb25e", isbtc=false);
-                    } else if (bitcoin["category"][category][wallet]["lasttx"]["summary"] < 0) {
-                      addBTC2USDHover(priceusd, summary, bitcoin["category"][category][wallet]["lasttx"]["summary"], '0.00000000', "#fc580c", isbtc=false);
-                    } else {
-                      addBTC2USDHover(priceusd, summary, bitcoin["category"][category][wallet]["lasttx"]["summary"], '0.00000000', "#5b92e5", isbtc=false);
-                    }
-                    td.appendChild(summary);
-                    td.setAttribute("data-sort", bitcoin["category"][category][wallet]["lasttx"]["epoch"]);
-                    var para = document.createElement("p"); td.append(para);
-                    var link = document.createElement("a");
-                    link.title = bitcoin["category"][category][wallet]["lasttx"]["epochhuman"];
-                    link.text = "🔗 " + timeago.format(bitcoin["category"][category][wallet]["lasttx"]["epoch"]*1000);
-                    link.href = "https://mempool.space/tx/" + bitcoin["category"][category][wallet]["lasttx"]["hash"];
-                    td.appendChild(link);
-                  } else {
-                    var text = document.createTextNode("");
-                    td.setAttribute("data-sort", 0);
-                    td.appendChild(text);
-                  }
-                  tr.appendChild(td);
-                  tbody.appendChild(tr);
-                  i = i+1;
-                }
-                categorynode.appendChild(tbody);
-              })
-            }
-            var donationtable = document.getElementById("donationtable"); add_category_table("donation", donationtable);
-            var populartable = document.getElementById("populartable"); add_category_table("popular", populartable);
-            var ransomtable = document.getElementById("ransomtable"); add_category_table("ransom", ransomtable);
-            var statstable = document.getElementById("statstable");
-            var statssort = new Tablesort(statstable);
-            statssort.refresh();
-            var donationtable = document.getElementById("donationtable");
-            var donationsort = new Tablesort(donationtable);
-            donationsort.refresh();
-            var populartable = document.getElementById("populartable");
-            var popularsort = new Tablesort(populartable);
-            popularsort.refresh();
-            var ransomtable = document.getElementById("ransomtable");
-            var ransomsort = new Tablesort(ransomtable);
-            ransomsort.refresh();
-
-            // last updated timestamp
-            document.getElementById("lastupdate").innerText = "Last Update: " + bitcoin["last_update"];
-          });
+            loadJson("https://raw.githubusercontent.com/7h3rAm/datastore/master/bitcoin.json", function(response) {
+              bitcoin = JSON.parse(response);
+              console.log("https://raw.githubusercontent.com/7h3rAm/datastore/master/bitcoin.json");
+              console.log(bitcoin);
+              bitnodes();
+              walletgraph();
+              wallets();
+              document.getElementById("lastupdate").innerText = "Last Update: " + bitcoin["last_update"];
+            });
           });
         }
 
