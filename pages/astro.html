@@ -319,7 +319,7 @@
             console.log(astro["earthevents"]["title"]);
             document.getElementById("eartheventstitle").innerText = astro["earthevents"]["title"];
             if (astro["earthevents"]["events"].length) {
-              var eartheventsmap = L.map('eartheventsmap').setView([0, 0], 1);
+              var eartheventsmap = L.map('eartheventsmap').setView([0, 0], 2);
               var osmlayer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
               L.tileLayer(osmlayer, {
                 attribution: '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -334,7 +334,7 @@
                   html: "💧"
                 }
                 const markerOptions = {
-                  draggable: true,
+                  draggable: false,
                   icon: L.divIcon(iconOptions)
                 }
                 for (var i = 0; i < astro["earthevents"]["mapdata"]["Drought"].length; i++) {
@@ -349,7 +349,7 @@
                   html: "🌫️"
                 }
                 const markerOptions = {
-                  draggable: true,
+                  draggable: false,
                   icon: L.divIcon(iconOptions)
                 }
                 for (var i = 0; i < astro["earthevents"]["mapdata"]["Dust and Haze"].length; i++) {
@@ -364,7 +364,7 @@
                   html: "⚠️"
                 }
                 const markerOptions = {
-                  draggable: true,
+                  draggable: false,
                   icon: L.divIcon(iconOptions)
                 }
                 for (var i = 0; i < astro["earthevents"]["mapdata"]["Earthquakes"].length; i++) {
@@ -379,7 +379,7 @@
                   html: "🌊"
                 }
                 const markerOptions = {
-                  draggable: true,
+                  draggable: false,
                   icon: L.divIcon(iconOptions)
                 }
                 for (var i = 0; i < astro["earthevents"]["mapdata"]["Floods"].length; i++) {
@@ -394,7 +394,7 @@
                   html: "⛰️"
                 }
                 const markerOptions = {
-                  draggable: true,
+                  draggable: false,
                   icon: L.divIcon(iconOptions)
                 }
                 for (var i = 0; i < astro["earthevents"]["mapdata"]["Landslides"].length; i++) {
@@ -409,7 +409,7 @@
                   html: "🧍"
                 }
                 const markerOptions = {
-                  draggable: true,
+                  draggable: false,
                   icon: L.divIcon(iconOptions)
                 }
                 for (var i = 0; i < astro["earthevents"]["mapdata"]["Manmade"].length; i++) {
@@ -424,7 +424,7 @@
                   html: "🧊"
                 }
                 const markerOptions = {
-                  draggable: true,
+                  draggable: false,
                   icon: L.divIcon(iconOptions)
                 }
                 for (var i = 0; i < astro["earthevents"]["mapdata"]["Sea and Lake Ice"].length; i++) {
@@ -439,7 +439,7 @@
                   html: "🌀"
                 }
                 const markerOptions = {
-                  draggable: true,
+                  draggable: false,
                   icon: L.divIcon(iconOptions)
                 }
                 for (var i = 0; i < astro["earthevents"]["mapdata"]["Severe Storms"].length; i++) {
@@ -454,7 +454,7 @@
                   html: "🌨️"
                 }
                 const markerOptions = {
-                  draggable: true,
+                  draggable: false,
                   icon: L.divIcon(iconOptions)
                 }
                 for (var i = 0; i < astro["earthevents"]["mapdata"]["Snow"].length; i++) {
@@ -469,7 +469,7 @@
                   html: "🌡️"
                 }
                 const markerOptions = {
-                  draggable: true,
+                  draggable: false,
                   icon: L.divIcon(iconOptions)
                 }
                 for (var i = 0; i < astro["earthevents"]["mapdata"]["Temperature Extremes"].length; i++) {
@@ -484,7 +484,7 @@
                   html: "🌋"
                 }
                 const markerOptions = {
-                  draggable: true,
+                  draggable: false,
                   icon: L.divIcon(iconOptions)
                 }
                 for (var i = 0; i < astro["earthevents"]["mapdata"]["Volcanoes"].length; i++) {
@@ -499,7 +499,7 @@
                   html: "⛲"
                 }
                 const markerOptions = {
-                  draggable: true,
+                  draggable: false,
                   icon: L.divIcon(iconOptions)
                 }
                 for (var i = 0; i < astro["earthevents"]["mapdata"]["Water Color"].length; i++) {
@@ -514,7 +514,7 @@
                   html: "🔥"
                 }
                 const markerOptions = {
-                  draggable: true,
+                  draggable: false,
                   icon: L.divIcon(iconOptions)
                 }
                 for (var i = 0; i < astro["earthevents"]["mapdata"]["Wildfires"].length; i++) {
@@ -684,7 +684,7 @@
                 html: "🛰️"
               }
               const markerOptions = {
-                draggable: true,
+                draggable: false,
                 icon: L.divIcon(iconOptions)
               }
               for (var i = 0; i < locations.length; i++) {

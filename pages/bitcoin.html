@@ -459,14 +459,14 @@
           maxi = 1000;
           if (bitcoin["nodes"].length) {
             var bounds = L.latLngBounds()
-            var nodesmap = L.map('nodesmap').setView([0, 0], 1.5);
+            var nodesmap = L.map('nodesmap').setView([0, 0], 2);
             var osmlayer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
             L.tileLayer(osmlayer, {
               attribution: '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             }).addTo(nodesmap);
             const size = 15;
             const btcico = L.icon({iconUrl: "https://raw.githubusercontent.com/7h3rAm/datastore/master/Bitcoin_evergreen.png", iconSize: [size, size]})
-            const markerOptions = { draggable: true, icon: btcico }
+            const markerOptions = { draggable: false, icon: btcico }
             var tor = 0; var clearnet = 0;
             for (var i = 0; i < bitcoin["nodes"].length; i++) {
               if (bitcoin["nodes"][i]["latitude"] === "Unknown" || bitcoin["nodes"][i]["longitude"] === "Unknown" || bitcoin["nodes"][i]["hostname"] === "Unknown") {
