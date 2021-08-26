@@ -1,4 +1,4 @@
-@font-face { font-family:"FiraCode Nerd Font"; src:url("/static/fonts/firacode/firacode-nerdfont/Fira Code Regular Nerd Font Complete.ttf"); font-display:swap; }
+@font-face { font-family:"FiraCode Nerd Font"; src:url("/static/fonts/firacode/firacode-nerdfont/Fira Code Regular Nerd Font Complete.ttf"); font-display:swap; font-weight:normal; }
 @media (max-width:500px) { * { font-size:10pt; } }
 
 * { border:0; font-family:"FiraCode Nerd Font","Inconsolata",monospace; font-size:11pt; list-style:none; padding-left:2%; padding-right:2%; margin:0 auto; padding:.2ch; max-width:1200px; }
@@ -16,12 +16,12 @@ hr { margin:0 0; margin-top:0.5em; margin-bottom:0.5em; }
 figcaption { font-size:small; }
 figure { margin:1em 0; text-align:center; }
 
-h1 { font-size:15pt; margin:0 0; margin-top:0; margin-bottom:0; color:#5cb25e; }
-h2 { font-size:13pt; margin:0 0; margin-top:0; margin-bottom:0; color:#5e96ae; } h2::before { color:#fc580c; content:"# "; font-weight:bold; }
-h3 { font-size:12pt; margin:0 0; margin-top:0; margin-bottom:0; color:#5e96ae; } h3::before { color:#fc580c; content:"# "; font-weight:bold; }
-h4 { font-size:11pt; margin:0 0; margin-top:0; margin-bottom:0; color:#5e96ae; } h4::before { color:#fc580c; content:"# "; font-weight:bold; }
-h5 { font-size:10pt; margin:0 0; margin-top:0; margin-bottom:0; color:#5e96ae; } h5::before { color:#fc580c; content:"# "; font-weight:bold; }
-h6 { font-size:9pt; margin:0 0; margin-top:0; margin-bottom:0; color:#5e96ae; } h6::before { color:#fc580c; content:"# "; font-weight:bold; }
+h1 { font-weight:normal; font-size:15pt; margin:0 0; margin-top:0; margin-bottom:0; color:#5cb25e; }
+h2 { font-weight:normal; font-size:13pt; margin:0 0; margin-top:0; margin-bottom:0; color:#5e96ae; } h2::before { color:#fc580c; content:"# "; font-weight:normal; }
+h3 { font-weight:normal; font-size:12pt; margin:0 0; margin-top:0; margin-bottom:0; color:#5e96ae; } h3::before { color:#fc580c; content:"# "; font-weight:normal; }
+h4 { font-weight:normal; font-size:11pt; margin:0 0; margin-top:0; margin-bottom:0; color:#5e96ae; } h4::before { color:#fc580c; content:"# "; font-weight:normal; }
+h5 { font-weight:normal; font-size:10pt; margin:0 0; margin-top:0; margin-bottom:0; color:#5e96ae; } h5::before { color:#fc580c; content:"# "; font-weight:normal; }
+h6 { font-weight:normal; font-size:9pt; margin:0 0; margin-top:0; margin-bottom:0; color:#5e96ae; } h6::before { color:#fc580c; content:"# "; font-weight:normal; }
 
 img { display:block; margin:0 auto; vertical-align:middle; -webkit-border-radius:0px; max-width:100% !important; width:auto; height:auto; border:1px solid #766e6b; }
 
