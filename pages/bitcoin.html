@@ -8,37 +8,13 @@
     <title>मंथन | Manthan</title>
     <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
     <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.css"/>
-    <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
-    <!-- <link rel="stylesheet" href="/static/css/atom-one-light.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/default.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/docco.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/github-gist.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/github.min.css"> -->
-    <!-- <link rel="stylesheet" href="/static/css/zenburn.min.css"> -->
+    <link id="codestylesheet" rel="stylesheet" type="text/css" media="screen" href="/static/css/atelier-forest-light.css">
     <link rel="stylesheet" href="/static/css/tablesort.css"/>
     <link rel="stylesheet" href="/static/css/leaflet.css"/>
-    <style>
-      .svgcontainer {
-        margin: 0 auto;
-        display: inline-block;
-        position: relative;
-        width: 100%;
-        overflow: hidden;
-      }
-      .node circle {
-        fill: #e8e6d5;
-      }
-      .link {
-        fill: none;
-        stroke: #8897f4;
-        stroke-width: 2px;
-        shape-rendering: crispEdges;
-      }
-    </style>
    </head>
   <body>
     <div class="body">
-      <div class="topmenu">
+      <div class="menu">
         <table>
           <tr>
             <td colspan="3"><a class="menu_home" href="/index.html">मंथन</a></td>
@@ -47,6 +23,12 @@
             <td><a class="menu_archive" href="/archive.html">💾 Archive</a></td>
             <td><a class="menu_tags" href="/tags.html">🔖 Tags</a></td>
             <td><a class="menu_stats" href="/stats.html">📊 Stats</a></td>
+            <td>
+              <label class="theme-switch" for="checkbox">
+                <input type="checkbox" id="checkbox" />
+                <div class="slider round"></div>
+              </label>
+            </td>
           </tr>
         </table>
       </div>
@@ -55,112 +37,60 @@
           <ul class="active">
             <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>📊 Stats</h2><ul class="active nested">
                 <li><table class="active nested astrotabclass">
-                  <tr>
-                    <th>Height</th>
-                    <th>Issued</th>
-                    <th>Outputs</th>
-                    <th>Difficulty</th>
-                    <th>Hashrate</th>
-                    <th>Size</th>
-                  </tr>
-                  <tr>
-                    <td id="blockchain_height"></td>
-                    <td id="blockchain_circulation"></td>
-                    <td id="blockchain_outputs"></td>
-                    <td id="blockchain_difficulty"></td>
-                    <td id="blockchain_hashrate"></td>
-                    <td id="blockchain_size"></td>
-                  </tr>
+                  <tr><td align="right"><b>Height</b></td><td id="blockchain_height"></td></tr>
+                  <tr><td align="right"><b>Issued</b></td><td id="blockchain_circulation"></td></tr>
+                  <tr><td align="right"><b>Outputs</b></td><td id="blockchain_outputs"></td></tr>
+                  <tr><td align="right"><b>Difficulty</b></td><td id="blockchain_difficulty"></td></tr>
+                  <tr><td align="right"><b>Hashrate</b></td><td id="blockchain_hashrate"></td></tr>
+                  <tr><td align="right"><b>Size</b></td><td id="blockchain_size"></td></tr>
                 </table></li>
                 <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>⌛ Halvening</h3><ul class="active nested">
                   <li><table class="active nested astrotabclass">
-                    <tr>
-                      <th>Current Height</th>
-                      <th>Current Reward</th>
-                      <th>Halvening Height</th>
-                      <th>Halvening Reward</th>
-                      <th>Time Estimate</th>
-                    </tr>
-                    <tr>
-                      <td id="hlvng_currheight"></td>
-                      <td id="hlvng_currreward"></td>
-                      <td id="hlvng_hlvheight"></td>
-                      <td id="hlvng_hlvreward"></td>
-                      <td id="hlvng_timeest"></td>
-                    </tr>
+                    <tr><td align="right"><b>Current Height</b></td><td id="hlvng_currheight"></td></tr>
+                    <tr><td align="right"><b>Current Reward</b></td><td id="hlvng_currreward"></td></tr>
+                    <tr><td align="right"><b>Halvening Height</b></td><td id="hlvng_hlvheight"></td></tr>
+                    <tr><td align="right"><b>Halvening Reward</b></td><td id="hlvng_hlvreward"></td></tr>
+                    <tr><td align="right"><b>Time Estimate</b></td><td id="hlvng_timeest"></td></tr>
                   </table></li>
                 </ul></li>
                 <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🎭 Market</h3><ul class="active nested">
                   <li><table class="active nested astrotabclass">
-                    <tr>
-                      <th>Price</th>
-                      <th>Change (24h)</th>
-                      <th>Capitalization</th>
-                      <th>Dominance</th>
-                    </tr>
-                    <tr>
-                      <td id="market_price"></td>
-                      <td id="market_change"></td>
-                      <td id="market_cap"></td>
-                      <td id="market_dominance"></td>
-                    </tr>
+                    <tr><td align="right"><b>Price</td></b><td id="market_price"></td></tr>
+                    <tr><td align="right"><b>Change (24h)</td></b><td id="market_change"></td></tr>
+                    <tr><td align="right"><b>Capitalization</td></b><td id="market_cap"></td></tr>
+                    <tr><td align="right"><b>Dominance</td></b><td id="market_dominance"></td></tr>
                   </table></li>
                 </ul></li>
                 <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>⌚ 24h Stats</h3><ul class="active nested">
                   <li><table class="active nested astrotabclass">
-                    <tr>
-                      <th>Blocks</th>
-                      <th>Transactions</th>
-                      <th>Inflation</th>
-                      <th>Volume</th>
-                    </tr>
-                    <tr>
-                      <td id="blockchain_blocks"></td>
-                      <td id="blockchain_transactions"></td>
-                      <td id="blockchain_inflation"></td>
-                      <td id="blockchain_volume"></td>
-                    </tr>
+                    <tr><td align="right"><b>Blocks</b></td><td id="blockchain_blocks"></td></tr>
+                    <tr><td align="right"><b>Transactions</b></td><td id="blockchain_transactions"></td></tr>
+                    <tr><td align="right"><b>Inflation</b></td><td id="blockchain_inflation"></td></tr>
+                    <tr><td align="right"><b>Volume</b></td><td id="blockchain_volume"></td></tr>
                   </table></li>
                 </ul></li>
                 <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>💳 Transactions</h3><ul class="active nested">
                   <li><table class="active nested astrotabclass">
-                    <tr>
-                      <th>Count</th>
-                      <th>Average Fee (24h)</th>
-                      <th>Median Fee (24h)</th>
-                      <th>Suggested Fee</th>
-                    </tr>
-                    <tr>
-                      <td id="txs_count"></td>
-                      <td id="txs_avgfee"></td>
-                      <td id="txs_medfee"></td>
-                      <td id="txs_sugfee"></td>
-                    </tr>
+                    <tr><td align="right"><b>Count</b></td><td id="txs_count"></td></tr>
+                    <tr><td align="right"><b>Average Fee (24h)</b></td><td id="txs_avgfee"></td></tr>
+                    <tr><td align="right"><b>Median Fee (24h)</b></td><td id="txs_medfee"></td></tr>
+                    <tr><td align="right"><b>Suggested Fee</b></td><td id="txs_sugfee"></td></tr>
                   </table></li>
                 </ul></li>
                 <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🗃️ Mempool</h3><ul class="active nested">
                   <li><table class="active nested astrotabclass">
-                    <tr>
-                      <th>Transactions</th>
-                      <th>Size</th>
-                      <th>Tps</th>
-                      <th>Fee</th>
-                      <th>Output</th>
-                    </tr>
-                    <tr>
-                      <td id="mempool_transactions"></td>
-                      <td id="mempool_size"></td>
-                      <td id="mempool_tps"></td>
-                      <td id="mempool_fee"></td>
-                      <td id="mempool_output"></td>
-                    </tr>
+                    <tr><td align="right"><b>Transactions</b></td><td id="mempool_transactions"></td></tr>
+                    <tr><td align="right"><b>Size</b></td><td id="mempool_size"></td></tr>
+                    <tr><td align="right"><b>Tps</b></td><td id="mempool_tps"></td></tr>
+                    <tr><td align="right"><b>Fee</b></td><td id="mempool_fee"></td></tr>
+                    <tr><td align="right"><b>Output</b></td><td id="mempool_output"></td>
                   </table></li>
                 </ul></li>
             </ul></li>
 
             <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>🧮 Nodes</h2><ul class="active nested">
               <li><p class="active nested"><span id="count_nodes">?</span> reachable nodes. Data provided courtesy of <a href="https://bitnodes.io/">Bitnodes</a> team.</p></li>
-              <li><div id="nodesmap" style="width:100%; height:450px; border:1px solid #766e6b;" class="mapclass"></div></li>
+              <li><div id="nodesmap" style="width:100%; height:450px; border:1px solid;" class="mapclass"></div></li>
             </ul></li>
 
             <li><h2 class="h2 collapsible expanded" onclick=toggle(this);><a id="wallets"></a>💼 Wallets</h2><ul class="active nested">
@@ -536,7 +466,6 @@
               var addr = bitcoin["category"][category][wallet]["addresses"].length > 1 ? "addresses" : "address";
               var txs = bitcoin["category"][category][wallet]["txcount"] > 1 ? "transactions" : "transaction";
               link.title = "'" + wallet + "' wallet has " + bitcoin["category"][category][wallet]["addresses"].length + " " + addr + " with " + numeral(bitcoin["category"][category][wallet]["txcount"]).format('0,0a') + " " + txs + ".";
-              link.style.color = "#000000";
               td.appendChild(link);
               tr.appendChild(td);
               //var td = document.createElement("td");
@@ -737,6 +666,36 @@
             l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
           }
         }
+      </script>
+      <script type="text/javascript">
+        const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+        const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+        if (currentTheme) {
+          document.documentElement.setAttribute('data-theme', currentTheme);
+          if (currentTheme === 'dark') {
+            toggleSwitch.checked = true;
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+          } else {
+            toggleSwitch.checked = false;
+            document.documentElement.setAttribute('data-theme', 'light');
+            localStorage.setItem('theme', 'light');
+          }
+          console.log("pageload: theme:" + currentTheme + " switch:" + toggleSwitch.checked);
+        }
+        function switchTheme(e) {
+          if (e.target.checked) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+          } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+            localStorage.setItem('theme', 'light');
+          }    
+          const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+          const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+          console.log("pageload: theme:" + currentTheme + " switch:" + toggleSwitch.checked);
+        }
+        toggleSwitch.addEventListener('change', switchTheme, false);
       </script>
       </div>
       <div><a class="footer" href="https://github.com/7h3rAm/7h3rAm.github.io">  </a></div>
