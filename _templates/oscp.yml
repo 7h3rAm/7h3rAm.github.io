@@ -87,7 +87,7 @@ resources:
       - /static/files/pages_oscp/sheet02.png.webp
 
   notes:
-    description: These are [stats, TTPs and trend graphs](https://github.com/7h3rAm/writeups/blob/master/readme.md) created using metadata from completed OSCPlike machines writeup. The `writeups.pdf` file is a collection of all writeups and `killchains.pdf` is a collection of killchains (visual summaries). Blogpost entries serve as online references for these writeups.
+    description: These are [stats, TTPs and trend graphs](https://github.com/7h3rAm/writeups/blob/master/readme.md) created using metadata from completed OSCPlike machine writeups. The `writeups.pdf` file is a collection of all writeups and `killchains.pdf` is a collection of killchains (visual summaries). Blogpost entries listed below serve as online documentation for these writeups.
 
     github:
       url: https://github.com/7h3rAm/writeups/blob/master/readme.md
