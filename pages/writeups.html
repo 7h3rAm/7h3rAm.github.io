@@ -188,10 +188,10 @@
         },
         setColor: function(colortype, writeups) {
           document.getElementById('keyword').style.outline = 'none';
-          if (colortype === "error") { document.getElementById('keyword').style.border = "1px solid #f37f97"; document.getElementById('keyword').style.boxShadow = "0 0 10px #f37f97"; document.getElementById('keyword').style.outline = "none !important"; statusmsg.style.display = ''; statusmsg.textContent = 'Error: No writeups to show'; }
-          if (colortype === "warning") { document.getElementById('keyword').style.border = "1px solid #fc580c"; document.getElementById('keyword').style.boxShadow = "0 0 10px #fc580c"; document.getElementById('keyword').style.outline = "none !important"; statusmsg.style.display = ''; statusmsg.textContent = 'Warning: ' + writeups.length + ' writeups were found, try being more specific'; }
-          if (colortype === "success") { document.getElementById('keyword').style.border = "1px solid #5cb25e"; document.getElementById('keyword').style.boxShadow = "0 0 10px #5cb25e"; document.getElementById('keyword').style.outline = "none !important"; statusmsg.style.display = ''; statusmsg.textContent = 'Success: ' + writeups.length + (writeups.length>1? ' writeups were found' : ' writeup was found'); }
-          if (colortype === "debug") { document.getElementById('keyword').style.border = "1px solid #3b7dfa"; document.getElementById('keyword').style.boxShadow = "0 0 10px #3b7dfa"; document.getElementById('keyword').style.outline = "none !important"; statusmsg.style.display = ''; statusmsg.textContent = 'Debug: No writeups to show'; }
+          if (colortype === "error") { document.getElementById('keyword').style.border = "2px dotted #f37f97"; document.getElementById('keyword').style.outline = "none !important"; statusmsg.style.display = ''; statusmsg.textContent = 'Error: No writeups to show'; }
+          if (colortype === "warning") { document.getElementById('keyword').style.border = "2px dotted #fc580c"; document.getElementById('keyword').style.outline = "none !important"; statusmsg.style.display = ''; statusmsg.textContent = 'Warning: ' + writeups.length + ' writeups were found, try being more specific'; }
+          if (colortype === "success") { document.getElementById('keyword').style.border = "2px dotted #5cb25e"; document.getElementById('keyword').style.outline = "none !important"; statusmsg.style.display = ''; statusmsg.textContent = 'Success: ' + writeups.length + (writeups.length>1? ' writeups were found' : ' writeup was found'); }
+          if (colortype === "debug") { document.getElementById('keyword').style.border = "2px dotted #3b7dfa"; document.getElementById('keyword').style.outline = "none !important"; statusmsg.style.display = ''; statusmsg.textContent = 'Debug: No writeups to show'; }
         },
       };
       window.controls = controls;
@@ -216,7 +216,6 @@
             currentSet = window.controls.doSearch(val, currentSet);
             window.controls.updateResults(resultsTable, currentSet);
           } else {
-            controls.hideResults();
             currentSet = window.dataset;
             controls.setColor("debug", []);
           }
