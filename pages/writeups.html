@@ -36,7 +36,7 @@
             <li>
               <p class="active nested" onclick=toggle(this);>Use this page to search for writeups of interest.</p>
                 <ul class="active nested">
-                  <li><div class="query"><form class="searchForm" action="#"><input id="keyword" type="text" class="search" placeholder="keywords: ftp, tcp/445, reverse shell, gobuster, etc." autocomplete="false" size="100%"></form></div></li>
+                  <li><div class="query"><form class="searchForm" action="#"><input id="keyword" type="text" class="search" placeholder="keywords: ftp, tcp/445, hackthebox, oscp, apache httpd, enumerate_proto_http, exploit_credsreuse, etc." autocomplete="false" size="100%"></form></div></li>
                   <li>
                     <div class="writeups">
                       <div class="status">Debug: No writeups to show</div>
@@ -146,6 +146,7 @@
             }
             if (e.line.toLowerCase().match(regex) || e.machine.toLowerCase().match(regex)) writeups.push(e);
           });
+          console.log(writeups.length);
           return writeups;
         },
         updateResults: function(loc, writeups) {
