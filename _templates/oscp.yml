@@ -1,7 +1,7 @@
 tldr:
   - "Join [Infosec Prep](https://discord.gg/RRgKaep) Discord server"
   - "Create a [methodology](https://medium.com/@falconspy/oscp-developing-a-methodology-32f4ab471fd6) and remember it should evolve as you learn new stuff"
-  - "Create a [documentation](#notesreport) strategy and use it throughout your learning journey"
+  - "Create a documentation strategy and stick to it throughout your learning journey"
   - "Learn and practice [Buffer Overflow](#bufferoverflow) and [Privilege Escalation](#privesc) techniques, own [OSCPlike](#machines) [HackTheBox](https://www.hackthebox.eu)|[TryHackMe](https://tryhackme.com/)|[VulnHub](https://www.vulnhub.com/) machines"
   - "Register for [PWK](https://www.offensive-security.com/pwk-oscp/) → own the lab → read [exam guide](https://support.offensive-security.com/oscp-exam-guide/) → own the exam"
 
