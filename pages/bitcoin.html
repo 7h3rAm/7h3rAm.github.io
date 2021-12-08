@@ -23,78 +23,42 @@
             <td><a class="menu_archive" href="/archive.html">💾 Archive</a></td>
             <td><a class="menu_tags" href="/tags.html">🔖 Tags</a></td>
             <td><a class="menu_stats" href="/stats.html">📊 Stats</a></td>
-            <!--<td>-->
-            <!--  <label class="theme-switch" for="checkbox">-->
-            <!--    <input type="checkbox" id="checkbox" />-->
-            <!--    <div class="slider round"></div>-->
-            <!--  </label>-->
-            <!--</td>-->
           </tr>
         </table>
       </div>
       <div class="content">
         <h1 class="h1"><img class="btcicon" alt="₿" src="https://raw.githubusercontent.com/7h3rAm/datastore/master/Bitcoin_evergreen.png">Bitcoin</h1>
           <ul class="active">
-            <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>📊 Stats</h2><ul class="active nested">
-                <li><table class="active nested astrotabclass">
-                  <tr><td align="right"><b>Height</b></td><td id="blockchain_height"></td></tr>
-                  <tr><td align="right"><b>Issued</b></td><td id="blockchain_circulation"></td></tr>
-                  <tr><td align="right"><b>Outputs</b></td><td id="blockchain_outputs"></td></tr>
-                  <tr><td align="right"><b>Difficulty</b></td><td id="blockchain_difficulty"></td></tr>
-                  <tr><td align="right"><b>Hashrate</b></td><td id="blockchain_hashrate"></td></tr>
-                  <tr><td align="right"><b>Size</b></td><td id="blockchain_size"></td></tr>
-                </table></li>
-                <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>⌛ Halvening</h3><ul class="active nested">
-                  <li><table class="active nested astrotabclass">
-                    <tr><td align="right"><b>Current Height</b></td><td id="hlvng_currheight"></td></tr>
-                    <tr><td align="right"><b>Current Reward</b></td><td id="hlvng_currreward"></td></tr>
-                    <tr><td align="right"><b>Halvening Height</b></td><td id="hlvng_hlvheight"></td></tr>
-                    <tr><td align="right"><b>Halvening Reward</b></td><td id="hlvng_hlvreward"></td></tr>
-                    <tr><td align="right"><b>Time Estimate</b></td><td id="hlvng_timeest"></td></tr>
-                  </table></li>
-                </ul></li>
-                <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🎭 Market</h3><ul class="active nested">
-                  <li><table class="active nested astrotabclass">
-                    <tr><td align="right"><b>Price</td></b><td id="market_price"></td></tr>
-                    <tr><td align="right"><b>Change (24h)</td></b><td id="market_change"></td></tr>
-                    <tr><td align="right"><b>Capitalization</td></b><td id="market_cap"></td></tr>
-                    <tr><td align="right"><b>Dominance</td></b><td id="market_dominance"></td></tr>
-                  </table></li>
-                </ul></li>
-                <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>⌚ 24h Stats</h3><ul class="active nested">
-                  <li><table class="active nested astrotabclass">
-                    <tr><td align="right"><b>Blocks</b></td><td id="blockchain_blocks"></td></tr>
-                    <tr><td align="right"><b>Transactions</b></td><td id="blockchain_transactions"></td></tr>
-                    <tr><td align="right"><b>Inflation</b></td><td id="blockchain_inflation"></td></tr>
-                    <tr><td align="right"><b>Volume</b></td><td id="blockchain_volume"></td></tr>
-                  </table></li>
-                </ul></li>
-                <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>💳 Transactions</h3><ul class="active nested">
-                  <li><table class="active nested astrotabclass">
-                    <tr><td align="right"><b>Count</b></td><td id="txs_count"></td></tr>
-                    <tr><td align="right"><b>Average Fee (24h)</b></td><td id="txs_avgfee"></td></tr>
-                    <tr><td align="right"><b>Median Fee (24h)</b></td><td id="txs_medfee"></td></tr>
-                    <tr><td align="right"><b>Suggested Fee</b></td><td id="txs_sugfee"></td></tr>
-                  </table></li>
-                </ul></li>
-                <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🗃️ Mempool</h3><ul class="active nested">
-                  <li><table class="active nested astrotabclass">
-                    <tr><td align="right"><b>Transactions</b></td><td id="mempool_transactions"></td></tr>
-                    <tr><td align="right"><b>Size</b></td><td id="mempool_size"></td></tr>
-                    <tr><td align="right"><b>Tps</b></td><td id="mempool_tps"></td></tr>
-                    <tr><td align="right"><b>Fee</b></td><td id="mempool_fee"></td></tr>
-                    <tr><td align="right"><b>Output</b></td><td id="mempool_output"></td>
-                  </table></li>
-                </ul></li>
+            <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>📙 Learn</h2><ul class="active nested">
+              <li><a href="https://bitcoin.org/en/">Bitcoin - Open source P2P money</a></li>
+              <li><a href="https://en.bitcoin.it/wiki/Main_Page">Bitcoin Wiki</a></li>
+              <li><a href="https://bitcoiner.guide/">Bitcoiner.Guide | A collection of Bitcoin resources by BitcoinQnA</a></li>
+              <li><a href="https://bitcoin-intro.com/">bitcoin-intro | start using bitcoin</a></li>
+              <li><a href="https://bitcoin-only.com/">Bitcoin Only</a></li>
+              <li><a href="https://bitcoin-resources.com/">Bitcoin Resources</a></li>
+              <li><a href="https://www.lopp.net/bitcoin-information.html">Bitcoin Information &amp; Educational Resources</a></li>
+              <li><a href="https://bitcoin.clarkmoody.com/dashboard/">Dashboard | Clark Moody Bitcoin</a></li>
+              <li><a href="https://bitcoinvisuals.com/">Bitcoin Visuals - Extensive Charts and Statistics</a></li>
+              <li><a href="https://lightning.network/">Lightning Network</a></li>
+              <li><a href="https://1ml.com/">1ML - Lightning Network Search and Analysis Engine - Bitcoin mainnet</a></li>
             </ul></li>
 
-            <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>🧮 Nodes</h2><ul class="active nested">
-              <li><p class="active nested"><span id="count_nodes">?</span> reachable nodes. Data provided courtesy of <a href="https://bitnodes.io/">Bitnodes</a> team.</p></li>
-              <li><div id="nodesmap" style="width:100%; height:450px; border:1px solid;" class="mapclass"></div></li>
-            </ul></li>
+            <!-- <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>🧮 Nodes</h2><ul class="active nested"> -->
+            <!--   <li><p class="active nested"><span id="count_nodes">?</span> reachable nodes. Data provided courtesy of <a href="https://bitnodes.io/">Bitnodes</a> team.</p></li> -->
+            <!--   <li><div id="nodesmap" style="width:100%; height:450px; border:1px solid;" class="mapclass"></div></li> -->
+            <!-- </ul></li> -->
 
             <li><h2 class="h2 collapsible expanded" onclick=toggle(this);><a id="wallets"></a>💼 Wallets</h2><ul class="active nested">
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>📄 Summary</h3><ul class="active nested">
+                <li>Bitcoin blockchain is an open ledger and all activity since the genesis block is readily available for review. Bitcoin ledger is also pseudo-anonymous since addresses owned by an entity are not known (unless this relationship is already public or exposed via other means).</li>
+                <li>Since each entity can own and use multiple addresses, a wallet and name is used as an abstration is used to refer to these address groups.</li>
+                <li>The following sections list stats for certain entities that are grouped as:
+                  <ul>
+                    <li>Donation: These entities have publicly shared their addresses for charity/donations</li>
+                    <li>Popular: These entities are popular and their address ownership details are publicly available</li>
+                    <li>Ransom: These are malicious entities using Bitcoin blockchain for ransom or extortion purposes</li>
+                  </ul>
+                </li>
                 <li><table id="statstable" class="active nested astrotabclass">
                   <thead><tr>
                     <th>Category</th>
@@ -303,7 +267,7 @@
           root = d3.hierarchy(treeData, function(d) { return d.children; });
           var numberOfLeaves = countLeaves(root);
           var oldHeight = height;
-          height = nodeHeight * numberOfLeaves;
+          height = (nodeHeight * numberOfLeaves);
           console.log("for " + numberOfLeaves + " leaf nodes, changed height from " + oldHeight + " to " + height);
           //root.children.forEach(collapse);
           root.x0 = height / 2;
@@ -391,6 +355,7 @@
             var bounds = L.latLngBounds()
             var nodesmap = L.map('nodesmap').setView([0, 0], 2);
             var osmlayer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+            console.log(osmlayer);
             L.tileLayer(osmlayer, {
               attribution: '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             }).addTo(nodesmap);
@@ -516,6 +481,7 @@
             categorynode.appendChild(tbody);
           })
         }
+
         function wallets() {
           document.getElementById("count_wallet").style.fontWeight = "bold";
           document.getElementById("count_address").style.fontWeight = "bold";
@@ -524,16 +490,19 @@
           addBTC2USDHover(priceusd, "count_received", bitcoin["stats"]["count_received"], '0,0a', "#5cb25e", isbtc=false, fontbold=true);
           addBTC2USDHover(priceusd, "count_sent", bitcoin["stats"]["count_sent"], '0,0a', "#fc580c", isbtc=false, fontbold=true);
           addBTC2USDHover(priceusd, "count_balance", bitcoin["stats"]["count_balance"], '0,0a', "#5b92e5", isbtc=false, fontbold=true);
+
           document.getElementById("count_wallet_donation").innerText = bitcoin["stats"]["donation"]["count_wallet"];
           document.getElementById("count_address_donation").innerText = bitcoin["stats"]["donation"]["count_address"];
           addBTC2USDHover(priceusd, "count_received_donation", bitcoin["stats"]["donation"]["count_received"], '0,0a', "#5cb25e", isbtc=false);
           addBTC2USDHover(priceusd, "count_sent_donation", bitcoin["stats"]["donation"]["count_sent"], '0,0a', "#fc580c", isbtc=false);
           addBTC2USDHover(priceusd, "count_balance_donation", bitcoin["stats"]["donation"]["count_balance"], '0,0a', "#5b92e5", isbtc=false);
+
           document.getElementById("count_wallet_popular").innerText = bitcoin["stats"]["popular"]["count_wallet"];
           document.getElementById("count_address_popular").innerText = bitcoin["stats"]["popular"]["count_address"];
           addBTC2USDHover(priceusd, "count_received_popular", bitcoin["stats"]["popular"]["count_received"], '0,0a', "#5cb25e", isbtc=false);
           addBTC2USDHover(priceusd, "count_sent_popular", bitcoin["stats"]["popular"]["count_sent"], '0,0a', "#fc580c", isbtc=false);
           addBTC2USDHover(priceusd, "count_balance_popular", bitcoin["stats"]["popular"]["count_balance"], '0,0a', "#5b92e5", isbtc=false);
+
           document.getElementById("count_wallet_ransom").innerText = bitcoin["stats"]["ransom"]["count_wallet"];
           document.getElementById("count_address_ransom").innerText = bitcoin["stats"]["ransom"]["count_address"];
           addBTC2USDHover(priceusd, "count_received_ransom", bitcoin["stats"]["ransom"]["count_received"], '0,0a', "#5cb25e", isbtc=false);
@@ -558,64 +527,17 @@
         }
 
         function doBlockchainStats() {
-          loadJson("https://api.blockchair.com/bitcoin/stats", function(response) {
-            statsapi = JSON.parse(response);
-            console.log("https://api.blockchair.com/bitcoin/stats");
-            console.log(statsapi);
-            priceusd = statsapi["data"]["market_price_usd"];
-
-            document.getElementById("blockchain_height").innerText = numeral(statsapi["data"]["best_block_height"]).format('0,0');
-            document.getElementById("blockchain_circulation").innerText = numeral(statsapi["data"]["circulation"]/Math.pow(10, 8)).format('0,0.00000000a');
-            document.getElementById("blockchain_outputs").innerText = numeral(statsapi["data"]["outputs"]).format('0,0.00a');
-            document.getElementById("blockchain_difficulty").innerText = numeral(statsapi["data"]["difficulty"]).format('0,0a');
-            document.getElementById("blockchain_hashrate").innerText = numeral(statsapi["data"]["hashrate_24h"]).format('0,0a');
-            document.getElementById("blockchain_size").innerText = numeral(statsapi["data"]["blockchain_size"]).format('0,0b');
-            document.getElementById("blockchain_blocks").innerText = numeral(statsapi["data"]["blocks_24h"]).format('0,0a');
-            document.getElementById("blockchain_transactions").innerText = numeral(statsapi["data"]["transactions_24h"]).format('0,0a');
-            addBTC2USDHover(priceusd, "blockchain_inflation", statsapi["data"]["inflation_24h"]);
-            addBTC2USDHover(priceusd, "blockchain_volume", statsapi["data"]["volume_24h"]);
-
-            document.getElementById("mempool_transactions").innerText = numeral(statsapi["data"]["mempool_transactions"]).format('0,0a');
-            document.getElementById("mempool_size").innerText = numeral(statsapi["data"]["mempool_size"]).format('0,0b');
-            document.getElementById("mempool_tps").innerText = numeral(statsapi["data"]["mempool_tps"]).format('0,0.00a');
-            document.getElementById("mempool_fee").innerText = numeral(statsapi["data"]["mempool_total_fee_usd"]).format('$0,0a');
-            document.getElementById("mempool_output").innerText = numeral(statsapi["data"]["mempool_outputs"]).format('0,0a');
-
-            document.getElementById("txs_count").innerText = numeral(statsapi["data"]["transactions"]).format('0,0a');
-            addBTC2USDHover(priceusd, "txs_avgfee", statsapi["data"]["average_transaction_fee_24h"], '0.00000000');
-            addBTC2USDHover(priceusd, "txs_medfee", statsapi["data"]["median_transaction_fee_24h"], '0.00000000');
-
-            document.getElementById("txs_sugfee").innerText = statsapi["data"]["suggested_transaction_fee_per_byte_sat"] + " sats/byte";
-
-            document.getElementById("market_price").innerText = numeral(statsapi["data"]["market_price_usd"]).format('$0.00a');
-            document.getElementById("market_change").innerText = numeral(statsapi["data"]["market_price_usd_change_24h_percentage"]).format('0.00a') + "%";
-            if (statsapi["data"]["market_price_usd_change_24h_percentage"] > 0) {
-              document.getElementById("market_change").style.color = "#5cb25e";
-            } else if (statsapi["data"]["market_price_usd_change_24h_percentage"] < 0) {
-              document.getElementById("market_change").style.color = "#fc580c";
-            }
-            else {
-              document.getElementById("market_change").style.color = "#5b92e5";
-            }
-            document.getElementById("market_cap").innerText = numeral(statsapi["data"]["market_cap_usd"]).format('$0,0a');
-            document.getElementById("market_dominance").innerText = numeral(statsapi["data"]["market_dominance_percentage"]).format('0a') + "%";
-
-            loadJson("https://api.blockchair.com/tools/halvening", function(response) {
-              hlvapi = JSON.parse(response);
-              console.log("https://api.blockchair.com/tools/halvening");
-              console.log(hlvapi);
-              document.getElementById("hlvng_currheight").innerText = numeral(hlvapi["data"]["bitcoin"]["current_block"]).format('0,0');
-              addBTC2USDHover(priceusd, "hlvng_currreward", hlvapi["data"]["bitcoin"]["current_reward"], '0.000');
-              document.getElementById("hlvng_hlvheight").innerText = numeral(hlvapi["data"]["bitcoin"]["halvening_block"]).format('0,0a') + " (" + numeral(hlvapi["data"]["bitcoin"]["blocks_left"]).format('0,0a') + " blocks left)";
-              addBTC2USDHover(priceusd, "hlvng_hlvreward", hlvapi["data"]["bitcoin"]["halvening_reward"], '0.000');
-              document.getElementById("hlvng_timeest").innerText = timeago.format(Date.now()+hlvapi["data"]["bitcoin"]["seconds_left"]*1000);
-            });
+          loadJson("https://api.coinbase.com/v2/prices/spot?currency=USD", function(response) {
+            spotpriceapi = JSON.parse(response);
+            console.log("https://api.coinbase.com/v2/prices/spot?currency=USD");
+            console.log(spotpriceapi);
+            priceusd = spotpriceapi["data"]["amount"];
 
             loadJson("https://raw.githubusercontent.com/7h3rAm/datastore/master/bitcoin.json", function(response) {
               bitcoin = JSON.parse(response);
               console.log("https://raw.githubusercontent.com/7h3rAm/datastore/master/bitcoin.json");
               console.log(bitcoin);
-              bitnodes();
+              //bitnodes();
               walletgraph();
               wallets();
               document.getElementById("lastupdate").innerText = "Last Update: " + bitcoin["last_update"] + " (" + timeago.format(bitcoin["last_update_epoch"]*1000) + ")";
