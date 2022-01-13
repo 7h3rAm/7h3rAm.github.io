@@ -1,7 +1,5 @@
 categories:
   Daily:
-    - name: API
-      url: http://172.16.1.46:9999
     - name: NodeRed
       url: http://172.16.1.46:1880/#flow/c5b3168d.36ab6
     - name: Mail
@@ -10,6 +8,12 @@ categories:
       url: https://calendar.google.com/calendar
     - name: Drive
       url: https://drive.google.com/drive/
+    - name: Pi-hole
+      url: http://172.16.1.53/admin/index.php
+    - name: Umbrel
+      url: http://172.16.1.48/
+    - name: mempool
+      url: http://172.16.1.48:3006/
     - name: Sheets
       url: https://docs.google.com/spreadsheets/
   Social:
@@ -23,8 +27,6 @@ categories:
       url: https://tweetdeck.twitter.com/
     - name: HackerNews
       url: https://news.ycombinator.com/news
-    - name: Slack
-      url: https://app.slack.com/client/T5KFMRXDF/unreads
   Learning:
     - name: ArchWiki 
       url: https://wiki.archlinux.org/
