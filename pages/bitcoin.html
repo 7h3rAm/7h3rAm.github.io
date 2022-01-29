@@ -32,6 +32,7 @@
             <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>📙 Learn</h2><ul class="active nested">
               <li><a href="https://bitcoin.org/en/">Bitcoin - Open source P2P money</a></li>
               <li><a href="https://en.bitcoin.it/wiki/Main_Page">Bitcoin Wiki</a></li>
+              <li><a href="https://learnmeabitcoin.com/beginners/">Beginners Guide to Bitcoin</a></li>
               <li><a href="https://bitcoiner.guide/">Bitcoiner.Guide | A collection of Bitcoin resources by BitcoinQnA</a></li>
               <li><a href="https://bitcoin-intro.com/">bitcoin-intro | start using bitcoin</a></li>
               <li><a href="https://bitcoin-only.com/">Bitcoin Only</a></li>
@@ -48,6 +49,16 @@
             <!--   <li><p class="active nested"><span id="count_nodes">?</span> reachable nodes. Data provided courtesy of <a href="https://bitnodes.io/">Bitnodes</a> team.</p></li> -->
             <!--   <li><div id="nodesmap" style="width:100%; height:450px; border:1px solid;" class="mapclass"></div></li> -->
             <!-- </ul></li> -->
+
+            <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>🟧 Blocks</h2><ul class="active nested">
+              <li><p class="collapsible expanded"><small>Found <span id="totalblocktweetcount"></span> <a href="https://twitter.com/hashtag/BlockTweets">#BlockTweets</a> in <a href="https://twitter.com/hashtag/Timechain">#Timechain</a>/<a href="https://twitter.com/hashtag/Tweetchain">#Tweetchain</a></small></p>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Latest Block Stats Image</h3><ul class="active nested">
+                <li><img src="https://raw.githubusercontent.com/7h3rAm/datastore/master/latestblock.png"></li>
+              </ul></li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Block Height - Tweet Mapping</h3><ul class="active nested">
+                <li><table id="blockstable" class="active nested astrotabclass"></table></li>
+              </ul></li>
+            </ul></li>
 
             <li><h2 class="h2 collapsible expanded" onclick=toggle(this);><a id="wallets"></a>💼 Wallets</h2><ul class="active nested">
               <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>📄 Summary</h3><ul class="active nested">
@@ -483,6 +494,47 @@
           })
         }
 
+        function blocks() {
+          var blockstable = document.getElementById("blockstable");
+          var thead = document.createElement("thead");
+          var tr = document.createElement("tr");
+          var th = document.createElement("th"); var text = document.createTextNode("Height"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th); th.setAttribute("data-sort-default", "");
+          var th = document.createElement("th"); var text = document.createTextNode("Tweet"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+          thead.appendChild(tr);
+          blockstable.appendChild(thead);
+          var tbody = document.createElement("tbody");
+          var i = 0;
+          Object.keys(blocktweetidmap).forEach(function(blockheight) {
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            td.setAttribute("data-sort", blockheight);
+            var para = document.createElement("p"); td.append(para);
+            var link = document.createElement("a");
+            link.title = "Block#" + blockheight;
+            link.text = "Block#" + blockheight;
+            link.href = "https://learnmeabitcoin.com/explorer/blockchain/" + blockheight;
+            td.appendChild(link);
+            tr.appendChild(td);
+            var td = document.createElement("td");
+            td.setAttribute("data-sort", blocktweetidmap[blockheight]);
+            var para = document.createElement("p"); td.append(para);
+            var link = document.createElement("a");
+            link.title = "Tweet#" + blocktweetidmap[blockheight];
+            link.text = "Tweet#" + blocktweetidmap[blockheight];
+            link.href = "https://twitter.com/twitter/statuses/" + blocktweetidmap[blockheight];
+            td.appendChild(link);
+            tr.appendChild(td);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+            i = i+1;
+            blockstable.appendChild(tbody);
+          })
+          var blockstablesort = new Tablesort(blockstable,{descending:true});
+          blockstablesort.refresh();
+          var totalblocktweetcount = document.getElementById("totalblocktweetcount");
+          totalblocktweetcount.innerText = i;
+        }
+
         function wallets() {
           document.getElementById("count_wallet").style.fontWeight = "bold";
           document.getElementById("count_address").style.fontWeight = "bold";
@@ -534,14 +586,22 @@
             console.log(spotpriceapi);
             priceusd = spotpriceapi["data"]["amount"];
 
-            loadJson("https://raw.githubusercontent.com/7h3rAm/datastore/master/bitcoin.json", function(response) {
-              bitcoin = JSON.parse(response);
-              console.log("https://raw.githubusercontent.com/7h3rAm/datastore/master/bitcoin.json");
-              console.log(bitcoin);
-              //bitnodes();
-              walletgraph();
-              wallets();
-              document.getElementById("lastupdate").innerText = "Last Update: " + bitcoin["last_update"] + " (" + timeago.format(bitcoin["last_update_epoch"]*1000) + ")";
+            loadJson("https://raw.githubusercontent.com/7h3rAm/datastore/master/blocktweetidmap.json", function(response) {
+              blocktweetidmap = JSON.parse(response);
+              console.log("https://raw.githubusercontent.com/7h3rAm/datastore/master/blocktweetidmap.json");
+              console.log(blocktweetidmap);
+              blocks();
+
+              loadJson("https://raw.githubusercontent.com/7h3rAm/datastore/master/bitcoin.json", function(response) {
+                bitcoin = JSON.parse(response);
+                console.log("https://raw.githubusercontent.com/7h3rAm/datastore/master/bitcoin.json");
+                console.log(bitcoin);
+                //bitnodes();
+                walletgraph();
+                wallets();
+                document.getElementById("lastupdate").innerText = "Last Update: " + bitcoin["last_update"] + " (" + timeago.format(bitcoin["last_update_epoch"]*1000) + ")";
+              });
+
             });
           });
         }
