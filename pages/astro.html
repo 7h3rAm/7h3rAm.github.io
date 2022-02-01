@@ -9,6 +9,7 @@
     <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
     <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.css"/>
     <link id="codestylesheet" rel="stylesheet" type="text/css" media="screen" href="/static/css/atelier-forest-light.css">
+    <link rel="stylesheet" href="/static/css/tablesort.css"/>
     <link rel="stylesheet" href="/static/css/leaflet.css"/>
    </head>
   <body>
@@ -98,96 +99,106 @@
             </ul></li>
 
             <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>🛰️ Satellite Images</h2><ul class="active nested">
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🔆 Sun</h3><ul class="active nested">
-                <li><p class="active nested"><small>Images provided courtesy of <a href="https://sdo.gsfc.nasa.gov/">NASA Solar Dynamics Observatory (SDO) and the Atmospheric Imaging Assembly (AIA), Extreme Ultraviolet Variability Experiment (EVE), and Helioseismic Magnetic Imager (HMI) science</a> teams.</small> <a href="https://svs.gsfc.nasa.gov/3988">[🔗]</a></p>
-                  <table>
-                    <tr>
-                      <td><a id="sdohmidhref"><img class="sqimages" id=sdohmid></a></td>
-                      <td><a id="sdohmiichref"><img class="sqimages" id=sdohmiic></a></td>
-                      <td><a id="sdo0171href"><img class="sqimages" id=sdo0171></a></td>
-                      <td><a id="sdo0304href"><img class="sqimages" id=sdo0304></a></td>
-                    </tr>
-                    <tr>
-                      <td class="tdtitle">SDO HMI Dopplergram</td>
-                      <td class="tdtitle">SDO HMI Intensitygram</td>
-                      <td class="tdtitle">SDO AIA 171 A</td>
-                      <td class="tdtitle">SDO AIA 304 A</td>
-                    </tr>
-                  </table>
-                </li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>⌛ Timelapse</h3><ul class="active nested">
+                <li><p class="active nested"><small>Whole Earth Side-by-Side Collage</small></p></p><table><tr><td><img src="https://raw.githubusercontent.com/7h3rAm/datastore/master/latestsbs.gif"></td></tr></table></li>
+                <li><p class="active nested"><small>Himawari (Natural Color)</small></p></p><tr><td><img class="sqimages" src="https://raw.githubusercontent.com/7h3rAm/datastore/master/latesthimawari8nc.gif"></td></tr></table></li>
+                <li><p class="active nested"><small>GOES17</small></p></p><tr><td><img class="sqimages" src="https://raw.githubusercontent.com/7h3rAm/datastore/master/latestgoes17west.gif"></td></tr></table></li>
+                <li><p class="active nested"><small>GOES16</small></p></p><tr><td><img class="sqimages" src="https://raw.githubusercontent.com/7h3rAm/datastore/master/latestgoes16east.gif"></td></tr></table></li>
+                <li><p class="active nested"><small>Elektro-L</small></p></p><tr><td><img class="sqimages" src="https://raw.githubusercontent.com/7h3rAm/datastore/master/latestelektrol2.gif"></td></tr></table></li>
+                <li><p class="active nested"><small>METEOSAT 0</small></p></p><tr><td><img class="sqimages" src="https://raw.githubusercontent.com/7h3rAm/datastore/master/latestmeteosat0.gif"></td></tr></table></li>
+                <li><p class="active nested"><small>METEOSAT 41.5</small></p></p><tr><td><img class="sqimages" src="https://raw.githubusercontent.com/7h3rAm/datastore/master/latestmeteosat415.gif"></td></tr></table></li>
               </ul></li>
-
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🌎 Earth</h3><ul class="active nested">
-                <li>
-                  <p class="active nested"><small>Images provided courtesy of <a href="https://en.wikipedia.org/wiki/Deep_Space_Climate_Observatory">Deep Space Climate Observatory (DSCOVR)</a>, <a href="https://epic.gsfc.nasa.gov/">Earth Polychromatic Imaging Camera (EPIC)</a>, <a href="https://www.noaa.gov/">National Oceanic and Atmospheric Administration (NOAA)</a>. <a href="https://epic.gsfc.nasa.gov/api/natural">[📄]</a></small></p>
-                  <p class="active nested"><small id="dscovrepicnatinfo"></small></p></p>
-                  <table>
-                    <tr>
-                      <td><a id="dscovrepicnathref"><img class="sqimages" id="dscovrepicnat"></a></td>
-                    </tr>
-                    <tr>
-                      <td class="tdtitle">DSCOVR EPIC (Natural)</td>
-                    </tr>
-                  </table>
-                </li>
-              </ul></li>
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🌏 India/Asia</h3><ul class="active nested">
-                <li><p class="active nested"><small>Images provided courtesy of <a href="https://mausam.imd.gov.in/">India Meteorological Department, Ministry of Earth Sciences, Government of India</a>.</small></p>
-                  <table>
-                    <tr>
-                      <td><a id="insat3dglobalvishref"><img class="sqimages" id="insat3dglobalvis"></a></td>
-                      <td><a id="insat3dglobalir1href"><img class="sqimages" id="insat3dglobalir1"></a></td>
-                    </tr>
-                    <tr>
-                      <td class="tdtitle">INSAT3D Global (VIS)</td>
-                      <td class="tdtitle">INSAT3D Global (IR)</td>
-                    </tr>
-                  </table>
-                </li>
-              </ul></li>
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🌏 Asia-Pacific</h3><ul class="active nested">
-                <li><p class="active nested"><small>Images provided courtesy of <a href="https://rammb2.cira.colostate.edu/">Regional and Mesoscale Meteorology Branch (RAMMB), Cooperative Institute for Research in the Atmosphere (CIRA)</a>.</small></p>
-                  <table>
-                    <tr>
-                      <td><a id="himawari_naturalcolorhref"><img class="sqimages" id="himawari_naturalcolor"></a></td>
-                      <td><a id="himawari_truecolorhref"><img class="sqimages" id="himawari_truecolor"></a></td>
-                    </tr>
-                    <tr>
-                      <td class="tdtitle">Himawari (Natural Color)</td>
-                      <td class="tdtitle">Himawari (True Color)</td>
-                    </tr>
-                  </table>
-                </li>
-              </ul></li>
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🌎 America-Pacific</h3><ul class="active nested">
-                <li><p class="active nested"><small>Images provided courtesy of <a href="https://www.star.nesdis.noaa.gov/star/index.php">Center for Satellite Applications and Research (STAR), National Environmental Satellite, Data, and Information Service (NESDIS), National Oceanic and Atmospheric Administration (NOAA)</a>.</small></p>
-                  <table>
-                    <tr>
-                      <td><a id="goes17westfdhref"><img class="sqimages" id="goes17westfd"></a></td>
-                      <td><a id="goes16eastfdhref"><img class="sqimages" id="goes16eastfd"></a></td>
-                    </tr>
-                    <tr>
-                      <td class="tdtitle">GOES17</td>
-                      <td class="tdtitle">GOES16</td>
-                    </tr>
-                  </table>
-                </li>
-              </ul></li>
-              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🌍 Africa/Europe/Asia</h3><ul class="active nested">
-                <li><p class="active nested"><small>Images provided courtesy of <a href="https://www.eumetsat.int/">European Organisation for the Exploitation of Meteorological Satellites (EUMETSAT)</a>.</small></p>
-                  <table>
-                    <tr>
-                      <td><a id="elektrolhref"><img class="sqimages" id="elektrol"></a></td>
-                      <td><a id="meteosat0href"><img class="sqimages" id="meteosat0"></a></td>
-                      <td><a id="meteosat415href"><img class="sqimages" id="meteosat415"></a></td>
-                    </tr>
-                    <tr>
-                      <td class="tdtitle">Elektro-L</td>
-                      <td class="tdtitle">METEOSAT 0</td>
-                      <td class="tdtitle">METEOSAT 41.5</td>
-                    </tr>
-                  </table>
-                </li>
+              <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🛎️ Latest</h3><ul class="active nested">
+                <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🔆 Sun</h3><ul class="active nested">
+                  <li><p class="active nested"><small>Images provided courtesy of <a href="https://sdo.gsfc.nasa.gov/">NASA Solar Dynamics Observatory (SDO) and the Atmospheric Imaging Assembly (AIA), Extreme Ultraviolet Variability Experiment (EVE), and Helioseismic Magnetic Imager (HMI) science</a> teams.</small> <a href="https://svs.gsfc.nasa.gov/3988">[🔗]</a></p>
+                    <table>
+                      <tr>
+                        <td><a id="sdohmidhref"><img class="sqimages" id=sdohmid></a></td>
+                        <td><a id="sdohmiichref"><img class="sqimages" id=sdohmiic></a></td>
+                        <td><a id="sdo0171href"><img class="sqimages" id=sdo0171></a></td>
+                        <td><a id="sdo0304href"><img class="sqimages" id=sdo0304></a></td>
+                      </tr>
+                      <tr>
+                        <td class="tdtitle">SDO HMI Dopplergram</td>
+                        <td class="tdtitle">SDO HMI Intensitygram</td>
+                        <td class="tdtitle">SDO AIA 171 A</td>
+                        <td class="tdtitle">SDO AIA 304 A</td>
+                      </tr>
+                    </table>
+                  </li>
+                </ul></li>
+                <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🌎 Earth</h3><ul class="active nested">
+                  <li>
+                    <p class="active nested"><small>Images provided courtesy of <a href="https://en.wikipedia.org/wiki/Deep_Space_Climate_Observatory">Deep Space Climate Observatory (DSCOVR)</a>, <a href="https://epic.gsfc.nasa.gov/">Earth Polychromatic Imaging Camera (EPIC)</a>, <a href="https://www.noaa.gov/">National Oceanic and Atmospheric Administration (NOAA)</a>. <a href="https://epic.gsfc.nasa.gov/api/natural">[📄]</a></small></p>
+                    <p class="active nested"><small id="dscovrepicnatinfo"></small></p></p>
+                    <table>
+                      <tr>
+                        <td><a id="dscovrepicnathref"><img class="sqimages" id="dscovrepicnat"></a></td>
+                      </tr>
+                      <tr>
+                        <td class="tdtitle">DSCOVR EPIC (Natural)</td>
+                      </tr>
+                    </table>
+                  </li>
+                </ul></li>
+                <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🌏 India/Asia</h3><ul class="active nested">
+                  <li><p class="active nested"><small>Images provided courtesy of <a href="https://mausam.imd.gov.in/">India Meteorological Department, Ministry of Earth Sciences, Government of India</a>.</small></p>
+                    <table>
+                      <tr>
+                        <td><a id="insat3dglobalvishref"><img class="sqimages" id="insat3dglobalvis"></a></td>
+                        <td><a id="insat3dglobalir1href"><img class="sqimages" id="insat3dglobalir1"></a></td>
+                      </tr>
+                      <tr>
+                        <td class="tdtitle">INSAT3D Global (VIS)</td>
+                        <td class="tdtitle">INSAT3D Global (IR)</td>
+                      </tr>
+                    </table>
+                  </li>
+                </ul></li>
+                <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🌏 Asia-Pacific</h3><ul class="active nested">
+                  <li><p class="active nested"><small>Images provided courtesy of <a href="https://rammb2.cira.colostate.edu/">Regional and Mesoscale Meteorology Branch (RAMMB), Cooperative Institute for Research in the Atmosphere (CIRA)</a>.</small></p>
+                    <table>
+                      <tr>
+                        <td><a id="himawari_naturalcolorhref"><img class="sqimages" id="himawari_naturalcolor"></a></td>
+                        <td><a id="himawari_truecolorhref"><img class="sqimages" id="himawari_truecolor"></a></td>
+                      </tr>
+                      <tr>
+                        <td class="tdtitle">Himawari (Natural Color)</td>
+                        <td class="tdtitle">Himawari (True Color)</td>
+                      </tr>
+                    </table>
+                  </li>
+                </ul></li>
+                <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🌎 America-Pacific</h3><ul class="active nested">
+                  <li><p class="active nested"><small>Images provided courtesy of <a href="https://www.star.nesdis.noaa.gov/star/index.php">Center for Satellite Applications and Research (STAR), National Environmental Satellite, Data, and Information Service (NESDIS), National Oceanic and Atmospheric Administration (NOAA)</a>.</small></p>
+                    <table>
+                      <tr>
+                        <td><a id="goes17westfdhref"><img class="sqimages" id="goes17westfd"></a></td>
+                        <td><a id="goes16eastfdhref"><img class="sqimages" id="goes16eastfd"></a></td>
+                      </tr>
+                      <tr>
+                        <td class="tdtitle">GOES17</td>
+                        <td class="tdtitle">GOES16</td>
+                      </tr>
+                    </table>
+                  </li>
+                </ul></li>
+                <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>🌍 Africa/Europe/Asia</h3><ul class="active nested">
+                  <li><p class="active nested"><small>Images provided courtesy of <a href="https://www.eumetsat.int/">European Organisation for the Exploitation of Meteorological Satellites (EUMETSAT)</a>.</small></p>
+                    <table>
+                      <tr>
+                        <td><a id="elektrolhref"><img class="sqimages" id="elektrol"></a></td>
+                        <td><a id="meteosat0href"><img class="sqimages" id="meteosat0"></a></td>
+                        <td><a id="meteosat415href"><img class="sqimages" id="meteosat415"></a></td>
+                      </tr>
+                      <tr>
+                        <td class="tdtitle">Elektro-L</td>
+                        <td class="tdtitle">METEOSAT 0</td>
+                        <td class="tdtitle">METEOSAT 41.5</td>
+                      </tr>
+                    </table>
+                  </li>
+                </ul></li>
               </ul></li>
             </ul></li>
 
@@ -230,6 +241,9 @@
       <p style="float:right;"><code id="lastupdate"></code></p>
       <!--<script type="text/javascript" src="/static/js/three.js"></script>-->
       <script type="text/javascript" src="/static/js/timeago.min.js"></script>
+      <script type="text/javascript" src="/static/js/tablesort.min.js"></script>
+      <script type="text/javascript" src="/static/js/tablesort.monthname.js"></script>
+      <script type="text/javascript" src="/static/js/tablesort.number.js"></script>
       <script type="text/javascript" src="/static/js/leaflet.js"></script>
       <script type="text/javascript" src="/static/js/leaflet.terminator.js"></script>
       <script>
@@ -542,20 +556,23 @@
             document.getElementById("neotitle").innerText = astro["neo"]["title"];
             var neotable = document.getElementById("neotable");
             if (astro["neo"]["objects"].length) {
+              var thead = document.createElement("thead");
               var tr = document.createElement("tr");
-              var td1 = document.createElement("td"); var text1 = document.createTextNode("#"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
-              //var td2 = document.createElement("td"); var text2 = document.createTextNode("Date"); td2.appendChild(text2); td2.style.fontWeight = "bold"; tr.appendChild(td2);
-              var td3 = document.createElement("td"); var text3 = document.createTextNode("Name"); td3.appendChild(text3); td3.style.fontWeight = "bold"; tr.appendChild(td3);
-              var td7 = document.createElement("td"); var text7 = document.createTextNode("Hazardous?"); td7.appendChild(text7); td7.style.fontWeight = "bold"; tr.appendChild(td7);
-              var td4 = document.createElement("td"); var text4 = document.createTextNode("Velocity"); td4.appendChild(text4); td4.style.fontWeight = "bold"; tr.appendChild(td4);
-              var td5 = document.createElement("td"); var text5 = document.createTextNode("Diameter"); td5.appendChild(text5); td5.style.fontWeight = "bold"; tr.appendChild(td5);
-              var td6 = document.createElement("td"); var text6 = document.createTextNode("Miss Distance"); td6.appendChild(text6); td6.style.fontWeight = "bold"; tr.appendChild(td6);
-              neotable.appendChild(tr);
+              var th = document.createElement("th"); var text1 = document.createTextNode("#"); th.appendChild(text1); th.style.fontWeight = "bold"; tr.appendChild(th);
+              //var th = document.createElement("th"); var text2 = document.createTextNode("Date"); th.appendChild(text2); th.style.fontWeight = "bold"; tr.appendChild(th);
+              var th = document.createElement("th"); var text3 = document.createTextNode("Name"); th.appendChild(text3); th.style.fontWeight = "bold"; tr.appendChild(th);
+              var th = document.createElement("th"); var text7 = document.createTextNode("Hazardous?"); th.appendChild(text7); th.style.fontWeight = "bold"; tr.appendChild(th);
+              var th = document.createElement("th"); var text4 = document.createTextNode("Velocity"); th.appendChild(text4); th.style.fontWeight = "bold"; tr.appendChild(th);
+              var th = document.createElement("th"); var text5 = document.createTextNode("Diameter"); th.appendChild(text5); th.style.fontWeight = "bold"; tr.appendChild(th);
+              var th = document.createElement("th"); var text6 = document.createTextNode("Miss Distance"); th.appendChild(text6); th.style.fontWeight = "bold"; tr.appendChild(th);
+              thead.appendChild(tr);
+              neotable.appendChild(thead);
+              var tbody = document.createElement("tbody");
               for (var i = 0; i < astro["neo"]["objects"].length; i++){
                 var tr = document.createElement("tr");
                 var idtd = document.createElement("td");
                 var idtext = document.createTextNode(i+1 + ".");
-                idtd.appendChild(idtext);
+                idtd.appendChild(idtext); //idtd.setAttribute("data-sort-method", "none");
                 tr.appendChild(idtd);
                 //var datetd = document.createElement("td");
                 //var datetext = document.createTextNode(astro["neo"]["objects"][i]["cat"]);
@@ -589,9 +606,12 @@
                 var missdistancetext = document.createTextNode(astro["neo"]["objects"][i]["distance"]);
                 missdistancetd.appendChild(missdistancetext);
                 tr.appendChild(missdistancetd);
-                neotable.appendChild(tr);
+                tbody.appendChild(tr);
               }
+              neotable.appendChild(tbody);
             }
+            var neosort = new Tablesort(neotable);
+            neosort.refresh();
 
             // satellite images
             document.getElementById("sdohmid").src = astro["satview"]["sdo_hmid"]["datastore"]; document.getElementById("sdohmidhref").href = astro["satview"]["sdo_hmid"]["datastore"];
@@ -617,19 +637,25 @@
             document.getElementById("spaceppltitle").innerText = astro["spaceppl"]["title"];
             var spaceppltable = document.getElementById("spaceppltable");
             if (astro["spaceppl"]["people"].length) {
+              var thead = document.createElement("thead");
               var tr = document.createElement("tr");
-              var td1 = document.createElement("td"); var text1 = document.createTextNode("#"); td1.appendChild(text1); td1.style.fontWeight = "bold"; tr.appendChild(td1);
-              var td3 = document.createElement("td"); var text3 = document.createTextNode("Name"); td3.appendChild(text3); td3.style.fontWeight = "bold"; tr.appendChild(td3);
-              var td2 = document.createElement("td"); var text2 = document.createTextNode("Spacecraft"); td2.appendChild(text2); td2.style.fontWeight = "bold"; tr.appendChild(td2);
-              spaceppltable.appendChild(tr);
+              var th = document.createElement("th"); var text = document.createTextNode("#"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+              var th = document.createElement("th"); var text = document.createTextNode("Name"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+              var th = document.createElement("th"); var text = document.createTextNode("Spacecraft"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+              thead.appendChild(tr);
+              spaceppltable.appendChild(thead);
+              var tbody = document.createElement("tbody");
               for (var i = 0; i < astro["spaceppl"]["people"].length; i++){
                 var tr = document.createElement("tr");
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
-                var td1 = document.createElement("td"); var td1link = document.createElement("a"); var td1text = document.createTextNode(astro["spaceppl"]["people"][i]["name"]); td1link.appendChild(td1text); td1link.title = astro["spaceppl"]["people"][i]["name"]; td1link.href = astro["spaceppl"]["people"][i]["url"]; td1.appendChild(td1link); tr.appendChild(td1);
-                var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spaceppl"]["people"][i]["spacecraft"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                spaceppltable.appendChild(tr);
+                var td = document.createElement("td"); var text = document.createTextNode(i+1 + "."); td.appendChild(text); tr.appendChild(td);
+                var td = document.createElement("td"); var link = document.createElement("a"); var text = document.createTextNode(astro["spaceppl"]["people"][i]["name"]); link.appendChild(text); link.title = astro["spaceppl"]["people"][i]["name"]; link.href = astro["spaceppl"]["people"][i]["url"]; td.appendChild(link); tr.appendChild(td);
+                var td = document.createElement("td"); var text = document.createTextNode(astro["spaceppl"]["people"][i]["spacecraft"]); td.appendChild(text); tr.appendChild(td);
+                tbody.appendChild(tr)
+                spaceppltable.appendChild(tbody);
               }
             }
+            var spacepplsort = new Tablesort(spaceppltable);
+            spacepplsort.refresh();
 
             var spacexroadstertable = document.getElementById("spacexroadstertable");
             var tr = document.createElement("tr");
@@ -709,34 +735,46 @@
 
             var spacexpastlaunchestable = document.getElementById("spacexpastlaunchestable");
             if (astro["spacex"]["launches"]["past"].length) {
+              var thead = document.createElement("thead");
               var tr = document.createElement("tr");
-              var td = document.createElement("td"); var text = document.createTextNode("#"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Date"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Name"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              spacexpastlaunchestable.appendChild(tr);
+              var th = document.createElement("th"); var text = document.createTextNode("#"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+              var th = document.createElement("th"); var text = document.createTextNode("Date"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+              var th = document.createElement("th"); var text = document.createTextNode("Name"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+              thead.appendChild(tr);
+              spacexpastlaunchestable.appendChild(thead);
+              var tbody = document.createElement("tbody");
               for (var i = 0; i < astro["spacex"]["launches"]["past"].length; i++){
                 var tr = document.createElement("tr");
                 var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
                 var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["launches"]["past"][i]["launch"]); coltd.appendChild(coltext); tr.appendChild(coltd);
                 var coltd = document.createElement("td"); var coltdlink = document.createElement("a"); var coltdtext = document.createTextNode(astro["spacex"]["launches"]["past"][i]["name"]); coltdlink.appendChild(coltdtext); coltdlink.title = astro["spacex"]["launches"]["past"][i]["name"]; coltdlink.href = astro["spacex"]["launches"]["past"][i]["url"]; coltd.appendChild(coltdlink); tr.appendChild(coltd); spacexpastlaunchestable.appendChild(tr);
-                spacexpastlaunchestable.appendChild(tr);
+                tbody.append(tr);
+                spacexpastlaunchestable.appendChild(tbody);
               }
             }
+            var spacexpastlaunchessort = new Tablesort(spacexpastlaunchestable);
+            spacexpastlaunchessort.refresh();
             var spacexfuturelaunchestable = document.getElementById("spacexfuturelaunchestable");
             if (astro["spacex"]["launches"]["future"].length) {
+              var thead = document.createElement("thead");
               var tr = document.createElement("tr");
-              var td = document.createElement("td"); var text = document.createTextNode("#"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Date"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              var td = document.createElement("td"); var text = document.createTextNode("Name"); td.appendChild(text); td.style.fontWeight = "bold"; tr.appendChild(td);
-              spacexfuturelaunchestable.appendChild(tr);
+              var th = document.createElement("th"); var text = document.createTextNode("#"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+              var th = document.createElement("th"); var text = document.createTextNode("Date"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+              var th = document.createElement("th"); var text = document.createTextNode("Name"); th.appendChild(text); th.style.fontWeight = "bold"; tr.appendChild(th);
+              thead.appendChild(tr);
+              spacexfuturelaunchestable.appendChild(thead);
+              var tbody = document.createElement("tbody");
               for (var i = 0; i < astro["spacex"]["launches"]["future"].length; i++){
                 var tr = document.createElement("tr");
                 var coltd = document.createElement("td"); var coltext = document.createTextNode(i+1 + "."); coltd.appendChild(coltext); tr.appendChild(coltd);
                 var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["launches"]["future"][i]["launch"]); coltd.appendChild(coltext); tr.appendChild(coltd);
                 var coltd = document.createElement("td"); var coltext = document.createTextNode(astro["spacex"]["launches"]["future"][i]["name"]); coltd.appendChild(coltext); tr.appendChild(coltd);
-                spacexfuturelaunchestable.appendChild(tr);
+                tbody.append(tr);
+                spacexfuturelaunchestable.appendChild(tbody);
               }
             }
+            var spacexfuturelaunchessort = new Tablesort(spacexfuturelaunchestable);
+            spacexfuturelaunchessort.refresh();
 
             // last updated timestamp
             document.getElementById("lastupdate").innerText = "Last Update: " + astro["last_update"] + " (" + timeago.format(astro["last_update_epoch"]*1000) + ")";
