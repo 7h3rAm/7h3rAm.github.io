@@ -1,34 +1,52 @@
 categories:
-  Daily:
+  Setup:
+    - name: Tailscale
+      url: https://login.tailscale.com/admin/machines
+    - name: Mullvad
+      url: https://mullvad.net/en/check/
+    - name: Pi-hole
+      url: http://100.80.159.34/admin/index.php
+    - name: Tor Snowflake Proxy
+      url: http://100.124.172.114:3800/
+    - name: Bitcoin Explorer
+      url: http://100.124.172.114:3002/api/docs
+    - name: Bitfeed
+      url: http://100.124.172.114:8314/
+    - name: mempool
+      url: http://100.124.172.114:3006/
+    - name: Umbrel
+      url: http://100.124.172.114/
     - name: NodeRed
-      url: http://172.16.1.46:1880/#flow/c5b3168d.36ab6
-    - name: Mail
-      url: https://mail.google.com/mail/
+      url: http://100.114.110.37:1880/
+
+  Google:
+    - name: Sheets-Finstats
+      url: https://docs.google.com/spreadsheets/d/153g6ba5Kekr45yZpF4TTOVr2w2jpnyaCapaqrT_qS2s/
+    - name: Sheets-Healthstats
+      url: https://docs.google.com/spreadsheets/d/1TqZLWHm2INVEyHyoaKCh6p328-IGkhYUI3lOfX3WlZY/
+    - name: Sheets-Analysis
+      url: https://docs.google.com/spreadsheets/d/1NeI6coM8R-524CJbU94sGCX5PuTr5pWgy-4E5N8_UP4/edit?skip_itp2_check=true&pli=1#gid=288870946
     - name: Calendar
       url: https://calendar.google.com/calendar
+    - name: Mail
+      url: https://mail.google.com/mail/
     - name: Drive
       url: https://drive.google.com/drive/
-    - name: Pi-hole
-      url: http://172.16.1.53/admin/index.php
-    - name: Umbrel
-      url: http://172.16.1.48/
-    - name: mempool
-      url: http://172.16.1.48:3006/
-    - name: Sheets
-      url: https://docs.google.com/spreadsheets/
+
   Social:
-    - name: Discord
+    - name: Discord-Mannthan
       url: https://discord.com/channels/354052889364267008/617042541468057610
     - name: Reddit
       url: https://www.reddit.com/
     - name: Twitter
       url: https://www.twitter.com/7h3rAm
-    - name: TweetDeck
-      url: https://tweetdeck.twitter.com/
     - name: HackerNews
       url: https://news.ycombinator.com/news
+    - name: Discord-Misc
+      url: https://discord.com/channels/427589708290457630/613636504782110724
+
   Learning:
-    - name: ArchWiki 
+    - name: ArchWiki
       url: https://wiki.archlinux.org/
     - name: Github
       url: https://github.com/7h3rAm
