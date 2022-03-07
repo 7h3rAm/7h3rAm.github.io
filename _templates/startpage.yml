@@ -4,6 +4,8 @@ categories:
       url: https://login.tailscale.com/admin/machines
     - name: Mullvad
       url: https://mullvad.net/en/check/
+    - name: Syncthing
+      url: http://100.114.110.37:8384/
     - name: Pi-hole
       url: http://100.80.159.34/admin/index.php
     - name: Tor Snowflake Proxy
