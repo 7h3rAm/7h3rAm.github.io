@@ -5,35 +5,18 @@ notes:
       - Intellectual Athlete
       - 🌄 🏋️ 🧗 🏊 🏃 🚴 -> 🍎 🥛 🥦 🥕 🥗 -> 🏡 🧘 🔕 🙈 🙊 🙉
 
-  - name: "[Follow] Life"
+  - name: "Economics"
+    listing:
+      - "[Lyn Alden](https://twitter.com/LynAldenContact)"
+      - "[Nick Szabo](https://twitter.com/NickSzabo4)"
+      - "[Saifedean Ammous](https://twitter.com/saifedean)"
+
+  - name: "Wisdom"
     listing:
       - "[Chuck Palahniuk](https://twitter.com/chuckpalahniuk)"
       - "[Jordan Peterson](https://twitter.com/jordanbpeterson)"
       - "[Naval Ravikant](https://twitter.com/naval)"
       - "[Sadhguru](https://twitter.com/SadhguruJV)"
-
-  - name: "[Follow] Economics"
-    listing:
-      - "[Nick Szabo](https://twitter.com/NickSzabo4)"
-      - "[Saifedean Ammous](https://twitter.com/saifedean)"
-
-  - name: "[Follow] Investing"
-    listing:
-      - "[Cathie Wood](https://twitter.com/cathiedwood)"
-      - "[Chamath Palihapitiya](https://twitter.com/chamath)"
-      - "[Gene Munster](https://twitter.com/munster_gene)"
-      - "[Ron Baron](https://twitter.com/baronfunds)"
-
-  - name: "@naval"
-    url: https://twitter.com/naval
-    listing:
-      - "Permissioned Leverage: capital, labor"
-      - "Permission-less Leverage: code, creative"
-      - "Money: How you transfer wealth and time"
-      - "Specific Knowledge: Can not be trained for; Acquired via apprenticeship"
-      - "Status: Your place in social hierarchy"
-      - "Wealth: Assets that earn while you sleep"
-      - "[Asymmetric Opportunities](https://twitter.com/naval/status/1054984950192181248), [@JaapVergote](https://medium.com/@JaapVergote/64-asymmetric-opportunities-324a09c1ac0a)"
 
   - name: Barbell Strategy
     listing:
@@ -139,6 +122,7 @@ notes:
       - Functional relationship between two quantities, where a relative change in one quantity results in a proportional relative change in the other quantity, independent of the initial size of those quantities (one quantity behaves as a power of another)
 
   - name: Sadhguru
+    url: https://isha.sadhguru.org/
     listing:
       - Aham Brahmami (I'm the cosmos)
       - Alive vs Alert
@@ -165,21 +149,37 @@ notes:
 
   - name: Misc
     listing:
-      - "```#dontassume``` - [@7h3rAm](https://twitter.com/7h3rAm)"
-      - "```from life import experience as wisdom``` - [@7h3rAm](https://twitter.com/7h3rAm)"
-      - "[दिमाग ठंडा - बदन गरम](https://twitter.com/BeATopPredator/status/1376889299900063750)"
-      - "[A father said to his son: Be careful where you walk. The son responded: You be careful, I walk in your footsteps.](https://twitter.com/MyPlayboysBunny/status/1428743950005936129)"
-      - "[A man's fight in the modern world is a fight against domestication - by women, by paychecks, by low testosterone.](https://twitter.com/LifeMathMoney/status/1421884364518871046)"
+      - "[दिमाग ठंडा - बदन गरम - @BeATopPredator](https://twitter.com/BeATopPredator/status/1376889299900063750)"
+      - "[A father said to his son: Be careful where you walk. The son responded: You be careful, I walk in your footsteps. - @MyPlayboysBunny](https://twitter.com/MyPlayboysBunny/status/1428743950005936129)"
+      - "[A man's fight in the modern world is a fight against domestication - by women, by paychecks, by low testosterone. - @LifeMathMoney](https://twitter.com/LifeMathMoney/status/1421884364518871046)"
+      - "[Asymmetric Opportunities](https://twitter.com/naval/status/1054984950192181248), [@JaapVergote](https://medium.com/@JaapVergote/64-asymmetric-opportunities-324a09c1ac0a)"
       - "[He who is only an athlete is too crude, too vulgar, too much of a savage. He who is a scholar only is too soft, too effeminate. The ideal citizen is the scholar athlete, the man of thought and the man of action. - Plato](https://twitter.com/PathToManliness/status/1216797157350674433)"
-      - "[Nothing in the affairs of men is worthy of great anxiety.](https://twitter.com/Mensthetics/status/1428116679653986313)"
-      - "[Raise victors, not victims.](https://twitter.com/LostTemple7/status/1429116851196334086)"
-      - "[The only man willing to invest in a mediocre young man other than himself is his father.](https://twitter.com/TellYourSonThis/status/1421174101633294339)"
+      - "[Nothing in the affairs of men is worthy of great anxiety. - @Mensthetics](https://twitter.com/Mensthetics/status/1428116679653986313)"
+      - "[Raise victors, not victims. - @LostTemple7](https://twitter.com/LostTemple7/status/1429116851196334086)"
+      - "[The only man willing to invest in a mediocre young man other than himself is his father. - @TellYourSonThis](https://twitter.com/TellYourSonThis/status/1421174101633294339)"
       - "[The society that separates its scholars from its warriors will have its thinking done by cowards and its fighting by fools. - Thucydides](https://medium.com/sunnya97/quote-of-the-month-december-2018-982f7225eeda)"
+      - "Frustration is all about unlocked potential - [Tim Berners-Lee](https://en.wikipedia.org/wiki/Tim_Berners-Lee)"
+      - "Success is not having to wear a suit - [Amol Gupte - One Idiot](https://www.youtube.com/watch?v=vU1l1TB7GzI)"
+      - "Value is subjective, there's no intrinsic value to anything"
+      - "With proper design, the features come cheaply. This approach is arduous, but continues to succeed - [Dennis Ritchie](https://en.wikipedia.org/wiki/Dennis_Ritchie)"
+
+      - "[A Calm Mind, a Fit Body, a House Full of Love - @naval](https://www.youtube.com/watch?v=qJyxbPz9g0k)"
+      - "Money: How you transfer wealth and time - [@naval](https://twitter.com/naval)"
+      - "Permission-less Leverage: code, creative - [@naval](https://twitter.com/naval)"
+      - "Permissioned Leverage: capital, labor - [@naval](https://twitter.com/naval)"
+      - "Specific Knowledge: Can not be trained for; Acquired via apprenticeship - [@naval](https://twitter.com/naval)"
+      - "Status: Your place in social hierarchy - [@naval](https://twitter.com/naval)"
+      - "Wealth: Assets that earn while you sleep - [@naval](https://twitter.com/naval)"
+
+      - "कर्म किस्मत बदलते हैं - [@7h3rAm](https://twitter.com/7h3rAm)"
+      - "मेहनत तो किस्मत वालों को मिलती है - [@7h3rAm](https://twitter.com/7h3rAm)"
+      - "जहाँ राष्ट्रवाद को आतंकवाद समझा जाता हो, वहा तर्क वितर्क की आशा मूर्खता है ।। - [@7h3rAm](https://twitter.com/7h3rAm)"
+      - "```from life import experience as wisdom``` - [@7h3rAm](https://twitter.com/7h3rAm)"
+      - "Compounding is a way to employ time. It is how you make universe work for you. Start early, stay disciplined and keep going. Life has no goals, just landmarks. - [@7h3rAm](https://twitter.com/7h3rAm/status/1502398559076839425)"
       - "Eat clean, work hard, sleep well & soak sunlight - [@7h3rAm](https://twitter.com/7h3rAm)"
-      - "Frustration is all about unlocked potential - Tim Berners Lee"
       - "Health > Family > Finances - [@7h3rAm](https://twitter.com/7h3rAm)"
       - "High Morals, Low Time Preference - [@7h3rAm](https://twitter.com/7h3rAm)"
-      - "Success is not having to wear a suit - [Amol Gupte - One Idiot](https://www.youtube.com/watch?v=vU1l1TB7GzI)"
+      - "Keep trying. Keep praying. Stay positive. Be awesome. Become better. - [@7h3rAm](https://twitter.com/7h3rAm)"
+      - "Low Morals + High Time Preference => Societal Collapse - [@7h3rAm](https://twitter.com/7h3rAm)"
+      - "Lure of easy riches is greater than the promise of sound money - [@7h3rAm](https://twitter.com/7h3rAm/status/1390415540380856321)"
       - "Today is a gift to fix mistakes of yesterday - [@7h3rAm](https://twitter.com/7h3rAm)"
-      - "Value is subjective, there's no intrinsic value to anything"
-      - "With proper design, the features come cheaply. This approach is arduous, but continues to succeed - Dennis Ritchie"
