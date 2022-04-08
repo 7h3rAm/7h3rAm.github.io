@@ -2,23 +2,29 @@
 {% block content %}
   <h1 class="h1">💾 Archive</h1>
     <ul class="active">
-      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>आयुध (Aayudh - Tools/Projects)</h2><ul class="active nested">
-        <li><a href=/pages/astro.html>🌌 Astro</a></li>
-        <li><a href=/pages/bitcoin.html><img class="btcicon" alt="₿" src="https://raw.githubusercontent.com/7h3rAm/datastore/master/Bitcoin_evergreen.png">Bitcoin</a></li>
-        <li><a href=https://github.com/7h3rAm/angad>angad</a></li>
-        <li><a href=https://github.com/7h3rAm/flowinspect>flowinspect</a></li>
-        <li><a href=https://github.com/7h3rAm/kalpi>kalpi</a></li>
-        <li><a href=https://github.com/7h3rAm/machinescli>machinescli</a></li>
-        <li><a href=https://github.com/7h3rAm/rudra>rudra</a></li>
-        <li><a href=https://github.com/7h3rAm/svachal>svachal</a></li>
-        <li><a href=https://github.com/7h3rAm/yml2dot>yml2dot</a></li>
+      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>आयुध | Aayudh</h2><ul class="active nested">
+        <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Projects</h2><ul class="active nested">
+          <li><a href=/pages/astro.html>🌌 Astro</a></li>
+          <li><a href=/pages/bitcoin.html><img class="btcicon" alt="₿" src="https://raw.githubusercontent.com/7h3rAm/datastore/master/Bitcoin_evergreen.png">Bitcoin</a></li>
+        </ul></li>
+        <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Tools</h2><ul class="active nested">
+          <li><a href=https://github.com/7h3rAm/angad>angad</a></li>
+          <li><a href=https://github.com/7h3rAm/flowinspect>flowinspect</a></li>
+          <li><a href=https://github.com/7h3rAm/kalpi>kalpi</a></li>
+          <li><a href=https://github.com/7h3rAm/machinescli>machinescli</a></li>
+          <li><a href=https://github.com/7h3rAm/rudra>rudra</a></li>
+          <li><a href=https://github.com/7h3rAm/svachal>svachal</a></li>
+          <li><a href=https://github.com/7h3rAm/yml2dot>yml2dot</a></li>
+        </ul></li>
       </ul></li>
-      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>संहिता (Samhita - Notes/Writeups)</h2><ul class="active nested">
-        <li><a href=/pages/cv.html>📄 Curriculum Vitae</a></li>
-        <li><a href=/pages/fitness.html>🏋️ Fitness</a></li>
-        <li><a href=/pages/life.html>🧘 Life</a></li>
-        <li><a href=/pages/read.html>📚 Read</a></li>
-        <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Posts</h2><ul class="active nested">
+      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>संहिता | Samhita</h2><ul class="active nested">
+        <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Notes</h2><ul class="active nested">
+          <li><a href=/pages/cv.html>📄 Curriculum Vitae</a></li>
+          <li><a href=/pages/fitness.html>🏋️ Fitness</a></li>
+          <li><a href=/pages/life.html>🧘 Life</a></li>
+          <li><a href=/pages/read.html>📚 Read</a></li>
+        </ul></li>
+        <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Writeups</h2><ul class="active nested">
           {% set count=[1] %}
           {% set revcount=[datadict.posts|count] %}
           {% for year,year_list in datadict.posts|groupby('year')|reverse %}
