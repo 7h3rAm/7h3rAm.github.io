@@ -6,7 +6,7 @@
   --link-color: #3b7dfa;
   --menu-color: #5e5cb2;
   --primary-color: #5cb25e;
-  --secondary-color: #766e6b;
+  --secondary-color: #e8e6df;
   --max-width: 1200px;
   --font-size: 11pt;
   --footer-size: 11pt;
@@ -47,12 +47,12 @@ a { color:var(--link-color); text-decoration:none; } a, a:active, a:focus{ outli
 em, i { font-style:italic; }
 figcaption { font-size:small; }
 figure { margin:1em 0; text-align:center; }
-h1 { font-weight:normal; font-size:var(--h1-size); margin:0 0; margin-top:0; margin-bottom:0; color:var(--link-color); }
-h2 { font-weight:normal; font-size:var(--h2-size); margin:0 0; margin-top:0; margin-bottom:0; color:var(--border-color); } h2::before { color:var(--accent-color); content:"# "; font-weight:normal; }
-h3 { font-weight:normal; font-size:var(--h3-size); margin:0 0; margin-top:0; margin-bottom:0; color:var(--border-color); } h3::before { color:var(--accent-color); content:"# "; font-weight:normal; }
-h4 { font-weight:normal; font-size:var(--h4-size); margin:0 0; margin-top:0; margin-bottom:0; color:var(--border-color); } h4::before { color:var(--accent-color); content:"# "; font-weight:normal; }
-h5 { font-weight:normal; font-size:var(--h5-size); margin:0 0; margin-top:0; margin-bottom:0; color:var(--border-color); } h5::before { color:var(--accent-color); content:"# "; font-weight:normal; }
-h6 { font-weight:normal; font-size:var(--h6-size); margin:0 0; margin-top:0; margin-bottom:0; color:var(--border-color); } h6::before { color:var(--accent-color); content:"# "; font-weight:normal; }
+h1 { font-weight:bold; font-size:var(--h1-size); margin:0 0; margin-top:0; margin-bottom:0; color:var(--link-color); }
+h2 { font-weight:bold; font-size:var(--h2-size); margin:0 0; margin-top:0; margin-bottom:0; color:var(--font-color); } h2::before { color:var(--accent-color); content:"# "; font-weight:normal; }
+h3 { font-weight:bold; font-size:var(--h3-size); margin:0 0; margin-top:0; margin-bottom:0; color:var(--font-color); } h3::before { color:var(--accent-color); content:"# "; font-weight:normal; }
+h4 { font-weight:bold; font-size:var(--h4-size); margin:0 0; margin-top:0; margin-bottom:0; color:var(--font-color); } h4::before { color:var(--accent-color); content:"# "; font-weight:normal; }
+h5 { font-weight:bold; font-size:var(--h5-size); margin:0 0; margin-top:0; margin-bottom:0; color:var(--font-color); } h5::before { color:var(--accent-color); content:"# "; font-weight:normal; }
+h6 { font-weight:bold; font-size:var(--h6-size); margin:0 0; margin-top:0; margin-bottom:0; color:var(--font-color); } h6::before { color:var(--accent-color); content:"# "; font-weight:normal; }
 hr { margin:0 0; margin-top:0.5em; margin-bottom:0.5em; color:var(--bg-color); }
 img { display:block; margin:0 auto; vertical-align:middle; -webkit-border-radius:0px; max-width:100% !important; width:auto; height:auto; border:1px solid var(--border-color); }
 li { position:relative; margin:0; }
@@ -69,11 +69,11 @@ pre::before, pre::after { display:block; }
 strong, b { font-weight:bold; }
 /*p { text-align:justify; }*/
 
-.menu { border:1px dashed var(--bg-color); display:inline-block; text-align:center; width:100%; }
-.menu_home { color:#fc580c; font-size:28pt; text-transform:capitalize; }
-.menu_archive { color:#5e5cb2; font-size:16pt; text-transform:capitalize; }
-.menu_tags { color:#5e5cb2; font-size:16pt; text-transform:capitalize; }
-.menu_stats { color:#5e5cb2; font-size:16pt; text-transform:capitalize; }
+.menu { font-weight:bold; border:1px dashed var(--bg-color); display:inline-block; text-align:center; width:100%; }
+.menu_home { font-weight:bold; color:#fc580c; font-size:28pt; text-transform:capitalize; }
+.menu_archive { font-weight:bold; color:#5e5cb2; font-size:16pt; text-transform:capitalize; }
+.menu_tags { font-weight:bold; color:#5e5cb2; font-size:16pt; text-transform:capitalize; }
+.menu_stats { font-weight:bold; color:#5e5cb2; font-size:16pt; text-transform:capitalize; }
 
 .title { display:inline-block; text-align:center; width:100%; text-decoration:none !important; border-bottom:none; }
 .footer { display:inline-block; text-align:center; width:100%; text-decoration:none !important; border-bottom:none; color:var(--border-color); font-size:var(--footer-size); }

@@ -1,4 +1,9 @@
 notes:
+  - name: Listings
+    listing:
+      - "[DEF CON](https://defcon.org/html/links/book-list.html)"
+      - "[PayloadAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/BOOKS.md)"
+
   - name: CyberSec
     listing:
       - "[@War: The Rise of the Military-Internet Complex - Shane Harris](https://smile.amazon.com/dp/0544251792/)"
