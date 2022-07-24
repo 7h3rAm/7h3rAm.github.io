@@ -20,7 +20,6 @@ notes:
       - "[Mark Wildman](https://www.youtube.com/channel/UCVYbUVLrZ6pEBfYV_UyvItA)"
       - "[Oleksiy Torokhtiy](https://www.instagram.com/torokhtiy/)"
       - "[Ross Enamait](https://twitter.com/rosstraining)"
-      - "[Sol Brah](https://twitter.com/solbrah)"
 
   - name: Read
     listing:
@@ -45,33 +44,27 @@ notes:
 
   - name: Notes
     listing:
-      - "[Body] Chandan (Sandalwood), Gulab Jal (Rose Water), Multani Mitti (Fuller's Earth), Neem Powder (Azadirachta Indica)"
-      - "[Food] 2 Meals per day: Fat+Protein > Carbs, Almonds, Aloe Vera, Amla, Ashwagandh, Black Pepper, Cardamom, Garlic, Ghee, Giloy, Ginger, Grape Raisins, Honey, Jaggery, Milk, Onion, Turmeric"
-      - "[Hair] Amla Shikakai, Coconut Oil, Dahi (Curd), Gulab Jal (Rose Water), Multani Mitti (Fuller's Earth)"
       - "[Health] Sunlight & Cold Exposure"
-      - "[Skin] Besan (Chickpea Flour) + Dahi (Curd), Vicco Turmeric"
       - "[Wisdom] Intent -> Consistency -> Discipline (Effort/Nutrition/Sleep)"
-
-  - name: Regimen
-    listing:
-      - "[Workout-7d] Walking"
-      - "[Workout-6d] Dand, Baithak, Gada, Mudgar"
-      - "[Workout-4d] Rows, Bench, Squats, Deadlift, Overhead Press, Sprint, Rowing"
-
-  - name: Goals
-    listing:
-      - 10 pull ups
-      - 20 dips
-      - 30 push ups
-      - 8 minute mile
-      - 5+5 skater squats
+      - "[Food] Ghee, Giloy, Ginger, Grape Raisins, Honey, Jaggery, Milk, Onion, Turmeric"
+      - "[Food] Fat+Protein > Carbs, Almonds, Aloe Vera, Amla, Ashwagandh, Black Pepper, Cardamom, Garlic"
+      - "[Body] Chandan (Sandalwood), Gulab Jal (Rose Water), Multani Mitti (Fuller's Earth), Neem Powder (Azadirachta Indica)"
+      - "[Hair] Amla Shikakai, Coconut Oil, Dahi (Curd), Gulab Jal (Rose Water), Multani Mitti (Fuller's Earth)"
+      - "[Skin] Besan (Chickpea Flour) + Dahi (Curd), Vicco Turmeric"
 
   - name: Supplements
     listing:
       - "[Ashwagandha Root Powder](https://smile.amazon.com/dp/B081B9KN7F/)"
-      - "[Creatine (Monohydrate)](https://smile.amazon.com/dp/B002DYIZEO/)"
-      - "[Omega 3](https://smile.amazon.com/dp/B002CQU564/)"
-      - "[Vitamin B Complex](https://smile.amazon.com/dp/B07414752B/) or [B3](https://smile.amazon.com/gp/product/B0041SFOY4/)+[B12](https://smile.amazon.com/dp/B0013OQGO6/)"
-      - "[Vitamin D3+K2](https://smile.amazon.com/dp/B07255MPRN/)"
-      - "[Whey Protein (Isolate)](https://smile.amazon.com/dp/B00E7IODXQ/)"
+      - "[Tongkat Ali](https://smile.amazon.com/dp/B07TTDFXFV)"
       - "[Zinc+Magnesium](https://smile.amazon.com/dp/B000GIQS02/)"
+      - "[Vitamin D3+K2](https://smile.amazon.com/dp/B07255MPRN/)"
+      #- "[Whey Protein (Isolate)](https://smile.amazon.com/dp/B00E7IODXQ/)"
+      #- "[Creatine (Monohydrate)](https://smile.amazon.com/dp/B002DYIZEO/)"
+      #- "[Omega 3](https://smile.amazon.com/dp/B002CQU564/)"
+      #- "[Vitamin B Complex](https://smile.amazon.com/dp/B07414752B/) or [B3](https://smile.amazon.com/gp/product/B0041SFOY4/)+[B12](https://smile.amazon.com/dp/B0013OQGO6/)"
+
+  - name: Regimen
+    listing:
+      - "[Workout-7d] Walk, Plank, Pullups"
+      - "[Workout-6d] Dand, Baithak, Gada, Mudgar"
+      - "[Workout-3d] Bench, Squat, Deadlift, Overhead Press, Dips, Sprint, Rowing"
