@@ -24,15 +24,17 @@
 
         <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Patents</h3><ul class="active nested">
         {% for patent in datadict.metadata.research.patents %}
-          {% if patent.url is not none %}
-            <li>
-              <table style="margin-left:0;"><tr>
-                <td style="vertical-align:top;"><code>{{ patent.date }}</code></td>
-                <td style="vertical-align:top;">:</td>
+          <li>
+            <table style="margin-left:0;"><tr>
+              <td style="vertical-align:top;"><code>{{ patent.date }}</code></td>
+              <td style="vertical-align:top;">:</td>
+              {% if patent.url is not none %}
                 <td><a href={{ patent.url }}>{{ patent.title }}</a></td>
-              </tr></table>
-            </li>
-          {% endif %}
+              {% else %}
+                <td>{{ patent.title }}</td>
+              {% endif %}
+            </tr></table>
+          </li>
         {% endfor %}
         </ul></li>
 
