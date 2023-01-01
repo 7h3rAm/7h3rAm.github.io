@@ -1,4 +1,30 @@
 notes:
+  - name: Notes
+    listing:
+      - "[Health] Sunlight & Cold Exposure"
+      - "[Wisdom] Intent -> Consistency -> Discipline (Effort/Nutrition/Sleep)"
+      - "[Food] Amla, Aloe Vera, Coconut, Ghee, Giloy, Ginger, Grape Raisins, Honey, Jaggery, Milk, Turmeric"
+      - "[Food] Almonds, Aloe Vera, Amla, Ashwagandh, Black Pepper, Cardamom, Garlic"
+      - "[Body] Chandan (Sandalwood), Gulab Jal (Rose Water), Multani Mitti (Fuller's Earth), Neem Powder (Azadirachta Indica)"
+      - "[Hair] Amla Shikakai, Coconut Oil, Dahi (Curd), Gulab Jal (Rose Water), Multani Mitti (Fuller's Earth)"
+      - "[Skin] Besan (Chickpea Flour) + Dahi (Curd), Vicco Turmeric"
+
+  - name: Supplements
+    listing:
+      - "[Ashwagandha](https://smile.amazon.com/dp/B081B9KN7F)"
+      - "[Shilajit](https://smile.amazon.com/dp/B0B7KFV1NL)"
+      - "[Tongkat Ali](https://smile.amazon.com/dp/B07TTDFXFV)"
+      - "[Vitamin D3+K2](https://smile.amazon.com/dp/B07NXW4GW7)"
+      - "[Zinc+Magnesium](https://smile.amazon.com/dp/B000GIQS02)"
+      - "[Whey Protein](https://ironmind.com/product-info/media-more/just-protein/)"
+      - "[Creatine (Monohydrate)](https://smile.amazon.com/dp/B002DYIZEO)"
+
+  - name: Regimen
+    listing:
+      - "[Workout-7d] Walk, Plank, Pullups"
+      - "[Workout-6d] Dand, Baithak, Gada, Mudgar"
+      - "[Workout-3d] Bench, Squat, Deadlift, Press, Dips, Row, Sprint"
+
   - name: Hall of Fame
     listing:
       - "[Bruce Lee](https://twitter.com/brucelee)"
@@ -41,29 +67,3 @@ notes:
       - "[The Quick and the Dead: Total Training for the Advanced Minimalist - Pavel Tsatsouline](https://smile.amazon.com/dp/0989892425/)"
       - "[The Virility Paradox: The Vast Influence of Testosterone on Our Bodies, Minds, and the World We Live In - Charles J. Ryan MD](https://smile.amazon.com/dp/B01N9XZCEJ/)"
       - "[The Way of the Superior Man: A Spiritual Guide to Mastering the Challenges of Women, Work, and Sexual Desire - David Deida](https://smile.amazon.com/dp/1622038320/)"
-
-  - name: Notes
-    listing:
-      - "[Health] Sunlight & Cold Exposure"
-      - "[Wisdom] Intent -> Consistency -> Discipline (Effort/Nutrition/Sleep)"
-      - "[Food] Amla, Aloe Vera, Coconut, Ghee, Giloy, Ginger, Grape Raisins, Honey, Jaggery, Milk, Turmeric"
-      - "[Food] Fat+Protein > Carbs, Almonds, Aloe Vera, Amla, Ashwagandh, Black Pepper, Cardamom, Garlic"
-      - "[Body] Chandan (Sandalwood), Gulab Jal (Rose Water), Multani Mitti (Fuller's Earth), Neem Powder (Azadirachta Indica)"
-      - "[Hair] Amla Shikakai, Coconut Oil, Dahi (Curd), Gulab Jal (Rose Water), Multani Mitti (Fuller's Earth)"
-      - "[Skin] Besan (Chickpea Flour) + Dahi (Curd), Vicco Turmeric"
-
-  - name: Supplements
-    listing:
-      - "[Ashwagandha](https://smile.amazon.com/dp/B081B9KN7F)"
-      - "[Shilajit](https://smile.amazon.com/dp/B0B7KFV1NL)"
-      - "[Tongkat Ali](https://smile.amazon.com/dp/B07TTDFXFV)"
-      - "[Vitamin D3+K2](https://smile.amazon.com/dp/B07NXW4GW7)"
-      - "[Zinc+Magnesium](https://smile.amazon.com/dp/B000GIQS02)"
-      - "[Whey Protein](https://ironmind.com/product-info/media-more/just-protein/)"
-      - "[Creatine (Monohydrate)](https://smile.amazon.com/dp/B002DYIZEO)"
-
-  - name: Regimen
-    listing:
-      - "[Workout-7d] Walk, Plank, Pullups"
-      - "[Workout-6d] Dand, Baithak, Gada, Mudgar"
-      - "[Workout-3d] Bench, Squat, Deadlift, Press, Dips, Row, Sprint"
