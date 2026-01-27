@@ -67,29 +67,39 @@
     var densityBtn = document.querySelector('.toggle-density');
     var widthBtn = document.querySelector('.toggle-width');
     var justifyBtn = document.querySelector('.toggle-justify');
+    var collapseBtn = document.querySelector('.toggle-collapse');
+
     var isDark = html.getAttribute('data-theme-mode') === 'dark';
     var isComfy = html.getAttribute('data-density') === 'comfortable';
     var isWide = html.getAttribute('data-width') === 'wide';
     var isJustify = html.getAttribute('data-justify') !== 'off';
 
     if (themeBtn) {
-      themeBtn.textContent = isDark ? '◐' : '◑';
-      themeBtn.title = isDark ? 'dark mode | click for light' : 'light mode | click for dark';
+      themeBtn.innerHTML = isDark ? '&#xf186;' : '&#xf185;';
+      themeBtn.title = isDark ? 'dark mode' : 'light mode';
+      if (isDark) themeBtn.classList.add('active');
+      else themeBtn.classList.remove('active');
     }
     if (densityBtn) {
-      densityBtn.textContent = isComfy ? '▤' : '▥';
-      densityBtn.title = isComfy ? 'comfortable | click for compact' : 'compact | click for comfortable';
+      densityBtn.innerHTML = isComfy ? '&#xf422;' : '&#xf424;';
+      densityBtn.title = isComfy ? 'comfortable' : 'compact';
+      if (isComfy) densityBtn.classList.add('active');
+      else densityBtn.classList.remove('active');
     }
     if (widthBtn) {
-      widthBtn.textContent = isWide ? '▰' : '▱';
-      widthBtn.title = isWide ? 'wide | click for narrow' : 'narrow | click for wide';
+      widthBtn.innerHTML = isWide ? '&#xf337;' : '&#xf338;';
+      widthBtn.title = isWide ? 'wide' : 'narrow';
+      if (isWide) widthBtn.classList.add('active');
+      else widthBtn.classList.remove('active');
     }
     if (justifyBtn) {
-      justifyBtn.textContent = isJustify ? '¶' : '⁋';
-      justifyBtn.title = isJustify ? 'justified | click for left-align' : 'left-align | click for justified';
+      justifyBtn.innerHTML = isJustify ? '&#xf039;' : '&#xf036;';
+      justifyBtn.title = isJustify ? 'justified' : 'left-align';
+      if (isJustify) justifyBtn.classList.add('active');
+      else justifyBtn.classList.remove('active');
     }
-    var collapseBtn = document.querySelector('.toggle-collapse');
     if (collapseBtn) {
+      collapseBtn.innerHTML = '&#xf0c9;';
       collapseBtn.title = 'expand/collapse sections';
     }
   }

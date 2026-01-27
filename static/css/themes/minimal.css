@@ -1,0 +1,19 @@
+/* minimal.css - dark red/teal clean */
+
+/* light mode (default) */
+[data-theme-preset="minimal"] {
+  --bg: #ffffff;
+  --fg: #333333;
+  --accent: #8b0000;
+  --link: #008080;
+  --border: #cccccc;
+}
+
+/* dark mode */
+[data-theme-preset="minimal"][data-theme-mode="dark"] {
+  --bg: #1a1a1a;
+  --fg: #e0e0e0;
+  --accent: #ff6b6b;
+  --link: #5fd4d4;
+  --border: #444444;
+}

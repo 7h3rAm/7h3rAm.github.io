@@ -1,0 +1,19 @@
+/* terminal.css - green/amber hacker aesthetic */
+
+/* dark mode (default) */
+[data-theme-preset="terminal"] {
+  --bg: #0a0a0a;
+  --fg: #00ff00;
+  --accent: #ffb000;
+  --link: #00ff00;
+  --border: #333333;
+}
+
+/* light mode */
+[data-theme-preset="terminal"][data-theme-mode="light"] {
+  --bg: #f0f0e8;
+  --fg: #1a1a1a;
+  --accent: #cc6600;
+  --link: #2a6e2a;
+  --border: #999999;
+}

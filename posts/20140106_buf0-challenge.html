@@ -139,16 +139,17 @@ document.addEventListener('DOMContentLoaded', function() {
     <a href="/tags.html">tags</a>
     <a href="/stats.html">stats</a>
     <hr>
+    <h4 class="h4 collapsible" onclick="toggle(this);">external</h4>
     <a href="https://github.com/@7h3rAm">github</a>
     <a href="https://twitter.com/@7h3rAm">twitter</a>
     <hr>
     <h4 class="h4 collapsible" onclick="toggle(this);">toggles</h4>
     <div class="toggle-group">
-      <button class="toggle-btn toggle-theme" onclick="toggleThemeMode()">◑ theme</button>
-      <button class="toggle-btn toggle-density" onclick="toggleDensity()">▥ density</button>
-      <button class="toggle-btn toggle-width" onclick="toggleWidth()">▱ width</button>
-      <button class="toggle-btn toggle-justify" onclick="toggleJustify()">¶ justify</button>
-      <button class="toggle-btn toggle-collapse" onclick="toggleAllSections()">±</button>
+      <button class="toggle-btn toggle-theme" onclick="toggleThemeMode()" data-icon-on="&#xf186;" data-icon-off="&#xf185;"></button>
+      <button class="toggle-btn toggle-density" onclick="toggleDensity()" data-icon-on="&#xf422;" data-icon-off="&#xf424;"></button>
+      <button class="toggle-btn toggle-width" onclick="toggleWidth()" data-icon-on="&#xf337;" data-icon-off="&#xf338;"></button>
+      <button class="toggle-btn toggle-justify" onclick="toggleJustify()" data-icon-on="&#xf039;" data-icon-off="&#xf036;"></button>
+      <button class="toggle-btn toggle-collapse" onclick="toggleAllSections()" data-icon-on="&#xf0c9;" data-icon-off="&#xf0c9;"></button>
     </div>
   </div>
 </aside>

@@ -121,7 +121,7 @@ section { margin: 0.8em 0; }
 .pages-grid {
   display: grid;
   grid-template-columns: 8ch 1fr;
-  gap: 0.1em 1em;
+  gap: 0.1em 2em;
   margin: 0.5em 0;
 }
 .pages-grid dt { color: var(--fg); }
@@ -129,7 +129,7 @@ section { margin: 0.8em 0; }
 .about-grid {
   display: grid;
   grid-template-columns: 8ch 1fr;
-  gap: 0.1em 1em;
+  gap: 0.1em 2em;
   margin: 0.5em 0;
 }
 .about-grid dt { color: var(--fg); }
@@ -188,20 +188,20 @@ article {
 }
 
 /* Nerd Font icons using CSS */
-.sidebar a[href="/"]::before { content: "\f015 "; }
-.sidebar a[href="/archive.html"]::before { content: "\f187 "; }
-.sidebar a[href="/tags.html"]::before { content: "\f02c "; }
-.sidebar a[href="/stats.html"]::before { content: "\f080 "; }
-.sidebar a[href*="github.com"]::before { content: "\f09b "; }
-.sidebar a[href*="twitter.com"]::before { content: "\f099 "; }
+.sidebar a[href="/"]::before { content: "\f015"; color: #ff6b6b; margin-right: 0.5em; }
+.sidebar a[href="/archive.html"]::before { content: "\f187"; color: #4ecdc4; margin-right: 0.5em; }
+.sidebar a[href="/tags.html"]::before { content: "\f02c"; color: #ffd93d; margin-right: 0.5em; }
+.sidebar a[href="/stats.html"]::before { content: "\f080"; color: #6bcf7f; margin-right: 0.5em; }
+.sidebar a[href*="github.com"]::before { content: "\f09b"; color: #a8a8a8; margin-right: 0.5em; }
+.sidebar a[href*="twitter.com"]::before { content: "\f099"; color: #1da1f2; margin-right: 0.5em; }
 
 /* Page icons */
-.pages-grid a[href*="cv.html"]::before { content: "\f15c "; }
-.pages-grid a[href*="oscp.html"]::before { content: "\f0a3 "; }
-.pages-grid a[href*="life.html"]::before { content: "\f004 "; }
-.pages-grid a[href*="read.html"]::before { content: "\f02d "; }
-.pages-grid a[href*="fitness.html"]::before { content: "\f21e "; }
-.pages-grid a[href*="research.html"]::before { content: "\f0c3 "; }
+.pages-grid a[href*="cv.html"]::before { content: "\f15c"; color: #ff6b6b; margin-right: 0.5em; }
+.pages-grid a[href*="oscp.html"]::before { content: "\f0a3"; color: #9b59b6; margin-right: 0.5em; }
+.pages-grid a[href*="life.html"]::before { content: "\f004"; color: #e74c3c; margin-right: 0.5em; }
+.pages-grid a[href*="read.html"]::before { content: "\f02d"; color: #f39c12; margin-right: 0.5em; }
+.pages-grid a[href*="fitness.html"]::before { content: "\f21e"; color: #e91e63; margin-right: 0.5em; }
+.pages-grid a[href*="research.html"]::before { content: "\f0c3"; color: #3498db; margin-right: 0.5em; }
 @media (max-width: 1400px) { .sidebar { display: none; } }
 
 /* post navigation */
@@ -277,19 +277,29 @@ pre code { padding: 0; background: none; color: inherit; border-radius: 0; }
 
 /* toggle buttons */
 .toggle-group {
-  display: inline-flex;
+  display: flex;
+  flex-wrap: wrap;
   gap: 0.8em;
 }
 .toggle-btn {
   background: none;
   border: none;
-  color: var(--fg);
+  color: var(--muted);
   cursor: pointer;
-  padding: 0.2em;
-  font-size: 1.1em;
-  font-weight: bold;
+  padding: 0.3em;
+  font-size: 1.2em;
+  font-weight: normal;
+  font-family: inherit;
+  transition: color 0.2s;
 }
 .toggle-btn:hover { color: var(--accent); }
+
+/* Toggle button colors when active */
+.toggle-theme.active { color: #ffd93d; }
+.toggle-density.active { color: #4ecdc4; }
+.toggle-width.active { color: #ff6b6b; }
+.toggle-justify.active { color: #6bcf7f; }
+.toggle-collapse.active { color: #9b59b6; }
 
 /* collapsible (keep for compatibility) */
 .nested { display: block; }

@@ -1,0 +1,80 @@
+/* plain.css - simple HTML page, plain ASCII look */
+
+/* light mode (default) */
+[data-theme-preset="plain"] {
+  --bg: #ffffff;
+  --fg: #000000;
+  --accent: #000080;
+  --link: #0000ee;
+  --border: #808080;
+}
+
+/* dark mode */
+[data-theme-preset="plain"][data-theme-mode="dark"] {
+  --bg: #1a1a1a;
+  --fg: #c0c0c0;
+  --accent: #8080ff;
+  --link: #6699ff;
+  --border: #606060;
+}
+
+/* plain theme overrides - remove fancy styling */
+[data-theme-preset="plain"] * {
+  font-family: "Courier New", Courier, monospace;
+}
+
+[data-theme-preset="plain"] h1,
+[data-theme-preset="plain"] h2,
+[data-theme-preset="plain"] h3,
+[data-theme-preset="plain"] h4,
+[data-theme-preset="plain"] h5,
+[data-theme-preset="plain"] h6 {
+  color: var(--fg);
+}
+
+[data-theme-preset="plain"] h2::before,
+[data-theme-preset="plain"] h3::before,
+[data-theme-preset="plain"] h4::before,
+[data-theme-preset="plain"] h5::before,
+[data-theme-preset="plain"] h6::before {
+  content: "";
+}
+
+[data-theme-preset="plain"] a {
+  text-decoration: underline;
+}
+
+[data-theme-preset="plain"] a:visited {
+  color: #551a8b;
+}
+
+[data-theme-preset="plain"][data-theme-mode="dark"] a:visited {
+  color: #b399d4;
+}
+
+[data-theme-preset="plain"] hr {
+  border-top: 1px solid var(--border);
+}
+
+[data-theme-preset="plain"] img {
+  border: 1px solid var(--border);
+}
+
+[data-theme-preset="plain"] .menu_home {
+  color: var(--fg);
+  font-size: 24pt;
+}
+
+[data-theme-preset="plain"] .menu_item {
+  color: var(--link);
+  font-size: 12pt;
+}
+
+[data-theme-preset="plain"] li::before,
+[data-theme-preset="plain"] li::after {
+  border: none;
+}
+
+[data-theme-preset="plain"] .sparklines {
+  display: none;
+}
