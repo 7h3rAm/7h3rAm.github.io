@@ -1,46 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
-    <meta name="description" content="Personal Weblog"/>
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    <title>मंथन | Manthan</title>
-    <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.css"/>
-    <link id="codestylesheet" rel="stylesheet" type="text/css" media="screen" href="/static/css/atelier-forest-light.css">
-    <script charset="UTF-8" src="/static/js/highlight.min.js"></script>
-    <script charset="UTF-8" src="/static/js/highlightjs-line-numbers.min.js"></script>
-    <script charset="UTF-8" src="/static/js/go.min.js"></script>
-   </head>
-  <body>
-    <div class="body">
-      <div class="menu">
-        <table>
-          <tr>
-            <td colspan="3"><a class="menu_home" href="/index.html">मंथन</a></td>
-          </tr>
-          <tr>
-            <td><a class="menu_archive" href="/archive.html">💾 Archive</a></td>
-            <td><a class="menu_tags" href="/tags.html">🔖 Tags</a></td>
-            <td><a class="menu_stats" href="/stats.html">📊 Stats</a></td>
-            <!--<td>-->
-            <!--  <label class="theme-switch" for="checkbox">-->
-            <!--    <input type="checkbox" id="checkbox" />-->
-            <!--    <div class="slider round"></div>-->
-            <!--  </label>-->
-            <!--</td>-->
-          </tr>
-        </table>
+<html lang="en" data-theme-mode="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ankur Tyagi (@7h3rAm)">
+  <meta name="description" content="Personal Weblog">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manthan</title>
+  <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp">
+  <link rel="stylesheet" href="/static/css/base.css">
+  <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
+  <script src="/static/js/theme.js"></script>
+  <script src="/static/js/highlight.min.js"></script>
+  <script src="/static/js/hljs-bash.min.js"></script>
+  <script src="/static/js/hljs-python.min.js"></script>
+  <script src="/static/js/hljs-sql.min.js"></script>
+  <script src="/static/js/hljs-powershell.min.js"></script>
+  <script src="/static/js/hljs-line-numbers.min.js"></script>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1 class="site-title"><a href="/" style="color:inherit;text-decoration:none;">manthan</a></h1>
+    <p class="meta">security research | code | writeups</p>
+  </div>
+</header>
+
+<article id="top">
+  <div class="post-header">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+      <div>
+        <h1 class="post-title" style="margin:0; cursor:pointer;" onclick="toggleAllSections()">Gera's Warming Up on Stack #3 - Solutions</h1>
       </div>
-      <div class="content">
-          <h1 class="h1 title collapsible" onclick="toggle(this);">Gera's Warming Up on Stack #3 - Solutions</h1>
-    <div class="title"><code><span class="sparklines"><span style="color:#5b92e5;">▃</span><span style="color:#6f42c1;">▇</span><span style="color:#4caf50;">▄</span><span style="color:#20b2aa;">▃</span><span style="color:#99cc99;">▇</span><span style="color:#007bff;">█</span><span style="color:#e83e8c;">▁</span><span style="color:#20b2aa;">▃</span><span style="color:#8357ff;">▄</span><span style="color:#f44336;">▄</span><span style="color:#6610f2;">▁</span><span style="color:#6c757d;">▆</span><span style="color:#00bcd4;">▁</span><span style="color:#4caf50;">▅</span><span style="color:#20b2aa;">▅</span><span style="color:#20b2aa;">▅</span><span style="color:#6610f2;">▂</span><span style="color:#69359c;">▅</span><span style="color:#0c9;">▁</span><span style="color:#f44336;">▅</span><span style="color:#6610f2;">▇</span><span style="color:#fd7e14;">▅</span><span style="color:#28a745;">▅</span><span style="color:#2196f3;">▅</span><span style="color:#f44336;">▇</span><span style="color:#6f42c1;">▅</span><span style="color:#00bcd4;">▁</span><span style="color:#fd7e14;">▇</span><span style="color:#6c757d;">▃</span><span style="color:#2196f3;">▇</span><span style="color:#007bff;">▂</span><span style="color:#20c997;">▄</span><span style="color:#17a2b8;">▁</span><span style="color:#007bff;">▁</span><span style="color:#6f42c1;">█</span><span style="color:#99cc99;">▅</span><span style="color:#ffc107;">▆</span><span style="color:#dc3545;">▄</span><span style="color:#ffc107;">▃</span><span style="color:#00b7eb;">▁</span><span style="color:#fd7e14;">▁</span><span style="color:#6610f2;">▆</span><span style="color:#8357ff;">▆</span><span style="color:#a50b5e;">▂</span><span style="color:#e83e8c;">▁</span><span style="color:#28a745;">▅</span><span style="color:#17a2b8;">▇</span><span style="color:#28a745;">▃</span><span style="color:#a50b5e;">▄</span><span style="color:#ffcc66;">▇</span><span style="color:#8357ff;">▇</span><span style="color:#ffc107;">▃</span><span style="color:#e83e8c;">▇</span><span style="color:#6610f2;">▆</span><span style="color:#e83e8c;">▃</span><span style="color:#00b7eb;">▃</span><span style="color:#2196f3;">▃</span><span style="color:#99cc99;">▂</span><span style="color:#a50b5e;">▁</span><span style="color:#2196f3;">▆</span><span style="color:#6f42c1;">▆</span><span style="color:#8357ff;">▆</span><span style="color:#5b92e5;">▅</span><span style="color:#f44336;">█</span></span></code></div>
-    <hr>
-          <p style="float:left;"><a href="/posts/20130102_geras-wuos-stack2-solutions.html"> « </a>📅 published on <code>03/Jan/2013</code><a href="/posts/20130104_geras-wuos-stack4-solutions.html"> » </a></p>
-        <p style="float:right;">🔖 tagged <a href=/tags.html#ctf>ctf</a> and <a href=/tags.html#exploit>exploit</a></p>
-    <div style="clear:both;"></div>
-    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+      <div class="meta" style="text-align:right;">
+        <div>03/Jan/2013</div>
+        <div class="tags"><a href="/tags.html#exploit">exploit</a>, <a href="/tags.html#ctf">ctf</a></div>
+      </div>
+    </div>
+    <nav class="post-nav" style="margin-top:0.3em;">
+      <a class="nav-prev" href="/posts/20130102_geras-wuos-stack2-solutions.html"><span class="arrow">&lt;&lt;&lt;</span> <span class="nav-title">Gera's Warming Up on Stack #2 - Solutions</span></a>      <a class="nav-next" href="/posts/20130104_geras-wuos-stack4-solutions.html"><span class="nav-title">Gera's Warming Up on Stack #4 - Solutions</span> <span class="arrow">&gt;&gt;&gt;</span></a>    </nav>
+  </div>
+
+  <div class="content">
+    <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested active">Following is the part 3 in the series of posts I started back in August 2012 with an aim to provide an analysis and possible solutions for the vulnerable programs provided by Gerardo 'gera' Richarte at the <a href="http://pages.cs.wisc.edu/~riccardo/sec/">Insecure Programming by example</a> page.</p>
 <p class="nested active">This post follows the <a href="/posts/20130102_geras-wuos-stack2-solutions.html">Gera's Warming Up on Stack #2 - Solutions</a> post and if you have not read it, I request you to please do so. Most of the concepts are very similar and since they have been already talked about, I'll not be reiterating them here.</p>
 <p class="nested active">Let's get started. Below is the source for the vulnerable <a href="http://pages.cs.wisc.edu/~riccardo/sec/stack3.html">stack3.c</a> program:</p>
@@ -84,7 +86,7 @@ model       : 37
 model name  : Intel(R) Core(TM) i3 CPU       M 350  @ 2.27GHz
 flags       : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 syscall nx lm constant_tsc up pni monitor ssse3 lahf_l
 </code></pre>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Solutions</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Solutions</h2>
 <p class="nested active"><a name="solution1"></a></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Solution #1: Overflow the internal <code>buf</code> array to overwrite cookie with <code>0x01020005</code></h3>
 <p class="nested active">Here's the GCC commandline to prepare <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack3.html">stack3.c</a> for this solution:</p>
@@ -170,37 +172,58 @@ buf: bffff4c4 cookie: bffff514
 you win!
 </code></pre>
 <p class="nested active">So, we have now successfully exploited the <a href="http://community.corest.com/%7Egera/InsecureProgramming/stack3.html">stack3.c</a> program through four different techniques. Depending on the motive of your exploitation attempt, other techniques could be devised and some, mentioned here, be rejected.</p>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested active">Like I said, earlier, these solutions are not practical anymore. They just serve the purpose of understanding how exploits used to work before mitigation features were introduced in modern systems. But, as with everything else, understanding basics is really important. As mitigation features mature, exploitation techniques become increasingly complex. And to understand those, we need to build upon the solid foundation of basic concepts, like those discussed on this and other blogs.</p>
+  </div>
+
+  <nav class="post-nav" style="margin-top:1em;">
+    <a class="nav-prev" href="/posts/20130102_geras-wuos-stack2-solutions.html"><span class="arrow">&lt;&lt;&lt;</span> <span class="nav-title">Gera's Warming Up on Stack #2 - Solutions</span></a>    <a class="nav-next" href="/posts/20130104_geras-wuos-stack4-solutions.html"><span class="nav-title">Gera's Warming Up on Stack #4 - Solutions</span> <span class="arrow">&gt;&gt;&gt;</span></a>  </nav>
+</article>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var content = document.querySelector('.content');
+  if (content) {
+    var headings = content.querySelectorAll('h2,h3,h4,h5,h6');
+    headings.forEach(function(h) {
+      var link = document.createElement('a');
+      link.href = '#top';
+      link.className = 'top-link';
+      link.textContent = ' [^]';
+      link.style.fontSize = '0.8em';
+      link.style.color = 'var(--muted)';
+      h.appendChild(link);
+    });
+  }
+});
+</script>
+
+<footer>
+  <p class="nested active">cc-by-sa-4.0</p>
+</footer>
+
+<aside class="sidebar">
+  <div class="sidebar-content">
+    <h4 class="h4 collapsible" onclick="toggle(this);">navigation</h4>
+    <a href="/">home</a>
+    <a href="/archive.html">archive</a>
+    <a href="/tags.html">tags</a>
+    <a href="/stats.html">stats</a>
     <hr>
-          <p style="float:left;">« <a href="/posts/20130102_geras-wuos-stack2-solutions.html">Gera's Warming Up on Stack #2 ...</a> «</p>
-      <p style="float:right;">» <a href="/posts/20130104_geras-wuos-stack4-solutions.html">Gera's Warming Up on Stack #4 ...</a> »</p>
-          </div>
-      <div><a class="footer" href="https://github.com/7h3rAm/7h3rAm.github.io">  </a></div>
-      <script>hljs.initHighlightingOnLoad();</script>
-      <script>hljs.initLineNumbersOnLoad();</script>
-      <script>
-        function toggle(s){
-          s.classList.toggle("expanded");
-          var t=!1,i=!1,a=!1;
-          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);
-          for(var l=s.nextElementSibling;l;){
-            if(t&&l.classList.contains("h2")){
-              l.classList.toggle("active");
-              break
-            }
-            if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){
-              l.classList.toggle("active");
-              break
-            }
-            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){
-              l.classList.toggle("active");
-              break
-            }
-            l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-          }
-        }
-      </script>
+    <a href="https://github.com/@7h3rAm">github</a>
+    <a href="https://twitter.com/@7h3rAm">twitter</a>
+    <hr>
+    <h4 class="h4 collapsible" onclick="toggle(this);">toggles</h4>
+    <div class="toggle-group">
+      <button class="toggle-btn toggle-theme" onclick="toggleThemeMode()">◑ theme</button>
+      <button class="toggle-btn toggle-density" onclick="toggleDensity()">▥ density</button>
+      <button class="toggle-btn toggle-width" onclick="toggleWidth()">▱ width</button>
+      <button class="toggle-btn toggle-justify" onclick="toggleJustify()">¶ justify</button>
+      <button class="toggle-btn toggle-collapse" onclick="toggleAllSections()">±</button>
     </div>
-  </body>
+  </div>
+</aside>
+
+<script>hljs.configure({ignoreUnescapedHTML: true}); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+</body>
 </html>

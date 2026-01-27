@@ -1,46 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
-    <meta name="description" content="Personal Weblog"/>
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    <title>मंथन | Manthan</title>
-    <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.css"/>
-    <link id="codestylesheet" rel="stylesheet" type="text/css" media="screen" href="/static/css/atelier-forest-light.css">
-    <script charset="UTF-8" src="/static/js/highlight.min.js"></script>
-    <script charset="UTF-8" src="/static/js/highlightjs-line-numbers.min.js"></script>
-    <script charset="UTF-8" src="/static/js/go.min.js"></script>
-   </head>
-  <body>
-    <div class="body">
-      <div class="menu">
-        <table>
-          <tr>
-            <td colspan="3"><a class="menu_home" href="/index.html">मंथन</a></td>
-          </tr>
-          <tr>
-            <td><a class="menu_archive" href="/archive.html">💾 Archive</a></td>
-            <td><a class="menu_tags" href="/tags.html">🔖 Tags</a></td>
-            <td><a class="menu_stats" href="/stats.html">📊 Stats</a></td>
-            <!--<td>-->
-            <!--  <label class="theme-switch" for="checkbox">-->
-            <!--    <input type="checkbox" id="checkbox" />-->
-            <!--    <div class="slider round"></div>-->
-            <!--  </label>-->
-            <!--</td>-->
-          </tr>
-        </table>
+<html lang="en" data-theme-mode="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ankur Tyagi (@7h3rAm)">
+  <meta name="description" content="Personal Weblog">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manthan</title>
+  <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp">
+  <link rel="stylesheet" href="/static/css/base.css">
+  <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
+  <script src="/static/js/theme.js"></script>
+  <script src="/static/js/highlight.min.js"></script>
+  <script src="/static/js/hljs-bash.min.js"></script>
+  <script src="/static/js/hljs-python.min.js"></script>
+  <script src="/static/js/hljs-sql.min.js"></script>
+  <script src="/static/js/hljs-powershell.min.js"></script>
+  <script src="/static/js/hljs-line-numbers.min.js"></script>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1 class="site-title"><a href="/" style="color:inherit;text-decoration:none;">manthan</a></h1>
+    <p class="meta">security research | code | writeups</p>
+  </div>
+</header>
+
+<article id="top">
+  <div class="post-header">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+      <div>
+        <h1 class="post-title" style="margin:0; cursor:pointer;" onclick="toggleAllSections()">Flowinspect: A Network Inspection Tool</h1>
       </div>
-      <div class="content">
-          <h1 class="h1 title collapsible" onclick="toggle(this);">Flowinspect: A Network Inspection Tool</h1>
-    <div class="title"><code><span class="sparklines"><span style="color:#20c997;">▅</span><span style="color:#2196f3;">▁</span><span style="color:#00bcd4;">█</span><span style="color:#e83e8c;">▂</span><span style="color:#f44336;">█</span><span style="color:#6610f2;">▄</span><span style="color:#ffc107;">▇</span><span style="color:#6f42c1;">▃</span><span style="color:#00b7eb;">▂</span><span style="color:#fe4164;">▆</span><span style="color:#0c9;">▆</span><span style="color:#99cc99;">▁</span><span style="color:#17a2b8;">▁</span><span style="color:#20c997;">▃</span><span style="color:#fd7e14;">▅</span><span style="color:#5b92e5;">▃</span><span style="color:#17a2b8;">█</span><span style="color:#99cc99;">▇</span><span style="color:#dc3545;">▁</span><span style="color:#6f42c1;">▄</span><span style="color:#99cc99;">▂</span><span style="color:#e83e8c;">▆</span><span style="color:#e83e8c;">█</span><span style="color:#28a745;">█</span><span style="color:#e83e8c;">▆</span><span style="color:#20c997;">▇</span><span style="color:#6f42c1;">█</span><span style="color:#00b7eb;">▄</span><span style="color:#00bcd4;">▅</span><span style="color:#007bff;">▁</span><span style="color:#00b7eb;">▆</span><span style="color:#f44336;">█</span><span style="color:#0c9;">▇</span><span style="color:#007bff;">▇</span><span style="color:#fd7e14;">▃</span><span style="color:#a50b5e;">█</span><span style="color:#e83e8c;">▄</span><span style="color:#20c997;">▇</span><span style="color:#0c9;">▄</span><span style="color:#00b7eb;">█</span><span style="color:#00b7eb;">▇</span><span style="color:#17a2b8;">▆</span><span style="color:#a50b5e;">▄</span><span style="color:#ffcc66;">█</span><span style="color:#f44336;">▅</span><span style="color:#00b7eb;">█</span><span style="color:#00bcd4;">▆</span><span style="color:#ffcc66;">▂</span><span style="color:#f44336;">▄</span><span style="color:#6f42c1;">▂</span><span style="color:#20c997;">█</span><span style="color:#4caf50;">▇</span><span style="color:#ffc107;">█</span><span style="color:#e83e8c;">▇</span><span style="color:#2196f3;">▅</span><span style="color:#5b92e5;">▅</span><span style="color:#ffc107;">▄</span><span style="color:#a50b5e;">▅</span><span style="color:#6f42c1;">▆</span><span style="color:#20c997;">▇</span><span style="color:#fd7e14;">▇</span><span style="color:#20b2aa;">▇</span><span style="color:#6610f2;">▇</span><span style="color:#20c997;">▇</span></span></code></div>
-    <hr>
-          <p style="float:left;"><a href="/posts/20141115_pcapedit.html"> « </a>📅 published on <code>27/Nov/2014</code><a href="/posts/20150312_chopshop-shellcode.html"> » </a></p>
-        <p style="float:right;">🔖 tagged <a href=/tags.html#code>code</a></p>
-    <div style="clear:both;"></div>
-    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+      <div class="meta" style="text-align:right;">
+        <div>27/Nov/2014</div>
+        <div class="tags"><a href="/tags.html#code">code</a></div>
+      </div>
+    </div>
+    <nav class="post-nav" style="margin-top:0.3em;">
+      <a class="nav-prev" href="/posts/20141115_pcapedit.html"><span class="arrow">&lt;&lt;&lt;</span> <span class="nav-title">pcapedit: An Interactive Scapy-based Pcap Editor</span></a>      <a class="nav-next" href="/posts/20150312_chopshop-shellcode.html"><span class="nav-title">Shellcode Detection Module in ChopShop</span> <span class="arrow">&gt;&gt;&gt;</span></a>    </nav>
+  </div>
+
+  <div class="content">
+    <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested active">For last couple of months I've been working on a network inspection tool, Flowinspect. I was honored to be able to present it at <a href="http://nullcon.net/website/goa-14/speakers/ankur-tyagi.php">Nullcon 2014</a> and <a href="https://www.blackhat.com/us-14/arsenal.html#Tyagi">Black Hat USA 2014 Arsenal</a>. It started as an internal tool that proved useful for me and my colleagues at Juniper Networks for our signature development tasks. However, within just few months of inception, it started taking shape of a generic network inspection utility that allows automation of a number of tasks. It is opensource, released under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> license terms and available on <a href="https://github.com/7h3rAm/flowinspect">Github</a>.</p>
 <p class="nested active">At its core, Flowinspect uses <a href="http://libnids.sourceforge.net/">libnids</a> and its Python binding <a href="http://jon.oberheide.org/pynids/">pynids</a> to defragment IP and reassemble TCP packets. The result of this operation results in the generation of a TCP stream that can then be either dumped to file, saved as a pcap, analyzed via multiple inspection engines, etc.</p>
 <p class="nested active">Here's a brief summary of available options:</p>
@@ -135,7 +137,7 @@ Misc. Options:
   -S                    skip match summary display at exit
   -n                    show argument stats
 </code></pre>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Usage</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Usage</h2>
 <p class="nested active">There are two modes of input: a pcap file or an interface name for live network traffic inspection. Let's try a pcap file that has HTTP trace for <code>google.com</code>:</p>
 <pre class="nested active"><code>$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/layer7/http_google.pcap
 [27-Nov-2014 09:35:10.920648 IST] [main] NORM: NIDS initialized, waiting for events...
@@ -259,7 +261,7 @@ Misc. Options:
 </code></pre>
 <p class="nested active">With the default options, Flowinspect will trace all TCP sessions from the input pcap and show a hexdump summary on a per packet basis. As can be seen from the output above, there is just one TCP session in the input pcap. The data sent by the client to the server is labelled as CTS (Client-to-Server) and that sent by the server in response is labelled as STC (Server-to-Client). In the last hexdump output, the second MATCH line shows that the STC buffer is of size <code>4857B</code>, ie, the server replied with <code>~4.7KB</code> of data 
 for the initial request which was of size <code>627B</code>.</p>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Operating Modes</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Operating Modes</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Regex Inspection Mode</h3>
 <p class="nested active">Each of the inspection engines are triggered once the <code>libnids</code> engine completes reassembly and provides CTS/STC buffers per session. These buffers are then passed on to respective inspection engines. Let's now have a look at each of the inspection mode options, starting with regex mode first. Here's a listing of options available for regex mode inspection:</p>
 <pre class="nested active"><code>RegEx per Direction:
@@ -538,7 +540,7 @@ int recv (
 4. If successful, receive data from 192.168.53.20
 </code></pre>
 <p class="nested active">This behavior is indicative of the fact that it is a <a href="http://morgawr.github.io/hacking/2014/03/29/shellcode-to-reverse-bind-with-netcat/">TCP Reverse Shell</a> spawning shellcode. Armed with this knowledge, users can enforce policy actions upon the probable attacker controlled system: <code>192.168.53.20</code></p>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Features</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Features</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Content Modifiers</h3>
 <p class="nested active">Flowinspect supports two Snort like content modifiers, <a href="http://manual.snort.org/node32.html#SECTION00458000000000000000">offset</a> and <a href="http://manual.snort.org/node32.html#SECTION00457000000000000000">depth</a>, invoked via the <code>-O</code> and <code>-D</code> options respectively. The <code>offset</code> modifier instructs Flowinspect to start inspection after skipping specified number of bytes. Similarly, the <code>depth</code> modifier instructs Flowinspect to only inspect specified number of bytes starting from the current value of offset. When used in combination these modifiers can prove to be extremely useful:</p>
 <pre class="nested active"><code>$ ./flowinspect.py -p ~/toolbox/testfiles/pcaps/shellcode/shellcode-reverse-tcp-4444.pcap -b16 -c '.*'
@@ -691,37 +693,58 @@ Connection: keep-alive
   -S                    skip match summary display at exit
   -n                    show argument stats
 </code></pre>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested active">Flowinspect has been under active development for some time now and I am constantly pushing fixes and feature to its <a href="https://github.com/7h3rAm/flowinspect">GitHub</a> repository. Please feel free to try it and let me know if it seems useful in network inspection scenarios you come across.</p>
+  </div>
+
+  <nav class="post-nav" style="margin-top:1em;">
+    <a class="nav-prev" href="/posts/20141115_pcapedit.html"><span class="arrow">&lt;&lt;&lt;</span> <span class="nav-title">pcapedit: An Interactive Scapy-based Pcap Editor</span></a>    <a class="nav-next" href="/posts/20150312_chopshop-shellcode.html"><span class="nav-title">Shellcode Detection Module in ChopShop</span> <span class="arrow">&gt;&gt;&gt;</span></a>  </nav>
+</article>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var content = document.querySelector('.content');
+  if (content) {
+    var headings = content.querySelectorAll('h2,h3,h4,h5,h6');
+    headings.forEach(function(h) {
+      var link = document.createElement('a');
+      link.href = '#top';
+      link.className = 'top-link';
+      link.textContent = ' [^]';
+      link.style.fontSize = '0.8em';
+      link.style.color = 'var(--muted)';
+      h.appendChild(link);
+    });
+  }
+});
+</script>
+
+<footer>
+  <p class="nested active">cc-by-sa-4.0</p>
+</footer>
+
+<aside class="sidebar">
+  <div class="sidebar-content">
+    <h4 class="h4 collapsible" onclick="toggle(this);">navigation</h4>
+    <a href="/">home</a>
+    <a href="/archive.html">archive</a>
+    <a href="/tags.html">tags</a>
+    <a href="/stats.html">stats</a>
     <hr>
-          <p style="float:left;">« <a href="/posts/20141115_pcapedit.html">pcapedit: An Interactive Scapy...</a> «</p>
-      <p style="float:right;">» <a href="/posts/20150312_chopshop-shellcode.html">Shellcode Detection Module in ...</a> »</p>
-          </div>
-      <div><a class="footer" href="https://github.com/7h3rAm/7h3rAm.github.io">  </a></div>
-      <script>hljs.initHighlightingOnLoad();</script>
-      <script>hljs.initLineNumbersOnLoad();</script>
-      <script>
-        function toggle(s){
-          s.classList.toggle("expanded");
-          var t=!1,i=!1,a=!1;
-          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);
-          for(var l=s.nextElementSibling;l;){
-            if(t&&l.classList.contains("h2")){
-              l.classList.toggle("active");
-              break
-            }
-            if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){
-              l.classList.toggle("active");
-              break
-            }
-            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){
-              l.classList.toggle("active");
-              break
-            }
-            l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-          }
-        }
-      </script>
+    <a href="https://github.com/@7h3rAm">github</a>
+    <a href="https://twitter.com/@7h3rAm">twitter</a>
+    <hr>
+    <h4 class="h4 collapsible" onclick="toggle(this);">toggles</h4>
+    <div class="toggle-group">
+      <button class="toggle-btn toggle-theme" onclick="toggleThemeMode()">◑ theme</button>
+      <button class="toggle-btn toggle-density" onclick="toggleDensity()">▥ density</button>
+      <button class="toggle-btn toggle-width" onclick="toggleWidth()">▱ width</button>
+      <button class="toggle-btn toggle-justify" onclick="toggleJustify()">¶ justify</button>
+      <button class="toggle-btn toggle-collapse" onclick="toggleAllSections()">±</button>
     </div>
-  </body>
+  </div>
+</aside>
+
+<script>hljs.configure({ignoreUnescapedHTML: true}); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+</body>
 </html>

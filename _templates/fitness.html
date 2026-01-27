@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1 class="h1">🏋️ Fitness</h1>
+  <h1 class="h1">Fitness</h1>
     <ul class="active">
       {% for note in datadict.fitness.notes %}
         {% if note.url %}
-          <li><h3 class="h2 collapsible expanded" onclick=toggle(this);>{{ note.name|md2html|removepara }} <a href={{ note.url }}>[🔗]</a></h2><ul class="active nested">
+          <li><h3 class="h2 collapsible expanded" onclick=toggle(this);>{{ note.name|md2html|removepara }} <a href={{ note.url }}>[link]</a></h2><ul class="active nested">
         {% else %}
           <li><h3 class="h2 collapsible expanded" onclick=toggle(this);>{{ note.name|md2html|removepara }}</h2><ul class="active nested">
         {% endif %}

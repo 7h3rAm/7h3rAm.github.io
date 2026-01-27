@@ -1,46 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
-    <meta name="description" content="Personal Weblog"/>
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    <title>मंथन | Manthan</title>
-    <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.css"/>
-    <link id="codestylesheet" rel="stylesheet" type="text/css" media="screen" href="/static/css/atelier-forest-light.css">
-    <script charset="UTF-8" src="/static/js/highlight.min.js"></script>
-    <script charset="UTF-8" src="/static/js/highlightjs-line-numbers.min.js"></script>
-    <script charset="UTF-8" src="/static/js/go.min.js"></script>
-   </head>
-  <body>
-    <div class="body">
-      <div class="menu">
-        <table>
-          <tr>
-            <td colspan="3"><a class="menu_home" href="/index.html">मंथन</a></td>
-          </tr>
-          <tr>
-            <td><a class="menu_archive" href="/archive.html">💾 Archive</a></td>
-            <td><a class="menu_tags" href="/tags.html">🔖 Tags</a></td>
-            <td><a class="menu_stats" href="/stats.html">📊 Stats</a></td>
-            <!--<td>-->
-            <!--  <label class="theme-switch" for="checkbox">-->
-            <!--    <input type="checkbox" id="checkbox" />-->
-            <!--    <div class="slider round"></div>-->
-            <!--  </label>-->
-            <!--</td>-->
-          </tr>
-        </table>
+<html lang="en" data-theme-mode="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ankur Tyagi (@7h3rAm)">
+  <meta name="description" content="Personal Weblog">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manthan</title>
+  <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp">
+  <link rel="stylesheet" href="/static/css/base.css">
+  <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
+  <script src="/static/js/theme.js"></script>
+  <script src="/static/js/highlight.min.js"></script>
+  <script src="/static/js/hljs-bash.min.js"></script>
+  <script src="/static/js/hljs-python.min.js"></script>
+  <script src="/static/js/hljs-sql.min.js"></script>
+  <script src="/static/js/hljs-powershell.min.js"></script>
+  <script src="/static/js/hljs-line-numbers.min.js"></script>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1 class="site-title"><a href="/" style="color:inherit;text-decoration:none;">manthan</a></h1>
+    <p class="meta">security research | code | writeups</p>
+  </div>
+</header>
+
+<article id="top">
+  <div class="post-header">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+      <div>
+        <h1 class="post-title" style="margin:0; cursor:pointer;" onclick="toggleAllSections()">[VulnHub] BSides Vancouver: 2018 (Workshop)</h1>
       </div>
-      <div class="content">
-          <h1 class="h1 title collapsible" onclick="toggle(this);">[VulnHub] BSides Vancouver: 2018 (Workshop)</h1>
-    <div class="title"><code><span class="sparklines"><span style="color:#ffc107;">▅</span><span style="color:#99cc99;">▅</span><span style="color:#99cc99;">▂</span><span style="color:#99cc99;">▂</span><span style="color:#007bff;">█</span><span style="color:#fd7e14;">▅</span><span style="color:#28a745;">█</span><span style="color:#20b2aa;">▄</span><span style="color:#00b7eb;">▃</span><span style="color:#00b7eb;">▃</span><span style="color:#fd7e14;">▇</span><span style="color:#4caf50;">▆</span><span style="color:#007bff;">█</span><span style="color:#dc3545;">▅</span><span style="color:#fd7e14;">█</span><span style="color:#00b7eb;">▅</span><span style="color:#4caf50;">▄</span><span style="color:#e83e8c;">▆</span><span style="color:#dc3545;">▁</span><span style="color:#fe4164;">█</span><span style="color:#17a2b8;">▆</span><span style="color:#00bcd4;">▅</span><span style="color:#007bff;">▁</span><span style="color:#00bcd4;">▃</span><span style="color:#e83e8c;">█</span><span style="color:#f44336;">▅</span><span style="color:#ffcc66;">▄</span><span style="color:#00b7eb;">▂</span><span style="color:#e83e8c;">▅</span><span style="color:#5b92e5;">█</span><span style="color:#99cc99;">▄</span><span style="color:#20c997;">▅</span><span style="color:#00b7eb;">█</span><span style="color:#6f42c1;">█</span><span style="color:#8357ff;">▄</span><span style="color:#ffc107;">▇</span><span style="color:#00b7eb;">▆</span><span style="color:#4caf50;">▂</span><span style="color:#20c997;">▇</span><span style="color:#4caf50;">▂</span><span style="color:#f44336;">▄</span><span style="color:#6c757d;">▅</span><span style="color:#00b7eb;">█</span><span style="color:#007bff;">▅</span><span style="color:#6c757d;">▇</span><span style="color:#a50b5e;">▄</span><span style="color:#20c997;">▂</span><span style="color:#20b2aa;">▅</span><span style="color:#69359c;">▅</span><span style="color:#2196f3;">▅</span><span style="color:#ffc107;">▅</span><span style="color:#6f42c1;">▂</span><span style="color:#ffc107;">█</span><span style="color:#fd7e14;">▇</span><span style="color:#ffcc66;">▂</span><span style="color:#4caf50;">█</span><span style="color:#5b92e5;">▆</span><span style="color:#2196f3;">▅</span><span style="color:#5b92e5;">▇</span><span style="color:#6f42c1;">█</span><span style="color:#20c997;">▂</span><span style="color:#6f42c1;">▆</span><span style="color:#ffcc66;">▅</span><span style="color:#99cc99;">▄</span></span></code></div>
-    <hr>
-          <p style="float:left;"><a href="/posts/20190905_vulnhub-billymadison1dot1.html"> « </a>📅 published on <code>09/Sep/2019</code><a href="/posts/20190910_vulnhub-dc6.html"> » </a></p>
-        <p style="float:right;">🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a></p>
-    <div style="clear:both;"></div>
-    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+      <div class="meta" style="text-align:right;">
+        <div>09/Sep/2019</div>
+        <div class="tags"><a href="/tags.html#vulnhub">vulnhub</a>, <a href="/tags.html#writeup">writeup</a></div>
+      </div>
+    </div>
+    <nav class="post-nav" style="margin-top:0.3em;">
+      <a class="nav-prev" href="/posts/20190905_vulnhub-billymadison1dot1.html"><span class="arrow">&lt;&lt;&lt;</span> <span class="nav-title">[VulnHub] Billy Madison: 1.1</span></a>      <a class="nav-next" href="/posts/20190910_vulnhub-dc6.html"><span class="nav-title">[VulnHub] DC: 6</span> <span class="arrow">&gt;&gt;&gt;</span></a>    </nav>
+  </div>
+
+  <div class="content">
+    <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested active">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/bsides-vancouver-2018-workshop,231/">BSides Vancouver: 2018 (Workshop)</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested active"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_bsidesvancouver2018workshop/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -50,7 +52,7 @@
 <p class="nested active">1. <code>21/tcp/ftp/vsftpd 2.3.5</code>: <a href="https://github.com/7h3rAm/writeups#enumerate_proto_ftp">enumerate_proto_ftp</a><br />
 2. <code>22/tcp/ssh/OpenSSH 5.9p1 Debian 5ubuntu1.10 (Ubuntu Linux; protocol 2.0)</code>: <a href="https://github.com/7h3rAm/writeups#enumerate_proto_ssh">enumerate_proto_ssh</a>, <a href="https://github.com/7h3rAm/writeups#exploit_ssh_bruteforce">exploit_ssh_bruteforce</a><br />
 3. <code>80/tcp/http/Apache httpd 2.2.22 ((Ubuntu))</code>: <a href="https://github.com/7h3rAm/writeups#enumerate_proto_http">enumerate_proto_http</a>, <a href="https://github.com/7h3rAm/writeups#enumerate_app_wordpress">enumerate_app_wordpress</a>, <a href="https://github.com/7h3rAm/writeups#exploit_wordpress_plugin_hellodolly">exploit_wordpress_plugin_hellodolly</a>, <a href="https://github.com/7h3rAm/writeups#exploit_php_reverseshell">exploit_php_reverseshell</a>, <a href="https://github.com/7h3rAm/writeups#privesc_cron">privesc_cron</a>, <a href="https://github.com/7h3rAm/writeups#privesc_sudoers">privesc_sudoers</a>  </p>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested active">1. Here's the Nmap scan result:  </p>
 <pre class="nested active"><code># Nmap 7.70 scan initiated Mon Sep  9 18:30:02 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/vulnhub/bsidesvancouver2018workshop/results/192.168.92.169/scans/_quick_tcp_nmap.txt -oX /root/toolbox/vulnhub/bsidesvancouver2018workshop/results/192.168.92.169/scans/xml/_quick_tcp_nmap.xml 192.168.92.169
 Nmap scan report for 192.168.92.169
@@ -121,7 +123,7 @@ http://192.168.92.169/robots.txt
 <pre class="nested active"><code>ftp: abatchy, john, mai, anne, doomguy
 wordpress: admin, john
 </code></pre>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested active">1. (method #1) We find a Wordpress installation @ <code>http://192.168.92.169/backup_wordpress</code> and run <code>wpscan</code> to enumerate users:  </p>
 <pre class="nested active"><code>wpscan --url http://192.168.92.167:69/ -e vp,vt,tt,cb,dbe,u,m --no-color → admin, john
 </code></pre>
@@ -146,7 +148,7 @@ wordpress: admin, john
 <p class="nested active"><img alt="writeup.exploitation.steps.8.1" src="/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot12.png.webp" />  </p>
 <p class="nested active">9. (method #2) We can ssh as user <code>anne</code> and gain interactive access:  </p>
 <p class="nested active"><img alt="writeup.exploitation.steps.9.1" src="/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot13.png.webp" />  </p>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested active"><code>www-data|anne@bsides2018&gt; id
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
 uid=1003(anne) gid=1003(anne) groups=1003(anne),27(sudo)
@@ -168,7 +170,7 @@ mai
 anne
 doomguy
 </code></pre>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested active">1. (method #1) Continuing as user <code>www-data</code>, we explore the <code>/var/www/backup_wordpress/</code> directory and find <code>wp-config.php</code> file with MySQL credentials in it:  </p>
 <p class="nested active"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot15.png.webp" />  </p>
 <p class="nested active">2. (method #1) These credentials do not work for MySQL login. Changing user to <code>john</code> with these credentials also failed.  </p>
@@ -183,7 +185,7 @@ doomguy
 <pre class="nested active"><code>sudo su
 </code></pre>
 <p class="nested active"><img alt="writeup.privesc.steps.6.1" src="/static/files/posts_vulnhub_bsidesvancouver2018workshop/screenshot14.png.webp" />  </p>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
 <pre class="nested active"><code>john:$6$aoN7zaDl$e6RsRZndFekSS4bgqz0y5dgzO1dTQsMAWck6dFGogkxrrZf1ZyGbjy/oCpqJniIkasXP05iFZHs.XZVIQ........................
 mai:$6$Mp.mBBi7$BCAKb75xSAy8PM6IhjdSOIlcmHvA9V4KnEDSTZAN2QdMUwCwGiwZtwGPXalF15xT097Q6zaXrY6nD/7Rsd.......................
@@ -195,40 +197,61 @@ doomguy:$6$DWqgg./v$NxqnujIjE8RI.y1u/xiFBPC0K/essEGOfxSF7ovfHG46K6pnetHZNON3sp19
 ssh: anne/princ...
 wordpress: john/eni...
 </code></pre>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested active">
 <li><a href="https://www.vulnhub.com/entry/bsides-vancouver-2018-workshop,231/">https://www.vulnhub.com/entry/bsides-vancouver-2018-workshop,231/</a>  </li>
 <li><a href="https://pentester.land/challenge/2018/06/27/vulnhub-Bsides-Vancouver-2018-walkthrough.html">https://pentester.land/challenge/2018/06/27/vulnhub-Bsides-Vancouver-2018-walkthrough.html</a>  </li>
 </ul>
+  </div>
+
+  <nav class="post-nav" style="margin-top:1em;">
+    <a class="nav-prev" href="/posts/20190905_vulnhub-billymadison1dot1.html"><span class="arrow">&lt;&lt;&lt;</span> <span class="nav-title">[VulnHub] Billy Madison: 1.1</span></a>    <a class="nav-next" href="/posts/20190910_vulnhub-dc6.html"><span class="nav-title">[VulnHub] DC: 6</span> <span class="arrow">&gt;&gt;&gt;</span></a>  </nav>
+</article>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var content = document.querySelector('.content');
+  if (content) {
+    var headings = content.querySelectorAll('h2,h3,h4,h5,h6');
+    headings.forEach(function(h) {
+      var link = document.createElement('a');
+      link.href = '#top';
+      link.className = 'top-link';
+      link.textContent = ' [^]';
+      link.style.fontSize = '0.8em';
+      link.style.color = 'var(--muted)';
+      h.appendChild(link);
+    });
+  }
+});
+</script>
+
+<footer>
+  <p class="nested active">cc-by-sa-4.0</p>
+</footer>
+
+<aside class="sidebar">
+  <div class="sidebar-content">
+    <h4 class="h4 collapsible" onclick="toggle(this);">navigation</h4>
+    <a href="/">home</a>
+    <a href="/archive.html">archive</a>
+    <a href="/tags.html">tags</a>
+    <a href="/stats.html">stats</a>
     <hr>
-          <p style="float:left;">« <a href="/posts/20190905_vulnhub-billymadison1dot1.html">[VulnHub] Billy Madison: 1.1</a> «</p>
-      <p style="float:right;">» <a href="/posts/20190910_vulnhub-dc6.html">[VulnHub] DC: 6</a> »</p>
-          </div>
-      <div><a class="footer" href="https://github.com/7h3rAm/7h3rAm.github.io">  </a></div>
-      <script>hljs.initHighlightingOnLoad();</script>
-      <script>hljs.initLineNumbersOnLoad();</script>
-      <script>
-        function toggle(s){
-          s.classList.toggle("expanded");
-          var t=!1,i=!1,a=!1;
-          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);
-          for(var l=s.nextElementSibling;l;){
-            if(t&&l.classList.contains("h2")){
-              l.classList.toggle("active");
-              break
-            }
-            if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){
-              l.classList.toggle("active");
-              break
-            }
-            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){
-              l.classList.toggle("active");
-              break
-            }
-            l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-          }
-        }
-      </script>
+    <a href="https://github.com/@7h3rAm">github</a>
+    <a href="https://twitter.com/@7h3rAm">twitter</a>
+    <hr>
+    <h4 class="h4 collapsible" onclick="toggle(this);">toggles</h4>
+    <div class="toggle-group">
+      <button class="toggle-btn toggle-theme" onclick="toggleThemeMode()">◑ theme</button>
+      <button class="toggle-btn toggle-density" onclick="toggleDensity()">▥ density</button>
+      <button class="toggle-btn toggle-width" onclick="toggleWidth()">▱ width</button>
+      <button class="toggle-btn toggle-justify" onclick="toggleJustify()">¶ justify</button>
+      <button class="toggle-btn toggle-collapse" onclick="toggleAllSections()">±</button>
     </div>
-  </body>
+  </div>
+</aside>
+
+<script>hljs.configure({ignoreUnescapedHTML: true}); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+</body>
 </html>

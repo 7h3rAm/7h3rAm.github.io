@@ -1,48 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
-    <meta name="description" content="Personal Weblog"/>
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    <title>मंथन | Manthan</title>
-    <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.css"/>
-    <link id="codestylesheet" rel="stylesheet" type="text/css" media="screen" href="/static/css/atelier-forest-light.css">
-    <script charset="UTF-8" src="/static/js/highlight.min.js"></script>
-    <script charset="UTF-8" src="/static/js/highlightjs-line-numbers.min.js"></script>
-    <script charset="UTF-8" src="/static/js/go.min.js"></script>
-   </head>
-  <body>
-    <div class="body">
-      <div class="menu">
-        <table>
-          <tr>
-            <td colspan="3"><a class="menu_home" href="/index.html">मंथन</a></td>
-          </tr>
-          <tr>
-            <td><a class="menu_archive" href="/archive.html">💾 Archive</a></td>
-            <td><a class="menu_tags" href="/tags.html">🔖 Tags</a></td>
-            <td><a class="menu_stats" href="/stats.html">📊 Stats</a></td>
-            <!--<td>-->
-            <!--  <label class="theme-switch" for="checkbox">-->
-            <!--    <input type="checkbox" id="checkbox" />-->
-            <!--    <div class="slider round"></div>-->
-            <!--  </label>-->
-            <!--</td>-->
-          </tr>
-        </table>
+<html lang="en" data-theme-mode="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ankur Tyagi (@7h3rAm)">
+  <meta name="description" content="Personal Weblog">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manthan</title>
+  <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp">
+  <link rel="stylesheet" href="/static/css/base.css">
+  <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
+  <script src="/static/js/theme.js"></script>
+  <script src="/static/js/highlight.min.js"></script>
+  <script src="/static/js/hljs-bash.min.js"></script>
+  <script src="/static/js/hljs-python.min.js"></script>
+  <script src="/static/js/hljs-sql.min.js"></script>
+  <script src="/static/js/hljs-powershell.min.js"></script>
+  <script src="/static/js/hljs-line-numbers.min.js"></script>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1 class="site-title"><a href="/" style="color:inherit;text-decoration:none;">manthan</a></h1>
+    <p class="meta">security research | code | writeups</p>
+  </div>
+</header>
+
+<article id="top">
+  <div class="post-header">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+      <div>
+        <h1 class="post-title" style="margin:0; cursor:pointer;" onclick="toggleAllSections()">Shellcode Analysis Pipleine</h1>
       </div>
-      <div class="content">
-          <h1 class="h1 title collapsible" onclick="toggle(this);">Shellcode Analysis Pipleine</h1>
-    <div class="title"><code><span class="sparklines"><span style="color:#00bcd4;">█</span><span style="color:#0c9;">▆</span><span style="color:#a50b5e;">▆</span><span style="color:#00b7eb;">▇</span><span style="color:#00bcd4;">▄</span><span style="color:#6f42c1;">█</span><span style="color:#2196f3;">▇</span><span style="color:#f44336;">▅</span><span style="color:#6f42c1;">█</span><span style="color:#fe4164;">▅</span><span style="color:#6610f2;">▂</span><span style="color:#00b7eb;">▁</span><span style="color:#8357ff;">▂</span><span style="color:#00b7eb;">▅</span><span style="color:#f44336;">▆</span><span style="color:#6f42c1;">▅</span><span style="color:#a50b5e;">▃</span><span style="color:#007bff;">▄</span><span style="color:#8357ff;">▃</span><span style="color:#a50b5e;">▃</span><span style="color:#8357ff;">▂</span><span style="color:#e83e8c;">█</span><span style="color:#fd7e14;">▆</span><span style="color:#8357ff;">▄</span><span style="color:#dc3545;">▁</span><span style="color:#6c757d;">▁</span><span style="color:#99cc99;">▂</span><span style="color:#20b2aa;">▂</span><span style="color:#69359c;">█</span><span style="color:#00bcd4;">▄</span><span style="color:#6610f2;">▃</span><span style="color:#20b2aa;">▂</span><span style="color:#e83e8c;">▂</span><span style="color:#007bff;">█</span><span style="color:#4caf50;">█</span><span style="color:#fe4164;">▃</span><span style="color:#ffcc66;">▅</span><span style="color:#dc3545;">▇</span><span style="color:#5b92e5;">▂</span><span style="color:#6c757d;">█</span><span style="color:#e83e8c;">▆</span><span style="color:#2196f3;">▃</span><span style="color:#ffcc66;">▁</span><span style="color:#dc3545;">▇</span><span style="color:#8357ff;">▅</span><span style="color:#0c9;">█</span><span style="color:#fd7e14;">▄</span><span style="color:#5b92e5;">▆</span><span style="color:#e83e8c;">▆</span><span style="color:#0c9;">▄</span><span style="color:#00bcd4;">▅</span><span style="color:#e83e8c;">▂</span><span style="color:#00b7eb;">▁</span><span style="color:#5b92e5;">▆</span><span style="color:#f44336;">█</span><span style="color:#ffc107;">▂</span><span style="color:#a50b5e;">▃</span><span style="color:#dc3545;">▅</span><span style="color:#2196f3;">█</span><span style="color:#00b7eb;">▃</span><span style="color:#20b2aa;">▇</span><span style="color:#fe4164;">▁</span><span style="color:#20b2aa;">▇</span><span style="color:#00b7eb;">█</span></span></code></div>
-    <hr>
-          <p style="float:left;"><a href="/posts/20140224_buf1-challenge.html"> « </a>📅 published on <code>18/Mar/2014</code><a href="/posts/20140327_northrop-challenge.html"> » </a></p>
-        <p style="float:right;">🔖 tagged <a href=/tags.html#code>code</a> and <a href=/tags.html#reversing>reversing</a></p>
-    <div style="clear:both;"></div>
-    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+      <div class="meta" style="text-align:right;">
+        <div>18/Mar/2014</div>
+        <div class="tags"><a href="/tags.html#code">code</a>, <a href="/tags.html#reversing">reversing</a></div>
+      </div>
+    </div>
+    <nav class="post-nav" style="margin-top:0.3em;">
+      <a class="nav-prev" href="/posts/20140224_buf1-challenge.html"><span class="arrow">&lt;&lt;&lt;</span> <span class="nav-title">buf1 - Another Buffer Overflow Challenge</span></a>      <a class="nav-next" href="/posts/20140327_northrop-challenge.html"><span class="nav-title">Northrop's Online Challenge</span> <span class="arrow">&gt;&gt;&gt;</span></a>    </nav>
+  </div>
+
+  <div class="content">
+    <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested active">I recently required an automated way of analyzing shellcode and verifying if it is detected by <a href="http://libemu.carnivore.it/">Libemu</a>, <a href="http://www.snort.org/">Snort</a>, <a href="http://suricata-ids.org/">Suricata</a>, <a href="https://www.bro.org/">Bro</a>, etc. Shellcode had to come from public sources like <a href="http://repo.shell-storm.org/shellcode/">ShellStorm</a>, <a href="http://www.exploit-db.com/shellcode/">ExploitDB</a> and <a href="https://github.com/rapid7/metasploit-framework/tree/master/modules/payloads">Metasploit</a>. I needed an automated way of sourcing shellcode from these projects and pass it on to the analysis engines in a pipeline-like mechanism. This posts documents the method I used to complete this task and the overall progress of the project.</p>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Design Considerations</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Design Considerations</h2>
 <p class="nested active">I basically divided the project into three independent tasks:</p>
 <ul class="nested active">
 <li>source shellcode from shell-storm, exploit-db and metasploit</li>
@@ -50,7 +52,7 @@
 <li>test shellcode with Libemu and pcaps with Snort/Suricata/Bro</li>
 </ul>
 <p class="nested active">These are independent since any of them can be used individually, as a unit, and developed outside of the system. The first task itself was divided into smaller sub-tasks and I started with sourcing shellcode from shell-storm. The shell-storm shellcode page documents steps needed to access shell-storm database and there is an example script that provides an easy to use cli to search for and download individual shellcode files from shell-storm. I used this script in my project and added a wrapper over it to search, download and generate pcaps all with just one cli invocation. The script currently is in beta and satisfies only a few of the above requirements. Shell-storm sourcing is implemented, pcap generation is working and shellcode testing currently happens with Libemu only. Additional sources and analysis engines would be added shortly.</p>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Implementation and Testing</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Implementation and Testing</h2>
 <p class="nested active">Please visit the following link to get the complete source listing: <a href="https://gist.github.com/7h3rAm/11087025">sap</a></p>
 <p class="nested active">It will read configuration file to populate internal variables and then move on to its core. First, the <code>doshellstorm()</code> method is called to source shellcode samples from shell-storm. The API example script is used to search shellcode that satisfies certain search criteria and then matching shell-storm shellcode ids are downloaded, extracted and saved to a <code>&lt;shellcode-id&gt;.bin</code> named file. For all shellcode ids for which we successfully extracted shellcode bytes, they are then passed onto the <code>bin2pcap()</code> method which uses an updated version of <a href="https://github.com/7h3rAm/PCAP-Generation-Tools">PCAPGGenerationTTools</a> and creates pcap files with HTTP GET/POST requests and <a href="https://github.com/7h3rAm/PCAP-Generation-Tools/commit/fc7418eefc9febef936d4646c61bad67e26935b7">TCP CTS/STC</a> sessions. These pcaps can then be tested with intrusion detection engines in the pipeline. Once the pcap generation module completes, the Libemu engine is invoked and run over all <code>.bin</code> shellcode files. Later versions will add support for Snort/Suricata/Bro based shellcode pcap testing.</p>
 <p class="nested active">Let's have a look at the help message from the tool:</p>
@@ -204,37 +206,58 @@ ScId    Size Title
 [146]   n/a  Windows - XP download and exec source
 [159]   n/a  Windows - Download and Execute Shellcode Generator
 </code></pre>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested active">Currently Libemu is the only analysis engine but soon I'll be adding support for additional engines. Sourcing from other projects will also be added in subsequent versions. Feel free to try it out and let me know what you think of it.</p>
+  </div>
+
+  <nav class="post-nav" style="margin-top:1em;">
+    <a class="nav-prev" href="/posts/20140224_buf1-challenge.html"><span class="arrow">&lt;&lt;&lt;</span> <span class="nav-title">buf1 - Another Buffer Overflow Challenge</span></a>    <a class="nav-next" href="/posts/20140327_northrop-challenge.html"><span class="nav-title">Northrop's Online Challenge</span> <span class="arrow">&gt;&gt;&gt;</span></a>  </nav>
+</article>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var content = document.querySelector('.content');
+  if (content) {
+    var headings = content.querySelectorAll('h2,h3,h4,h5,h6');
+    headings.forEach(function(h) {
+      var link = document.createElement('a');
+      link.href = '#top';
+      link.className = 'top-link';
+      link.textContent = ' [^]';
+      link.style.fontSize = '0.8em';
+      link.style.color = 'var(--muted)';
+      h.appendChild(link);
+    });
+  }
+});
+</script>
+
+<footer>
+  <p class="nested active">cc-by-sa-4.0</p>
+</footer>
+
+<aside class="sidebar">
+  <div class="sidebar-content">
+    <h4 class="h4 collapsible" onclick="toggle(this);">navigation</h4>
+    <a href="/">home</a>
+    <a href="/archive.html">archive</a>
+    <a href="/tags.html">tags</a>
+    <a href="/stats.html">stats</a>
     <hr>
-          <p style="float:left;">« <a href="/posts/20140224_buf1-challenge.html">buf1 - Another Buffer Overflow...</a> «</p>
-      <p style="float:right;">» <a href="/posts/20140327_northrop-challenge.html">Northrop's Online Challenge</a> »</p>
-          </div>
-      <div><a class="footer" href="https://github.com/7h3rAm/7h3rAm.github.io">  </a></div>
-      <script>hljs.initHighlightingOnLoad();</script>
-      <script>hljs.initLineNumbersOnLoad();</script>
-      <script>
-        function toggle(s){
-          s.classList.toggle("expanded");
-          var t=!1,i=!1,a=!1;
-          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);
-          for(var l=s.nextElementSibling;l;){
-            if(t&&l.classList.contains("h2")){
-              l.classList.toggle("active");
-              break
-            }
-            if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){
-              l.classList.toggle("active");
-              break
-            }
-            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){
-              l.classList.toggle("active");
-              break
-            }
-            l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-          }
-        }
-      </script>
+    <a href="https://github.com/@7h3rAm">github</a>
+    <a href="https://twitter.com/@7h3rAm">twitter</a>
+    <hr>
+    <h4 class="h4 collapsible" onclick="toggle(this);">toggles</h4>
+    <div class="toggle-group">
+      <button class="toggle-btn toggle-theme" onclick="toggleThemeMode()">◑ theme</button>
+      <button class="toggle-btn toggle-density" onclick="toggleDensity()">▥ density</button>
+      <button class="toggle-btn toggle-width" onclick="toggleWidth()">▱ width</button>
+      <button class="toggle-btn toggle-justify" onclick="toggleJustify()">¶ justify</button>
+      <button class="toggle-btn toggle-collapse" onclick="toggleAllSections()">±</button>
     </div>
-  </body>
+  </div>
+</aside>
+
+<script>hljs.configure({ignoreUnescapedHTML: true}); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+</body>
 </html>

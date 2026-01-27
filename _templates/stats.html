@@ -1,22 +1,93 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1 class="h1">📊 Stats</h1>
-    <ul class="active">
-      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Summary</h2><ul class="active nested">
-        {% for entry in datadict.stats.summary %}
-        <li>{{ entry|md2html|removepara }}</li>
+<style>
+.stats-table {
+  font-family: monospace;
+  line-height: 1.3;
+}
+[data-density="comfortable"] .stats-table {
+  line-height: 1.6;
+}
+.posts-table {
+  width: 100%;
+  font-family: monospace;
+  line-height: 1.3;
+}
+[data-density="comfortable"] .posts-table {
+  line-height: 1.6;
+}
+.posts-table td:first-child {
+  color: var(--muted);
+  padding-right: 1em;
+  white-space: nowrap;
+}
+</style>
+<section>
+  <h1>stats</h1>
+
+  <div style="display: flex; gap: 2em; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 300px;">
+      <h2>overview</h2>
+      <table class="stats-table">
+        <tr><td>total posts:</td><td style="text-align: right; padding-left: 2em;">{{ datadict.stats.count_posts }}</td></tr>
+        <tr><td>total tags:</td><td style="text-align: right; padding-left: 2em;">{{ datadict.stats.count_tags }}</td></tr>
+        <tr><td>writing period:</td><td style="text-align: right; padding-left: 2em;">{{ datadict.stats.writing_period }}</td></tr>
+        <tr><td>first post:</td><td style="text-align: right; padding-left: 2em;">{{ datadict.stats.first_post_date }}</td></tr>
+        <tr><td>last post:</td><td style="text-align: right; padding-left: 2em;">{{ datadict.stats.last_post_date }}</td></tr>
+        <tr><td>days since last post:</td><td style="text-align: right; padding-left: 2em;">{{ datadict.stats.days_since_last }}</td></tr>
+        <tr><td colspan="2" style="padding-top: 1em;"><strong>content</strong></td></tr>
+        <tr><td>total words:</td><td style="text-align: right; padding-left: 2em;">{{ "{:,}".format(datadict.stats.content_metrics.total_words) }}</td></tr>
+        <tr><td>avg words/post:</td><td style="text-align: right; padding-left: 2em;">{{ datadict.stats.content_metrics.avg_words }}</td></tr>
+        <tr><td>min words:</td><td style="text-align: right; padding-left: 2em;">{{ datadict.stats.content_metrics.min_words }}</td></tr>
+        <tr><td>max words:</td><td style="text-align: right; padding-left: 2em;">{{ "{:,}".format(datadict.stats.content_metrics.max_words) }}</td></tr>
+        <tr><td>total code blocks:</td><td style="text-align: right; padding-left: 2em;">{{ datadict.stats.content_metrics.total_code_blocks }}</td></tr>
+        <tr><td colspan="2" style="padding-top: 1em;"><strong>yearly</strong></td></tr>
+        <tr><td>most posts year:</td><td style="text-align: right; padding-left: 2em;">{{ datadict.stats.max_posts_yyyy }} ({{ datadict.stats.groups.per_yyyy[datadict.stats.max_posts_yyyy].posts }})</td></tr>
+        <tr><td>least posts year:</td><td style="text-align: right; padding-left: 2em;">{{ datadict.stats.min_posts_yyyy }} ({{ datadict.stats.groups.per_yyyy[datadict.stats.min_posts_yyyy].posts }})</td></tr>
+        <tr><td>avg posts/year:</td><td style="text-align: right; padding-left: 2em;">{{ datadict.stats.avg_posts_per_year }}</td></tr>
+        <tr><td colspan="2" style="padding-top: 1em;"><strong>tags</strong></td></tr>
+        <tr><td>most used tag:</td><td style="text-align: right; padding-left: 2em;">{{ datadict.stats.most_used_tag }} ({{ datadict.stats.groups.per_tag[datadict.stats.most_used_tag].posts }})</td></tr>
+        <tr><td>least used tag:</td><td style="text-align: right; padding-left: 2em;">{{ datadict.stats.least_used_tag }} ({{ datadict.stats.groups.per_tag[datadict.stats.least_used_tag].posts }})</td></tr>
+        <tr><td>avg posts/tag:</td><td style="text-align: right; padding-left: 2em;">{{ datadict.stats.avg_posts_per_tag }}</td></tr>
+      </table>
+    </div>
+
+    <div style="flex: 1; min-width: 300px;">
+      <h2>longest posts</h2>
+      <table class="posts-table">
+        {% for post in datadict.stats.content_metrics.top_10_longest %}
+        <tr>
+          <td>{{ "%5s" | format("{:,}".format(post.words)) }}w</td>
+          <td><a href="{{ post.url }}">{{ post.title }}</a></td>
+        </tr>
         {% endfor %}
-      </ul></li>
-      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Graphs</h2><ul class="active nested">
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Posts per Tag</h3><ul class="active nested">
-          <li><p><img class=rectimages src=/static/files/pages_stats/posts_per_tag.png.webp></p></li>
-        </ul></li>
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Posts per Year</h3><ul class="active nested">
-          <li><p><img class=rectimages src=/static/files/pages_stats/posts_per_year.png.webp></p></li>
-        </ul></li>
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Tags per Year</h3><ul class="active nested">
-          <li><p><img class=rectimages src=/static/files/pages_stats/tags_per_year.png.webp></p></li>
-        </ul></li>
-      </ul></li>
-    </ul>
+      </table>
+
+      <h2 style="margin-top: 2em;">shortest posts</h2>
+      <table class="posts-table">
+        {% for post in datadict.stats.content_metrics.top_10_shortest %}
+        <tr>
+          <td>{{ "%5s" | format("{:,}".format(post.words)) }}w</td>
+          <td><a href="{{ post.url }}">{{ post.title }}</a></td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 1em; flex-wrap: wrap; margin-top: 2em;">
+    <div style="flex: 1; min-width: 250px;">
+      <h3>posts per tag</h3>
+      <p><img src="/static/files/pages_stats/posts_per_tag.png.webp" alt="posts per tag" style="max-width: 100%;"></p>
+    </div>
+    <div style="flex: 1; min-width: 250px;">
+      <h3>posts per year</h3>
+      <p><img src="/static/files/pages_stats/posts_per_year.png.webp" alt="posts per year" style="max-width: 100%;"></p>
+    </div>
+    <div style="flex: 1; min-width: 250px;">
+      <h3>tags per year</h3>
+      <p><img src="/static/files/pages_stats/tags_per_year.png.webp" alt="tags per year" style="max-width: 100%;"></p>
+    </div>
+  </div>
+</section>
 {% endblock %}

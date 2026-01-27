@@ -1,46 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
-    <meta name="description" content="Personal Weblog"/>
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    <title>मंथन | Manthan</title>
-    <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.css"/>
-    <link id="codestylesheet" rel="stylesheet" type="text/css" media="screen" href="/static/css/atelier-forest-light.css">
-    <script charset="UTF-8" src="/static/js/highlight.min.js"></script>
-    <script charset="UTF-8" src="/static/js/highlightjs-line-numbers.min.js"></script>
-    <script charset="UTF-8" src="/static/js/go.min.js"></script>
-   </head>
-  <body>
-    <div class="body">
-      <div class="menu">
-        <table>
-          <tr>
-            <td colspan="3"><a class="menu_home" href="/index.html">मंथन</a></td>
-          </tr>
-          <tr>
-            <td><a class="menu_archive" href="/archive.html">💾 Archive</a></td>
-            <td><a class="menu_tags" href="/tags.html">🔖 Tags</a></td>
-            <td><a class="menu_stats" href="/stats.html">📊 Stats</a></td>
-            <!--<td>-->
-            <!--  <label class="theme-switch" for="checkbox">-->
-            <!--    <input type="checkbox" id="checkbox" />-->
-            <!--    <div class="slider round"></div>-->
-            <!--  </label>-->
-            <!--</td>-->
-          </tr>
-        </table>
+<html lang="en" data-theme-mode="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ankur Tyagi (@7h3rAm)">
+  <meta name="description" content="Personal Weblog">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manthan</title>
+  <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp">
+  <link rel="stylesheet" href="/static/css/base.css">
+  <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
+  <script src="/static/js/theme.js"></script>
+  <script src="/static/js/highlight.min.js"></script>
+  <script src="/static/js/hljs-bash.min.js"></script>
+  <script src="/static/js/hljs-python.min.js"></script>
+  <script src="/static/js/hljs-sql.min.js"></script>
+  <script src="/static/js/hljs-powershell.min.js"></script>
+  <script src="/static/js/hljs-line-numbers.min.js"></script>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1 class="site-title"><a href="/" style="color:inherit;text-decoration:none;">manthan</a></h1>
+    <p class="meta">security research | code | writeups</p>
+  </div>
+</header>
+
+<article id="top">
+  <div class="post-header">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+      <div>
+        <h1 class="post-title" style="margin:0; cursor:pointer;" onclick="toggleAllSections()">pcapedit: An Interactive Scapy-based Pcap Editor</h1>
       </div>
-      <div class="content">
-          <h1 class="h1 title collapsible" onclick="toggle(this);">pcapedit: An Interactive Scapy-based Pcap Editor</h1>
-    <div class="title"><code><span class="sparklines"><span style="color:#ffc107;">▂</span><span style="color:#6c757d;">▇</span><span style="color:#fe4164;">▃</span><span style="color:#00bcd4;">▁</span><span style="color:#ffc107;">▇</span><span style="color:#2196f3;">▇</span><span style="color:#fd7e14;">▄</span><span style="color:#ffcc66;">▆</span><span style="color:#fd7e14;">▄</span><span style="color:#6610f2;">▁</span><span style="color:#007bff;">▄</span><span style="color:#69359c;">█</span><span style="color:#e83e8c;">▃</span><span style="color:#8357ff;">▁</span><span style="color:#0c9;">▆</span><span style="color:#ffcc66;">▇</span><span style="color:#dc3545;">▇</span><span style="color:#2196f3;">▇</span><span style="color:#0c9;">▂</span><span style="color:#69359c;">▂</span><span style="color:#ffc107;">▁</span><span style="color:#00bcd4;">▄</span><span style="color:#fe4164;">▂</span><span style="color:#69359c;">▆</span><span style="color:#f44336;">█</span><span style="color:#00bcd4;">█</span><span style="color:#6610f2;">▃</span><span style="color:#fd7e14;">▂</span><span style="color:#00b7eb;">▅</span><span style="color:#20c997;">▇</span><span style="color:#ffcc66;">▄</span><span style="color:#a50b5e;">█</span><span style="color:#17a2b8;">▂</span><span style="color:#fd7e14;">▅</span><span style="color:#17a2b8;">▆</span><span style="color:#fe4164;">▆</span><span style="color:#2196f3;">▁</span><span style="color:#69359c;">▄</span><span style="color:#6f42c1;">▂</span><span style="color:#5b92e5;">▃</span><span style="color:#00bcd4;">▄</span><span style="color:#e83e8c;">▅</span><span style="color:#2196f3;">▅</span><span style="color:#28a745;">▃</span><span style="color:#ffcc66;">▅</span><span style="color:#a50b5e;">█</span><span style="color:#20b2aa;">▄</span><span style="color:#20c997;">▃</span><span style="color:#17a2b8;">▇</span><span style="color:#20b2aa;">▃</span><span style="color:#00bcd4;">▄</span><span style="color:#ffc107;">▃</span><span style="color:#6c757d;">▂</span><span style="color:#dc3545;">▂</span><span style="color:#ffcc66;">▁</span><span style="color:#2196f3;">▇</span><span style="color:#00b7eb;">▅</span><span style="color:#28a745;">▅</span><span style="color:#fe4164;">█</span><span style="color:#dc3545;">▇</span><span style="color:#6610f2;">█</span><span style="color:#20b2aa;">▇</span><span style="color:#6610f2;">▆</span><span style="color:#28a745;">▆</span></span></code></div>
-    <hr>
-          <p style="float:left;"><a href="/posts/20140918_little-pdf.html"> « </a>📅 published on <code>15/Nov/2014</code><a href="/posts/20141127_flowinspect.html"> » </a></p>
-        <p style="float:right;">🔖 tagged <a href=/tags.html#code>code</a></p>
-    <div style="clear:both;"></div>
-    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
+      <div class="meta" style="text-align:right;">
+        <div>15/Nov/2014</div>
+        <div class="tags"><a href="/tags.html#code">code</a></div>
+      </div>
+    </div>
+    <nav class="post-nav" style="margin-top:0.3em;">
+      <a class="nav-prev" href="/posts/20140918_little-pdf.html"><span class="arrow">&lt;&lt;&lt;</span> <span class="nav-title">Little PDF Puzzle from Didier Stevens</span></a>      <a class="nav-next" href="/posts/20141127_flowinspect.html"><span class="nav-title">Flowinspect: A Network Inspection Tool</span> <span class="arrow">&gt;&gt;&gt;</span></a>    </nav>
+  </div>
+
+  <div class="content">
+    <h2 class="h2 collapsible" onclick="toggle(this);">Introduction</h2>
 <p class="nested active">While working with pcap files, I occasionally come across situations where I need to edit them for some weird usecases. When in such a situation, I had to write a loop that iterates over packets, check if the current packet needs modification, apply changes if so and save these changes to a new pcap. As I repeated these steps a few times, need for automation became obvious. I sat together with my colleague and good friend <a href="http://x00itachi.blogspot.in/">Natraj</a> and discussed about how we can automate this process so that it helps with our IPS signature development efforts. Eventually, a draft for an interactive tool was formulated and <a href="https://github.com/7h3rAm/pcapedit">pcapedit</a> was born.</p>
 <p class="nested active"><code>pcapedit</code> is a Python-based tool that allows users to enter commands to edit and save pcaps. It has a hard dependency on <code>Scapy</code> and <code>cmd2</code> modules so make sure these are installed. Here is a snippet from test run:</p>
 <pre class="nested active"><code>$ ./pcapedit.py
@@ -78,7 +80,7 @@ EOF  eof  exit  help  q  quit
 
 &gt;&gt;&gt; q
 </code></pre>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Usecases</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Usecases</h2>
 <p class="nested active">So we have a few commands to try out. Let's assume that you have a <code>http.pcap</code> file that needs editing. Let's see how pcapedit can be useful in this case:</p>
 <pre class="nested active"><code>$ ./pcapedit.py
 PcapEdit - An Interactive Pcap Editor
@@ -260,37 +262,58 @@ $ ls -l *.cap
 -rw-rw-r-- 1 shiv shiv  6805 Nov 15 14:44 http.mod.cap
 $
 </code></pre>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Conclusion</h2>
 <p class="nested active">There are a few other nifty commands that will be useful and I strongly recommend you to give <code>pcapedit</code> a try.</p>
+  </div>
+
+  <nav class="post-nav" style="margin-top:1em;">
+    <a class="nav-prev" href="/posts/20140918_little-pdf.html"><span class="arrow">&lt;&lt;&lt;</span> <span class="nav-title">Little PDF Puzzle from Didier Stevens</span></a>    <a class="nav-next" href="/posts/20141127_flowinspect.html"><span class="nav-title">Flowinspect: A Network Inspection Tool</span> <span class="arrow">&gt;&gt;&gt;</span></a>  </nav>
+</article>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var content = document.querySelector('.content');
+  if (content) {
+    var headings = content.querySelectorAll('h2,h3,h4,h5,h6');
+    headings.forEach(function(h) {
+      var link = document.createElement('a');
+      link.href = '#top';
+      link.className = 'top-link';
+      link.textContent = ' [^]';
+      link.style.fontSize = '0.8em';
+      link.style.color = 'var(--muted)';
+      h.appendChild(link);
+    });
+  }
+});
+</script>
+
+<footer>
+  <p class="nested active">cc-by-sa-4.0</p>
+</footer>
+
+<aside class="sidebar">
+  <div class="sidebar-content">
+    <h4 class="h4 collapsible" onclick="toggle(this);">navigation</h4>
+    <a href="/">home</a>
+    <a href="/archive.html">archive</a>
+    <a href="/tags.html">tags</a>
+    <a href="/stats.html">stats</a>
     <hr>
-          <p style="float:left;">« <a href="/posts/20140918_little-pdf.html">Little PDF Puzzle from Didier ...</a> «</p>
-      <p style="float:right;">» <a href="/posts/20141127_flowinspect.html">Flowinspect: A Network Inspect...</a> »</p>
-          </div>
-      <div><a class="footer" href="https://github.com/7h3rAm/7h3rAm.github.io">  </a></div>
-      <script>hljs.initHighlightingOnLoad();</script>
-      <script>hljs.initLineNumbersOnLoad();</script>
-      <script>
-        function toggle(s){
-          s.classList.toggle("expanded");
-          var t=!1,i=!1,a=!1;
-          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);
-          for(var l=s.nextElementSibling;l;){
-            if(t&&l.classList.contains("h2")){
-              l.classList.toggle("active");
-              break
-            }
-            if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){
-              l.classList.toggle("active");
-              break
-            }
-            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){
-              l.classList.toggle("active");
-              break
-            }
-            l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-          }
-        }
-      </script>
+    <a href="https://github.com/@7h3rAm">github</a>
+    <a href="https://twitter.com/@7h3rAm">twitter</a>
+    <hr>
+    <h4 class="h4 collapsible" onclick="toggle(this);">toggles</h4>
+    <div class="toggle-group">
+      <button class="toggle-btn toggle-theme" onclick="toggleThemeMode()">◑ theme</button>
+      <button class="toggle-btn toggle-density" onclick="toggleDensity()">▥ density</button>
+      <button class="toggle-btn toggle-width" onclick="toggleWidth()">▱ width</button>
+      <button class="toggle-btn toggle-justify" onclick="toggleJustify()">¶ justify</button>
+      <button class="toggle-btn toggle-collapse" onclick="toggleAllSections()">±</button>
     </div>
-  </body>
+  </div>
+</aside>
+
+<script>hljs.configure({ignoreUnescapedHTML: true}); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+</body>
 </html>

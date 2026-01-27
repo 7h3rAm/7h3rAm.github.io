@@ -1,109 +1,134 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
-    <meta name="description" content="Personal Weblog"/>
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    <title>मंथन | Manthan</title>
-    <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.css"/>
-    <link id="codestylesheet" rel="stylesheet" type="text/css" media="screen" href="/static/css/atelier-forest-light.css">
-    <script charset="UTF-8" src="/static/js/highlight.min.js"></script>
-    <script charset="UTF-8" src="/static/js/highlightjs-line-numbers.min.js"></script>
-    <script charset="UTF-8" src="/static/js/go.min.js"></script>
-   </head>
-  <body>
-    <div class="body">
-      <div class="menu">
-        <table>
-          <tr>
-            <td colspan="3"><a class="menu_home" href="/index.html">मंथन</a></td>
-          </tr>
-          <tr>
-            <td><a class="menu_archive" href="/archive.html">💾 Archive</a></td>
-            <td><a class="menu_tags" href="/tags.html">🔖 Tags</a></td>
-            <td><a class="menu_stats" href="/stats.html">📊 Stats</a></td>
-            <!--<td>-->
-            <!--  <label class="theme-switch" for="checkbox">-->
-            <!--    <input type="checkbox" id="checkbox" />-->
-            <!--    <div class="slider round"></div>-->
-            <!--  </label>-->
-            <!--</td>-->
-          </tr>
-        </table>
-      </div>
-      <div class="content">
-          <h1 class="h1">🙏 नमस्ते</h1>
-    <ul class="active">
-      <li>I am Ankur Tyagi and this is a web space where I document ideas, gather notes and list updates on topics of interest.
-All content on this site is under a <a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons</a> license.
-If you find something useful, feel free to connect and share feedback:
-        <ul>
-                    <li><a href="mailto:echo 2s6eln@vncad.bzn | tr [62cbvsadnzel] [37acghilmorA]">📧 Email</a></li>
-                    <li><a href="https://twitter.com/7h3rAm">🐤 Twitter</a></li>
-                  </ul>
-      </li>
-      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Recent Posts</h2><ul class="active nested">
-                  <li>
-                          <code>24/Nov/2020</code>: <code><span class="sparklines"><span style="color:#a50b5e;">▂</span><span style="color:#00b7eb;">▃</span><span style="color:#f44336;">▅</span><span style="color:#007bff;">▁</span><span style="color:#0c9;">▇</span><span style="color:#6c757d;">▁</span><span style="color:#8357ff;">▂</span><span style="color:#00b7eb;">▆</span><span style="color:#f44336;">▃</span><span style="color:#17a2b8;">▁</span></span></code> <a href="/posts/20201124_htb-buff.html" title="This is a writeup for HackTheBox machine Buff.">[HackTheBox] Buff</a>
-                      </li>
-                  <li>
-                          <code>10/Aug/2020</code>: <code><span class="sparklines"><span style="color:#6610f2;">▁</span><span style="color:#5b92e5;">▃</span><span style="color:#99cc99;">▂</span><span style="color:#a50b5e;">▅</span><span style="color:#6c757d;">▂</span><span style="color:#fe4164;">▅</span><span style="color:#ffcc66;">█</span><span style="color:#00bcd4;">▆</span><span style="color:#8357ff;">█</span><span style="color:#007bff;">▃</span></span></code> <a href="/posts/20200810_vulnhub-infosecpreposcp.html" title="This is a writeup for VulnHub machine Infosec Prep: OSCP.">[VulnHub] InfoSec Prep: OSCP</a>
-                      </li>
-                  <li>
-                          <code>30/Jul/2020</code>: <code><span class="sparklines"><span style="color:#00b7eb;">▄</span><span style="color:#fe4164;">▄</span><span style="color:#f44336;">▂</span><span style="color:#f44336;">▂</span><span style="color:#28a745;">▃</span><span style="color:#28a745;">▁</span><span style="color:#a50b5e;">▅</span><span style="color:#e83e8c;">▅</span><span style="color:#8357ff;">▂</span><span style="color:#fe4164;">█</span></span></code> <a href="/posts/20200730_thm-yotf.html" title="This is a writeup for TryHackMe machine Year of the Fox.">[TryHackMe] Year of the Fox</a>
-                      </li>
-                  <li>
-                          <code>25/Jun/2020</code>: <code><span class="sparklines"><span style="color:#20b2aa;">▂</span><span style="color:#0c9;">▅</span><span style="color:#99cc99;">█</span><span style="color:#28a745;">▄</span><span style="color:#fe4164;">▅</span><span style="color:#20c997;">▃</span><span style="color:#99cc99;">▆</span><span style="color:#20c997;">▆</span><span style="color:#8357ff;">▄</span><span style="color:#00bcd4;">▄</span></span></code> <a href="/posts/20200625_htb-bashed.html" title="This is a writeup for HackTheBox machine Bashed.">[HackTheBox] Bashed</a>
-                      </li>
-                  <li>
-                          <code>28/Apr/2020</code>: <code><span class="sparklines"><span style="color:#007bff;">▂</span><span style="color:#fe4164;">▂</span><span style="color:#fe4164;">█</span><span style="color:#dc3545;">▆</span><span style="color:#8357ff;">▇</span><span style="color:#ffc107;">▂</span><span style="color:#6f42c1;">▄</span><span style="color:#007bff;">▃</span><span style="color:#20b2aa;">▅</span><span style="color:#6f42c1;">▄</span></span></code> <a href="/posts/20200428_htb-archetype.html" title="This is a writeup for HackTheBox machine Archetype.">[HackTheBox] Archetype</a>
-                      </li>
-                  <li>
-                          <code>13/Nov/2019</code>: <code><span class="sparklines"><span style="color:#2196f3;">█</span><span style="color:#8357ff;">▂</span><span style="color:#20c997;">▄</span><span style="color:#00bcd4;">▇</span><span style="color:#20c997;">▂</span><span style="color:#6610f2;">▄</span><span style="color:#6f42c1;">█</span><span style="color:#17a2b8;">█</span><span style="color:#6c757d;">█</span><span style="color:#fd7e14;">█</span></span></code> <a href="/posts/20191113_htb-cronos.html" title="This is a writeup for HackTheBox machine CronOS.">[HackTheBox] CronOS</a>
-                      </li>
-                  <li>
-                          <code>13/Nov/2019</code>: <code><span class="sparklines"><span style="color:#20c997;">▅</span><span style="color:#fe4164;">▃</span><span style="color:#f44336;">▇</span><span style="color:#007bff;">▅</span><span style="color:#00bcd4;">▁</span><span style="color:#0c9;">▆</span><span style="color:#20c997;">█</span><span style="color:#00b7eb;">▂</span><span style="color:#20c997;">▇</span><span style="color:#fd7e14;">▂</span></span></code> <a href="/posts/20191113_htb-blocky.html" title="This is a writeup for HackTheBox machine Blocky.">[HackTheBox] Blocky</a>
-                      </li>
-                  <li>
-                          <code>13/Nov/2019</code>: <code><span class="sparklines"><span style="color:#e83e8c;">▅</span><span style="color:#6610f2;">█</span><span style="color:#e83e8c;">█</span><span style="color:#00bcd4;">▇</span><span style="color:#6610f2;">▄</span><span style="color:#f44336;">▁</span><span style="color:#00b7eb;">█</span><span style="color:#e83e8c;">▃</span><span style="color:#fe4164;">█</span><span style="color:#007bff;">█</span></span></code> <a href="/posts/20191113_htb-shocker.html" title="This is a writeup for HackTheBox machine Shocker.">[HackTheBox] Shocker</a>
-                      </li>
-                  <li>
-                          <code>12/Nov/2019</code>: <code><span class="sparklines"><span style="color:#28a745;">▂</span><span style="color:#ffc107;">▃</span><span style="color:#28a745;">█</span><span style="color:#8357ff;">▄</span><span style="color:#a50b5e;">▂</span><span style="color:#f44336;">▅</span><span style="color:#0c9;">▃</span><span style="color:#e83e8c;">▁</span><span style="color:#6c757d;">▅</span><span style="color:#99cc99;">▃</span></span></code> <a href="/posts/20191112_htb-mirai.html" title="This is a writeup for HackTheBox machine Mirai.">[HackTheBox] Mirai</a>
-                      </li>
-                  <li>
-                          <code>05/Nov/2019</code>: <code><span class="sparklines"><span style="color:#69359c;">▁</span><span style="color:#fe4164;">▄</span><span style="color:#17a2b8;">▄</span><span style="color:#dc3545;">▇</span><span style="color:#ffc107;">▅</span><span style="color:#17a2b8;">▁</span><span style="color:#ffcc66;">▇</span><span style="color:#4caf50;">▃</span><span style="color:#ffcc66;">▄</span><span style="color:#4caf50;">▂</span></span></code> <a href="/posts/20191105_htb-devel.html" title="This is a writeup for HackTheBox machine Devel.">[HackTheBox] Devel</a>
-                      </li>
-                <li><a href=/archive.html>more...</a></li>
-      </ul></li>
-    </ul>
-      </div>
-      <div><a class="footer" href="https://github.com/7h3rAm/7h3rAm.github.io">  </a></div>
-      <script>hljs.initHighlightingOnLoad();</script>
-      <script>hljs.initLineNumbersOnLoad();</script>
-      <script>
-        function toggle(s){
-          s.classList.toggle("expanded");
-          var t=!1,i=!1,a=!1;
-          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);
-          for(var l=s.nextElementSibling;l;){
-            if(t&&l.classList.contains("h2")){
-              l.classList.toggle("active");
-              break
-            }
-            if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){
-              l.classList.toggle("active");
-              break
-            }
-            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){
-              l.classList.toggle("active");
-              break
-            }
-            l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-          }
-        }
-      </script>
+<html lang="en" data-theme-mode="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ankur Tyagi (@7h3rAm)">
+  <meta name="description" content="Personal Weblog">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manthan</title>
+  <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp">
+  <link rel="stylesheet" href="/static/css/base.css">
+  <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
+  <script src="/static/js/theme.js"></script>
+  <script src="/static/js/highlight.min.js"></script>
+  <script src="/static/js/hljs-bash.min.js"></script>
+  <script src="/static/js/hljs-python.min.js"></script>
+  <script src="/static/js/hljs-sql.min.js"></script>
+  <script src="/static/js/hljs-powershell.min.js"></script>
+  <script src="/static/js/hljs-line-numbers.min.js"></script>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1 class="site-title"><a href="/" style="color:inherit;text-decoration:none;">manthan</a></h1>
+    <p class="meta">security research | code | writeups</p>
+  </div>
+</header>
+
+<section id="stream">
+  <h2>posts</h2>
+    <div class="entry">
+    <time>24/Nov/2020</time>
+    <span class="sparklines" title="2481d13b515d27dfa180f3b5cac6c0ddfdf32efc67a07e15951ee76cec5e508d"><span style="color:#6c757d;">▂</span><span style="color:#69359c;">▃</span><span style="color:#f44336;">▅</span><span style="color:#fe4164;">▁</span><span style="color:#a50b5e;">▇</span><span style="color:#6c757d;">▁</span><span style="color:#6610f2;">▂</span><span style="color:#f44336;">▆</span><span style="color:#ffcc66;">▃</span><span style="color:#2196f3;">▁</span></span> <a class="post-title" href="/posts/20201124_htb-buff.html">[HackTheBox] Buff</a>
+    <span class="tags"><a href="/tags.html#hackthebox">hackthebox</a>, <a href="/tags.html#writeup">writeup</a></span>
+  </div>
+    <div class="entry">
+    <time>10/Aug/2020</time>
+    <span class="sparklines" title="042928ebe5afb0458b508f8c1797d42df7bc936c92f1a80c94dd20106383576e"><span style="color:#17a2b8;">▁</span><span style="color:#dc3545;">▃</span><span style="color:#ffcc66;">▂</span><span style="color:#20c997;">▅</span><span style="color:#007bff;">▂</span><span style="color:#00b7eb;">▅</span><span style="color:#fe4164;">█</span><span style="color:#69359c;">▆</span><span style="color:#00bcd4;">█</span><span style="color:#17a2b8;">▃</span></span> <a class="post-title" href="/posts/20200810_vulnhub-infosecpreposcp.html">[VulnHub] InfoSec Prep: OSCP</a>
+    <span class="tags"><a href="/tags.html#vulnhub">vulnhub</a>, <a href="/tags.html#writeup">writeup</a></span>
+  </div>
+    <div class="entry">
+    <time>30/Jul/2020</time>
+    <span class="sparklines" title="773340982eeb0216144e15d708e930ff1fa05299b214e8d2259fdd012017525b"><span style="color:#4caf50;">▄</span><span style="color:#6c757d;">▄</span><span style="color:#20b2aa;">▂</span><span style="color:#a50b5e;">▂</span><span style="color:#ffcc66;">▃</span><span style="color:#99cc99;">▁</span><span style="color:#6f42c1;">▅</span><span style="color:#20b2aa;">▅</span><span style="color:#99cc99;">▂</span><span style="color:#00bcd4;">█</span></span> <a class="post-title" href="/posts/20200730_thm-yotf.html">[TryHackMe] Year of the Fox</a>
+    <span class="tags"><a href="/tags.html#tryhackme">tryhackme</a>, <a href="/tags.html#writeup">writeup</a></span>
+  </div>
+    <div class="entry">
+    <time>25/Jun/2020</time>
+    <span class="sparklines" title="38e794ab777aa2faa73d0afe5a2910f7167eadbf4f08ad9165212d545e5570ad"><span style="color:#4caf50;">▂</span><span style="color:#00b7eb;">▅</span><span style="color:#dc3545;">█</span><span style="color:#8357ff;">▄</span><span style="color:#ffcc66;">▅</span><span style="color:#f44336;">▃</span><span style="color:#fd7e14;">▆</span><span style="color:#ffc107;">▆</span><span style="color:#ffc107;">▄</span><span style="color:#6f42c1;">▄</span></span> <a class="post-title" href="/posts/20200625_htb-bashed.html">[HackTheBox] Bashed</a>
+    <span class="tags"><a href="/tags.html#hackthebox">hackthebox</a>, <a href="/tags.html#writeup">writeup</a></span>
+  </div>
+    <div class="entry">
+    <time>28/Apr/2020</time>
+    <span class="sparklines" title="23fbc26596ab159a1566131e1492d01deb56b724182159f6e4310e461e89d62c"><span style="color:#17a2b8;">▂</span><span style="color:#e83e8c;">▂</span><span style="color:#20c997;">█</span><span style="color:#ffc107;">▆</span><span style="color:#4caf50;">▇</span><span style="color:#6610f2;">▂</span><span style="color:#6610f2;">▄</span><span style="color:#2196f3;">▃</span><span style="color:#6f42c1;">▅</span><span style="color:#e83e8c;">▄</span></span> <a class="post-title" href="/posts/20200428_htb-archetype.html">[HackTheBox] Archetype</a>
+    <span class="tags"><a href="/tags.html#hackthebox">hackthebox</a>, <a href="/tags.html#writeup">writeup</a></span>
+  </div>
+    <div class="entry">
+    <time>13/Nov/2019</time>
+    <span class="sparklines" title="f27d27efefa4ad2cd54ee525a951042e7d641f3b69b6597a000e5089f2d41e27"><span style="color:#8357ff;">█</span><span style="color:#0c9;">▂</span><span style="color:#4caf50;">▄</span><span style="color:#a50b5e;">▇</span><span style="color:#f44336;">▂</span><span style="color:#fd7e14;">▄</span><span style="color:#2196f3;">█</span><span style="color:#69359c;">█</span><span style="color:#99cc99;">█</span><span style="color:#00b7eb;">█</span></span> <a class="post-title" href="/posts/20191113_htb-cronos.html">[HackTheBox] CronOS</a>
+    <span class="tags"><a href="/tags.html#hackthebox">hackthebox</a>, <a href="/tags.html#writeup">writeup</a></span>
+  </div>
+    <div class="entry">
+    <time>13/Nov/2019</time>
+    <span class="sparklines" title="95d81af3d382f46e01728a2ff91b50e08f868ffccfb1dd1e42f5554cbdb478b9"><span style="color:#a50b5e;">▅</span><span style="color:#99cc99;">▃</span><span style="color:#6f42c1;">▇</span><span style="color:#8357ff;">▅</span><span style="color:#99cc99;">▁</span><span style="color:#e83e8c;">▆</span><span style="color:#dc3545;">█</span><span style="color:#00b7eb;">▂</span><span style="color:#fe4164;">▇</span><span style="color:#6610f2;">▂</span></span> <a class="post-title" href="/posts/20191113_htb-blocky.html">[HackTheBox] Blocky</a>
+    <span class="tags"><a href="/tags.html#hackthebox">hackthebox</a>, <a href="/tags.html#writeup">writeup</a></span>
+  </div>
+    <div class="entry">
+    <time>13/Nov/2019</time>
+    <span class="sparklines" title="8eec60e4fe09ca0a41224c3c43f528df5207f837615f0966571266f436f79430"><span style="color:#00b7eb;">▅</span><span style="color:#69359c;">█</span><span style="color:#8357ff;">█</span><span style="color:#0c9;">▇</span><span style="color:#e83e8c;">▄</span><span style="color:#6c757d;">▁</span><span style="color:#a50b5e;">█</span><span style="color:#ffc107;">▃</span><span style="color:#00bcd4;">█</span><span style="color:#8357ff;">█</span></span> <a class="post-title" href="/posts/20191113_htb-shocker.html">[HackTheBox] Shocker</a>
+    <span class="tags"><a href="/tags.html#hackthebox">hackthebox</a>, <a href="/tags.html#writeup">writeup</a></span>
+  </div>
+    <div class="entry">
+    <time>12/Nov/2019</time>
+    <span class="sparklines" title="25e7295084faf4a04f9e58d230445d98645f0751323f70c8c6c4642033c08c0a"><span style="color:#fe4164;">▂</span><span style="color:#69359c;">▃</span><span style="color:#8357ff;">█</span><span style="color:#dc3545;">▄</span><span style="color:#20b2aa;">▂</span><span style="color:#00bcd4;">▅</span><span style="color:#2196f3;">▃</span><span style="color:#6610f2;">▁</span><span style="color:#17a2b8;">▅</span><span style="color:#28a745;">▃</span></span> <a class="post-title" href="/posts/20191112_htb-mirai.html">[HackTheBox] Mirai</a>
+    <span class="tags"><a href="/tags.html#hackthebox">hackthebox</a>, <a href="/tags.html#writeup">writeup</a></span>
+  </div>
+    <div class="entry">
+    <time>05/Nov/2019</time>
+    <span class="sparklines" title="177d91d572aa450f8dc92f873b0bccb7f22ae6b31cb2486ab8c2da68e6ad5a89"><span style="color:#2196f3;">▁</span><span style="color:#6f42c1;">▄</span><span style="color:#6610f2;">▄</span><span style="color:#4caf50;">▇</span><span style="color:#8357ff;">▅</span><span style="color:#69359c;">▁</span><span style="color:#4caf50;">▇</span><span style="color:#f44336;">▃</span><span style="color:#007bff;">▄</span><span style="color:#6610f2;">▂</span></span> <a class="post-title" href="/posts/20191105_htb-devel.html">[HackTheBox] Devel</a>
+    <span class="tags"><a href="/tags.html#hackthebox">hackthebox</a>, <a href="/tags.html#writeup">writeup</a></span>
+  </div>
+    <p style="margin-top:0.5em"><a href="/archive.html">70 more &gt;&gt;&gt;</a></p>
+</section>
+
+<section id="pages">
+  <h2>pages</h2>
+  <dl class="pages-grid">
+    <dt><a href="/pages/cv.html">cv</a></dt><dd>curriculum vitae</dd>
+    <dt><a href="/pages/oscp.html">oscp</a></dt><dd>certification notes</dd>
+    <dt><a href="/pages/life.html">life</a></dt><dd>principles, quotes</dd>
+    <dt><a href="/pages/read.html">read</a></dt><dd>book notes</dd>
+    <dt><a href="/pages/fitness.html">fitness</a></dt><dd>workout logs</dd>
+    <dt><a href="/pages/research.html">research</a></dt><dd>papers, patents</dd>
+  </dl>
+</section>
+
+<section id="about">
+  <h2>about</h2>
+  <dl class="about-grid">
+    <dt>handle</dt><dd>@7h3rAm (Ankur Tyagi)</dd>
+    <dt>focus</dt><dd>security research, exploit dev</dd>
+    <dt>stats</dt><dd>80 posts · 9 tags</dd>
+    <dt>links</dt><dd><a href="https://github.com/@7h3rAm">github</a> · <a href="https://twitter.com/@7h3rAm">twitter</a> · <a href="/feed.xml">rss</a></dd>
+  </dl>
+</section>
+
+<footer>
+  <p>cc-by-sa-4.0</p>
+</footer>
+
+<aside class="sidebar">
+  <div class="sidebar-content">
+    <h4>navigation</h4>
+    <a href="/">home</a>
+    <a href="/archive.html">archive</a>
+    <a href="/tags.html">tags</a>
+    <a href="/stats.html">stats</a>
+    <hr>
+    <a href="https://github.com/@7h3rAm">github</a>
+    <a href="https://twitter.com/@7h3rAm">twitter</a>
+    <hr>
+    <h4>toggles</h4>
+    <div class="toggle-group">
+      <button class="toggle-btn toggle-theme" onclick="toggleThemeMode()">◑ theme</button>
+      <button class="toggle-btn toggle-density" onclick="toggleDensity()">▥ density</button>
+      <button class="toggle-btn toggle-width" onclick="toggleWidth()">▱ width</button>
+      <button class="toggle-btn toggle-justify" onclick="toggleJustify()">¶ justify</button>
+      <button class="toggle-btn toggle-collapse" onclick="toggleAllSections()">±</button>
     </div>
-  </body>
+  </div>
+</aside>
+
+<script>hljs.configure({ignoreUnescapedHTML: true}); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+</body>
 </html>

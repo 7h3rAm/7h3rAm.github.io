@@ -1,87 +1,216 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <meta name="author" content="Ankur Tyagi (@7h3rAm)"/>
-    <meta name="description" content="Personal Weblog"/>
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    <title>मंथन | Manthan</title>
-    <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.css"/>
-    <link id="codestylesheet" rel="stylesheet" type="text/css" media="screen" href="/static/css/atelier-forest-light.css">
-    <script charset="UTF-8" src="/static/js/highlight.min.js"></script>
-    <script charset="UTF-8" src="/static/js/highlightjs-line-numbers.min.js"></script>
-    <script charset="UTF-8" src="/static/js/go.min.js"></script>
-   </head>
-  <body>
-    <div class="body">
-      <div class="menu">
-        <table>
-          <tr>
-            <td colspan="3"><a class="menu_home" href="/index.html">मंथन</a></td>
-          </tr>
-          <tr>
-            <td><a class="menu_archive" href="/archive.html">💾 Archive</a></td>
-            <td><a class="menu_tags" href="/tags.html">🔖 Tags</a></td>
-            <td><a class="menu_stats" href="/stats.html">📊 Stats</a></td>
-            <!--<td>-->
-            <!--  <label class="theme-switch" for="checkbox">-->
-            <!--    <input type="checkbox" id="checkbox" />-->
-            <!--    <div class="slider round"></div>-->
-            <!--  </label>-->
-            <!--</td>-->
-          </tr>
-        </table>
-      </div>
-      <div class="content">
-          <h1 class="h1">📊 Stats</h1>
-    <ul class="active">
-      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Summary</h2><ul class="active nested">
-                <li>There are a total of <code>80</code> posts with <code>9</code> tags, written over a period of <code>9y0m8d</code> (from <code>16/Nov/2011</code> till <code>24/Nov/2020</code>)</li>
-                <li>From the most recent update (on <code>30/Jan/2023</code>), it's been <code>2y2m6d</code> when the last post was published and <code>11y2m14d</code> since the first post</li>
-                <li>The year <code>2019</code> has highest number of posts with a count of <code>34</code>, while the year <code>2016</code> has lowest number of posts with a count of <code>2</code></li>
-                <li>The year <code>2020</code> has highest number of tags with a count of <code>4</code>, while the year <code>2016</code> has lowest number of tags with a count of <code>1</code></li>
-                <li>The most widely used of all <code>9</code> tags across <code>80</code> posts is <code>writeup</code> while the least used is <code>tryhackme</code></li>
-                <li>On an average, there are <code>15</code> posts per tag and <code>10</code> posts, <code>2</code> tags per year</li>
-              </ul></li>
-      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Graphs</h2><ul class="active nested">
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Posts per Tag</h3><ul class="active nested">
-          <li><p><img class=rectimages src=/static/files/pages_stats/posts_per_tag.png.webp></p></li>
-        </ul></li>
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Posts per Year</h3><ul class="active nested">
-          <li><p><img class=rectimages src=/static/files/pages_stats/posts_per_year.png.webp></p></li>
-        </ul></li>
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Tags per Year</h3><ul class="active nested">
-          <li><p><img class=rectimages src=/static/files/pages_stats/tags_per_year.png.webp></p></li>
-        </ul></li>
-      </ul></li>
-    </ul>
-      </div>
-      <div><a class="footer" href="https://github.com/7h3rAm/7h3rAm.github.io">  </a></div>
-      <script>hljs.initHighlightingOnLoad();</script>
-      <script>hljs.initLineNumbersOnLoad();</script>
-      <script>
-        function toggle(s){
-          s.classList.toggle("expanded");
-          var t=!1,i=!1,a=!1;
-          s.classList.contains("h2")&&(t=!0),s.classList.contains("h3")&&(i=!0),s.classList.contains("h4")&&(a=!0);
-          for(var l=s.nextElementSibling;l;){
-            if(t&&l.classList.contains("h2")){
-              l.classList.toggle("active");
-              break
-            }
-            if(i&&(l.classList.contains("h2")||l.classList.contains("h3"))){
-              l.classList.toggle("active");
-              break
-            }
-            if(a&&(l.classList.contains("h2")||l.classList.contains("h3")||l.classList.contains("h4"))){
-              l.classList.toggle("active");
-              break
-            }
-            l.classList.contains("collapsible")&&l.classList.toggle("expanded"),l.classList.toggle("active"),l=l.nextElementSibling
-          }
-        }
-      </script>
+<html lang="en" data-theme-mode="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ankur Tyagi (@7h3rAm)">
+  <meta name="description" content="Personal Weblog">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manthan</title>
+  <link rel="icon" type="image/webp" sizes="32x32" href="/static/images/manthan-32x32.png.webp">
+  <link rel="stylesheet" href="/static/css/base.css">
+  <link rel="stylesheet" href="/static/css/atelier-forest-light.css">
+  <script src="/static/js/theme.js"></script>
+  <script src="/static/js/highlight.min.js"></script>
+  <script src="/static/js/hljs-bash.min.js"></script>
+  <script src="/static/js/hljs-python.min.js"></script>
+  <script src="/static/js/hljs-sql.min.js"></script>
+  <script src="/static/js/hljs-powershell.min.js"></script>
+  <script src="/static/js/hljs-line-numbers.min.js"></script>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1 class="site-title"><a href="/" style="color:inherit;text-decoration:none;">manthan</a></h1>
+    <p class="meta">security research | code | writeups</p>
+  </div>
+</header>
+
+<style>
+.stats-table {
+  font-family: monospace;
+  line-height: 1.3;
+}
+[data-density="comfortable"] .stats-table {
+  line-height: 1.6;
+}
+.posts-table {
+  width: 100%;
+  font-family: monospace;
+  line-height: 1.3;
+}
+[data-density="comfortable"] .posts-table {
+  line-height: 1.6;
+}
+.posts-table td:first-child {
+  color: var(--muted);
+  padding-right: 1em;
+  white-space: nowrap;
+}
+</style>
+<section>
+  <h1>stats</h1>
+
+  <div style="display: flex; gap: 2em; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 300px;">
+      <h2>overview</h2>
+      <table class="stats-table">
+        <tr><td>total posts:</td><td style="text-align: right; padding-left: 2em;">80</td></tr>
+        <tr><td>total tags:</td><td style="text-align: right; padding-left: 2em;">9</td></tr>
+        <tr><td>writing period:</td><td style="text-align: right; padding-left: 2em;">9y0m8d</td></tr>
+        <tr><td>first post:</td><td style="text-align: right; padding-left: 2em;">16/Nov/2011</td></tr>
+        <tr><td>last post:</td><td style="text-align: right; padding-left: 2em;">24/Nov/2020</td></tr>
+        <tr><td>days since last post:</td><td style="text-align: right; padding-left: 2em;">1889</td></tr>
+        <tr><td colspan="2" style="padding-top: 1em;"><strong>content</strong></td></tr>
+        <tr><td>total words:</td><td style="text-align: right; padding-left: 2em;">39,235</td></tr>
+        <tr><td>avg words/post:</td><td style="text-align: right; padding-left: 2em;">490</td></tr>
+        <tr><td>min words:</td><td style="text-align: right; padding-left: 2em;">69</td></tr>
+        <tr><td>max words:</td><td style="text-align: right; padding-left: 2em;">4,198</td></tr>
+        <tr><td>total code blocks:</td><td style="text-align: right; padding-left: 2em;">654</td></tr>
+        <tr><td colspan="2" style="padding-top: 1em;"><strong>yearly</strong></td></tr>
+        <tr><td>most posts year:</td><td style="text-align: right; padding-left: 2em;">2019 (34)</td></tr>
+        <tr><td>least posts year:</td><td style="text-align: right; padding-left: 2em;">2016 (2)</td></tr>
+        <tr><td>avg posts/year:</td><td style="text-align: right; padding-left: 2em;">10</td></tr>
+        <tr><td colspan="2" style="padding-top: 1em;"><strong>tags</strong></td></tr>
+        <tr><td>most used tag:</td><td style="text-align: right; padding-left: 2em;">writeup (39)</td></tr>
+        <tr><td>least used tag:</td><td style="text-align: right; padding-left: 2em;">tryhackme (1)</td></tr>
+        <tr><td>avg posts/tag:</td><td style="text-align: right; padding-left: 2em;">15</td></tr>
+      </table>
     </div>
-  </body>
+
+    <div style="flex: 1; min-width: 300px;">
+      <h2>longest posts</h2>
+      <table class="posts-table">
+                <tr>
+          <td>4,198w</td>
+          <td><a href="/posts/20120827_geras-wuos-stack1-solutions.html">Gera's Warming Up on Stack #1 - Solutions</a></td>
+        </tr>
+                <tr>
+          <td>1,555w</td>
+          <td><a href="/posts/20141127_flowinspect.html">Flowinspect: A Network Inspection Tool</a></td>
+        </tr>
+                <tr>
+          <td>1,446w</td>
+          <td><a href="/posts/20120710_exploit-mitigation-techniques-on-linux.html">Exploit Mitigation Techniques on Linux Systems</a></td>
+        </tr>
+                <tr>
+          <td>1,377w</td>
+          <td><a href="/posts/20160218_flareon2014-15.html">FireEye FLARE On 2014 Challenges (1-5)</a></td>
+        </tr>
+                <tr>
+          <td>  916w</td>
+          <td><a href="/posts/20130824_malsoftware-reverse-ex.html">reverse-ex Challenge from Coursera's Malicious Software Course</a></td>
+        </tr>
+                <tr>
+          <td>  794w</td>
+          <td><a href="/posts/20130915_libnids-python-ids.html">Developing a Minimal IPS from Scratch</a></td>
+        </tr>
+                <tr>
+          <td>  778w</td>
+          <td><a href="/posts/20140318_shellcode-pipeline.html">Shellcode Analysis Pipleine</a></td>
+        </tr>
+                <tr>
+          <td>  777w</td>
+          <td><a href="/posts/20130104_geras-wuos-stack4-solutions.html">Gera's Warming Up on Stack #4 - Solutions</a></td>
+        </tr>
+                <tr>
+          <td>  756w</td>
+          <td><a href="/posts/20111203_vuln-weekends-2.html">Vulnerable Weekends #2: GNU GDB and Intel VT-d</a></td>
+        </tr>
+                <tr>
+          <td>  756w</td>
+          <td><a href="/posts/20111120_vuln-weekends-1.html">Vulnerable Weekends #1: Mozilla and ProFTPd</a></td>
+        </tr>
+              </table>
+
+      <h2 style="margin-top: 2em;">shortest posts</h2>
+      <table class="posts-table">
+                <tr>
+          <td>   69w</td>
+          <td><a href="/posts/20120902_tfm-mmplayer-ppl-seh.html">TFM MMPlayer .ppl File Parsing SEH Overflow</a></td>
+        </tr>
+                <tr>
+          <td>   71w</td>
+          <td><a href="/posts/20120902_soritong-m3u-seh-overflow.html">SoriTong MP3 Player .m3u File Parsing SEH Overflow</a></td>
+        </tr>
+                <tr>
+          <td>   72w</td>
+          <td><a href="/posts/20120902_millenium-mpf-seh.html">Millennium MP3 Studio .mpf File Parsing SEH Overflow</a></td>
+        </tr>
+                <tr>
+          <td>   73w</td>
+          <td><a href="/posts/20120902_word-list-builder-dic-file-parsing-seh.html">Word List Builder .dic File Parsing SEH Overflow</a></td>
+        </tr>
+                <tr>
+          <td>   84w</td>
+          <td><a href="/posts/20120902_shadow-stream-recorder-asx-jmpesp.html">Shadow Stream Recorder .asx File Parsing Buffer Overflow</a></td>
+        </tr>
+                <tr>
+          <td>  117w</td>
+          <td><a href="/posts/20160312_circllu.html">circllu.py: Querying circl.lu API for CVE Information</a></td>
+        </tr>
+                <tr>
+          <td>  133w</td>
+          <td><a href="/posts/20150802_capinfos.html">capinfos.py: Pure Python Pcap Statistics Tool</a></td>
+        </tr>
+                <tr>
+          <td>  150w</td>
+          <td><a href="/posts/20111116_vuln-weekends-intro.html">Vulnerable Weekends: Introduction</a></td>
+        </tr>
+                <tr>
+          <td>  180w</td>
+          <td><a href="/posts/20191101_htb-legacy.html">[HackTheBox] Legacy</a></td>
+        </tr>
+                <tr>
+          <td>  202w</td>
+          <td><a href="/posts/20190831_vulnhub-brainpan.html">[VulnHub] Brainpan: 1</a></td>
+        </tr>
+              </table>
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 1em; flex-wrap: wrap; margin-top: 2em;">
+    <div style="flex: 1; min-width: 250px;">
+      <h3>posts per tag</h3>
+      <p><img src="/static/files/pages_stats/posts_per_tag.png.webp" alt="posts per tag" style="max-width: 100%;"></p>
+    </div>
+    <div style="flex: 1; min-width: 250px;">
+      <h3>posts per year</h3>
+      <p><img src="/static/files/pages_stats/posts_per_year.png.webp" alt="posts per year" style="max-width: 100%;"></p>
+    </div>
+    <div style="flex: 1; min-width: 250px;">
+      <h3>tags per year</h3>
+      <p><img src="/static/files/pages_stats/tags_per_year.png.webp" alt="tags per year" style="max-width: 100%;"></p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>cc-by-sa-4.0</p>
+</footer>
+
+<aside class="sidebar">
+  <div class="sidebar-content">
+    <h4>navigation</h4>
+    <a href="/">home</a>
+    <a href="/archive.html">archive</a>
+    <a href="/tags.html">tags</a>
+    <a href="/stats.html">stats</a>
+    <hr>
+    <a href="https://github.com/@7h3rAm">github</a>
+    <a href="https://twitter.com/@7h3rAm">twitter</a>
+    <hr>
+    <h4>toggles</h4>
+    <div class="toggle-group">
+      <button class="toggle-btn toggle-theme" onclick="toggleThemeMode()">◑ theme</button>
+      <button class="toggle-btn toggle-density" onclick="toggleDensity()">▥ density</button>
+      <button class="toggle-btn toggle-width" onclick="toggleWidth()">▱ width</button>
+      <button class="toggle-btn toggle-justify" onclick="toggleJustify()">¶ justify</button>
+      <button class="toggle-btn toggle-collapse" onclick="toggleAllSections()">±</button>
+    </div>
+  </div>
+</aside>
+
+<script>hljs.configure({ignoreUnescapedHTML: true}); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+</body>
 </html>
