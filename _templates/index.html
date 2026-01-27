@@ -27,10 +27,10 @@
 <section id="about">
   <h2>about</h2>
   <dl class="about-grid">
-    <dt>handle</dt><dd>{{ datadict.metadata.handle }} ({{ datadict.metadata.name }})</dd>
+    <dt>handle</dt><dd>{{ datadict.metadata.handle|replace('@', '') }} ({{ datadict.metadata.name }})</dd>
     <dt>focus</dt><dd>security research, exploit dev</dd>
     <dt>stats</dt><dd>{{ datadict.posts|length }} posts · {{ datadict.tags|length }} tags</dd>
-    <dt>links</dt><dd><a href="https://github.com/{{ datadict.metadata.handle }}">github</a> · <a href="https://twitter.com/{{ datadict.metadata.handle }}">twitter</a> · <a href="/feed.xml">rss</a></dd>
+    <dt>links</dt><dd><a href="https://github.com/{{ datadict.metadata.handle|replace('@', '') }}">github</a> · <a href="https://twitter.com/{{ datadict.metadata.handle|replace('@', '') }}">twitter</a> · <a href="https://in.linkedin.com/in/ankurstyagi">linkedin</a> · <a href="/feed.xml">rss</a></dd>
   </dl>
 </section>
 {% endblock %}

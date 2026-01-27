@@ -75,32 +75,32 @@
     var isJustify = html.getAttribute('data-justify') !== 'off';
 
     if (themeBtn) {
-      themeBtn.innerHTML = isDark ? '&#xf186;' : '&#xf185;';
-      themeBtn.title = isDark ? 'dark mode' : 'light mode';
-      if (isDark) themeBtn.classList.add('active');
-      else themeBtn.classList.remove('active');
+      themeBtn.innerHTML = isDark ? '&#xf0594;' : '&#xf05a8;';
+      themeBtn.title = isDark ? 'dark|toggle for light' : 'light|toggle for dark';
+      if (isDark) themeBtn.classList.add('non-default');
+      else themeBtn.classList.remove('non-default');
     }
     if (densityBtn) {
-      densityBtn.innerHTML = isComfy ? '&#xf422;' : '&#xf424;';
-      densityBtn.title = isComfy ? 'comfortable' : 'compact';
-      if (isComfy) densityBtn.classList.add('active');
-      else densityBtn.classList.remove('active');
+      densityBtn.innerHTML = isComfy ? '&#xf084d;' : '&#xf084f;';
+      densityBtn.title = isComfy ? 'comfortable|toggle for compact' : 'compact|toggle for comfortable';
+      if (isComfy) densityBtn.classList.add('non-default');
+      else densityBtn.classList.remove('non-default');
     }
     if (widthBtn) {
-      widthBtn.innerHTML = isWide ? '&#xf337;' : '&#xf338;';
-      widthBtn.title = isWide ? 'wide' : 'narrow';
-      if (isWide) widthBtn.classList.add('active');
-      else widthBtn.classList.remove('active');
+      widthBtn.innerHTML = isWide ? '&#xf084e;' : '&#xf084c;';
+      widthBtn.title = isWide ? 'wide|toggle for narrow' : 'narrow|toggle for wide';
+      if (!isWide) widthBtn.classList.add('non-default');
+      else widthBtn.classList.remove('non-default');
     }
     if (justifyBtn) {
       justifyBtn.innerHTML = isJustify ? '&#xf039;' : '&#xf036;';
-      justifyBtn.title = isJustify ? 'justified' : 'left-align';
-      if (isJustify) justifyBtn.classList.add('active');
-      else justifyBtn.classList.remove('active');
+      justifyBtn.title = isJustify ? 'justified|toggle for natural' : 'natural|toggle for justified';
+      if (!isJustify) justifyBtn.classList.add('non-default');
+      else justifyBtn.classList.remove('non-default');
     }
     if (collapseBtn) {
-      collapseBtn.innerHTML = '&#xf0c9;';
-      collapseBtn.title = 'expand/collapse sections';
+      collapseBtn.innerHTML = '&#xf151;';
+      collapseBtn.title = 'expand|toggle sections';
     }
   }
 
@@ -110,6 +110,7 @@
     if (!headings.length) return;
     var collapsed = document.querySelectorAll('section .collapsed, .content .collapsed');
     var expand = collapsed.length > 0;
+    var collapseBtn = document.querySelector('.toggle-collapse');
     headings.forEach(function(h) {
       var next = h.nextElementSibling;
       while (next && !next.matches('h1,h2,h3,h4,h5,h6')) {
@@ -118,6 +119,16 @@
         next = next.nextElementSibling;
       }
     });
+    // Update button icon
+    if (collapseBtn) {
+      if (expand) {
+        collapseBtn.innerHTML = '&#xf151;';
+        collapseBtn.title = 'expand|toggle sections';
+      } else {
+        collapseBtn.innerHTML = '&#xf150;';
+        collapseBtn.title = 'collapse|toggle sections';
+      }
+    }
   };
 
   window.toggleSection = function(el) {

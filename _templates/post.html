@@ -11,10 +11,6 @@
         <div class="tags">{% for tag in datadict.post.tags %}<a href="/tags.html#{{ tag }}">{{ tag }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</div>
       </div>
     </div>
-    <nav class="post-nav" style="margin-top:0.3em;">
-      {% if datadict.post.previous %}<a class="nav-prev" href="{{ datadict.post.previous.url }}"><span class="arrow">&lt;&lt;&lt;</span> <span class="nav-title">{{ datadict.post.previous.title }}</span></a>{% else %}<span></span>{% endif %}
-      {% if datadict.post.next %}<a class="nav-next" href="{{ datadict.post.next.url }}"><span class="nav-title">{{ datadict.post.next.title }}</span> <span class="arrow">&gt;&gt;&gt;</span></a>{% endif %}
-    </nav>
   </div>
 
   <div class="content">

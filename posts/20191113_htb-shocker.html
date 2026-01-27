@@ -2,7 +2,7 @@
 <html lang="en" data-theme-mode="light">
 <head>
   <meta charset="utf-8">
-  <meta name="author" content="Ankur Tyagi (@7h3rAm)">
+  <meta name="author" content="Ankur Tyagi (7h3rAm)">
   <meta name="description" content="Personal Weblog">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Manthan</title>
@@ -20,9 +20,25 @@
 <body>
 
 <header>
-  <div>
-    <h1 class="site-title"><a href="/" style="color:inherit;text-decoration:none;">manthan</a></h1>
-    <p class="meta">security research | code | writeups</p>
+  <div class="header-top">
+    <div class="title-wrapper">
+      <h1 class="site-title"><a href="/" style="color:inherit;text-decoration:none;">manthan</a></h1>
+      <span class="meta">security research | code | writeups</span>
+    </div>
+    <div class="nav-and-toggles">
+      <div class="nav-links">
+        <a href="/archive.html">archive</a>
+        <a href="/tags.html">tags</a>
+        <a href="/stats.html">stats</a>
+      </div>
+      <div class="toggle-buttons">
+        <button class="toggle-btn toggle-theme" onclick="toggleThemeMode()">&#xf05a8;</button>
+        <button class="toggle-btn toggle-density" onclick="toggleDensity()">&#xf084f;</button>
+        <button class="toggle-btn toggle-width" onclick="toggleWidth()">&#xf084e;</button>
+        <button class="toggle-btn toggle-justify" onclick="toggleJustify()">&#xf039;</button>
+        <button class="toggle-btn toggle-collapse" onclick="toggleAllSections()">&#xf151;</button>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -37,8 +53,7 @@
         <div class="tags"><a href="/tags.html#hackthebox">hackthebox</a>, <a href="/tags.html#writeup">writeup</a></div>
       </div>
     </div>
-    <nav class="post-nav" style="margin-top:0.3em;">
-      <a class="nav-prev" href="/posts/20191113_htb-blocky.html"><span class="arrow">&lt;&lt;&lt;</span> <span class="nav-title">[HackTheBox] Blocky</span></a>      <a class="nav-next" href="/posts/20200428_htb-archetype.html"><span class="nav-title">[HackTheBox] Archetype</span> <span class="arrow">&gt;&gt;&gt;</span></a>    </nav>
+    
   </div>
 
   <div class="content">
@@ -178,29 +193,6 @@ document.addEventListener('DOMContentLoaded', function() {
 <footer>
   <p class="nested active">cc-by-sa-4.0</p>
 </footer>
-
-<aside class="sidebar">
-  <div class="sidebar-content">
-    <h4 class="h4 collapsible" onclick="toggle(this);">navigation</h4>
-    <a href="/">home</a>
-    <a href="/archive.html">archive</a>
-    <a href="/tags.html">tags</a>
-    <a href="/stats.html">stats</a>
-    <hr>
-    <h4 class="h4 collapsible" onclick="toggle(this);">external</h4>
-    <a href="https://github.com/@7h3rAm">github</a>
-    <a href="https://twitter.com/@7h3rAm">twitter</a>
-    <hr>
-    <h4 class="h4 collapsible" onclick="toggle(this);">toggles</h4>
-    <div class="toggle-group">
-      <button class="toggle-btn toggle-theme" onclick="toggleThemeMode()" data-icon-on="&#xf186;" data-icon-off="&#xf185;"></button>
-      <button class="toggle-btn toggle-density" onclick="toggleDensity()" data-icon-on="&#xf422;" data-icon-off="&#xf424;"></button>
-      <button class="toggle-btn toggle-width" onclick="toggleWidth()" data-icon-on="&#xf337;" data-icon-off="&#xf338;"></button>
-      <button class="toggle-btn toggle-justify" onclick="toggleJustify()" data-icon-on="&#xf039;" data-icon-off="&#xf036;"></button>
-      <button class="toggle-btn toggle-collapse" onclick="toggleAllSections()" data-icon-on="&#xf0c9;" data-icon-off="&#xf0c9;"></button>
-    </div>
-  </div>
-</aside>
 
 <script>hljs.configure({ignoreUnescapedHTML: true}); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
 </body>
