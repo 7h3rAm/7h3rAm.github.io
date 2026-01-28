@@ -299,8 +299,23 @@ pre code { padding: 0; background: none; color: inherit; border-radius: 0; }
 .sparklines { letter-spacing: 0; margin-right: 0.5em; }
 
 /* tag cloud */
-#cloud { margin: 0.5em 0; }
-#cloud a { margin-right: 0.5em; }
+#cloud {
+  margin: 1em 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 2;
+}
+#cloud a {
+  display: inline-block;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+#cloud a:hover {
+  transform: scale(1.1);
+}
 
 /* toggle buttons */
 .toggle-btn {
