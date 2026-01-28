@@ -68,6 +68,7 @@
     <div class="entry">
       <time>{{ writeup.date }}</time>
       {{ writeup.sparkline }} <a class="post-title" href="{{ writeup.url }}">{{ writeup.title }}</a>
+      <span class="tags">{% for tag in writeup.tags %}<a href="/tags.html#{{ tag }}">{{ tag }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</span>
     </div>
     {% endfor %}
   </div>
