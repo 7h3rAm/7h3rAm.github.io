@@ -42,92 +42,248 @@
   </div>
 </header>
 
-  <h1 class="h1">Satellite Views</h1>
-    <ul class="active">
-      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Current Time</h2><ul class="active nested">
-        <li><p id=currenttime_utc></p></li>
-        <li><p id=currenttime_local></p></li>
-      </ul></li>
-      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Latest Images</h2><ul class="active nested">
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>SDO HMI Dopplergram</h3><p class="active nested"><small>Courtesy of <a href="https://sdo.gsfc.nasa.gov/">NASA Solar Dynamics Observatory (SDO) and the Atmospheric Imaging Assembly (AIA), Extreme Ultraviolet Variability Experiment (EVE), and Helioseismic Magnetic Imager (HMI) science</a> teams.</small> <a href="https://www.nasa.gov/content/goddard/sdo-hmi-doppergram/">[link]</a></p><p class="active nested"><a id="sdohmidhref"><img class="sqimages" id=sdohmid></a></p></li>
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>SDO HMI Intensitygram</h3><p class="active nested"><small>Courtesy of <a href="https://sdo.gsfc.nasa.gov/">NASA Solar Dynamics Observatory (SDO) and the Atmospheric Imaging Assembly (AIA), Extreme Ultraviolet Variability Experiment (EVE), and Helioseismic Magnetic Imager (HMI) science</a> teams.</small> <a href="https://svs.gsfc.nasa.gov/3988">[link]</a></p><p class="active nested"><a id="sdohmiichref"><img class="sqimages" id=sdohmiic></a></p></li>
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>SDO AIA 171 A</h3><p class="active nested"><small>Courtesy of <a href="https://sdo.gsfc.nasa.gov/">NASA Solar Dynamics Observatory (SDO) and the Atmospheric Imaging Assembly (AIA), Extreme Ultraviolet Variability Experiment (EVE), and Helioseismic Magnetic Imager (HMI) science</a> teams.</small> <a href="https://svs.gsfc.nasa.gov/3980">[link]</a></p><p class="active nested"><a id="sdo0171href"><img class="sqimages" id=sdo0171></a></p></li>
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>SDO AIA 304 A</h3><p class="active nested"><small>Courtesy of <a href="https://sdo.gsfc.nasa.gov/">NASA Solar Dynamics Observatory (SDO) and the Atmospheric Imaging Assembly (AIA), Extreme Ultraviolet Variability Experiment (EVE), and Helioseismic Magnetic Imager (HMI) science</a> teams.</small> <a href="https://svs.gsfc.nasa.gov/3983">[link]</a></p><p class="active nested"><a id="sdo0304href"><img class="sqimages" id=sdo0304></a></p></li>
+<article id="top">
+  <h1 class="h1">satellite views</h1>
 
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>DSCOVR EPIC (Natural)</h3><p class="active nested"><small>Courtesy of <a href="https://en.wikipedia.org/wiki/Deep_Space_Climate_Observatory">Deep Space Climate Observatory (DSCOVR)</a>, <a href="https://epic.gsfc.nasa.gov/">Earth Polychromatic Imaging Camera (EPIC)</a>, <a href="https://www.noaa.gov/">National Oceanic and Atmospheric Administration (NOAA)</a>. <a href="https://epic.gsfc.nasa.gov/api/natural">[api]</a></small></p> <p class="active nested"><small id="dscovrepicnatinfo"></small></p> <p class="active nested"><a id="dscovrepicnathref"><img class="sqimages" id="dscovrepicnat"></a></p></li>
+  <div class="content">
+    <h2 class="h2">SDO HMI <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
+    <p><a href="https://sdo.gsfc.nasa.gov/data/">NASA Solar Dynamics Observatory (SDO), Helioseismic Magnetic Imager (HMI)</a></p>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5em; margin: 0.5em 0;">
+      <div>
+        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://svs.gsfc.nasa.gov/3990">Dopplergram</a></small></p>
+        <p><a id="sdohmidhref"><img class="sqimages" id="sdohmid" style="width:100%;max-width:300px;"></a></p>
+      </div>
+      <div>
+        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://svs.gsfc.nasa.gov/3988">Intensitygram</a></small></p>
+        <p><a id="sdohmiichref"><img class="sqimages" id="sdohmiic" style="width:100%;max-width:300px;"></a></p>
+      </div>
+      <div>
+        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://svs.gsfc.nasa.gov/3989">Magnetogram</a></small></p>
+        <p><a id="sdohmibhref"><img class="sqimages" id="sdohmib" style="width:100%;max-width:300px;"></a></p>
+      </div>
+    </div>
 
-        <!--<li><h3 class="h3 collapsible expanded" onclick=toggle(this);>INSAT3D Asia (VIS)</h3><p class="active nested"><small>Courtesy of <a href="https://mausam.imd.gov.in/">India Meteorological Department (IMD), Ministry of Earth Sciences, Government of India</a>.</small></p><p class="active nested"><a id="insat3dasiavishref"><img class="sqimages" id=insat3dasiavis></a></p></li>-->
-        <!--<li><h3 class="h3 collapsible expanded" onclick=toggle(this);>INSAT3D Asia (IR)</h3><p class="active nested"><small>Courtesy of <a href="https://mausam.imd.gov.in/">India Meteorological Department (IMD), Ministry of Earth Sciences, Government of India</a>.</small></p><p class="active nested"><a id="insat3dasiair1href"><img class="sqimages" id=insat3dasiair1></a></p></li>-->
+    <h2 class="h2">SDO AIA <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
+    <p><a href="https://sdo.gsfc.nasa.gov/data/">NASA Solar Dynamics Observatory (SDO), Atmospheric Imaging Assembly (AIA)</a></p>
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5em; margin: 0.5em 0;">
+      <div>
+        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://svs.gsfc.nasa.gov/3980">171 Å</a></small></p>
+        <p><a id="sdo0171href"><img class="sqimages" id="sdo0171" style="width:100%;max-width:300px;"></a></p>
+      </div>
+      <div>
+        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://svs.gsfc.nasa.gov/3981">193 Å</a></small></p>
+        <p><a id="sdo0193href"><img class="sqimages" id="sdo0193" style="width:100%;max-width:300px;"></a></p>
+      </div>
+      <div>
+        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://svs.gsfc.nasa.gov/3982">211 Å</a></small></p>
+        <p><a id="sdo0211href"><img class="sqimages" id="sdo0211" style="width:100%;max-width:300px;"></a></p>
+      </div>
+      <div>
+        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://svs.gsfc.nasa.gov/3983">304 Å</a></small></p>
+        <p><a id="sdo0304href"><img class="sqimages" id="sdo0304" style="width:100%;max-width:300px;"></a></p>
+      </div>
+    </div>
 
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>INSAT3D Global (VIS)</h3><p class="active nested"><small>Courtesy of <a href="https://mausam.imd.gov.in/">India Meteorological Department, Ministry of Earth Sciences, Government of India</a>.</small></p><p class="active nested"><a id="insat3dglobalvishref"><img class="sqimages" id="insat3dglobalvis"></a></p></li>
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>INSAT3D Global (IR)</h3><p class="active nested"><small>Courtesy of <a href="https://mausam.imd.gov.in/">India Meteorological Department, Ministry of Earth Sciences, Government of India</a>.</small></p><p class="active nested"><a id="insat3dglobalir1href"><img class="sqimages" id="insat3dglobalir1"></a></p></li>
+    <h2 class="h2">STEREO <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
+    <p><a href="https://stereo.gsfc.nasa.gov/">Solar TErrestrial RElations Observatory (STEREO-A), NASA</a></p>
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5em; margin: 0.5em 0;">
+      <div>
+        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://stereo.gsfc.nasa.gov/browse/">195 Å</a></small></p>
+        <p><a id="stereoahref"><img class="sqimages" id="stereoa" style="width:100%;max-width:300px;"></a></p>
+      </div>
+      <div>
+        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://stereo.gsfc.nasa.gov/browse/">COR2</a></small></p>
+        <p><a id="stereoacor2href"><img class="sqimages" id="stereoacor2" style="width:100%;max-width:300px;"></a></p>
+      </div>
+    </div>
 
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>METEOSAT 0</h3><p class="active nested"><small>Courtesy of <a href="https://www.eumetsat.int/">European Organisation for the Exploitation of Meteorological Satellites (EUMETSAT)</a>.</small></p><p class="active nested"><a id="meteosat0href"><img class="sqimages" id="meteosat0"></a></p></li>
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>METEOSAT 41.5</h3><p class="active nested"><small>Courtesy of <a href="https://www.eumetsat.int/">European Organisation for the Exploitation of Meteorological Satellites (EUMETSAT)</a>.</small></p><p class="active nested"><a id="meteosat415href"><img class="sqimages" id="meteosat415"></a></p></li>
+    <h2 class="h2">SOHO <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
+    <p><a href="https://soho.nascom.nasa.gov/">Solar and Heliospheric Observatory, NASA/ESA</a></p>
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5em; margin: 0.5em 0;">
+      <div>
+        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://soho.nascom.nasa.gov/data/realtime-images.html">EIT 304</a></small></p>
+        <p><a id="sohoeit304href"><img class="sqimages" id="sohoeit304" style="width:100%;max-width:300px;"></a></p>
+      </div>
+      <div>
+        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://soho.nascom.nasa.gov/data/realtime-images.html">EIT 195</a></small></p>
+        <p><a id="sohoeit195href"><img class="sqimages" id="sohoeit195" style="width:100%;max-width:300px;"></a></p>
+      </div>
+      <div>
+        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://soho.nascom.nasa.gov/data/realtime-images.html">LASCO C2</a></small></p>
+        <p><a id="soholascoc2href"><img class="sqimages" id="soholascoc2" style="width:100%;max-width:300px;"></a></p>
+      </div>
+      <div>
+        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://soho.nascom.nasa.gov/data/realtime-images.html">LASCO C3</a></small></p>
+        <p><a id="soholascoc3href"><img class="sqimages" id="soholascoc3" style="width:100%;max-width:300px;"></a></p>
+      </div>
+    </div>
 
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Himawari (True Color)</h3><p class="active nested"><small>Courtesy of <a href="https://rammb2.cira.colostate.edu/">Regional and Mesoscale Meteorology Branch (RAMMB), Cooperative Institute for Research in the Atmosphere (CIRA)</a>.</small></p><p class="active nested"><a id="himawari_truecolorrepohref"><img class="sqimages" id="himawari_truecolorrepo"></a></p></li>
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Himawari (Natural Color)</h3><p class="active nested"><small>Courtesy of <a href="https://rammb2.cira.colostate.edu/">Regional and Mesoscale Meteorology Branch (RAMMB), Cooperative Institute for Research in the Atmosphere (CIRA)</a>.</small></p><p class="active nested"><a id="himawari_naturalcolorhref"><img class="sqimages" id="himawari_naturalcolor"></a></p></li>
+    <h2 class="h2">DSCOVR EPIC <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
+    <p><a href="https://epic.gsfc.nasa.gov/">Deep Space Climate Observatory (DSCOVR), Earth Polychromatic Imaging Camera (EPIC), NOAA</a></p>
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5em; margin: 0.5em 0;">
+            <div>
+        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://epic.gsfc.nasa.gov/">00:59:48 UTC</a></small></p>
+        <p><a href="https://epic.gsfc.nasa.gov/archive/natural/2026/01/25/jpg/epic_1b_20260125010437.jpg"><img class="sqimages" src="https://epic.gsfc.nasa.gov/archive/natural/2026/01/25/jpg/epic_1b_20260125010437.jpg" style="width:100%;max-width:300px;"></a></p>
+      </div>
+            <div>
+        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://epic.gsfc.nasa.gov/">02:47:50 UTC</a></small></p>
+        <p><a href="https://epic.gsfc.nasa.gov/archive/natural/2026/01/25/jpg/epic_1b_20260125025238.jpg"><img class="sqimages" src="https://epic.gsfc.nasa.gov/archive/natural/2026/01/25/jpg/epic_1b_20260125025238.jpg" style="width:100%;max-width:300px;"></a></p>
+      </div>
+            <div>
+        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://epic.gsfc.nasa.gov/">04:35:52 UTC</a></small></p>
+        <p><a href="https://epic.gsfc.nasa.gov/archive/natural/2026/01/25/jpg/epic_1b_20260125044040.jpg"><img class="sqimages" src="https://epic.gsfc.nasa.gov/archive/natural/2026/01/25/jpg/epic_1b_20260125044040.jpg" style="width:100%;max-width:300px;"></a></p>
+      </div>
+            <div>
+        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://epic.gsfc.nasa.gov/">06:23:54 UTC</a></small></p>
+        <p><a href="https://epic.gsfc.nasa.gov/archive/natural/2026/01/25/jpg/epic_1b_20260125062843.jpg"><img class="sqimages" src="https://epic.gsfc.nasa.gov/archive/natural/2026/01/25/jpg/epic_1b_20260125062843.jpg" style="width:100%;max-width:300px;"></a></p>
+      </div>
+          </div>
 
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>GOES17</h3><p class="active nested"><small>Courtesy of <a href="https://www.star.nesdis.noaa.gov/star/index.php">Center for Satellite Applications and Research (STAR), National Environmental Satellite, Data, and Information Service (NESDIS), National Oceanic and Atmospheric Administration (NOAA)</a>.</small></p><p class="active nested"><a id="goes17westfdhref"><img class="sqimages" id="goes17westfd"></a></p></li>
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>GOES16</h3><p class="active nested"><small>Courtesy of <a href="https://www.star.nesdis.noaa.gov/star/index.php">Center for Satellite Applications and Research (STAR), National Environmental Satellite, Data, and Information Service (NESDIS), National Oceanic and Atmospheric Administration (NOAA)</a>.</small></p><p class="active nested"><a id="goes16eastfdhref"><img class="sqimages" id="goes16eastfd"></a></p></li>
-      </ul></li>
-    </ul>
-    <script>
-      function doTime() {
-        var localdatetime = new Date();
-        document.getElementById("currenttime_utc").innerHTML = "<code>GMT</code>: " + localdatetime.toUTCString();
-        document.getElementById("currenttime_local").innerHTML = "<code>Local</code>: " + localdatetime.toString();
-      }
-      function dscovrepic_natural() {
-        let natrqst = new XMLHttpRequest();
-        natrqst.open("GET", "https://epic.gsfc.nasa.gov/api/natural");
-        natrqst.send();
-        natrqst.onload = () => {
-          if (natrqst.status === 200) {
-            natjson = JSON.parse(natrqst.response);
-            latestdateentry = natjson[0]["date"];
-            actualdate = latestdateentry.split(" ")[0];
-            year = actualdate.split("-")[0];
-            month = actualdate.split("-")[1];
-            day = actualdate.split("-")[2];
-            url = "https://epic.gsfc.nasa.gov/archive/natural/" + year + "/" + month + "/" + day + "/jpg/" + natjson[0]["image"] + ".jpg";
-            document.getElementById("dscovrepicnat").src = url; document.getElementById("dscovrepicnathref").href = url;
-            document.getElementById("dscovrepicnatinfo").innerText = natjson[0]["caption"] + " on " + natjson[0]["date"] + ".";
-          } else {
-            console.log(`error ${natrqst.status} ${natrqst.statusText}`);
-          }
-        }
-      }
-      function doImages() {
-        document.getElementById("sdohmid").src = "https://sdo.gsfc.nasa.gov/assets/img/latest/latest_512_HMID.jpg"; document.getElementById("sdohmidhref").href = "https://sdo.gsfc.nasa.gov/assets/img/latest/latest_1024_HMID.jpg";
-        document.getElementById("sdohmiic").src = "https://sdo.gsfc.nasa.gov/assets/img/latest/latest_512_HMIIC.jpg"; document.getElementById("sdohmiichref").href = "https://sdo.gsfc.nasa.gov/assets/img/latest/latest_1024_HMIIC.jpg";
-        document.getElementById("sdo0171").src = "https://sdo.gsfc.nasa.gov/assets/img/latest/latest_512_0171.jpg"; document.getElementById("sdo0171href").href = "https://sdo.gsfc.nasa.gov/assets/img/latest/latest_1024_0171.jpg";
-        document.getElementById("sdo0304").src = "https://sdo.gsfc.nasa.gov/assets/img/latest/latest_512_0304.jpg"; document.getElementById("sdo0304href").href = "https://sdo.gsfc.nasa.gov/assets/img/latest/latest_1024_0304.jpg";
+    <h2 class="h2">INSAT-3D <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
+    <p><a href="https://mausam.imd.gov.in/imd_latest/contents/satellite.php">India Meteorological Department, Ministry of Earth Sciences, Government of India</a></p>
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5em; margin: 0.5em 0;">
+      <div>
+        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://mausam.imd.gov.in/imd_latest/contents/satellite.php">Global (VIS)</a></small></p>
+        <p><a id="insat3dglobalvishref"><img class="sqimages" id="insat3dglobalvis" style="width:100%;max-width:300px;"></a></p>
+      </div>
+      <div>
+        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://mausam.imd.gov.in/imd_latest/contents/satellite.php">Global (IR)</a></small></p>
+        <p><a id="insat3dglobalir1href"><img class="sqimages" id="insat3dglobalir1" style="width:100%;max-width:300px;"></a></p>
+      </div>
+    </div>
 
-        dscovrepic_natural();
+    <h2 class="h2">METEOSAT <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
+    <p><a href="https://www.eumetsat.int/">European Organisation for the Exploitation of Meteorological Satellites (EUMETSAT)</a></p>
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5em; margin: 0.5em 0;">
+      <div>
+        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://view.eumetsat.int/productviewer">0° (Natural Color)</a></small></p>
+        <p><a id="meteosat0href"><img class="sqimages" id="meteosat0" style="width:100%;max-width:300px;"></a></p>
+      </div>
+      <div>
+        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://view.eumetsat.int/productviewer">41.5° (Natural Color)</a></small></p>
+        <p><a id="meteosat415href"><img class="sqimages" id="meteosat415" style="width:100%;max-width:300px;"></a></p>
+      </div>
+    </div>
 
-        /*document.getElementById("insat3dasiavis").src = "https://mausam.imd.gov.in/Satellite/Converted/VIS.gif"; document.getElementById("insat3dasiavishref").href = "https://mausam.imd.gov.in/Satellite/Converted/VIS.gif";*/
-        /*document.getElementById("insat3dasiair1").src = "https://mausam.imd.gov.in/Satellite/Converted/IR1.gif"; document.getElementById("insat3dasiair1href").href = "https://mausam.imd.gov.in/Satellite/Converted/IR1.gif";*/
+    <h2 class="h2">Himawari-8 <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
+    <p><a href="https://rammb.cira.colostate.edu/">Regional and Mesoscale Meteorology Branch (RAMMB), Cooperative Institute for Research in the Atmosphere (CIRA)</a></p>
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5em; margin: 0.5em 0;">
+      <div>
+        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://rammb.cira.colostate.edu/ramsdis/online/himawari-8.asp">True Color</a></small></p>
+        <p><a id="himawari_truecolorrepohref"><img class="sqimages" id="himawari_truecolorrepo" style="width:100%;max-width:300px;"></a></p>
+      </div>
+      <div>
+        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://rammb.cira.colostate.edu/ramsdis/online/himawari-8.asp">Natural Color</a></small></p>
+        <p><a id="himawari_naturalcolorhref"><img class="sqimages" id="himawari_naturalcolor" style="width:100%;max-width:300px;"></a></p>
+      </div>
+    </div>
 
-        document.getElementById("insat3dglobalvis").src = "https://mausam.imd.gov.in/Satellite/3Dglobe_vis.jpg"; document.getElementById("insat3dglobalvishref").href = "https://mausam.imd.gov.in/Satellite/3Dglobe_vis.jpg";
-        document.getElementById("insat3dglobalir1").src = "https://mausam.imd.gov.in/Satellite/3Dglobe_ir1.jpg"; document.getElementById("insat3dglobalir1href").href = "https://mausam.imd.gov.in/Satellite/3Dglobe_ir1.jpg";
+    <h2 class="h2">GOES <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
+    <p><a href="https://www.star.nesdis.noaa.gov/GOES/">Center for Satellite Applications and Research (STAR), National Environmental Satellite, Data, and Information Service (NESDIS), NOAA</a></p>
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5em; margin: 0.5em 0;">
+      <div>
+        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://www.star.nesdis.noaa.gov/GOES/conus_band.php?sat=G17&band=GEOCOLOR&length=12">GOES-17 West (GEOCOLOR)</a></small></p>
+        <p><a id="goes17westfdhref"><img class="sqimages" id="goes17westfd" style="width:100%;max-width:300px;"></a></p>
+      </div>
+      <div>
+        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://www.star.nesdis.noaa.gov/GOES/conus_band.php?sat=G16&band=GEOCOLOR&length=12">GOES-16 East (GEOCOLOR)</a></small></p>
+        <p><a id="goes16eastfdhref"><img class="sqimages" id="goes16eastfd" style="width:100%;max-width:300px;"></a></p>
+      </div>
+    </div>
 
-        document.getElementById("meteosat0").src = "https://eumetview.eumetsat.int/static-images/latestImages/EUMETSAT_MSG_RGBNatColourEnhncd_LowResolution.jpg"; document.getElementById("meteosat0href").href = "https://eumetview.eumetsat.int/static-images/latestImages/EUMETSAT_MSG_RGBNatColourEnhncd_HighResolution.jpg";
-        document.getElementById("meteosat415").src = "https://eumetview.eumetsat.int/static-images/latestImages/EUMETSAT_MSGIODC_RGBNatColourEnhncd_LowResolution.jpg"; document.getElementById("meteosat415href").href = "https://eumetview.eumetsat.int/static-images/latestImages/EUMETSAT_MSGIODC_RGBNatColourEnhncd_HighResolution.jpg";
+    <h2 class="h2">FengYun-4 <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
+    <p><a href="http://www.nsmc.org.cn/en/">Chinese Geostationary Satellite, CMA/NSMC</a></p>
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5em; margin: 0.5em 0;">
+      <div>
+        <p style="text-align:center;margin:0.25em 0;"><small><a href="http://www.nsmc.org.cn/en/">True Color</a></small></p>
+        <p><a id="fy4truehref"><img class="sqimages" id="fy4true" style="width:100%;max-width:300px;"></a></p>
+      </div>
+    </div>
 
-        document.getElementById("himawari_truecolorrepo").src = "http://rammb.cira.colostate.edu/ramsdis/online/images/latest/himawari-8/full_disk_ahi_true_color.jpg"; document.getElementById("himawari_truecolorrepohref").href = "http://rammb.cira.colostate.edu/ramsdis/online/images/latest/himawari-8/full_disk_ahi_true_color.jpg";
-        document.getElementById("himawari_naturalcolor").src = "http://rammb.cira.colostate.edu/ramsdis/online/images/latest/himawari-8/full_disk_ahi_natural_color.jpg"; document.getElementById("himawari_naturalcolorhref").href = "http://rammb.cira.colostate.edu/ramsdis/online/images/latest/himawari-8/full_disk_ahi_natural_color.jpg";
+    <h2 class="h2">Juno <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
+    <p><a href="https://www.missionjuno.swri.edu/junocam/">JunoCam, NASA Juno Mission to Jupiter</a></p>
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5em; margin: 0.5em 0;">
+      <div>
+        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://www.missionjuno.swri.edu/junocam/processing">Jupiter</a></small></p>
+        <p><a id="junocamhref"><img class="sqimages" id="junocam" style="width:100%;max-width:300px;"></a></p>
+      </div>
+    </div>
+  </div>
 
-        document.getElementById("goes16eastfd").src = "https://cdn.star.nesdis.noaa.gov/GOES16/ABI/FD/GEOCOLOR/678x678.jpg"; document.getElementById("goes16eastfdhref").href = "https://cdn.star.nesdis.noaa.gov/GOES16/ABI/FD/GEOCOLOR/1808x1808.jpg";
-        document.getElementById("goes17westfd").src = "https://cdn.star.nesdis.noaa.gov/GOES17/ABI/FD/GEOCOLOR/678x678.jpg"; document.getElementById("goes17westfdhref").href = "https://cdn.star.nesdis.noaa.gov/GOES17/ABI/FD/GEOCOLOR/1808x1808.jpg";
-      }
-      window.onload = () => {
-        doTime();
-        setInterval(() => {doTime();},1000); // every .5s
-        doImages();
-        //setInterval(() => {doImages();},1000*60*10); // every 10m
-      }
-    </script>
+  <script>
+    function doImages() {
+      // SDO HMI
+      document.getElementById("sdohmid").src = "https://sdo.gsfc.nasa.gov/assets/img/latest/latest_512_HMID.jpg";
+      document.getElementById("sdohmidhref").href = "https://sdo.gsfc.nasa.gov/assets/img/latest/latest_1024_HMID.jpg";
+      document.getElementById("sdohmiic").src = "https://sdo.gsfc.nasa.gov/assets/img/latest/latest_512_HMIIC.jpg";
+      document.getElementById("sdohmiichref").href = "https://sdo.gsfc.nasa.gov/assets/img/latest/latest_1024_HMIIC.jpg";
+      document.getElementById("sdohmib").src = "https://sdo.gsfc.nasa.gov/assets/img/latest/latest_512_HMIB.jpg";
+      document.getElementById("sdohmibhref").href = "https://sdo.gsfc.nasa.gov/assets/img/latest/latest_1024_HMIB.jpg";
+
+      // SDO AIA
+      document.getElementById("sdo0171").src = "https://sdo.gsfc.nasa.gov/assets/img/latest/latest_512_0171.jpg";
+      document.getElementById("sdo0171href").href = "https://sdo.gsfc.nasa.gov/assets/img/latest/latest_1024_0171.jpg";
+      document.getElementById("sdo0193").src = "https://sdo.gsfc.nasa.gov/assets/img/latest/latest_512_0193.jpg";
+      document.getElementById("sdo0193href").href = "https://sdo.gsfc.nasa.gov/assets/img/latest/latest_1024_0193.jpg";
+      document.getElementById("sdo0211").src = "https://sdo.gsfc.nasa.gov/assets/img/latest/latest_512_0211.jpg";
+      document.getElementById("sdo0211href").href = "https://sdo.gsfc.nasa.gov/assets/img/latest/latest_1024_0211.jpg";
+      document.getElementById("sdo0304").src = "https://sdo.gsfc.nasa.gov/assets/img/latest/latest_512_0304.jpg";
+      document.getElementById("sdo0304href").href = "https://sdo.gsfc.nasa.gov/assets/img/latest/latest_1024_0304.jpg";
+
+      // INSAT-3D
+      document.getElementById("insat3dglobalvis").src = "https://mausam.imd.gov.in/Satellite/3Dglobe_vis.jpg";
+      document.getElementById("insat3dglobalvishref").href = "https://mausam.imd.gov.in/Satellite/3Dglobe_vis.jpg";
+      document.getElementById("insat3dglobalir1").src = "https://mausam.imd.gov.in/Satellite/3Dglobe_ir1.jpg";
+      document.getElementById("insat3dglobalir1href").href = "https://mausam.imd.gov.in/Satellite/3Dglobe_ir1.jpg";
+
+      // METEOSAT
+      document.getElementById("meteosat0").src = "https://eumetview.eumetsat.int/static-images/latestImages/EUMETSAT_MSG_RGBNatColourEnhncd_LowResolution.jpg";
+      document.getElementById("meteosat0href").href = "https://eumetview.eumetsat.int/static-images/latestImages/EUMETSAT_MSG_RGBNatColourEnhncd_HighResolution.jpg";
+      document.getElementById("meteosat415").src = "https://eumetview.eumetsat.int/static-images/latestImages/EUMETSAT_MSGIODC_RGBNatColourEnhncd_LowResolution.jpg";
+      document.getElementById("meteosat415href").href = "https://eumetview.eumetsat.int/static-images/latestImages/EUMETSAT_MSGIODC_RGBNatColourEnhncd_HighResolution.jpg";
+
+      // Himawari-8
+      document.getElementById("himawari_truecolorrepo").src = "http://rammb.cira.colostate.edu/ramsdis/online/images/latest/himawari-8/full_disk_ahi_true_color.jpg";
+      document.getElementById("himawari_truecolorrepohref").href = "http://rammb.cira.colostate.edu/ramsdis/online/images/latest/himawari-8/full_disk_ahi_true_color.jpg";
+      document.getElementById("himawari_naturalcolor").src = "http://rammb.cira.colostate.edu/ramsdis/online/images/latest/himawari-8/full_disk_ahi_natural_color.jpg";
+      document.getElementById("himawari_naturalcolorhref").href = "http://rammb.cira.colostate.edu/ramsdis/online/images/latest/himawari-8/full_disk_ahi_natural_color.jpg";
+
+      // GOES
+      document.getElementById("goes16eastfd").src = "https://cdn.star.nesdis.noaa.gov/GOES16/ABI/FD/GEOCOLOR/678x678.jpg";
+      document.getElementById("goes16eastfdhref").href = "https://cdn.star.nesdis.noaa.gov/GOES16/ABI/FD/GEOCOLOR/1808x1808.jpg";
+      document.getElementById("goes17westfd").src = "https://cdn.star.nesdis.noaa.gov/GOES17/ABI/FD/GEOCOLOR/678x678.jpg";
+      document.getElementById("goes17westfdhref").href = "https://cdn.star.nesdis.noaa.gov/GOES17/ABI/FD/GEOCOLOR/1808x1808.jpg";
+
+      // STEREO
+      document.getElementById("stereoa").src = "https://stereo-ssc.nascom.nasa.gov/beacon/latest_256/ahead_euvi_195_latest.jpg";
+      document.getElementById("stereoahref").href = "https://stereo-ssc.nascom.nasa.gov/beacon/latest_512/ahead_euvi_195_latest.jpg";
+      document.getElementById("stereoacor2").src = "https://stereo-ssc.nascom.nasa.gov/beacon/latest_256/ahead_cor2_latest.jpg";
+      document.getElementById("stereoacor2href").href = "https://stereo-ssc.nascom.nasa.gov/beacon/latest_512/ahead_cor2_latest.jpg";
+
+      // SOHO
+      document.getElementById("sohoeit304").src = "https://soho.nascom.nasa.gov/data/realtime/eit_304/512/latest.jpg";
+      document.getElementById("sohoeit304href").href = "https://soho.nascom.nasa.gov/data/realtime/eit_304/1024/latest.jpg";
+      document.getElementById("sohoeit195").src = "https://soho.nascom.nasa.gov/data/realtime/eit_195/512/latest.jpg";
+      document.getElementById("sohoeit195href").href = "https://soho.nascom.nasa.gov/data/realtime/eit_195/1024/latest.jpg";
+      document.getElementById("soholascoc2").src = "https://soho.nascom.nasa.gov/data/realtime/c2/512/latest.jpg";
+      document.getElementById("soholascoc2href").href = "https://soho.nascom.nasa.gov/data/realtime/c2/1024/latest.jpg";
+      document.getElementById("soholascoc3").src = "https://soho.nascom.nasa.gov/data/realtime/c3/512/latest.jpg";
+      document.getElementById("soholascoc3href").href = "https://soho.nascom.nasa.gov/data/realtime/c3/1024/latest.jpg";
+
+      // FengYun-4
+      document.getElementById("fy4true").src = "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_DISK.JPG";
+      document.getElementById("fy4truehref").href = "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_DISK.JPG";
+
+      // JunoCam - Jupiter image
+      document.getElementById("junocam").src = "https://www.missionjuno.swri.edu/Vault/VaultDownload?VaultID=18996&t=1704067200000";
+      document.getElementById("junocamhref").href = "https://www.missionjuno.swri.edu/junocam/processing";
+    }
+
+    window.onload = () => {
+      doImages();
+    }
+  </script>
+</article>
 
 <footer>
   <p>cc-by-sa-4.0</p>

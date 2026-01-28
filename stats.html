@@ -64,19 +64,21 @@
   white-space: nowrap;
 }
 </style>
-<section>
-  <h1>stats</h1>
+<article id="top">
+  <h1 class="h1">stats</h1>
 
-  <div style="display: flex; gap: 2em; flex-wrap: wrap;">
-    <div style="flex: 1; min-width: 300px;">
-      <h2>overview</h2>
+  <div class="content">
+
+    <div style="display: flex; gap: 2em; flex-wrap: wrap;">
+      <div style="flex: 1; min-width: 300px;">
+        <h2 class="h2">overview <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
       <table class="stats-table">
         <tr><td>total posts:</td><td style="text-align: right; padding-left: 2em;">80</td></tr>
         <tr><td>total tags:</td><td style="text-align: right; padding-left: 2em;">9</td></tr>
         <tr><td>writing period:</td><td style="text-align: right; padding-left: 2em;">9y0m8d</td></tr>
         <tr><td>first post:</td><td style="text-align: right; padding-left: 2em;">16/Nov/2011</td></tr>
         <tr><td>last post:</td><td style="text-align: right; padding-left: 2em;">24/Nov/2020</td></tr>
-        <tr><td>days since last post:</td><td style="text-align: right; padding-left: 2em;">1890</td></tr>
+        <tr><td>days since last post:</td><td style="text-align: right; padding-left: 2em;">1891</td></tr>
         <tr><td colspan="2" style="padding-top: 1em;"><strong>content</strong></td></tr>
         <tr><td>total words:</td><td style="text-align: right; padding-left: 2em;">39,235</td></tr>
         <tr><td>avg words/post:</td><td style="text-align: right; padding-left: 2em;">490</td></tr>
@@ -94,8 +96,8 @@
       </table>
     </div>
 
-    <div style="flex: 1; min-width: 300px;">
-      <h2>longest posts</h2>
+      <div style="flex: 1; min-width: 300px;">
+        <h2 class="h2">longest posts <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
       <table class="posts-table">
                 <tr>
           <td>4,198w</td>
@@ -139,7 +141,7 @@
         </tr>
               </table>
 
-      <h2 style="margin-top: 2em;">shortest posts</h2>
+        <h2 class="h2" style="margin-top: 2em;">shortest posts <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
       <table class="posts-table">
                 <tr>
           <td>   69w</td>
@@ -185,21 +187,22 @@
     </div>
   </div>
 
-  <div style="display: flex; gap: 1em; flex-wrap: wrap; margin-top: 2em;">
-    <div style="flex: 1; min-width: 250px;">
-      <h3>posts per tag</h3>
-      <p><img src="/static/files/pages_stats/posts_per_tag.png.webp" alt="posts per tag" style="max-width: 100%;"></p>
-    </div>
-    <div style="flex: 1; min-width: 250px;">
-      <h3>posts per year</h3>
-      <p><img src="/static/files/pages_stats/posts_per_year.png.webp" alt="posts per year" style="max-width: 100%;"></p>
-    </div>
-    <div style="flex: 1; min-width: 250px;">
-      <h3>tags per year</h3>
-      <p><img src="/static/files/pages_stats/tags_per_year.png.webp" alt="tags per year" style="max-width: 100%;"></p>
+    <div style="display: flex; gap: 1em; flex-wrap: wrap; margin-top: 2em;">
+      <div style="flex: 1; min-width: 250px;">
+        <h3 class="h3">posts per tag</h3>
+        <p><img src="/static/files/pages_stats/posts_per_tag.png.webp" alt="posts per tag" style="max-width: 100%;"></p>
+      </div>
+      <div style="flex: 1; min-width: 250px;">
+        <h3 class="h3">posts per year</h3>
+        <p><img src="/static/files/pages_stats/posts_per_year.png.webp" alt="posts per year" style="max-width: 100%;"></p>
+      </div>
+      <div style="flex: 1; min-width: 250px;">
+        <h3 class="h3">tags per year</h3>
+        <p><img src="/static/files/pages_stats/tags_per_year.png.webp" alt="tags per year" style="max-width: 100%;"></p>
+      </div>
     </div>
   </div>
-</section>
+</article>
 
 <footer>
   <p>cc-by-sa-4.0</p>
