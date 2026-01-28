@@ -105,10 +105,11 @@
   }
 
   // collapse/expand all sections on any page (only in main content, not sidebar)
+  // Only collapse content under h2-h6, never h1 content or the headings themselves
   window.toggleAllSections = function() {
-    var headings = document.querySelectorAll('section h1, section h2, section h3, section h4, section h5, section h6, .content h1, .content h2, .content h3, .content h4, .content h5, .content h6');
+    var headings = document.querySelectorAll('section h2, section h3, section h4, section h5, section h6, article h2, article h3, article h4, article h5, article h6, .content h2, .content h3, .content h4, .content h5, .content h6');
     if (!headings.length) return;
-    var collapsed = document.querySelectorAll('section .collapsed, .content .collapsed');
+    var collapsed = document.querySelectorAll('section .collapsed, article .collapsed, .content .collapsed');
     var expand = collapsed.length > 0;
     var collapseBtn = document.querySelector('.toggle-collapse');
     headings.forEach(function(h) {
@@ -131,24 +132,6 @@
     }
   };
 
-  window.toggleSection = function(el) {
-    var next = el.nextElementSibling;
-    while (next && !next.matches('h1,h2,h3,h4,h5,h6')) {
-      next.classList.toggle('collapsed');
-      next = next.nextElementSibling;
-    }
-  };
-
-  // make headings clickable on all pages
-  document.addEventListener('DOMContentLoaded', function() {
-    var headings = document.querySelectorAll('section h1, section h2, section h3, section h4, section h5, section h6, .content h1, .content h2, .content h3, .content h4, .content h5, .content h6');
-    headings.forEach(function(h) {
-      h.style.cursor = 'pointer';
-      h.addEventListener('click', function(e) {
-        if (!e.target.classList.contains('top-link')) toggleSection(this);
-      });
-    });
-  });
 
   document.addEventListener('DOMContentLoaded', updateButtons);
 })();

@@ -1,13 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
+<article id="top">
   <h1 class="h1">7h3rAm</h1>
-  <ul class="active">
+
+  <div class="content">
     {% for category in datadict.startpage.categories %}
-    <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>{{ category }}</h2><ul class="active nested">
+    <h2 class="h2">{{ category }} <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
+    <ul>
       {% for entry in datadict.startpage.categories[category] %}
       <li><a href="{{ entry.url }}" target="_blank">{{ entry.name }}</a></li>
       {% endfor %}
-    </ul></li>
+    </ul>
     {% endfor %}
-  </ul>
+  </div>
+</article>
 {% endblock %}

@@ -1,24 +1,25 @@
 {% extends "base.html" %}
 {% block content %}
-<section>
-  <h1>tags</h1>
-  <div id="cloud">
-    {% for tag in datadict.tagcloud %}
-    <a style="{{ datadict.tagcloud[tag] }}" href="#{{ tag }}">{{ tag }}</a>
+<article id="top">
+  <h1 class="h1">tags</h1>
+
+  <div class="content">
+    <div id="cloud">
+      {% for tag in datadict.tagcloud %}
+      <a style="{{ datadict.tagcloud[tag] }}" href="#{{ tag }}">{{ tag }}</a>
+      {% endfor %}
+    </div>
+
+    {% for tag in datadict.tags|sort %}
+    <h2 class="h2" id="{{ tag }}">{{ tag }} <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
+    {% for post in datadict.tags[tag] %}
+    <div class="entry">
+      <time>{{ post.pretty_date }}</time>
+      {{ post.sparkline }} <a class="post-title" href="{{ post.url }}">{{ post.title }}</a>
+      {% if post.tags %}<span class="tags">{% for t in post.tags %}<a href="/tags.html#{{ t }}">{{ t }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</span>{% endif %}
+    </div>
+    {% endfor %}
     {% endfor %}
   </div>
-</section>
-
-<section>
-  {% for tag in datadict.tags|sort %}
-  <h2 id="{{ tag }}">{{ tag }} <a href="#" style="font-size:0.8em; color:var(--muted);">[^]</a></h2>
-  {% for post in datadict.tags[tag] %}
-  <div class="entry">
-    <time>{{ post.pretty_date }}</time>
-    {{ post.sparkline }} <a class="post-title" href="{{ post.url }}">{{ post.title }}</a>
-    {% if post.tags %}<span class="tags">{% for t in post.tags %}<a href="/tags.html#{{ t }}">{{ t }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</span>{% endif %}
-  </div>
-  {% endfor %}
-  {% endfor %}
-</section>
+</article>
 {% endblock %}

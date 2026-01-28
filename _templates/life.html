@@ -1,16 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1 class="h1">Life</h1>
-    <ul class="active">
-      {% for note in datadict.life.notes %}
-        {% if note.url %}
-          <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>{{ note.name|md2html|removepara }} <a href={{ note.url }}>[link]</a></h3><ul class="active nested">
-        {% else %}
-          <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>{{ note.name|md2html|removepara }}</h3><ul class="active nested">
-        {% endif %}
-          {% for listing in note.listing %}
-          <li>{{ listing|md2html|removepara }}</li>
-          {% endfor %}
-        </ul></li>
+<article id="top">
+  <h1 class="h1">life</h1>
+
+  <div class="content">
+    {% for note in datadict.life.notes %}
+    {% if note.url %}
+    <h2 class="h2">{{ note.name|md2html|removepara }} <a href="{{ note.url }}" style="font-size:0.9em;">[link]</a> <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
+    {% else %}
+    <h2 class="h2">{{ note.name|md2html|removepara }} <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
+    {% endif %}
+    <ul>
+      {% for listing in note.listing %}
+      <li>{{ listing|md2html|removepara }}</li>
       {% endfor %}
+    </ul>
+    {% endfor %}
+  </div>
+</article>
 {% endblock %}

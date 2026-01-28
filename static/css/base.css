@@ -160,7 +160,7 @@ section { margin: 0.8em 0; }
 
 .pages-grid {
   display: grid;
-  grid-template-columns: 8ch 1fr;
+  grid-template-columns: 14ch 1fr;
   gap: 0.1em 2em;
   margin: 0.5em 0;
 }
@@ -168,7 +168,7 @@ section { margin: 0.8em 0; }
 
 .about-grid {
   display: grid;
-  grid-template-columns: 8ch 1fr;
+  grid-template-columns: 14ch 1fr;
   gap: 0.1em 2em;
   margin: 0.5em 0;
 }
@@ -199,8 +199,6 @@ article {
 
 /* collapsible sections */
 .collapsed { display: none !important; }
-.content h2, .content h3, .content h4, .content h5, .content h6 { cursor: pointer; }
-.content h2:hover, .content h3:hover, .content h4:hover, .content h5:hover, .content h6:hover { color: var(--link); }
 
 /* Nerd Font icons for header nav */
 .header-nav a[href="/archive.html"]::before { content: "\f187"; color: #4ecdc4; margin-right: 0.5em; }

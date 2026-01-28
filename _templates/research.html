@@ -1,34 +1,41 @@
 {% extends "base.html" %}
 {% block content %}
+<article id="top">
   <h1 class="h1">Research</h1>
-    <ul class="active">
-      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Patents</h2><ul class="active nested">
-        {% for patent in datadict.metadata.research.patents %}
-          {% if patent.url is not none %}
-            <li>
-              <table style="margin-left:0;"><tr>
-                <td style="vertical-align:top;"><code>{{ patent.date }}</code></td>
-                <td style="vertical-align:top;">:</td>
-                <td><a href={{ patent.url }}>{{ patent.name }}</a></td>
-              </tr></table>
-            </li>
-          {% endif %}
-        {% endfor %}
-      </ul></li>
-      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Talks/Papers/Demos</h2><ul class="active nested">
-        {% for talk in datadict.metadata.research.talks %}
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>{{ talk.name }}</h3><ul class="active nested">
-          <li><p class="active nested">{{ talk.description }}</p></li>
-          {% for conference in talk.conferences %}
-            <li><code>{{ conference.date }}</code>: <a href={{ conference.url }}>{{ conference.name }}</a></li>
-          {% endfor %}
-        </ul></li>
-        {% endfor %}
-      </ul></li>
-      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Media</h2><ul class="active nested">
-        {% for article in datadict.metadata.research.media %}
-          <li><code>{{ article.date }}</code>: {{ article.name }} (<a href={{ article.url }}>{{ article.publication }}</a>)</li>
-        {% endfor %}
-      </ul></li>
+
+  <div class="content">
+    <h2 class="h2">Patents <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
+    <ul>
+      {% for patent in datadict.metadata.research.patents %}
+      {% if patent.url is not none %}
+      <li>
+        <table style="margin-left:0;"><tr>
+          <td style="vertical-align:top;"><code>{{ patent.date }}</code></td>
+          <td style="vertical-align:top;">:</td>
+          <td><a href={{ patent.url }}>{{ patent.name }}</a></td>
+        </tr></table>
+      </li>
+      {% endif %}
+      {% endfor %}
     </ul>
+
+    <h2 class="h2">Talks/Papers/Demos <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
+    {% for talk in datadict.metadata.research.talks %}
+    <h3 class="h3">{{ talk.name }}</h3>
+    <p>{{ talk.description }}</p>
+    <ul>
+      {% for conference in talk.conferences %}
+      <li><code>{{ conference.date }}</code>: <a href={{ conference.url }}>{{ conference.name }}</a></li>
+      {% endfor %}
+    </ul>
+    {% endfor %}
+
+    <h2 class="h2">Media <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
+    <ul>
+      {% for article in datadict.metadata.research.media %}
+      <li><code>{{ article.date }}</code>: {{ article.name }} (<a href={{ article.url }}>{{ article.publication }}</a>)</li>
+      {% endfor %}
+    </ul>
+  </div>
+</article>
 {% endblock %}

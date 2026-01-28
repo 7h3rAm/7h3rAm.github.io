@@ -1,101 +1,90 @@
 {% extends "base.html" %}
 {% block content %}
+<article id="top">
   <h1 class="h1">OSCP</h1>
-    <ul class="active">
-      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>TL;DR</h2><ul class="active nested">
-        {% for tldr in datadict.oscp.tldr %}
-          <li>{{ tldr|md2html|removepara }}</li>
-        {% endfor %}
-      </ul></li>
-      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Read/Watch/Follow</h2><ul class="active nested">
-        {% for rwf in datadict.oscp.readwatchfollow %}
-          <li><a href={{ rwf.url }}>{{ rwf.name }}</a>: {{ rwf.content|md2html|removepara }}</li>
-        {% endfor %}
-      </ul></li>
-      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Do</h2><ul class="active nested">
-        {% for doo in datadict.oscp.do %}
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>{{ doo.name }}<a name={{doo.selfref}}></a></h3><ul class="active nested">
-          {% for refs in doo.references %}
-            <li>{{ refs|md2html|removepara }}</li>
-          {% endfor %}
-        </ul></li>
-        {% endfor %}
-      </ul></li>
-      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Resources</h2><ul class="active nested">
 
-        <li>
-          <h3 class="h3 collapsible expanded" onclick=toggle(this);>machinescli</h3><ul class="active nested">
-            <li><p class="active nested">{{ datadict.oscp.resources.machinescli.description|md2html|removepara }}</p>
-              <table>
-                <tr>
-                {% for shot in datadict.oscp.resources.machinescli.screenshots %}
-                  <td><a href={{ datadict.oscp.resources.machinescli.url }}><img class="sqimages" src={{ shot }}></a></td>
-                {% endfor %}
-                </tr>
-              </table>
-            </li>
-          </ul>
-        </li>
-
-        <li>
-          <h3 class="h3 collapsible expanded" onclick=toggle(this);>svachal</h3><ul class="active nested">
-            <li><p class="active nested">{{ datadict.oscp.resources.svachal.description|md2html|removepara }}</p>
-              <table>
-                <tr>
-                {% for shot in datadict.oscp.resources.svachal.screenshots %}
-                  <td><a href={{ datadict.oscp.resources.svachal.url }}><img class="sqimages" src={{ shot }}></a></td>
-                {% endfor %}
-                </tr>
-              </table>
-            </li>
-          </ul>
-        </li>
-
-        <li>
-          <h3 class="h3 collapsible expanded" onclick=toggle(this);>gsheet</h3><ul class="active nested">
-            <li><p class="active nested">{{ datadict.oscp.resources.gsheet.description|md2html|removepara }}</p>
-              <table>
-                <tr>
-                {% for shot in datadict.oscp.resources.gsheet.screenshots %}
-                  <td><a href={{ datadict.oscp.resources.gsheet.url }}><img class="sqimages" src={{ shot }}></a></td>
-                {% endfor %}
-                </tr>
-              </table>
-            </li>
-          </ul>
-        </li>
-
-        <li>
-          <h3 class="h3 collapsible expanded" onclick=toggle(this);>notes</h3><ul class="active nested">
-            <li><p class="active nested">{{ datadict.oscp.resources.notes.description|md2html|removepara }}</p><ul class="active nested">
-              <li>
-                <h4 class="h4 collapsible expanded" onclick=toggle(this);>github:</h4><ul class="active nested">
-                <table>
-                  <tr>
-                  {% for shot in datadict.oscp.resources.notes.github.screenshots %}
-                    <td><a href={{ datadict.oscp.resources.notes.github.url }}><img class="sqimages" src={{ shot }}></a></td>
-                  {% endfor %}
-                  </tr>
-                </table>
-              </ul></li>
-              <li>
-                <h4 class="h4 collapsible expanded" onclick=toggle(this);>files:</h4><ul class="active nested">
-                  {% for file in datadict.oscp.resources.notes.files %}
-                    <li><a href={{ file.url }}>{{ file.name }} <code>(sha256:{{ file.sha256 }})</code></a></li>
-                  {% endfor %}
-                </ul></li>
-              </li>
-              <li>
-                <h4 class="h4 collapsible expanded" onclick=toggle(this);>writeups:</h4><ul class="active nested">
-                  {% for writeup in datadict.oscp.resources.notes.writeups %}
-                    <li><code>{{ writeup.date }}</code>: <code>{{ writeup.sparkline }}</code> <a href={{ writeup.url }}>{{ writeup.title }}</a></li>
-                  {% endfor %}
-                </ul></li>
-              </li>
-            </ul></li>
-          </ul>
-        </li>
-
-      </ul></li>
+  <div class="content">
+    <h2 class="h2">TL;DR <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
+    <ul>
+      {% for tldr in datadict.oscp.tldr %}
+      <li>{{ tldr|md2html|removepara }}</li>
+      {% endfor %}
     </ul>
+
+    <h2 class="h2">Read/Watch/Follow <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
+    <ul>
+      {% for rwf in datadict.oscp.readwatchfollow %}
+      <li><a href={{ rwf.url }}>{{ rwf.name }}</a>: {{ rwf.content|md2html|removepara }}</li>
+      {% endfor %}
+    </ul>
+
+    <h2 class="h2">Do <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
+    {% for doo in datadict.oscp.do %}
+    <h3 class="h3">{{ doo.name }}<a name={{doo.selfref}}></a></h3>
+    <ul>
+      {% for refs in doo.references %}
+      <li>{{ refs|md2html|removepara }}</li>
+      {% endfor %}
+    </ul>
+    {% endfor %}
+
+    <h2 class="h2">Resources <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
+
+    <h3 class="h3">machinescli</h3>
+    <p>{{ datadict.oscp.resources.machinescli.description|md2html|removepara }}</p>
+    <table>
+      <tr>
+        {% for shot in datadict.oscp.resources.machinescli.screenshots %}
+        <td><a href={{ datadict.oscp.resources.machinescli.url }}><img class="sqimages" src={{ shot }}></a></td>
+        {% endfor %}
+      </tr>
+    </table>
+
+    <h3 class="h3">svachal</h3>
+    <p>{{ datadict.oscp.resources.svachal.description|md2html|removepara }}</p>
+    <table>
+      <tr>
+        {% for shot in datadict.oscp.resources.svachal.screenshots %}
+        <td><a href={{ datadict.oscp.resources.svachal.url }}><img class="sqimages" src={{ shot }}></a></td>
+        {% endfor %}
+      </tr>
+    </table>
+
+    <h3 class="h3">gsheet</h3>
+    <p>{{ datadict.oscp.resources.gsheet.description|md2html|removepara }}</p>
+    <table>
+      <tr>
+        {% for shot in datadict.oscp.resources.gsheet.screenshots %}
+        <td><a href={{ datadict.oscp.resources.gsheet.url }}><img class="sqimages" src={{ shot }}></a></td>
+        {% endfor %}
+      </tr>
+    </table>
+
+    <h3 class="h3">notes</h3>
+    <p>{{ datadict.oscp.resources.notes.description|md2html|removepara }}</p>
+
+    <h4 class="h4">github:</h4>
+    <table>
+      <tr>
+        {% for shot in datadict.oscp.resources.notes.github.screenshots %}
+        <td><a href={{ datadict.oscp.resources.notes.github.url }}><img class="sqimages" src={{ shot }}></a></td>
+        {% endfor %}
+      </tr>
+    </table>
+
+    <h4 class="h4">files:</h4>
+    <ul>
+      {% for file in datadict.oscp.resources.notes.files %}
+      <li><a href={{ file.url }}>{{ file.name }} <code>(sha256:{{ file.sha256 }})</code></a></li>
+      {% endfor %}
+    </ul>
+
+    <h4 class="h4">writeups:</h4>
+    <ul>
+      {% for writeup in datadict.oscp.resources.notes.writeups %}
+      <li><code>{{ writeup.date }}</code>: <code>{{ writeup.sparkline }}</code> <a href={{ writeup.url }}>{{ writeup.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</article>
 {% endblock %}

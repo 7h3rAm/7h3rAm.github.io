@@ -1,75 +1,137 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1 class="h1">Ankur Tyagi</h1>
-    <code>{{ datadict.metadata.cv.contact|md2html|removepara }}</code>
-    <ul class="active">
-      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Introduction</h2><ul class="active nested">
-        <li>{{ datadict.metadata.cv.intro }}</li>
-      </ul></li>
-      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Experience</h2><ul class="active nested">
-        {% for job in datadict.metadata.jobs %}
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>{{ job.title }} @ <a href={{ job.url }}>{{ job.employer }}</a></h3><ul class="active nested">
-          <li>
-            <code>{{ job.years }} ({{ job.duration }})</code>
-            <ul>{% for desc in job.description %}
-              {% if desc and desc != "" %}
-                <li>{{ desc }}</li>
-              {% endif %}
-            {% endfor %}</ul>
-          </li>
-        </ul></li>
-        {% endfor %}
-      </ul></li>
-      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Research</h2><ul class="active nested">
+<article id="top">
+  <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1em;">
+    <h1 class="h1" style="margin-bottom: 0;">{{ datadict.cv.name }}</h1>
+    <code style="white-space: nowrap;">
+      <span style="color: #EA4335;">&#xf01ee;</span> <a href="mailto:{{ datadict.cv.contact.email.url }}">{{ datadict.cv.contact.email.text }}</a>
+      • <span style="color: #181717;">&#xea84;</span> <a href="{{ datadict.cv.contact.github.url }}">{{ datadict.cv.contact.github.text }}</a>
+      • <span style="color: #0A66C2;">&#xe820;</span> <a href="{{ datadict.cv.contact.linkedin.url }}">{{ datadict.cv.contact.linkedin.text }}</a>
+    </code>
+  </div>
 
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Patents</h3><ul class="active nested">
-        {% for patent in datadict.metadata.research.patents %}
-          <li>
-            <table style="margin-left:0;"><tr>
-              <td style="vertical-align:top;"><code>{{ patent.date }}</code></td>
-              <td style="vertical-align:top;">:</td>
-              {% if patent.url is not none %}
-                <td><a href={{ patent.url }}>{{ patent.title }}</a></td>
-              {% else %}
-                <td>{{ patent.title }}</td>
-              {% endif %}
-            </tr></table>
-          </li>
-        {% endfor %}
-        </ul></li>
+  <div class="content">
+    <p style="margin-bottom: 1.5em;">{{ datadict.cv.intro }}</p>
 
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Talks/Papers/Demos</h3><ul class="active nested">
-        {% for talk in datadict.metadata.research.talks %}
-        <li><h4 class="h4 collapsible expanded" onclick=toggle(this);>{{ talk.name }}</h4><ul class="active nested">
-          <li><p class="active nested">{{ talk.description }}</p></li>
-          {% for conference in talk.conferences %}
-            <li><code>{{ conference.date }}</code>: <a href={{ conference.url }}>{{ conference.name }}</a></li>
+    <h2 class="h2">Experience <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
+    <div>
+      {% for exp in datadict.cv.experience %}
+      <div style="margin-bottom: 1.5em;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline;">
+          <div>• <strong>{{ exp.employer }}</strong></div>
+          <span style="white-space: nowrap;">{{ exp.years }}</span>
+        </div>
+        <div style="margin-top: 0.5em; margin-left: 1.5em;">
+          {% for pos in exp.positions %}
+          <div style="{% if not loop.first %}margin-top: 0.8em;{% endif %}">
+            <div style="display: flex; justify-content: space-between; align-items: baseline;">
+              <div>• <strong>{{ pos.title }}{% if pos.team %}, {{ pos.team }}{% endif %}</strong></div>
+              <span style="white-space: nowrap; color: var(--muted);">({{ pos.duration }})</span>
+            </div>
+            <div style="margin-top: 0.3em; margin-left: 1.5em;">
+              {% for desc in pos.description %}
+              <div>• {{ desc }}</div>
+              {% endfor %}
+            </div>
+          </div>
           {% endfor %}
-        </ul></li>
-        {% endfor %}
-        </ul></li>
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Media</h3><ul class="active nested">
-          {% for article in datadict.metadata.research.media %}
-            <li><code>{{ article.date }}</code>: {{ article.name }} (<a href={{ article.url }}>{{ article.publication }}</a>)</li>
-          {% endfor %}
-        </ul></li>
-      </ul></li>
-      <li><h2 class="h2 collapsible expanded" onclick=toggle(this);>Academics</h2><ul class="active nested">
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>University</h3><ul class="active nested">
-          {% for acad in datadict.metadata.academics %}
-            <li><code>{{ acad.date }}</code>: {{ acad.course }} @ <a href={{ acad.insturl }}>{{ acad.institute }}</a></li>
-          {% endfor %}
-        </ul></li>
-        <li><h3 class="h3 collapsible expanded" onclick=toggle(this);>Certification</h3><ul class="active nested">
-          {% for cert in datadict.metadata.certifications %}
-            <li><code>{{ cert.date }}</code>: <a href={{ cert.certurl }}>{{ cert.name }}</a></li>
-          {% endfor %}
-        </ul></li>
-      </ul></li>
-    </ul>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
 
-    <p>Last updated: {{ datadict.metadata.cv.trailer.lastupdated }}</p>
+    <h2 class="h2">Research <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
+    <div>
+      {% for patent in datadict.cv.patents %}
+      <div style="margin-bottom: 0.2em; display: flex; justify-content: space-between; align-items: baseline;">
+        <div>• <a href="{{ patent.patent_url }}">{{ patent.patent_title }}</a></div>
+        <span style="white-space: nowrap; margin-left: 1em;">{{ patent.patent_date }}</span>
+      </div>
+      {% endfor %}
+    </div>
 
-    <script type="text/javascript" src="/static/js/timeago.min.js"></script>
+    <h2 class="h2">Media <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
+    <div>
+      {% for item in datadict.cv.media %}
+      <div style="margin-bottom: 0.2em; display: flex; justify-content: space-between; align-items: baseline;">
+        <div>• <a href="{{ item.url }}">{{ item.topic }}</a>, <span>{{ item.publication }}</span></div>
+        <span style="white-space: nowrap; margin-left: 1em;">{{ item.year }}</span>
+      </div>
+      {% endfor %}
+    </div>
 
+    <h2 class="h2">Talks <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
+    <div>
+      {% for talk in datadict.cv.talks %}
+      <div style="margin-bottom: 1em;">
+        <div>• <strong>{{ talk.name }}</strong></div>
+        <div style="margin-left: 1.5em; font-size: 0.95em;">{{ talk.brief }}</div>
+        <div style="margin-top: 0.3em; margin-left: 1.5em;">
+          {% for conf in talk.conferences %}
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <div>• <a href="{{ conf.url }}">{{ conf.name }}</a></div>
+            <span style="white-space: nowrap; margin-left: 1em;">{{ conf.date }}</span>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <h2 class="h2">Portfolio <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5em; margin: 1em 0;">
+      <div>
+        <p><strong>🎓 <a href="{{ datadict.cv.portfoliogs.url }}">{{ datadict.cv.portfoliogs.name }}</a></strong></p>
+        <div style="margin-left: 1.5em;">
+          {% for metric in datadict.cv.portfoliogs.metrics %}
+          <div>• {{ metric }}</div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div>
+        <p><strong>💻 <a href="{{ datadict.cv.portfoliogh.url }}">{{ datadict.cv.portfoliogh.name }}</a></strong></p>
+        <div style="margin-left: 1.5em;">
+          {% for metric in datadict.cv.portfoliogh.metrics %}
+          <div>• {{ metric }}</div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div>
+        <p><strong>📚 <a href="{{ datadict.cv.portfolioso.url }}">{{ datadict.cv.portfolioso.name }}</a></strong></p>
+        <div style="margin-left: 1.5em;">
+          {% for metric in datadict.cv.portfolioso.metrics %}
+          <div>• {{ metric }}</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <h2 class="h2">Certifications/Academics <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
+    <div>
+      {% for cert in datadict.cv.certifications %}
+      <div style="margin-bottom: 0.2em;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline;">
+          <div>• <a href="{{ cert.url }}">{{ cert.name }}</a></div>
+          <span style="white-space: nowrap; margin-left: 1em;">{{ cert.year }}</span>
+        </div>
+      </div>
+      {% endfor %}
+      {% for acad in datadict.cv.academics %}
+      <div style="margin-bottom: 0.8em;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline;">
+          <div>• <strong>{{ acad.course }}</strong>, <a href="{{ acad.url }}">{{ acad.institute }}</a></div>
+          <span style="white-space: nowrap; margin-left: 1em;">{{ acad.year }}</span>
+        </div>
+        <div style="margin-top: 0.2em; margin-left: 1.5em; font-size: 0.95em;">
+          <span>Thesis: <a href="{{ acad.thesis_url }}">{{ acad.thesis }}</a></span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <script type="text/javascript" src="/static/js/timeago.min.js"></script>
+</article>
 {% endblock %}

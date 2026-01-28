@@ -22,12 +22,14 @@
   white-space: nowrap;
 }
 </style>
-<section>
-  <h1>stats</h1>
+<article id="top">
+  <h1 class="h1">stats</h1>
 
-  <div style="display: flex; gap: 2em; flex-wrap: wrap;">
-    <div style="flex: 1; min-width: 300px;">
-      <h2>overview</h2>
+  <div class="content">
+
+    <div style="display: flex; gap: 2em; flex-wrap: wrap;">
+      <div style="flex: 1; min-width: 300px;">
+        <h2 class="h2">overview <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
       <table class="stats-table">
         <tr><td>total posts:</td><td style="text-align: right; padding-left: 2em;">{{ datadict.stats.count_posts }}</td></tr>
         <tr><td>total tags:</td><td style="text-align: right; padding-left: 2em;">{{ datadict.stats.count_tags }}</td></tr>
@@ -52,8 +54,8 @@
       </table>
     </div>
 
-    <div style="flex: 1; min-width: 300px;">
-      <h2>longest posts</h2>
+      <div style="flex: 1; min-width: 300px;">
+        <h2 class="h2">longest posts <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
       <table class="posts-table">
         {% for post in datadict.stats.content_metrics.top_10_longest %}
         <tr>
@@ -63,7 +65,7 @@
         {% endfor %}
       </table>
 
-      <h2 style="margin-top: 2em;">shortest posts</h2>
+        <h2 class="h2" style="margin-top: 2em;">shortest posts <a href="#top" class="top-link" style="font-size:0.8em;color:var(--muted);">[^]</a></h2>
       <table class="posts-table">
         {% for post in datadict.stats.content_metrics.top_10_shortest %}
         <tr>
@@ -75,19 +77,20 @@
     </div>
   </div>
 
-  <div style="display: flex; gap: 1em; flex-wrap: wrap; margin-top: 2em;">
-    <div style="flex: 1; min-width: 250px;">
-      <h3>posts per tag</h3>
-      <p><img src="/static/files/pages_stats/posts_per_tag.png.webp" alt="posts per tag" style="max-width: 100%;"></p>
-    </div>
-    <div style="flex: 1; min-width: 250px;">
-      <h3>posts per year</h3>
-      <p><img src="/static/files/pages_stats/posts_per_year.png.webp" alt="posts per year" style="max-width: 100%;"></p>
-    </div>
-    <div style="flex: 1; min-width: 250px;">
-      <h3>tags per year</h3>
-      <p><img src="/static/files/pages_stats/tags_per_year.png.webp" alt="tags per year" style="max-width: 100%;"></p>
+    <div style="display: flex; gap: 1em; flex-wrap: wrap; margin-top: 2em;">
+      <div style="flex: 1; min-width: 250px;">
+        <h3 class="h3">posts per tag</h3>
+        <p><img src="/static/files/pages_stats/posts_per_tag.png.webp" alt="posts per tag" style="max-width: 100%;"></p>
+      </div>
+      <div style="flex: 1; min-width: 250px;">
+        <h3 class="h3">posts per year</h3>
+        <p><img src="/static/files/pages_stats/posts_per_year.png.webp" alt="posts per year" style="max-width: 100%;"></p>
+      </div>
+      <div style="flex: 1; min-width: 250px;">
+        <h3 class="h3">tags per year</h3>
+        <p><img src="/static/files/pages_stats/tags_per_year.png.webp" alt="tags per year" style="max-width: 100%;"></p>
+      </div>
     </div>
   </div>
-</section>
+</article>
 {% endblock %}
