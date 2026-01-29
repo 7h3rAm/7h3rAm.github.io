@@ -212,7 +212,7 @@ article {
 .pages-grid a[href*="read.html"]::before { content: "\f02d"; color: #f39c12; margin-right: 0.5em; }
 .pages-grid a[href*="fitness.html"]::before { content: "\f21e"; color: #e91e63; margin-right: 0.5em; }
 .pages-grid a[href*="research.html"]::before { content: "\f0c3"; color: #3498db; margin-right: 0.5em; }
-.pages-grid a[href*="satview.html"] { color: #28a745; }
+.pages-grid a[href*="satview.html"]::before { content: "\f0551"; color: #28a745; margin-right: 0.5em; }
 
 /* Mobile responsiveness */
 @media (max-width: 600px) {
