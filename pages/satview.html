@@ -122,19 +122,19 @@
     <p><a href="https://epic.gsfc.nasa.gov/">Deep Space Climate Observatory (DSCOVR), Earth Polychromatic Imaging Camera (EPIC), NOAA</a></p>
     <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5em; margin: 0.5em 0;">
             <div>
-        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://epic.gsfc.nasa.gov/">Earth (2026-01-27T00:31:45Z)</a></small></p>
+        <p id="epic-0-label" data-utc-time="2026-01-27 00:31:45" style="text-align:center;margin:0.25em 0;"><small><a href="https://epic.gsfc.nasa.gov/">Earth</a></small></p>
         <p><a href="https://epic.gsfc.nasa.gov/archive/natural/2026/01/27/jpg/epic_1b_20260127003634.jpg"><img class="sqimages" src="https://epic.gsfc.nasa.gov/archive/natural/2026/01/27/jpg/epic_1b_20260127003634.jpg" style="width:100%;max-width:300px;"></a></p>
       </div>
             <div>
-        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://epic.gsfc.nasa.gov/">Earth (2026-01-27T02:19:47Z)</a></small></p>
+        <p id="epic-1-label" data-utc-time="2026-01-27 02:19:47" style="text-align:center;margin:0.25em 0;"><small><a href="https://epic.gsfc.nasa.gov/">Earth</a></small></p>
         <p><a href="https://epic.gsfc.nasa.gov/archive/natural/2026/01/27/jpg/epic_1b_20260127022435.jpg"><img class="sqimages" src="https://epic.gsfc.nasa.gov/archive/natural/2026/01/27/jpg/epic_1b_20260127022435.jpg" style="width:100%;max-width:300px;"></a></p>
       </div>
             <div>
-        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://epic.gsfc.nasa.gov/">Earth (2026-01-27T04:07:49Z)</a></small></p>
+        <p id="epic-2-label" data-utc-time="2026-01-27 04:07:49" style="text-align:center;margin:0.25em 0;"><small><a href="https://epic.gsfc.nasa.gov/">Earth</a></small></p>
         <p><a href="https://epic.gsfc.nasa.gov/archive/natural/2026/01/27/jpg/epic_1b_20260127041237.jpg"><img class="sqimages" src="https://epic.gsfc.nasa.gov/archive/natural/2026/01/27/jpg/epic_1b_20260127041237.jpg" style="width:100%;max-width:300px;"></a></p>
       </div>
             <div>
-        <p style="text-align:center;margin:0.25em 0;"><small><a href="https://epic.gsfc.nasa.gov/">Earth (2026-01-27T05:55:51Z)</a></small></p>
+        <p id="epic-3-label" data-utc-time="2026-01-27 05:55:51" style="text-align:center;margin:0.25em 0;"><small><a href="https://epic.gsfc.nasa.gov/">Earth</a></small></p>
         <p><a href="https://epic.gsfc.nasa.gov/archive/natural/2026/01/27/jpg/epic_1b_20260127060040.jpg"><img class="sqimages" src="https://epic.gsfc.nasa.gov/archive/natural/2026/01/27/jpg/epic_1b_20260127060040.jpg" style="width:100%;max-width:300px;"></a></p>
       </div>
           </div>
@@ -279,28 +279,42 @@
       document.getElementById("junocamhref").href = "https://www.missionjuno.swri.edu/junocam/processing";
     }
 
-    async function fetchImageTimestamp(imgId, labelId, name) {
-      try {
-        const imgElement = document.getElementById(imgId);
-        if (!imgElement || !imgElement.src) return;
+    function formatLocalISO(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      const seconds = String(date.getSeconds()).padStart(2, '0');
+      return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+    }
 
-        const response = await fetch(imgElement.src, { method: 'HEAD' });
+    async function fetchImageTimestamp(imgId, labelId, name) {
+      const imgElement = document.getElementById(imgId);
+      if (!imgElement || !imgElement.src) return;
+
+      try {
+        const response = await fetch(imgElement.src, {
+          method: 'HEAD',
+          mode: 'cors',
+          cache: 'no-cache'
+        });
         const lastModified = response.headers.get('Last-Modified');
 
         if (lastModified) {
           const date = new Date(lastModified);
-          const isoDateTime = date.toISOString().split('.')[0] + 'Z';
+          const localISO = formatLocalISO(date);
 
           const labelElement = document.getElementById(labelId);
           if (labelElement) {
             const linkElement = labelElement.querySelector('a');
             if (linkElement) {
-              linkElement.innerHTML = `${name} (${isoDateTime})`;
+              linkElement.innerHTML = `${name} (${localISO})`;
             }
           }
         }
       } catch (error) {
-        console.error(`Error fetching timestamp for ${imgId}:`, error);
+        // CORS blocked or other error - skip timestamp for this image
       }
     }
 
@@ -336,8 +350,29 @@
       }
     }
 
+    function convertEpicTimestamps() {
+      // Convert DSCOVR EPIC UTC timestamps to local time
+      for (let i = 0; i < 4; i++) {
+        const labelElement = document.getElementById(`epic-${i}-label`);
+        if (labelElement) {
+          const utcTime = labelElement.getAttribute('data-utc-time');
+          if (utcTime) {
+            // Parse UTC time (format: "2026-01-30 12:34:56")
+            const date = new Date(utcTime + ' UTC');
+            const localISO = formatLocalISO(date);
+
+            const linkElement = labelElement.querySelector('a');
+            if (linkElement) {
+              linkElement.innerHTML = `Earth (${localISO})`;
+            }
+          }
+        }
+      }
+    }
+
     window.onload = () => {
       doImages();
+      convertEpicTimestamps();
       setTimeout(addTimestamps, 1000);
     }
   </script>
